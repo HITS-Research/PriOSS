@@ -1,0 +1,92 @@
+// Custom Theming for NG-ZORRO
+// For more information: https://ng.ant.design/docs/customize-theme/en
+@import "../node_modules/ng-zorro-antd/ng-zorro-antd.less";
+
+// Override less variables to here
+// View all variables: https://github.com/NG-ZORRO/ng-zorro-antd/blob/master/components/style/themes/default.less
+
+@primary-color: #0e71ff;
+/* You can add global styles to this file, and also import other style files */
+@import '~bootstrap/dist/css/bootstrap.min.css';
+
+@btn-bg-color: #f8f8f8;
+@btn-hover-bg-color: #ffffff;
+@btn-color: #000000;
+@btn-border-color: #efefef;
+@component-bg-color: #fff;
+
+/*
+ * Body styling
+ */
+
+.t-content-container {
+    margin-left: 10%;
+    margin-right: 10%;
+    padding-top: 80px;
+}
+
+body {
+    margin: 0;
+}
+
+/*
+ * Buttons
+ */
+
+//all buttons
+.t-btn {
+    color: @btn-color;
+    border: 1px solid @btn-border-color;
+    border-radius: 5px;
+    background-color: @btn-bg-color;
+    padding: 10px;
+    cursor: pointer;
+    transition: 0.5s;
+}
+
+//all buttons when hovering over them
+.t-btn:hover {
+    background-color: @btn-hover-bg-color;
+    transition: 0.5s;
+}
+
+.t-btn:active {
+    background-color: @btn-bg-color;
+}
+
+/*
+ * Icons
+ */
+
+/*.t-icon
+{
+
+}*/
+
+//the infinite icon rotation animation
+.t-icon-rotate-anim {
+    animation: rotate 1.3s infinite linear;
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(359deg);
+    }
+}
+
+nz-card {
+    overflow: hidden;
+}
+
+/*
+ * This style is for pages other than the dashboard, that should not have the plain grey background color
+ */
+.component-page {
+    background: @component-bg-color;
+    height: 100%;
+    padding: 2rem;
+}

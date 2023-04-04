@@ -1,0 +1,93 @@
+<div [ngClass]="{'component-page': !previewMode}">
+  <h2 nz-typography *ngIf="!previewMode">Account Creation and Login</h2>
+
+  <!-- Showcasing signup information and login and logout information if data is present -->
+  <div *ngIf="login_logout_activities?.length && signup_information != null">
+
+    <p *ngIf="!previewMode">The below displays the timeline for account creation, login and logout activity of your instagram account</p>
+
+    <div class="timeline_div">
+      <!-- Creating timeline for complete data -->
+      <nz-timeline nzMode="alternate">
+        <nz-timeline-item [nzDot]="dotTemplateSignUp">
+
+          <!-- Creating a template for sign up information -->
+          <ng-template #dotTemplateSignUp>
+            <div class="ant-timeline-item-head ant-timeline-item-head-blue"
+            nz-button nz-popover nzType="primary" [nzPopoverContent]="contentTemplateSignUp" 
+            [nzPopoverPlacement]="'leftTop'">
+            </div>
+          </ng-template>
+
+          <!-- Creating a template to show additional data -->
+          <ng-template #contentTemplateSignUp>
+            <strong>IP Address</strong> : {{signup_information.ip_address}}
+          </ng-template>
+
+          <!-- Showcasing necessary details in timeline -->
+          Create account with device [{{signup_information.device}}] on {{signup_information.time*1000 | date: 'MMM d, y h:mm a'}} 
+        </nz-timeline-item>
+
+        <!-- Looping throught each login and logout activity values -->
+        <nz-timeline-item *ngFor="let activity of login_logout_activities; let i = index"  [nzDot]="dotTemplate">
+
+          <!-- Creating a template for each row based on activity type -->
+          <ng-template #dotTemplate>
+            <div class="ant-timeline-item-head" 
+            [class.ant-timeline-item-head-red]="activity.color == 'red'" 
+            [class.ant-timeline-item-head-green]="activity.color == 'green'"
+            [class.ant-timeline-item-head-blue]="activity.color == 'blue'"
+            nz-button nz-popover nzType="primary" [nzPopoverContent]="contentTemplate" 
+            [nzPopoverPlacement]="i%2==0?'rightTop':'leftTop'">
+            </div>
+          </ng-template>
+
+          <!-- Creating a template for each row popup to show additional data -->
+          <ng-template #contentTemplate>
+            <strong>IP Address</strong> : {{activity.ip_address}}<br>
+            <div *ngIf="activity.user_agent != ''">
+              <strong>User Agent</strong> : {{activity.user_agent}}
+            </div>
+          </ng-template>
+
+          <!-- Showcasing necessary details in timeline -->
+          {{activity.type}} with device [{{activity.device}}] on {{activity.time*1000 | date: 'MMM d, y h:mm a'}}
+        </nz-timeline-item>
+      </nz-timeline>
+    </div>
+  </div>
+
+  <!-- Showcasing signup information if data is present but login and logout information not present -->
+  <div *ngIf="signup_information != null && login_logout_activities?.length === 0">
+    <p *ngIf="!previewMode">The below displays the timeline for account creation of your instagram account</p>
+
+    <div class="timeline_div">
+    <!-- Creating timeline for sign up data only -->
+      <nz-timeline nzMode="alternate">
+        <nz-timeline-item [nzDot]="dotTemplateSignUp">
+
+          <!-- Creating a template for sign up information -->
+          <ng-template #dotTemplateSignUp>
+            <div class="ant-timeline-item-head ant-timeline-item-head-blue"
+            nz-button nz-popover nzType="primary" [nzPopoverContent]="contentTemplateSignUp" 
+            [nzPopoverPlacement]="'leftTop'">
+            </div>
+          </ng-template>
+
+          <!-- Creating a template to show additional data -->
+          <ng-template #contentTemplateSignUp>
+            <strong>IP Address</strong> : {{signup_information.ip_address}}
+          </ng-template>
+
+          <!-- Showcasing necessary details in timeline -->
+          Create account with device [{{signup_information.device}}] on {{signup_information.time*1000 | date: 'MMM d, y h:mm a'}}
+        </nz-timeline-item>
+      </nz-timeline>
+    </div>
+  </div>
+
+  <!-- Showcasing default value if no data is present -->
+  <div *ngIf="login_logout_activities?.length === 0 && signup_information == null">
+    <p>No Account Creation, Login and Logout activity present</p>
+  </div>
+</div>

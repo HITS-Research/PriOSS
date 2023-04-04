@@ -1,0 +1,44 @@
+<div [ngClass]="{'component-page': !previewMode}">
+    
+    <p *ngIf="previewMode">Day: {{filterSingleDate?.toLocaleString([], { year: "numeric", month: "2-digit", day: "2-digit" })}}</p>
+
+    <div *ngIf="!previewMode">
+        <h3>Listening Time</h3>
+        <br>
+        <div class="t-filter-container">
+            <div>
+                Visualize by:
+                <nz-select [(ngModel)]="selectedGranularity" (ngModelChange)="onGranularityChanged()">
+                    <nz-option *ngFor="let granularity of granularityValues" [nzValue]="granularity" [nzLabel]="Granularity2LabelMapping[granularity]"></nz-option>
+                </nz-select>
+            </div>
+
+            <div class="t-inline-spacer-small"></div>
+            
+            <div *ngIf="selectedGranularity == GranularityEnum.Year">
+                From: <nz-date-picker nzMode="year" [(ngModel)]="filterFromDate" (ngModelChange)="onDateFilterChanged()"></nz-date-picker>
+                To: <nz-date-picker nzMode="year" [(ngModel)]="filterToDate" (ngModelChange)="onDateFilterChanged()"></nz-date-picker>
+            </div>
+            <div *ngIf="selectedGranularity == GranularityEnum.Month">
+                From: <nz-date-picker nzMode="month" [(ngModel)]="filterFromDate" (ngModelChange)="onDateFilterChanged()"></nz-date-picker>
+                To: <nz-date-picker nzMode="month" [(ngModel)]="filterToDate" (ngModelChange)="onDateFilterChanged()"></nz-date-picker>
+            </div>
+            <div *ngIf="selectedGranularity == GranularityEnum.Day">
+                From: <nz-date-picker [(ngModel)]="filterFromDate" (ngModelChange)="onDateFilterChanged()"></nz-date-picker>
+                To: <nz-date-picker  [(ngModel)]="filterToDate" (ngModelChange)="onDateFilterChanged()"></nz-date-picker>
+            </div>
+            <div *ngIf="selectedGranularity == GranularityEnum.Hour">
+                On: <nz-date-picker  [(ngModel)]="filterSingleDate" (ngModelChange)="onDateFilterChanged()"></nz-date-picker>
+            </div>
+
+            <div class="t-inline-spacer-small"></div>
+
+            <div>
+            Show data above bars: <nz-switch [(ngModel)]="showDataTextAboveBars" (ngModelChange)="onChartParametersChanged()"></nz-switch>
+            </div>
+        </div>
+
+        <br>
+    </div>
+    <div id="listeningtime-bar-chart"></div>
+</div>

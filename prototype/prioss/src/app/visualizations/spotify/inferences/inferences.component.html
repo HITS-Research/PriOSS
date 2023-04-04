@@ -1,0 +1,43 @@
+<div [ngClass]="{'component-page': !previewMode}">
+  <div *ngIf="previewMode">
+    <nz-table #nzTable [nzData]="listOfInferences.slice(0,8)" nzTableLayout="fixed" [nzShowPagination]="false">
+      <tbody>
+        <tr *ngFor="let inference of nzTable.data">
+          <td>{{ inference.inference }}</td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </div>
+  <div *ngIf="!previewMode">
+    <nz-table #nzTable [nzData]="listOfInferences" nzTableLayout="fixed">
+      <thead>
+        <tr>
+          <th nzCustomFilter>
+            Inference
+            <nz-filter-trigger [(nzVisible)]="visible" [nzActive]="searchValue.length > 0" [nzDropdownMenu]="menu">
+              <span nz-icon nzType="search"></span>
+            </nz-filter-trigger>
+          </th>
+          <th nzRight>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let inference of nzTable.data">
+          <td>{{ inference.inference }}</td>
+          <td nzRight>
+            <a (click)="handleClick(inference.inference)">Rectify</a>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+    <nz-dropdown-menu #menu="nzDropdownMenu">
+      <div class="ant-table-filter-dropdown">
+        <div class="search-box">
+          <input type="text" nz-input placeholder="Search name" [(ngModel)]="searchValue" />
+          <button nz-button nzSize="small" nzType="primary" (click)="search()" class="search-button">Search</button>
+          <button nz-button nzSize="small" (click)="reset()">Reset</button>
+        </div>
+      </div>
+    </nz-dropdown-menu>
+  </div>
+</div>

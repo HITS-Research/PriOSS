@@ -1,0 +1,111 @@
+<div [ngClass]="{'component-page': !previewMode}">
+    <!--only shows a preview of the visualization-->
+    <div *ngIf="previewMode">
+        <div *ngIf="ads_activity?.length">
+            <nz-table #nzTable [nzData]="ads_activity.slice(0,5)" nzTableLayout="fixed" [nzShowPagination]="false">
+                <thead>
+                    <tr>
+                    <th>Advertiser name</th>
+                    <th>Store visited</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let ad_activity of nzTable.data">
+                    <td>{{ ad_activity.advertiser_name }}</td>
+                    <td>{{ ad_activity.has_in_person_store_visit }}</td>
+                    </tr>
+                </tbody>
+            </nz-table>
+        </div>
+        <!-- If No Advertisement Activity Data present -->
+        <div *ngIf="ads_activity?.length === 0">
+            <p>No advertisements activity</p>
+        </div>
+    </div>
+
+    <!--only shows when visiting the page-->
+    <div *ngIf="!previewMode">
+        <h2 nz-typography>Advertisement</h2>
+
+        <!-- Advertisement Activity -->
+        <h3 nz-typography>Advertisements Activity</h3>
+        <p>The below displays the advertisement activity performed by you on your Instagram account. </p>
+        <!-- If Advertisement Activity Data present -->
+        <div *ngIf="ads_activity?.length">
+            <nz-table [nzData]="ads_activity" [nzPageSize]="pageSize" [nzPageIndex]="currentPage" (nzPageIndexChange)="on_ads_actvity_page_change($event)">
+                <thead>
+                    <tr>
+                    <th>Advertiser name</th>
+                    <th>Has Data file custom audience</th>
+                    <th>Has in person store visit</th>
+                    <th>Has remarketing custom audience</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let ad_activity of sliced_ads_activity_data">
+                    <td>{{ ad_activity.advertiser_name }}</td>
+                    <td>{{ ad_activity.has_data_file_custom_audience }}</td>
+                    <td>{{ ad_activity.has_in_person_store_visit }}</td>
+                    <td>{{ ad_activity.has_remarketing_custom_audience }}</td>
+                    </tr>
+                </tbody>
+            </nz-table>
+        </div>
+        <!-- If No Advertisement Activity Data present -->
+        <div *ngIf="ads_activity?.length === 0">
+            <p>No advertisements activity</p>
+        </div>
+        <br>
+
+        <!-- Advertisement Clicked -->
+        <h3 nz-typography>Advertisements Clicked</h3>
+        <p>The below displays the advertisement clicked by you on your Instagram account. </p>
+        <!-- If Advertisement Clicked Data present -->
+        <div *ngIf="ads_clicked?.length">
+            <div class="list-view">
+                <div *ngFor="let ad_clicked of ads_clicked" class="list-individual-item">
+                {{ ad_clicked.title }}
+                </div>
+            </div>
+        </div>
+        <!-- If No Advertisement Clicked Data present -->
+        <div *ngIf="ads_clicked?.length === 0">
+            <p>No advertisements clicked</p>
+        </div>
+        <br>
+
+        <!-- Advertisement Interests -->
+        <h3 nz-typography>Advertisements Interests</h3>
+        <p> The below displays the advertisement interests inferred by Instagram. </p>
+        <!-- If Advertisement Interests Data present -->
+        <div *ngIf="ads_interests?.length">
+            <div class="list-view">
+                <div *ngFor="let ad_interest of ads_interests" class="list-individual-item">
+                {{ ad_interest.interest }}
+                </div>
+            </div>
+        </div>
+        <!-- If No Advertisement Interests Data present -->
+        <div *ngIf="ads_interests?.length === 0">
+            <p>No advertisements Interests</p>
+        </div>
+        <br>
+
+        <!-- Advertisement Viewed -->
+        <h3 nz-typography>Advertisements Viewed</h3>
+        <p>The below displays the advertisement viewed by you on your Instagram account. </p>
+        <!-- If Advertisement Viewed Data present -->
+        <div *ngIf="ads_viewed?.length">
+            <div class="list-view">
+                <div *ngFor="let ad_viewed of ads_viewed" class="list-individual-item">
+                {{ ad_viewed.title }}
+                </div>
+            </div>
+        </div>
+        <!-- If No Advertisement Viewed Data present -->
+        <div *ngIf="ads_viewed?.length === 0">
+            <p>No advertisements Viewed</p>
+        </div>
+    </div>
+    
+</div>

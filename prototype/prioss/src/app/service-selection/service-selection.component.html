@@ -1,0 +1,173 @@
+<div class="component-page">
+
+  <div class="selection-list">
+    <div class="selection-choice">
+      <input type="radio" name="apps" id="instagram" class="input-hidden" (click)="selectApp(appType.Instagram)" />
+      <label for="instagram">
+        <img src="../../assets/images/instagram.png">
+        <h3>Instagram</h3>
+      </label>
+    </div>
+    <div class="selection-choice">
+      <input type="radio" name="apps" id="facebook" class="input-hidden"  (click)="selectApp(appType.Facebook)"/>
+      <label for="facebook">
+        <img src="../../assets/images/facebook.png">
+        <h3>Facebook</h3>
+      </label>
+    </div>
+    <div class="selection-choice">
+      <input type="radio" name="apps" id="spotify" class="input-hidden" (click)="selectApp(appType.Spotify)"/>
+      <label for="spotify">
+        <img src="../../assets/images/spotify.png">
+        <h3>Spotify</h3>
+      </label>
+    </div>
+  </div>
+
+  <div class="instructions row">
+    <h5 *ngIf="!selectedServiceName" class="t-explanation">
+      You have the right to download the personal data that an online service collected about you from it.
+      <br>This website helps you to inspect this data.
+      <br>Please select a service above to show instructions explaining how you can request your data from it.
+    </h5>
+
+    <h5 *ngIf="selectedServiceName" class="t-explanation">
+      After you downloaded your personal data as a ".zip"-file you can input it below.
+      <br>This file will not uploaded to the internet. The website works offline.
+      <br>You can switch into flight mode or disconnect from the internet to be sure.
+    </h5>
+
+    <div class="col-md-12" *ngIf="selectedServiceName">
+      <div class="image-upload-wrap">
+        <input type="file" (change)="onFileSelected($event)" class="file-upload-input"  placeholder="Upload file" accept=".zip">
+        <div class="drag-text">
+          <h3>Drop file or click to choose your {{selectedServiceName}} data-download</h3>
+          <h5>Please input a ".zip"-file</h5>
+          <h5 *ngIf="selectedFileName.length > 0">Your selected file: {{selectedFileName}}</h5>
+        </div>
+      </div>
+      <div class="t-buttons-container">
+        <button class="t-btn t-explore-data-btn" (click)="onClickedExploreData()">
+          <div class="spinner-border" *ngIf="isProcessingFile">
+            <span class="sr-only">Loading...</span>
+          </div>
+          <fa-icon *ngIf="!isProcessingFile" [icon]="faCircleRight"></fa-icon>
+          <span style="margin-left:5px;">Explore Data  </span>
+        </button>
+      </div>
+    </div>
+
+    <h5 *ngIf="selectedServiceName">Download Instructions:</h5>  
+    
+    <div class="instructions-content col-md-12" id="instagram-instructions" *ngIf="selectedServiceName === appType.Instagram">
+      <ol>
+        <li>
+          <span>Log in to your account, click your profile picture and select <b><i>Settings</i></b>.</span><br>
+          <img src="../../assets/images/insta-instructions/insta-instructions1.png">
+        </li>
+        <li>
+          <span>Select <b><i>Privacy and security</i></b>.</span><br>
+          <img class="i-image" src="../../assets/images/insta-instructions/insta-instructions2.png">
+        </li>
+        <li>
+          <span>On the page, scroll down to <b><i>Data Download</i></b> and click on <b><i>Request Download</i></b>.</span><br>
+          <img class="i-image" src="../../assets/images/insta-instructions/insta-instructions3.png">
+        </li>
+        <li>
+          <span>Verify your e-mail address. Select <b><i>JSON</i></b> format and click on <b><i>Next</i></b>.</span><br>
+          <img sclass="i-image" src="../../assets/images/insta-instructions/insta-instructions4.png">
+        </li>
+        <li>
+          <span>Before you go to the final step of requesting your data, make sure that the website is set to <b><i>English</i></b>. You can change that on the bottom of the screen. It is necessary to analyze your data correcty and after requesting your data you can
+          switch back to your favorite language.</span><br>
+          <img class="i-image" src="../../assets/images/insta-instructions/insta-instructions5.png">
+        </li>
+        <li>
+          <span>Enter your <b><i>password</i></b> and click <b><i>Request Download</i></b>.</span><br>
+          <img class="i-image" src="../../assets/images/insta-instructions/insta-instructions6.png">
+        </li>
+        <li>
+          <span>After a few minutes to a couple of days, you will receive an email titled <b><i>Your Instagram Data</i></b> with a link to your data. Tap <b><i>Download data</i></b> and follow the instructions to finish downloading your information.</span><br>
+        </li>
+        <li>
+          <span>Return to this website after you downloaded your data.
+          </span>
+        </li>
+      </ol>
+    </div>
+    <div class="instructions-content col-md-12" id="facebook-instructions" *ngIf="selectedServiceName === appType.Facebook">
+      <ol>
+        <li>
+          <span>Log in to your account and click your profile photo in the top right of Facebook.</span><br>
+          <img class="i-image-potrait" src="../../assets/images/fb-instructions/fb-instruction1.png">
+        </li>
+        <li>
+          <span>Select <b><i>Settings & privacy</i></b>.</span><br>
+          <img class="i-image-potrait" src="../../assets/images/fb-instructions/fb-instruction2.png">
+        </li>
+        <li>
+          <span>Click on <b><i>Settings</i></b>.</span><br>
+          <img class="i-image-potrait" src="../../assets/images/fb-instructions/fb-instruction3.png">
+        </li>
+        <li>
+          <span>Select <b><i>Your Facebook Information</i></b>.</span><br>
+          <img class="i-image" src="../../assets/images/fb-instructions/fb-instruction4.png">
+        </li>
+        <li>
+          <span>Go to <b><i>Download Your Information</i></b> and click on <b><i>View</i></b>.</span><br>
+          <img class="i-image" src="../../assets/images/fb-instructions/fb-instruction5.png">
+        </li>
+        <li>
+          <span>Select <b><i>JSON</i></b> format, and Date range <b><i>All time</i></b>. By default, the Media quality is High. If you want to reduce the size of your download, you can also set it to Low.</span><br>
+          <img class="i-image" src="../../assets/images/fb-instructions/fb-instruction6.png">
+        </li>
+        <li>
+          <span> Select <b><i>all</i></b> information to download. Click on <b><i>Request a Download</i></b>.</span><br>
+          <img class="i-image" src="../../assets/images/fb-instructions/fb-instruction7.png">
+        </li>
+        <li>
+          <span>It will take some time until your download is ready. Once you have received an email notification that the data is ready for download, click on <b><i>Available files</i></b>. You can download the files from here. If you did not get an email after a week, please check the site below manually as the mail might have been missed, for example due to your spam filter.</span><br>
+          <img class="i-image" src="../../assets/images/fb-instructions/fb-instruction8.png">
+        </li>
+        <li>
+          <span>Return to this website after you downloaded your data.
+          </span>
+        </li>
+      </ol>
+    </div>
+    <div class="instructions-content col-md-12" id="spotify-instructions" *ngIf="selectedServiceName === appType.Spotify">
+      <ol>
+        <li>
+          <span>Log in to your Spotify account. Click on your profile picture on the left. Select <b><i>Account</i></b>.</span><br>
+          <img class="i-image" src="../../assets/images/spot-instructions/spot-instruction1.png">
+        </li>
+        <li>
+          <span>Select <b><i>Privacy settings</i></b>. <!--Keep <b><i>Process my Facebook data</i></b> and <b><i>Process my personal data for tailored ads</i></b> selected.--></span><br>
+          <img class="i-image" src="../../assets/images/spot-instructions/spot-instruction2.png">
+        </li>
+        <li>
+          <span>Choose <b><i>Select Account Data</i></b>. Leave Extended Streaming History and Technical Log Information unselected. Click on <b><i>Request Data</i></b> button.</span><br>
+          <img class="i-image" src="../../assets/images/spot-instructions/spot-instruction3.png">
+        </li>
+        <li>
+          <span>You will see a message to confirm your data download request. Check your e-mails to confirm.</span><br>
+          <img class="i-image" src="../../assets/images/spot-instructions/spot-instruction4.png">
+        </li>
+        <li>
+          <span>Check your e-mail from Spotify and <b><i>Confirm</i></b> via the link in the email.</span><br>
+          <img class="i-image-potrait" src="../../assets/images/spot-instructions/spot-instruction5.png">
+        </li>
+        <li>
+          <span>You will be re-directed to Spotify Privacy Settings page with a notification that your data is getting prepared. You will receive an e-mail from Spotify containing a link in the next few days. The link will redirect you to the Privacy Settings page where you will find a download button. Download the data to your computer.
+          </span><br>
+          <img class="i-image" src="../../assets/images/spot-instructions/spot-instruction6.png">
+        </li>
+        <li>
+          <span>Return to this website after you downloaded your data.
+          </span>
+        </li>
+      </ol>
+    </div>
+  </div>
+
+</div>

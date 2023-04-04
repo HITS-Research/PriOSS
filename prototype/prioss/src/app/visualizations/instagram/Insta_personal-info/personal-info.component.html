@@ -1,0 +1,75 @@
+<div [ngClass]="{'component-page': !previewMode}">
+  <!--in previewmode only a small table with personal information is shown-->
+  <div *ngIf="previewMode">
+    <nz-table nzTemplateMode>
+      <thead>
+        <tr>
+          <th>Categories</th>
+          <th>Information</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let pair of getObjectPairs(personalInfo) | slice:0:getObjectPairs(personalInfo).length-1">
+          <!-- the part after the | in the *ngFor is responsible for cutting of the last element in userdata, which is the database index -->
+          <td>{{ capitalizeAndPrettify(pair[0]) }}</td>
+          <td>{{ pair[1] }}</td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </div>
+  <!--when not in previewmode the whole page is rendered-->
+  <div *ngIf="!previewMode">
+    <h2 nz-typography>Personal Information</h2>
+    <p nz-typography>
+      This following table shows the personal information that was collected by Instagram.
+    </p>
+    <nz-table nzTemplateMode>
+      <thead>
+        <tr>
+          <th>Categories</th>
+          <th>Information</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let pair of getObjectPairs(personalInfo) | slice:0:getObjectPairs(personalInfo).length-1">
+          <!-- the part after the | in the *ngFor is responsible for cutting of the last element in userdata, which is the database index -->
+          <td>{{ capitalizeAndPrettify(pair[0]) }}</td>
+          <td>{{ pair[1] }}</td>
+        </tr>
+        <tr *ngFor="let pair of getObjectPairs(accountInfo) | slice:0:getObjectPairs(accountInfo).length-1">
+          <!-- the part after the | in the *ngFor is responsible for cutting of the last element in userdata, which is the database index -->
+          <td>{{ capitalizeAndPrettify(pair[0]) }}</td>
+          <td>{{ convertTimestamp(pair[1]) }}</td>
+        </tr>
+      </tbody>
+    </nz-table>
+    <br>
+    <br>
+
+    <h2 nz-typography>Profile Changes</h2>
+    <p nz-typography>
+      The following table shows all profile changes that were made by the user over the course of the accounts
+      lifetime.
+    </p>
+    <nz-table #basicTable [nzData]="profileChanges">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Changed</th>
+          <th>Old Value</th>
+          <th>New Value</th>
+          <th>Change Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of basicTable.data">
+          <td>{{ data.title }}</td>
+          <td>{{ data.changed }}</td>
+          <td>{{ data.previous_value }}</td>
+          <td>{{ data.new_value }}</td>
+          <td>{{ convertTimestamp(data.change_date) }}</td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </div>
+</div> 

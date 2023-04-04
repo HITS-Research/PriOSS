@@ -1,0 +1,21 @@
+<nz-tabset>
+  <nz-tab nzTitle="Bar chart">
+    <div id="bar_chart_top_songs"></div>
+  </nz-tab>
+  <nz-tab nzTitle="Table">
+    <nz-table #basicTable [nzData]="this.songsAndNumberListenedSorted">
+      <thead>
+      <tr>
+        <th>Song</th>
+        <th>Number of times listened</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let data of basicTable.data">
+        <td>{{data.songAndArtist}}</td>
+        <td>{{data.numberListened}}</td>
+      </tr>
+      </tbody>
+    </nz-table>
+  </nz-tab>
+</nz-tabset>

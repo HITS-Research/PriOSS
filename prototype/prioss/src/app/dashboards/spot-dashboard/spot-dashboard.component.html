@@ -1,0 +1,72 @@
+<div class="dashboard-page dashboard-container">
+  <h1 nz-typography>PriOSS - Spotify</h1>
+
+  <h2 nz-typography>Your Data</h2>
+  <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
+    <div nz-col nzXs="24" nzXl="8">
+      <a routerLink="/spot/general-data">
+        <nz-card nzTitle="User Data" nzHoverable [nzExtra]="extraTemplate">
+          <app-general-data></app-general-data>
+        </nz-card>
+      </a>
+      <ng-template #extraTemplate>
+        <a>More</a>
+      </ng-template>
+    </div>
+    <div nz-col nzXs="24" nzXl="8">
+      <a routerLink="/spot/inference">
+        <nz-card nzTitle="Inferences" nzHoverable [nzExtra]="extraTemplate">
+          <spot-inferences [previewMode]="true"></spot-inferences>
+        </nz-card>
+      </a>
+      <ng-template #extraTemplate>
+        <a>More</a>
+      </ng-template>
+    </div>
+    <div nz-col nzXs="24" nzXl="8">
+      <a routerLink="/spot/listening-time">
+        <nz-card nzTitle="Listening Time" nzHoverable [nzExtra]="extraTemplate">
+          <spot-listening-time [previewMode]="true"></spot-listening-time>
+        </nz-card>
+      </a>
+      <ng-template #extraTemplate>
+        <a>More</a>
+      </ng-template>
+    </div>
+  </div>
+
+    <h3 nz-typography>Songs and Artists</h3>
+    <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
+      <div nz-col nzXs="24" nzXl="8">
+        <a routerLink="/spot/top-artists">
+          <nz-card nzTitle="Top Artists" nzHoverable [nzExtra]="extraTemplate">
+            <spot-top-artists></spot-top-artists>
+          </nz-card>
+        </a>
+      </div>
+      <div nz-col nzXs="24" nzXl="8">
+        <nz-card nzTitle="Average Audio Feature Value" nzHoverable [nzExtra]="switchTemplate">
+          <div *ngIf="thirdPartyConnection; then spotifyMood else requiresConnectionText"></div>
+          <ng-template #spotifyMood>
+            <spot-mood></spot-mood>
+          </ng-template>
+          <ng-template #requiresConnectionText>
+            <nz-typography>This visualization requires a connection to Spotify. The connection to Spotify is only
+              established when the switch is toggled. (What does the visualization show? Which data is sent to Spotify and
+              why?)</nz-typography>
+          </ng-template>
+        </nz-card>
+        <ng-template #switchTemplate>
+          <nz-switch [(ngModel)]="thirdPartyConnection"></nz-switch>
+        </ng-template>
+      </div>
+    </div>
+
+
+
+
+  <h2 nz-typography id="rectification">Rectification</h2>
+  <h2 nz-typography id="gdpr">Your Rights</h2>
+  <h2 nz-typography id="purpose">Purposes</h2>
+  <h2 nz-typography id="faq">Frequently Asked Questions</h2>
+</div>

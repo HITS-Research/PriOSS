@@ -1,0 +1,44 @@
+<nz-tabset>
+  <nz-tab nzTitle="Off FaceBook Activity">
+    <svg id="bubble-chart" viewBox="0 0 1000 1000"></svg>
+    <div id="tooltip"></div>
+  </nz-tab>
+  <nz-tab nzTitle="No Of Ads Clicked">
+    <nz-row [nzGutter]="16">
+      <nz-col [nzSpan]="12">
+        <nz-statistic  [nzTitle]="'Total No Of Ads Clicked'" [nzValue]="totalCount" class ="bold-title">
+        </nz-statistic>
+      </nz-col> 
+    </nz-row>
+    <nz-divider nzType="horizontal"></nz-divider>
+    <nz-table #basicTable>
+      <thead>
+        <tr>
+          <th class = "bold-header"> Ads Clicked </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let name of this.adNames">
+          <td>{{name}}</td>
+        </tr>
+      </tbody>
+    </nz-table>
+    </nz-tab>
+    //shown only if they have website interactions
+   
+    <nz-tab nzTitle="No Of Website Interactions" id="website-interactions">
+      <div class="cards">
+      <nz-space nzDirection="horizontal" [nzSize] = "'large'">
+        <nz-card *nzSpaceItem nzTitle="Active" class="cards-content">
+          <p *ngFor="let name of appsByCategory.active">{{name}}</p>
+        </nz-card>
+        <nz-card *nzSpaceItem nzTitle="Inactive" class="cards-content">
+          <p *ngFor="let name of appsByCategory.inactive">{{name}}</p>
+        </nz-card>
+        <nz-card *nzSpaceItem nzTitle="Removed" class="cards-content">
+          <p *ngFor="let name of appsByCategory.removed">{{name}}</p>
+        </nz-card>
+      </nz-space>
+      </div>
+      </nz-tab>
+</nz-tabset>
