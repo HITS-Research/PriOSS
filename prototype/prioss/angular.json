@@ -36,9 +36,12 @@
               "src/manifest.webmanifest"
             ],
             "styles": [
-              "src/styles.less"
+              "src/styles.less",
+              "node_modules/intro.js/introjs.css"
             ],
-            "scripts": [],
+            "scripts": [
+              "node_modules/intro.js/intro.js"
+            ],
             "serviceWorker": true,
             "ngswConfigPath": "ngsw-config.json"
           },
