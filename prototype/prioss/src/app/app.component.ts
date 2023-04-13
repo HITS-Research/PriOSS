@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import * as utilities from 'src/app/utilities/generalUtilities.functions'
+import { SQLiteService } from './services/sqlite.service';
 
 @Component({
   selector: 'app-root',
@@ -15,8 +16,15 @@ export class AppComponent {
   isDashboard: boolean = false;
   navigateAndScroll: (router: Router, url: string) => void = utilities.navigateAndScroll;
 
-  constructor(private router: Router) {
+  private initPlugin: boolean;
+
+  constructor(private router: Router, private _sqlite: SQLiteService) {
     this.pRouter = router;
+
+    this._sqlite.initializePlugin().then(ret => {
+      this.initPlugin = ret;
+      console.log('>>>> in App  this.initPlugin ' + this.initPlugin);
+    });
   }
 
   /**

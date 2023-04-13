@@ -6,6 +6,8 @@ import { NgxIndexedDBModule,DBConfig } from 'ngx-indexed-db';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from 'src/environments/environment';
 
+import { SQLiteService } from './services/sqlite.service';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LandingComponent } from './landing/landing.component';
@@ -448,6 +450,7 @@ const dbConfig: DBConfig  =
     NzSpaceModule
   ],
   providers: [
+    SQLiteService,
     { provide: NZ_I18N, useValue: de_DE }
   ],
   bootstrap: [AppComponent]
