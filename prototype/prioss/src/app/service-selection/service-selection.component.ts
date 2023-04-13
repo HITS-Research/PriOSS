@@ -6,6 +6,11 @@ import { Router } from '@angular/router';
 import { NotificationService } from '../notification/notification.component';
 import { AppType } from '../enum/app-type';
 
+import { SQLiteService } from '../services/sqlite.service';
+import { createSchema, insertTestHistory, dropSchema } from '../db/schema';
+import { SQLiteDBConnection, capSQLiteTableOptions } from '@capacitor-community/sqlite';
+import { DatabaseManager } from '../db/database-manager';
+
 //service identifier filenames
 const instaIDFilename = "TODO";
 const spotIDFilename = "MyData/Read_Me_First.pdf";
@@ -38,8 +43,14 @@ export class ServiceSelectionComponent {
   appType: typeof AppType = AppType;
 
   selectedServiceName: AppType;
-  constructor(private dbService: NgxIndexedDBService, private router: Router, private notifyService: NotificationService)
+
+  sqlite: any;
+  dbManager: DatabaseManager;
+
+  constructor(private dbService: NgxIndexedDBService, private router: Router, private notifyService: NotificationService, private _sqlite: SQLiteService)
   {
+    this.dbManager = new DatabaseManager(_sqlite);
+
     //clear the database when this component gets created
     this.dbService.clear("all/userdata").subscribe((deleted) => {
       console.log("Cleared all/userdata: " + deleted);
@@ -122,8 +133,19 @@ export class ServiceSelectionComponent {
     this.dbService.clear("face/who_you_follow").subscribe((deleted) => {
       console.log("Cleared face/who_you_follow: " + deleted);
     });
-  
   }
+
+/**
+  * Callback called by angular after the view is initialized. Triggers rebuilding of the sql database
+  *
+  * @author: Simon (scg@mail.upb.de)
+  *
+  */ 
+  async ngAfterViewInit() {
+    await this.dbManager.rebuildDatabase();
+  };
+
+
 
 /*
  * File Selection Workflow
@@ -271,7 +293,7 @@ export class ServiceSelectionComponent {
     else if (selectedApp == this.appType.Spotify)
     {
       console.log("Parsing Spotify file...");
-      this.parseSpotifyFile();
+      this.parseSpotifyFileToSQLite();
     }
     else if(selectedApp == this.appType.Facebook)
     {
@@ -280,9 +302,69 @@ export class ServiceSelectionComponent {
     }
   }
 
+
 /*
  * Service Specific File Parsing Methods
  */
+
+/**
+  * Parses the uploaded Spotify data-download-zip file into the indexedDB
+  *
+  * @author: Simon (scg@mail.upb.de)
+  *
+  */
+parseSpotifyFileToSQLite()
+{
+  let file = this.uploadedFiles[0];
+  
+  this.loadZipFile(file).then((zip: any) => 
+  {
+    this.isProcessingFile = true;//shows the processing icon on the button
+
+    Object.keys(zip.files).forEach((filepath: any) => 
+    {
+      zip.files[filepath].async("string").then((content:any) => 
+      {
+        let filename: string = filepath.split('\\').pop().split('/').pop();
+        console.log('Opening: ' + filename);
+
+        //Scan all streaming history files (multiple numbered files may exist in a download)
+        if(filename.startsWith("StreamingHistory"))
+        {
+          //console.log('Parsing: ' + filename);
+          let jsonData = JSON.parse(content);
+
+          //console.log("Json Data history: ");
+          //console.log(jsonData);
+
+          jsonData.forEach((historyItem: any) => {
+            //build a typed history entry 
+            let endTime = String(historyItem.endTime);
+            let artistName = String(historyItem.artistName);
+            let trackName =  String(historyItem.trackName);
+            let msPlayed =  Number(historyItem.msPlayed);
+            let historyEntry = {endTime, artistName, trackName, msPlayed};
+            
+            this.dbManager.addToSpotHistory(historyEntry);
+
+            //console.log(historyItem);
+          });
+        }
+      });
+      return true;
+    });
+
+    setTimeout(async () => {
+
+      await this.dbManager.readSpotHistory();
+      
+
+      //TODO: properly wait for data to be available in DB
+      //this.router.navigate(['spot/dashboard']);
+    }, 3000);
+    
+  });
+}
 
 /**
   * Parses the uploaded Instagram data-download-zip file into the indexedDB
