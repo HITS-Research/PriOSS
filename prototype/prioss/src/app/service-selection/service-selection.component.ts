@@ -9,7 +9,7 @@ import { AppType } from '../enum/app-type';
 import { SQLiteDBConnection, capSQLiteTableOptions } from '@capacitor-community/sqlite';
 import { SpotHistoryRepository } from '../db/data-repositories/spot-history.repository';
 import { DBService } from '../services/db/db.service';
-import { SpotListenHistoryEntry } from '../models/SpotListenHistoryEntry';
+import { SpotListenHistoryEntry } from '../models/Spotify/ListeningHistory/SpotListenHistoryEntry';
 import * as JSZip from 'jszip';
 
 import * as dateUtils from '../utilities/dateUtils.functions';

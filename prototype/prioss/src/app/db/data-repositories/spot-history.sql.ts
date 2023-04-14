@@ -68,3 +68,30 @@ with months as (select 1 month
   group by yearMonth
   order by year asc, month ASC;
 `;
+
+export const spotHistoryByDaySQL: string = `
+
+`;
+
+export const spotHistoryByHourSQL: string = `
+with hours as (select 0 hour
+                 from spot_history
+                union
+               select hour+1 
+                 from hours
+                where hour < 24)
+ select substr('00'|| t.hour, -2, 2) || ':00' displayHour, 
+        t.hour hour,
+        ifnull(sum(msPlayed), 0) msPlayed
+   from hours t
+   left join spot_history h
+     on strftime('%H', h.endTime) = substr('00'|| t.hour, -2, 2)
+  where strftime('%Y-%m-%d', h.endTime) = ? or h.endTime is NULL
+  group by hour
+  order by hour asc;
+`;
+
+export const spotHistoryMostRecentDaySQL: string = `
+select max(strftime('%Y-%m-%d', endTime)) date
+  from spot_history
+`;

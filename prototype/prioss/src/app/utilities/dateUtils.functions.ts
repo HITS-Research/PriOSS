@@ -39,7 +39,7 @@ export function trimDate(date: Date, trimTo: GranularityEnum) {
 }
 
 /**
-* Parses a dateString in the format 'YYYY-MM-DD HH:MI' to a Date object
+* Parses a dateString in the format 'YYYY-MM-DD HH:MI' or 'YYYY-MM-DD' to a Date object
 * 
 * @param dateString the date string in the format 'YYYY-MM-DD HH:MI'
 * @returns The parsed date object defined by the given dateString
@@ -47,10 +47,20 @@ export function trimDate(date: Date, trimTo: GranularityEnum) {
 * @author: Simon (scg@mail.upb.de)
 */
 export function parseDate(dateString: string) {
+
   let dateParts = dateString.split(" ");
   let date = dateParts[0].split("-");
-  let time = dateParts[1].split(":");
+  if(dateParts[1])
+  {
+    let time = dateParts[1].split(":");
+    //Month is decremented by one because in a date object, the month is 0-indexed
+    return new Date(parseInt(date[0]), parseInt(date[1]) - 1, parseInt(date[2]), parseInt(time[0]), parseInt(time[1]));
+  }
 
   //Month is decremented by one because in a date object, the month is 0-indexed
-  return new Date(parseInt(date[0]), parseInt(date[1]) - 1, parseInt(date[2]), parseInt(time[0]), parseInt(time[1]));
+  return new Date(parseInt(date[0]), parseInt(date[1]) - 1, parseInt(date[2]));
+}
+
+export function getDisplayDateString(date: Date) {
+  return date.getFullYear() + "-" + (date.getMonth() + 1).toString().padStart(2, '0') + "-" + date.getDate().toString().padStart(2, '0');
 }

@@ -25,7 +25,7 @@ export class DBService {
    * @author: https://github.com/jepiqueau
    */
   async executeQuery<T>(callback: SQLiteDBConnectionCallback<T>, databaseName: string = environment.databaseName): Promise<T> {
-    try {
+    //try {
       let isConnection = await this.sqlite.isConnection(databaseName);
 
       if (isConnection.result) {
@@ -41,9 +41,9 @@ export class DBService {
         await this.sqlite.closeConnection(databaseName);
         return cb;
       }
-    } catch (error) {
+    /*} catch (error) {
       throw Error(`DatabaseServiceError: ${error}`);
-    }
+    }*/
   }
 
 /**
