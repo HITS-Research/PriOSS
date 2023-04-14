@@ -6,7 +6,7 @@ import { NgxIndexedDBModule,DBConfig } from 'ngx-indexed-db';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from 'src/environments/environment';
 
-import { SQLiteService } from './services/sqlite.service';
+import { SQLiteService } from './services/sqlite/sqlite.service';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -50,6 +50,8 @@ import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NzStatisticModule } from 'ng-zorro-antd/statistic';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { TopSongsComponent } from './visualizations/spotify/top-songs/top-songs.component';
+import { DBService } from './services/db/db.service';
+import { SpotHistoryRepository } from './db/data-repositories/spot-history.repository';
 
 registerLocaleData(de);
 
@@ -451,6 +453,8 @@ const dbConfig: DBConfig  =
   ],
   providers: [
     SQLiteService,
+    DBService,
+    SpotHistoryRepository,
     { provide: NZ_I18N, useValue: de_DE }
   ],
   bootstrap: [AppComponent],

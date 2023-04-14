@@ -3,7 +3,7 @@ import { NgxIndexedDBService } from 'ngx-indexed-db';
 import * as d3 from 'd3';
 import { GranularityEnum, Granularity2LabelMapping, getSmallerGranularity } from './granularity.enum';
 import { formatDisplayTime } from './formatDisplayTime.function';
-import * as dateUtils from './dateUtils.functions';
+import * as dateUtils from '../../../utilities/dateUtils.functions';
 import { NotificationService } from 'src/app/notification/notification.component';
 
 /**

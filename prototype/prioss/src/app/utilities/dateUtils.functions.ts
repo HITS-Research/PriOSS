@@ -1,4 +1,4 @@
-import { GranularityEnum } from "./granularity.enum";
+import { GranularityEnum } from "../visualizations/spotify/listening-time/granularity.enum";
 
 /**
  * Trims a date down to the given granularity. This means that a Date's elements (e.g. month, day, hour, minute, ...) that are smaller than the given granularity will be nulled

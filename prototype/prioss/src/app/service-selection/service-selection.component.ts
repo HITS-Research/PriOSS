@@ -6,10 +6,12 @@ import { Router } from '@angular/router';
 import { NotificationService } from '../notification/notification.component';
 import { AppType } from '../enum/app-type';
 
-import { SQLiteService } from '../services/sqlite.service';
-import { createSchema, insertTestHistory, dropSchema } from '../db/schema';
 import { SQLiteDBConnection, capSQLiteTableOptions } from '@capacitor-community/sqlite';
-import { DatabaseManager } from '../db/database-manager';
+import { SpotHistoryRepository } from '../db/data-repositories/spot-history.repository';
+import { DBService } from '../services/db/db.service';
+import { SpotListenHistoryEntry } from '../models/SpotListenHistoryEntry';
+
+import * as dateUtils from '../utilities/dateUtils.functions';
 
 //service identifier filenames
 const instaIDFilename = "TODO";
@@ -44,13 +46,8 @@ export class ServiceSelectionComponent {
 
   selectedServiceName: AppType;
 
-  sqlite: any;
-  dbManager: DatabaseManager;
-
-  constructor(private dbService: NgxIndexedDBService, private router: Router, private notifyService: NotificationService, private _sqlite: SQLiteService)
+  constructor(private dbService: NgxIndexedDBService, private router: Router, private notifyService: NotificationService, private spotHistoryRepo: SpotHistoryRepository, private sqlDBService: DBService)
   {
-    this.dbManager = new DatabaseManager(_sqlite);
-
     //clear the database when this component gets created
     this.dbService.clear("all/userdata").subscribe((deleted) => {
       console.log("Cleared all/userdata: " + deleted);
@@ -142,7 +139,7 @@ export class ServiceSelectionComponent {
   *
   */ 
   async ngAfterViewInit() {
-    await this.dbManager.rebuildDatabase();
+    await this.sqlDBService.rebuildDatabase();
   };
 
 
@@ -323,42 +320,49 @@ parseSpotifyFileToSQLite()
 
     Object.keys(zip.files).forEach((filepath: any) => 
     {
-      zip.files[filepath].async("string").then((content:any) => 
+      zip.files[filepath].async("string").then(async (content:any) => 
       {
         let filename: string = filepath.split('\\').pop().split('/').pop();
         console.log('Opening: ' + filename);
 
         //Scan all streaming history files (multiple numbered files may exist in a download)
-        if(filename.startsWith("StreamingHistory"))
+        if(filename.startsWith("StreamingHistory0"))//filename.startsWith("StreamingHistory"))
         {
           //console.log('Parsing: ' + filename);
           let jsonData = JSON.parse(content);
 
           //console.log("Json Data history: ");
-          //console.log(jsonData);
+          console.log("JSON Data:");
+          console.log(jsonData);
+          console.log(jsonData.length);
 
-          jsonData.forEach((historyItem: any) => {
+          for (let i = 0; i < jsonData.length; i++) {
+
+            let historyItem = jsonData[i];
             //build a typed history entry 
-            let endTime = String(historyItem.endTime);
+            let id = -1;
+            let endTime = historyItem.endTime;
             let artistName = String(historyItem.artistName);
             let trackName =  String(historyItem.trackName);
             let msPlayed =  Number(historyItem.msPlayed);
-            let historyEntry = {endTime, artistName, trackName, msPlayed};
+            let historyEntry: SpotListenHistoryEntry =  {id, endTime, artistName, trackName, msPlayed};
             
-            this.dbManager.addToSpotHistory(historyEntry);
+            let addedEntry: SpotListenHistoryEntry = await this.spotHistoryRepo.createSpotHistoryEntry(historyEntry);
 
-            //console.log(historyItem);
-          });
+          }
         }
       });
       return true;
     });
 
-    setTimeout(async () => {
+    setTimeout(() => {
 
-      await this.dbManager.readSpotHistory();
+      console.log("Start History Fetching");
+      this.spotHistoryRepo.getSpotHistory().then((history) => {
+        console.log("Read History:");
+        console.log(history);
+      });
       
-
       //TODO: properly wait for data to be available in DB
       //this.router.navigate(['spot/dashboard']);
     }, 3000);

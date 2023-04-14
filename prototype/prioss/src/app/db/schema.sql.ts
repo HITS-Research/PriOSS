@@ -1,4 +1,5 @@
-import { capSQLiteSet } from '@capacitor-community/sqlite';
+//import { capSQLiteSet } from '@capacitor-community/sqlite';
+
 export const createSchema: string = `
 CREATE TABLE IF NOT EXISTS spot_history (
     id INTEGER PRIMARY KEY,
@@ -15,33 +16,6 @@ export const dropSchema: string =`
 DROP TABLE IF EXISTS spot_history;
 `;
 
-export const insertIntoSpotHistorySQL: string = `
-  insert into spot_history 
-  (endTime, artistName, trackName, msPlayed)
-  values 
-  (?, ?, ?, ?);
-`;
-
-export const insertTestHistory: string = `
-insert into spot_history 
-(endTime, artistName, trackName, msPlayed)
-values 
-('2021-07-19 12:46', 'CRO', 'NICE!', 152000);
-
-insert into spot_history 
-(endTime, artistName, trackName, msPlayed)
-values 
-('2021-11-19 13:07', 'CRO', 'DIAMONDS', 83085);
-`;
-
-export const selectAllSpotHistory: string = `
- select id
-        endTime, 
-        artistName, 
-        trackName, 
-        msPlayed 
-   from spot_history;
-`;
 
 /*
 // Insert some Users

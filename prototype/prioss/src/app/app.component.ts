@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import * as utilities from 'src/app/utilities/generalUtilities.functions'
-import { SQLiteService } from './services/sqlite.service';
+import { SQLiteService } from './services/sqlite/sqlite.service';
 
 @Component({
   selector: 'app-root',
