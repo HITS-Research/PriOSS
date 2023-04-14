@@ -5,6 +5,9 @@ import { GranularityEnum, Granularity2LabelMapping, getSmallerGranularity } from
 import { formatDisplayTime } from './formatDisplayTime.function';
 import * as dateUtils from '../../../utilities/dateUtils.functions';
 import { NotificationService } from 'src/app/notification/notification.component';
+import { SpotHistoryRepository } from 'src/app/db/data-repositories/spot-history.repository';
+import { SpotYearlyListening } from 'src/app/models/SpotYearlyListening';
+import { SpotMonthlyListening } from 'src/app/models/SpotMonthlyListening';
 
 /**
   * This component visualizes the total listening time in relation to configurable time periods
@@ -52,7 +55,7 @@ export class ListeningTimeComponent {
     */
   history: any;
 
-  constructor(private dbService: NgxIndexedDBService, private notifyService: NotificationService) {
+  constructor(private spotHistoryRepo: SpotHistoryRepository, private dbService: NgxIndexedDBService, private notifyService: NotificationService) {
     this.dbService.getAll('spot/history').subscribe(async (history: any) => {
       //console.log("history: ");
       //console.log(history);
@@ -70,10 +73,11 @@ export class ListeningTimeComponent {
       this.isFirstVisualizationRun = false;
 
       //async method calls, run in background
-      this.createYearData(this.history).then((dataMap) => {
+      this.createYearData().then((dataMap) => {
         this.yearDataMap = dataMap;
       });
-      this.createMonthData(this.history).then((dataMap) => {
+
+      this.createMonthData().then((dataMap) => {
         this.monthDataMap = dataMap;
       });
     });
@@ -154,21 +158,16 @@ export class ListeningTimeComponent {
     * @author: Simon (scg@mail.upb.de)
     *
     */
-  async createYearData(history: any) {
+  async createYearData() {
     let dataMap: Map<string, { date: Date, value: number }> = new Map();
 
-    for (let i = 0; i < history.length; i++) {
-      let year = history[i].dateTime.getFullYear();
-      if (!dataMap.has(year)) {
-        let date: Date = history[i].dateTime;
-        let value: number = history[i].msPlayed;
-        dataMap.set(year, { date, value })
-      }
-      else {
-        let date: Date = history[i].dateTime;
-        let value: number = dataMap.get(year)?.value + history[i].msPlayed;
-        dataMap.set(year, { date, value })
-      }
+    let spotYearlyListening: SpotYearlyListening[] = await this.spotHistoryRepo.getHistoryByYear();
+    for(let i = 0; i < spotYearlyListening.length; i++)
+    {
+      let yearData: SpotYearlyListening = spotYearlyListening[i];
+      let date: Date = new Date(Number(yearData.year), 0);
+      let value: number = yearData.msPlayed;
+      dataMap.set(yearData.year, { date, value })
     }
 
     return dataMap;
@@ -185,7 +184,9 @@ export class ListeningTimeComponent {
     * @author: Simon (scg@mail.upb.de)
     *
     */
-  async createMonthData(history: any) {
+  async createMonthData() {
+    /*
+    let history: any = null;
     let mostRecentYear: number = 0;
     let dataMap: Map<string, { date: Date, value: number }> = new Map();
 
@@ -242,6 +243,17 @@ export class ListeningTimeComponent {
         let value: number = 0;
         dataMap.set(displayMonth, { date, value });
       }
+    }*/
+
+    let dataMap: Map<string, { date: Date, value: number }> = new Map();
+
+    let spotMonthlyListening: SpotMonthlyListening[] = await this.spotHistoryRepo.getHistoryByMonth();
+    for(let i = 0; i < spotMonthlyListening.length; i++)
+    {
+      let monthData: SpotMonthlyListening = spotMonthlyListening[i];
+      let date: Date = new Date(Number(monthData.year), Number(monthData.month)-1);
+      let value: number = monthData.msPlayed;
+      dataMap.set(monthData.yearMonth, { date, value })
     }
 
     return dataMap;

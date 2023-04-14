@@ -26,24 +26,18 @@ export class DBService {
    */
   async executeQuery<T>(callback: SQLiteDBConnectionCallback<T>, databaseName: string = environment.databaseName): Promise<T> {
     try {
-      console.log(this.sqlite);
       let isConnection = await this.sqlite.isConnection(databaseName);
 
-      console.log(isConnection.result);
       if (isConnection.result) {
         let db = await this.sqlite.retrieveConnection(databaseName);
-        console.log("Run Callback");
         return await callback(db);
       }
       else {
-        console.log("Open new Connection");
         const db = await this.sqlite.createConnection(databaseName, false, "no-encryption", this.dbVersion);
         await db.open();
 
-        console.log("Run Callback");
         let cb = await callback(db);
 
-        console.log("Close connection");
         await this.sqlite.closeConnection(databaseName);
         return cb;
       }

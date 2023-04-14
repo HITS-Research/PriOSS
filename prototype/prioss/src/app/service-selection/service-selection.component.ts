@@ -10,6 +10,7 @@ import { SQLiteDBConnection, capSQLiteTableOptions } from '@capacitor-community/
 import { SpotHistoryRepository } from '../db/data-repositories/spot-history.repository';
 import { DBService } from '../services/db/db.service';
 import { SpotListenHistoryEntry } from '../models/SpotListenHistoryEntry';
+import * as JSZip from 'jszip';
 
 import * as dateUtils from '../utilities/dateUtils.functions';
 
@@ -263,11 +264,11 @@ export class ServiceSelectionComponent {
   * @author: Simon (scg@mail.upb.de)
   *
   */
-  onClickedExploreData() 
+  async onClickedExploreData() 
   {
     console.log("Clicked explore data");
     this.isProcessingFile = true;
-    this.parseFile(this.selectedServiceName);//TODO: get selected service's name
+    await this.parseFile(this.selectedServiceName);//TODO: get selected service's name
   }
 
 /**
@@ -277,7 +278,7 @@ export class ServiceSelectionComponent {
   * @author: Simon (scg@mail.upb.de)
   *
   */
-  parseFile(selectedApp: AppType)
+  async parseFile(selectedApp: AppType)
   {
     //Put service independent parsing operations here
 
@@ -290,7 +291,7 @@ export class ServiceSelectionComponent {
     else if (selectedApp == this.appType.Spotify)
     {
       console.log("Parsing Spotify file...");
-      this.parseSpotifyFileToSQLite();
+      await this.parseSpotifyFileToSQLite();
     }
     else if(selectedApp == this.appType.Facebook)
     {
@@ -310,64 +311,57 @@ export class ServiceSelectionComponent {
   * @author: Simon (scg@mail.upb.de)
   *
   */
-parseSpotifyFileToSQLite()
+async parseSpotifyFileToSQLite()
 {
   let file = this.uploadedFiles[0];
   
-  this.loadZipFile(file).then((zip: any) => 
+  let zip: JSZip = await this.loadZipFile(file);
+   
+  this.isProcessingFile = true;//shows the processing icon on the button
+
+  let filepaths: string[] = Object.keys(zip.files);
+  for(let i = 0; i < filepaths.length; i++)
   {
-    this.isProcessingFile = true;//shows the processing icon on the button
+    let filepath: string = filepaths[i];
+    let content: string = await zip.files[filepath].async("string");
+    let filename: string | undefined = filepath.split('\\').pop()?.split('/').pop();
 
-    Object.keys(zip.files).forEach((filepath: any) => 
+    if(!filename)
     {
-      zip.files[filepath].async("string").then(async (content:any) => 
-      {
-        let filename: string = filepath.split('\\').pop().split('/').pop();
-        console.log('Opening: ' + filename);
+      continue;
+    }
 
-        //Scan all streaming history files (multiple numbered files may exist in a download)
-        if(filename.startsWith("StreamingHistory0"))//filename.startsWith("StreamingHistory"))
-        {
-          //console.log('Parsing: ' + filename);
-          let jsonData = JSON.parse(content);
+    console.log('Opening: ' + filename);
 
-          //console.log("Json Data history: ");
-          console.log("JSON Data:");
-          console.log(jsonData);
-          console.log(jsonData.length);
+    //Scan all streaming history files (multiple numbered files may exist in a download)
+    if(filename.startsWith("StreamingHistory"))
+    {
+      let jsonData = JSON.parse(content);
 
-          for (let i = 0; i < jsonData.length; i++) {
+      for (let i = 0; i < jsonData.length; i++) {
 
-            let historyItem = jsonData[i];
-            //build a typed history entry 
-            let id = -1;
-            let endTime = historyItem.endTime;
-            let artistName = String(historyItem.artistName);
-            let trackName =  String(historyItem.trackName);
-            let msPlayed =  Number(historyItem.msPlayed);
-            let historyEntry: SpotListenHistoryEntry =  {id, endTime, artistName, trackName, msPlayed};
-            
-            let addedEntry: SpotListenHistoryEntry = await this.spotHistoryRepo.createSpotHistoryEntry(historyEntry);
+        let historyItem = jsonData[i];
+        //build a typed history entry 
+        let id = -1;
+        let endTime = historyItem.endTime;
+        let artistName = String(historyItem.artistName);
+        let trackName =  String(historyItem.trackName);
+        let msPlayed =  Number(historyItem.msPlayed);
+        let historyEntry: SpotListenHistoryEntry =  {id, endTime, artistName, trackName, msPlayed};
+        
+        await this.spotHistoryRepo.createSpotHistoryEntry(historyEntry);
 
-          }
-        }
-      });
-      return true;
-    });
+      }
+    }
+  }
 
-    setTimeout(() => {
-
-      console.log("Start History Fetching");
-      this.spotHistoryRepo.getSpotHistory().then((history) => {
-        console.log("Read History:");
-        console.log(history);
-      });
-      
-      //TODO: properly wait for data to be available in DB
-      //this.router.navigate(['spot/dashboard']);
-    }, 3000);
-    
+  console.log("Start History Fetching");
+  this.spotHistoryRepo.getSpotHistory().then((history) => {
+    console.log("Read History:");
+    console.log(history);
   });
+    
+  this.router.navigate(['spot/dashboard']);
 }
 
 /**
@@ -903,27 +897,28 @@ parseSpotifyFileToSQLite()
   * @author: Simon (scg@mail.upb.de)
   *
   */
-loadZipFile(file: File) : any
-{
-  if(typeof(file) == "undefined")
+  async loadZipFile(file: File) : Promise<JSZip>
   {
-    //TODO: Show error: you didn't upload a zip file
-    this.notifyService.showNotification("Please select a data-download zip-file first!");
-    this.isProcessingFile = false;
-    return;
-  }
+    if(typeof(file) == "undefined")
+    {
+      //TODO: Show error: you didn't upload a zip file
+      this.notifyService.showNotification("Please select a data-download zip-file first!");
+      this.isProcessingFile = false;
+      throw Error('No File selected!') ;
+    }
 
-  if(file.type == "application/zip" || file.type == "application/x-zip-compressed") 
-  {
-    const jsZip = require('jszip');
-    return jsZip.loadAsync(file)
+    if(file.type == "application/zip" || file.type == "application/x-zip-compressed") 
+    {
+      const zip = new JSZip();
+      return await zip.loadAsync(file)
+    }
+    else
+    {
+      //TODO: Show error: you didn't upload a zip file
+      this.notifyService.showNotification("The file you selected is not a zip-file. Please select the zip file you downloaded from " + this.selectedServiceName, 10000);
+      this.isProcessingFile = false;
+      throw Error('Selected File is not a .zip file!') ;
+    }
   }
-  else
-  {
-    //TODO: Show error: you didn't upload a zip file
-    this.notifyService.showNotification("The file you selected is not a zip-file. Please select the zip file you downloaded from " + this.selectedServiceName, 10000);
-    this.isProcessingFile = false;
-  }
-}
 
 }

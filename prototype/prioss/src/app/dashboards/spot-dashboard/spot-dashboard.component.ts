@@ -29,6 +29,7 @@ export class SpotDashboardComponent{
 
   constructor(private dbService: NgxIndexedDBService, private router: Router)
   {
+    /*
     this.dbService.getAll('all/userdata').subscribe((userdata: any) =>
     {
         console.log("Userdata: ");
@@ -40,7 +41,7 @@ export class SpotDashboardComponent{
     {
       console.log("Inferences: ");
       console.log(inferences);
-    });
+    });*/
 
 
     //this.username = this.dbService.getByKey<string>("all/userdata", "username");
@@ -79,7 +80,7 @@ export class SpotDashboardComponent{
   *
   */
   ngOnInit() {
-    console.log(this.router.config);
+    //console.log(this.router.config);
     for (var route of this.router.config){
       if(route.component == GeneralDataComponent){
         this.pathToGeneralData = route.path!; // The exclemation mark ensures that route.path is non-null, which we know because routes are hardcoded

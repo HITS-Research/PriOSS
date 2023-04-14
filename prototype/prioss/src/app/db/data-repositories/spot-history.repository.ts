@@ -1,9 +1,10 @@
 import { Injectable } from "@angular/core";
-import { DBSQLiteValues, SQLiteDBConnection, capSQLiteChanges } from "@capacitor-community/sqlite";
-import { createSchema, dropSchema } from "../schema.sql";
+import { SQLiteDBConnection, capSQLiteChanges } from "@capacitor-community/sqlite";
 import { DBService } from "../../services/db/db.service";
-import { insertIntoSpotHistorySQL, selectAllSpotHistory } from "./spothistory.sql";
+import { insertIntoSpotHistorySQL, selectAllSpotHistory, spotHistoryByMonthSQL, spotHistoryByYearSQL } from "./spot-history.sql";
 import { SpotListenHistoryEntry } from "src/app/models/SpotListenHistoryEntry";
+import { SpotYearlyListening } from "src/app/models/SpotYearlyListening";
+import { SpotMonthlyListening } from "src/app/models/SpotMonthlyListening";
 
 @Injectable()
 export class SpotHistoryRepository {
@@ -36,6 +37,26 @@ export class SpotHistoryRepository {
       
       let result = await db.query(selectAllSpotHistory);
       return result.values as SpotListenHistoryEntry[];
+           
+    });
+  }
+
+  async getHistoryByYear(): Promise<SpotYearlyListening[]>
+  {
+    return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
+      
+      let result = await db.query(spotHistoryByYearSQL);
+      return result.values as SpotYearlyListening[];
+           
+    });
+  }
+
+  async getHistoryByMonth(): Promise<SpotMonthlyListening[]>
+  {
+    return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
+      
+      let result = await db.query(spotHistoryByMonthSQL);
+      return result.values as SpotMonthlyListening[];
            
     });
   }
