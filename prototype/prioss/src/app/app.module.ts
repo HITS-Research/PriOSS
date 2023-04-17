@@ -41,6 +41,7 @@ import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzTimelineModule } from 'ng-zorro-antd/timeline';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
+import { NzProgressModule } from 'ng-zorro-antd/progress'
 import { AboutComponent } from './info-pages/about/about.component';
 import { ContactComponent } from './info-pages/contact/contact.component';
 import { InferredTopicsComponent } from './visualizations/facebook/inferred-topics/inferred-topics.component';
@@ -438,6 +439,7 @@ const dbConfig: DBConfig  =
     NzCardModule,
     NzTableModule,
     NzDividerModule,
+    NzProgressModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: !isDevMode(),
       // Register the ServiceWorker as soon as the application is stable

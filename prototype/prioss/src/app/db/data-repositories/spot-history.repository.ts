@@ -42,7 +42,7 @@ export class SpotHistoryRepository {
 
       //Start a new bulk with the newly passed row
       this.bulkAddSQL = bulkAddSpotHistoryBaseSQL + " " + bulkAddSpotHistoryValuesSQL;
-      this.bulkAddValues = [endTime, artistName,  trackName, msPlayed];
+      this.bulkAddValues = [endTime, artistName, trackName, msPlayed];
       this.totalRemainingBulkAddRowCount -= 1;
       this.currBulkSize = 1;
     }
