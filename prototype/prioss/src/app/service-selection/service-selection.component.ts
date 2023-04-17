@@ -313,6 +313,8 @@ export class ServiceSelectionComponent {
   */
 async parseSpotifyFileToSQLite()
 {
+  const start = Date.now();
+
   let file = this.uploadedFiles[0];
   
   let zip: JSZip = await this.loadZipFile(file);
@@ -338,9 +340,15 @@ async parseSpotifyFileToSQLite()
     {
       let jsonData = JSON.parse(content);
 
-      for (let i = 0; i < jsonData.length; i++) {
+      await this.spotHistoryRepo.startHistoryBulkAdd(jsonData[0].endTime, jsonData[0].artistName, jsonData[0].trackName, jsonData[0].msPlayed, jsonData.length, 250);
 
+      for (let i = 1; i < jsonData.length; i++) {
+
+        await this.spotHistoryRepo.addBulkHistoryEntry(jsonData[0].endTime, jsonData[0].artistName, jsonData[0].trackName, jsonData[0].msPlayed);
+
+        /*
         let historyItem = jsonData[i];
+
         //build a typed history entry 
         let id = -1;
         let endTime = historyItem.endTime;
@@ -350,10 +358,13 @@ async parseSpotifyFileToSQLite()
         let historyEntry: SpotListenHistoryEntry =  {id, endTime, artistName, trackName, msPlayed};
         
         await this.spotHistoryRepo.createSpotHistoryEntry(historyEntry);
-
+        */
       }
     }
   }
+
+  const end = Date.now();
+  console.log(`Data-download files parsed and data inserted in: ${end - start} ms`);
 
   console.log("Start History Fetching");
   this.spotHistoryRepo.getSpotHistory().then((history) => {

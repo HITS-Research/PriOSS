@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { SQLiteDBConnection, capSQLiteChanges } from "@capacitor-community/sqlite";
 import { DBService } from "../../services/db/db.service";
-import { insertIntoSpotHistorySQL, selectAllSpotHistory, spotHistoryByDaySQL, spotHistoryByHourSQL, spotHistoryByMonthSQL, spotHistoryByYearSQL, spotHistoryMostRecentDaySQL } from "./spot-history.sql";
+import { bulkAddSpotHistoryBaseSQL, bulkAddSpotHistoryValuesSQL, bulkAddValueConnector, insertIntoSpotHistorySQL, selectAllSpotHistory, spotHistoryByDaySQL, spotHistoryByHourSQL, spotHistoryByMonthSQL, spotHistoryByYearSQL, spotHistoryMostRecentDaySQL } from "./spot-history.sql";
 import { SpotListenHistoryEntry } from "src/app/models/Spotify/ListeningHistory/SpotListenHistoryEntry";
 import { SpotYearlyListening } from "src/app/models/Spotify/ListeningHistory/SpotYearlyListening";
 import { SpotMonthlyListening } from "src/app/models/Spotify/ListeningHistory/SpotMonthlyListening";
@@ -12,8 +12,74 @@ import * as dateUtils from "../../utilities/dateUtils.functions";
 @Injectable()
 export class SpotHistoryRepository {
 
+  private bulkAddSQL: string = "";
+  private bulkAddValues: (string|number)[] = [];
+  private currBulkSize: number = 0;
+  private targetBulkSize: number = 100;
+  private totalRemainingBulkAddRowCount: number = 0;
+
   constructor(private dbService: DBService){
   
+  }
+
+  async startHistoryBulkAdd(endTime: string, artistName: string, trackName: string, msPlayed: number, totalRowCount: number, targetBulkSize: number = 100)
+  {
+    this.bulkAddSQL = bulkAddSpotHistoryBaseSQL + " " + bulkAddSpotHistoryValuesSQL;
+    this.bulkAddValues = [endTime, artistName,  trackName, msPlayed];
+    this.totalRemainingBulkAddRowCount = totalRowCount - 1;
+    this.currBulkSize += 1;
+  }
+
+  async addBulkHistoryEntry(endTime: string, artistName: string, trackName: string, msPlayed: number)
+  {
+    console.log("currBulkSize: " + this.currBulkSize + " / " + this.targetBulkSize);
+    console.log("totalRemainingBulkAddRowCount: "+ this.totalRemainingBulkAddRowCount);
+
+    if (this.currBulkSize >= this.targetBulkSize && this.totalRemainingBulkAddRowCount > 1)//this is the last row in this bulk, but it is not the last overall row (=there is at least one bulk to follow)
+    {
+      console.log("Adding bulk to Spotify History Table with " + this.currBulkSize + " entries.");
+
+      //run the query without the newly passed row
+      await this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
+        let ret: capSQLiteChanges = await db.run(this.bulkAddSQL, this.bulkAddValues);
+      });
+
+      //Start a new bulk with the newly passed row
+      this.bulkAddSQL = bulkAddSpotHistoryBaseSQL + " " + bulkAddSpotHistoryValuesSQL;
+      this.bulkAddValues = [endTime, artistName,  trackName, msPlayed];
+      this.totalRemainingBulkAddRowCount -= 1;
+      this.currBulkSize = 1;
+    }
+    else if (this.totalRemainingBulkAddRowCount <= 1)//This is the last entry inside this bulk add: clean up & run query
+    {
+      //Append a new values row to the SQL query and corresponding values to the values array
+      this.bulkAddSQL += " " + bulkAddValueConnector + " " + bulkAddSpotHistoryValuesSQL;
+      this.bulkAddValues.push(endTime, artistName,  trackName, msPlayed);
+
+      console.log("Adding bulk to Spotify History Table with " + (this.currBulkSize+1)+ " entries.");
+
+      //run query
+      await this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
+        let ret: capSQLiteChanges = await db.run(this.bulkAddSQL, this.bulkAddValues);
+      });
+
+      //Reset the bulk add variables, 
+      this.totalRemainingBulkAddRowCount = 0;
+      this.currBulkSize = 0;
+      this.bulkAddSQL = "";
+      this.bulkAddValues = [];
+    }
+    else //No need to run the query, just add the row to the current bulk add command
+    {
+      //Append a new values row to the SQL query and corresponding values to the values array
+      this.bulkAddSQL += " " + bulkAddValueConnector + " " + bulkAddSpotHistoryValuesSQL;
+      this.bulkAddValues.push(endTime, artistName,  trackName, msPlayed);
+
+      this.totalRemainingBulkAddRowCount -= 1;
+      this.currBulkSize += 1;
+    }
+  
+    return Promise.resolve();
   }
 
   async createSpotHistoryEntry(historyEntry: SpotListenHistoryEntry)

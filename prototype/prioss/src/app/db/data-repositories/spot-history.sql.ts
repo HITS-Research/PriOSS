@@ -5,6 +5,19 @@ export const insertIntoSpotHistorySQL: string = `
   (?, ?, ?, ?);
 `;
 
+export const bulkAddSpotHistoryBaseSQL: string = `
+  insert into spot_history 
+  (endTime, artistName, trackName, msPlayed)
+`;
+
+export const bulkAddSpotHistoryValuesSQL: string = `
+  select ?, ?, ?, ?
+`;
+
+export const bulkAddValueConnector: string = `
+union all
+`;
+
 export const insertTestHistory: string = `
 insert into spot_history 
 (endTime, artistName, trackName, msPlayed)
