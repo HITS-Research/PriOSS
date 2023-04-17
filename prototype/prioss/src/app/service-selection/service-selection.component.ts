@@ -330,7 +330,6 @@ export class ServiceSelectionComponent {
       }
 
       this.progressBarPercent = Math.round(100 * (i / filepaths.length));
-      await delay(500);
 
       let filepath: string = filepaths[i];
       let content: string = await zip.files[filepath].async("string");
@@ -360,12 +359,15 @@ export class ServiceSelectionComponent {
 
     const end = Date.now();
     console.log(`Data-download files parsed and data inserted in: ${end - start} ms`);
+    /*
+    //Use this for testing what has been written into the DB
 
     console.log("Start History Fetching");
     this.spotHistoryRepo.getSpotHistory().then((history) => {
       console.log("Read History:");
       console.log(history);
     });
+    */
 
     this.progressBarPercent = 100;
     await delay(500);
