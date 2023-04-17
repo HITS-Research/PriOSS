@@ -19,7 +19,7 @@ export class SpotHistoryRepository {
   private totalRemainingBulkAddRowCount: number = 0;
 
   constructor(private dbService: DBService){
-  
+
   }
 
   async startHistoryBulkAdd(endTime: string, artistName: string, trackName: string, msPlayed: number, totalRowCount: number, targetBulkSize: number = 100)
@@ -28,17 +28,13 @@ export class SpotHistoryRepository {
     this.bulkAddValues = [endTime, artistName,  trackName, msPlayed];
     this.totalRemainingBulkAddRowCount = totalRowCount - 1;
     this.currBulkSize += 1;
+    this.targetBulkSize = targetBulkSize;
   }
 
   async addBulkHistoryEntry(endTime: string, artistName: string, trackName: string, msPlayed: number)
   {
-    console.log("currBulkSize: " + this.currBulkSize + " / " + this.targetBulkSize);
-    console.log("totalRemainingBulkAddRowCount: "+ this.totalRemainingBulkAddRowCount);
-
     if (this.currBulkSize >= this.targetBulkSize && this.totalRemainingBulkAddRowCount > 1)//this is the last row in this bulk, but it is not the last overall row (=there is at least one bulk to follow)
     {
-      console.log("Adding bulk to Spotify History Table with " + this.currBulkSize + " entries.");
-
       //run the query without the newly passed row
       await this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
         let ret: capSQLiteChanges = await db.run(this.bulkAddSQL, this.bulkAddValues);
@@ -56,14 +52,12 @@ export class SpotHistoryRepository {
       this.bulkAddSQL += " " + bulkAddValueConnector + " " + bulkAddSpotHistoryValuesSQL;
       this.bulkAddValues.push(endTime, artistName,  trackName, msPlayed);
 
-      console.log("Adding bulk to Spotify History Table with " + (this.currBulkSize+1)+ " entries.");
-
       //run query
       await this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
         let ret: capSQLiteChanges = await db.run(this.bulkAddSQL, this.bulkAddValues);
       });
 
-      //Reset the bulk add variables, 
+      //Reset the bulk add variables,
       this.totalRemainingBulkAddRowCount = 0;
       this.currBulkSize = 0;
       this.bulkAddSQL = "";
@@ -78,7 +72,7 @@ export class SpotHistoryRepository {
       this.totalRemainingBulkAddRowCount -= 1;
       this.currBulkSize += 1;
     }
-  
+
     return Promise.resolve();
   }
 
@@ -90,12 +84,12 @@ export class SpotHistoryRepository {
       let values = [historyEntry.endTime, historyEntry.artistName,  historyEntry.trackName, historyEntry.msPlayed];
 
       let ret: capSQLiteChanges = await db.run(sqlStatement, values);
-      
+
       let lastId = ret.changes?.lastId;
       if (typeof(lastId) !== "undefined" && lastId > 0) {
         return ret.changes as SpotListenHistoryEntry;
       }
-      
+
       throw Error('createSpotHistoryEntry failed');
     });
   }
@@ -103,40 +97,40 @@ export class SpotHistoryRepository {
   async getSpotHistory(): Promise<SpotListenHistoryEntry[]>
   {
     return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
-      
+
       let result = await db.query(selectAllSpotHistory);
       return result.values as SpotListenHistoryEntry[];
-           
+
     });
   }
 
   async getHistoryByYear(): Promise<SpotYearlyListening[]>
   {
     return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
-      
+
       let result = await db.query(spotHistoryByYearSQL);
       return result.values as SpotYearlyListening[];
-           
+
     });
   }
 
   async getHistoryByMonth(): Promise<SpotMonthlyListening[]>
   {
     return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
-      
+
       let result = await db.query(spotHistoryByMonthSQL);
       return result.values as SpotMonthlyListening[];
-           
+
     });
   }
 
   async getHistoryByDay(): Promise<SpotDailyListening[]>
   {
     return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
-      
+
       let result = await db.query(spotHistoryByDaySQL);
       return result.values as SpotDailyListening[];
-           
+
     });
   }
 
@@ -146,14 +140,14 @@ export class SpotHistoryRepository {
 
       let dateString: string = dateUtils.getDisplayDateString(day);
       let result = await db.query(spotHistoryByHourSQL, [dateString]);
-      return result.values as SpotHourlyListening[];     
+      return result.values as SpotHourlyListening[];
     });
   }
 
   async getMostRecentDay(): Promise<Date>
   {
     return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
-      
+
       let result = await db.query(spotHistoryMostRecentDaySQL);
       if(result.values)
       {

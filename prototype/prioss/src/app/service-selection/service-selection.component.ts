@@ -21,10 +21,10 @@ const faceIDFilename = "index.html";
 
 /**
   * This component is responsible for offering the user a way to select a service, show the respective download instructions
-  * and offer a field where the user can upload the data-download. With uploaded data, the user can press a button to 
+  * and offer a field where the user can upload the data-download. With uploaded data, the user can press a button to
   * parse the data and go to the dashboard of the respective service
   *
-  * @author: Simon (scg@mail.upb.de), Rashida (rbharmal@mail.uni-paderborn.de ) 
+  * @author: Simon (scg@mail.upb.de), Rashida (rbharmal@mail.uni-paderborn.de )
   *
   */
 @Component({
@@ -33,7 +33,7 @@ const faceIDFilename = "index.html";
   styleUrls: ['./service-selection.component.less']
 })
 export class ServiceSelectionComponent {
-  
+
   //Icon properties
   faCircleRight = faCircleRight;
   faArrowRotateRight = faArrowRotateRight;
@@ -42,7 +42,7 @@ export class ServiceSelectionComponent {
   //file upload
   uploadedFiles : File[] = [];
   selectedFileName : string = "";
-  
+
   appType: typeof AppType = AppType;
 
   selectedServiceName: AppType;
@@ -138,7 +138,7 @@ export class ServiceSelectionComponent {
   *
   * @author: Simon (scg@mail.upb.de)
   *
-  */ 
+  */
   async ngAfterViewInit() {
     await this.sqlDBService.rebuildDatabase();
   };
@@ -161,7 +161,7 @@ export class ServiceSelectionComponent {
   * @author: Simon (scg@mail.upb.de)
   *
   */
-  onFileSelected(event:any) 
+  onFileSelected(event:any)
   {
     console.log('onFileSelected');
     this.uploadedFiles = event.target.files;
@@ -172,7 +172,7 @@ export class ServiceSelectionComponent {
   /**
   * Selects the clicked app and show instructions based on the selection
   *
-  * @param appType - The enum for appType is expected 
+  * @param appType - The enum for appType is expected
   *
   * @author: rbharmal (rbharmal@mail.upb.de)
   *
@@ -185,16 +185,16 @@ export class ServiceSelectionComponent {
  /**
   * Checks if the first file in the uploadedFiles array contains the identifying file of the service with the given serviceName
   *
-  * @param serviceName - The serviceName constant for which a data-download zip is expected 
+  * @param serviceName - The serviceName constant for which a data-download zip is expected
   *
   * @author: Simon (scg@mail.upb.de)
   *
   */
   validateFiles(selectedApp: AppType)
   {
-    let file = this.uploadedFiles[0]; 
+    let file = this.uploadedFiles[0];
 
-    this.loadZipFile(file).then((zip: any) => 
+    this.loadZipFile(file).then((zip: any) =>
     {
         if (selectedApp == this.appType.Instagram)
         {
@@ -237,11 +237,11 @@ export class ServiceSelectionComponent {
           }
         }
       });
-    
+
   }
 
 /**
-  * Sets the uploadedFileName to the given filename 
+  * Sets the uploadedFileName to the given filename
   *
   * @param filename - a string containing the name of the file that selected for uploaded
   * @author: Simon (scg@mail.upb.de)
@@ -264,7 +264,7 @@ export class ServiceSelectionComponent {
   * @author: Simon (scg@mail.upb.de)
   *
   */
-  async onClickedExploreData() 
+  async onClickedExploreData()
   {
     console.log("Clicked explore data");
     this.isProcessingFile = true;
@@ -316,9 +316,9 @@ async parseSpotifyFileToSQLite()
   const start = Date.now();
 
   let file = this.uploadedFiles[0];
-  
+
   let zip: JSZip = await this.loadZipFile(file);
-   
+
   this.isProcessingFile = true;//shows the processing icon on the button
 
   let filepaths: string[] = Object.keys(zip.files);
@@ -340,7 +340,7 @@ async parseSpotifyFileToSQLite()
     {
       let jsonData = JSON.parse(content);
 
-      await this.spotHistoryRepo.startHistoryBulkAdd(jsonData[0].endTime, jsonData[0].artistName, jsonData[0].trackName, jsonData[0].msPlayed, jsonData.length, 250);
+      await this.spotHistoryRepo.startHistoryBulkAdd(jsonData[0].endTime, jsonData[0].artistName, jsonData[0].trackName, jsonData[0].msPlayed, jsonData.length, 500);
 
       for (let i = 1; i < jsonData.length; i++) {
 
@@ -349,14 +349,14 @@ async parseSpotifyFileToSQLite()
         /*
         let historyItem = jsonData[i];
 
-        //build a typed history entry 
+        //build a typed history entry
         let id = -1;
         let endTime = historyItem.endTime;
         let artistName = String(historyItem.artistName);
         let trackName =  String(historyItem.trackName);
         let msPlayed =  Number(historyItem.msPlayed);
         let historyEntry: SpotListenHistoryEntry =  {id, endTime, artistName, trackName, msPlayed};
-        
+
         await this.spotHistoryRepo.createSpotHistoryEntry(historyEntry);
         */
       }
@@ -371,7 +371,7 @@ async parseSpotifyFileToSQLite()
     console.log("Read History:");
     console.log(history);
   });
-    
+
   this.router.navigate(['spot/dashboard']);
 }
 
@@ -389,16 +389,16 @@ async parseSpotifyFileToSQLite()
     {
       this.isProcessingFile = true;//shows the processing icon on the button
 
-      Object.keys(zip.files).forEach((filename: any) => 
+      Object.keys(zip.files).forEach((filename: any) =>
       {
-        zip.files[filename].async("string").then((content:any) => 
+        zip.files[filename].async("string").then((content:any) =>
         {
             //data regarding general personal infomation
             if (filename == "personal_information/personal_information.json") {
               console.log('Parsing: ' + filename);
               let jsonData = JSON.parse(content);
               let personal_data = jsonData.profile_user[0].string_map_data;//the data is nested in some objects
-              
+
               this.dbService.add("all/userdata",
               {
                 username: personal_data.Username.value,
@@ -411,7 +411,7 @@ async parseSpotifyFileToSQLite()
             else if(filename == "information_about_you/ads_interests.json") {
               console.log('Parsing: ' + filename);
               let jsonData = JSON.parse(content);
-              jsonData.inferred_data_ig_interest.forEach((interest:any) => 
+              jsonData.inferred_data_ig_interest.forEach((interest:any) =>
               {
                 this.dbService.add('insta/ads_interests',
                 {
@@ -438,7 +438,7 @@ async parseSpotifyFileToSQLite()
               let jsonData = JSON.parse(content);
               jsonData.impressions_history_ads_clicked.forEach((ad:any) =>
               {
-                this.dbService.add('insta/ads_clicked', 
+                this.dbService.add('insta/ads_clicked',
                 {
                   title: ad.title,
                   timestamp: ad.string_list_data.timestamp
@@ -451,7 +451,7 @@ async parseSpotifyFileToSQLite()
               jsonData.impressions_history_ads_seen.forEach((ad:any) =>
               {
                 if (ad.string_map_data.Author != undefined) {
-                  this.dbService.add('insta/ads_viewed', 
+                  this.dbService.add('insta/ads_viewed',
                   {
                     title: ad.string_map_data["Author"].value,
                     timestamp: ad.string_map_data["Time"].timestamp
@@ -557,7 +557,7 @@ async parseSpotifyFileToSQLite()
             else if(filename == "personal_information/profile_changes.json") {
               console.log('Parsing: ' + filename);
               let jsonData = JSON.parse(content);
-              jsonData.profile_profile_change.forEach((change:any) => 
+              jsonData.profile_profile_change.forEach((change:any) =>
               {
                 this.dbService.add('insta/profile_changes', {
                   title: change.title,
@@ -589,14 +589,14 @@ async parseSpotifyFileToSQLite()
   parseSpotifyFile()
   {
     let file = this.uploadedFiles[0];
-    
-    this.loadZipFile(file).then((zip: any) => 
+
+    this.loadZipFile(file).then((zip: any) =>
     {
       this.isProcessingFile = true;//shows the processing icon on the button
 
-      Object.keys(zip.files).forEach((filepath: any) => 
+      Object.keys(zip.files).forEach((filepath: any) =>
       {
-        zip.files[filepath].async("string").then((content:any) => 
+        zip.files[filepath].async("string").then((content:any) =>
         {
           let filename: string = filepath.split('\\').pop().split('/').pop();
           console.log('Opening: ' + filename);
@@ -620,10 +620,10 @@ async parseSpotifyFileToSQLite()
               mobileOperator: jsonData.mobileOperator,
               mobileBrand: jsonData.mobileBrand,
               creationTime: jsonData.creationTime,
-            }).subscribe((key) => 
-            { 
+            }).subscribe((key) =>
+            {
               //console.log("Userdata:")
-              //console.log(key); 
+              //console.log(key);
             });
           }
           else if(filename == "Inferences.json")
@@ -639,10 +639,10 @@ async parseSpotifyFileToSQLite()
               this.dbService.add("spot/inferences",
               {
                 inference: inference,
-              }).subscribe((key) => 
+              }).subscribe((key) =>
               {
                 //console.log("inference: ");
-                //console.log(key); 
+                //console.log(key);
               });
             });
           }
@@ -663,10 +663,10 @@ async parseSpotifyFileToSQLite()
                 artistName: historyItem.artistName,
                 trackName: historyItem.trackName,
                 msPlayed: historyItem.msPlayed,
-              }).subscribe((key) => 
+              }).subscribe((key) =>
               {
                 //console.log("inference: ");
-                //console.log(key); 
+                //console.log(key);
               });
             });
           }
@@ -678,7 +678,7 @@ async parseSpotifyFileToSQLite()
         //TODO: properly wait for data to be available in DB
         this.router.navigate(['spot/dashboard']);
       }, 3000);
-      
+
     });
   }
 
@@ -691,14 +691,14 @@ async parseSpotifyFileToSQLite()
   parseFacebookFile()
   {
     let file = this.uploadedFiles[0];
-    
-    this.loadZipFile(file).then((zip: any) => 
+
+    this.loadZipFile(file).then((zip: any) =>
     {
       this.isProcessingFile = true;//shows the processing icon on the button
 
-      Object.keys(zip.files).forEach((filename: any) => 
+      Object.keys(zip.files).forEach((filename: any) =>
       {
-        zip.files[filename].async("string").then((content:any) => 
+        zip.files[filename].async("string").then((content:any) =>
         {
           if(filename == "profile_information/profile_information.json")
           {
@@ -713,7 +713,7 @@ async parseSpotifyFileToSQLite()
               email: personal_data.emails.emails,
               birthdate: formattedBirthdate,
               gender: personal_data.gender.gender_option
-              }).subscribe((key) => 
+              }).subscribe((key) =>
               {
               });
             }
@@ -727,7 +727,7 @@ async parseSpotifyFileToSQLite()
                   has_data_file_custom_audience: advertisers_info.has_data_file_custom_audience,
                   has_remarketing_custom_audience:advertisers_info.has_remarketing_custom_audience,
                   has_in_person_store_visit:advertisers_info.has_in_person_store_visit,
-                }).subscribe((key) => 
+                }).subscribe((key) =>
                 {
                 });
               });
@@ -741,7 +741,7 @@ async parseSpotifyFileToSQLite()
                     title: ads_interacted_with_info.title,
                     action: ads_interacted_with_info.action,
                     timestamp : ads_interacted_with_info.timestamp,
-                  }).subscribe((key) => 
+                  }).subscribe((key) =>
                   {
                     console.log("interact",key , this.dbService.getAll('face/ads_interacted'))
                   });
@@ -754,7 +754,7 @@ async parseSpotifyFileToSQLite()
                   this.dbService.add('face/inferred_topics',
                     {
                       topic: topic
-                    }).subscribe((key) => 
+                    }).subscribe((key) =>
                     {
                       console.log("inferred",key , this.dbService.getAll('face/inferred_topics'))
                     });
@@ -771,9 +771,9 @@ async parseSpotifyFileToSQLite()
                       user_app_scoped_id : apps_websites_info.user_app_scoped_id,
                       category: apps_websites_info.category,
                       removed_timestamp :apps_websites_info.removed_timestamp
-                    }).subscribe((key) => 
+                    }).subscribe((key) =>
                     {
-                     
+
                     });
                   });
                   }
@@ -788,13 +788,13 @@ async parseSpotifyFileToSQLite()
                       id: off_facebook_activity_info.events[0].id,
                       type: off_facebook_activity_info.events[0].type,
                       timestamp :off_facebook_activity_info.events[0].timestamp
-                    }).subscribe((key) => 
+                    }).subscribe((key) =>
                     {
-                      
+
                     });
                   });
                   }
-                  else if(filename == "friends_and_followers/friend_requests_received.json") 
+                  else if(filename == "friends_and_followers/friend_requests_received.json")
               {
                 console.log('Parsing: ' + filename);
                 let jsonData = JSON.parse(content);
@@ -803,13 +803,13 @@ async parseSpotifyFileToSQLite()
                   {
                     name: friends.name,
                     timestamp : new Date(friends.timestamp*1000),
-                  }).subscribe((key) => 
+                  }).subscribe((key) =>
                   {
                     console.log("requests",key , this.dbService.getAll('face/friend_requests_received'))
                   });
                 });
               }
-              else if(filename == "friends_and_followers/friend_requests_sent.json") 
+              else if(filename == "friends_and_followers/friend_requests_sent.json")
               {
                 console.log('Parsing: ' + filename);
                 let jsonData = JSON.parse(content);
@@ -818,13 +818,13 @@ async parseSpotifyFileToSQLite()
                   {
                     name: friends.name,
                     timestamp : new Date(friends.timestamp*1000),
-                  }).subscribe((key) => 
+                  }).subscribe((key) =>
                   {
                     console.log("request_sent",key , this.dbService.getAll('face/friend_requests_sent'))
                   });
                 });
               }
-              else if(filename == "friends_and_followers/friends.json") 
+              else if(filename == "friends_and_followers/friends.json")
               {
                 console.log('Parsing: ' + filename);
                 let jsonData = JSON.parse(content);
@@ -833,13 +833,13 @@ async parseSpotifyFileToSQLite()
                   {
                     name: friends.name,
                     timestamp : new Date(friends.timestamp*1000),
-                  }).subscribe((key) => 
+                  }).subscribe((key) =>
                   {
                     console.log("friends",key , this.dbService.getAll('face/friends'))
                   });
                 });
               }
-              else if(filename == "friends_and_followers/rejected_friend_requests.json") 
+              else if(filename == "friends_and_followers/rejected_friend_requests.json")
               {
                 console.log('Parsing: ' + filename);
                 let jsonData = JSON.parse(content);
@@ -848,13 +848,13 @@ async parseSpotifyFileToSQLite()
                   {
                     name: friends.name,
                     timestamp : new Date(friends.timestamp*1000),
-                  }).subscribe((key) => 
+                  }).subscribe((key) =>
                   {
                     console.log("rejected_friend_request",key , this.dbService.getAll('face/rejected_friend_requests'))
                   });
                 });
               }
-              else if(filename == "friends_and_followers/removed_friends.json") 
+              else if(filename == "friends_and_followers/removed_friends.json")
               {
                 console.log('Parsing: ' + filename);
                 let jsonData = JSON.parse(content);
@@ -863,13 +863,13 @@ async parseSpotifyFileToSQLite()
                   {
                     name: friends.name,
                     timestamp : new Date(friends.timestamp*1000),
-                  }).subscribe((key) => 
+                  }).subscribe((key) =>
                   {
                     console.log("removed_friends",key , this.dbService.getAll('face/removed_friends'))
                   });
                 });
               }
-              else if(filename == "friends_and_followers/who_you_follow.json") 
+              else if(filename == "friends_and_followers/who_you_follow.json")
               {
                 console.log('Parsing: ' + filename);
                 let jsonData = JSON.parse(content);
@@ -878,7 +878,7 @@ async parseSpotifyFileToSQLite()
                   {
                     name: friends.name,
                     timestamp : new Date(friends.timestamp*1000),
-                  }).subscribe((key) => 
+                  }).subscribe((key) =>
                   {
                     console.log("who_you_follow",key , this.dbService.getAll('friends_and_followers/who_you_follow'))
                   });
@@ -918,7 +918,7 @@ async parseSpotifyFileToSQLite()
       throw Error('No File selected!') ;
     }
 
-    if(file.type == "application/zip" || file.type == "application/x-zip-compressed") 
+    if(file.type == "application/zip" || file.type == "application/x-zip-compressed")
     {
       const zip = new JSZip();
       return await zip.loadAsync(file)
