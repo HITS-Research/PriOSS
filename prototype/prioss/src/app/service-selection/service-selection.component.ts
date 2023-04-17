@@ -19,6 +19,14 @@ const instaIDFilename = "TODO";
 const spotIDFilename = "MyData/Read_Me_First.pdf";
 const faceIDFilename = "index.html";
 
+/*
+ * Use this inline function to wait for the specified number of milliseconds inside an async call by waiting for it:
+ * await delay(2000);
+ * 
+ * @author: Simon (scg@mail.upb.de)
+ */
+const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
+
 /**
   * This component is responsible for offering the user a way to select a service, show the respective download instructions
   * and offer a field where the user can upload the data-download. With uploaded data, the user can press a button to
@@ -319,8 +327,6 @@ export class ServiceSelectionComponent {
 
     this.progressBarPercent = 0;
     this.progressBarVisible = true;
-
-    const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
 
     let filepaths: string[] = Object.keys(zip.files);
     for (let i = 0; i < filepaths.length; i++) {
