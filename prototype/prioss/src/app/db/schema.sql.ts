@@ -8,9 +8,47 @@ CREATE TABLE IF NOT EXISTS spot_history (
     trackName TEXT NOT NULL,
     msPlayed INTEGER NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS insta_personal_info (
+    id INTEGER PRIMARY KEY,
+    username TEXT NOT NULL,
+    email TEXT NOT NULL,
+    birthdate TEXT NOT NULL,
+    gender TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS insta_account_info (
+    id INTERGER PRIMARY KEY,
+    contact_syncing TEXT NOT NULL,
+    first_country_code TEXT NOT NULL,
+    has_shared_live_video TEXT NOT NULL,
+    last_login TEXT NOT NULL,
+    last_logout TEXT NOT NULL,
+    first_story_time TEXT NOT NULL,
+    last_story_time TEXT NOT NULL,
+    first_close_friends_story_time TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS insta_professional_info (
+    id INTEGER PRIMARY KEY,
+    title TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS insta_profile_changes (
+    id INTEGER PRIMARY KEY,
+    title TEXT NOT NULL,
+    changed TEXT NOT NULL,
+    previous_value TEXT NOT NULL,
+    new_value TEXT NOT NULL,
+    change_date TEXT NOT NULL
+);
 `;
 //PRAGMA user_version = 1;
 
 export const dropSchema: string =`
 DROP TABLE IF EXISTS spot_history;
+DROP TABLE IF EXISTS insta_personal_info;
+DROP TABLE IF EXISTS insta_account_info;
+DROP TABLE IF EXISTS insta_professional_info;
+DROP TABLE IF EXISTS insta_profile_changes;
 `;

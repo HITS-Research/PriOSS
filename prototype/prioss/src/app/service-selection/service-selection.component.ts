@@ -13,6 +13,7 @@ import { SpotListenHistoryEntry } from '../models/Spotify/ListeningHistory/SpotL
 import * as JSZip from 'jszip';
 
 import * as dateUtils from '../utilities/dateUtils.functions';
+import { InstaPersonalRepository } from '../db/data-repositories/insta-personal.repository';
 
 //service identifier filenames
 const instaIDFilename = "TODO";
@@ -59,7 +60,7 @@ export class ServiceSelectionComponent {
 
   selectedServiceName: AppType;
 
-  constructor(private dbService: NgxIndexedDBService, private router: Router, private notifyService: NotificationService, private spotHistoryRepo: SpotHistoryRepository, private sqlDBService: DBService) {
+  constructor(private dbService: NgxIndexedDBService, private router: Router, private notifyService: NotificationService, private spotHistoryRepo: SpotHistoryRepository, private instaPersonalRepo: InstaPersonalRepository, private sqlDBService: DBService) {
     //clear the database when this component gets created
     this.dbService.clear("all/userdata").subscribe((deleted) => {
       console.log("Cleared all/userdata: " + deleted);
@@ -383,6 +384,89 @@ export class ServiceSelectionComponent {
   }
 
   /**
+    * Parses the uploaded Instagram data-download-zip file into the SQLite database
+    *
+    * @author: Paul (pasch@mail.upb.de)
+    *
+    */
+  async parseInstagramFileToSQLite() {
+    const start = Date.now();
+
+    let file = this.uploadedFiles[0];
+
+    let zip: JSZip = await this.loadZipFile(file);
+
+    this.isProcessingFile = true;//shows the processing icon on the button
+
+    this.progressBarPercent = 0;
+    this.progressBarVisible = true;
+
+    let filepaths: string[] = Object.keys(zip.files);
+    for (let i = 0; i < filepaths.length; i++) {
+      if (this.requestedAbortDataParsing) {
+        this.requestedAbortDataParsing = false;
+        return;
+      }
+
+      this.progressBarPercent = Math.round(100 * (i / filepaths.length));
+
+      let filepath: string = filepaths[i];
+      console.log(filepath);
+      let content: string = await zip.files[filepath].async("string");
+      let filename: string | undefined = filepath.split('\\').pop()?.split('/').pop();
+      console.log(filename);
+
+      if (!filename) {
+        continue;
+      }
+
+      console.log('Opening: ' + filename);
+
+      //Add personal information
+      if (filename.startsWith("personal_information")) {
+        let jsonData = JSON.parse(content);
+        await this.instaPersonalRepo.addPersonalInformation(jsonData[0].username, jsonData[0].email, jsonData[0].birthdate, jsonData[0].gender);
+      }
+      else if (filename.startsWith("account_information")) {
+        let jsonData = JSON.parse(content);
+        await this.instaPersonalRepo.addAccountInformation(jsonData[0].contact_synching, jsonData[0].first_country_code, jsonData[0].has_shared_live_video, jsonData[0].last_login, 
+                                                           jsonData[0].last_logout, jsonData[0].first_story_time, jsonData[0].last_story_time, jsonData[0].first_close_friends_story_time);
+      }
+      else if (filename.startsWith("professional_information")) {
+        let jsonData = JSON.parse(content);
+        await this.instaPersonalRepo.addProfessionalInformation(jsonData[0].title);
+      }
+      else if (filename.startsWith("profile_changes")) {
+        let jsonData = JSON.parse(content);
+        await this.instaPersonalRepo.addProfileChanges(jsonData[0].title, jsonData[0].changed, jsonData[0].previous_value, jsonData[0].new_value, jsonData[0].change_date);
+      }
+    }
+
+    if (this.requestedAbortDataParsing) {
+      this.requestedAbortDataParsing = false;
+      return;
+    }
+
+    const end = Date.now();
+    console.log(`Data-download files parsed and data inserted in: ${end - start} ms`);
+    /*
+    //Use this for testing what has been written into the DB
+
+    console.log("Start History Fetching");
+    this.spotHistoryRepo.getSpotHistory().then((history) => {
+      console.log("Read History:");
+      console.log(history);
+    });
+    */
+
+    this.progressBarPercent = 100;
+    await delay(500);
+
+    this.progressBarVisible = false;
+    this.router.navigate(['insta/dashboard']);
+  }
+
+  /**
     * Parses the uploaded Instagram data-download-zip file into the indexedDB
     *
     * @author: Paul (pasch@mail.upb.de)
@@ -566,12 +650,6 @@ export class ServiceSelectionComponent {
         });
         return true;
       });
-
-      console.log("navigating...");
-      setTimeout(() => {
-        //TODO: properly wait for data to be available in DB
-        this.router.navigate(['insta/dashboard']);
-      }, 3000);
     });
   }
 
