@@ -53,6 +53,7 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { TopSongsComponent } from './visualizations/spotify/top-songs/top-songs.component';
 import { DBService } from './services/db/db.service';
 import { SpotHistoryRepository } from './db/data-repositories/spot-history.repository';
+import { InstaPersonalRepository } from './db/data-repositories/insta-personal.repository';
 
 registerLocaleData(de);
 
@@ -457,6 +458,8 @@ const dbConfig: DBConfig  =
     SQLiteService,
     DBService,
     SpotHistoryRepository,
+    { provide: NZ_I18N, useValue: de_DE },
+    InstaPersonalRepository,
     { provide: NZ_I18N, useValue: de_DE }
   ],
   bootstrap: [AppComponent],

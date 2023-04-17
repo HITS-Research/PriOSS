@@ -33,7 +33,7 @@ const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
   * and offer a field where the user can upload the data-download. With uploaded data, the user can press a button to
   * parse the data and go to the dashboard of the respective service
   *
-  * @author: Simon (scg@mail.upb.de), Rashida (rbharmal@mail.uni-paderborn.de )
+  * @author: Simon (scg@mail.upb.de), Rashida (rbharmal@mail.uni-paderborn.de ), Paul (pasch@mail.upb.de)
   *
   */
 @Component({
@@ -295,6 +295,7 @@ export class ServiceSelectionComponent {
     if (selectedApp == this.appType.Instagram) {
       console.log("Parsing Instagram file...");
       this.parseInstagramFile();
+      this.parseInstagramFileToSQLite();
     }
     else if (selectedApp == this.appType.Spotify) {
       console.log("Parsing Spotify file...");
@@ -425,20 +426,27 @@ export class ServiceSelectionComponent {
       //Add personal information
       if (filename.startsWith("personal_information")) {
         let jsonData = JSON.parse(content);
-        await this.instaPersonalRepo.addPersonalInformation(jsonData[0].username, jsonData[0].email, jsonData[0].birthdate, jsonData[0].gender);
+        let personalData = jsonData.profile_user[0].string_map_data;
+        await this.instaPersonalRepo.addPersonalInformation(personalData.Username.value, personalData.Email.value, personalData["Date of birth"].value, personalData.Gender.value);
       }
       else if (filename.startsWith("account_information")) {
         let jsonData = JSON.parse(content);
-        await this.instaPersonalRepo.addAccountInformation(jsonData[0].contact_synching, jsonData[0].first_country_code, jsonData[0].has_shared_live_video, jsonData[0].last_login, 
-                                                           jsonData[0].last_logout, jsonData[0].first_story_time, jsonData[0].last_story_time, jsonData[0].first_close_friends_story_time);
+        let accountData = jsonData.profile_account_insights[0].string_map_data;
+        await this.instaPersonalRepo.addAccountInformation(accountData["Contact Syncing"].value, accountData["First Country Code"].value, accountData["Has Shared Live Video"].value, accountData["Last Login"].timestamp,
+                                                           accountData["Last Logout"].timestamp, accountData["First Story Time"].timestamp, accountData["Last Story Time"].timestamp, accountData["First Close Friends Story Time"].timestamp);
       }
       else if (filename.startsWith("professional_information")) {
         let jsonData = JSON.parse(content);
-        await this.instaPersonalRepo.addProfessionalInformation(jsonData[0].title);
+        let profData = jsonData.profile_business[0];
+        await this.instaPersonalRepo.addProfessionalInformation(profData.title);
       }
       else if (filename.startsWith("profile_changes")) {
         let jsonData = JSON.parse(content);
-        await this.instaPersonalRepo.addProfileChanges(jsonData[0].title, jsonData[0].changed, jsonData[0].previous_value, jsonData[0].new_value, jsonData[0].change_date);
+        for (let i = 0; i < jsonData.length; i++) {
+          let profileData = jsonData[i].profile_profile_change;
+          await this.instaPersonalRepo.addProfileChanges(profileData.title, profileData.string_map_data.Changed.value, profileData.string_map_data["Previous Value"].value, profileData.string_map_data["New Value"].value, 
+                                                         profileData.string_map_data["Change Date"].timestamp);
+        }
       }
     }
 

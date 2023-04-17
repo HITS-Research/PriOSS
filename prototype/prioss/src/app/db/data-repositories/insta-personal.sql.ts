@@ -14,7 +14,7 @@ export const insertIntoInstaAccountInfoSQL: string = `
 
 export const insertIntoInstaProfessionalInfoSQL: string = `
   insert into insta_professional_info
-  (username)
+  (title)
   values 
   (?);
 `;
