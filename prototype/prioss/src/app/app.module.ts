@@ -52,7 +52,7 @@ import { NzStatisticModule } from 'ng-zorro-antd/statistic';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { TopSongsComponent } from './visualizations/spotify/top-songs/top-songs.component';
 import { DBService } from './services/db/db.service';
-import { SpotHistoryRepository } from './db/data-repositories/spot-history/spot-history.repository';
+import { SpotHistoryRepository } from './db/data-repositories/spotify/spot-history/spot-history.repository';
 
 registerLocaleData(de);
 
