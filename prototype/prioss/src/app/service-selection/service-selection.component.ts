@@ -144,23 +144,23 @@ export class ServiceSelectionComponent {
     });
   }
 
-  /**
-    * Callback called by angular after the view is initialized. Triggers rebuilding of the sql database
-    *
-    * @author: Simon (scg@mail.upb.de)
-    *
-    */
+/**
+  * Callback called by angular after the view is initialized. Triggers rebuilding of the sql database
+  *
+  * @author: Simon (scg@mail.upb.de)
+  *
+  */
   async ngAfterViewInit() {
     await this.sqlDBService.rebuildDatabase();
   };
 
-  /**
-    * Callback called when pressing the X-button in the progressbar dialog. Stops the reading in process and navigates back to the home page.
-    * The navigation is necessary because canceling the parsing process midway-through triggers an error related to the SQLite integration.
-    *
-    * @author: Simon (scg@mail.upb.de)
-    *
-    */
+/**
+  * Callback called when pressing the X-button in the progressbar dialog. Stops the reading in process and navigates back to the home page.
+  * The navigation is necessary because canceling the parsing process midway-through triggers an error related to the SQLite integration.
+  *
+  * @author: Simon (scg@mail.upb.de)
+  *
+  */
   async abortDataParsing() {
     this.progressBarVisible = false;
     this.requestedAbortDataParsing = true;
@@ -173,18 +173,18 @@ export class ServiceSelectionComponent {
    * File Selection Workflow
    */
 
-  /**
-    * Event callback that is called when the user puts a file in the upload field
-    * Todo: This callback checks if the file is a zip file and contains the signature file
-    * for the selected service, to make sure it is a valid data-download from the correct service
-    * It displays an error if not.
-    *
-    *
-    * @param event - The change file event that holds the newly uploaded file
-    *
-    * @author: Simon (scg@mail.upb.de)
-    *
-    */
+/**
+  * Event callback that is called when the user puts a file in the upload field
+  * Todo: This callback checks if the file is a zip file and contains the signature file
+  * for the selected service, to make sure it is a valid data-download from the correct service
+  * It displays an error if not.
+  *
+  *
+  * @param event - The change file event that holds the newly uploaded file
+  *
+  * @author: Simon (scg@mail.upb.de)
+  *
+  */
   onFileSelected(event: any) {
     console.log('onFileSelected');
     this.uploadedFiles = event.target.files;
@@ -192,7 +192,7 @@ export class ServiceSelectionComponent {
     this.validateFiles(this.selectedServiceName);//TODO: Pass selected File
   }
 
-  /**
+/**
   * Selects the clicked app and show instructions based on the selection
   *
   * @param appType - The enum for appType is expected
@@ -204,14 +204,14 @@ export class ServiceSelectionComponent {
     this.selectedServiceName = appType;
   }
 
-  /**
-   * Checks if the first file in the uploadedFiles array contains the identifying file of the service with the given serviceName
-   *
-   * @param serviceName - The serviceName constant for which a data-download zip is expected
-   *
-   * @author: Simon (scg@mail.upb.de)
-   *
-   */
+/**
+  * Checks if the first file in the uploadedFiles array contains the identifying file of the service with the given serviceName
+  *
+  * @param serviceName - The serviceName constant for which a data-download zip is expected
+  *
+  * @author: Simon (scg@mail.upb.de)
+  *
+  */
   validateFiles(selectedApp: AppType) {
     let file = this.uploadedFiles[0];
 
