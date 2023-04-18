@@ -1,13 +1,13 @@
 import { Injectable } from "@angular/core";
 import { SQLiteDBConnection, capSQLiteChanges } from "@capacitor-community/sqlite";
-import { DBService } from "../../services/db/db.service";
+import { DBService } from "../../../services/db/db.service";
 import { bulkAddSpotHistoryBaseSQL, bulkAddSpotHistoryValuesSQL, bulkAddValueConnector, insertIntoSpotHistorySQL, selectAllSpotHistory, spotHistoryByDaySQL, spotHistoryByHourSQL, spotHistoryByMonthSQL, spotHistoryByYearSQL, spotHistoryMostRecentDaySQL } from "./spot-history.sql";
 import { SpotListenHistoryEntry } from "src/app/models/Spotify/ListeningHistory/SpotListenHistoryEntry";
 import { SpotYearlyListening } from "src/app/models/Spotify/ListeningHistory/SpotYearlyListening";
 import { SpotMonthlyListening } from "src/app/models/Spotify/ListeningHistory/SpotMonthlyListening";
 import { SpotDailyListening } from "src/app/models/Spotify/ListeningHistory/SpotDailyListening";
 import { SpotHourlyListening } from "src/app/models/Spotify/ListeningHistory/SpotHourlyListening";
-import * as dateUtils from "../../utilities/dateUtils.functions";
+import * as dateUtils from "../../../utilities/dateUtils.functions";
 
 @Injectable()
 export class SpotHistoryRepository {
