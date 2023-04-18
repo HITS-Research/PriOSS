@@ -9,20 +9,25 @@
     </nz-table>
   </div>
   <div *ngIf="!previewMode">
-    <nz-table #rowSelectionTable  [nzData]="listOfInferences">
+    <!-- https://stackoverflow.com/questions/73631070/how-to-set-scrollable-content-dinamically-in-ng-zorro-table -->
+    <nz-table #rowSelectionTable [nzData]="listOfInferences" [nzPageSize]="50000" [nzFooter]="footerTemplate"
+      [nzScroll]="{ y: 'calc(100vh - 369px)' }" [nzShowPagination]="false">
       <thead>
         <tr>
-          <th [(nzChecked)]="checked" [nzIndeterminate]="indeterminate" (nzCheckedChange)="onAllChecked($event)"></th>
-          <th>
+          <th nzWidth="5%" [(nzChecked)]="checked" [nzIndeterminate]="indeterminate"
+            (nzCheckedChange)="onAllChecked($event)"></th>
+          <th nzWidth="90%">
             <nz-input-group [nzSuffix]="suffixIconSearch">
-              <input type="text" #searchText nz-input placeholder="Search your inferences" (keyup)="search(searchText.value)" />
-            <ng-template #suffixIconSearch>
-              <button nz-button nzType="text" (click)="reset()"><span nz-icon nzType="close"></span></button>
-            </ng-template>
-          </nz-input-group>
+              <input type="text" #searchText nz-input placeholder="Search your inferences"
+                (keyup)="search(searchText.value)" />
+              <ng-template #suffixIconSearch>
+                <button nz-button nzType="text" (click)="reset()"><span nz-icon nzType="close"></span></button>
+              </ng-template>
+            </nz-input-group>
           </th>
-          <th>
-            <button nz-button nzType="default" nzSize="large" [disabled]="setOfCheckedId.size === 0"(click)="rectifyInferences()"><span nz-icon nzType="delete"></span></button>
+          <th nzWidth="5%">
+            <button nz-button nzType="default" nzSize="large" [disabled]="setOfCheckedId.size === 0"
+              (click)="rectifyInferences()"><span nz-icon nzType="delete"></span></button>
           </th>
         </tr>
       </thead>
@@ -30,10 +35,12 @@
         <tr *ngFor="let data of rowSelectionTable.data">
           <td [nzChecked]="setOfCheckedId.has(data.id)" (nzCheckedChange)="onItemChecked(data.id, $event)"></td>
           <td>{{ data.inference }}</td>
-          <td style="width: 5%;"></td>
+          <td></td>
         </tr>
       </tbody>
+      <ng-template #footerTemplate>
+            <tfoot>{{setOfCheckedId.size}}/{{rowSelectionTable.nzData.length}}</tfoot>
+      </ng-template>
     </nz-table>
-
   </div>
 </div>
