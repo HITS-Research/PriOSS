@@ -51,6 +51,9 @@ import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NzStatisticModule } from 'ng-zorro-antd/statistic';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { TopSongsComponent } from './visualizations/spotify/top-songs/top-songs.component';
+import { HelpButtonComponent } from './help-button/help-button/help-button.component';
+import { IntrojsService } from './introjs/introjs.service';
+
 import { DBService } from './services/db/db.service';
 import { SpotHistoryRepository } from './db/data-repositories/spotify/spot-history/spot-history.repository';
 
@@ -423,7 +426,8 @@ const dbConfig: DBConfig  =
     InstaAccountCreationLoginComponent,
     InstaAdsComponent,
     AdsRelatedDataComponent,
-    FriendAndFollowersComponent
+    FriendAndFollowersComponent,
+    HelpButtonComponent
   ],
   imports: [
     BrowserModule,
