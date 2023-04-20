@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { GeneralDataComponent } from 'src/app/visualizations/all/general-data/general-data.component';
 import { MoodComponent } from 'src/app/visualizations/spotify/mood/mood.component';
 import { InferencesComponent } from 'src/app/visualizations/spotify/inferences/inferences.component';
+import { IntrojsService } from 'src/app/introjs/introjs.service';
 
 /**
   * This component is the root component for spotify's dashboard page.
@@ -27,13 +28,12 @@ export class SpotDashboardComponent {
   pathToMood: string = "";
   pathToInference: string = "";
 
-  constructor(private dbService: NgxIndexedDBService, private router: Router) {
+  constructor(private dbService: NgxIndexedDBService, private router: Router, private introService: IntrojsService) {
     this.dbService.getAll('all/userdata').subscribe((userdata: any) => {
       console.log("Userdata: ");
       console.log(userdata);
       this.username = userdata[0].username;
-    });
-
+    };
     this.dbService.getAll('spot/inferences').subscribe((inferences) => {
       console.log("Inferences: ");
       console.log(inferences);
@@ -90,12 +90,25 @@ export class SpotDashboardComponent {
     }
   }
 
+  /**
+   * This method starts the tour and sets @param tourCompleted in the @service introjs to true.
+   * The boolean is set so not every time the page is navigated to, the tour starts again.
+   * 
+   * @author: Sven (svenf@mail.upb.de)
+   */
+  ngAfterViewInit(): void  {
+    if (this.introService.isSpotifyTourCompleted() == false) {
+      this.introService.spotifyDashboardTour();
+      this.introService.setSpotifyTourCompleted(true);
+    }
+    
+  }
 
   /**
-  * This method is called on button click and starts the tour.
-  */
+   * This method is called on button click and starts the tour.
+   */
   startTour() {
-    //TODO: Add introjs here
+    this.introService.spotifyDashboardTour();
   }
 
 }
