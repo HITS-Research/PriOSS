@@ -1,11 +1,10 @@
 import { Component, Input, SimpleChanges } from '@angular/core';
 import { NgxIndexedDBService } from 'ngx-indexed-db';
 
-
 interface Inference {
   inference: string;
+  id: number;
 }
-
 
 /**
   * This component visualizes the inferences in the datadownload.
@@ -26,31 +25,82 @@ export class InferencesComponent {
   @Input()
   previewMode: boolean = false;
 
-  inferences: Inference[] = [];
-  listOfInferences: Inference[];
-  searchValue = '';
+  inferences: readonly Inference[] = [];
+  listOfInferences: readonly Inference[];
   visible = false;
+  checked = false;
+  indeterminate = false;
+  setOfCheckedId = new Set<number>();
+  listOfInferencesToDelete: Inference[];
 
   constructor(private dbService: NgxIndexedDBService) {
-    this.dbService.getAll('spot/inferences').subscribe((inferences: any) => 
-    {
-     console.log("history: ");
-     console.log(inferences); 
-     this.inferences = inferences;
-     this.listOfInferences =  [...this.inferences];     
+    this.dbService.getAll('spot/inferences').subscribe((inferences: any) => {
+      this.inferences = inferences;
+      inferences.forEach((inference: Inference, index: number) => inference.id = index + 1);
+      this.listOfInferences = [...this.inferences];
     });
   }
 
   /**
-   * This function resets the search value. Calls {@link search()} which then displays all inferences as the searchvalue is empty
+   * The following five functions are taken from https://ng.ant.design/components/table/en#components-table-demo-row-selection-custom.
+   * Update the set of checked IDs based on the checked status.
+   * @param id 
+   * @param checked 
    * 
    * @author: Sven (svenf@mail.uni-paderborn.de)
    */
-  reset(): void {
-    this.searchValue = '';
-    this.search();
+  updateCheckedSet(id: number, checked: boolean): void {
+    if (checked) {
+      this.setOfCheckedId.add(id);
+    } else {
+      this.setOfCheckedId.delete(id);
+    }
   }
 
+  /**
+   * Handler for when an item's checked status changes.
+   * @param id 
+   * @param checked 
+   * 
+   * @author: Sven (svenf@mail.uni-paderborn.de)
+   */
+  onItemChecked(id: number, checked: boolean): void {
+    this.updateCheckedSet(id, checked);
+    this.refreshCheckedStatus();
+  }
+
+
+  /**
+   * Handler for when the "Select All" checkbox is checked or unchecked
+   * @param value 
+   * 
+   * @author: Sven (svenf@mail.uni-paderborn.de)
+   */
+  onAllChecked(value: boolean): void {
+    this.listOfInferences.forEach(item => this.updateCheckedSet(item.id, value));
+    this.refreshCheckedStatus();
+  }
+
+  /**
+   * Handler for when the data of the current page changes.
+   * @param $event 
+   * 
+   * @author: Sven (svenf@mail.uni-paderborn.de)
+   */
+  onCurrentPageDataChange($event: readonly Inference[]): void {
+    this.listOfInferences = $event;
+    this.refreshCheckedStatus();
+  }
+
+  /**
+   * Refresh the checked status of all items.
+   *  
+   * @author: Sven (svenf@mail.uni-paderborn.de)
+   */
+  refreshCheckedStatus(): void {
+    this.checked = this.listOfInferences.every(item => this.setOfCheckedId.has(item.id));
+    this.indeterminate = this.listOfInferences.some(item => this.setOfCheckedId.has(item.id)) && !this.checked;
+  }
 
   /**
    * Filters the list of inferences based on the searchValue.
@@ -58,9 +108,23 @@ export class InferencesComponent {
    * 
    * @author: Sven (svenf@mail.uni-paderborn.de)
    */
-  search(): void {
+  search(searchValue: any): void {
     this.visible = false;
-    this.listOfInferences = this.inferences.filter((item: Inference) => item.inference.indexOf(this.searchValue) !== -1);
+    this.listOfInferences = this.inferences.filter((item: Inference) =>
+      item.inference.toLowerCase().includes(searchValue.toLowerCase())
+    );
+
+  }
+
+  /**
+   * This function resets the search value. Calls {@link search('')} which then displays all inferences as the searchvalue is empty
+   * 
+   * @author: Sven (svenf@mail.uni-paderborn.de)
+   */
+  reset(): void {
+    const searchText = document.querySelector('input[nz-input]') as HTMLInputElement;
+    searchText.value = '';
+    this.search('');
   }
 
 
@@ -70,9 +134,17 @@ export class InferencesComponent {
    * 
    * @author: Sven (svenf@mail.uni-paderborn.de)
    */
-  handleClick(inference: string): void {
-    window.open('mailto:privacy@spotify.com?subject=Rectification&body=I want to rectificate this inference '+ inference);
+  rectifyInferences(): void {
+    let inferencesWithLinebreak: String = "";
+    for (const inference of this.listOfInferences) {
+      if (this.setOfCheckedId.has(inference.id)) {
+        inferencesWithLinebreak += inference.inference + '%0D%0A';
+      }
+    }
+    if (this.setOfCheckedId.size > 0) {
+      window.open('mailto:privacy@spotify.com?subject=Rectification&body=Dear Spotify Data Protection Team,%0D%0A I want to rectify the following inferences as I deem them wrong. I am exercising my right after GDPR 16. %0D%0A' + inferencesWithLinebreak, '_self');
+    } else {
+      console.log("no inference selected")
+    }
   }
-  
-
 }
