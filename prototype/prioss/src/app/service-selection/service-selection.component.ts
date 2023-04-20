@@ -275,7 +275,12 @@ export class ServiceSelectionComponent {
    * File Parsing Workflow
    */
 
-
+ /*
+  * Callback when user clicks the button to use sample data instead of their personal data download.
+  * Sets the sample data zip file of the provided service to be the selected file and then triggers the normal file parsing workflow.
+  *
+  * @author: Simon (scg@mail.upb.de)
+  */
   async onClickedExploreSampleData() {
     //set the uploaded files field to be the sample data for teh respective service
     //this.uploadedFiles[0] = null;//TODO
@@ -297,11 +302,11 @@ export class ServiceSelectionComponent {
     this.progressBarPercent = 0;
     this.progressBarVisible = true;
 
+    //download needed sample data from server (comes precached when pwa functionality works)
     this.http.get(sampleDataLocation, {responseType: 'blob'}).subscribe((sampleData) => {
       this.uploadedFiles = [];
       this.uploadedFiles[0] = new File([sampleData], 'sample_data.zip', { type: 'application/zip', });
-      console.log("sample file: ");
-      console.log(this.uploadedFiles[0]);
+
       //trigger the normal file upload 
       this.onClickedExploreData();
     });
