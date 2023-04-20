@@ -21,24 +21,20 @@ import { IntrojsService } from 'src/app/introjs/introjs.service';
   templateUrl: './spot-dashboard.component.html',
   styleUrls: ['./spot-dashboard.component.less']
 })
-export class SpotDashboardComponent{
+export class SpotDashboardComponent {
   thirdPartyConnection = false;
   username: string = "";
   pathToGeneralData: string = "";
   pathToMood: string = "";
   pathToInference: string = "";
 
-  constructor(private dbService: NgxIndexedDBService, private router: Router, private introService: IntrojsService)
-  {
-    this.dbService.getAll('all/userdata').subscribe((userdata: any) =>
-    {
-        console.log("Userdata: ");
-        console.log(userdata);
-        this.username = userdata[0].username;
+  constructor(private dbService: NgxIndexedDBService, private router: Router, private introService: IntrojsService) {
+    this.dbService.getAll('all/userdata').subscribe((userdata: any) => {
+      console.log("Userdata: ");
+      console.log(userdata);
+      this.username = userdata[0].username;
     });
-
-    this.dbService.getAll('spot/inferences').subscribe((inferences) =>
-    {
+    this.dbService.getAll('spot/inferences').subscribe((inferences) => {
       console.log("Inferences: ");
       console.log(inferences);
     });
@@ -81,14 +77,14 @@ export class SpotDashboardComponent{
   */
   ngOnInit() {
     console.log(this.router.config);
-    for (var route of this.router.config){
-      if(route.component == GeneralDataComponent){
+    for (var route of this.router.config) {
+      if (route.component == GeneralDataComponent) {
         this.pathToGeneralData = route.path!; // The exclemation mark ensures that route.path is non-null, which we know because routes are hardcoded
       }
-      if(route.component == MoodComponent){
+      if (route.component == MoodComponent) {
         this.pathToMood = route.path!;
       }
-      if(route.component == InferencesComponent){
+      if (route.component == InferencesComponent) {
         this.pathToInference = route.path!;
       }
     }

@@ -48,6 +48,7 @@ import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NzStatisticModule } from 'ng-zorro-antd/statistic';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { TopSongsComponent } from './visualizations/spotify/top-songs/top-songs.component';
+import { HelpButtonComponent } from './help-button/help-button/help-button.component';
 import { IntrojsService } from './introjs/introjs.service';
 
 registerLocaleData(de);
@@ -419,7 +420,8 @@ const dbConfig: DBConfig  =
     InstaAccountCreationLoginComponent,
     InstaAdsComponent,
     AdsRelatedDataComponent,
-    FriendAndFollowersComponent
+    FriendAndFollowersComponent,
+    HelpButtonComponent
   ],
   imports: [
     BrowserModule,

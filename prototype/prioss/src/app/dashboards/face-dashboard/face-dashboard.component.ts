@@ -25,11 +25,11 @@ export class FaceDashboardComponent {
     private dbService: NgxIndexedDBService,
     private introService: IntrojsService,
   ) { }
-/**
-  * This  method is responsible to navigate to the ads component page.
-  * @author: rishmamn@campus.uni-paderborn.de
-  *
- */
+  /**
+    * This  method is responsible to navigate to the ads component page.
+    * @author: rishmamn@campus.uni-paderborn.de
+    *
+   */
   adsData() {
     this.router.navigate(['face/ads-related-data']);
   }
@@ -52,13 +52,13 @@ export class FaceDashboardComponent {
     this.router.navigate(['face/friendsandfollowers']);
   }
 
-  /**
-   * This method starts the tour and sets @param tourCompleted in the @service introjs to true.
-   * The boolean is set so not every time the page is navigated to, the tour starts again.
-   * 
-   * @author: Deepa (dbelvi@mail.upb.de)
-   */
-   ngAfterViewInit(): void  {
+/**
+  * This method starts the tour and sets @param tourCompleted in the @service introjs to true.
+  * The boolean is set so not every time the page is navigated to, the tour starts again.
+  * 
+  * @author: Deepa (dbelvi@mail.upb.de)
+  */
+  ngAfterViewInit(): void  {
     if (this.introService.isFacebookTourCompleted() == false) {
       this.introService.facebookDashboardTour();
       this.introService.setFacebookTourCompleted(true);
