@@ -33,7 +33,7 @@ export class SpotDashboardComponent {
       console.log("Userdata: ");
       console.log(userdata);
       this.username = userdata[0].username;
-    };
+    });
     this.dbService.getAll('spot/inferences').subscribe((inferences) => {
       console.log("Inferences: ");
       console.log(inferences);
