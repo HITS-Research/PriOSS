@@ -9,6 +9,7 @@ import { SpotHistoryRepository } from 'src/app/db/data-repositories/spotify/spot
 import { SpotYearlyListening } from 'src/app/models/Spotify/ListeningHistory/SpotYearlyListening';
 import { SpotMonthlyListening } from 'src/app/models/Spotify/ListeningHistory/SpotMonthlyListening';
 import { SpotHourlyListening } from 'src/app/models/Spotify/ListeningHistory/SpotHourlyListening';
+import { SpotDailyListening } from 'src/app/models/Spotify/ListeningHistory/SpotDailyListening';
 
 /**
   * This component visualizes the total listening time in relation to configurable time periods
@@ -131,7 +132,7 @@ export class ListeningTimeComponent {
         data = this.buildDataArray(this.monthDataMap);
         break;
       case GranularityEnum.Day:
-        data = this.createDayData();
+        data = await this.createDayData();
         break;
       case GranularityEnum.Hour:
         data = await this.createHourData();
@@ -205,7 +206,7 @@ export class ListeningTimeComponent {
     * @author: Simon (scg@mail.upb.de)
     *
     */
-  createDayData() {
+  async createDayData() {
     console.log("Create day data");
 
     let dataMap: Map<string, { date: Date, value: number }> = new Map();
@@ -215,42 +216,25 @@ export class ListeningTimeComponent {
       return null;
     }
 
-    /*
-    //fills all days with 0-values, so days in which nothing was played aren't missing from the visualization but are shown as zero
-    for (let currDate: Date = dateUtils.trimDate(this.filterFromDate, GranularityEnum.Day); currDate <= this.filterToDate; currDate.setDate(currDate.getDate() + 1)) {
-      //month is zero indexed, but dataMap works with 1 indexed months, so we have to convert here
-      let displayDate = currDate.getFullYear() + "-" + (currDate.getMonth() + 1) + "-" + currDate.getDate();
+    let fromDate: Date = dateUtils.trimDate(this.filterFromDate, GranularityEnum.Day);
+    let toDate: Date = dateUtils.trimDate(this.filterToDate, GranularityEnum.Day);
 
-      //set the day's value to zero by default
-      let date: Date = dateUtils.trimDate(currDate, GranularityEnum.Day);
-      let value: number = 0;
+    let spotDailyListening: SpotDailyListening[] = await this.spotHistoryRepo.getHistoryByDay(fromDate, toDate);
+    console.log(spotDailyListening);
+
+    for (let i = 0; i < spotDailyListening.length; i++) {
+
+      let historyEntry: SpotDailyListening = spotDailyListening[i];
+
+      let date: Date = dateUtils.parseDate(historyEntry.date);
+      let displayDate = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+      let value: number = historyEntry.msPlayed;
       dataMap.set(displayDate, { date, value });
     }
 
-    for (let i = 0; i < history.length; i++) {
-      if (dateUtils.trimDate(history[i].dateTime, GranularityEnum.Day).getTime() < dateUtils.trimDate(this.filterFromDate, GranularityEnum.Day).getTime()
-        || dateUtils.trimDate(history[i].dateTime, GranularityEnum.Day).getTime() > dateUtils.trimDate(this.filterToDate, GranularityEnum.Day).getTime()) {
-        continue;
-      }
-
-      //add the listening time to the correct day inside the datamap
-      let date: Date = dateUtils.trimDate(history[i].dateTime, GranularityEnum.Day);
-      let displayDate = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
-      let value: number = dataMap.get(displayDate)?.value + history[i].msPlayed;
-      dataMap.set(displayDate, { date, value });
-    }*/
-
-    //TODO
-    /*
-    let date: Date = dateUtils.trimDate(history[i].dateTime, GranularityEnum.Day);
-    let displayDate = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
-    let value: number = dataMap.get(displayDate)?.value + history[i].msPlayed;
-    dataMap.set(displayDate, { date, value });
-    
     let dataArray = this.buildDataArray(dataMap);
   
-    return dataArray;*/
-    return null;
+    return dataArray;
   }
 
   /**

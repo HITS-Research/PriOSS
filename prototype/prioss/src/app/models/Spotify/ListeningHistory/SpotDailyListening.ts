@@ -1,5 +1,5 @@
 export interface SpotDailyListening {
-  yearMonthDay: string;
+  date: string;
   year: string;
   month: string;
   day: string;

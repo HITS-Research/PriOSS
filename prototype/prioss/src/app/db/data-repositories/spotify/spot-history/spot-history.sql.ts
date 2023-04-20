@@ -31,7 +31,7 @@ values
 `;
 
 export const selectAllSpotHistory: string = `
- select id
+ select id,
         endTime, 
         artistName, 
         trackName, 
@@ -69,7 +69,7 @@ with months as (select 1 month
                   from years
                  where year < (select max(cast(strftime('%Y', endTime) as INTEGER))
                                  from spot_history))
- select y.year || '-' || m.month yearMonth, 
+ select y.year || '-' ||substr('00'|| m.month, -2, 2) yearMonth, 
         y.year year, 
         m.month month,
         ifnull(sum(msPlayed), 0) msPlayed
@@ -83,7 +83,42 @@ with months as (select 1 month
 `;
 
 export const spotHistoryByDaySQL: string = `
-TODO
+with days as (select 1 day
+               union 
+              select day+1
+                from days
+               where day < 31),
+months as (select 1 month 
+            union 
+           select month+1 
+             from months 
+            where month < 12),
+years as (select min(cast(strftime('%Y', endTime) as INTEGER)) year
+            from spot_history
+           union
+          select year+1 
+            from years
+           where year < (select max(cast(strftime('%Y', endTime) as INTEGER))
+                           from spot_history))
+ select y.year || '-' || substr('00'|| m.month, -2, 2) || '-' || substr('00'|| d.day, -2, 2) date, 
+        y.year year, 
+        m.month month,
+        d.day day,
+        ifnull(sum(msPlayed), 0) msPlayed
+   from years y 
+   left join months m
+   left join days d
+     on d.day <= cast(strftime('%d', DATE(
+                                  y.year || '-' || substr('00'|| m.month, -2, 2) || '-01',
+                                  '+1 month',
+                                  '-1 day')) as INTEGER) 
+  left join spot_history h
+    on (cast(strftime('%m', h.endTime) as INTEGER) = m.month 
+        and cast(strftime('%Y', h.endTime) as INTEGER) = y.year
+        and cast(strftime('%d', h.endTime) as INTEGER) = d.day)
+  where (? <= strftime('%Y-%m-%d', date) and strftime('%Y-%m-%d', date) <= ?)
+  group by date
+  order by year asc, month asc, day asc;
 `;
 
 export const spotHistoryByHourSQL: string = `

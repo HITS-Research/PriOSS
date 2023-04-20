@@ -193,11 +193,12 @@ export class SpotHistoryRepository {
    * 
    * @author: Simon (scg@mail.upb.de)
    */
-  async getHistoryByDay(): Promise<SpotDailyListening[]>
+  async getHistoryByDay(fromDate: Date, toDate: Date): Promise<SpotDailyListening[]>
   {
     return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
 
-      let result = await db.query(spotHistoryByDaySQL);
+      let values = [dateUtils.getDisplayDateString(fromDate),dateUtils.getDisplayDateString(toDate)];
+      let result = await db.query(spotHistoryByDaySQL, values);
       return result.values as SpotDailyListening[];
 
     });

@@ -392,9 +392,12 @@ export class ServiceSelectionComponent {
       //Scan all streaming history files (multiple numbered files may exist in a download)
       else if (filename.startsWith("StreamingHistory")) {
         let jsonData = JSON.parse(content);
+
+        console.log(jsonData[0].endTime);
         await this.spotHistoryRepo.startHistoryBulkAdd(jsonData[0].endTime, jsonData[0].artistName, jsonData[0].trackName, jsonData[0].msPlayed, jsonData.length, 500);
 
         for (let i = 1; i < jsonData.length; i++) {
+        console.log(jsonData[i].endTime);
           await this.spotHistoryRepo.addBulkHistoryEntry(jsonData[i].endTime, jsonData[i].artistName, jsonData[i].trackName, jsonData[i].msPlayed);
         }
       }
@@ -407,7 +410,7 @@ export class ServiceSelectionComponent {
 
     const end = Date.now();
     console.log(`Data-download files parsed and data inserted in: ${end - start} ms`);
-    /*
+    
     //Use this for testing what has been written into the DB
 
     console.log("Start History Fetching");
@@ -415,7 +418,7 @@ export class ServiceSelectionComponent {
       console.log("Read History:");
       console.log(history);
     });
-    */
+    
 
     this.progressBarPercent = 100;
     await delay(500);
