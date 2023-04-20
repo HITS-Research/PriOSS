@@ -83,7 +83,7 @@ with months as (select 1 month
 `;
 
 export const spotHistoryByDaySQL: string = `
-
+TODO
 `;
 
 export const spotHistoryByHourSQL: string = `

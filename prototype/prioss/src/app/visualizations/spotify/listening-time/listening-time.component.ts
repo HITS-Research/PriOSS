@@ -60,7 +60,11 @@ export class ListeningTimeComponent {
     
     this.initializeVisualization();
   }
-
+/**
+  * Displays the initial version of the visulaization and calculates the year and month based data for later reuse
+  * 
+  * @author: Simon (scg@mail.upb.de)
+  */
   async initializeVisualization() {
     //Shows the single day view first because it takes less time to build than year/month/day views, 
     //this gives us time to parse and compile the data needed for the year, month and day views
@@ -127,10 +131,10 @@ export class ListeningTimeComponent {
         data = this.buildDataArray(this.monthDataMap);
         break;
       case GranularityEnum.Day:
-        data = this.createDayData(this.history);
+        data = this.createDayData();
         break;
       case GranularityEnum.Hour:
-        data = await this.createHourData(this.history);
+        data = await this.createHourData();
         break;
       default:
         throw new Error('Unsupported Granularity');
@@ -144,13 +148,11 @@ export class ListeningTimeComponent {
 
 
   /**
-    * Parses the listening history into a data array usable for creating a bar chart with year-granularity
-    * (i.e., each bar represents one year). 
-    * This does not return the built datamap but saves it into this.yearDataMap so the calling procedure can continue using it.
-    * This is done because building this datamap can take significant time and should not be redone when, for example, only filters change
+    * Parses the listening history into a data map usable for creating a bar chart with year-granularity
+    * (i.e., each bar represents one year).
     * 
-    * @param history: The listening history as obtained from indexedDB
-    *
+    * @returns The built datamap
+    * 
     * @author: Simon (scg@mail.upb.de)
     *
     */
@@ -171,13 +173,10 @@ export class ListeningTimeComponent {
   }
 
   /**
-    * Parses the listening history into a data array usable for creating a bar chart with month-granularity
+    * Parses the listening history into a data map usable for creating a bar chart with month-granularity
     * (i.e., each bar represents one month)
-    * This does not return the built datamap but saves it into this.yearDataMap so the calling procedure can continue using it.
-    * This is done because building this datamap can take significant time and should not be redone when, for example, only filters change
     * 
-    * @param history: The listening history as obtained from indexedDB
-    *
+    * @returns the built datamap
     * @author: Simon (scg@mail.upb.de)
     *
     */
@@ -201,13 +200,12 @@ export class ListeningTimeComponent {
     * Parses the listening history into a data array usable for creating a bar chart with day-granularity
     * (i.e., each bar represents one day)
     * 
-    * @param history: The listening history as obtained from indexedDB
     * @returns A data array with one entry for every day in the timeperiod specified by filterFromDate and filterToDate filters. 
     * 
     * @author: Simon (scg@mail.upb.de)
     *
     */
-  createDayData(history: any) {
+  createDayData() {
     console.log("Create day data");
 
     let dataMap: Map<string, { date: Date, value: number }> = new Map();
@@ -259,7 +257,6 @@ export class ListeningTimeComponent {
     * Parses the listening history into a data array usable for creating a bar chart with hour-granularity
     * (i.e., each bar represents one hour)
     * 
-    * @param history: The listening history as obtained from indexedDB
     * @returns A data array with one entry for every hour of the day specified by the filterSingleDate filter.
     *          If this filter is empty and this visualization is displayed directly after this component is loaded, 
     *          then the filterSingleDate filter is set to the most recent day that is available in the history.
@@ -267,7 +264,7 @@ export class ListeningTimeComponent {
     * @author: Simon (scg@mail.upb.de)
     *
     */
-  async createHourData(history: any) {
+  async createHourData() {
 
     //Get the most recent day in the history from the db
     let mostRecentDay: Date = await this.spotHistoryRepo.getMostRecentDay();
@@ -301,7 +298,7 @@ export class ListeningTimeComponent {
   }
 
   /**
-   * Takes in an unfiltered dataMap and converts it into a dataarray that can be used by d3's visualization engine to display a barchart.
+   * Takes in a dataMap and converts it into a dataarray that can be used by d3's visualization engine to display a barchart.
    * In the resulting dataarray all the filters present on the page are already applied.
    * 
    * @param dataMap A Map for creating a bar in a barchart, with the display name as key and the date & value (height) of the bar as the value component of the map

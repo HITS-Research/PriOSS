@@ -20,7 +20,7 @@ const spotIDFilename = "MyData/Read_Me_First.pdf";
 const faceIDFilename = "index.html";
 
 /*
- * Use this inline function to wait for the specified number of milliseconds inside an async call by waiting for it:
+ * Use this inline function to wait for the specified number of milliseconds inside an async function by waiting for it:
  * await delay(2000);
  * 
  * @author: Simon (scg@mail.upb.de)
@@ -347,8 +347,50 @@ export class ServiceSelectionComponent {
 
       console.log('Opening: ' + filename);
 
+      if (filename == "Userdata.json") {
+        console.log('Parsing: ' + filename);
+        let jsonData = JSON.parse(content);
+
+        await this.dbService.add("all/userdata",
+          {
+            username: jsonData.username,
+            email: jsonData.email,
+            //firstname: jsonData.firstname,
+            //lastname: jsonData.lastname,
+            country: jsonData.country,
+            birthdate: jsonData.birthdate,
+            gender: jsonData.gender,
+            postalCode: jsonData.postalCode,
+            mobileNumber: jsonData.mobileNumber,
+            mobileOperator: jsonData.mobileOperator,
+            mobileBrand: jsonData.mobileBrand,
+            creationTime: jsonData.creationTime,
+          }).subscribe((key) => {
+            //console.log("Userdata:")
+            //console.log(key);
+          });
+      }
+      else if (filename == "Inferences.json") {
+        console.log('Parsing: ' + filename);
+        let jsonData = JSON.parse(content);
+
+        console.log("Json Data inferences: ");
+        console.log(jsonData);
+
+        for (let i = 1; i < jsonData.length; i++) {
+         let inference: any = jsonData[i];
+          //console.log("Saving inference: " + inference);
+          await this.dbService.add("spot/inferences",
+            {
+              inference: inference,
+            }).subscribe((key) => {
+              //console.log("inference: ");
+              //console.log(key);
+            });
+        }
+      }
       //Scan all streaming history files (multiple numbered files may exist in a download)
-      if (filename.startsWith("StreamingHistory")) {
+      else if (filename.startsWith("StreamingHistory")) {
         let jsonData = JSON.parse(content);
         await this.spotHistoryRepo.startHistoryBulkAdd(jsonData[0].endTime, jsonData[0].artistName, jsonData[0].trackName, jsonData[0].msPlayed, jsonData.length, 500);
 

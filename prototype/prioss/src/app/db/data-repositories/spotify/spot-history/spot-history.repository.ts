@@ -111,7 +111,17 @@ export class SpotHistoryRepository {
     return Promise.resolve();
   }
 
-  async createSpotHistoryEntry(historyEntry: SpotListenHistoryEntry)
+/**
+  * Inserts a single entry into the spot_history table. Not that this may build up a single DB connection and run a single insert command to insert this line
+  * and therefore does not scale well when called repeatedly for a large number of entries.
+  * In such cases, please use startHistoryBulkAdd & addBulkHistoryEntry instead
+  * 
+  * @param historyEntry the SpotListenHistoryEntry to insert 
+  * @returns The promise of a SpotListenHistoryEntry that was inserted
+  * 
+  * @author: Simon (scg@mail.upb.de)
+  */
+  async createSpotHistoryEntry(historyEntry: SpotListenHistoryEntry) : Promise<SpotListenHistoryEntry>
   {
     return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
 
@@ -129,6 +139,12 @@ export class SpotHistoryRepository {
     });
   }
 
+  /**
+   * Queries the complete spotify listening history from the database
+   * @returns An array of SpotListenHistoryEntrys 
+   * 
+   * @author: Simon (scg@mail.upb.de)
+   */
   async getSpotHistory(): Promise<SpotListenHistoryEntry[]>
   {
     return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
@@ -139,6 +155,12 @@ export class SpotHistoryRepository {
     });
   }
 
+  /**
+   * Queries the spotify listening history grouped by years from the database
+   * @returns An array of SpotYearlyListenings 
+   * 
+   * @author: Simon (scg@mail.upb.de)
+   */
   async getHistoryByYear(): Promise<SpotYearlyListening[]>
   {
     return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
@@ -149,6 +171,12 @@ export class SpotHistoryRepository {
     });
   }
 
+  /**
+   * Queries the spotify listening history grouped by months from the database
+   * @returns An array of SpotMonthlyListenings 
+   * 
+   * @author: Simon (scg@mail.upb.de)
+   */
   async getHistoryByMonth(): Promise<SpotMonthlyListening[]>
   {
     return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
@@ -159,6 +187,12 @@ export class SpotHistoryRepository {
     });
   }
 
+  /**
+   * Queries the spotify listening history grouped by days and filtered between the given start and end dates (TODO) from the database
+   * @returns An array of SpotDailyListenings 
+   * 
+   * @author: Simon (scg@mail.upb.de)
+   */
   async getHistoryByDay(): Promise<SpotDailyListening[]>
   {
     return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
@@ -169,6 +203,12 @@ export class SpotHistoryRepository {
     });
   }
 
+  /**
+   * Queries the spotify listening history grouped by the hours within the given day from the database
+   * @returns An array of SpotHourlyListenings. Each hour of the day is present once in the array (24 entries)
+   * 
+   * @author: Simon (scg@mail.upb.de)
+   */
   async getHistoryByHour(day: Date): Promise<SpotHourlyListening[]>
   {
     return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
@@ -179,6 +219,11 @@ export class SpotHistoryRepository {
     });
   }
 
+  /**
+   * @returns the most recent day that occurs in the spotify listening history in the database
+   * 
+   * @author: Simon (scg@mail.upb.de)
+   */
   async getMostRecentDay(): Promise<Date>
   {
     return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
