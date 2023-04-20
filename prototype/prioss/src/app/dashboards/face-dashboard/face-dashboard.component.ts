@@ -23,11 +23,11 @@ export class FaceDashboardComponent {
     private route: ActivatedRoute,
     private dbService: NgxIndexedDBService,
   ) { }
-/**
-  * This  method is responsible to navigate to the ads component page.
-  * @author: rishmamn@campus.uni-paderborn.de
-  *
- */
+  /**
+    * This  method is responsible to navigate to the ads component page.
+    * @author: rishmamn@campus.uni-paderborn.de
+    *
+   */
   adsData() {
     this.router.navigate(['face/ads-related-data']);
   }
@@ -48,5 +48,12 @@ export class FaceDashboardComponent {
  */
   navigateToFriendsAndFollowers() {
     this.router.navigate(['face/friendsandfollowers']);
+  }
+
+  /**
+  * This method is called on button click and starts the tour.
+  */
+  startTour() {
+    //TODO: Add introjs here
   }
 }

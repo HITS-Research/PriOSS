@@ -16,4 +16,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./insta-dashboard.component.less']
 })
 export class InstaDashboardComponent {
+  /**
+  * This method is called on button click and starts the tour.
+  */
+  startTour() {
+    //TODO: Add introjs here
+  }
 }
