@@ -19,12 +19,12 @@ export class InferencesRepository extends BulkAddCapableRepository {
     super(sql.bulkAddInferencesBaseSQL, sql.bulkAddInferencesValuesSQL, sql.bulkAddValueConnector, dbService);
   }
 
-  async startInferencesBulkAdd(inference: string, totalRowCount: number, targetBulkSize: number = 500) {
-    this.startBulkAdd([inference], totalRowCount, targetBulkSize);
+  async startInferencesBulkAdd(inference: string, totalRowCount: number, targetBulkSize: number = 500) : Promise<void>{
+    return this.startBulkAdd([inference], totalRowCount, targetBulkSize);
   }
 
-  async addBulkInferencesEntry(inference: string) {
-    this.addBulkEntry([inference]);
+  async addBulkInferencesEntry(inference: string) : Promise<void>{
+    return this.addBulkEntry([inference]);
   }
 
   async getAllInferences() : Promise<InferencesEntry[]> {
