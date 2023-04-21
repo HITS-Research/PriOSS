@@ -3,8 +3,13 @@ import { NgxIndexedDBService } from 'ngx-indexed-db';
 import * as d3 from 'd3';
 import { GranularityEnum, Granularity2LabelMapping, getSmallerGranularity } from './granularity.enum';
 import { formatDisplayTime } from './formatDisplayTime.function';
-import * as dateUtils from './dateUtils.functions';
+import * as dateUtils from '../../../utilities/dateUtils.functions';
 import { NotificationService } from 'src/app/notification/notification.component';
+import { SpotHistoryRepository } from 'src/app/db/data-repositories/spotify/spot-history/spot-history.repository';
+import { SpotYearlyListening } from 'src/app/models/Spotify/ListeningHistory/SpotYearlyListening';
+import { SpotMonthlyListening } from 'src/app/models/Spotify/ListeningHistory/SpotMonthlyListening';
+import { SpotHourlyListening } from 'src/app/models/Spotify/ListeningHistory/SpotHourlyListening';
+import { SpotDailyListening } from 'src/app/models/Spotify/ListeningHistory/SpotDailyListening';
 
 /**
   * This component visualizes the total listening time in relation to configurable time periods
@@ -52,30 +57,30 @@ export class ListeningTimeComponent {
     */
   history: any;
 
-  constructor(private dbService: NgxIndexedDBService, private notifyService: NotificationService) {
-    this.dbService.getAll('spot/history').subscribe(async (history: any) => {
-      //console.log("history: ");
-      //console.log(history);
+  constructor(private spotHistoryRepo: SpotHistoryRepository, private dbService: NgxIndexedDBService, private notifyService: NotificationService) {
+    
+    this.initializeVisualization();
+  }
+/**
+  * Displays the initial version of the visulaization and calculates the year and month based data for later reuse
+  * 
+  * @author: Simon (scg@mail.upb.de)
+  */
+  async initializeVisualization() {
+    //Shows the single day view first because it takes less time to build than year/month/day views, 
+    //this gives us time to parse and compile the data needed for the year, month and day views
+    this.selectedGranularity = GranularityEnum.Hour;
+    
+    await this.recreateVisualization();
+    this.isFirstVisualizationRun = false;
 
-      //add datetime to history
-      for (let i = 0; i < history.length; i++) {
-        history[i].dateTime = dateUtils.parseDate(history[i].endTime);
-      }
+    //async method calls, run in background
+    this.createYearData().then((dataMap) => {
+      this.yearDataMap = dataMap;
+    });
 
-      this.history = history;
-      //Shows the single day view first because it takes less time to build than year/month/day views, 
-      //this gives us time to parse and compile the data needed for the year, month and day views
-      this.selectedGranularity = GranularityEnum.Hour;
-      this.recreateVisualization();
-      this.isFirstVisualizationRun = false;
-
-      //async method calls, run in background
-      this.createYearData(this.history).then((dataMap) => {
-        this.yearDataMap = dataMap;
-      });
-      this.createMonthData(this.history).then((dataMap) => {
-        this.monthDataMap = dataMap;
-      });
+    this.createMonthData().then((dataMap) => {
+      this.monthDataMap = dataMap;
     });
   }
 
@@ -115,7 +120,7 @@ export class ListeningTimeComponent {
     * 
     * @author: Simon (scg@mail.upb.de)
     */
-  recreateVisualization() {
+  async recreateVisualization() {
     let data: { name: string, value: number, color: string }[] | null = [];
 
     //compile the data based on the history in the selected granularity (e.g. by year / by month, etc.)
@@ -127,10 +132,10 @@ export class ListeningTimeComponent {
         data = this.buildDataArray(this.monthDataMap);
         break;
       case GranularityEnum.Day:
-        data = this.createDayData(this.history);
+        data = await this.createDayData();
         break;
       case GranularityEnum.Hour:
-        data = this.createHourData(this.history);
+        data = await this.createHourData();
         break;
       default:
         throw new Error('Unsupported Granularity');
@@ -144,104 +149,49 @@ export class ListeningTimeComponent {
 
 
   /**
-    * Parses the listening history into a data array usable for creating a bar chart with year-granularity
-    * (i.e., each bar represents one year). 
-    * This does not return the built datamap but saves it into this.yearDataMap so the calling procedure can continue using it.
-    * This is done because building this datamap can take significant time and should not be redone when, for example, only filters change
+    * Parses the listening history into a data map usable for creating a bar chart with year-granularity
+    * (i.e., each bar represents one year).
     * 
-    * @param history: The listening history as obtained from indexedDB
-    *
+    * @returns The built datamap
+    * 
     * @author: Simon (scg@mail.upb.de)
     *
     */
-  async createYearData(history: any) {
+  async createYearData() {
+
     let dataMap: Map<string, { date: Date, value: number }> = new Map();
 
-    for (let i = 0; i < history.length; i++) {
-      let year = history[i].dateTime.getFullYear();
-      if (!dataMap.has(year)) {
-        let date: Date = history[i].dateTime;
-        let value: number = history[i].msPlayed;
-        dataMap.set(year, { date, value })
-      }
-      else {
-        let date: Date = history[i].dateTime;
-        let value: number = dataMap.get(year)?.value + history[i].msPlayed;
-        dataMap.set(year, { date, value })
-      }
+    let spotYearlyListening: SpotYearlyListening[] = await this.spotHistoryRepo.getHistoryByYear();
+    for(let i = 0; i < spotYearlyListening.length; i++)
+    {
+      let yearData: SpotYearlyListening = spotYearlyListening[i];
+      let date: Date = new Date(Number(yearData.year), 0);
+      let value: number = yearData.msPlayed;
+      dataMap.set(yearData.year, { date, value })
     }
 
     return dataMap;
   }
 
   /**
-    * Parses the listening history into a data array usable for creating a bar chart with month-granularity
+    * Parses the listening history into a data map usable for creating a bar chart with month-granularity
     * (i.e., each bar represents one month)
-    * This does not return the built datamap but saves it into this.yearDataMap so the calling procedure can continue using it.
-    * This is done because building this datamap can take significant time and should not be redone when, for example, only filters change
     * 
-    * @param history: The listening history as obtained from indexedDB
-    *
+    * @returns the built datamap
     * @author: Simon (scg@mail.upb.de)
     *
     */
-  async createMonthData(history: any) {
-    let mostRecentYear: number = 0;
+  async createMonthData() {
+    
     let dataMap: Map<string, { date: Date, value: number }> = new Map();
 
-    let minYear: number = Number.MAX_VALUE;
-    let minMonth: number = 13;
-    let maxYear: number = 0;
-    let maxMonth: number = -1;
-
-    for (let i = 0; i < history.length; i++) {
-      let displayMonth = history[i].dateTime.getFullYear() + "-" + (history[i].dateTime.getMonth() + 1);//months are zero-indexed, so add one to make them one-indexed
-
-      //calculate most recent year
-      if (history[i].dateTime.getFullYear() > mostRecentYear) {
-        mostRecentYear = history[i].dateTime.getFullYear();
-      }
-
-      //calculate first and last month in the history so we can later fill the gaps between them
-      if (history[i].dateTime.getFullYear() == minYear && history[i].dateTime.getMonth() < minMonth || history[i].dateTime.getFullYear() < minYear) {
-        minYear = history[i].dateTime.getFullYear();
-        minMonth = history[i].dateTime.getMonth();
-      }
-      if (history[i].dateTime.getFullYear() == maxYear && history[i].dateTime.getMonth() > maxMonth || history[i].dateTime.getFullYear() > maxYear) {
-        maxYear = history[i].dateTime.getFullYear();
-        maxMonth = history[i].dateTime.getMonth();
-      }
-
-      //calculate listening time in month
-      if (!dataMap.has(displayMonth)) {
-        let date: Date = history[i].dateTime;
-        let value: number = history[i].msPlayed;
-        dataMap.set(displayMonth, { date, value })
-      }
-      else {
-        let date: Date = history[i].dateTime;
-        let value: number = dataMap.get(displayMonth)?.value + history[i].msPlayed;
-        dataMap.set(displayMonth, { date, value })
-      }
-    }
-
-    let fromDate = new Date(minYear, minMonth);
-    let toDate = new Date(maxYear, maxMonth);
-
-    //fills the months without data inside the array, so month in which nothing was played aren't missing from the visualization but are shown as zero
-    for (let currDate: Date = dateUtils.trimDate(fromDate, GranularityEnum.Month); currDate <= dateUtils.trimDate(toDate, GranularityEnum.Month); currDate.setMonth(currDate.getMonth() + 1)) {
-      let year = currDate.getFullYear();
-      let month = currDate.getMonth();
-
-      //month is zero indexed, but dataMap works with 1 indexed months, so we have to convert here
-      let displayMonth = year + "-" + (month + 1);
-
-      //set the month to zero, if there is not data in the datamap for it year
-      if (!dataMap.has(displayMonth)) {
-        let date: Date = new Date(year, month, 1, 0, 0, 0, 0);
-        let value: number = 0;
-        dataMap.set(displayMonth, { date, value });
-      }
+    let spotMonthlyListening: SpotMonthlyListening[] = await this.spotHistoryRepo.getHistoryByMonth();
+    for(let i = 0; i < spotMonthlyListening.length; i++)
+    {
+      let monthData: SpotMonthlyListening = spotMonthlyListening[i];
+      let date: Date = new Date(Number(monthData.year), Number(monthData.month)-1);
+      let value: number = monthData.msPlayed;
+      dataMap.set(monthData.yearMonth, { date, value })
     }
 
     return dataMap;
@@ -251,13 +201,12 @@ export class ListeningTimeComponent {
     * Parses the listening history into a data array usable for creating a bar chart with day-granularity
     * (i.e., each bar represents one day)
     * 
-    * @param history: The listening history as obtained from indexedDB
     * @returns A data array with one entry for every day in the timeperiod specified by filterFromDate and filterToDate filters. 
     * 
     * @author: Simon (scg@mail.upb.de)
     *
     */
-  createDayData(history: any) {
+  async createDayData() {
     console.log("Create day data");
 
     let dataMap: Map<string, { date: Date, value: number }> = new Map();
@@ -267,33 +216,24 @@ export class ListeningTimeComponent {
       return null;
     }
 
-    //fills all days with 0-values, so days in which nothing was played aren't missing from the visualization but are shown as zero
-    for (let currDate: Date = dateUtils.trimDate(this.filterFromDate, GranularityEnum.Day); currDate <= this.filterToDate; currDate.setDate(currDate.getDate() + 1)) {
-      //month is zero indexed, but dataMap works with 1 indexed months, so we have to convert here
-      let displayDate = currDate.getFullYear() + "-" + (currDate.getMonth() + 1) + "-" + currDate.getDate();
+    let fromDate: Date = dateUtils.trimDate(this.filterFromDate, GranularityEnum.Day);
+    let toDate: Date = dateUtils.trimDate(this.filterToDate, GranularityEnum.Day);
 
-      //set the day's value to zero by default
-      let date: Date = dateUtils.trimDate(currDate, GranularityEnum.Day);
-      let value: number = 0;
-      dataMap.set(displayDate, { date, value });
-    }
+    let spotDailyListening: SpotDailyListening[] = await this.spotHistoryRepo.getHistoryByDay(fromDate, toDate);
+    console.log(spotDailyListening);
 
-    for (let i = 0; i < history.length; i++) {
-      if (dateUtils.trimDate(history[i].dateTime, GranularityEnum.Day).getTime() < dateUtils.trimDate(this.filterFromDate, GranularityEnum.Day).getTime()
-        || dateUtils.trimDate(history[i].dateTime, GranularityEnum.Day).getTime() > dateUtils.trimDate(this.filterToDate, GranularityEnum.Day).getTime()) {
-        continue;
-      }
+    for (let i = 0; i < spotDailyListening.length; i++) {
 
-      //add the listening time to the correct day inside the datamap
-      let date: Date = dateUtils.trimDate(history[i].dateTime, GranularityEnum.Day);
+      let historyEntry: SpotDailyListening = spotDailyListening[i];
+
+      let date: Date = dateUtils.parseDate(historyEntry.date);
       let displayDate = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
-      let value: number = dataMap.get(displayDate)?.value + history[i].msPlayed;
+      let value: number = historyEntry.msPlayed;
       dataMap.set(displayDate, { date, value });
     }
 
-    console.log(dataMap);
     let dataArray = this.buildDataArray(dataMap);
-    console.log(dataArray);
+  
     return dataArray;
   }
 
@@ -301,7 +241,6 @@ export class ListeningTimeComponent {
     * Parses the listening history into a data array usable for creating a bar chart with hour-granularity
     * (i.e., each bar represents one hour)
     * 
-    * @param history: The listening history as obtained from indexedDB
     * @returns A data array with one entry for every hour of the day specified by the filterSingleDate filter.
     *          If this filter is empty and this visualization is displayed directly after this component is loaded, 
     *          then the filterSingleDate filter is set to the most recent day that is available in the history.
@@ -309,18 +248,13 @@ export class ListeningTimeComponent {
     * @author: Simon (scg@mail.upb.de)
     *
     */
-  createHourData(history: any) {
-    let mostRecentDay: Date = new Date(0, 0, 1);//1.1.1900 is the default most recent day here
-    let dataMap: Map<string, { date: Date, value: number }> = new Map();
-    let targetDate: Date;
+  async createHourData() {
+
+    //Get the most recent day in the history from the db
+    let mostRecentDay: Date = await this.spotHistoryRepo.getMostRecentDay();
 
     //If this is the initial visualization run, set the filter to the most recent day present in the history
     if (this.isFirstVisualizationRun) {
-      for (let i = 0; i < history.length; i++) {
-        if (dateUtils.trimDate(history[i].dateTime, GranularityEnum.Day) > mostRecentDay) {
-          mostRecentDay = dateUtils.trimDate(history[i].dateTime, GranularityEnum.Day);
-        }
-      }
       this.filterSingleDate = mostRecentDay;
     }
 
@@ -329,43 +263,26 @@ export class ListeningTimeComponent {
       return null;
     }
 
-    targetDate = dateUtils.trimDate(this.filterSingleDate, GranularityEnum.Day);
+    let targetDate: Date = dateUtils.trimDate(this.filterSingleDate, GranularityEnum.Day);
+    
+    let dataMap: Map<string, { date: Date, value: number }> = new Map();
+    let spotHourlyListening: SpotHourlyListening[] = await this.spotHistoryRepo.getHistoryByHour(targetDate);
 
-    //fill the datamap with empty hours for the selected filter date
-    for (let hour = 0; hour < 24; hour++) {
-      let date: Date = new Date(targetDate.getFullYear(), targetDate.getMonth(), targetDate.getDate(), hour);
-      let value: number = 0;
-      let displayHour: string = String(hour.toString()).padStart(2, '0') + ":00";
-      dataMap.set(displayHour, { date, value });
+    for(let i = 0; i < spotHourlyListening.length; i++)
+    {
+      let hourlyData: SpotHourlyListening = spotHourlyListening[i];
+      let date: Date = new Date(targetDate.getFullYear(), targetDate.getMonth(), targetDate.getDate(), hourlyData.hour);
+      let value: number = hourlyData.msPlayed;
+      dataMap.set(hourlyData.displayHour, { date, value })
     }
 
-    //go through the entire history
-    for (let i = 0; i < history.length; i++) {
-      if (targetDate.getTime() != dateUtils.trimDate(history[i].dateTime, GranularityEnum.Day).getTime()) {
-        continue;
-      }
-
-
-      let displayHour: string = String(history[i].dateTime.getHours().toString()).padStart(2, '0') + ":00";
-
-      //calculate most recent day, unless it's the first run, in that case we already had to calculate this in the beginning
-      if (!this.isFirstVisualizationRun) {
-        if (dateUtils.trimDate(history[i].dateTime, GranularityEnum.Day) > mostRecentDay) {
-          mostRecentDay = dateUtils.trimDate(history[i].dateTime, GranularityEnum.Day);
-        }
-      }
-
-      //add the listening time to the correct hour in the day inside the datamap
-      let date: Date = new Date(targetDate.getFullYear(), targetDate.getMonth(), targetDate.getDate(), history[i].dateTime.getHours());
-      let value: number = dataMap.get(displayHour)?.value + history[i].msPlayed;
-      dataMap.set(displayHour, { date, value });
-    }
-
+    console.log("Data Map:");
+    console.log(dataMap);
     return this.buildDataArray(dataMap);
   }
 
   /**
-   * Takes in an unfiltered dataMap and converts it into a dataarray that can be used by d3's visualization engine to display a barchart.
+   * Takes in a dataMap and converts it into a dataarray that can be used by d3's visualization engine to display a barchart.
    * In the resulting dataarray all the filters present on the page are already applied.
    * 
    * @param dataMap A Map for creating a bar in a barchart, with the display name as key and the date & value (height) of the bar as the value component of the map
