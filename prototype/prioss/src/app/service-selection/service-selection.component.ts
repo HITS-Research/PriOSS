@@ -13,6 +13,7 @@ import { SpotListenHistoryEntry } from '../models/Spotify/ListeningHistory/SpotL
 import * as JSZip from 'jszip';
 
 import * as dateUtils from '../utilities/dateUtils.functions';
+import { InferencesRepository } from '../db/data-repositories/general/inferences/inferences.repository';
 
 //service identifier filenames
 const instaIDFilename = "TODO";
@@ -59,7 +60,7 @@ export class ServiceSelectionComponent {
 
   selectedServiceName: AppType;
 
-  constructor(private dbService: NgxIndexedDBService, private router: Router, private notifyService: NotificationService, private spotHistoryRepo: SpotHistoryRepository, private sqlDBService: DBService) {
+  constructor(private dbService: NgxIndexedDBService, private router: Router, private notifyService: NotificationService, private spotHistoryRepo: SpotHistoryRepository, private inferencesRepo: InferencesRepository, private sqlDBService: DBService) {
     //clear the database when this component gets created
     this.dbService.clear("all/userdata").subscribe((deleted) => {
       console.log("Cleared all/userdata: " + deleted);
@@ -374,9 +375,13 @@ export class ServiceSelectionComponent {
         console.log('Parsing: ' + filename);
         let jsonData = JSON.parse(content);
 
-        console.log("Json Data inferences: ");
-        console.log(jsonData);
+        let inferences = jsonData.inferences;
+        await this.inferencesRepo.startInferencesBulkAdd(inferences[0], inferences.length);
 
+        for (let i = 1; i < inferences.length; i++) {
+          await this.inferencesRepo.addBulkInferencesEntry(inferences[i]);
+        }
+/*
         for (let i = 1; i < jsonData.length; i++) {
          let inference: any = jsonData[i];
           //console.log("Saving inference: " + inference);
@@ -387,17 +392,15 @@ export class ServiceSelectionComponent {
               //console.log("inference: ");
               //console.log(key);
             });
-        }
+        }*/
       }
       //Scan all streaming history files (multiple numbered files may exist in a download)
       else if (filename.startsWith("StreamingHistory")) {
         let jsonData = JSON.parse(content);
 
-        console.log(jsonData[0].endTime);
-        await this.spotHistoryRepo.startHistoryBulkAdd(jsonData[0].endTime, jsonData[0].artistName, jsonData[0].trackName, jsonData[0].msPlayed, jsonData.length, 500);
+        await this.spotHistoryRepo.startHistoryBulkAdd(jsonData[0].endTime, jsonData[0].artistName, jsonData[0].trackName, jsonData[0].msPlayed, jsonData.length);
 
         for (let i = 1; i < jsonData.length; i++) {
-        console.log(jsonData[i].endTime);
           await this.spotHistoryRepo.addBulkHistoryEntry(jsonData[i].endTime, jsonData[i].artistName, jsonData[i].trackName, jsonData[i].msPlayed);
         }
       }
@@ -418,7 +421,11 @@ export class ServiceSelectionComponent {
       console.log("Read History:");
       console.log(history);
     });
-    
+    console.log("Start Inferences Fetching");
+    this.inferencesRepo.getAllInferences().then((inferences) => {
+      console.log("Read Inferences:");
+      console.log(inferences);
+    });
 
     this.progressBarPercent = 100;
     await delay(500);
