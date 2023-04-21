@@ -8,6 +8,8 @@ import { SpotMonthlyListening } from "src/app/models/Spotify/ListeningHistory/Sp
 import { SpotDailyListening } from "src/app/models/Spotify/ListeningHistory/SpotDailyListening";
 import { SpotHourlyListening } from "src/app/models/Spotify/ListeningHistory/SpotHourlyListening";
 import * as dateUtils from "../../../../utilities/dateUtils.functions";
+import * as sql from "./spot-history.sql";
+import { BulkAddCapableRepository } from "../../general/inferences/bulk-add-capable.repository";
 
 /**
   * This repository component is responsible for providing functions to insert and request data from the spot_history table
@@ -18,19 +20,10 @@ import * as dateUtils from "../../../../utilities/dateUtils.functions";
   *
   */
 @Injectable()
-export class SpotHistoryRepository {
+export class SpotHistoryRepository extends BulkAddCapableRepository{
 
-  /* 
-   * Variables needed for bulk add feature
-   */
-  private bulkAddSQL: string = "";//The SQL command as a prepared statement (values have placeholders: '?')
-  private bulkAddValues: (string|number)[] = [];//the values to fill the placeholders in the prepared statement with 
-  private currBulkSize: number = 0;//use to detect if the target bulk size is reached and a SQL command has to be run
-  private targetBulkSize: number = 500;//the number of rows that should be inserted in a single SQL query. The SQLite engine does not seem to support much more than 500 at a time
-  private totalRemainingBulkAddRowCount: number = 0;//the total number of rows remaining that should be added across all bulks inside this bulk add run
-
-  constructor(private dbService: DBService){
-
+  constructor(dbService: DBService){
+    super(sql.bulkAddSpotHistoryBaseSQL, sql.bulkAddSpotHistoryValuesSQL, sql.bulkAddValueConnector, dbService);
   }
 
 /**
@@ -48,11 +41,7 @@ export class SpotHistoryRepository {
   */
   async startHistoryBulkAdd(endTime: string, artistName: string, trackName: string, msPlayed: number, totalRowCount: number, targetBulkSize: number = 500)
   {
-    this.bulkAddSQL = bulkAddSpotHistoryBaseSQL + " " + bulkAddSpotHistoryValuesSQL;
-    this.bulkAddValues = [endTime, artistName,  trackName, msPlayed];
-    this.totalRemainingBulkAddRowCount = totalRowCount - 1;
-    this.currBulkSize += 1;
-    this.targetBulkSize = targetBulkSize;
+    this.startBulkAdd([endTime, artistName, trackName, msPlayed], totalRowCount, targetBulkSize);
   }
 
 /**
@@ -66,77 +55,8 @@ export class SpotHistoryRepository {
   * @author: Simon (scg@mail.upb.de)
   *
   */
-  async addBulkHistoryEntry(endTime: string, artistName: string, trackName: string, msPlayed: number)
-  {
-    if (this.currBulkSize >= this.targetBulkSize && this.totalRemainingBulkAddRowCount > 1)//this is the last row in this bulk, but it is not the last overall row (=there is at least one bulk to follow)
-    {
-      //run the query without the newly passed row
-      await this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
-        let ret: capSQLiteChanges = await db.run(this.bulkAddSQL, this.bulkAddValues);
-      });
-
-      //Start a new bulk with the newly passed row
-      this.bulkAddSQL = bulkAddSpotHistoryBaseSQL + " " + bulkAddSpotHistoryValuesSQL;
-      this.bulkAddValues = [endTime, artistName, trackName, msPlayed];
-      this.totalRemainingBulkAddRowCount -= 1;
-      this.currBulkSize = 1;
-    }
-    else if (this.totalRemainingBulkAddRowCount <= 1)//This is the last entry inside this bulk add: clean up & run query
-    {
-      //Append a new values row to the SQL query and corresponding values to the values array
-      this.bulkAddSQL += " " + bulkAddValueConnector + " " + bulkAddSpotHistoryValuesSQL;
-      this.bulkAddValues.push(endTime, artistName,  trackName, msPlayed);
-
-      //run query
-      await this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
-        let ret: capSQLiteChanges = await db.run(this.bulkAddSQL, this.bulkAddValues);
-      });
-
-      //Reset the bulk add variables,
-      this.totalRemainingBulkAddRowCount = 0;
-      this.currBulkSize = 0;
-      this.bulkAddSQL = "";
-      this.bulkAddValues = [];
-    }
-    else //No need to run the query, just add the row to the current bulk add command
-    {
-      //Append a new values row to the SQL query and corresponding values to the values array
-      this.bulkAddSQL += " " + bulkAddValueConnector + " " + bulkAddSpotHistoryValuesSQL;
-      this.bulkAddValues.push(endTime, artistName,  trackName, msPlayed);
-
-      this.totalRemainingBulkAddRowCount -= 1;
-      this.currBulkSize += 1;
-    }
-
-    return Promise.resolve();
-  }
-
-/**
-  * Inserts a single entry into the spot_history table. Not that this may build up a single DB connection and run a single insert command to insert this line
-  * and therefore does not scale well when called repeatedly for a large number of entries.
-  * In such cases, please use startHistoryBulkAdd & addBulkHistoryEntry instead
-  * 
-  * @param historyEntry the SpotListenHistoryEntry to insert 
-  * @returns The promise of a SpotListenHistoryEntry that was inserted
-  * 
-  * @author: Simon (scg@mail.upb.de)
-  */
-  async createSpotHistoryEntry(historyEntry: SpotListenHistoryEntry) : Promise<SpotListenHistoryEntry>
-  {
-    return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
-
-      let sqlStatement = insertIntoSpotHistorySQL;
-      let values = [historyEntry.endTime, historyEntry.artistName,  historyEntry.trackName, historyEntry.msPlayed];
-
-      let ret: capSQLiteChanges = await db.run(sqlStatement, values);
-
-      let lastId = ret.changes?.lastId;
-      if (typeof(lastId) !== "undefined" && lastId > 0) {
-        return ret.changes as SpotListenHistoryEntry;
-      }
-
-      throw Error('createSpotHistoryEntry failed');
-    });
+  async addBulkHistoryEntry(endTime: string, artistName: string, trackName: string, msPlayed: number) : Promise<void> {
+    return this.addBulkEntry([endTime, artistName, trackName, msPlayed]);
   }
 
   /**

@@ -31,13 +31,7 @@ export class SpotDashboardComponent {
 
   constructor(private dbService: NgxIndexedDBService, private router: Router, private introService: IntrojsService) {
     this.dbService.getAll('all/userdata').subscribe((userdata: any) => {
-      console.log("Userdata: ");
-      console.log(userdata);
       this.username = userdata[0].username;
-    });
-    this.dbService.getAll('spot/inferences').subscribe((inferences) => {
-      console.log("Inferences: ");
-      console.log(inferences);
     });
   }
 
