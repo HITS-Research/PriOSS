@@ -9,6 +9,11 @@ CREATE TABLE IF NOT EXISTS spot_history (
     msPlayed INTEGER NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS inferences (
+    id INTEGER PRIMARY KEY,
+    inference TEXT NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS insta_personal_info (
     id INTEGER PRIMARY KEY,
     username TEXT NOT NULL,
@@ -43,10 +48,13 @@ CREATE TABLE IF NOT EXISTS insta_profile_changes (
     change_date TEXT NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS inferences (
+CREATE TABLE IF NOT EXISTS insta_ad_interests (
     id INTEGER PRIMARY KEY,
-    inference TEXT NOT NULL
-);
+    advertiseName TEXT NOT NULL,
+    has_data_file_custom_audience TEXT NOT NULL,
+    has_remarketing_custom_audience TEXT NOT NULL,
+    has_in_person_store_visit TEXT NOT NULL
+)
 `;
 //PRAGMA user_version = 1;
 

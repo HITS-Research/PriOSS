@@ -16,7 +16,7 @@ import * as dateUtils from '../utilities/dateUtils.functions';
 import { InferencesRepository } from '../db/data-repositories/general/inferences/inferences.repository';
 
 import { HttpClient } from '@angular/common/http';
-import { InstaPersonalRepository } from '../db/data-repositories/insta-personal.repository';
+import { InstaPersonalRepository } from '../db/data-repositories/instagram/insta-personal.repository';
 
 //service identifier filenames
 const instaIDFilename = "TODO";
@@ -521,7 +521,7 @@ export class ServiceSelectionComponent {
 
       console.log('Opening: ' + filename);
 
-      //Add personal information
+      //add personal information
       if (filename.startsWith("personal_information")) {
         let jsonData = JSON.parse(content);
         let personalData = jsonData.profile_user[0].string_map_data;
@@ -546,6 +546,8 @@ export class ServiceSelectionComponent {
                                                          profileData.string_map_data["Change Date"].timestamp);
         }
       }
+      //ad ads related data
+      
     }
 
     if (this.requestedAbortDataParsing) {
@@ -555,109 +557,6 @@ export class ServiceSelectionComponent {
 
     const end = Date.now();
     console.log(`Data-download files parsed and data inserted in: ${end - start} ms`);
-    
-    //Use this for testing what has been written into the DB
-
-    console.log("Start History Fetching");
-    this.spotHistoryRepo.getSpotHistory().then((history) => {
-      console.log("Read History:");
-      console.log(history);
-    });
-    console.log("Start Inferences Fetching");
-    this.inferencesRepo.getAllInferences().then((inferences) => {
-      console.log("Read Inferences:");
-      console.log(inferences);
-    });
-
-    this.progressBarPercent = 100;
-    await delay(500);
-
-    this.progressBarVisible = false;
-    this.router.navigate(['insta/dashboard']);
-  }
-
-  /**
-    * Parses the uploaded Instagram data-download-zip file into the SQLite database
-    *
-    * @author: Paul (pasch@mail.upb.de)
-    *
-    */
-  async parseInstagramFileToSQLite() {
-    const start = Date.now();
-
-    let file = this.uploadedFiles[0];
-
-    let zip: JSZip = await this.loadZipFile(file);
-
-    this.isProcessingFile = true;//shows the processing icon on the button
-
-    this.progressBarPercent = 0;
-    this.progressBarVisible = true;
-
-    let filepaths: string[] = Object.keys(zip.files);
-    for (let i = 0; i < filepaths.length; i++) {
-      if (this.requestedAbortDataParsing) {
-        this.requestedAbortDataParsing = false;
-        return;
-      }
-
-      this.progressBarPercent = Math.round(100 * (i / filepaths.length));
-
-      let filepath: string = filepaths[i];
-      console.log(filepath);
-      let content: string = await zip.files[filepath].async("string");
-      let filename: string | undefined = filepath.split('\\').pop()?.split('/').pop();
-      console.log(filename);
-
-      if (!filename) {
-        continue;
-      }
-
-      console.log('Opening: ' + filename);
-
-      //Add personal information
-      if (filename.startsWith("personal_information")) {
-        let jsonData = JSON.parse(content);
-        let personalData = jsonData.profile_user[0].string_map_data;
-        await this.instaPersonalRepo.addPersonalInformation(personalData.Username.value, personalData.Email.value, personalData["Date of birth"].value, personalData.Gender.value);
-      }
-      else if (filename.startsWith("account_information")) {
-        let jsonData = JSON.parse(content);
-        let accountData = jsonData.profile_account_insights[0].string_map_data;
-        await this.instaPersonalRepo.addAccountInformation(accountData["Contact Syncing"].value, accountData["First Country Code"].value, accountData["Has Shared Live Video"].value, accountData["Last Login"].timestamp,
-                                                           accountData["Last Logout"].timestamp, accountData["First Story Time"].timestamp, accountData["Last Story Time"].timestamp, accountData["First Close Friends Story Time"].timestamp);
-      }
-      else if (filename.startsWith("professional_information")) {
-        let jsonData = JSON.parse(content);
-        let profData = jsonData.profile_business[0];
-        await this.instaPersonalRepo.addProfessionalInformation(profData.title);
-      }
-      else if (filename.startsWith("profile_changes")) {
-        let jsonData = JSON.parse(content);
-        for (let i = 0; i < jsonData.length; i++) {
-          let profileData = jsonData[i].profile_profile_change;
-          await this.instaPersonalRepo.addProfileChanges(profileData.title, profileData.string_map_data.Changed.value, profileData.string_map_data["Previous Value"].value, profileData.string_map_data["New Value"].value, 
-                                                         profileData.string_map_data["Change Date"].timestamp);
-        }
-      }
-    }
-
-    if (this.requestedAbortDataParsing) {
-      this.requestedAbortDataParsing = false;
-      return;
-    }
-
-    const end = Date.now();
-    console.log(`Data-download files parsed and data inserted in: ${end - start} ms`);
-    /*
-    //Use this for testing what has been written into the DB
-
-    console.log("Start History Fetching");
-    this.spotHistoryRepo.getSpotHistory().then((history) => {
-      console.log("Read History:");
-      console.log(history);
-    });
-    */
 
     this.progressBarPercent = 100;
     await delay(500);
