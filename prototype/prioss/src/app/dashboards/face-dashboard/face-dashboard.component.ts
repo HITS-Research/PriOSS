@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { ActivatedRoute, Router } from "@angular/router";
+import { IntrojsService } from 'src/app/introjs/introjs.service';
 
 /**
   * This component is the root component for facebook's dashboard page.
@@ -22,12 +23,13 @@ export class FaceDashboardComponent {
     private router: Router,
     private route: ActivatedRoute,
     private dbService: NgxIndexedDBService,
+    private introService: IntrojsService,
   ) { }
-/**
-  * This  method is responsible to navigate to the ads component page.
-  * @author: rishmamn@campus.uni-paderborn.de
-  *
- */
+  /**
+    * This  method is responsible to navigate to the ads component page.
+    * @author: rishmamn@campus.uni-paderborn.de
+    *
+   */
   adsData() {
     this.router.navigate(['face/ads-related-data']);
   }
@@ -48,5 +50,26 @@ export class FaceDashboardComponent {
  */
   navigateToFriendsAndFollowers() {
     this.router.navigate(['face/friendsandfollowers']);
+  }
+
+/**
+  * This method starts the tour and sets @param tourCompleted in the @service introjs to true.
+  * The boolean is set so not every time the page is navigated to, the tour starts again.
+  * 
+  * @author: Deepa (dbelvi@mail.upb.de)
+  */
+  ngAfterViewInit(): void  {
+    if (this.introService.isFacebookTourCompleted() == false) {
+      this.introService.facebookDashboardTour();
+      this.introService.setFacebookTourCompleted(true);
+    }
+    
+  }
+
+  /**
+   * This method is called on button click and starts the tour.
+   */
+  startTour() {
+    this.introService.facebookDashboardTour();
   }
 }

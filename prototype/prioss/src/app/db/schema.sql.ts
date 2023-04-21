@@ -42,6 +42,11 @@ CREATE TABLE IF NOT EXISTS insta_profile_changes (
     new_value TEXT NOT NULL,
     change_date TEXT NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS inferences (
+    id INTEGER PRIMARY KEY,
+    inference TEXT NOT NULL
+);
 `;
 //PRAGMA user_version = 1;
 
@@ -51,4 +56,5 @@ DROP TABLE IF EXISTS insta_personal_info;
 DROP TABLE IF EXISTS insta_account_info;
 DROP TABLE IF EXISTS insta_professional_info;
 DROP TABLE IF EXISTS insta_profile_changes;
+DROP TABLE IF EXISTS inferences;
 `;

@@ -51,8 +51,11 @@ import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NzStatisticModule } from 'ng-zorro-antd/statistic';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { TopSongsComponent } from './visualizations/spotify/top-songs/top-songs.component';
+import { HelpButtonComponent } from './help-button/help-button/help-button.component';
+import { IntrojsService } from './introjs/introjs.service';
+
 import { DBService } from './services/db/db.service';
-import { SpotHistoryRepository } from './db/data-repositories/spot-history.repository';
+import { InferencesRepository } from './db/data-repositories/general/inferences/inferences.repository';
 import { InstaPersonalRepository } from './db/data-repositories/insta-personal.repository';
 
 registerLocaleData(de);
@@ -424,7 +427,8 @@ const dbConfig: DBConfig  =
     InstaAccountCreationLoginComponent,
     InstaAdsComponent,
     AdsRelatedDataComponent,
-    FriendAndFollowersComponent
+    FriendAndFollowersComponent,
+    HelpButtonComponent
   ],
   imports: [
     BrowserModule,
@@ -458,8 +462,8 @@ const dbConfig: DBConfig  =
     SQLiteService,
     DBService,
     SpotHistoryRepository,
-    { provide: NZ_I18N, useValue: de_DE },
     InstaPersonalRepository,
+    InferencesRepository,
     { provide: NZ_I18N, useValue: de_DE }
   ],
   bootstrap: [AppComponent],

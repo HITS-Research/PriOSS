@@ -3,8 +3,7 @@
 
   <h2 nz-typography>Your Data</h2>
   <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
-    <!--
-    <div nz-col nzXs="24" nzXl="8">
+    <div id="step1" nz-col nzXs="24" nzXl="8">
       <a routerLink="/spot/general-data">
         <nz-card nzTitle="User Data" nzHoverable [nzExtra]="extraTemplate">
           <app-general-data></app-general-data>
@@ -14,7 +13,7 @@
         <a>More</a>
       </ng-template>
     </div>
-    <div nz-col nzXs="24" nzXl="8">
+    <div id="step2" nz-col nzXs="24" nzXl="8">
       <a routerLink="/spot/inference">
         <nz-card nzTitle="Inferences" nzHoverable [nzExtra]="extraTemplate">
           <spot-inferences [previewMode]="true"></spot-inferences>
@@ -24,7 +23,6 @@
         <a>More</a>
       </ng-template>
     </div>
-    -->
     <div nz-col nzXs="24" nzXl="8">
       <a routerLink="/spot/listening-time">
         <nz-card nzTitle="Listening Time" nzHoverable [nzExtra]="extraTemplate">
@@ -36,8 +34,6 @@
       </ng-template>
     </div>
   </div>
-
-<!--
 
     <h3 nz-typography>Songs and Artists</h3>
     <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
@@ -66,11 +62,13 @@
       </div>
     </div>
 
--->
 
 
   <h2 nz-typography id="rectification">Rectification</h2>
   <h2 nz-typography id="gdpr">Your Rights</h2>
   <h2 nz-typography id="purpose">Purposes</h2>
   <h2 nz-typography id="faq">Frequently Asked Questions</h2>
+  
+  <app-help-button (startTourClick)="startTour()"></app-help-button>
+
 </div>

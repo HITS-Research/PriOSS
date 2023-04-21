@@ -7,12 +7,15 @@ import { NotificationService } from '../notification/notification.component';
 import { AppType } from '../enum/app-type';
 
 import { SQLiteDBConnection, capSQLiteTableOptions } from '@capacitor-community/sqlite';
-import { SpotHistoryRepository } from '../db/data-repositories/spot-history.repository';
+import { SpotHistoryRepository } from '../db/data-repositories/spotify/spot-history/spot-history.repository';
 import { DBService } from '../services/db/db.service';
 import { SpotListenHistoryEntry } from '../models/Spotify/ListeningHistory/SpotListenHistoryEntry';
 import * as JSZip from 'jszip';
 
 import * as dateUtils from '../utilities/dateUtils.functions';
+import { InferencesRepository } from '../db/data-repositories/general/inferences/inferences.repository';
+
+import { HttpClient } from '@angular/common/http';
 import { InstaPersonalRepository } from '../db/data-repositories/insta-personal.repository';
 
 //service identifier filenames
@@ -21,7 +24,7 @@ const spotIDFilename = "MyData/Read_Me_First.pdf";
 const faceIDFilename = "index.html";
 
 /*
- * Use this inline function to wait for the specified number of milliseconds inside an async call by waiting for it:
+ * Use this inline function to wait for the specified number of milliseconds inside an async function by waiting for it:
  * await delay(2000);
  * 
  * @author: Simon (scg@mail.upb.de)
@@ -60,7 +63,13 @@ export class ServiceSelectionComponent {
 
   selectedServiceName: AppType;
 
-  constructor(private dbService: NgxIndexedDBService, private router: Router, private notifyService: NotificationService, private spotHistoryRepo: SpotHistoryRepository, private instaPersonalRepo: InstaPersonalRepository, private sqlDBService: DBService) {
+  sampleDataPath = "assets/sample-data/";
+  sampleDataFilenameSpotify = "spot_sampledata.zip";
+  sampleDataFilenameFacebook = "face_sampledata.zip";
+  sampleDataFilenameInstagram = "insta_sampledata.zip";
+
+  constructor(private dbService: NgxIndexedDBService, private router: Router, private notifyService: NotificationService, private spotHistoryRepo: SpotHistoryRepository, private inferencesRepo: InferencesRepository, private instaPersonalRepo: InstaPersonalRepository, private sqlDBService: DBService, private http: HttpClient) {
+
     //clear the database when this component gets created
     this.dbService.clear("all/userdata").subscribe((deleted) => {
       console.log("Cleared all/userdata: " + deleted);
@@ -145,23 +154,23 @@ export class ServiceSelectionComponent {
     });
   }
 
-  /**
-    * Callback called by angular after the view is initialized. Triggers rebuilding of the sql database
-    *
-    * @author: Simon (scg@mail.upb.de)
-    *
-    */
+/**
+  * Callback called by angular after the view is initialized. Triggers rebuilding of the sql database
+  *
+  * @author: Simon (scg@mail.upb.de)
+  *
+  */
   async ngAfterViewInit() {
     await this.sqlDBService.rebuildDatabase();
   };
 
-  /**
-    * Callback called when pressing the X-button in the progressbar dialog. Stops the reading in process and navigates back to the home page.
-    * The navigation is necessary because canceling the parsing process midway-through triggers an error related to the SQLite integration.
-    *
-    * @author: Simon (scg@mail.upb.de)
-    *
-    */
+/**
+  * Callback called when pressing the X-button in the progressbar dialog. Stops the reading in process and navigates back to the home page.
+  * The navigation is necessary because canceling the parsing process midway-through triggers an error related to the SQLite integration.
+  *
+  * @author: Simon (scg@mail.upb.de)
+  *
+  */
   async abortDataParsing() {
     this.progressBarVisible = false;
     this.requestedAbortDataParsing = true;
@@ -174,18 +183,18 @@ export class ServiceSelectionComponent {
    * File Selection Workflow
    */
 
-  /**
-    * Event callback that is called when the user puts a file in the upload field
-    * Todo: This callback checks if the file is a zip file and contains the signature file
-    * for the selected service, to make sure it is a valid data-download from the correct service
-    * It displays an error if not.
-    *
-    *
-    * @param event - The change file event that holds the newly uploaded file
-    *
-    * @author: Simon (scg@mail.upb.de)
-    *
-    */
+/**
+  * Event callback that is called when the user puts a file in the upload field
+  * Todo: This callback checks if the file is a zip file and contains the signature file
+  * for the selected service, to make sure it is a valid data-download from the correct service
+  * It displays an error if not.
+  *
+  *
+  * @param event - The change file event that holds the newly uploaded file
+  *
+  * @author: Simon (scg@mail.upb.de)
+  *
+  */
   onFileSelected(event: any) {
     console.log('onFileSelected');
     this.uploadedFiles = event.target.files;
@@ -193,7 +202,7 @@ export class ServiceSelectionComponent {
     this.validateFiles(this.selectedServiceName);//TODO: Pass selected File
   }
 
-  /**
+/**
   * Selects the clicked app and show instructions based on the selection
   *
   * @param appType - The enum for appType is expected
@@ -205,14 +214,14 @@ export class ServiceSelectionComponent {
     this.selectedServiceName = appType;
   }
 
-  /**
-   * Checks if the first file in the uploadedFiles array contains the identifying file of the service with the given serviceName
-   *
-   * @param serviceName - The serviceName constant for which a data-download zip is expected
-   *
-   * @author: Simon (scg@mail.upb.de)
-   *
-   */
+/**
+  * Checks if the first file in the uploadedFiles array contains the identifying file of the service with the given serviceName
+  *
+  * @param serviceName - The serviceName constant for which a data-download zip is expected
+  *
+  * @author: Simon (scg@mail.upb.de)
+  *
+  */
   validateFiles(selectedApp: AppType) {
     let file = this.uploadedFiles[0];
 
@@ -267,6 +276,44 @@ export class ServiceSelectionComponent {
   /*
    * File Parsing Workflow
    */
+
+ /*
+  * Callback when user clicks the button to use sample data instead of their personal data download.
+  * Sets the sample data zip file of the provided service to be the selected file and then triggers the normal file parsing workflow.
+  *
+  * @author: Simon (scg@mail.upb.de)
+  */
+  async onClickedExploreSampleData() {
+    //set the uploaded files field to be the sample data for teh respective service
+    //this.uploadedFiles[0] = null;//TODO
+    
+    let sampleDataLocation : string = "";
+    if (this.selectedServiceName == this.appType.Instagram) {
+      sampleDataLocation = this.sampleDataPath + this.sampleDataFilenameInstagram;
+    }
+    else if (this.selectedServiceName == this.appType.Spotify) {
+      sampleDataLocation = this.sampleDataPath + this.sampleDataFilenameSpotify;
+    }
+    else if (this.selectedServiceName == this.appType.Facebook) {
+      sampleDataLocation = this.sampleDataPath + this.sampleDataFilenameFacebook;
+    }
+    else {
+      throw Error('The selected Service Name is not a known service. Selected: ' + this.selectedServiceName);
+    }
+    
+    this.progressBarPercent = 0;
+    this.progressBarVisible = true;
+
+    //download needed sample data from server (comes precached when pwa functionality works)
+    this.http.get(sampleDataLocation, {responseType: 'blob'}).subscribe((sampleData) => {
+      this.uploadedFiles = [];
+      this.uploadedFiles[0] = new File([sampleData], 'sample_data.zip', { type: 'application/zip', });
+
+      //trigger the normal file upload 
+      this.onClickedExploreData();
+    });
+    
+  }
 
   /**
     * Event callback that is called when the user clicks the explore data button
@@ -349,10 +396,57 @@ export class ServiceSelectionComponent {
 
       console.log('Opening: ' + filename);
 
-      //Scan all streaming history files (multiple numbered files may exist in a download)
-      if (filename.startsWith("StreamingHistory")) {
+      if (filename == "Userdata.json") {
+        console.log('Parsing: ' + filename);
         let jsonData = JSON.parse(content);
-        await this.spotHistoryRepo.startHistoryBulkAdd(jsonData[0].endTime, jsonData[0].artistName, jsonData[0].trackName, jsonData[0].msPlayed, jsonData.length, 500);
+
+        await this.dbService.add("all/userdata",
+          {
+            username: jsonData.username,
+            email: jsonData.email,
+            //firstname: jsonData.firstname,
+            //lastname: jsonData.lastname,
+            country: jsonData.country,
+            birthdate: jsonData.birthdate,
+            gender: jsonData.gender,
+            postalCode: jsonData.postalCode,
+            mobileNumber: jsonData.mobileNumber,
+            mobileOperator: jsonData.mobileOperator,
+            mobileBrand: jsonData.mobileBrand,
+            creationTime: jsonData.creationTime,
+          }).subscribe((key) => {
+            //console.log("Userdata:")
+            //console.log(key);
+          });
+      }
+      else if (filename == "Inferences.json") {
+        console.log('Parsing: ' + filename);
+        let jsonData = JSON.parse(content);
+
+        let inferences = jsonData.inferences;
+        await this.inferencesRepo.startInferencesBulkAdd(inferences[0], inferences.length);
+
+        for (let i = 1; i < inferences.length; i++) {
+          await this.inferencesRepo.addBulkInferencesEntry(inferences[i]);
+        }
+/*
+        for (let i = 1; i < jsonData.length; i++) {
+         let inference: any = jsonData[i];
+          //console.log("Saving inference: " + inference);
+          await this.dbService.add("spot/inferences",
+            {
+              inference: inference,
+            }).subscribe((key) => {
+              //console.log("inference: ");
+              //console.log(key);
+            });
+        }*/
+      }
+      //Scan all streaming history files (multiple numbered files may exist in a download)
+      else if (filename.startsWith("StreamingHistory")) {
+        let jsonData = JSON.parse(content);
+
+        await this.spotHistoryRepo.startHistoryBulkAdd(jsonData[0].endTime, jsonData[0].artistName, jsonData[0].trackName, jsonData[0].msPlayed, jsonData.length);
 
         for (let i = 1; i < jsonData.length; i++) {
           await this.spotHistoryRepo.addBulkHistoryEntry(jsonData[i].endTime, jsonData[i].artistName, jsonData[i].trackName, jsonData[i].msPlayed);
@@ -367,7 +461,7 @@ export class ServiceSelectionComponent {
 
     const end = Date.now();
     console.log(`Data-download files parsed and data inserted in: ${end - start} ms`);
-    /*
+    
     //Use this for testing what has been written into the DB
 
     console.log("Start History Fetching");
@@ -375,13 +469,111 @@ export class ServiceSelectionComponent {
       console.log("Read History:");
       console.log(history);
     });
-    */
+    console.log("Start Inferences Fetching");
+    this.inferencesRepo.getAllInferences().then((inferences) => {
+      console.log("Read Inferences:");
+      console.log(inferences);
+    });
 
     this.progressBarPercent = 100;
     await delay(500);
 
     this.progressBarVisible = false;
     this.router.navigate(['spot/dashboard']);
+  }
+
+  /**
+    * Parses the uploaded Instagram data-download-zip file into the SQLite database
+    *
+    * @author: Paul (pasch@mail.upb.de)
+    *
+    */
+  async parseInstagramFileToSQLite() {
+    const start = Date.now();
+
+    let file = this.uploadedFiles[0];
+
+    let zip: JSZip = await this.loadZipFile(file);
+
+    this.isProcessingFile = true;//shows the processing icon on the button
+
+    this.progressBarPercent = 0;
+    this.progressBarVisible = true;
+
+    let filepaths: string[] = Object.keys(zip.files);
+    for (let i = 0; i < filepaths.length; i++) {
+      if (this.requestedAbortDataParsing) {
+        this.requestedAbortDataParsing = false;
+        return;
+      }
+
+      this.progressBarPercent = Math.round(100 * (i / filepaths.length));
+
+      let filepath: string = filepaths[i];
+      console.log(filepath);
+      let content: string = await zip.files[filepath].async("string");
+      let filename: string | undefined = filepath.split('\\').pop()?.split('/').pop();
+      console.log(filename);
+
+      if (!filename) {
+        continue;
+      }
+
+      console.log('Opening: ' + filename);
+
+      //Add personal information
+      if (filename.startsWith("personal_information")) {
+        let jsonData = JSON.parse(content);
+        let personalData = jsonData.profile_user[0].string_map_data;
+        await this.instaPersonalRepo.addPersonalInformation(personalData.Username.value, personalData.Email.value, personalData["Date of birth"].value, personalData.Gender.value);
+      }
+      else if (filename.startsWith("account_information")) {
+        let jsonData = JSON.parse(content);
+        let accountData = jsonData.profile_account_insights[0].string_map_data;
+        await this.instaPersonalRepo.addAccountInformation(accountData["Contact Syncing"].value, accountData["First Country Code"].value, accountData["Has Shared Live Video"].value, accountData["Last Login"].timestamp,
+                                                           accountData["Last Logout"].timestamp, accountData["First Story Time"].timestamp, accountData["Last Story Time"].timestamp, accountData["First Close Friends Story Time"].timestamp);
+      }
+      else if (filename.startsWith("professional_information")) {
+        let jsonData = JSON.parse(content);
+        let profData = jsonData.profile_business[0];
+        await this.instaPersonalRepo.addProfessionalInformation(profData.title);
+      }
+      else if (filename.startsWith("profile_changes")) {
+        let jsonData = JSON.parse(content);
+        for (let i = 0; i < jsonData.length; i++) {
+          let profileData = jsonData[i].profile_profile_change;
+          await this.instaPersonalRepo.addProfileChanges(profileData.title, profileData.string_map_data.Changed.value, profileData.string_map_data["Previous Value"].value, profileData.string_map_data["New Value"].value, 
+                                                         profileData.string_map_data["Change Date"].timestamp);
+        }
+      }
+    }
+
+    if (this.requestedAbortDataParsing) {
+      this.requestedAbortDataParsing = false;
+      return;
+    }
+
+    const end = Date.now();
+    console.log(`Data-download files parsed and data inserted in: ${end - start} ms`);
+    
+    //Use this for testing what has been written into the DB
+
+    console.log("Start History Fetching");
+    this.spotHistoryRepo.getSpotHistory().then((history) => {
+      console.log("Read History:");
+      console.log(history);
+    });
+    console.log("Start Inferences Fetching");
+    this.inferencesRepo.getAllInferences().then((inferences) => {
+      console.log("Read Inferences:");
+      console.log(inferences);
+    });
+
+    this.progressBarPercent = 100;
+    await delay(500);
+
+    this.progressBarVisible = false;
+    this.router.navigate(['insta/dashboard']);
   }
 
   /**
@@ -972,6 +1164,7 @@ export class ServiceSelectionComponent {
       //TODO: Show error: you didn't upload a zip file
       this.notifyService.showNotification("The file you selected is not a zip-file. Please select the zip file you downloaded from " + this.selectedServiceName, 10000);
       this.isProcessingFile = false;
+      console.log("Filetype: " + typeof(file));
       throw Error('Selected File is not a .zip file!');
     }
   }
