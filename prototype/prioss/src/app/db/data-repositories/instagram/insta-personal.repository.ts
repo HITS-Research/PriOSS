@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { SQLiteDBConnection, capSQLiteChanges } from "@capacitor-community/sqlite";
-import { DBService } from "../../services/db/db.service";
+import { DBService } from "../../../services/db/db.service";
 import { insertIntoInstaPersonalInfoSQL, insertIntoInstaAccountInfoSQL, insertIntoInstaProfessionalInfoSQL, insertIntoInstaProfileChangesSQL } from "./insta-personal.sql";
 
 /**
