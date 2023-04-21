@@ -15,6 +15,8 @@ import * as JSZip from 'jszip';
 import * as dateUtils from '../utilities/dateUtils.functions';
 import { InferencesRepository } from '../db/data-repositories/general/inferences/inferences.repository';
 
+import { HttpClient } from '@angular/common/http';
+
 //service identifier filenames
 const instaIDFilename = "TODO";
 const spotIDFilename = "MyData/Read_Me_First.pdf";
@@ -60,7 +62,13 @@ export class ServiceSelectionComponent {
 
   selectedServiceName: AppType;
 
-  constructor(private dbService: NgxIndexedDBService, private router: Router, private notifyService: NotificationService, private spotHistoryRepo: SpotHistoryRepository, private inferencesRepo: InferencesRepository, private sqlDBService: DBService) {
+  sampleDataPath = "assets/sample-data/";
+  sampleDataFilenameSpotify = "spot_sampledata.zip";
+  sampleDataFilenameFacebook = "face_sampledata.zip";
+  sampleDataFilenameInstagram = "insta_sampledata.zip";
+
+  constructor(private dbService: NgxIndexedDBService, private router: Router, private notifyService: NotificationService, private spotHistoryRepo: SpotHistoryRepository, private inferencesRepo: InferencesRepository, private sqlDBService: DBService, private http: HttpClient) {
+
     //clear the database when this component gets created
     this.dbService.clear("all/userdata").subscribe((deleted) => {
       console.log("Cleared all/userdata: " + deleted);
@@ -267,6 +275,44 @@ export class ServiceSelectionComponent {
   /*
    * File Parsing Workflow
    */
+
+ /*
+  * Callback when user clicks the button to use sample data instead of their personal data download.
+  * Sets the sample data zip file of the provided service to be the selected file and then triggers the normal file parsing workflow.
+  *
+  * @author: Simon (scg@mail.upb.de)
+  */
+  async onClickedExploreSampleData() {
+    //set the uploaded files field to be the sample data for teh respective service
+    //this.uploadedFiles[0] = null;//TODO
+    
+    let sampleDataLocation : string = "";
+    if (this.selectedServiceName == this.appType.Instagram) {
+      sampleDataLocation = this.sampleDataPath + this.sampleDataFilenameInstagram;
+    }
+    else if (this.selectedServiceName == this.appType.Spotify) {
+      sampleDataLocation = this.sampleDataPath + this.sampleDataFilenameSpotify;
+    }
+    else if (this.selectedServiceName == this.appType.Facebook) {
+      sampleDataLocation = this.sampleDataPath + this.sampleDataFilenameFacebook;
+    }
+    else {
+      throw Error('The selected Service Name is not a known service. Selected: ' + this.selectedServiceName);
+    }
+    
+    this.progressBarPercent = 0;
+    this.progressBarVisible = true;
+
+    //download needed sample data from server (comes precached when pwa functionality works)
+    this.http.get(sampleDataLocation, {responseType: 'blob'}).subscribe((sampleData) => {
+      this.uploadedFiles = [];
+      this.uploadedFiles[0] = new File([sampleData], 'sample_data.zip', { type: 'application/zip', });
+
+      //trigger the normal file upload 
+      this.onClickedExploreData();
+    });
+    
+  }
 
   /**
     * Event callback that is called when the user clicks the explore data button
@@ -938,6 +984,7 @@ export class ServiceSelectionComponent {
       //TODO: Show error: you didn't upload a zip file
       this.notifyService.showNotification("The file you selected is not a zip-file. Please select the zip file you downloaded from " + this.selectedServiceName, 10000);
       this.isProcessingFile = false;
+      console.log("Filetype: " + typeof(file));
       throw Error('Selected File is not a .zip file!');
     }
   }
