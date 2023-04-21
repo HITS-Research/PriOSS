@@ -1,10 +1,7 @@
 import { Component, Input, SimpleChanges } from '@angular/core';
-import { NgxIndexedDBService } from 'ngx-indexed-db';
+import { InferencesRepository } from 'src/app/db/data-repositories/general/inferences/inferences.repository';
+import { InferencesEntry } from 'src/app/models/General/Inferences/InferencesEntry';
 
-interface Inference {
-  inference: string;
-  id: number;
-}
 
 /**
   * This component visualizes the inferences in the datadownload.
@@ -18,25 +15,23 @@ interface Inference {
   templateUrl: './inferences.component.html',
   styleUrls: ['./inferences.component.less']
 })
-
-
 export class InferencesComponent {
 
   @Input()
   previewMode: boolean = false;
 
-  inferences: readonly Inference[] = [];
-  listOfInferences: readonly Inference[];
+  inferences: readonly InferencesEntry[] = [];
+  listOfInferences: InferencesEntry[] = [];
   visible = false;
   checked = false;
   indeterminate = false;
   setOfCheckedId = new Set<number>();
-  listOfInferencesToDelete: Inference[];
+  listOfInferencesToDelete: InferencesEntry[];
 
-  constructor(private dbService: NgxIndexedDBService) {
-    this.dbService.getAll('spot/inferences').subscribe((inferences: any) => {
+  constructor(private inferencesRepo: InferencesRepository) {
+
+    this.inferencesRepo.getAllInferences().then((inferences) => {
       this.inferences = inferences;
-      inferences.forEach((inference: Inference, index: number) => inference.id = index + 1);
       this.listOfInferences = [...this.inferences];
     });
   }
@@ -87,7 +82,7 @@ export class InferencesComponent {
    * 
    * @author: Sven (svenf@mail.uni-paderborn.de)
    */
-  onCurrentPageDataChange($event: readonly Inference[]): void {
+  onCurrentPageDataChange($event: InferencesEntry[]): void {
     this.listOfInferences = $event;
     this.refreshCheckedStatus();
   }
@@ -110,7 +105,7 @@ export class InferencesComponent {
    */
   search(searchValue: any): void {
     this.visible = false;
-    this.listOfInferences = this.inferences.filter((item: Inference) =>
+    this.listOfInferences = this.inferences.filter((item: InferencesEntry) =>
       item.inference.toLowerCase().includes(searchValue.toLowerCase())
     );
 

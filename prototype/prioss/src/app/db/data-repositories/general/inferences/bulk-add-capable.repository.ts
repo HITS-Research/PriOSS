@@ -3,9 +3,8 @@ import { SQLiteDBConnection, capSQLiteChanges } from "@capacitor-community/sqlit
 import { DBService } from "src/app/services/db/db.service";
 
 /**
-  * This repository component is responsible for providing functions to insert and request data from the spot_history table
-  * that houses the Spotify listening history entries from a data-download.
-  * It includes a method to bulk-add up to 500 rows to the table in a single SQL statement by building up the SQL statement over multiple method calls.
+  * This repository component is responsible for providing methods for bulk-adding data to a SQLite table
+  * It bulk adding allows to add up to 500 rows to a table in a single SQL statement by building up the SQL statement over multiple method calls.
   *
   * @author: Simon (scg@mail.upb.de), Rashida (rbharmal@mail.uni-paderborn.de )
   *
