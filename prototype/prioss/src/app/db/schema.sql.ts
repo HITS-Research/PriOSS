@@ -8,9 +8,15 @@ CREATE TABLE IF NOT EXISTS spot_history (
     trackName TEXT NOT NULL,
     msPlayed INTEGER NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS inferences (
+    id INTEGER PRIMARY KEY,
+    inference TEXT NOT NULL
+);
 `;
 //PRAGMA user_version = 1;
 
 export const dropSchema: string =`
 DROP TABLE IF EXISTS spot_history;
+DROP TABLE IF EXISTS inferences;
 `;

@@ -56,6 +56,7 @@ import { IntrojsService } from './introjs/introjs.service';
 
 import { DBService } from './services/db/db.service';
 import { SpotHistoryRepository } from './db/data-repositories/spotify/spot-history/spot-history.repository';
+import { InferencesRepository } from './db/data-repositories/general/inferences/inferences.repository';
 
 registerLocaleData(de);
 
@@ -461,6 +462,7 @@ const dbConfig: DBConfig  =
     SQLiteService,
     DBService,
     SpotHistoryRepository,
+    InferencesRepository,
     { provide: NZ_I18N, useValue: de_DE }
   ],
   bootstrap: [AppComponent],
