@@ -6,11 +6,10 @@ import { InferencesEntry } from "src/app/models/General/Inferences/InferencesEnt
 import { SQLiteDBConnection } from "@capacitor-community/sqlite";
 
 /**
-  * This repository component is responsible for providing functions to insert and request data from the spot_history table
-  * that houses the Spotify listening history entries from a data-download.
-  * It includes a method to bulk-add up to 500 rows to the table in a single SQL statement by building up the SQL statement over multiple method calls.
+  * This repository component is responsible for providing functions to insert and request data from the inferences table.
+  * It includes a methods to bulk-add up to 500 rows to the table in a single SQL statement by building up the SQL statement over multiple method calls.
   *
-  * @author: Simon (scg@mail.upb.de), Rashida (rbharmal@mail.uni-paderborn.de )
+  * @author: Simon (scg@mail.upb.de)
   *
   */
 @Injectable()
