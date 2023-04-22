@@ -48,13 +48,30 @@ CREATE TABLE IF NOT EXISTS insta_profile_changes (
     change_date TEXT NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS insta_ad_interests (
+CREATE TABLE IF NOT EXISTS insta_ads_interests (
     id INTEGER PRIMARY KEY,
-    advertiseName TEXT NOT NULL,
+    interest TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS insta_ads_activity (
+    id INTEGER PRIMARY KEY,
+    advertiserName TEXT NOT NULL,
     has_data_file_custom_audience TEXT NOT NULL,
     has_remarketing_custom_audience TEXT NOT NULL,
     has_in_person_store_visit TEXT NOT NULL
-)
+);
+
+CREATE TABLE IF NOT EXISTS insta_ads_clicked (
+    id INTEGER PRIMARY KEY,
+    title TEXT NOT NULL,
+    timestamp TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS insta_ads_viewed (
+    id INTEGER PRIMARY KEY,
+    title TEXT NOT NULL,
+    timestamp TEXT NOT NULL
+);
 `;
 //PRAGMA user_version = 1;
 
@@ -65,4 +82,8 @@ DROP TABLE IF EXISTS insta_account_info;
 DROP TABLE IF EXISTS insta_professional_info;
 DROP TABLE IF EXISTS insta_profile_changes;
 DROP TABLE IF EXISTS inferences;
+DROP TABLE IF EXISTS insta_ads_activity;
+DROP TABLE IF EXISTS insta_ads_interests;
+DROP TABLE IF EXISTS insta_ads_clicked;
+DROP TABLE IF EXISTS insta_ads_viewed;
 `;

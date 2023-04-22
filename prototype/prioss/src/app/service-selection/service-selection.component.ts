@@ -13,10 +13,14 @@ import { SpotListenHistoryEntry } from '../models/Spotify/ListeningHistory/SpotL
 import * as JSZip from 'jszip';
 
 import * as dateUtils from '../utilities/dateUtils.functions';
-import { InferencesRepository } from '../db/data-repositories/general/inferences/inferences.repository';
-
 import { HttpClient } from '@angular/common/http';
-import { InstaPersonalRepository } from '../db/data-repositories/instagram/insta-personal.repository';
+
+import { InferencesRepository } from '../db/data-repositories/general/inferences/inferences.repository';
+import { InstaPersonalRepository } from '../db/data-repositories/instagram/insta-personal-info/insta-personal.repository';
+import { InstaAdsActivityRepository } from '../db/data-repositories/instagram/insta-ads/insta-ads-activity.repository';
+import { InstaAdsInterestRepository } from '../db/data-repositories/instagram/insta-ads/insta-ads-interest.repository';
+import { InstaAdsClickedRepository } from '../db/data-repositories/instagram/insta-ads/insta-ads-clicked.repository';
+import { InstaAdsViewedRepository } from '../db/data-repositories/instagram/insta-ads/insta-ads-viewed.repository';
 
 //service identifier filenames
 const instaIDFilename = "TODO";
@@ -68,7 +72,18 @@ export class ServiceSelectionComponent {
   sampleDataFilenameFacebook = "face_sampledata.zip";
   sampleDataFilenameInstagram = "insta_sampledata.zip";
 
-  constructor(private dbService: NgxIndexedDBService, private router: Router, private notifyService: NotificationService, private spotHistoryRepo: SpotHistoryRepository, private inferencesRepo: InferencesRepository, private instaPersonalRepo: InstaPersonalRepository, private sqlDBService: DBService, private http: HttpClient) {
+  constructor(private dbService: NgxIndexedDBService, 
+              private router: Router, 
+              private notifyService: NotificationService, 
+              private spotHistoryRepo: SpotHistoryRepository, 
+              private inferencesRepo: InferencesRepository, 
+              private instaPersonalRepo: InstaPersonalRepository, 
+              private instaAdsActivityRepo: InstaAdsActivityRepository, 
+              private instaAdsInterestRepo: InstaAdsInterestRepository,
+              private instaAdsClickedRepo: InstaAdsClickedRepository,
+              private instaAdsViewedRepo: InstaAdsViewedRepository,
+              private sqlDBService: DBService, 
+              private http: HttpClient) {
 
     //clear the database when this component gets created
     this.dbService.clear("all/userdata").subscribe((deleted) => {
@@ -525,21 +540,25 @@ export class ServiceSelectionComponent {
       if (filename.startsWith("personal_information")) {
         let jsonData = JSON.parse(content);
         let personalData = jsonData.profile_user[0].string_map_data;
+
         await this.instaPersonalRepo.addPersonalInformation(personalData.Username.value, personalData.Email.value, personalData["Date of birth"].value, personalData.Gender.value);
       }
       else if (filename.startsWith("account_information")) {
         let jsonData = JSON.parse(content);
         let accountData = jsonData.profile_account_insights[0].string_map_data;
+
         await this.instaPersonalRepo.addAccountInformation(accountData["Contact Syncing"].value, accountData["First Country Code"].value, accountData["Has Shared Live Video"].value, accountData["Last Login"].timestamp,
                                                            accountData["Last Logout"].timestamp, accountData["First Story Time"].timestamp, accountData["Last Story Time"].timestamp, accountData["First Close Friends Story Time"].timestamp);
       }
       else if (filename.startsWith("professional_information")) {
         let jsonData = JSON.parse(content);
         let profData = jsonData.profile_business[0];
+
         await this.instaPersonalRepo.addProfessionalInformation(profData.title);
       }
       else if (filename.startsWith("profile_changes")) {
         let jsonData = JSON.parse(content);
+
         for (let i = 0; i < jsonData.length; i++) {
           let profileData = jsonData[i].profile_profile_change;
           await this.instaPersonalRepo.addProfileChanges(profileData.title, profileData.string_map_data.Changed.value, profileData.string_map_data["Previous Value"].value, profileData.string_map_data["New Value"].value, 
@@ -547,7 +566,48 @@ export class ServiceSelectionComponent {
         }
       }
       //ad ads related data
-      
+      else if (filename.startsWith('ads_interests')) {
+        let jsonData = JSON.parse(content);
+        let adsData = jsonData.inferred_data_ig_interest;
+        let startData = adsData[0].string_map_data;
+
+        await this.instaAdsInterestRepo.startAdInterestBulkAdd(startData.Interest.value, adsData.length);
+        for (let i = 1; i < adsData.length; i++) {
+          let entry = adsData[i].string_map_data;
+          await this.instaAdsInterestRepo.addAdInterestBulkEntry(entry.Interest.value);
+        }
+      }
+      else if (filename.startsWith('advertisers_using_your_activity')) {
+        let jsonData = JSON.parse(content);
+        let adsData = jsonData.ig_custom_audiences_all_types;
+
+        await this.instaAdsActivityRepo.startAdActivityBulkAdd(adsData[0].advertiser_name, adsData[0].has_data_file_custom_audience, 
+                                                       adsData[0].has_remarketing_custom_audience, adsData[0].has_in_person_store_visit, adsData.length);          
+        for (let i = 1; i < adsData.length; i++) {
+          await this.instaAdsActivityRepo.addAdActivityBulkEntry(adsData[i].advertiser_name, adsData[i].has_data_file_custom_audience, 
+                                                   adsData[i].has_remarketing_custom_audience, adsData[i].has_in_person_store_visit);
+        }
+      }
+      else if (filename.startsWith('ads_clicked')) {
+        let jsonData = JSON.parse(content);
+        let adsData = jsonData.impressions_history_ads_clicked;
+
+        await this.instaAdsClickedRepo.startAdsClickedBulkAdd(adsData[0].title, adsData[0].string_list_data.timestamp, adsData.length);
+        for (let i = 1; i < adsData.length; i++) {
+          await this.instaAdsClickedRepo.addAdsClickedBulkEntry(adsData[i].title, adsData[i].string_list_data.timestamp);
+        }
+      }
+      else if (filename.startsWith('ads_viewed')) {
+        let jsonData = JSON.parse(content);
+        let adsData = jsonData.impressions_history_ads_seen;
+        let startData = adsData[0].string_map_data;
+
+        await this.instaAdsViewedRepo.startAdsViewedBulkAdd(startData["Author"].value, startData["Time"].timestamp, adsData.length);
+        for (let i = 1; i < adsData.length; i++) {
+          let entry = adsData[i].string_map_data;
+          await this.instaAdsViewedRepo.addAdsViewedBulkEntry(entry["Author"].value, entry["Time"].timestamp);
+        }
+      }
     }
 
     if (this.requestedAbortDataParsing) {
