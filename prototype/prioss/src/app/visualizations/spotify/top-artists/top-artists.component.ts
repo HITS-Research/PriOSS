@@ -1,6 +1,10 @@
 import {Component} from '@angular/core';
 import {NgxIndexedDBService} from 'ngx-indexed-db';
 import * as d3 from 'd3';
+import {SpotHistoryRepository} from "../../../db/data-repositories/spotify/spot-history/spot-history.repository";
+import {SpotYearlyListening} from "../../../models/Spotify/ListeningHistory/SpotYearlyListening";
+import {InferencesEntry} from "../../../models/General/Inferences/InferencesEntry";
+import {SpotListenHistoryEntry} from "../../../models/Spotify/ListeningHistory/SpotListenHistoryEntry";
 
 /**
  * This component visualizes how many songs from an artist were listened to
@@ -22,14 +26,14 @@ export class TopArtistsComponent {
   mostListenedArtistsSorted: any[]; // same content as tracksByArtist but sorted by the number of songs listened to
   artistsAndSongsListenedSorted: any[] = [];  // like mostListenedArtistsSorted but without the song ids, only the number of songs listened from the artist
   readonly spotifyGreen: string = "#1DB954";
-  constructor(private dbService: NgxIndexedDBService) {
-    this.dbService.getAll('spot/history').subscribe(async (history: any) => {
 
+  constructor(private spotHistoryRepo: SpotHistoryRepository) {
+    this.spotHistoryRepo.getSpotHistory().then((history) => {
       for (const track of history) {
         if (this.tracksByArtist.has(track.artistName)) {
-          this.tracksByArtist.get(track.artistName)!.push(track.$id);
+          this.tracksByArtist.get(track.artistName)!.push(track.id);
         } else {
-          this.tracksByArtist.set(track.artistName, [track.$id]);
+          this.tracksByArtist.set(track.artistName, [track.id]);
         }
       }
 
