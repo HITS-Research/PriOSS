@@ -565,7 +565,7 @@ export class ServiceSelectionComponent {
                                                          profileData.string_map_data["Change Date"].timestamp);
         }
       }
-      //ad ads related data
+      //add ads related data
       else if (filename.startsWith('ads_interests')) {
         let jsonData = JSON.parse(content);
         let adsData = jsonData.inferred_data_ig_interest;
@@ -592,9 +592,9 @@ export class ServiceSelectionComponent {
         let jsonData = JSON.parse(content);
         let adsData = jsonData.impressions_history_ads_clicked;
 
-        await this.instaAdsClickedRepo.startAdsClickedBulkAdd(adsData[0].title, adsData[0].string_list_data.timestamp, adsData.length);
+        await this.instaAdsClickedRepo.startAdsClickedBulkAdd(adsData[0].title, adsData[0].string_list_data[0].timestamp, adsData.length);
         for (let i = 1; i < adsData.length; i++) {
-          await this.instaAdsClickedRepo.addAdsClickedBulkEntry(adsData[i].title, adsData[i].string_list_data.timestamp);
+          await this.instaAdsClickedRepo.addAdsClickedBulkEntry(adsData[i].title, adsData[i].string_list_data[0].timestamp);
         }
       }
       else if (filename.startsWith('ads_viewed')) {
@@ -602,10 +602,14 @@ export class ServiceSelectionComponent {
         let adsData = jsonData.impressions_history_ads_seen;
         let startData = adsData[0].string_map_data;
 
-        await this.instaAdsViewedRepo.startAdsViewedBulkAdd(startData["Author"].value, startData["Time"].timestamp, adsData.length);
+        await this.instaAdsViewedRepo.startAdsViewedBulkAdd(startData.Author.value, startData.Time.timestamp, adsData.length);
         for (let i = 1; i < adsData.length; i++) {
           let entry = adsData[i].string_map_data;
-          await this.instaAdsViewedRepo.addAdsViewedBulkEntry(entry["Author"].value, entry["Time"].timestamp);
+          // Some data is incomplete so it is filtered out here
+          if (entry.Author === undefined || entry.Time === undefined) {
+            continue;
+          }
+          await this.instaAdsViewedRepo.addAdsViewedBulkEntry(entry.Author.value, entry.Time.timestamp);
         }
       }
     }
