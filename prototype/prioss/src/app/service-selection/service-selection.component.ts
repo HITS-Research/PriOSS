@@ -13,9 +13,14 @@ import { SpotListenHistoryEntry } from '../models/Spotify/ListeningHistory/SpotL
 import * as JSZip from 'jszip';
 
 import * as dateUtils from '../utilities/dateUtils.functions';
-import { InferencesRepository } from '../db/data-repositories/general/inferences/inferences.repository';
-
 import { HttpClient } from '@angular/common/http';
+
+import { InferencesRepository } from '../db/data-repositories/general/inferences/inferences.repository';
+import { InstaPersonalRepository } from '../db/data-repositories/instagram/insta-personal-info/insta-personal.repository';
+import { InstaAdsActivityRepository } from '../db/data-repositories/instagram/insta-ads/insta-ads-activity.repository';
+import { InstaAdsInterestRepository } from '../db/data-repositories/instagram/insta-ads/insta-ads-interest.repository';
+import { InstaAdsClickedRepository } from '../db/data-repositories/instagram/insta-ads/insta-ads-clicked.repository';
+import { InstaAdsViewedRepository } from '../db/data-repositories/instagram/insta-ads/insta-ads-viewed.repository';
 
 //service identifier filenames
 const instaIDFilename = "TODO";
@@ -35,7 +40,7 @@ const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
   * and offer a field where the user can upload the data-download. With uploaded data, the user can press a button to
   * parse the data and go to the dashboard of the respective service
   *
-  * @author: Simon (scg@mail.upb.de), Rashida (rbharmal@mail.uni-paderborn.de )
+  * @author: Simon (scg@mail.upb.de), Rashida (rbharmal@mail.uni-paderborn.de ), Paul (pasch@mail.upb.de)
   *
   */
 @Component({
@@ -67,7 +72,18 @@ export class ServiceSelectionComponent {
   sampleDataFilenameFacebook = "face_sampledata.zip";
   sampleDataFilenameInstagram = "insta_sampledata.zip";
 
-  constructor(private dbService: NgxIndexedDBService, private router: Router, private notifyService: NotificationService, private spotHistoryRepo: SpotHistoryRepository, private inferencesRepo: InferencesRepository, private sqlDBService: DBService, private http: HttpClient) {
+  constructor(private dbService: NgxIndexedDBService, 
+              private router: Router, 
+              private notifyService: NotificationService, 
+              private spotHistoryRepo: SpotHistoryRepository, 
+              private inferencesRepo: InferencesRepository, 
+              private instaPersonalRepo: InstaPersonalRepository, 
+              private instaAdsActivityRepo: InstaAdsActivityRepository, 
+              private instaAdsInterestRepo: InstaAdsInterestRepository,
+              private instaAdsClickedRepo: InstaAdsClickedRepository,
+              private instaAdsViewedRepo: InstaAdsViewedRepository,
+              private sqlDBService: DBService, 
+              private http: HttpClient) {
 
     //clear the database when this component gets created
     this.dbService.clear("all/userdata").subscribe((deleted) => {
@@ -341,6 +357,7 @@ export class ServiceSelectionComponent {
     if (selectedApp == this.appType.Instagram) {
       console.log("Parsing Instagram file...");
       this.parseInstagramFile();
+      this.parseInstagramFileToSQLite();
     }
     else if (selectedApp == this.appType.Spotify) {
       console.log("Parsing Spotify file...");
@@ -478,6 +495,138 @@ export class ServiceSelectionComponent {
 
     this.progressBarVisible = false;
     this.router.navigate(['spot/dashboard']);
+  }
+
+  /**
+    * Parses the uploaded Instagram data-download-zip file into the SQLite database
+    *
+    * @author: Paul (pasch@mail.upb.de)
+    *
+    */
+  async parseInstagramFileToSQLite() {
+    const start = Date.now();
+
+    let file = this.uploadedFiles[0];
+
+    let zip: JSZip = await this.loadZipFile(file);
+
+    this.isProcessingFile = true;//shows the processing icon on the button
+
+    this.progressBarPercent = 0;
+    this.progressBarVisible = true;
+
+    let filepaths: string[] = Object.keys(zip.files);
+    for (let i = 0; i < filepaths.length; i++) {
+      if (this.requestedAbortDataParsing) {
+        this.requestedAbortDataParsing = false;
+        return;
+      }
+
+      this.progressBarPercent = Math.round(100 * (i / filepaths.length));
+
+      let filepath: string = filepaths[i];
+      console.log(filepath);
+      let content: string = await zip.files[filepath].async("string");
+      let filename: string | undefined = filepath.split('\\').pop()?.split('/').pop();
+      console.log(filename);
+
+      if (!filename) {
+        continue;
+      }
+
+      console.log('Opening: ' + filename);
+
+      //add personal information
+      if (filename.startsWith("personal_information")) {
+        let jsonData = JSON.parse(content);
+        let personalData = jsonData.profile_user[0].string_map_data;
+
+        await this.instaPersonalRepo.addPersonalInformation(personalData.Username.value, personalData.Email.value, personalData["Date of birth"].value, personalData.Gender.value);
+      }
+      else if (filename.startsWith("account_information")) {
+        let jsonData = JSON.parse(content);
+        let accountData = jsonData.profile_account_insights[0].string_map_data;
+
+        await this.instaPersonalRepo.addAccountInformation(accountData["Contact Syncing"].value, accountData["First Country Code"].value, accountData["Has Shared Live Video"].value, accountData["Last Login"].timestamp,
+                                                           accountData["Last Logout"].timestamp, accountData["First Story Time"].timestamp, accountData["Last Story Time"].timestamp, accountData["First Close Friends Story Time"].timestamp);
+      }
+      else if (filename.startsWith("professional_information")) {
+        let jsonData = JSON.parse(content);
+        let profData = jsonData.profile_business[0];
+
+        await this.instaPersonalRepo.addProfessionalInformation(profData.title);
+      }
+      else if (filename.startsWith("profile_changes")) {
+        let jsonData = JSON.parse(content);
+
+        for (let i = 0; i < jsonData.length; i++) {
+          let profileData = jsonData[i].profile_profile_change;
+          await this.instaPersonalRepo.addProfileChanges(profileData.title, profileData.string_map_data.Changed.value, profileData.string_map_data["Previous Value"].value, profileData.string_map_data["New Value"].value, 
+                                                         profileData.string_map_data["Change Date"].timestamp);
+        }
+      }
+      //add ads related data
+      else if (filename.startsWith('ads_interests')) {
+        let jsonData = JSON.parse(content);
+        let adsData = jsonData.inferred_data_ig_interest;
+        let startData = adsData[0].string_map_data;
+
+        await this.instaAdsInterestRepo.startAdInterestBulkAdd(startData.Interest.value, adsData.length);
+        for (let i = 1; i < adsData.length; i++) {
+          let entry = adsData[i].string_map_data;
+          await this.instaAdsInterestRepo.addAdInterestBulkEntry(entry.Interest.value);
+        }
+      }
+      else if (filename.startsWith('advertisers_using_your_activity')) {
+        let jsonData = JSON.parse(content);
+        let adsData = jsonData.ig_custom_audiences_all_types;
+
+        await this.instaAdsActivityRepo.startAdActivityBulkAdd(adsData[0].advertiser_name, adsData[0].has_data_file_custom_audience, 
+                                                       adsData[0].has_remarketing_custom_audience, adsData[0].has_in_person_store_visit, adsData.length);          
+        for (let i = 1; i < adsData.length; i++) {
+          await this.instaAdsActivityRepo.addAdActivityBulkEntry(adsData[i].advertiser_name, adsData[i].has_data_file_custom_audience, 
+                                                   adsData[i].has_remarketing_custom_audience, adsData[i].has_in_person_store_visit);
+        }
+      }
+      else if (filename.startsWith('ads_clicked')) {
+        let jsonData = JSON.parse(content);
+        let adsData = jsonData.impressions_history_ads_clicked;
+
+        await this.instaAdsClickedRepo.startAdsClickedBulkAdd(adsData[0].title, adsData[0].string_list_data[0].timestamp, adsData.length);
+        for (let i = 1; i < adsData.length; i++) {
+          await this.instaAdsClickedRepo.addAdsClickedBulkEntry(adsData[i].title, adsData[i].string_list_data[0].timestamp);
+        }
+      }
+      else if (filename.startsWith('ads_viewed')) {
+        let jsonData = JSON.parse(content);
+        let adsData = jsonData.impressions_history_ads_seen;
+        let startData = adsData[0].string_map_data;
+
+        await this.instaAdsViewedRepo.startAdsViewedBulkAdd(startData.Author.value, startData.Time.timestamp, adsData.length);
+        for (let i = 1; i < adsData.length; i++) {
+          let entry = adsData[i].string_map_data;
+          // Some data is incomplete so it is filtered out here
+          if (entry.Author === undefined || entry.Time === undefined) {
+            continue;
+          }
+          await this.instaAdsViewedRepo.addAdsViewedBulkEntry(entry.Author.value, entry.Time.timestamp);
+        }
+      }
+    }
+
+    if (this.requestedAbortDataParsing) {
+      this.requestedAbortDataParsing = false;
+      return;
+    }
+
+    const end = Date.now();
+    console.log(`Data-download files parsed and data inserted in: ${end - start} ms`);
+
+    this.progressBarPercent = 100;
+    await delay(500);
+
+    this.progressBarVisible = false;
+    this.router.navigate(['insta/dashboard']);
   }
 
   /**
@@ -664,12 +813,6 @@ export class ServiceSelectionComponent {
         });
         return true;
       });
-
-      console.log("navigating...");
-      setTimeout(() => {
-        //TODO: properly wait for data to be available in DB
-        this.router.navigate(['insta/dashboard']);
-      }, 3000);
     });
   }
 

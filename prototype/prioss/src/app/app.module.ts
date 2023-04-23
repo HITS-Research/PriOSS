@@ -57,6 +57,11 @@ import { IntrojsService } from './introjs/introjs.service';
 import { DBService } from './services/db/db.service';
 import { SpotHistoryRepository } from './db/data-repositories/spotify/spot-history/spot-history.repository';
 import { InferencesRepository } from './db/data-repositories/general/inferences/inferences.repository';
+import { InstaPersonalRepository } from './db/data-repositories/instagram/insta-personal-info/insta-personal.repository';
+import { InstaAdsActivityRepository } from './db/data-repositories/instagram/insta-ads/insta-ads-activity.repository';
+import { InstaAdsInterestRepository } from './db/data-repositories/instagram/insta-ads/insta-ads-interest.repository';
+import { InstaAdsClickedRepository } from './db/data-repositories/instagram/insta-ads/insta-ads-clicked.repository';
+import { InstaAdsViewedRepository } from './db/data-repositories/instagram/insta-ads/insta-ads-viewed.repository';
 
 registerLocaleData(de);
 
@@ -462,6 +467,11 @@ const dbConfig: DBConfig  =
     SQLiteService,
     DBService,
     SpotHistoryRepository,
+    InstaPersonalRepository,
+    InstaAdsActivityRepository,
+    InstaAdsInterestRepository,
+    InstaAdsClickedRepository,
+    InstaAdsViewedRepository,
     InferencesRepository,
     { provide: NZ_I18N, useValue: de_DE }
   ],
