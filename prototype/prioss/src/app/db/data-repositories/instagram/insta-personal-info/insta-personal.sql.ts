@@ -25,3 +25,37 @@ export const insertIntoInstaProfileChangesSQL: string = `
   values 
   (?, ?, ?, ?, ?);
 `;
+
+export const selectPersonalInfo: string = `
+  select username,
+         email,
+         birthdate,
+         gender
+    from insta_personal_info;
+`;
+
+export const selectAccountInfo: string = `
+  select contactSyncing,
+         first_country_code,
+         has_shared_live_video,
+         last_login,
+         last_logout,
+         first_story_time,
+         last_story_time,
+         first_close_friends_story_time
+    from insta_account_info;
+`;
+
+export const selectProfessionalInfo: string = `
+  select title
+    from insta_professional_info;
+`;
+
+export const selectProfileChanges: string = `
+  select title,
+         changed,
+         old_value,
+         new_value,
+         change_date
+    from insta_profile_changes;
+`;

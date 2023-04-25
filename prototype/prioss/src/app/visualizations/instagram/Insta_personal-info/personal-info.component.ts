@@ -1,23 +1,18 @@
 import { Component, Input } from '@angular/core';
-import { NgxIndexedDBService } from 'ngx-indexed-db';
 import * as utilities from 'src/app/utilities/generalUtilities.functions'
+import { InstaPersonalRepository } from 'src/app/db/data-repositories/instagram/insta-personal-info/insta-personal.repository';
+import { InstaPersonalInfo } from 'src/app/models/Instagram/PersonalInfo/InstaPersonalInfo';
+import { InstaAccountInfo } from 'src/app/models/Instagram/PersonalInfo/InstaAccountInfo';
+import { InstaProfessionalInfo } from 'src/app/models/Instagram/PersonalInfo/InstaProfessionalInfo';
+import { InstaProfileChange } from 'src/app/models/Instagram/PersonalInfo/InstaProfileChange';
 
 
-//this interface serves as container for the profile change data.
-interface ProfileChange{
-  change_date: string;
-  changed: string;
-  new_value: string;
-  previous_value: string;
-  title: string;
-}
 
 /**
   * This component is the visualization component on instagram's dashboard page.
   * This page is shown when the user clicks on the personal information card on instagram's dashboard.
   *
   * @author: Paul (pasch@mail.upb.de)
-  *
   */
 @Component({
   selector: 'app-personal-info',
@@ -29,34 +24,27 @@ export class Insta_PersonalInfoComponent {
   @Input()
   previewMode: boolean = false;
 
-  userData: object = {};
-  personalInfo: object = {};
-  accountInfo: object = {};
-  professionalInfo: object = {};
-  profileChanges: ProfileChange[] = [];
+  personalInfo: InstaPersonalInfo[];
+  accountInfo: InstaAccountInfo[];
+  professionalInfo: InstaProfessionalInfo[];
+  profileChanges: InstaProfileChange[] = [];
   getObjectPairs: (obj: object) => [string, any][] = utilities.getObjectPairs;
 
 
-  constructor(private dbService: NgxIndexedDBService) {
-    this.dbService.getAll('all/userdata').subscribe((userdata: any) => {
-      this.personalInfo = userdata[0];
-      console.log(this.personalInfo);
-    });
+  constructor(private instaPersonalRepo: InstaPersonalRepository) {
+    this.collectData();
+  }
 
-    this.dbService.getAll('insta/account_information').subscribe((accountInfo: any) => {
-      this.accountInfo = accountInfo[0];
-      console.log(this.accountInfo);
-    });
-
-    this.dbService.getAll('insta/professional_information').subscribe((profInfo: any) => {
-      this.professionalInfo = profInfo[0];
-      console.log(this.professionalInfo);
-    });
-
-    this.dbService.getAll('insta/profile_changes').subscribe((profileChanges: any) => {
-      this.profileChanges = profileChanges;
-      console.log(this.profileChanges);
-    });
+  /**
+   * Stores all needed data from the different tables into the corresponding interface variables.
+   * 
+   * @author: Paul (pasch@mail.upb.de)
+   */
+  async collectData() {
+    this.personalInfo = await this.instaPersonalRepo.getPersonalInfo();
+    this.accountInfo = await this.instaPersonalRepo.getAccountInfo();
+    this.professionalInfo = await this.instaPersonalRepo.getProfessionalInfo();
+    this.profileChanges = await this.instaPersonalRepo.getProfileChanges();
   }
 
   /**

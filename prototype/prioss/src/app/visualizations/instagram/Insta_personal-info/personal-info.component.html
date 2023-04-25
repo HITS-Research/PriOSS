@@ -65,9 +65,9 @@
         <tr *ngFor="let data of basicTable.data">
           <td>{{ data.title }}</td>
           <td>{{ data.changed }}</td>
-          <td>{{ data.previous_value }}</td>
-          <td>{{ data.new_value }}</td>
-          <td>{{ convertTimestamp(data.change_date) }}</td>
+          <td>{{ data.oldValue}}</td>
+          <td>{{ data.newValue }}</td>
+          <td>{{ convertTimestamp(data.changeDate) }}</td>
         </tr>
       </tbody>
     </nz-table>

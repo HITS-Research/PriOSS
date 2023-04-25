@@ -1,4 +1,4 @@
-export interface InstAccountInfo {
+export interface InstaAccountInfo {
     contactSyncing: string,
     firstCountryCode: string,
     hasSharedLiveVideo: string,

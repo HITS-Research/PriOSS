@@ -1,7 +1,11 @@
 import { Injectable } from "@angular/core";
 import { SQLiteDBConnection, capSQLiteChanges } from "@capacitor-community/sqlite";
 import { DBService } from "../../../../services/db/db.service";
-import { insertIntoInstaPersonalInfoSQL, insertIntoInstaAccountInfoSQL, insertIntoInstaProfessionalInfoSQL, insertIntoInstaProfileChangesSQL } from "./insta-personal.sql";
+import * as sql from "./insta-personal.sql";
+import { InstaPersonalInfo } from 'src/app/models/Instagram/PersonalInfo/InstaPersonalInfo';
+import { InstaAccountInfo } from 'src/app/models/Instagram/PersonalInfo/InstaAccountInfo';
+import { InstaProfessionalInfo } from 'src/app/models/Instagram/PersonalInfo/InstaProfessionalInfo';
+import { InstaProfileChange } from 'src/app/models/Instagram/PersonalInfo/InstaProfileChange';
 
 /**
  * This class handles all communication with the database tables that are used in the InstaPersonalInformation Component.
@@ -28,7 +32,7 @@ export class InstaPersonalRepository {
     async addPersonalInformation(username: string, email: string, birthdate: string, gender: string) {
         await this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
 
-            let sqlStatement = insertIntoInstaPersonalInfoSQL;
+            let sqlStatement = sql.insertIntoInstaPersonalInfoSQL;
             let values = [username, email,  birthdate, gender];
       
             let ret: capSQLiteChanges = await db.run(sqlStatement, values);
@@ -52,7 +56,7 @@ export class InstaPersonalRepository {
     async addAccountInformation(contactSyncing: string, firstCountryCode: string, hasSharedLiveVideo: string, lastLogin: string, lastLogout: string, firstStoryTime: string, lastStoryTime: string, firstCloseFriendsStoryTime: string) {
         await this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
 
-            let sqlStatement = insertIntoInstaAccountInfoSQL;
+            let sqlStatement = sql.insertIntoInstaAccountInfoSQL;
             let values = [contactSyncing, firstCountryCode, hasSharedLiveVideo, lastLogin, lastLogout, firstStoryTime, lastStoryTime, firstCloseFriendsStoryTime];
       
             let ret: capSQLiteChanges = await db.run(sqlStatement, values);
@@ -62,14 +66,14 @@ export class InstaPersonalRepository {
     /**
      * This async method adds professional information to the insta_professional_information table.
      * 
-     * @author: Paul (pasch@mail.upb.de)
-     * 
      * @param title the title of the professional information of the user that should be added to the insta professional info table
+     * 
+     * @author: Paul (pasch@mail.upb.de)
      */
     async addProfessionalInformation(title:string) {
         await this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
 
-            let sqlStatement = insertIntoInstaProfessionalInfoSQL;
+            let sqlStatement = sql.insertIntoInstaProfessionalInfoSQL;
             let values = [title];
       
             let ret: capSQLiteChanges = await db.run(sqlStatement, values);
@@ -79,21 +83,85 @@ export class InstaPersonalRepository {
     /**
      * This async method adds profile change infomration to the insta_profile_changes table.
      * 
-     * @author: Paul (pasch@mail.upb.de)
-     * 
      * @param title the title of the profile change of the user that should be added to the insta profile changes table
      * @param changed the type of changes of the profile that should be added to the insta profile changes table
      * @param previous_value the prvious value of the profile that should be added to the insta profile changes table
      * @param new_value the new value of the profile that should be added to the insta profile changes table
      * @param change_date the timestamp of the change to the profile that should be added to the insta profile changes table
+     * 
+     * @author: Paul (pasch@mail.upb.de)
      */
     async addProfileChanges(title: string, changed: string, previous_value: string, new_value: string, change_date: string) {
         await this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
 
-            let sqlStatement = insertIntoInstaProfileChangesSQL;
+            let sqlStatement = sql.insertIntoInstaProfileChangesSQL;
             let values = [title, changed, previous_value, new_value, change_date];
       
             let ret: capSQLiteChanges = await db.run(sqlStatement, values);
           });
+    }
+
+    /**
+     * This async method selects all entries from the insta_personal_info table
+     * 
+     * @returns an array of InstaPersonalInfos
+     * 
+     * @author: Paul (pasch@mail.upb.de)
+     */
+    async getPersonalInfo(): Promise<InstaPersonalInfo[]>
+    {
+        return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
+
+            let result = await db.query(sql.selectPersonalInfo);
+            return result.values as InstaPersonalInfo[];
+        });
+    }
+
+    /**
+     * This async method selects all entries from the insta_professional_info table
+     * 
+     * @returns an array of InstaProfessionalInfos
+     * 
+     * @author: Paul (pasch@mail.upb.de)
+     */
+    async getProfessionalInfo(): Promise<InstaProfessionalInfo[]>
+    {
+        return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
+
+            let result = await db.query(sql.selectProfessionalInfo);
+            return result.values as InstaProfessionalInfo[];
+        });
+    }
+
+    /**
+     * This async method selects all entries from the insta_account_info table
+     * 
+     * @returns an array of InstaAccountInfos
+     * 
+     * @author: Paul (pasch@mail.upb.de)
+     */
+    async getAccountInfo(): Promise<InstaAccountInfo[]>
+    {
+        return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
+
+            let result = await db.query(sql.selectAccountInfo);
+            return result.values as InstaAccountInfo[];
+        });
+    }
+
+    /**
+     * This async method selects all entries from the insta_profile_changes table
+     * 
+     * @returns an array of InstaProfileChanges
+     * 
+     * @author: Paul (pasch@mail.upb.de)
+     */
+    async getProfileChanges(): Promise<InstaProfileChange[]>
+    {
+        return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
+
+            let result = await db.query(sql.selectProfileChanges);
+            return result.values as InstaProfileChange[];
+        });
     }
 }

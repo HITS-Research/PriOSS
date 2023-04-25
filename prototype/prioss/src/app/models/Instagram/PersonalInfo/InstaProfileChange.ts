@@ -1,7 +1,7 @@
-export interface InstaProfileChanges {
+export interface InstaProfileChange {
     title: string,
     changed: string,
     oldValue: string,
     newValue: string,
-    ChangeDate: string
+    changeDate: string
 }
