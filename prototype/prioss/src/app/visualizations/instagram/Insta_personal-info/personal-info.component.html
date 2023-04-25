@@ -9,10 +9,21 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let pair of getObjectPairs(personalInfo) | slice:0:getObjectPairs(personalInfo).length-1">
-          <!-- the part after the | in the *ngFor is responsible for cutting of the last element in userdata, which is the database index -->
-          <td>{{ capitalizeAndPrettify(pair[0]) }}</td>
-          <td>{{ pair[1] }}</td>
+        <tr>
+          <td>Username</td>
+          <td>{{personalInfo[0].username}}</td>
+        </tr>
+        <tr>
+          <td>Email</td>
+          <td>{{personalInfo[0].email}}</td>
+        </tr>
+        <tr>
+          <td>Birthdate</td>
+          <td>{{personalInfo[0].birthdate}}</td>
+        </tr>
+        <tr>
+          <td>Gender</td>
+          <td>{{personalInfo[0].gender}}</td>
         </tr>
       </tbody>
     </nz-table>
@@ -31,15 +42,53 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let pair of getObjectPairs(personalInfo) | slice:0:getObjectPairs(personalInfo).length-1">
-          <!-- the part after the | in the *ngFor is responsible for cutting of the last element in userdata, which is the database index -->
-          <td>{{ capitalizeAndPrettify(pair[0]) }}</td>
-          <td>{{ pair[1] }}</td>
+        <tr>
+          <td>Username</td>
+          <td>{{personalInfo[0].username}}</td>
         </tr>
-        <tr *ngFor="let pair of getObjectPairs(accountInfo) | slice:0:getObjectPairs(accountInfo).length-1">
-          <!-- the part after the | in the *ngFor is responsible for cutting of the last element in userdata, which is the database index -->
-          <td>{{ capitalizeAndPrettify(pair[0]) }}</td>
-          <td>{{ convertTimestamp(pair[1]) }}</td>
+        <tr>
+          <td>Email</td>
+          <td>{{personalInfo[0].email}}</td>
+        </tr>
+        <tr>
+          <td>Birthdate</td>
+          <td>{{personalInfo[0].birthdate}}</td>
+        </tr>
+        <tr>
+          <td>Gender</td>
+          <td>{{personalInfo[0].gender}}</td>
+        </tr>
+        <tr>
+          <td>Contact Syncing</td>
+          <td>{{accountInfo[0].contactSyncing}}</td>
+        </tr>
+        <tr>
+          <td>First Country Code</td>
+          <td>{{accountInfo[0].firstCountryCode}}</td>
+        </tr>
+        <tr>
+          <td>Has Shared Live Video</td>
+          <td>{{accountInfo[0].hasSharedLiveVideo}}</td>
+        </tr>
+        <tr>
+          <td>Last Login</td>
+          <td>{{convertTimestamp(accountInfo[0].lastLogin)}}</td>
+        </tr>
+        <tr>
+          <td>Last Logout</td>
+          <td>{{convertTimestamp(accountInfo[0].lastLogout)}}</td>
+        </tr>
+        <tr>
+          <td>First Story Time</td>
+          <td>{{convertTimestamp(accountInfo[0].firstStoryTime)}}</td>
+        </tr>
+        <tr>
+          <td>Last Story Time</td>
+          <td>{{convertTimestamp(accountInfo[0].lastStoryTime)}}</td>
+        </tr>
+        <tr>
+          <td>First Close Friends Story Time</td>
+          <td>{{convertTimestamp(accountInfo[0].firstCloseFriendsStoryTime)}}</td>
         </tr>
       </tbody>
     </nz-table>
@@ -65,7 +114,7 @@
         <tr *ngFor="let data of basicTable.data">
           <td>{{ data.title }}</td>
           <td>{{ data.changed }}</td>
-          <td>{{ data.oldValue}}</td>
+          <td>{{ data.previousValue}}</td>
           <td>{{ data.newValue }}</td>
           <td>{{ convertTimestamp(data.changeDate) }}</td>
         </tr>

@@ -1,7 +1,7 @@
 export interface InstaProfileChange {
     title: string,
     changed: string,
-    oldValue: string,
+    previousValue: string,
     newValue: string,
     changeDate: string
 }

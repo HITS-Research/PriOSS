@@ -35,7 +35,7 @@ export const selectPersonalInfo: string = `
 `;
 
 export const selectAccountInfo: string = `
-  select contactSyncing,
+  select contact_Syncing,
          first_country_code,
          has_shared_live_video,
          last_login,
@@ -54,7 +54,7 @@ export const selectProfessionalInfo: string = `
 export const selectProfileChanges: string = `
   select title,
          changed,
-         old_value,
+         previous_value,
          new_value,
          change_date
     from insta_profile_changes;

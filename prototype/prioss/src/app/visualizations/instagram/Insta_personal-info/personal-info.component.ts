@@ -29,6 +29,7 @@ export class Insta_PersonalInfoComponent {
   professionalInfo: InstaProfessionalInfo[];
   profileChanges: InstaProfileChange[] = [];
   getObjectPairs: (obj: object) => [string, any][] = utilities.getObjectPairs;
+  convertTimestamp: (str: string) => any = utilities.convertTimestamp;
 
 
   constructor(private instaPersonalRepo: InstaPersonalRepository) {
@@ -41,54 +42,18 @@ export class Insta_PersonalInfoComponent {
    * @author: Paul (pasch@mail.upb.de)
    */
   async collectData() {
-    this.personalInfo = await this.instaPersonalRepo.getPersonalInfo();
-    this.accountInfo = await this.instaPersonalRepo.getAccountInfo();
-    this.professionalInfo = await this.instaPersonalRepo.getProfessionalInfo();
-    this.profileChanges = await this.instaPersonalRepo.getProfileChanges();
-  }
-
-  /**
-  * This method capitalizes the first letter of a word and removes '_' from strings.
-  * used to capitalize the (non-capitalized) database entries (e.g. email -> Email, email_accound -> Email Account) 
-  *
-  * @author: Paul (pasch@mail.upb.de)
-  *
-  */ 
-  capitalizeAndPrettify(str: string) {
-    let result: string = "";
-    str.split('_').forEach(function (splitted) {
-      result = result + ' ' + splitted.charAt(0).toUpperCase() + splitted.slice(1);
+    await this.instaPersonalRepo.getPersonalInfo().then((pInfo) => {
+      this.personalInfo = pInfo;
     });
-
-    return result;
-  }
-
-  /**
-   * This method converts a string to a timestamp if it is feasable.
-   * used to convert a string with the format YYYY-MM-DD (e.g. 1676140269 -> 2023-01-06)
-   * 
-   * @param str: the string to convert
-   * @returns: a timestamp if feasable
-   * 
-   * @author: Paul (pasch@mail.upb.de)
-   * 
-   */
-  convertTimestamp(str: string): any {
-    //returns the given string if it is not convertible to a number.
-    if (isNaN(parseInt(str))) {
-      return str;
-    }
-    //returns 'na' if the timestamp is 0.
-    if (str == '0') {
-      return 'na';
-    }
-
-    let number: number = parseInt(str) * 1000;
-    let date: Date = new Date(number);
-
-    //returns a date in the format YYYY-MM-DD.
-    return date.getFullYear() + '-' 
-           + ('0' + date.getMonth()).slice(-2) + '-' 
-           + ('0' + date.getDay()).slice(-2);
+    await this.instaPersonalRepo.getAccountInfo().then((accInfo) => {
+      this.accountInfo = accInfo;
+    });
+    await this.instaPersonalRepo.getProfessionalInfo().then((proInfo) => {
+      this.professionalInfo = proInfo;
+    });
+    await this.instaPersonalRepo.getProfileChanges().then((changes) => {
+      this.profileChanges = changes;
+      console.log(this.profileChanges);
+    });
   }
 }
