@@ -23,13 +23,13 @@
   <div *ngIf="login_logout_activities?.length && signup_information != null">
     <h3 nz-typography>Highlights</h3>
     <nz-row [nzGutter]="16">
-      <nz-col [nzSpan]="12">
+      <nz-col [nzSpan]="8">
         <nz-statistic [nzValue]="(login_amount|number)!" [nzTitle]="'Number of logins'"></nz-statistic>
       </nz-col>
-      <nz-col [nzSpan]="12">
+      <nz-col [nzSpan]="8">
         <nz-statistic [nzValue]="(logout_amount|number)!" [nzTitle]="'Number of logouts'"></nz-statistic>
       </nz-col>
-      <nz-col [nzSpan]="12">
+      <nz-col [nzSpan]="8">
         <nz-statistic [nzValue]="most_used_device" [nzTitle]="'Most used device'"></nz-statistic>
       </nz-col>
     </nz-row>
