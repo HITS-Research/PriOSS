@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 
 /**
   * This component is the root component for instagram's dashboard page.
-  * This page is shown once a user has successfully uploaded their spotify data-download.
+  * This page is shown once a user has successfully uploaded their instagram data-download.
   *
   * @remarks
   * Equivalent components for facebook and spotify exist that define their dashboards
