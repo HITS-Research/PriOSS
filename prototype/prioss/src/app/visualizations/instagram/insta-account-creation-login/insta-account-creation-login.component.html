@@ -4,10 +4,10 @@
   <div *ngIf="previewMode">
     <nz-row [nzGutter]="16">
       <nz-col [nzSpan]="12">
-        <nz-statistic [nzValue]="(123|number)!" [nzTitle]="'Number of logins'"></nz-statistic>
+        <nz-statistic [nzValue]="(login_amount|number)!" [nzTitle]="'Number of logins'"></nz-statistic>
       </nz-col>
       <nz-col [nzSpan]="12">
-        <nz-statistic [nzValue]="(123|number)!" [nzTitle]="'Number of logouts'"></nz-statistic>
+        <nz-statistic [nzValue]="(logout_amount|number)!" [nzTitle]="'Number of logouts'"></nz-statistic>
       </nz-col>
       <nz-col [nzSpan]="12">
         <nz-statistic [nzValue]="most_used_device" [nzTitle]="'Most used device'"></nz-statistic>
