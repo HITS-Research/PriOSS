@@ -557,10 +557,9 @@ export class ServiceSelectionComponent {
       }
       else if (filename.startsWith("profile_changes")) {
         let jsonData = JSON.parse(content);
-        console.log("changes?: " + jsonData.length);
+        let profileData = jsonData[i].profile_profile_change;
 
-        for (let i = 0; i < jsonData.length; i++) {
-          let profileData = jsonData[i].profile_profile_change;
+        for (let i = 0; i < profileData.length; i++) {
           await this.instaPersonalRepo.addProfileChanges(profileData.title, profileData.string_map_data.Changed.value, profileData.string_map_data["Previous Value"].value, profileData.string_map_data["New Value"].value, 
                                                          profileData.string_map_data["Change Date"].timestamp);
         }
