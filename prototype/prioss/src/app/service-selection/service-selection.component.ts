@@ -13,6 +13,7 @@ import { SpotListenHistoryEntry } from '../models/Spotify/ListeningHistory/SpotL
 import * as JSZip from 'jszip';
 
 import * as dateUtils from '../utilities/dateUtils.functions';
+import * as utilities from '../utilities/generalUtilities.functions'
 import { HttpClient } from '@angular/common/http';
 
 import { InferencesRepository } from '../db/data-repositories/general/inferences/inferences.repository';
@@ -540,14 +541,38 @@ export class ServiceSelectionComponent {
         let jsonData = JSON.parse(content);
         let personalData = jsonData.profile_user[0].string_map_data;
 
-        await this.instaPersonalRepo.addPersonalInformation(personalData.Username.value, personalData.Email.value, personalData["Date of birth"].value, personalData.Gender.value);
+        console.log(personalData)
+
+        // Email Handling
+        var email = "";
+        if(personalData.Email !== undefined) {
+          email = personalData.Email.value;
+        }
+        else if(personalData["Email address"] !== undefined) {
+          email = utilities.getValueIgnoreCase(personalData,"Email address",false);
+        }
+
+        var gender = utilities.getValueIgnoreCase(personalData,"Gender",false);
+        var dob = utilities.getValueIgnoreCase(personalData,"Date of birth",false);
+
+        await this.instaPersonalRepo.addPersonalInformation(personalData?.Username?.value, email, dob, gender);
       }
       else if (filename.startsWith("account_information")) {
         let jsonData = JSON.parse(content);
         let accountData = jsonData.profile_account_insights[0].string_map_data;
 
-        await this.instaPersonalRepo.addAccountInformation(accountData["Contact Syncing"].value, accountData["First Country Code"].value, accountData["Has Shared Live Video"].value, accountData["Last Login"].timestamp,
-                                                           accountData["Last Logout"].timestamp, accountData["First Story Time"].timestamp, accountData["Last Story Time"].timestamp, accountData["First Close Friends Story Time"].timestamp);
+        var contact_syncing = utilities.getValueIgnoreCase(accountData,"Contact Syncing",false)
+        var first_country_code = utilities.getValueIgnoreCase(accountData,"First Country Code",false)
+        var has_shared_live_video = utilities.getValueIgnoreCase(accountData,"Has Shared Live Video",false)
+        var last_login = utilities.getValueIgnoreCase(accountData,"Last Login",true)
+        var last_logout = utilities.getValueIgnoreCase(accountData,"Last Logout",true)
+        var first_story_time = utilities.getValueIgnoreCase(accountData,"First Story Time",true)
+        var last_story_time = utilities.getValueIgnoreCase(accountData,"Last Story Time",true)
+        var first_close_friends_story_time = utilities.getValueIgnoreCase(accountData,"First Close Friends Story Time",true)
+
+        await this.instaPersonalRepo.addAccountInformation(contact_syncing, first_country_code, 
+          has_shared_live_video, last_login, last_logout, first_story_time, last_story_time, 
+          first_close_friends_story_time);
       }
       else if (filename.startsWith("professional_information")) {
         let jsonData = JSON.parse(content);
@@ -560,9 +585,16 @@ export class ServiceSelectionComponent {
         let profileData = jsonData.profile_profile_change;
         console.log(profileData);
 
+        
         for (let i = 0; i < profileData.length; i++) {
-          await this.instaPersonalRepo.addProfileChanges(profileData[i].title, profileData[i].string_map_data.Changed.value, profileData[i].string_map_data["Previous Value"].value, profileData[i].string_map_data["New Value"].value, 
-                                                         profileData[i].string_map_data["Change Date"].timestamp);
+          
+
+          var changed_data = profileData[i].string_map_data.Changed.value
+          var previous_value = utilities.getValueIgnoreCase(profileData[i].string_map_data,"Previous Value", false);
+          var new_value = utilities.getValueIgnoreCase(profileData[i].string_map_data,"New Value", false);
+          var change_date = utilities.getValueIgnoreCase(profileData[i].string_map_data,"Change Date", true);
+
+          await this.instaPersonalRepo.addProfileChanges(profileData[i].title, changed_data, previous_value, new_value, change_date);
         }
       }
       //add ads related data
@@ -602,14 +634,28 @@ export class ServiceSelectionComponent {
         let adsData = jsonData.impressions_history_ads_seen;
         let startData = adsData[0].string_map_data;
 
-        await this.instaAdsViewedRepo.startAdsViewedBulkAdd(startData.Author.value, startData.Time.timestamp, adsData.length);
+        var startDate_time = ""
+        if (startData.Time.timestamp !== undefined) { 
+          startDate_time = startData.Time.timestamp
+        } else if (startData.Time.value !== undefined) {
+          startDate_time = startData.Time.value
+        }
+
+        await this.instaAdsViewedRepo.startAdsViewedBulkAdd(startData.Author.value, startDate_time, adsData.length);
         for (let i = 1; i < adsData.length; i++) {
           let entry = adsData[i].string_map_data;
           // Some data is incomplete so it is filtered out here
           if (entry.Author === undefined || entry.Time === undefined) {
             continue;
           }
-          await this.instaAdsViewedRepo.addAdsViewedBulkEntry(entry.Author.value, entry.Time.timestamp);
+          var time = ""
+          if (entry.Time.timestamp !== undefined) { 
+            time = entry.Time.timestamp
+          } else if (entry.Time.value !== undefined) {
+            time = entry.Time.value
+          }
+
+          await this.instaAdsViewedRepo.addAdsViewedBulkEntry(entry.Author.value, time);
         }
       }
     }
@@ -627,6 +673,20 @@ export class ServiceSelectionComponent {
 
     this.progressBarVisible = false;
     this.router.navigate(['insta/dashboard']);
+  }
+
+  getValueIgnoreCase(jsonObj: any, key: string, time_value : boolean): any {
+    const keys = Object.keys(jsonObj);
+    for (const i in keys) {
+      if (keys[i].toLowerCase() === key.toLowerCase()) {
+        if(time_value) {
+          return jsonObj[keys[i]].timestamp;
+        } else {
+          return jsonObj[keys[i]].value;
+        }
+      }
+    }
+    return undefined;
   }
 
   /**
