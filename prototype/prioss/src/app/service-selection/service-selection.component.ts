@@ -356,8 +356,7 @@ export class ServiceSelectionComponent {
     //Handing over parsing to service specific parsing methods
     if (selectedApp == this.appType.Instagram) {
       console.log("Parsing Instagram file...");
-      this.parseInstagramFile();
-      this.parseInstagramFileToSQLite();
+      await this.parseInstagramFileToSQLite();
     }
     else if (selectedApp == this.appType.Spotify) {
       console.log("Parsing Spotify file...");
@@ -558,6 +557,7 @@ export class ServiceSelectionComponent {
       }
       else if (filename.startsWith("profile_changes")) {
         let jsonData = JSON.parse(content);
+        console.log("changes?: " + jsonData.length);
 
         for (let i = 0; i < jsonData.length; i++) {
           let profileData = jsonData[i].profile_profile_change;

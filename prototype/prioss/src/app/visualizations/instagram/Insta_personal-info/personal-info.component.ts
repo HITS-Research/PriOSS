@@ -24,9 +24,9 @@ export class Insta_PersonalInfoComponent {
   @Input()
   previewMode: boolean = false;
 
-  personalInfo: InstaPersonalInfo[];
-  accountInfo: InstaAccountInfo[];
-  professionalInfo: InstaProfessionalInfo[];
+  personalInfo: InstaPersonalInfo[] = [];
+  accountInfo: InstaAccountInfo[] = [];
+  professionalInfo: InstaProfessionalInfo[] = [];
   profileChanges: InstaProfileChange[] = [];
   getObjectPairs: (obj: object) => [string, any][] = utilities.getObjectPairs;
   convertTimestamp: (str: string) => any = utilities.convertTimestamp;
@@ -44,12 +44,15 @@ export class Insta_PersonalInfoComponent {
   async collectData() {
     await this.instaPersonalRepo.getPersonalInfo().then((pInfo) => {
       this.personalInfo = pInfo;
+      console.log(this.personalInfo);
     });
     await this.instaPersonalRepo.getAccountInfo().then((accInfo) => {
       this.accountInfo = accInfo;
+      console.log(this.accountInfo);
     });
     await this.instaPersonalRepo.getProfessionalInfo().then((proInfo) => {
       this.professionalInfo = proInfo;
+      console.log(this.professionalInfo);
     });
     await this.instaPersonalRepo.getProfileChanges().then((changes) => {
       this.profileChanges = changes;

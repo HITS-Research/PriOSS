@@ -98,6 +98,7 @@ export class InstaPersonalRepository {
             let values = [title, changed, previous_value, new_value, change_date];
       
             let ret: capSQLiteChanges = await db.run(sqlStatement, values);
+            console.log("cahnges" + ret.changes);
           });
     }
 
