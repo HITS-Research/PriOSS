@@ -557,11 +557,12 @@ export class ServiceSelectionComponent {
       }
       else if (filename.startsWith("profile_changes")) {
         let jsonData = JSON.parse(content);
-        let profileData = jsonData[i].profile_profile_change;
+        let profileData = jsonData.profile_profile_change;
+        console.log(profileData);
 
         for (let i = 0; i < profileData.length; i++) {
-          await this.instaPersonalRepo.addProfileChanges(profileData.title, profileData.string_map_data.Changed.value, profileData.string_map_data["Previous Value"].value, profileData.string_map_data["New Value"].value, 
-                                                         profileData.string_map_data["Change Date"].timestamp);
+          await this.instaPersonalRepo.addProfileChanges(profileData[i].title, profileData[i].string_map_data.Changed.value, profileData[i].string_map_data["Previous Value"].value, profileData[i].string_map_data["New Value"].value, 
+                                                         profileData[i].string_map_data["Change Date"].timestamp);
         }
       }
       //add ads related data
