@@ -583,8 +583,6 @@ export class ServiceSelectionComponent {
       else if (filename.startsWith("profile_changes")) {
         let jsonData = JSON.parse(content);
         let profileData = jsonData.profile_profile_change;
-        console.log(profileData);
-
         
         for (let i = 0; i < profileData.length; i++) {
           

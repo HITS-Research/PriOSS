@@ -24,12 +24,14 @@ export class Insta_PersonalInfoComponent {
   @Input()
   previewMode: boolean = false;
 
-  personalInfo: InstaPersonalInfo[] = [];
-  accountInfo: InstaAccountInfo[] = [];
-  professionalInfo: InstaProfessionalInfo[] = [];
+  personalInfo: InstaPersonalInfo;
+  accountInfo: InstaAccountInfo;
+  professionalInfo: InstaProfessionalInfo;
   profileChanges: InstaProfileChange[] = [];
+  listOfProfileChanges: InstaProfileChange[] = [];
   getObjectPairs: (obj: object) => [string, any][] = utilities.getObjectPairs;
   convertTimestamp: (str: string) => any = utilities.convertTimestamp;
+  capitalizeAndPrettify: (str: string) => string = utilities.capitalizeAndPrettify;
 
 
   constructor(private instaPersonalRepo: InstaPersonalRepository) {
@@ -43,20 +45,18 @@ export class Insta_PersonalInfoComponent {
    */
   async collectData() {
     await this.instaPersonalRepo.getPersonalInfo().then((pInfo) => {
-      this.personalInfo = pInfo;
-      console.log(this.personalInfo);
+      this.personalInfo = pInfo[0];
     });
     await this.instaPersonalRepo.getAccountInfo().then((accInfo) => {
-      this.accountInfo = accInfo;
-      console.log(this.accountInfo);
+      this.accountInfo = accInfo[0];
     });
     await this.instaPersonalRepo.getProfessionalInfo().then((proInfo) => {
-      this.professionalInfo = proInfo;
-      console.log(this.professionalInfo);
+      this.professionalInfo = proInfo[0];
     });
     await this.instaPersonalRepo.getProfileChanges().then((changes) => {
       this.profileChanges = changes;
-      console.log(this.profileChanges);
+      this.listOfProfileChanges = [...this.profileChanges];
+      console.log(this.listOfProfileChanges);
     });
   }
 }

@@ -8,22 +8,10 @@
           <th>Information</th>
         </tr>
       </thead>
-      <tbody>
-        <tr>
-          <td>Username</td>
-          <td>{{personalInfo[0].username}}</td>
-        </tr>
-        <tr>
-          <td>Email</td>
-          <td>{{personalInfo[0].email}}</td>
-        </tr>
-        <tr>
-          <td>Birthdate</td>
-          <td>{{personalInfo[0].birthdate}}</td>
-        </tr>
-        <tr>
-          <td>Gender</td>
-          <td>{{personalInfo[0].gender}}</td>
+      <tbody *ngIf="personalInfo !== undefined">
+        <tr *ngFor="let pair of getObjectPairs(personalInfo)">
+          <td>{{ capitalizeAndPrettify(pair[0]) }}</td>
+          <td>{{ pair[1] }}</td>
         </tr>
       </tbody>
     </nz-table>
@@ -41,54 +29,14 @@
           <th>Information</th>
         </tr>
       </thead>
-      <tbody>
-        <tr>
-          <td>Username</td>
-          <td>{{personalInfo[0].username}}</td>
+      <tbody *ngIf="personalInfo !== undefined && accountInfo !== undefined && professionalInfo !== undefined">
+        <tr *ngFor="let pair of getObjectPairs(personalInfo)">
+          <td>{{ capitalizeAndPrettify(pair[0]) }}</td>
+          <td>{{ pair[1] }}</td>
         </tr>
-        <tr>
-          <td>Email</td>
-          <td>{{personalInfo[0].email}}</td>
-        </tr>
-        <tr>
-          <td>Birthdate</td>
-          <td>{{personalInfo[0].birthdate}}</td>
-        </tr>
-        <tr>
-          <td>Gender</td>
-          <td>{{personalInfo[0].gender}}</td>
-        </tr>
-        <tr>
-          <td>Contact Syncing</td>
-          <td>{{accountInfo[0].contactSyncing}}</td>
-        </tr>
-        <tr>
-          <td>First Country Code</td>
-          <td>{{accountInfo[0].firstCountryCode}}</td>
-        </tr>
-        <tr>
-          <td>Has Shared Live Video</td>
-          <td>{{accountInfo[0].hasSharedLiveVideo}}</td>
-        </tr>
-        <tr>
-          <td>Last Login</td>
-          <td>{{convertTimestamp(accountInfo[0].lastLogin)}}</td>
-        </tr>
-        <tr>
-          <td>Last Logout</td>
-          <td>{{convertTimestamp(accountInfo[0].lastLogout)}}</td>
-        </tr>
-        <tr>
-          <td>First Story Time</td>
-          <td>{{convertTimestamp(accountInfo[0].firstStoryTime)}}</td>
-        </tr>
-        <tr>
-          <td>Last Story Time</td>
-          <td>{{convertTimestamp(accountInfo[0].lastStoryTime)}}</td>
-        </tr>
-        <tr>
-          <td>First Close Friends Story Time</td>
-          <td>{{convertTimestamp(accountInfo[0].firstCloseFriendsStoryTime)}}</td>
+        <tr *ngFor="let pair of getObjectPairs(accountInfo)">
+          <td>{{ capitalizeAndPrettify(pair[0]) }}</td>
+          <td>{{ convertTimestamp(pair[1]) }}</td>
         </tr>
       </tbody>
     </nz-table>
@@ -100,7 +48,7 @@
       The following table shows all profile changes that were made by the user over the course of the accounts
       lifetime.
     </p>
-    <nz-table #basicTable [nzData]="profileChanges">
+    <nz-table #basicTable [nzData]="listOfProfileChanges">
       <thead>
         <tr>
           <th>Title</th>
@@ -116,7 +64,7 @@
           <td>{{ data.changed }}</td>
           <td>{{ data.previousValue}}</td>
           <td>{{ data.newValue }}</td>
-          <td>{{ convertTimestamp(data.changeDate) }}</td>
+          <td>{{ data.changeDate }}</td>
         </tr>
       </tbody>
     </nz-table>
