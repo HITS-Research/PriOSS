@@ -30,6 +30,10 @@ export class IntrojsService {
     this.introJS.setOptions({
       steps: [
         {
+          element: 'step0',
+          intro: 'New here? Click <b>Next</b>! <br><br> Already comfortable? <br> <b>Click</b> into the dashboard!'
+        },
+        {
           element: '#step1',
           intro: 'This is the first step!'
         },
@@ -70,6 +74,10 @@ export class IntrojsService {
     this.introJSF = introJs();
     this.introJSF.setOptions({
       steps: [
+        {
+          element: 'step0',
+          intro: 'New here? Click <b>Next</b>! <br><br> Already comfortable? <br> <b>Click</b> into the dashboard!'
+        },
         {
           element: '#fStep10',
           intro: 'Your Personal Data'
