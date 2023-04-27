@@ -151,11 +151,7 @@ export class IntrojsService {
         },
         {
           element: '#personalInformation',
-          intro: 'This card contains all personal information that Instagram has collected. To see more details click on "More".'
-        },
-        {
-          element: '#advertisement',
-          intro: 'This card contains all advertisment related data that Instagram has collected. To see more details click on "More".'
+          intro: 'For example this card contains all personal information that Instagram has collected. To see more details click on "More".'
         },
         {
           element: '#rectification',
