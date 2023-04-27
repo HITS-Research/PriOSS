@@ -1,79 +1,96 @@
-<h1 nz-typography>PriOSS - Instagram</h1>
-<p nz-typography>
-  Welcome to the dashboard for the Instagram specific data. This page will offer you all the information you need, to fully understand the data that
-  is collected about you and what steps you can take to increase your personal privacy.<br>
-  In the first section you will be presented with different visualizations of your personal data.<br>
-  All the following sections will help you to understand the purpose of this application as well as the legal basis of the data collection and your rights
-  regarding your data.
-</p>
+<h1 nz-typography id="welcome">PriOSS - Instagram</h1>
+<div id="introduction">
+  <p nz-typography>
+    Welcome to the dashboard for the Instagram specific data. This page will offer you all the information you need, to fully understand the data that
+    is collected about you and what steps you can take to increase your personal privacy.<br>
+    In the first section you will be presented with different visualizations of your personal data.<br>
+    All the following sections will help you to understand the purpose of this application as well as the legal basis of the data collection and your rights
+    regarding your data.
+  </p>
+</div>
+<div id="visualization">
+  <h2 nz-typography>Visualization</h2>
+  <p nz-typography>
+    In this section you will be presented with different visualizations of the data you put in before. Every card shows a preview of the data from a specific 
+    topic. By clicking on 'More' you will be redirected to a page with a more precise visualization and description of the specific topic.
+  </p>
 
-<h2 nz-typography>Visualization</h2>
-<p nz-typography>
-  In this section you will be presented with different visualizations of the data you put in before. Every card shows a preview of the data from a specific 
-  topic. By clicking on 'More' you will be redirected to a page with a more precise visualization and description of the specific topic.
-</p>
+  <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
+    <div nz-col nzXs="24" nzXl="8">
+      <!--card for visualizing the personal information-->
+      <nz-card id="personalInformation" nzTitle="Personal Information" nzHoverable [nzExtra]="extraPersonal">
+        <app-personal-info [previewMode]="true"></app-personal-info>
+      </nz-card>
+      <ng-template #extraPersonal>
+        <a routerLink="/insta/personal-info">More</a>
+      </ng-template>
+    </div>
+    <div nz-col nzXs="24" nzXl="8">
+      <!--card for visualizing all about advertisements-->
+      <nz-card id ="advertisement" nzTitle="Advertisement" nzHoverable [nzExtra]="extraAds">
+          <app-insta-ads [previewMode]="true"></app-insta-ads>
+      </nz-card>
+      <ng-template #extraAds>
+        <a routerLink="/insta/ads">More</a>
+      </ng-template>
+    </div>
+    <div nz-col nzXs="24" nzXl="8">
+      <!--card for visualizing the login and account creation-->
+      <nz-card nzTitle="Account Creation and Login" nzHoverable [nzExtra]="extraAccount">
+        <app-insta-account-creation-login [previewMode]="true"></app-insta-account-creation-login>
+      </nz-card>
+      <ng-template #extraAccount>
+        <a routerLink="/insta/account">More</a>
+      </ng-template>
+    </div>
+  </div>
+  <br>
+</div>
 
-<div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
-  <div nz-col nzXs="24" nzXl="8">
-    <!--card for visualizing the personal information-->
-    <nz-card nzTitle="Personal Information" nzHoverable [nzExtra]="extraPersonal">
-      <app-personal-info [previewMode]="true"></app-personal-info>
-    </nz-card>
-    <ng-template #extraPersonal>
-      <a routerLink="/insta/personal-info">More</a>
-    </ng-template>
-  </div>
-  <div nz-col nzXs="24" nzXl="8">
-    <!--card for visualizing all about advertisements-->
-    <nz-card nzTitle="Advertisement" nzHoverable [nzExtra]="extraAds">
-        <app-insta-ads [previewMode]="true"></app-insta-ads>
-    </nz-card>
-    <ng-template #extraAds>
-      <a routerLink="/insta/ads">More</a>
-    </ng-template>
-  </div>
-  <div nz-col nzXs="24" nzXl="8">
-    <!--card for visualizing the login and account creation-->
-    <nz-card nzTitle="Account Creation and Login" nzHoverable [nzExtra]="extraAccount">
-      <app-insta-account-creation-login [previewMode]="true"></app-insta-account-creation-login>
-    </nz-card>
-    <ng-template #extraAccount>
-      <a routerLink="/insta/account">More</a>
-    </ng-template>
-  </div>
+<div id="rectification">
+  <h2 nz-typography>Rectification</h2>
+  <p nz-typography>
+    This section of the application describes how a user can rectify if something is missing/ wrong in the data download.
+  </p>
+  <ol>
+    <li>Go into the settings of Instagram and report a problem.</li>
+    <li>Send an email to support@instagram.com. Generally, Instagram team responds within a week.</li>
+    <li>Contact the privacy center for Meta. It covers Facebook, Instagram, Messenger, and other Meta products.</li>
+  </ol>
 </div>
 <br>
-
-<h2 nz-typography id="rectification">Rectification</h2>
-<p nz-typography>
-  This section of the application describes how a user can rectify if something is missing/ wrong in the data download.
-</p>
-<ol>
-  <li>Go into the settings of Instagram and report a problem.</li>
-  <li>Send an email to support@instagram.com. Generally, Instagram team responds within a week.</li>
-  <li>Contact the privacy center for Meta. It covers Facebook, Instagram, Messenger, and other Meta products.</li>
-</ol>
-<br>
-<h2 nz-typography id="gdpr">GDPR/Rights</h2>
-<p nz-typography>
-  This section describes the General Data Protection Regulation (GDPR). 
-  Is a rule in EU law that ensures a natural person's rights to data protection and privacy, independent of their nationality or place of residence, 
-  and upholds fundamental rights to secure their personal data stored by various companies. To comply with GDPR standards, 
-  companies offer data downloads or download- able archives.
-</p>
-<h2 nz-typography id="purpose">Purpose</h2>
-<p nz-typography>
-  This section describes the purpose of our application. We are providing a privacy-focused application that will help users to exercise their General Data Protection Regulation (GDPR) rights. 
-  Also helping them to rectify and get additional context information and recommendations about their personal data collected by Instagram. 
-<h2 nz-typography id="faq">Frequently asked questions</h2>
-<p nz-typography>
-  This section describes frequently asked questions.
-</p>
-<ol nz-typography>
-  <li>How to download the Instagram data?</li>
-  <li>How to traverse inside the data?</li>
-  <li>How to edit or change something in the data download that is not correct?</li>
-  <li>How to delete data from data download?</li>
-  <li>I am not able to find some data/ My data is incomplete whom should I contact?</li>
-</ol>
-<app-help-button (startTourClick)="startTour()"></app-help-button>
+<div id="gdpr">
+  <h2 nz-typography>GDPR/Rights</h2>
+  <p nz-typography>
+    This section describes the General Data Protection Regulation (GDPR). 
+    Is a rule in EU law that ensures a natural person's rights to data protection and privacy, independent of their nationality or place of residence, 
+    and upholds fundamental rights to secure their personal data stored by various companies. To comply with GDPR standards, 
+    companies offer data downloads or download- able archives.
+  </p>
+</div>
+<div id="purpose">
+  <h2 nz-typography>Purpose</h2>
+  <p nz-typography>
+    This section describes the purpose of our application. We are providing a privacy-focused application that will help users to exercise their General Data Protection Regulation (GDPR) rights. 
+    Also helping them to rectify and get additional context information and recommendations about their personal data collected by Instagram. 
+</div>
+<div id="faq">
+  <h2 nz-typography>Frequently asked questions</h2>
+  <p nz-typography>
+    This section describes frequently asked questions.
+  </p>
+  <ol nz-typography>
+    <li>How to download the Instagram data?</li>
+    <li>How to traverse inside the data?</li>
+    <li>How to edit or change something in the data download that is not correct?</li>
+    <li>How to delete data from data download?</li>
+    <li>I am not able to find some data/ My data is incomplete whom should I contact?</li>
+  </ol>
+</div>
+<app-help-button (startTourClick)="startTour()">
+  <h2 nz-typography id="introduction">Introduction</h2>
+  <h2 nz-typography id="rectification">Rectification</h2>
+  <h2 nz-typography id="gdpr">GDPR/Rights</h2>
+  <h2 nz-typography id="purpose">Purposes</h2>
+  <h2 nz-typography id="faq">Frequently asked questions</h2>
+</app-help-button>
