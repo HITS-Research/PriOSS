@@ -10,6 +10,10 @@
   </div>
   <div *ngIf="!previewMode">
     <!-- https://stackoverflow.com/questions/73631070/how-to-set-scrollable-content-dinamically-in-ng-zorro-table -->
+    <h1 style="position: relative;">Inferences<span nz-tooltip
+        nzTooltipTitle="Generally, inferences are used for marketing or advertising. Spotify also uses inference data to curate and create content. 1P_inferences are made by Spotify. 3p_inferences are made by Facebook."><span
+          nz-icon nzType="info-circle" nzTheme="outline"
+          style="position: absolute; top: 0; right: -600; font-size: 16px;"></span></span> </h1>
     <nz-table #rowSelectionTable [nzData]="listOfInferences" [nzPageSize]="50000" [nzFooter]="footerTemplate"
       [nzScroll]="{ y: 'calc(100vh - 369px)' }" [nzShowPagination]="false">
       <thead>
@@ -26,8 +30,9 @@
             </nz-input-group>
           </th>
           <th nzWidth="5%">
-            <button nz-button nzType="default" nzSize="large" [disabled]="setOfCheckedId.size === 0"
-              (click)="rectifyInferences()"><span nz-icon nzType="delete"></span></button>
+            <span nz-tooltip nzTooltipTitle="Create an rectification email with all selected inferences."><button
+                nz-button nzType="default" nzSize="large" [disabled]="setOfCheckedId.size === 0"
+                (click)="rectifyInferences()"><span nz-icon nzType="delete"></span></button></span>
           </th>
         </tr>
       </thead>
@@ -39,7 +44,7 @@
         </tr>
       </tbody>
       <ng-template #footerTemplate>
-            <tfoot>{{setOfCheckedId.size}}/{{rowSelectionTable.nzData.length}}</tfoot>
+        <tfoot>{{setOfCheckedId.size}}/{{rowSelectionTable.nzData.length}}</tfoot>
       </ng-template>
     </nz-table>
   </div>
