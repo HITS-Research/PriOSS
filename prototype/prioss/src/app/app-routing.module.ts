@@ -19,6 +19,7 @@ import { ContactComponent } from './info-pages/contact/contact.component';
 import { InferredTopicsComponent } from './visualizations/facebook/inferred-topics/inferred-topics.component';
 import { AdsRelatedDataComponent } from './visualizations/facebook/ads-related-data/ads-related-data.component';
 import { FriendAndFollowersComponent } from './visualizations/facebook/friend-and-followers/friend-and-followers.component';
+import { OffFacebookActivityComponent } from './rectification/facebook/off-facebook-activity/off-facebook-activity.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -40,7 +41,8 @@ const routes: Routes = [
   { path: 'face/inferred-topics', component: InferredTopicsComponent },
   { path: 'serviceSelection', component: ServiceSelectionComponent },
   { path: 'face/ads-related-data', component: AdsRelatedDataComponent },
-  { path: 'face/friendsandfollowers', component: FriendAndFollowersComponent }
+  { path: 'face/friendsandfollowers', component: FriendAndFollowersComponent },
+  { path: 'face/configure-off-facebook-activity', component: OffFacebookActivityComponent}
 ];
 
 @NgModule({

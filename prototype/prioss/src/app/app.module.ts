@@ -50,6 +50,7 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { TopSongsComponent } from './visualizations/spotify/top-songs/top-songs.component';
 import { HelpButtonComponent } from './help-button/help-button/help-button.component';
 import { IntrojsService } from './introjs/introjs.service';
+import { OffFacebookActivityComponent } from './rectification/facebook/off-facebook-activity/off-facebook-activity.component';
 
 registerLocaleData(de);
 
@@ -421,7 +422,8 @@ const dbConfig: DBConfig  =
     InstaAdsComponent,
     AdsRelatedDataComponent,
     FriendAndFollowersComponent,
-    HelpButtonComponent
+    HelpButtonComponent,
+    OffFacebookActivityComponent
   ],
   imports: [
     BrowserModule,
