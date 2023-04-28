@@ -33,7 +33,7 @@ export class IntrojsService {
       steps: [
         {
           element: 'step0',
-          intro: 'New here? Click <b>Next</b>! <br><br> Already comfortable? <br> <b>Click</b> into the dashboard!'
+          intro: 'New here? Click <b>Next</b> for a quick tour of this dashboard! <br><br> Already comfortable? <br> <b>Click</b> somewhere else on the dashboard!'
         },
         {
           element: '#step1',
