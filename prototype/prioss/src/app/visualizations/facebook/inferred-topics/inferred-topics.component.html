@@ -1,4 +1,6 @@
-<nz-list nzGrid>
+<nz-statistic  [nzTitle]="'Total inferred topics'" [nzValue]="inferredTopics.length" class ="bold-title" *ngIf="previewMode">
+</nz-statistic>
+<nz-list nzGrid *ngIf="!previewMode">
     <div nz-row [nzGutter]="16">
       <div nz-col [nzSpan]="6" *ngFor="let item of inferredTopics">
         <nz-list-item>
@@ -6,4 +8,4 @@
         </nz-list-item>
       </div>
     </div>
-  </nz-list>
+</nz-list>
