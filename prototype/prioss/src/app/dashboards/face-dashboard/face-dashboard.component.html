@@ -8,7 +8,7 @@
       </ng-template>
   </div>
 </div>
-
+<br>
 <h2 nz-typography>Visualization</h2>
 <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
     <div id="fStep20" nz-col nzXs="24" nzXl="8">
@@ -27,13 +27,61 @@
         <p>Your friends on Facebook, friend requests, friends you see more and see less, people you follow, and people who follow you</p>    
       </nz-card>
     </div>
-    
-  </div>
+</div>
 <br>
-
 <app-help-button (startTourClick)="startTour()"></app-help-button>
 <h2 nz-typography id="fStep30">Rectification</h2>
-<h2 nz-typography id="fStep40">Your Rights under GDPR</h2>
+<div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
+  <div id="fStep20" nz-col nzXs="24" nzXl="8">
+    <nz-card nzTitle="Configure Off-Facebook Activity" nzHoverable  (click)="navigateToOFA()">
+      <p>This section provides you guidelines to Turn OFF your Off-Facebook Activity.</p>
+    </nz-card>
+  </div>
+</div>
+<br>
+<h2 nz-typography id="fStep40">GDPR / Rights</h2>
+  <div id="fStep20" >
+    <nz-card nzTitle="Your Rights under GDPR">
+      <p>
+The General Data Protection Regulation (GDPR) is a regulation in EU law on data protection and privacy for all individuals within the
+European Union and the European Economic Area (EEA). The GDPR provides various rights to individuals regarding their personal data. 
+Some of the key rights under GDPR include:
+<br>
+<br>
+<strong>Right to be informed:</strong> Individuals have the right to be informed about the collection and use of their personal data.
+<br>
+<br>
+<strong>Right of access:</strong> Individuals have the right to access their personal data that is being processed by a controller.
+<br>
+<br>
+<strong>Right to rectification:</strong> Individuals have the right to have their personal data corrected if it is inaccurate or incomplete.
+<br>
+<br>
+<strong>Right to erasure:</strong> Individuals have the right to have their personal data erased (also known as the "right to be forgotten") in certain 
+circumstances.
+<br>
+<br>
+<strong>Right to restrict processing:</strong> Individuals have the right to request the restriction of processing of their personal data in certain 
+circumstances.
+<br>
+<br>
+<strong>Right to data portability:</strong> Individuals have the right to receive a copy of their personal data in a structured, commonly used, and 
+machine-readable format, and to transmit that data to another controller.
+<br>
+<br>
+<strong>Right to object:</strong> Individuals have the right to object to the processing of their personal data in certain circumstances.
+<br>
+<br>
+<strong>Rights related to automated decision-making:</strong> Individuals have the right not to be subject to a decision based solely on automated
+processing, including profiling, which produces legal effects concerning them or similarly significantly affects them.
+<br>
+<br>
+It is important to note that these rights are not absolute and may be subject to certain limitations or conditions under certain 
+circumstances. Additionally, these rights apply only to personal data that is processed by a controller subject to the GDPR.
+      </p>
+    </nz-card>
+</div>
+<br>
 <h2 nz-typography id="fStep50">Purposes for Data Collection</h2>
 <h2 nz-typography id="fStep60">Frequently Asked Questions</h2>
 
