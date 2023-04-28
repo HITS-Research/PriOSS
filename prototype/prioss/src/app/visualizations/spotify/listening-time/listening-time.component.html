@@ -3,7 +3,13 @@
     <p *ngIf="previewMode">Day: {{filterSingleDate?.toLocaleString([], { year: "numeric", month: "2-digit", day: "2-digit" })}}</p>
 
     <div *ngIf="!previewMode">
-        <h3>Listening Time</h3>
+        <h3 style="position: relative;">Listening Time
+            <span nz-tooltip nzTooltipTitle="Use the 'Visualize by' drop-down to switch between viewing how much time you spent listening to Spotify during which hours, days, months or years. 
+            You can hover over or click the bars in the chart with your mouse for more information.">
+                <span class="title-info-icon" nz-icon nzType="info-circle" nzTheme="outline">
+                </span>
+            </span>
+        </h3>
         <br>
         <div class="t-filter-container">
             <div>
@@ -34,7 +40,7 @@
             <div class="t-inline-spacer-small"></div>
 
             <div>
-            Show data above bars: <nz-switch [(ngModel)]="showDataTextAboveBars" (ngModelChange)="onChartParametersChanged()"></nz-switch>
+            Show time above bars: <nz-switch [(ngModel)]="showDataTextAboveBars" (ngModelChange)="onChartParametersChanged()"></nz-switch>
             </div>
         </div>
 
