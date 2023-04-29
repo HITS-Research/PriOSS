@@ -112,7 +112,7 @@ export class FriendAndFollowersComponent {
 
     const margin = { top: 20, right: 20, bottom: 30, left: 50 };
     const width = 600 - margin.left - margin.right;
-    const height = 600 - margin.top - margin.bottom;
+    const height = 500 - margin.top - margin.bottom;
 
     // Get svg based on the id to draw chart
     const svg = d3.select(id)
@@ -169,22 +169,24 @@ export class FriendAndFollowersComponent {
 
     svg.append("g")
       .attr("transform", `translate(${margin.left}, ${height + margin.top})`)
+      .style("font-size", "20px")
       .call(d3.axisBottom(x));
     
     svg.append("g")
       .attr("transform", `translate(${margin.left}, ${margin.top})`)
+      .style("font-size", "20px")
       .call(d3.axisLeft(y).ticks(10));
 
     // Add x-axis label
     svg.append("text")
-      .attr("transform", `translate(${margin.left + width / 2}, ${height + margin.top + 45})`)
+      .attr("transform", `translate(${margin.left + width / 2}, ${height + margin.top + 55})`)
       .style("text-anchor", "middle")
       .style("font-size", "20px")
       .text("Year");
     
     // Add y-axis label
     svg.append("text")
-      .attr("transform", `rotate(-90) translate(${-margin.top - height / 2}, ${margin.left - 30})`)
+      .attr("transform", `rotate(-90) translate(${-margin.top - height / 2}, ${margin.left - 40})`)
       .style("text-anchor", "middle")
       .style("font-size", "20px")
       .text("Count");

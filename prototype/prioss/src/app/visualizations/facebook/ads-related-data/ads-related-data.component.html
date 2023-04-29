@@ -9,8 +9,12 @@
       </div>
 <nz-tabset  *ngIf="!previewMode">
   <nz-tab nzTitle="Off FaceBook Activity" >
-<svg id="bubble-chart"></svg>
+    <svg id="bubble-chart"></svg>
     <div id="tooltip"></div>
+    <h3>What is Off-Facebook Activity?</h3>
+    <p>Off-Facebook activity includes information that businesses and organisations share with Facebook about your interactions with them. For example, your interactions could be visiting their website or using their app. Below is a Bubble chart showing all of your interactions captured by Off-Facebook Activity.</p>
+    <h3>For the guidelines to Turn OFF Off-facebook Activity click on the below button.</h3>
+    <button nz-button nzType="primary" (click)="navigateToRectification()">Guidelines to Turn OFF Off-facebook Activity</button> 
   </nz-tab>
   <nz-tab nzTitle="Clicked  Ads">
     <nz-table #basicTable>
