@@ -1,6 +1,7 @@
     import { Component, Input, OnInit} from '@angular/core';
     import { NgxIndexedDBService } from 'ngx-indexed-db';
     import * as d3 from 'd3';
+import { Router } from '@angular/router';
 
     @Component({
       selector: 'app-ads-related-data',
@@ -19,7 +20,7 @@
       activeWebsite = 0;
       inActiveWebsite = 0;
       removedWebsite = 0;
-      constructor(private dbService: NgxIndexedDBService) { }
+      constructor(private dbService: NgxIndexedDBService, private router: Router) { }
       ngOnInit(): void {
         this.getData();
         this.generateBubbleChart();
@@ -254,4 +255,14 @@
         }
         });
       } 
+
+        /**
+    * This method is responsible to navigate to off-facebook activity guidelines  
+    *
+    * @author: Mukul (mukuls@mail.uni-paderborn.de)
+    *
+    */
+    navigateToRectification(){
+      this.router.navigate(['face/configure-off-facebook-activity']);
     }
+}
