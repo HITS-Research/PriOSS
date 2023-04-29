@@ -12,9 +12,8 @@
 <h2 nz-typography>Visualization</h2>
 <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
     <div id="fStep20" nz-col nzXs="24" nzXl="8">
-      <nz-card nzTitle="Ads Data" nzHoverable  (click)="adsData()">
-        <p>This section shows visualizations and details about the your off facebook activity,ads you clicked and 
-          webiste interactions.</p>
+      <nz-card nzTitle="Advertisements" nzHoverable  (click)="adsData()">
+        <app-ads-related-data [previewMode]="true"></app-ads-related-data>
       </nz-card>
     </div>
     <div id="fStep21" nz-col nzXs="24" nzXl="8">
