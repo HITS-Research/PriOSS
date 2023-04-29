@@ -1,10 +1,42 @@
 <div [ngClass]="{'component-page': !previewMode}">
-  <h2 nz-typography *ngIf="!previewMode">Account Creation and Login</h2>
+
+  <!--only shows a preview of the visualization-->
+  <div *ngIf="previewMode">
+    <nz-row [nzGutter]="16">
+      <nz-col [nzSpan]="12">
+        <nz-statistic [nzValue]="(login_amount|number)!" [nzTitle]="'Number of logins'"></nz-statistic>
+      </nz-col>
+      <nz-col [nzSpan]="12">
+        <nz-statistic [nzValue]="(logout_amount|number)!" [nzTitle]="'Number of logouts'"></nz-statistic>
+      </nz-col>
+      <nz-col [nzSpan]="12">
+        <nz-statistic [nzValue]="most_used_device" [nzTitle]="'Most used device'"></nz-statistic>
+      </nz-col>
+    </nz-row>
+</div>
+
+<!--only shows when visiting the page-->
+<div *ngIf="!previewMode">
+  <h2 nz-typography>Account Creation and Login</h2>
 
   <!-- Showcasing signup information and login and logout information if data is present -->
   <div *ngIf="login_logout_activities?.length && signup_information != null">
+    <h3 nz-typography>Highlights</h3>
+    <nz-row [nzGutter]="16">
+      <nz-col [nzSpan]="8">
+        <nz-statistic [nzValue]="(login_amount|number)!" [nzTitle]="'Number of logins'"></nz-statistic>
+      </nz-col>
+      <nz-col [nzSpan]="8">
+        <nz-statistic [nzValue]="(logout_amount|number)!" [nzTitle]="'Number of logouts'"></nz-statistic>
+      </nz-col>
+      <nz-col [nzSpan]="8">
+        <nz-statistic [nzValue]="most_used_device" [nzTitle]="'Most used device'"></nz-statistic>
+      </nz-col>
+    </nz-row>
+    <br>
 
-    <p *ngIf="!previewMode">The below displays the timeline for account creation, login and logout activity of your instagram account</p>
+    <h3 nz-typography>Timeline</h3>
+    <p>The below displays the timeline for account creation, login and logout activity of your instagram account</p>
 
     <div class="timeline_div">
       <!-- Creating timeline for complete data -->
@@ -57,37 +89,9 @@
     </div>
   </div>
 
-  <!-- Showcasing signup information if data is present but login and logout information not present -->
-  <div *ngIf="signup_information != null && login_logout_activities?.length === 0">
-    <p *ngIf="!previewMode">The below displays the timeline for account creation of your instagram account</p>
-
-    <div class="timeline_div">
-    <!-- Creating timeline for sign up data only -->
-      <nz-timeline nzMode="alternate">
-        <nz-timeline-item [nzDot]="dotTemplateSignUp">
-
-          <!-- Creating a template for sign up information -->
-          <ng-template #dotTemplateSignUp>
-            <div class="ant-timeline-item-head ant-timeline-item-head-blue"
-            nz-button nz-popover nzType="primary" [nzPopoverContent]="contentTemplateSignUp" 
-            [nzPopoverPlacement]="'leftTop'">
-            </div>
-          </ng-template>
-
-          <!-- Creating a template to show additional data -->
-          <ng-template #contentTemplateSignUp>
-            <strong>IP Address</strong> : {{signup_information.ip_address}}
-          </ng-template>
-
-          <!-- Showcasing necessary details in timeline -->
-          Create account with device [{{signup_information.device}}] on {{signup_information.time*1000 | date: 'MMM d, y h:mm a'}}
-        </nz-timeline-item>
-      </nz-timeline>
-    </div>
-  </div>
-
   <!-- Showcasing default value if no data is present -->
   <div *ngIf="login_logout_activities?.length === 0 && signup_information == null">
     <p>No Account Creation, Login and Logout activity present</p>
   </div>
+</div>
 </div>

@@ -24,6 +24,27 @@
     </div>
   </div>
 
+  <nz-modal id="progress-bar-dialog"
+      [(nzVisible)]="progressBarVisible"
+      [nzTitle]="progressBarTitle"
+      [nzContent]="progressBarContent"
+      [nzFooter]="modalFooter"
+      (nzOnCancel)="abortDataParsing()"
+      nzCentered>
+      
+    <ng-template #progressBarTitle>
+      Reading in your data-download...
+    </ng-template>
+
+    <ng-template #progressBarContent>
+      <nz-progress [nzPercent]="progressBarPercent"></nz-progress>
+    </ng-template>
+
+    <ng-template #modalFooter>
+        <span>Please wait, this can take a short while...</span>
+    </ng-template>
+  </nz-modal>
+
   <div class="instructions row">
     <h5 *ngIf="!selectedServiceName" class="t-explanation">
       You have the right to download the personal data that an online service collected about you from it.
@@ -48,11 +69,12 @@
       </div>
       <div class="t-buttons-container">
         <button class="t-btn t-explore-data-btn" (click)="onClickedExploreData()">
-          <div class="spinner-border" *ngIf="isProcessingFile">
-            <span class="sr-only">Loading...</span>
-          </div>
-          <fa-icon *ngIf="!isProcessingFile" [icon]="faCircleRight"></fa-icon>
-          <span style="margin-left:5px;">Explore Data  </span>
+          <fa-icon [icon]="faCircleRight"></fa-icon>
+          <span style="margin-left:5px;">Explore My Data  </span>
+        </button>
+        <button class="t-btn t-explore-data-btn" (click)="onClickedExploreSampleData()">
+          <fa-icon [icon]="faCircleRight"></fa-icon>
+          <span style="margin-left:5px;">Continue with Sample Data </span>
         </button>
       </div>
     </div>

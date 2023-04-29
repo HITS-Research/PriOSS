@@ -17,7 +17,8 @@
           "/assets/images/spot-instructions/*",
           "/assets/images/facebook.png",
           "/assets/images/instagram.png",
-          "/assets/images/spotify.png"
+          "/assets/images/spotify.png",
+          "/assets/sample-data/spot_sampledata.zip"
         ]
       }
     },

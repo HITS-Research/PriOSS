@@ -1,10 +1,12 @@
-import { NgModule, isDevMode } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 
 import { NgxIndexedDBModule,DBConfig } from 'ngx-indexed-db';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from 'src/environments/environment';
+
+import { SQLiteService } from './services/sqlite/sqlite.service';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -39,6 +41,7 @@ import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzTimelineModule } from 'ng-zorro-antd/timeline';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
+import { NzProgressModule } from 'ng-zorro-antd/progress'
 import { AboutComponent } from './info-pages/about/about.component';
 import { ContactComponent } from './info-pages/contact/contact.component';
 import { InferredTopicsComponent } from './visualizations/facebook/inferred-topics/inferred-topics.component';
@@ -51,6 +54,15 @@ import { TopSongsComponent } from './visualizations/spotify/top-songs/top-songs.
 import { HelpButtonComponent } from './help-button/help-button/help-button.component';
 import { IntrojsService } from './introjs/introjs.service';
 import { OffFacebookActivityComponent } from './rectification/facebook/off-facebook-activity/off-facebook-activity.component';
+
+import { DBService } from './services/db/db.service';
+import { SpotHistoryRepository } from './db/data-repositories/spotify/spot-history/spot-history.repository';
+import { InferencesRepository } from './db/data-repositories/general/inferences/inferences.repository';
+import { InstaPersonalRepository } from './db/data-repositories/instagram/insta-personal-info/insta-personal.repository';
+import { InstaAdsActivityRepository } from './db/data-repositories/instagram/insta-ads/insta-ads-activity.repository';
+import { InstaAdsInterestRepository } from './db/data-repositories/instagram/insta-ads/insta-ads-interest.repository';
+import { InstaAdsClickedRepository } from './db/data-repositories/instagram/insta-ads/insta-ads-clicked.repository';
+import { InstaAdsViewedRepository } from './db/data-repositories/instagram/insta-ads/insta-ads-viewed.repository';
 
 registerLocaleData(de);
 
@@ -439,6 +451,7 @@ const dbConfig: DBConfig  =
     NzCardModule,
     NzTableModule,
     NzDividerModule,
+    NzProgressModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: !isDevMode(),
       // Register the ServiceWorker as soon as the application is stable
@@ -453,8 +466,18 @@ const dbConfig: DBConfig  =
     NzSpaceModule
   ],
   providers: [
+    SQLiteService,
+    DBService,
+    SpotHistoryRepository,
+    InstaPersonalRepository,
+    InstaAdsActivityRepository,
+    InstaAdsInterestRepository,
+    InstaAdsClickedRepository,
+    InstaAdsViewedRepository,
+    InferencesRepository,
     { provide: NZ_I18N, useValue: de_DE }
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AppModule { }
