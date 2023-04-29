@@ -147,7 +147,7 @@ export class IntrojsService {
       steps: [
         {
           element: '#welcome',
-          intro: 'Welcome to our tour for the Instagram dashboard.'
+          intro: 'New here? Click <b>Next</b>! <br><br> Already comfortable? <br> <b>Click</b> into the dashboard!'
         },
         {
           element: '#introduction',
