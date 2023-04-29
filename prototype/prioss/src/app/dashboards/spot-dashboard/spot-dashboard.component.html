@@ -60,6 +60,11 @@
           <nz-switch [(ngModel)]="thirdPartyConnection"></nz-switch>
         </ng-template>
       </div>
+      <div nz-col nzXs="24" nzXl="8">
+        <nz-card nzTitle="Privacy Settings Judge" nzHoverable [nzExtra]="extraTemplate">
+          <app-settings-form></app-settings-form>
+        </nz-card>
+      </div> 
     </div>
 
 

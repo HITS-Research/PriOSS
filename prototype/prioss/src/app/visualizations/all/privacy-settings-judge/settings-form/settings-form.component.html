@@ -1,0 +1,36 @@
+<form nz-form nzLayout="vertical" (ngSubmit)="onSubmit()">
+  <nz-form-item>
+    <nz-form-label>Question: {{this.question}}</nz-form-label>
+    <nz-collapse>
+      <nz-collapse-panel
+      [nzHeader]="panel.name"
+     > 
+      <p style="margin:0;">
+        A dog is a type of domesticated animal. Known for its loyalty and faithfulness, it can be found as a welcome
+        guest in many households across the world.
+      </p>
+      </nz-collapse-panel>
+    </nz-collapse>
+    <br/>
+    <nz-form-control>
+      <nz-select
+      name="optionSelecter"
+      [(ngModel)]="selectedValue"
+      nzAllowClear
+      nzPlaceHolder="Choose"
+      >
+        <nz-option *ngFor="let option of optionList" [nzValue]="option" [nzLabel]="option.label"></nz-option>
+      </nz-select>
+    </nz-form-control>
+  <nz-form-label><br/>Advice: {{selectedValue.advice}}</nz-form-label>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control>
+      <button nz-button nzType="primary" type="submit">Submit</button>
+      <button nz-button nzType="default" type="next">next</button>
+      <button nz-button nzType="default" type="previous">previous</button>
+    </nz-form-control>
+</nz-form-item>
+</form>
+
+  

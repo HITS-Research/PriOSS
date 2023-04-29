@@ -28,7 +28,7 @@ import { NZ_I18N } from 'ng-zorro-antd/i18n';
 import { de_DE } from 'ng-zorro-antd/i18n';
 import { registerLocaleData } from '@angular/common';
 import de from '@angular/common/locales/de';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { IconsProviderModule } from './icons-provider.module';
@@ -48,6 +48,8 @@ import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NzStatisticModule } from 'ng-zorro-antd/statistic';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { TopSongsComponent } from './visualizations/spotify/top-songs/top-songs.component';
+import { SettingsFormComponent } from './visualizations/all/privacy-settings-judge/settings-form/settings-form.component';
+import { NzFormModule } from 'ng-zorro-antd/form';
 
 registerLocaleData(de);
 
@@ -418,7 +420,8 @@ const dbConfig: DBConfig  =
     InstaAccountCreationLoginComponent,
     InstaAdsComponent,
     AdsRelatedDataComponent,
-    FriendAndFollowersComponent
+    FriendAndFollowersComponent,
+    SettingsFormComponent
   ],
   imports: [
     BrowserModule,
@@ -445,7 +448,9 @@ const dbConfig: DBConfig  =
     NzPopoverModule,
     NzTabsModule,
     NzStatisticModule,
-    NzSpaceModule
+    NzSpaceModule,
+    ReactiveFormsModule,
+    NzFormModule
   ],
   providers: [
     { provide: NZ_I18N, useValue: de_DE }
