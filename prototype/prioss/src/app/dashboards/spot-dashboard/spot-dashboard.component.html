@@ -64,9 +64,23 @@
 
 
 
-
-  <h2 nz-typography id="rectification">Rectification</h2>
+  <!--<h2 nz-typography id="rectification">Rectification</h2>-->
   <h2 nz-typography id="gdpr">Your Rights</h2>
+  <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
+    <div nz-col nzXs="24" nzXl="16">
+      <nz-card nzTitle="GDPR Rights" nzHoverable>
+        <p>
+        In response to privacy concerns about online data, the General Data Protection Regulation (GDPR) came into effect in the European Union in May 2018.<br>
+        The GDPR grants users different rights in regards to the personal data online services collect about them.<br>
+        For example, it grants the right for you to access your personal data that the company has collected. 
+        We have compiled instructions on how you can obtain such a data-download for some examplary service on our <a routerLink="/serviceSelection">Services Page</a> that you have already visited.<br>
+        It also grants the right to data portability. This means that you should be able to take your data and upload it to a competing service or company. 
+        Additionally, you have the right to erase your data if the legal basis on which the data was collected - for example your consent to the collection - is not given anymore, 
+        and you also have the right to rectify your data, meaning to correct false information that a company has about yourself.
+        </p>
+      </nz-card>
+    </div>
+  </div>
   <h2 nz-typography id="purpose">Purposes</h2>
   <h2 nz-typography id="faq">Frequently Asked Questions</h2>
   

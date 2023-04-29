@@ -26,7 +26,8 @@ export class GeneralDataComponent {
     this.dbService.getAll('all/userdata').subscribe((userdata: any) =>
     {
         this.userdata = userdata[0];
-        console.log(this.userdata)
+        console.log("Userdata:");
+        console.log(this.userdata);
     });
   }
 

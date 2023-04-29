@@ -12,19 +12,18 @@
 <h2 nz-typography>Visualization</h2>
 <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
     <div id="fStep20" nz-col nzXs="24" nzXl="8">
-      <nz-card nzTitle="Ads Data" nzHoverable  (click)="adsData()">
-        <p>This section shows visualizations and details about the your off facebook activity,ads you clicked and 
-          webiste interactions.</p>
+      <nz-card nzTitle="Advertisements" nzHoverable  (click)="adsData()">
+        <app-ads-related-data [previewMode]="true"></app-ads-related-data>
       </nz-card>
     </div>
     <div id="fStep21" nz-col nzXs="24" nzXl="8">
-      <nz-card nzTitle="Your topics" (click)="navigateToInferredTopics()">
-        <p>A collection of topics determined by your activity on Facebook that is used to create recommendations for you in different areas of Facebook such as Feed, News and Watch</p>
+      <nz-card nzTitle="Your topics" nzHoverable (click)="navigateToInferredTopics()">
+        <app-inferred-topics [previewMode]="true"></app-inferred-topics>
       </nz-card>
     </div>
     <div id="fStep22" nz-col nzXs="24" nzXl="8">
-      <nz-card nzTitle="Friends and followers" (click)="navigateToFriendsAndFollowers()">
-        <p>Your friends on Facebook, friend requests, friends you see more and see less, people you follow, and people who follow you</p>    
+      <nz-card nzTitle="Friends and followers" nzHoverable (click)="navigateToFriendsAndFollowers()">
+        <app-friend-and-followers [previewMode]="true"></app-friend-and-followers>
       </nz-card>
     </div>
 </div>

@@ -28,42 +28,11 @@ export class SpotDashboardComponent {
   pathToMood: string = "";
   pathToInference: string = "";
 
+
   constructor(private dbService: NgxIndexedDBService, private router: Router, private introService: IntrojsService) {
     this.dbService.getAll('all/userdata').subscribe((userdata: any) => {
-      console.log("Userdata: ");
-      console.log(userdata);
       this.username = userdata[0].username;
     });
-    this.dbService.getAll('spot/inferences').subscribe((inferences) => {
-      console.log("Inferences: ");
-      console.log(inferences);
-    });
-
-
-    //this.username = this.dbService.getByKey<string>("all/userdata", "username");
-
-    /*
-
-    this.dbService.getAll('all/userdata').subscribe({
-      next(userdata: any)
-      {
-        console.log("Userdata: ");
-        console.log(userdata);
-        let username: any = userdata[0].username;
-      },
-      error(msg)
-      {
-        console.log("Error obtaining all/userdata");
-        console.log(msg);
-      }
-    });
-
-    this.dbService.getAll('spot/inferences').subscribe((inferences) => {
-      console.log("Inferences: ");
-      console.log(inferences);
-    });
-
-    */
   }
 
 
@@ -76,7 +45,7 @@ export class SpotDashboardComponent {
   *
   */
   ngOnInit() {
-    console.log(this.router.config);
+    //console.log(this.router.config);
     for (var route of this.router.config) {
       if (route.component == GeneralDataComponent) {
         this.pathToGeneralData = route.path!; // The exclemation mark ensures that route.path is non-null, which we know because routes are hardcoded
