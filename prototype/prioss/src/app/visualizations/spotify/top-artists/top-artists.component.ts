@@ -1,10 +1,6 @@
-import {Component} from '@angular/core';
-import {NgxIndexedDBService} from 'ngx-indexed-db';
+import {Component, Input} from '@angular/core';
 import * as d3 from 'd3';
 import {SpotHistoryRepository} from "../../../db/data-repositories/spotify/spot-history/spot-history.repository";
-import {SpotYearlyListening} from "../../../models/Spotify/ListeningHistory/SpotYearlyListening";
-import {InferencesEntry} from "../../../models/General/Inferences/InferencesEntry";
-import {SpotListenHistoryEntry} from "../../../models/Spotify/ListeningHistory/SpotListenHistoryEntry";
 
 /**
  * This component visualizes how many songs from an artist were listened to
@@ -22,48 +18,46 @@ import {SpotListenHistoryEntry} from "../../../models/Spotify/ListeningHistory/S
 
 export class TopArtistsComponent {
 
-  tracksByArtist = new Map<string, number[]>(); // this map contains all artists together with the song ids belonging to an artist
-  mostListenedArtistsSorted: any[]; // same content as tracksByArtist but sorted by the number of songs listened to
-  artistsAndSongsListenedSorted: any[] = [];  // like mostListenedArtistsSorted but without the song ids, only the number of songs listened from the artist
   readonly spotifyGreen: string = "#1DB954";
+  @Input()
+  previewMode: boolean = false;
+
+  filterFromDate: Date | null;
+  filterToDate: Date | null;
+
+  minListenedToArtist : any[];
+  activeTabIndex: number;
 
   constructor(private spotHistoryRepo: SpotHistoryRepository) {
-    this.spotHistoryRepo.getSpotHistory().then((history) => {
-      for (const track of history) {
-        if (this.tracksByArtist.has(track.artistName)) {
-          this.tracksByArtist.get(track.artistName)!.push(track.id);
-        } else {
-          this.tracksByArtist.set(track.artistName, [track.id]);
-        }
-      }
+    this.initializeVisualisation()
+  }
 
-      this.mostListenedArtistsSorted = Array.from(this.tracksByArtist.entries());
-      this.mostListenedArtistsSorted.sort(function (a, b) {
-        if (a[1].length >= b[1].length) {
-          return -1;
-        }
-        return 1;
-      });
+  async initializeVisualisation() {
+    this.filterFromDate = await this.spotHistoryRepo.getFirstDay();
+    this.filterToDate = await this.spotHistoryRepo.getMostRecentDay();
 
-      this.artistsAndSongsListenedSorted = this.getTopNArtists(this.mostListenedArtistsSorted.length)
-      this.makeBarChart(this.artistsAndSongsListenedSorted.slice(0, 10));
+    this.spotHistoryRepo.getMinListenedToArtists(this.filterFromDate, this.filterToDate).then((result) => {
+      this.minListenedToArtist = result;
+      this.makeBarChart(result.slice(0, 10));
     });
   }
 
-  /**
-   * Creates an array containing the top n artists and how many songs of an artists were played
-   *
-   * @param n: The top n artists will be returned
-   *
-   * @author: Jonathan (jvn@mail.upb.de))
-   *
-   */
-  private getTopNArtists(n: number): any[] {
-    const topNArtists = [];
-    for (let i = 0; i < n; i++) {
-      topNArtists.push({artist: this.mostListenedArtistsSorted[i][0], numberSongsListened: this.mostListenedArtistsSorted[i][1].length});
+  onDateFilterChanged() {
+    if (this.filterFromDate !== null && this.filterToDate !== null) {
+      this.spotHistoryRepo.getMinListenedToArtists(this.filterFromDate, this.filterToDate).then((result) => {
+        this.minListenedToArtist = result;
+        if (this.activeTabIndex == 0) {
+          this.makeBarChart(result.slice(0, 10));
+        }
+      });
     }
-    return topNArtists;
+  }
+
+  onTabSwitch(index: number) {
+    this.activeTabIndex = index;
+    if (index == 0) {
+      this.makeBarChart(this.minListenedToArtist.slice(0, 10));
+    }
   }
 
 
@@ -75,7 +69,9 @@ export class TopArtistsComponent {
    * @author: Jonathan (jvn@mail.upb.de))
    *
    */
-  makeBarChart(data: { artist: string, numberSongsListened: number }[]) {
+  makeBarChart(data: { artistName: string, minPlayed: number }[]) {
+    //remove old barchart
+    d3.select(".bar_chart_top_artists").selectAll("*").remove();
 
     // set the dimensions and margins of the graph
     const margin = {top: 20, right: 30, bottom: 40, left: 90},
@@ -83,7 +79,7 @@ export class TopArtistsComponent {
       height = 400 - margin.top - margin.bottom;
 
     // append the svg object to the body of the page
-    const svg = d3.select("#bar_chart_top_artists")
+    const svg = d3.select(".bar_chart_top_artists")
       .append("svg")
       .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom)
@@ -92,7 +88,7 @@ export class TopArtistsComponent {
 
     // Add X axis
     const xScale = d3.scaleLinear()
-      .domain([0, data[0].numberSongsListened]) // maximum
+      .domain([0, data[0].minPlayed]) // maximum
       .range([0, width]);
     svg.append("g")
       .attr("transform", `translate(0, ${height})`)
@@ -104,7 +100,7 @@ export class TopArtistsComponent {
     // Y axis
     var yScale: any = d3.scaleBand()
       .range([0, height])
-      .domain(data.map(d => d.artist))
+      .domain(data.map(d => d.artistName))
       .padding(.1);
     svg.append("g")
       .call(d3.axisLeft(yScale).tickSize(0));
@@ -114,8 +110,8 @@ export class TopArtistsComponent {
       .data(data)
       .join("rect")
       .attr("x", xScale(0) )
-      .attr("y", d => yScale(d.artist))
-      .attr("width", d => xScale(d.numberSongsListened))
+      .attr("y", d => yScale(d.artistName))
+      .attr("width", d => xScale(d.minPlayed))
       .attr("height", yScale.bandwidth())
       .attr("fill", this.spotifyGreen);
 
@@ -123,7 +119,7 @@ export class TopArtistsComponent {
       .attr("text-anchor", "end")
       .attr("x", width)
       .attr("y", height + margin.top + 20)
-      .text("Songs listened");
+      .text("Minutes listened");
   }
 
 }

@@ -1,21 +1,33 @@
-<nz-tabset>
-  <nz-tab nzTitle="Bar chart">
-    <div id="bar_chart_top_artists"></div>
-  </nz-tab>
-  <nz-tab nzTitle="Table">
-    <nz-table #basicTable [nzData]="this.artistsAndSongsListenedSorted">
-      <thead>
-      <tr>
-        <th>Artist</th>
-        <th>Number of songs listened</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr *ngFor="let data of basicTable.data">
-        <td>{{data.artist}}</td>
-        <td>{{data.numberSongsListened}}</td>
-      </tr>
-      </tbody>
-    </nz-table>
-  </nz-tab>
-</nz-tabset>
+<div *ngIf="previewMode">
+  <div class="bar_chart_top_artists"></div>
+</div>
+
+<div *ngIf="!previewMode">
+  <nz-tabset (nzSelectedIndexChange)="onTabSwitch($event)">
+    <nz-tab nzTitle="Bar chart">
+      From: <nz-date-picker [(ngModel)]="filterFromDate" (ngModelChange)="onDateFilterChanged()"></nz-date-picker>
+      To: <nz-date-picker  [(ngModel)]="filterToDate" (ngModelChange)="onDateFilterChanged()"></nz-date-picker>
+      <div class="bar_chart_top_artists"></div>
+    </nz-tab>
+    <nz-tab nzTitle="Table">
+      From: <nz-date-picker [(ngModel)]="filterFromDate" (ngModelChange)="onDateFilterChanged()"></nz-date-picker>
+      To: <nz-date-picker  [(ngModel)]="filterToDate" (ngModelChange)="onDateFilterChanged()"></nz-date-picker>
+      <nz-table #basicTable [nzData]="this.minListenedToArtist">
+        <thead>
+        <tr>
+          <th>Artist</th>
+          <th>Minutes listened</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let data of basicTable.data">
+          <td>{{data.artistName}}</td>
+          <td>{{data.minPlayed}}</td>
+        </tr>
+        </tbody>
+      </nz-table>
+    </nz-tab>
+  </nz-tabset>
+</div>
+
+

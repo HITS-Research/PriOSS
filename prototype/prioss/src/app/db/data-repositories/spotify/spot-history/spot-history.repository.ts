@@ -1,12 +1,26 @@
 import { Injectable } from "@angular/core";
 import { SQLiteDBConnection, capSQLiteChanges } from "@capacitor-community/sqlite";
 import { DBService } from "../../../../services/db/db.service";
-import { bulkAddSpotHistoryBaseSQL, bulkAddSpotHistoryValuesSQL, bulkAddValueConnector, insertIntoSpotHistorySQL, selectAllSpotHistory, spotHistoryByDaySQL, spotHistoryByHourSQL, spotHistoryByMonthSQL, spotHistoryByYearSQL, spotHistoryMostRecentDaySQL } from "./spot-history.sql";
+import {
+  bulkAddSpotHistoryBaseSQL,
+  bulkAddSpotHistoryValuesSQL,
+  bulkAddValueConnector,
+  insertIntoSpotHistorySQL,
+  selectAllSpotHistory,
+  spotHistoryByDaySQL,
+  spotHistoryByHourSQL,
+  spotHistoryByMonthSQL,
+  spotHistoryByYearSQL,
+  spotHistoryFirstDaySQL,
+  spotHistoryMostRecentDaySQL,
+  spotMinListenedToArtist
+} from "./spot-history.sql";
 import { SpotListenHistoryEntry } from "src/app/models/Spotify/ListeningHistory/SpotListenHistoryEntry";
 import { SpotYearlyListening } from "src/app/models/Spotify/ListeningHistory/SpotYearlyListening";
 import { SpotMonthlyListening } from "src/app/models/Spotify/ListeningHistory/SpotMonthlyListening";
 import { SpotDailyListening } from "src/app/models/Spotify/ListeningHistory/SpotDailyListening";
 import { SpotHourlyListening } from "src/app/models/Spotify/ListeningHistory/SpotHourlyListening";
+import { SpotMinListenedToArtist } from "src/app/models/Spotify/TopArtist/SpotMinListenedToArtist";
 import * as dateUtils from "../../../../utilities/dateUtils.functions";
 import * as sql from "./spot-history.sql";
 import { BulkAddCapableRepository } from "../../general/inferences/bulk-add-capable.repository";
@@ -61,8 +75,8 @@ export class SpotHistoryRepository extends BulkAddCapableRepository{
 
   /**
    * Queries the complete spotify listening history from the database
-   * @returns An array of SpotListenHistoryEntrys 
-   * 
+   * @returns An array of SpotListenHistoryEntrys
+   *
    * @author: Simon (scg@mail.upb.de)
    */
   async getSpotHistory(): Promise<SpotListenHistoryEntry[]>
@@ -77,8 +91,8 @@ export class SpotHistoryRepository extends BulkAddCapableRepository{
 
   /**
    * Queries the spotify listening history grouped by years from the database
-   * @returns An array of SpotYearlyListenings 
-   * 
+   * @returns An array of SpotYearlyListenings
+   *
    * @author: Simon (scg@mail.upb.de)
    */
   async getHistoryByYear(): Promise<SpotYearlyListening[]>
@@ -93,8 +107,8 @@ export class SpotHistoryRepository extends BulkAddCapableRepository{
 
   /**
    * Queries the spotify listening history grouped by months from the database
-   * @returns An array of SpotMonthlyListenings 
-   * 
+   * @returns An array of SpotMonthlyListenings
+   *
    * @author: Simon (scg@mail.upb.de)
    */
   async getHistoryByMonth(): Promise<SpotMonthlyListening[]>
@@ -109,8 +123,8 @@ export class SpotHistoryRepository extends BulkAddCapableRepository{
 
   /**
    * Queries the spotify listening history grouped by days and filtered between the given start and end dates (TODO) from the database
-   * @returns An array of SpotDailyListenings 
-   * 
+   * @returns An array of SpotDailyListenings
+   *
    * @author: Simon (scg@mail.upb.de)
    */
   async getHistoryByDay(fromDate: Date, toDate: Date): Promise<SpotDailyListening[]>
@@ -125,9 +139,25 @@ export class SpotHistoryRepository extends BulkAddCapableRepository{
   }
 
   /**
+   * Queries the spotify listening history for the duration in minutes that an artist has been listened to, filtered between the given start and end dates
+   * @returns An array of SpotMinListenedToArtist
+   *
+   * @author: Jonathan (jvn@mail.upb.de)
+   */
+  async getMinListenedToArtists(fromDate: Date, toDate: Date): Promise<SpotMinListenedToArtist[]>
+  {
+    return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
+
+      let values = [dateUtils.getDisplayDateString(fromDate),dateUtils.getDisplayDateString(toDate)];
+      let result = await db.query(spotMinListenedToArtist, values);
+      return result.values as SpotMinListenedToArtist[];
+    });
+  }
+
+  /**
    * Queries the spotify listening history grouped by the hours within the given day from the database
    * @returns An array of SpotHourlyListenings. Each hour of the day is present once in the array (24 entries)
-   * 
+   *
    * @author: Simon (scg@mail.upb.de)
    */
   async getHistoryByHour(day: Date): Promise<SpotHourlyListening[]>
@@ -142,7 +172,7 @@ export class SpotHistoryRepository extends BulkAddCapableRepository{
 
   /**
    * @returns the most recent day that occurs in the spotify listening history in the database
-   * 
+   *
    * @author: Simon (scg@mail.upb.de)
    */
   async getMostRecentDay(): Promise<Date>
@@ -158,6 +188,28 @@ export class SpotHistoryRepository extends BulkAddCapableRepository{
       else
       {
         throw Error('getMostRecentDay did not return anything!');
+      }
+    });
+  }
+
+  /**
+   * @returns the first/earliest day that occurs in the spotify listening history
+   *
+   * @author: Jonathan (jvn@mail.upb.de)
+   */
+  async getFirstDay(): Promise<Date>
+  {
+    return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
+
+      let result = await db.query(spotHistoryFirstDaySQL);
+      if(result.values)
+      {
+        let dateString: string = result.values[0].date;
+        return dateUtils.parseDate(dateString) as Date;
+      }
+      else
+      {
+        throw Error('getFirstDay did not return anything!');
       }
     });
   }

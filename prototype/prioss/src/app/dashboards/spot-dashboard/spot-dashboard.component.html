@@ -40,7 +40,7 @@
       <div nz-col nzXs="24" nzXl="8">
         <a routerLink="/spot/top-artists">
           <nz-card nzTitle="Top Artists" nzHoverable [nzExtra]="extraTemplate">
-            <spot-top-artists></spot-top-artists>
+            <spot-top-artists [previewMode]="true"></spot-top-artists>
           </nz-card>
         </a>
       </div>
@@ -68,7 +68,7 @@
   <h2 nz-typography id="gdpr">Your Rights</h2>
   <h2 nz-typography id="purpose">Purposes</h2>
   <h2 nz-typography id="faq">Frequently Asked Questions</h2>
-  
+
   <app-help-button (startTourClick)="startTour()"></app-help-button>
 
 </div>
