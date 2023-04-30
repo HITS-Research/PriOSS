@@ -1,3 +1,12 @@
+<div *ngIf="isSpotify && !previewMode">
+  <nz-breadcrumb>
+    <nz-breadcrumb-item>
+      <a [routerLink]="['../dashboard/']">Dashboard</a>
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>User Data</nz-breadcrumb-item>
+  </nz-breadcrumb>
+</div>
+
 <!-- This table can be embedded in a Card component -->
 <nz-table nzTemplateMode>
   <thead>
