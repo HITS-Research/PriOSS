@@ -83,11 +83,58 @@
       </nz-card>
     </div>
   </div>
+  <br>
   <div id="step6">
-  <h2 nz-typography id="purpose">Purposes</h2>
+  <h2 nz-typography id="purpose">Purposes - Why does Spotify collect your data ?</h2>
+  <nz-card nzTitle="Exemplary Purposes" nzHoverable>
+    <p>
+      The following purposes should give an example of Spotify's reasoning in regards to data collection. To Get a full list of their reasons you can check out Spotify's <a href="https://www.spotify.com/us/legal/privacy-policy/">privacy policy</a>
+    </p>
+    <br>
+    <nz-table nzTemplateMode>
+      <thead>
+        <tr>
+          <th>Purpose</th>
+          <th>Data Collected</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>To provide the Spotify Service in accordance with the contract with the user (E.g. personalize your account)</td>
+          <td>User Data, Street Address Data, Usage Data, Voice Data, Payment and Purchase Data.</td>
+        </tr>
+        <tr>
+          <td>To provide certain additional voluntary features of the Spotify Service (In this case explicit consent will be requested from Spotify)</td>
+          <td>User Data, Usage Data, Survey and Research Data, Payment and Purchase Data</td>
+        </tr>
+        <tr>
+          <td>To diagnose, troubleshoot, and fix issues with the Spotify Service</td>
+          <td>User Data, Usage Data</td>
+        </tr>
+        <tr>
+          <td>For marketing, promotion and advertising purposes </td>
+          <td>User Data, Street Address Data, Usage Data, Voice Data, Payment and Purchase Data, Survey and Research Data</td>
+        </tr>
+        <tr>
+          <td>To comply with requests from law enforcement, courts, or other competent authorities</td>
+          <td>User Data, Street Address Data, Usage Data, Voice Data, Payment and Purchase Data, Survey and Research Data</td>
+        </tr>
+        <tr>
+          <td>To conduct business planning, reporting, and forecasting</td>
+          <td>User Data, Usage Data, Payment and Purchase Data</td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </nz-card>
 </div>
+<br>
 <div id="step7">
-  <h2 nz-typography id="faq">Frequently Asked Questions</h2>
+  <h2 nz-typography id="faq">Frequently Asked Questions (FAQ)</h2>
+  <nz-collapse nzAccordion>
+    <nz-collapse-panel *ngFor="let purpose of purposes" [nzHeader]="purpose.name" [nzActive]="purpose.active">
+      <p>{{ purpose.content }}</p>
+    </nz-collapse-panel>
+  </nz-collapse>
 </div>
   <app-help-button (startTourClick)="startTour()"></app-help-button>
 </div>
