@@ -41,7 +41,7 @@ export class SpotDashboardComponent {
     {
       active: false,
       name: 'Who developed this website?',
-      content: 'We are a Team called PriOSS and made up of students from the University of Paderborn. This website is a Student Project developed with a passion for privacy during the Course „Project Group: a Privacy One-Stop Shop“ over the summer semester 2022 and winter semester 2022/23'
+      content: 'We are a Team called PriOSS and made up of students from the University of Paderborn. This website is a Student Project developed with a passion for privacy during the Course „Project Group: a Privacy One-Stop Shop“ over the course of one year between October 2022 and September 2023. To get more information about us and the project, visit our About Us page',
     }
   ];
 
