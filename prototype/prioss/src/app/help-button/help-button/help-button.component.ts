@@ -18,12 +18,22 @@ import { Router, RouterLink } from '@angular/router';
 
 export class HelpButtonComponent {
 
+
+  /**
+   * @param {Router} router - The router service used for navigation.
+   * 
+   * @author: Sven (svenf@mail.upb.de)
+   */
   constructor(
     private router: Router
-  ){}
+  ) { }
 
-  goToAbout()
-  {
+  /**
+   * Navigates to the About page.
+   * 
+   * @author: Sven (svenf@mail.upb.de)
+   */
+  goToAbout() {
     this.router.navigate(['about']);
   }
   /**
