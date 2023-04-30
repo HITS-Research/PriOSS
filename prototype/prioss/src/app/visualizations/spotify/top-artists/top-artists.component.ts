@@ -1,6 +1,7 @@
 import {Component, Input} from '@angular/core';
 import * as d3 from 'd3';
 import {SpotHistoryRepository} from "../../../db/data-repositories/spotify/spot-history/spot-history.repository";
+import {NotificationService} from "../../../notification/notification.component";
 
 /**
  * This component visualizes how many songs from an artist were listened to
@@ -28,7 +29,7 @@ export class TopArtistsComponent {
   minListenedToArtist : any[];
   activeTabIndex: number;
 
-  constructor(private spotHistoryRepo: SpotHistoryRepository) {
+  constructor(private spotHistoryRepo: SpotHistoryRepository, private notifyService: NotificationService) {
     this.initializeVisualisation()
   }
 
@@ -44,18 +45,22 @@ export class TopArtistsComponent {
 
   onDateFilterChanged() {
     if (this.filterFromDate !== null && this.filterToDate !== null) {
-      this.spotHistoryRepo.getMinListenedToArtists(this.filterFromDate, this.filterToDate).then((result) => {
-        this.minListenedToArtist = result;
-        if (this.activeTabIndex == 0) {
-          this.makeBarChart(result.slice(0, 10));
-        }
-      });
+      if (this.filterFromDate <= this.filterToDate) {
+        this.spotHistoryRepo.getMinListenedToArtists(this.filterFromDate, this.filterToDate).then((result) => {
+          this.minListenedToArtist = result;
+          if (this.activeTabIndex === 0) {
+            this.makeBarChart(result.slice(0, 10));
+          }
+        });
+      } else {
+        this.notifyService.showNotification("The To Date is before the From Date. Please correct this.");
+      }
     }
   }
 
   onTabSwitch(index: number) {
     this.activeTabIndex = index;
-    if (index == 0) {
+    if (index === 0) {
       this.makeBarChart(this.minListenedToArtist.slice(0, 10));
     }
   }
@@ -72,6 +77,11 @@ export class TopArtistsComponent {
   makeBarChart(data: { artistName: string, minPlayed: number }[]) {
     //remove old barchart
     d3.select(".bar_chart_top_artists").selectAll("*").remove();
+
+    if (data.length === 0) {
+      this.notifyService.showNotification("You did not listen to any music in the selected time period.");
+      return;
+    }
 
     // set the dimensions and margins of the graph
     const margin = {top: 20, right: 30, bottom: 40, left: 90},
