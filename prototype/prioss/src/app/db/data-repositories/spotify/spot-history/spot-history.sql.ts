@@ -48,6 +48,13 @@ export const spotMinListenedToArtist: string = `
  order by minPlayed desc;
 `;
 
+export const spotListeningHistoryOfArtist: string = `
+ select endTime, trackName, msPlayed/1000 as secPlayed
+ from spot_history
+ where (artistName = ?) and (secPlayed > 10)
+ order by endTime asc;
+`;
+
 export const spotHistoryByYearSQL: string = `
  with years as (select min(cast(strftime('%Y', endTime) as INTEGER)) year
                   from spot_history

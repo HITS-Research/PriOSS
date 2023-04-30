@@ -13,6 +13,7 @@ import {
   spotHistoryByYearSQL,
   spotHistoryFirstDaySQL,
   spotHistoryMostRecentDaySQL,
+  spotListeningHistoryOfArtist,
   spotMinListenedToArtist
 } from "./spot-history.sql";
 import { SpotListenHistoryEntry } from "src/app/models/Spotify/ListeningHistory/SpotListenHistoryEntry";
@@ -21,6 +22,7 @@ import { SpotMonthlyListening } from "src/app/models/Spotify/ListeningHistory/Sp
 import { SpotDailyListening } from "src/app/models/Spotify/ListeningHistory/SpotDailyListening";
 import { SpotHourlyListening } from "src/app/models/Spotify/ListeningHistory/SpotHourlyListening";
 import { SpotMinListenedToArtist } from "src/app/models/Spotify/TopArtist/SpotMinListenedToArtist";
+import { SpotListeningHistoryOfArtist } from "src/app/models/Spotify/TopArtist/SpotListeningHistoryOfArtist";
 import * as dateUtils from "../../../../utilities/dateUtils.functions";
 import * as sql from "./spot-history.sql";
 import { BulkAddCapableRepository } from "../../general/inferences/bulk-add-capable.repository";
@@ -153,6 +155,18 @@ export class SpotHistoryRepository extends BulkAddCapableRepository{
       return result.values as SpotMinListenedToArtist[];
     });
   }
+
+
+  async getListeningHistoryOfArtist(artistName: String): Promise<SpotListeningHistoryOfArtist[]>
+  {
+    return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
+
+      let values = [artistName];
+      let result = await db.query(spotListeningHistoryOfArtist, values);
+      return result.values as SpotListeningHistoryOfArtist[];
+    });
+  }
+
 
   /**
    * Queries the spotify listening history grouped by the hours within the given day from the database

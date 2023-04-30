@@ -2,6 +2,7 @@ import {Component, Input} from '@angular/core';
 import * as d3 from 'd3';
 import {SpotHistoryRepository} from "../../../db/data-repositories/spotify/spot-history/spot-history.repository";
 import {NotificationService} from "../../../notification/notification.component";
+import {SpotListeningHistoryOfArtist} from "../../../models/Spotify/TopArtist/SpotListeningHistoryOfArtist";
 
 /**
  * This component visualizes how many songs from an artist were listened to
@@ -65,7 +66,6 @@ export class TopArtistsComponent {
     }
   }
 
-
   /**
    * Creates the bar chart showing the number of songs listened by an artist
    *
@@ -82,6 +82,8 @@ export class TopArtistsComponent {
       this.notifyService.showNotification("You did not listen to any music in the selected time period.");
       return;
     }
+
+    let hoveringBarName: string = "";
 
     // set the dimensions and margins of the graph
     const margin = {top: 20, right: 30, bottom: 40, left: 90},
@@ -123,13 +125,36 @@ export class TopArtistsComponent {
       .attr("y", d => yScale(d.artistName))
       .attr("width", d => xScale(d.minPlayed))
       .attr("height", yScale.bandwidth())
-      .attr("fill", this.spotifyGreen);
+      .attr("fill", this.spotifyGreen)
+      .on("click", () => {
+        this.onBarClicked(hoveringBarName);
+      })
+      .on("mouseover", function (event, data) {
+        hoveringBarName = data.artistName;
+      })
 
     svg.append("text")
       .attr("text-anchor", "end")
       .attr("x", width)
       .attr("y", height + margin.top + 20)
       .text("Minutes listened");
+  }
+
+  /**
+   * Callback that handles clicking a bar by calling a new visualization
+   *
+   * @param artistName The name of the artist the bar belongs to
+   *
+   * @author: Jonathan (jvn@mail.upb.de)
+   */
+  onBarClicked(artistName: string) {
+    this.spotHistoryRepo.getListeningHistoryOfArtist(artistName).then((result) => {
+      this.makeArtistListeningHistory(result)
+    });
+  }
+
+  makeArtistListeningHistory(result: SpotListeningHistoryOfArtist[]) {
+    console.log(result);
   }
 
 }
