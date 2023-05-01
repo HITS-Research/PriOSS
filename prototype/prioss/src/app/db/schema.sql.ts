@@ -14,6 +14,20 @@ CREATE TABLE IF NOT EXISTS inferences (
     inference TEXT NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS userdata (
+    id INTEGER PRIMARY KEY,
+    username TEXT NOT NULL,
+    email TEXT NOT NULL,
+    country TEXT,
+    birthdate TEXT,
+    gender TEXT,
+    postalCode INTEGER,
+    mobileNumber INTEGER,
+    mobileOperator TEXT,
+    mobileBrand TEXT,
+    creationTime TEXT NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS insta_personal_info (
     id INTEGER PRIMARY KEY,
     username TEXT NOT NULL,
@@ -86,4 +100,5 @@ DROP TABLE IF EXISTS insta_ads_activity;
 DROP TABLE IF EXISTS insta_ads_interests;
 DROP TABLE IF EXISTS insta_ads_clicked;
 DROP TABLE IF EXISTS insta_ads_viewed;
+DROP TABLE IF EXISTS userdata;
 `;

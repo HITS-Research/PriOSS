@@ -57,6 +57,7 @@ import { OffFacebookActivityComponent } from './rectification/facebook/off-faceb
 
 import { DBService } from './services/db/db.service';
 import { SpotHistoryRepository } from './db/data-repositories/spotify/spot-history/spot-history.repository';
+import { UserdataRepository } from './db/data-repositories/general/userdata/userdata.repository';
 import { InferencesRepository } from './db/data-repositories/general/inferences/inferences.repository';
 import { InstaPersonalRepository } from './db/data-repositories/instagram/insta-personal-info/insta-personal.repository';
 import { InstaAdsActivityRepository } from './db/data-repositories/instagram/insta-ads/insta-ads-activity.repository';
@@ -475,6 +476,7 @@ const dbConfig: DBConfig  =
     InstaAdsClickedRepository,
     InstaAdsViewedRepository,
     InferencesRepository,
+    UserdataRepository,
     { provide: NZ_I18N, useValue: de_DE }
   ],
   bootstrap: [AppComponent],
