@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Output } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
 
 /**
  * Component that displays a help button and emits an event when clicked.
@@ -16,6 +17,25 @@ import { Component, EventEmitter, Output } from '@angular/core';
 
 
 export class HelpButtonComponent {
+
+
+  /**
+   * @param {Router} router - The router service used for navigation.
+   * 
+   * @author: Sven (svenf@mail.upb.de)
+   */
+  constructor(
+    private router: Router
+  ) { }
+
+  /**
+   * Navigates to the About page.
+   * 
+   * @author: Sven (svenf@mail.upb.de)
+   */
+  goToAbout() {
+    this.router.navigate(['about']);
+  }
   /**
    * This property will emit an event when the button is clicked, and the parent component can listen for this event.
    * 
