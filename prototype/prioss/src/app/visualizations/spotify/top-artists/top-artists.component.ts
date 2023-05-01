@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {NgxIndexedDBService} from 'ngx-indexed-db';
 import * as d3 from 'd3';
 
@@ -22,6 +22,8 @@ export class TopArtistsComponent {
   mostListenedArtistsSorted: any[]; // same content as tracksByArtist but sorted by the number of songs listened to
   artistsAndSongsListenedSorted: any[] = [];  // like mostListenedArtistsSorted but without the song ids, only the number of songs listened from the artist
   readonly spotifyGreen: string = "#1DB954";
+  @Input()
+  previewMode: boolean = false;
   constructor(private dbService: NgxIndexedDBService) {
     this.dbService.getAll('spot/history').subscribe(async (history: any) => {
 
