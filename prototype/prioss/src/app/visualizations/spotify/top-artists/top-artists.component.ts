@@ -23,12 +23,15 @@ export class TopArtistsComponent {
   readonly spotifyGreen: string = "#1DB954";
   @Input()
   previewMode: boolean = false;
+  showArtistHistoy = false;
 
   filterFromDate: Date | null;
   filterToDate: Date | null;
 
   minListenedToArtist : any[];
-  activeTabIndex: number;
+  activeTabIndex: number = 0;
+  selectedArtistName : string = "";
+  selectedArtistHistory : any[];
 
   constructor(private spotHistoryRepo: SpotHistoryRepository, private notifyService: NotificationService) {
     this.initializeVisualisation()
@@ -50,7 +53,7 @@ export class TopArtistsComponent {
         this.spotHistoryRepo.getMinListenedToArtists(this.filterFromDate, this.filterToDate).then((result) => {
           this.minListenedToArtist = result;
           if (this.activeTabIndex === 0) {
-            this.makeBarChart(result.slice(0, 10));
+            this.makeBarChart(this.minListenedToArtist.slice(0, 10));
           }
         });
       } else {
@@ -148,13 +151,24 @@ export class TopArtistsComponent {
    * @author: Jonathan (jvn@mail.upb.de)
    */
   onBarClicked(artistName: string) {
-    this.spotHistoryRepo.getListeningHistoryOfArtist(artistName).then((result) => {
-      this.makeArtistListeningHistory(result)
-    });
+    if (this.filterFromDate !== null && this.filterToDate !== null) {
+      if (this.filterFromDate <= this.filterToDate) {
+        this.spotHistoryRepo.getListeningHistoryOfArtist(artistName, this.filterFromDate, this.filterToDate).then((result) => {
+          this.selectedArtistName = artistName;
+          this.selectedArtistHistory = result;
+          this.showArtistHistoy = true;
+        });
+      }
+    }
   }
 
-  makeArtistListeningHistory(result: SpotListeningHistoryOfArtist[]) {
-    console.log(result);
+  /**
+   * Callback that handles clicking the back button from the artist history table
+   *
+   * @author: Jonathan (jvn@mail.upb.de)
+   */
+  onBackFromArtist() {
+    this.showArtistHistoy = false;
   }
 
 }
