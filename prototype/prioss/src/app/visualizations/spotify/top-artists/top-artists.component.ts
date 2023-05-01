@@ -2,7 +2,6 @@ import {Component, Input} from '@angular/core';
 import * as d3 from 'd3';
 import {SpotHistoryRepository} from "../../../db/data-repositories/spotify/spot-history/spot-history.repository";
 import {NotificationService} from "../../../notification/notification.component";
-import {SpotListeningHistoryOfArtist} from "../../../models/Spotify/TopArtist/SpotListeningHistoryOfArtist";
 
 /**
  * This component visualizes how many songs from an artist were listened to
@@ -23,7 +22,7 @@ export class TopArtistsComponent {
   readonly spotifyGreen: string = "#1DB954";
   @Input()
   previewMode: boolean = false;
-  showArtistHistoy = false;
+  showArtistHistoy : boolean  = false;
 
   filterFromDate: Date | null;
   filterToDate: Date | null;
@@ -37,6 +36,12 @@ export class TopArtistsComponent {
     this.initializeVisualisation()
   }
 
+  /**
+   * Creates the initial visualization
+   *
+   * @author: Jonathan (jvn@mail.upb.de))
+   *
+   */
   async initializeVisualisation() {
     this.filterFromDate = await this.spotHistoryRepo.getFirstDay();
     this.filterToDate = await this.spotHistoryRepo.getMostRecentDay();
@@ -47,6 +52,12 @@ export class TopArtistsComponent {
     });
   }
 
+  /**
+   * This callback method is called when the user changes the date using the datepicker
+   *
+   * @author: Jonathan (jvn@mail.upb.de))
+   *
+   */
   onDateFilterChanged() {
     if (this.filterFromDate !== null && this.filterToDate !== null) {
       if (this.filterFromDate <= this.filterToDate) {
@@ -62,6 +73,15 @@ export class TopArtistsComponent {
     }
   }
 
+
+  /**
+   * This callback method is called when the user switches between tabs
+   *
+   * @param index: The number of the tab (0 or 1)
+   *
+   * @author: Jonathan (jvn@mail.upb.de))
+   *
+   */
   onTabSwitch(index: number) {
     this.activeTabIndex = index;
     if (index === 0) {
@@ -72,7 +92,7 @@ export class TopArtistsComponent {
   /**
    * Creates the bar chart showing the number of songs listened by an artist
    *
-   * @param data: A map containing the name of an artist as key and the number of songs heard by the artist as value
+   * @param data: An array of SpotMinListenedToArtist
    *
    * @author: Jonathan (jvn@mail.upb.de))
    *
@@ -89,7 +109,7 @@ export class TopArtistsComponent {
     let hoveringBarName: string = "";
 
     // set the dimensions and margins of the graph
-    const margin = {top: 20, right: 30, bottom: 40, left: 90},
+    const margin = {top: 20, right: 30, bottom: 50, left: 100},
       width = 460 - margin.left - margin.right,
       height = 400 - margin.top - margin.bottom;
 
@@ -101,7 +121,20 @@ export class TopArtistsComponent {
       .append("g")
       .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
-    // Add X axis
+    // create tooltip
+    const tooltip = d3.select(".bar_chart_top_artists")
+      .append("div")
+      .attr("class", "d3-tooltip")
+      .style("position", "absolute")
+      .style("z-index", "10")
+      .style("visibility", "hidden")
+      .style("padding", "15px")
+      .style("background", "rgba(0,0,0,0.6)")
+      .style("border-radius", "5px")
+      .style("color", "#fff")
+      .text("a simple tooltip");
+
+    // add X axis
     const xScale = d3.scaleLinear()
       .domain([0, data[0].minPlayed]) // maximum
       .range([0, width]);
@@ -120,7 +153,7 @@ export class TopArtistsComponent {
     svg.append("g")
       .call(d3.axisLeft(yScale).tickSize(0));
 
-    //Bars
+    // bars
     svg.selectAll("myRect")
       .data(data)
       .join("rect")
@@ -132,9 +165,22 @@ export class TopArtistsComponent {
       .on("click", () => {
         this.onBarClicked(hoveringBarName);
       })
+      //Mouse Hover
       .on("mouseover", function (event, data) {
         hoveringBarName = data.artistName;
+        tooltip.html(data.minPlayed + " min").style("visibility", "visible");
       })
+      //Mouse moved: change tooltip position
+      .on("mousemove", function (event) {
+        tooltip
+          .style("top", (event.pageY - 10) + "px")
+          .style("left", (event.pageX + 10) + "px");
+      })
+      //Mouse not hovering: hide tooltip
+      .on("mouseout", function () {
+        hoveringBarName = "";
+        tooltip.html(``).style("visibility", "hidden");
+      });
 
     svg.append("text")
       .attr("text-anchor", "end")

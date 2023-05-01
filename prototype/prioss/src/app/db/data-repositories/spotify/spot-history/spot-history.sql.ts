@@ -55,6 +55,22 @@ export const spotListeningHistoryOfArtistSQL: string = `
  order by endTime asc;
 `;
 
+export const spotMinListenedToSongSQL: string = `
+ select artistName, trackName, sum(msPlayed)/60000 as minPlayed
+ from spot_history
+ where (? <= strftime('%Y-%m-%d', endtime) and strftime('%Y-%m-%d', endtime) <= ?)
+ group by artistName, trackName
+ having (minPlayed > 0)
+ order by minPlayed desc;
+`;
+
+export const spotListeningHistoryOfSongSQL: string = `
+ select endTime, msPlayed/1000 as secPlayed
+ from spot_history
+ where (? <= strftime('%Y-%m-%d', endtime) and strftime('%Y-%m-%d', endtime) <= ? and artistName = ? and trackName = ? and secPlayed > 10)
+ order by endTime asc;
+`;
+
 export const spotHistoryByYearSQL: string = `
  with years as (select min(cast(strftime('%Y', endTime) as INTEGER)) year
                   from spot_history

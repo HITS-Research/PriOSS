@@ -62,15 +62,15 @@ export class SpotDashboardComponent {
   /**
    * This method starts the tour and sets @param tourCompleted in the @service introjs to true.
    * The boolean is set so not every time the page is navigated to, the tour starts again.
-   * 
+   *
    * @author: Sven (svenf@mail.upb.de)
    */
   ngAfterViewInit(): void  {
-    if (this.introService.isSpotifyTourCompleted() == false) {
-      this.introService.spotifyDashboardTour();
-      this.introService.setSpotifyTourCompleted(true);
-    }
-    
+    // if (this.introService.isSpotifyTourCompleted() == false) {
+    //   this.introService.spotifyDashboardTour();
+    //   this.introService.setSpotifyTourCompleted(true);
+    // }
+
   }
 
   /**

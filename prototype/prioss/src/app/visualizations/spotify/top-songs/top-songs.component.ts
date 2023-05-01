@@ -1,86 +1,139 @@
-import { Component } from '@angular/core';
-import {NgxIndexedDBService} from "ngx-indexed-db";
+import {Component, Input} from '@angular/core';
 import * as d3 from "d3";
+import {SpotHistoryRepository} from "../../../db/data-repositories/spotify/spot-history/spot-history.repository";
+import {NotificationService} from "../../../notification/notification.component";
 
+/**
+ * This component visualizes which songs have been listened the most to
+ *
+ * @author: Jonathan (jvn@mail.upb.de)
+ *
+ */
 @Component({
   selector: 'spot-top-songs',
   templateUrl: './top-songs.component.html',
   styleUrls: ['./top-songs.component.less']
 })
 export class TopSongsComponent {
-  tracksBySong = new Map<string, number[]>(); // this map contains all songs together with the track ids belonging to the song
-  mostListenedSongsSorted: any[]; // same content as tracksBySong but sorted by the number of times listened
-  songsAndNumberListenedSorted: any[] = [];  // like mostListenedSongsSorted but without the song ids, only the number of times listened
 
-  constructor(private dbService: NgxIndexedDBService) {
-    this.dbService.getAll('spot/history').subscribe(async (history: any) => {
+  readonly spotifyGreen: string = "#1DB954";
+  @Input()
+  previewMode: boolean = false;
+  showSongHistoy : boolean = false;
 
-      for (const track of history) {
+  filterFromDate: Date | null;
+  filterToDate: Date | null;
 
-        const songAndArtist = track.trackName + " by " + track.artistName;
-        if (this.tracksBySong.has(songAndArtist)) {
-          this.tracksBySong.get(songAndArtist)!.push(track.$id);
-        } else {
-          this.tracksBySong.set(songAndArtist, [track.$id]);
-        }
-      }
+  minListenedToSong : any[];
+  activeTabIndex: number = 0;
+  selectedSong : string[] = [];
+  selectedSongHistory: any[];
 
-      this.mostListenedSongsSorted = Array.from(this.tracksBySong.entries());
-      this.mostListenedSongsSorted.sort(function (a, b) {
-        if (a[1].length >= b[1].length) {
-          return -1;
-        }
-        return 1;
-      });
+  constructor(private spotHistoryRepo: SpotHistoryRepository, private notifyService: NotificationService) {
+    this.initializeVisualisation()
+  }
 
-      this.songsAndNumberListenedSorted = this.getTopNSongs(this.mostListenedSongsSorted.length)
-      this.makeBarChart(this.songsAndNumberListenedSorted.slice(0, 10));
+  /**
+   * Creates the initial visualization
+   *
+   * @author: Jonathan (jvn@mail.upb.de))
+   *
+   */
+  async initializeVisualisation() {
+    this.filterFromDate = await this.spotHistoryRepo.getFirstDay();
+    this.filterToDate = await this.spotHistoryRepo.getMostRecentDay();
+
+    this.spotHistoryRepo.getMinListenedToSongs(this.filterFromDate, this.filterToDate).then((result) => {
+      this.minListenedToSong = result;
+      this.makeBarChart(result.slice(0, 10));
     });
   }
 
   /**
-   * Creates an array containing the top n songs and how many times a song was played
-   *
-   * @param n: The top n songs will be returned
+   * This callback method is called when the user changes the date using the datepicker
    *
    * @author: Jonathan (jvn@mail.upb.de))
    *
    */
-  private getTopNSongs(n: number): any[] {
-    const topNSongs = [];
-    for (let i = 0; i < n; i++) {
-      topNSongs.push({songAndArtist: this.mostListenedSongsSorted[i][0], numberListened: this.mostListenedSongsSorted[i][1].length});
+  onDateFilterChanged() {
+    if (this.filterFromDate !== null && this.filterToDate !== null) {
+      if (this.filterFromDate <= this.filterToDate) {
+        this.spotHistoryRepo.getMinListenedToSongs(this.filterFromDate, this.filterToDate).then((result) => {
+          this.minListenedToSong = result;
+          if (this.activeTabIndex === 0) {
+            this.makeBarChart(this.minListenedToSong.slice(0, 10));
+          }
+        });
+      } else {
+        this.notifyService.showNotification("The To Date is before the From Date. Please correct this.");
+      }
     }
-    return topNSongs;
   }
 
-
   /**
-   * Creates the bar chart showing the number of songs listened by an artist
+   * This callback method is called when the user switches between tabs
    *
-   * @param data: A map containing the name of a song and artist as key and the how many times the songs was heard as value
+   * @param index: The number of the tab (0 or 1)
    *
    * @author: Jonathan (jvn@mail.upb.de))
    *
    */
-  makeBarChart(data: { songAndArtist: string, numberListened: number }[]) {
+  onTabSwitch(index: number) {
+    this.activeTabIndex = index;
+    if (index === 0) {
+      this.makeBarChart(this.minListenedToSong.slice(0, 10));
+    }
+  }
+
+  /**
+   * Creates the bar chart showing the most listened songs
+   *
+   * @param data: An array of SpotMinListenedToSong
+   *
+   * @author: Jonathan (jvn@mail.upb.de))
+   *
+   */
+  makeBarChart(data: { artistName: string, trackName: string, minPlayed: number }[]) {
+    //remove old barchart
+    d3.select(".bar_chart_top_songs").selectAll("*").remove();
+
+    if (data.length === 0) {
+      this.notifyService.showNotification("You did not listen to any music in the selected time period.");
+      return;
+    }
+
+    let hoveringArtistName: string = "";
+    let hoveringTrackName: string = "";
 
     // set the dimensions and margins of the graph
-    const margin = {top: 20, right: 30, bottom: 40, left: 90},
+    const margin = {top: 20, right: 30, bottom: 50, left: 200},
       width = 460 - margin.left - margin.right,
       height = 400 - margin.top - margin.bottom;
 
     // append the svg object to the body of the page
-    const svg = d3.select("#bar_chart_top_songs")
+    const svg = d3.select(".bar_chart_top_songs")
       .append("svg")
       .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom)
       .append("g")
       .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
-    // Add X axis
+    // create tooltip
+    const tooltip = d3.select(".bar_chart_top_songs")
+      .append("div")
+      .attr("class", "d3-tooltip")
+      .style("position", "absolute")
+      .style("z-index", "10")
+      .style("visibility", "hidden")
+      .style("padding", "15px")
+      .style("background", "rgba(0,0,0,0.6)")
+      .style("border-radius", "5px")
+      .style("color", "#fff")
+      .text("a simple tooltip");
+
+    // add X axis
     const xScale = d3.scaleLinear()
-      .domain([0, data[0].numberListened]) // maximum
+      .domain([0, data[0].minPlayed]) // maximum
       .range([0, width]);
     svg.append("g")
       .attr("transform", `translate(0, ${height})`)
@@ -92,27 +145,76 @@ export class TopSongsComponent {
     // Y axis
     var yScale: any = d3.scaleBand()
       .range([0, height])
-      .domain(data.map(d => d.songAndArtist))
+      .domain(data.map(d => d.trackName))
       .padding(.1);
     svg.append("g")
-      .call(d3.axisLeft(yScale).tickSize(0))
-      .attr("text-anchor", "end");
+      .call(d3.axisLeft(yScale).tickSize(0));
 
-    //Bars
+    // bars
     svg.selectAll("myRect")
       .data(data)
       .join("rect")
       .attr("x", xScale(0) )
-      .attr("y", d => yScale(d.songAndArtist))
-      .attr("width", d => xScale(d.numberListened))
+      .attr("y", d => yScale(d.trackName))
+      .attr("width", d => xScale(d.minPlayed))
       .attr("height", yScale.bandwidth())
-      .attr("fill", "#69b3a2");
+      .attr("fill", this.spotifyGreen)
+      .on("click", () => {
+        this.onBarClicked(hoveringArtistName, hoveringTrackName);
+      })
+      //Mouse Hover
+      .on("mouseover", function (event, data) {
+        hoveringArtistName = data.artistName;
+        hoveringTrackName = data.trackName;
+        tooltip.html(data.minPlayed + " min").style("visibility", "visible");
+      })
+      //Mouse moved: change tooltip position
+      .on("mousemove", function (event) {
+        tooltip
+          .style("top", (event.pageY - 10) + "px")
+          .style("left", (event.pageX + 10) + "px");
+      })
+      //Mouse not hovering: hide tooltip
+      .on("mouseout", function () {
+        hoveringArtistName = "";
+        hoveringTrackName = "";
+        tooltip.html(``).style("visibility", "hidden");
+      });
 
     svg.append("text")
       .attr("text-anchor", "end")
       .attr("x", width)
       .attr("y", height + margin.top + 20)
-      .text("Times listened");
+      .text("Minutes listened");
+  }
+
+  /**
+   * Callback that handles clicking a bar by calling a new visualization
+   *
+   * @param artistName The name of the artist the bar belongs to (needed because songs can have the same name)
+   * @param trackName The name of the song the bar belongs to
+   *
+   * @author: Jonathan (jvn@mail.upb.de)
+   */
+  onBarClicked(artistName: string, trackName: string) {
+    if (this.filterFromDate !== null && this.filterToDate !== null) {
+      if (this.filterFromDate <= this.filterToDate) {
+        this.spotHistoryRepo.getListeningHistoryOfSong(artistName, trackName, this.filterFromDate, this.filterToDate).then((result) => {
+          this.selectedSong = [artistName, trackName];
+          this.selectedSongHistory = result;
+          this.showSongHistoy = true;
+        });
+      }
+    }
+  }
+
+  /**
+   * Callback that handles clicking the back button from the artist history table
+   *
+   * @author: Jonathan (jvn@mail.upb.de)
+   */
+  onBackFromSong() {
+    this.showSongHistoy = false;
   }
 
 }

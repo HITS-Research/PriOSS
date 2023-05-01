@@ -13,8 +13,8 @@ import {
   spotHistoryByYearSQL,
   spotHistoryFirstDaySQL,
   spotHistoryMostRecentDaySQL,
-  spotListeningHistoryOfArtistSQL,
-  spotMinListenedToArtistSQL,
+  spotListeningHistoryOfArtistSQL, spotListeningHistoryOfSongSQL,
+  spotMinListenedToArtistSQL, spotMinListenedToSongSQL,
 } from "./spot-history.sql";
 import { SpotListenHistoryEntry } from "src/app/models/Spotify/ListeningHistory/SpotListenHistoryEntry";
 import { SpotYearlyListening } from "src/app/models/Spotify/ListeningHistory/SpotYearlyListening";
@@ -26,6 +26,8 @@ import { SpotListeningHistoryOfArtist } from "src/app/models/Spotify/TopArtist/S
 import * as dateUtils from "../../../../utilities/dateUtils.functions";
 import * as sql from "./spot-history.sql";
 import { BulkAddCapableRepository } from "../../general/inferences/bulk-add-capable.repository";
+import {SpotMinListenedToSong} from "../../../../models/Spotify/TopSong/SpotMinListenedToSong";
+import {SpotListeningHistoryOfSong} from "../../../../models/Spotify/TopSong/SpotListeningHistoryOfSong";
 
 /**
   * This repository component is responsible for providing functions to insert and request data from the spot_history table
@@ -157,8 +159,24 @@ export class SpotHistoryRepository extends BulkAddCapableRepository{
   }
 
   /**
+   * Queries the spotify listening history for the duration in minutes that an artist has been listened to, filtered between the given start and end dates
+   * @returns An array of SpotMinListenedToArtist
+   *
+   * @author: Jonathan (jvn@mail.upb.de)
+   */
+  async getMinListenedToSongs(fromDate: Date, toDate: Date): Promise<SpotMinListenedToSong[]>
+  {
+    return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
+
+      let values = [dateUtils.getDisplayDateString(fromDate),dateUtils.getDisplayDateString(toDate)];
+      let result = await db.query(spotMinListenedToSongSQL, values);
+      return result.values as SpotMinListenedToSong[];
+    });
+  }
+
+  /**
    * Queries the spotify listening history for all songs by an artist, filtered between the given start and end dates
-   * @returns An array of SpotListeningHistoryOfArtist
+   * @returns An array of SpotListeningHistoryOfSong
    *
    * @author: Jonathan (jvn@mail.upb.de)
    */
@@ -169,6 +187,22 @@ export class SpotHistoryRepository extends BulkAddCapableRepository{
       let values = [dateUtils.getDisplayDateString(fromDate),dateUtils.getDisplayDateString(toDate), artistName];
       let result = await db.query(spotListeningHistoryOfArtistSQL, values);
       return result.values as SpotListeningHistoryOfArtist[];
+    });
+  }
+
+  /**
+   * Queries the spotify listening history for all songs by an artist, filtered between the given start and end dates
+   * @returns An array of SpotListeningHistoryOfSong
+   *
+   * @author: Jonathan (jvn@mail.upb.de)
+   */
+  async getListeningHistoryOfSong(artistName: string, trackName: string, fromDate: Date, toDate: Date): Promise<SpotListeningHistoryOfSong[]>
+  {
+    return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
+
+      let values = [dateUtils.getDisplayDateString(fromDate),dateUtils.getDisplayDateString(toDate), artistName, trackName];
+      let result = await db.query(spotListeningHistoryOfSongSQL, values);
+      return result.values as SpotListeningHistoryOfSong[];
     });
   }
 

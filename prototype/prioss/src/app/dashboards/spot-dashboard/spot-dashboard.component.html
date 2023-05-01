@@ -36,11 +36,18 @@
   </div>
 
     <h3 nz-typography>Songs and Artists</h3>
-    <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
+    <div nz-row  [nzGutter]="{ xs: 8, xl: 40 }">
       <div nz-col nzXs="24" nzXl="8">
         <a routerLink="/spot/top-artists">
           <nz-card nzTitle="Top Artists" nzHoverable [nzExtra]="extraTemplate">
             <spot-top-artists [previewMode]="true"></spot-top-artists>
+          </nz-card>
+        </a>
+      </div>
+      <div nz-col nzXs="24" nzXl="8">
+        <a routerLink="/spot/top-songs">
+          <nz-card nzTitle="Top Songs" nzHoverable [nzExtra]="extraTemplate">
+            <spot-top-songs [previewMode]="true"></spot-top-songs>
           </nz-card>
         </a>
       </div>
