@@ -27,7 +27,9 @@ export class Insta_PersonalInfoComponent {
   personalInfo: InstaPersonalInfo;
   accountInfo: InstaAccountInfo;
   professionalInfo: InstaProfessionalInfo;
-  profileChanges: InstaProfileChange[];
+  profileChanges: readonly InstaProfileChange[] = [];
+  listOfProfileChanges: InstaProfileChange[] = []
+  pcready: boolean = false;
   getObjectPairs: (obj: object) => [string, any][] = utilities.getObjectPairs;
   convertTimestamp: (str: string) => any = utilities.convertTimestamp;
   capitalizeAndPrettify: (str: string) => string = utilities.capitalizeAndPrettify;
@@ -54,6 +56,8 @@ export class Insta_PersonalInfoComponent {
     });
     await this.instaPersonalRepo.getProfileChanges().then((changes) => {
       this.profileChanges = changes;
+      this.listOfProfileChanges = [...this.profileChanges];
+      this.pcready = true;
     });
   }
 }

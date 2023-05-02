@@ -357,6 +357,7 @@ export class ServiceSelectionComponent {
     //Handing over parsing to service specific parsing methods
     if (selectedApp == this.appType.Instagram) {
       console.log("Parsing Instagram file...");
+      this.parseInstagramFile();
       await this.parseInstagramFileToSQLite();
     }
     else if (selectedApp == this.appType.Spotify) {
