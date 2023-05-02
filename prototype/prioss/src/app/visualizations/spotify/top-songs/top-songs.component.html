@@ -4,6 +4,12 @@
   </div>
 
   <div *ngIf="!previewMode">
+    <nz-breadcrumb>
+      <nz-breadcrumb-item>
+        <a [routerLink]="['../dashboard/']">Dashboard</a>
+      </nz-breadcrumb-item>
+      <nz-breadcrumb-item>Top Songs</nz-breadcrumb-item>
+    </nz-breadcrumb>
     <nz-tabset (nzSelectedIndexChange)="onTabSwitch($event)">
       <nz-tab nzTitle="Bar chart">
         From:
