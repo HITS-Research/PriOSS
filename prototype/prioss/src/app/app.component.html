@@ -48,6 +48,9 @@
             <a (click)="navigateAndScroll(pRouter, serviceName + '/dashboard')">Introduction</a>
           </li>
           <li nz-menu-item>
+            <a routerLink="{{serviceName}}/dashboard" fragment="visualization">Visualization</a>
+          </li>
+          <li nz-menu-item>
             <a routerLink="{{serviceName}}/dashboard" fragment="rectification">Rectification</a>
           </li>
           <li nz-menu-item>
