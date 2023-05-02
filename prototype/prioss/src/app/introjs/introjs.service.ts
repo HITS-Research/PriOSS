@@ -15,8 +15,10 @@ export class IntrojsService {
 
   introJS: any = null;
   introJSF: any = null;
+  introJSI: any = null;
   spotifyTourCompleted: boolean = false;
   facebookTourCompleted: boolean = false;
+  instagramTourCompleted: boolean = false;
 
   /**
    * This method configures introJs. It sets the text for the steps of the tour.
@@ -30,12 +32,36 @@ export class IntrojsService {
     this.introJS.setOptions({
       steps: [
         {
+          element: 'step0',
+          intro: 'New here? Click <b>Next</b> for a quick tour of this dashboard! <br><br> Already comfortable? <br> <b>Click</b> somewhere else on the dashboard!'
+        },
+        {
           element: '#step1',
-          intro: 'This is the first step!'
+          intro: 'This card contains all personal information that Spotify has collected. To see more details click on "More".'
         },
         {
           element: '#step2',
-          intro: 'This is the second step!'
+          intro: 'This card shows all inferences Spotify made about you. You can rectify them here!'
+        },
+        {
+          element: '#step3',
+          intro: 'Here you can see the visualization of your listening time.'
+        },
+        {
+          element: '#step4',
+          intro: 'Click this card to see your favorite artists and songs!'
+        },
+        {
+          element: '#step5',
+          intro: 'This section explains your rights about data collection backed by the GDPR.'
+        },
+        {
+          element: '#step6',
+          intro: 'Want to know why Spotify collects data about all your actions and activities? Look here!'
+        },
+        {
+          element: '#step7',
+          intro: 'You have more questions about this application? Stay right here.'
         },
         // more steps here...
       ]
@@ -70,6 +96,10 @@ export class IntrojsService {
     this.introJSF = introJs();
     this.introJSF.setOptions({
       steps: [
+        {
+          element: 'step0',
+          intro: 'New here? Click <b>Next</b>! <br><br> Already comfortable? <br> <b>Click</b> into the dashboard!'
+        },
         {
           element: '#fStep10',
           intro: 'Your Personal Data'
@@ -125,5 +155,70 @@ export class IntrojsService {
    */
   isFacebookTourCompleted(): boolean {
     return this.facebookTourCompleted;
+  }
+
+   /**
+   * This method configures introJSI.
+   * @author: Melina (kleber@mail.uni-paderborn.de)
+   */
+   instagramDashboardTour() {
+    this.introJSI = introJs();
+    this.introJSI.setOptions({
+      steps: [
+        {
+          element: '#welcome',
+          intro: 'New here? Click <b>Next</b>! <br><br> Already comfortable? <br> <b>Click</b> into the dashboard!'
+        },
+        {
+          element: '#introduction',
+          intro: 'This is a short introduction what PriOSS-Instagram can do for you.'
+        },
+        {
+          element: '#visualization',
+          intro: 'Here you can see the visualization of your data collected by Instagram.'
+        },
+        {
+          element: '#personalInformation',
+          intro: 'For example this card contains all personal information that Instagram has collected. To see more details click on "More".'
+        },
+        {
+          element: '#rectification',
+          intro: 'This section shows how you can rectify your data in Instagram.'
+        },
+        {
+          element: '#gdpr',
+          intro: 'This section explains the instructions to exercise your GDPR rights.'
+        },
+        {
+          element: '#purpose',
+          intro: 'Want to know why Instagram collects data about all your actions and activities? Look here!'
+        },
+        {
+          element: '#faq',
+          intro: 'You have more questions about this application? Click to see answers.'
+        },
+        // more steps here...
+      ]
+    }).start();
+  }
+
+  /**
+   * Simple setter.
+   * @param completed.
+   * 
+   * @author: Melina (kleber@mail.uni-paderborn.de)
+   */
+  setInstagramTourCompleted(completed: boolean) {
+    this.instagramTourCompleted = completed;
+  }
+
+   /**
+   * Simple getter. 
+   * @returns finstagramTourCompleted value. 
+   * 
+   * @author: Melina (kleber@mail.uni-paderborn.de)
+   */
+  isInstagramTourCompleted(): boolean {
+    return this.instagramTourCompleted;
   }
 }

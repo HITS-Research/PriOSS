@@ -1,22 +1,23 @@
-<nz-tabset>
-  <nz-tab nzTitle="Off FaceBook Activity">
-    <svg id="bubble-chart" viewBox="0 0 1000 1000"></svg>
+<div [ngClass]="{'component-page': !previewMode}">
+  <div *ngIf="previewMode">
+  <nz-row [nzGutter]="16">
+    <nz-col [nzSpan]="12">
+      <nz-statistic  [nzTitle]="'Total No Of Ads Clicked'" [nzValue]="totalCount" class ="bold-title">
+      </nz-statistic>
+      </nz-col>
+      </nz-row>
+      </div>
+<nz-tabset  *ngIf="!previewMode">
+  <nz-tab nzTitle="Off FaceBook Activity" >
+    <svg id="bubble-chart"></svg>
     <div id="tooltip"></div>
+    <h3>What is Off-Facebook Activity?</h3>
+    <p>Off-Facebook activity includes information that businesses and organisations share with Facebook about your interactions with them. For example, your interactions could be visiting their website or using their app. Below is a Bubble chart showing all of your interactions captured by Off-Facebook Activity.</p>
+    <h3>For the guidelines to Turn OFF Off-facebook Activity click on the below button.</h3>
+    <button nz-button nzType="primary" (click)="navigateToRectification()">Guidelines to Turn OFF Off-facebook Activity</button> 
   </nz-tab>
-  <nz-tab nzTitle="No Of Ads Clicked">
-    <nz-row [nzGutter]="16">
-      <nz-col [nzSpan]="12">
-        <nz-statistic  [nzTitle]="'Total No Of Ads Clicked'" [nzValue]="totalCount" class ="bold-title">
-        </nz-statistic>
-      </nz-col> 
-    </nz-row>
-    <nz-divider nzType="horizontal"></nz-divider>
+  <nz-tab nzTitle="Clicked  Ads">
     <nz-table #basicTable>
-      <thead>
-        <tr>
-          <th class = "bold-header"> Ads Clicked </th>
-        </tr>
-      </thead>
       <tbody>
         <tr *ngFor="let name of this.adNames">
           <td>{{name}}</td>
@@ -29,16 +30,21 @@
     <nz-tab nzTitle="No Of Website Interactions" id="website-interactions">
       <div class="cards">
       <nz-space nzDirection="horizontal" [nzSize] = "'large'">
-        <nz-card *nzSpaceItem nzTitle="Active" class="cards-content">
+        <nz-card *nzSpaceItem nzTitle="Active - {{activeWebsite}}" class="cards-content">
           <p *ngFor="let name of appsByCategory.active">{{name}}</p>
         </nz-card>
-        <nz-card *nzSpaceItem nzTitle="Inactive" class="cards-content">
+        <nz-card *nzSpaceItem nzTitle="Inactive - {{inActiveWebsite}}" class="cards-content">
           <p *ngFor="let name of appsByCategory.inactive">{{name}}</p>
         </nz-card>
-        <nz-card *nzSpaceItem nzTitle="Removed" class="cards-content">
+        <nz-card *nzSpaceItem nzTitle="Removed - {{removedWebsite}}" class="cards-content">
           <p *ngFor="let name of appsByCategory.removed">{{name}}</p>
         </nz-card>
       </nz-space>
       </div>
+    <h5 nz-typography>Note:</h5>
+    <h5 nz-typography>Active: A website or app that you're currently using and that is currently sharing information with Facebook about your activity on it.</h5>
+    <h5 nz-typography>Inactive: A website or app that you used in the past, but that is no longer sharing information with Facebook about your activity on it.</h5>
+    <h5 nz-typography>Removed: A website or app that you used in the past has stopped sharing information about your activity with Facebook.</h5>
       </nz-tab>
 </nz-tabset>
+</div>

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { NgxIndexedDBService } from 'ngx-indexed-db';
 
 /**
@@ -19,6 +19,9 @@ export class InferredTopicsComponent {
 
   constructor(private dbService: NgxIndexedDBService)
   {}
+
+  @Input()
+  previewMode: boolean = false;
 
   inferredTopics: any[] = [];
 

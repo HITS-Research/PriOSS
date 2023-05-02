@@ -36,3 +36,28 @@ export function navigateAndScroll(router: Router, url: string):void {
   router.navigateByUrl(url);
   scrollToTop();
 }
+
+/**
+ * This method is used to fetch value for a key from json object while ignoring case sensitivity
+ * 
+ * @param jsonObj JSON object from which key value needs to be fetched
+ * @param key Key for which the value needs to be fetched
+ * @param time_value Boolean variable which choses whether to fetch value field or timestamp field
+ * @returns The value of the key from the JSON object. Returns undefined if the key doesn't fetch
+ * 
+ * @author: Mayank (mayank@mail.upb.de)
+ * 
+ */
+export function getValueIgnoreCase(jsonObj: any, key: string, time_value : boolean): any {
+  const keys = Object.keys(jsonObj);
+  for (const i in keys) {
+    if (keys[i].toLowerCase() === key.toLowerCase()) {
+      if(time_value) {
+        return jsonObj[keys[i]].timestamp;
+      } else {
+        return jsonObj[keys[i]].value;
+      }
+    }
+  }
+  return undefined
+}
