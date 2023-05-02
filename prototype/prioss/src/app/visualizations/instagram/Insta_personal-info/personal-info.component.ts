@@ -57,6 +57,7 @@ export class Insta_PersonalInfoComponent {
     await this.instaPersonalRepo.getProfileChanges().then((changes) => {
       this.profileChanges = changes;
       this.listOfProfileChanges = [...this.profileChanges];
+      console.log(this.listOfProfileChanges);
       this.pcready = true;
     });
   }
