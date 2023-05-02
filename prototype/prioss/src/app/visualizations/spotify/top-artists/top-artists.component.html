@@ -1,3 +1,11 @@
+<div *ngIf="!previewMode">
+  <nz-breadcrumb>
+    <nz-breadcrumb-item>
+      <a [routerLink]="['../dashboard/']">Dashboard</a>
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>Top Artists</nz-breadcrumb-item>
+  </nz-breadcrumb>
+</div>
 <nz-tabset>
   <nz-tab nzTitle="Bar chart">
     <div id="bar_chart_top_artists"></div>

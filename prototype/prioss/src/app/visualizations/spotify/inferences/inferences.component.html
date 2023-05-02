@@ -9,6 +9,12 @@
     </nz-table>
   </div>
   <div *ngIf="!previewMode">
+    <nz-breadcrumb>
+      <nz-breadcrumb-item>
+        <a [routerLink]="['../dashboard/']">Dashboard</a>
+      </nz-breadcrumb-item>
+      <nz-breadcrumb-item>Inferences</nz-breadcrumb-item>
+    </nz-breadcrumb>
     <!-- https://stackoverflow.com/questions/73631070/how-to-set-scrollable-content-dinamically-in-ng-zorro-table -->
     <h1 style="position: relative;">Inferences
       <span nz-tooltip nzTooltipTitle="An Inference is a topic of interest or information that Spotify has infered about you. 
