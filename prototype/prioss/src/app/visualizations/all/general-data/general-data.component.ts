@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { NgxIndexedDBService } from 'ngx-indexed-db';
 import * as utilities from 'src/app/utilities/generalUtilities.functions'
+import { UserdataRepository } from 'src/app/db/data-repositories/general/userdata/userdata.repository';
+import { userdataEntry } from 'src/app/models/General/userdata/userdataEntry';
 
 /**
   * This component visualizes the general data of the user.
@@ -17,17 +19,14 @@ import * as utilities from 'src/app/utilities/generalUtilities.functions'
 })
 export class GeneralDataComponent {
 
-  userdata: object = {}
+  // userdata: object = {}
+  userdata: readonly userdataEntry[] = [];
   getObjectPairs: (obj: object) => [string, any][] = utilities.getObjectPairs;
 
-  constructor(private dbService: NgxIndexedDBService)
-  {
+  constructor(private userdataRepo: UserdataRepository) {
 
-    this.dbService.getAll('all/userdata').subscribe((userdata: any) =>
-    {
-        this.userdata = userdata[0];
-        console.log("Userdata:");
-        console.log(this.userdata);
+    this.userdataRepo.getAlluserdata().then((userdata) => {
+      this.userdata = userdata;
     });
   }
 
@@ -40,6 +39,9 @@ export class GeneralDataComponent {
    *
    */
   getObjectPairsNotNull(obj: object): [string, any][] {
+    if (obj === null || obj === undefined) {
+        return [];
+      }
     return this.getObjectPairs(obj).filter( ([_, v]) => v != null );
   }
 

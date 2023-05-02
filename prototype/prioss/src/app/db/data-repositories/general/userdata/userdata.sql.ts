@@ -5,7 +5,7 @@ export const insertIntoUserdata: string = `
   (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
 `;
 
-export const selectAlluserdata: string = `
+export const selectAllUserdata: string = `
  select username, email, country, birthdate, gender, postalCode, mobileNumber, mobileOperator, mobileBrand, creationTime
    from userdata;
 `;
