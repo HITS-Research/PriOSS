@@ -51,6 +51,14 @@ export class FaceDashboardComponent {
   navigateToFriendsAndFollowers() {
     this.router.navigate(['face/friendsandfollowers']);
   }
+/**
+    * This  method is responsible to navigate to Off-Facebook Activity Guidelines page.
+    * @author: mukuls@mail.upb.de
+    *
+   */
+  navigateToOFA() {
+      this.router.navigate(['face/configure-off-facebook-activity']);
+  }
 
 /**
   * This method starts the tour and sets @param tourCompleted in the @service introjs to true.

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, Input} from '@angular/core';
 import { NgxIndexedDBService } from 'ngx-indexed-db';
 import * as utilities from 'src/app/utilities/generalUtilities.functions'
 
@@ -19,10 +19,15 @@ export class GeneralDataComponent {
 
   userdata: object = {}
   getObjectPairs: (obj: object) => [string, any][] = utilities.getObjectPairs;
+  isSpotify = false;
+  @Input()
+  previewMode: boolean = false;
 
   constructor(private dbService: NgxIndexedDBService)
   {
-
+    if (window.location.href.includes('/spot/')) {
+      this.isSpotify = true;
+    }
     this.dbService.getAll('all/userdata').subscribe((userdata: any) =>
     {
         this.userdata = userdata[0];

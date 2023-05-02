@@ -53,6 +53,7 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { TopSongsComponent } from './visualizations/spotify/top-songs/top-songs.component';
 import { HelpButtonComponent } from './help-button/help-button/help-button.component';
 import { IntrojsService } from './introjs/introjs.service';
+import { OffFacebookActivityComponent } from './rectification/facebook/off-facebook-activity/off-facebook-activity.component';
 
 import { DBService } from './services/db/db.service';
 import { SpotHistoryRepository } from './db/data-repositories/spotify/spot-history/spot-history.repository';
@@ -433,7 +434,8 @@ const dbConfig: DBConfig  =
     InstaAdsComponent,
     AdsRelatedDataComponent,
     FriendAndFollowersComponent,
-    HelpButtonComponent
+    HelpButtonComponent,
+    OffFacebookActivityComponent
   ],
   imports: [
     BrowserModule,
