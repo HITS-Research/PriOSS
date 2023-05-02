@@ -16,10 +16,14 @@
       <nz-breadcrumb-item>Inferences</nz-breadcrumb-item>
     </nz-breadcrumb>
     <!-- https://stackoverflow.com/questions/73631070/how-to-set-scrollable-content-dinamically-in-ng-zorro-table -->
-    <h1 style="position: relative;">Inferences<span nz-tooltip
-        nzTooltipTitle="Generally, inferences are used for marketing or advertising. Spotify also uses inference data to curate and create content. 1P_inferences are made by Spotify. 3p_inferences are made by Facebook."><span
-          nz-icon nzType="info-circle" nzTheme="outline"
-          style="position: absolute; top: 0; right: -600; font-size: 16px;"></span></span> </h1>
+    <h1 style="position: relative;">Inferences
+      <span nz-tooltip nzTooltipTitle="An Inference is a topic of interest or information that Spotify has infered about you. 
+      They're used for marketing or advertising purposes and to curate and create content. 
+      First-party (1P_) inferences are created by Spotify. Third-Party (3P_) inferences come from other services like Facebook.">
+        <span nz-icon nzType="info-circle" nzTheme="outline" style="font-size: 16px; vertical-align: .7rem;">
+        </span>
+      </span>
+    </h1>
     <nz-table #rowSelectionTable [nzData]="listOfInferences" [nzPageSize]="50000" [nzFooter]="footerTemplate"
       [nzScroll]="{ y: 'calc(100vh - 369px)' }" [nzShowPagination]="false">
       <thead>
@@ -36,7 +40,7 @@
             </nz-input-group>
           </th>
           <th nzWidth="5%">
-            <span nz-tooltip nzTooltipTitle="Create an rectification email with all selected inferences."><button
+            <span nz-tooltip nzTooltipTitle="Create a rectification email with all selected inferences. Rectifying inferences means to request Spotify to delete inferences that you think are incorrect about yourself."><button
                 nz-button nzType="default" nzSize="large" [disabled]="setOfCheckedId.size === 0"
                 (click)="rectifyInferences()"><span nz-icon nzType="delete"></span></button></span>
           </th>
