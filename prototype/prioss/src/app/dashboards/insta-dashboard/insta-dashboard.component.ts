@@ -46,16 +46,31 @@ export class InstaDashboardComponent {
   rectificationInstructionText="Choose your country.";
   rectificationInstructionPicture="/../../assets/images/insta-rectifcation/step1.PNG"
 
+  /**
+  * Decrease the "current" variable.
+  * @author: Melina (kleber@mail.uni-paderborn.de)
+  * 
+  */
   pre(): void {
     this.current -= 1;
     this.changeContent();
   }
 
+  /**
+  * Increases the "current" variable.
+  * @author: Melina (kleber@mail.uni-paderborn.de)
+  * 
+  */
   next(): void {
     this.current += 1;
     this.changeContent();
   }
 
+  /**
+  * Updates the rectification visualization regarding the current value.
+  * @author: Melina (kleber@mail.uni-paderborn.de)
+  * 
+  */
   changeContent(): void {
     switch (this.current) {
       case 0: {
