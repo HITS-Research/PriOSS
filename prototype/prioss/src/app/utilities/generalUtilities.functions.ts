@@ -105,3 +105,29 @@ export function getValueIgnoreCase(jsonObj: any, key: string, time_value : boole
   }
   return undefined
 }
+
+/**
+ * This method returns a database object (key-value pair) as two entries in an array.
+ * Pairs with null values are excluded
+ *
+ *
+ * @author: Jonathan (jvn@mail.upb.de), Max (maxy@mail.upb.de)
+ *
+ */
+export function getObjectPairsNotNull(obj: object): [string, any][] {
+  if (obj === null || obj === undefined) {
+      return [];
+    }
+  return getObjectPairs(obj).filter( ([_, v]) => v != null );
+}
+
+/**
+* This method capitalizes the first letter of a string.
+* used to capitalize the (non-capitalized) database entries (e.g. email -> Email)
+*
+* @author: Max (maxy@mail.upb.de)
+*
+*/
+export function capitalize(str: string) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}

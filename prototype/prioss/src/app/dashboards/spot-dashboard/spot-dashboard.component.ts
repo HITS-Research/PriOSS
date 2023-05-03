@@ -23,10 +23,6 @@ import { IntrojsService } from 'src/app/introjs/introjs.service';
 })
 export class SpotDashboardComponent {
   thirdPartyConnection = false;
-  username: string = "";
-  pathToGeneralData: string = "";
-  pathToMood: string = "";
-  pathToInference: string = "";
   purposes = [
     {
       active: false,

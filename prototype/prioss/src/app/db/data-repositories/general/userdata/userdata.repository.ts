@@ -3,7 +3,7 @@ import { SQLiteDBConnection, capSQLiteChanges } from "@capacitor-community/sqlit
 import { DBService } from "../../../../services/db/db.service";
 import * as sql from "./userdata.sql";
 import { insertIntoUserdata } from "./userdata.sql";
-import { userdataEntry } from "src/app/models/General/userdata/userdataEntry";
+import { UserdataEntry } from "src/app/models/General/userdata/userdataEntry";
 
 /** 
  * This class handles data that is inserted into and extracted from the userdata table. The Table is mainly used for the General-Data visualization.
@@ -31,9 +31,9 @@ export class UserdataRepository {
      * @param mobileNumber
      * @param mobileOperator
      * @param mobileBrand
-     * @param creationTime
+     * @param creationTime Time of Date at which the account was created
      */
-    async adduserdata(username: string, email: string, country: string, birthdate: string, gender: string, postalCode: number, mobileNumber: number, mobileOperator: string, mobileBrand: string, creationTime: string) {
+    async addUserdata(username: string, email: string, country: string, birthdate: string, gender: string, postalCode: number, mobileNumber: number, mobileOperator: string, mobileBrand: string, creationTime: string) {
         await this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
 
             let sqlStatement = insertIntoUserdata;
@@ -49,11 +49,11 @@ export class UserdataRepository {
      * @author: Max (maxy@mail.upb.de)
      * 
      */
-    async getAlluserdata() : Promise<userdataEntry[]> {
+    async getAllUserdata() : Promise<UserdataEntry[]> {
       return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
   
         let result = await db.query(sql.selectAllUserdata);
-        return result.values as userdataEntry[];
+        return result.values as UserdataEntry[];
   
       });
     }

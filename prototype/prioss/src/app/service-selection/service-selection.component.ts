@@ -420,7 +420,7 @@ export class ServiceSelectionComponent {
         
         let jsonData = JSON.parse(content);
         
-        await this.UserdataRepo.adduserdata(jsonData.username, jsonData.email, jsonData.country, jsonData.birthdate, jsonData.gender, jsonData.postalCode,
+        await this.UserdataRepo.addUserdata(jsonData.username, jsonData.email, jsonData.country, jsonData.birthdate, jsonData.gender, jsonData.postalCode,
           jsonData.mobileNumber, jsonData.mobileOperator, jsonData.mobileBrand, jsonData.creationTime);
         
         /* await this.dbService.add("all/userdata",
