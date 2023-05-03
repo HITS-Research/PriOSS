@@ -50,42 +50,101 @@
 <div id="rectification">
   <h2 nz-typography>Rectification</h2>
   <p nz-typography>
-    This section of the application describes how a user can rectify if something is missing/ wrong in the data download.
+    This section of the application describes how a user can rectify if something is missing/wrong in the data download.
   </p>
-  <ol>
-    <li>Go into the settings of Instagram and report a problem.</li>
-    <li>Send an email to support@instagram.com. Generally, Instagram team responds within a week.</li>
-    <li>Contact the privacy center for Meta. It covers Facebook, Instagram, Messenger, and other Meta products.</li>
-  </ol>
+  <h4 nz-typography>Go into the settings of Instagram and report a problem.</h4>
+  <p nz-typography>The first step is to visit the following webpage: <a href='https://help.instagram.com/contact/117037592428568?no_redirect'>Instagram Help Center</a>.</p>
+  <nz-steps [nzCurrent]="current">
+    <nz-step nzTitle="Step 1"></nz-step>
+    <nz-step nzTitle="Step 2"></nz-step>
+    <nz-step nzTitle="Step 3"></nz-step>
+    <nz-step nzTitle="Step 4"></nz-step>
+    <nz-step nzTitle="Step 5"></nz-step>
+  </nz-steps>
+
+  <div class="steps-content">
+    <img
+      nz-image
+      height="300px"
+      nzSrc={{rectificationInstructionPicture}}
+      alt=""
+    />
+    <nz-divider></nz-divider>
+    <p nz-typography>{{ rectificationInstructionText }}</p>  
+  </div>
+  <div class="steps-action">
+    <button nz-button nzType="default" (click)="pre()" *ngIf="current > 0">
+      <span>Previous</span>
+    </button>
+    <button nz-button nzType="default" (click)="next()" *ngIf="current < 4">
+      <span>Next</span>
+    </button>
+  </div>
+  <br>
+  <h4 nz-typography>Send an email to support@instagram.com. Generally, Instagram team responds within a week.</h4>
+  <h4 nz-typography>Contact the privacy center for Meta. It covers Facebook, Instagram, Messenger, and other Meta products.</h4>
 </div>
 <br>
 <div id="gdpr">
   <h2 nz-typography>GDPR/Rights</h2>
   <p nz-typography>
-    This section describes the General Data Protection Regulation (GDPR). 
-    Is a rule in EU law that ensures a natural person's rights to data protection and privacy, independent of their nationality or place of residence, 
-    and upholds fundamental rights to secure their personal data stored by various companies. To comply with GDPR standards, 
-    companies offer data downloads or download- able archives.
+    The General Data Protection Regulation (GDPR) is a data privacy regulation that came into effect in May 2018. It was created by the European Union (EU) to regulate the collection, processing, and storage of personal data of individuals residing in the EU.
+    The most important points of the GDPR are:
+  </p>
+  <ol nz-typography>
+    <li><b>Consent:</b> Companies must obtain explicit and informed consent from individuals to collect, process, and store their personal data.</li>
+    <li><b>Right to Access:</b> Individuals have the right to access their personal data that has been collected and stored by companies.</li>
+    <li><b>Right to be Forgotten:</b> Individuals have the right to request the deletion of their personal data.</li>
+    <li><b>Data Portability:</b> Individuals have the right to receive their personal data in a format that is easily transferable to another organization.</li>
+    <li><b>Data Protection Officers (DPOs):</b> Companies that process large amounts of personal data or sensitive personal data must appoint a DPO.</li>
+    <li><b>Data Breach Notification:</b> Companies must notify individuals and the relevant authorities within 72 hours of a data breach.</li>
+    <li><b>Penalties:</b> Non-compliance with the GDPR can result in fines of up to 4% of a company's annual global revenue or €20 million (whichever is greater).</li>
+  </ol>
+  <p nz-typography>
+    The GDPR aims to protect the privacy and personal data of individuals within the EU, and has had a significant impact on the way that companies handle and store personal data. More information can be found under <a href="https://gdpr.eu/">GDPR</a>.
   </p>
 </div>
 <div id="purpose">
   <h2 nz-typography>Purpose</h2>
   <p nz-typography>
-    This section describes the purpose of our application. We are providing a privacy-focused application that will help users to exercise their General Data Protection Regulation (GDPR) rights. 
-    Also helping them to rectify and get additional context information and recommendations about their personal data collected by Instagram. 
+    The following purposes should give an example of Instagram's reasoning in regards to data collection. To Get a full list of their reasons you can check out Instagram's privacy policy <a href="https://privacycenter.instagram.com/policy/?section_id=0-WhatIsThePrivacy">privacy policy</a>
+    <nz-table nzTemplateMode>
+      <thead>
+        <tr>
+          <th>Purpose</th>
+          <th>Data Collected</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>To personalize and improve their products and to undertake analytics</td>
+          <td>Activity information and information you provide like posts or comments. For more information see <a href="https://privacycenter.instagram.com/policy/?subpage=1.subpage.1-YourActivityAndInformation">here</a>.</td>
+        </tr>
+        <tr>
+          <td>Tailor the ads you see</td>
+          <td>Information from third parties or vendors. That could for example be device information or apps you use. For more information see <a href="https://privacycenter.instagram.com/policy/?subpage=1.subpage.4-InformationFromPartnersVendors">here</a>.</td>
+        </tr>
+        <tr>
+          <td>Sharing your contact, profile or other information with third parties upon your request</td>
+          <td>Content you create, like your contact, profile or other information, like posts or comments. For more information see <a href="https://privacycenter.instagram.com/policy/?subpage=1.subpage.1-YourActivityAndInformation">here</a>.</td>
+        </tr>
+        <tr>
+          <td>Provide the features or services through collecting information you allow them to receive</td>
+          <td>Information from device settings. For more information see <a href="https://privacycenter.instagram.com/policy/?subpage=1.subpage.3-AppBrowserAndDevice">here</a>.</td>
+        </tr>
+      </tbody>
+    </nz-table>
 </div>
 <div id="faq">
   <h2 nz-typography>Frequently asked questions</h2>
   <p nz-typography>
     This section describes frequently asked questions.
   </p>
-  <ol nz-typography>
-    <li>How to download the Instagram data?</li>
-    <li>How to traverse inside the data?</li>
-    <li>How to edit or change something in the data download that is not correct?</li>
-    <li>How to delete data from data download?</li>
-    <li>I am not able to find some data/ My data is incomplete whom should I contact?</li>
-  </ol>
+  <nz-collapse nzAccordion>
+    <nz-collapse-panel *ngFor="let purpose of purposes" [nzHeader]="purpose.name" [nzActive]="purpose.active">
+      <p>{{ purpose.content }}</p>
+    </nz-collapse-panel>
+  </nz-collapse>
 </div>
 <app-help-button (startTourClick)="startTour()">
   <h2 nz-typography id="introduction">Introduction</h2>
