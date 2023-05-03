@@ -52,6 +52,8 @@
   <p nz-typography>
     This section of the application describes how a user can rectify if something is missing/ wrong in the data download.
   </p>
+  <h4 nz-typography>Go into the settings of Instagram and report a problem.</h4>
+  <p nz-typography>The first step is to visit the following webpage: <a href='https://help.instagram.com/contact/117037592428568?no_redirect'>Instagram Help Center</a>.</p>
   <nz-steps [nzCurrent]="current">
     <nz-step nzTitle="Step 1"></nz-step>
     <nz-step nzTitle="Step 2"></nz-step>
@@ -60,7 +62,16 @@
     <nz-step nzTitle="Step 5"></nz-step>
   </nz-steps>
 
-  <div class="steps-content">{{ index }}</div>
+  <div class="steps-content">
+    <img
+      nz-image
+      height="300px"
+      nzSrc={{rectificationInstructionPicture}}
+      alt=""
+    />
+    <nz-divider></nz-divider>
+    <p nz-typography>{{ rectificationInstructionText }}</p>  
+  </div>
   <div class="steps-action">
     <button nz-button nzType="default" (click)="pre()" *ngIf="current > 0">
       <span>Previous</span>
@@ -68,15 +79,10 @@
     <button nz-button nzType="default" (click)="next()" *ngIf="current < 4">
       <span>Next</span>
     </button>
-    <button nz-button  nzType="primary" (click)="done()" *ngIf="current === 4">
-      <span>Done</span>
-    </button>
   </div>
-  <ol>
-    <li>Go into the settings of Instagram and report a problem.</li> 
-    <li>Send an email to support@instagram.com. Generally, Instagram team responds within a week.</li>
-    <li>Contact the privacy center for Meta. It covers Facebook, Instagram, Messenger, and other Meta products.</li>
-  </ol>
+  <br>
+  <h4 nz-typography>Send an email to support@instagram.com. Generally, Instagram team responds within a week.</h4>
+  <h4 nz-typography>Contact the privacy center for Meta. It covers Facebook, Instagram, Messenger, and other Meta products.</h4>
 </div>
 <br>
 <div id="gdpr">

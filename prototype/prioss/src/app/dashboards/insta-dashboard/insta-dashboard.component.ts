@@ -43,7 +43,8 @@ export class InstaDashboardComponent {
     }
   ];
   current = 0;
-  index = 'First-content';
+  rectificationInstructionText="Choose your country.";
+  rectificationInstructionPicture="/../../assets/images/insta-rectifcation/step1.PNG"
 
   pre(): void {
     this.current -= 1;
@@ -55,34 +56,35 @@ export class InstaDashboardComponent {
     this.changeContent();
   }
 
-  done(): void {
-    console.log('done');
-  }
-
   changeContent(): void {
     switch (this.current) {
       case 0: {
-        this.index = 'First-content';
+        this.rectificationInstructionText="Choose your country.";
+        this.rectificationInstructionPicture="/../../assets/images/insta-rectifcation/step1.PNG"
         break;
       }
       case 1: {
-        this.index = 'Second-content';
+        this.rectificationInstructionText="Choose the highlighted options.";
+        this.rectificationInstructionPicture="/../../assets/images/insta-rectifcation/step2.PNG"
         break;
       }
       case 2: {
-        this.index = 'third-content';
+        this.rectificationInstructionText="Choose the highlighted option.";
+        this.rectificationInstructionPicture="/../../assets/images/insta-rectifcation/step3.PNG"
         break;
       }
       case 3: {
-        this.index = 'fourth-content';
+        this.rectificationInstructionText="Choose the highlighted option.";
+        this.rectificationInstructionPicture="/../../assets/images/insta-rectifcation/step4.PNG"
         break;
       }
       case 4: {
-        this.index = 'fifth-content';
+        this.rectificationInstructionText="Enter your information into the text boxes.";
+        this.rectificationInstructionPicture="/../../assets/images/insta-rectifcation/step5.PNG"
         break;
       }
       default: {
-        this.index = 'error';
+        this.rectificationInstructionText="Error";
       }
     }
   }
