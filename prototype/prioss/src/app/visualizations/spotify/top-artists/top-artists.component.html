@@ -11,6 +11,12 @@
         </nz-breadcrumb-item>
         <nz-breadcrumb-item>Top Artists</nz-breadcrumb-item>
       </nz-breadcrumb>
+      <h3 style="position: relative;">Top Artists
+        <span nz-tooltip nzTooltipTitle="This bar chart shows your top 10 artists in a given time period. You can also switch to a tabular view.">
+                <span class="title-info-icon" nz-icon nzType="info-circle" nzTheme="outline">
+                </span>
+            </span>
+      </h3>
       <nz-tabset (nzSelectedIndexChange)="onTabSwitch($event)">
         <nz-tab nzTitle="Bar chart">
           From:
