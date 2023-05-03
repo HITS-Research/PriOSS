@@ -23,10 +23,10 @@ import { SpotDailyListening } from 'src/app/models/Spotify/ListeningHistory/Spot
   styleUrls: ['./listening-time.component.less']
 })
 export class ListeningTimeComponent {
-  
+
   @Input()
   previewMode: boolean = false;
-  
+
   readonly spotifyGreen: string = "#1DB954";
 
   public Granularity2LabelMapping = Granularity2LabelMapping;
@@ -58,35 +58,35 @@ export class ListeningTimeComponent {
   history: any;
 
   constructor(private spotHistoryRepo: SpotHistoryRepository, private dbService: NgxIndexedDBService, private notifyService: NotificationService) {
-    
+
     this.initializeVisualization();
   }
 /**
   * Displays the initial version of the visulaization and calculates the year and month based data for later reuse
-  * 
+  *
   * @author: Simon (scg@mail.upb.de)
   */
   async initializeVisualization() {
-    //Shows the single day view first because it takes less time to build than year/month/day views, 
+    //Shows the single day view first because it takes less time to build than year/month/day views,
     //this gives us time to parse and compile the data needed for the year, month and day views
-    this.selectedGranularity = GranularityEnum.Hour;
-    
+    this.selectedGranularity = GranularityEnum.Year;
+
+    await this.createYearData().then((dataMap) => {
+      this.yearDataMap = dataMap;
+    });
+
     await this.recreateVisualization();
     this.isFirstVisualizationRun = false;
 
     //async method calls, run in background
-    this.createYearData().then((dataMap) => {
-      this.yearDataMap = dataMap;
-    });
-
     this.createMonthData().then((dataMap) => {
-      this.monthDataMap = dataMap;
-    });
+        this.monthDataMap = dataMap;
+      });
   }
 
   /**
     * Callback that handles updating the visualization after the user changed the date filters of the chart
-    * 
+    *
     * @author: Simon (scg@mail.upb.de)
     */
   onDateFilterChanged() {
@@ -95,7 +95,7 @@ export class ListeningTimeComponent {
 
   /**
     * Callback that handles updating the visualization after the user changed the granularity of the chart
-    * 
+    *
     * @author: Simon (scg@mail.upb.de)
     */
   onGranularityChanged() {
@@ -107,7 +107,7 @@ export class ListeningTimeComponent {
 
   /**
     * Callback that handles updating barchart if the underlying data/filters have not changed but visual elements of the bar have been requested to change
-    * 
+    *
     * @author: Simon (scg@mail.upb.de)
     */
   onChartParametersChanged() {
@@ -116,8 +116,8 @@ export class ListeningTimeComponent {
 
   /**
     * Starts the updating process for the barchart after filters or granularity have changed.
-    * 
-    * 
+    *
+    *
     * @author: Simon (scg@mail.upb.de)
     */
   async recreateVisualization() {
@@ -151,9 +151,9 @@ export class ListeningTimeComponent {
   /**
     * Parses the listening history into a data map usable for creating a bar chart with year-granularity
     * (i.e., each bar represents one year).
-    * 
+    *
     * @returns The built datamap
-    * 
+    *
     * @author: Simon (scg@mail.upb.de)
     *
     */
@@ -176,13 +176,13 @@ export class ListeningTimeComponent {
   /**
     * Parses the listening history into a data map usable for creating a bar chart with month-granularity
     * (i.e., each bar represents one month)
-    * 
+    *
     * @returns the built datamap
     * @author: Simon (scg@mail.upb.de)
     *
     */
   async createMonthData() {
-    
+
     let dataMap: Map<string, { date: Date, value: number }> = new Map();
 
     let spotMonthlyListening: SpotMonthlyListening[] = await this.spotHistoryRepo.getHistoryByMonth();
@@ -200,9 +200,9 @@ export class ListeningTimeComponent {
   /**
     * Parses the listening history into a data array usable for creating a bar chart with day-granularity
     * (i.e., each bar represents one day)
-    * 
-    * @returns A data array with one entry for every day in the timeperiod specified by filterFromDate and filterToDate filters. 
-    * 
+    *
+    * @returns A data array with one entry for every day in the timeperiod specified by filterFromDate and filterToDate filters.
+    *
     * @author: Simon (scg@mail.upb.de)
     *
     */
@@ -233,16 +233,16 @@ export class ListeningTimeComponent {
     }
 
     let dataArray = this.buildDataArray(dataMap);
-  
+
     return dataArray;
   }
 
   /**
     * Parses the listening history into a data array usable for creating a bar chart with hour-granularity
     * (i.e., each bar represents one hour)
-    * 
+    *
     * @returns A data array with one entry for every hour of the day specified by the filterSingleDate filter.
-    *          If this filter is empty and this visualization is displayed directly after this component is loaded, 
+    *          If this filter is empty and this visualization is displayed directly after this component is loaded,
     *          then the filterSingleDate filter is set to the most recent day that is available in the history.
     *
     * @author: Simon (scg@mail.upb.de)
@@ -264,7 +264,7 @@ export class ListeningTimeComponent {
     }
 
     let targetDate: Date = dateUtils.trimDate(this.filterSingleDate, GranularityEnum.Day);
-    
+
     let dataMap: Map<string, { date: Date, value: number }> = new Map();
     let spotHourlyListening: SpotHourlyListening[] = await this.spotHistoryRepo.getHistoryByHour(targetDate);
 
@@ -284,10 +284,10 @@ export class ListeningTimeComponent {
   /**
    * Takes in a dataMap and converts it into a dataarray that can be used by d3's visualization engine to display a barchart.
    * In the resulting dataarray all the filters present on the page are already applied.
-   * 
+   *
    * @param dataMap A Map for creating a bar in a barchart, with the display name as key and the date & value (height) of the bar as the value component of the map
    * @returns a data array with label, value and color for each bar in the barchart
-   * 
+   *
    * @author: Simon (scg@mail.upb.de)
    */
   buildDataArray(dataMap: Map<string, { date: Date, value: number }>) {
@@ -336,7 +336,7 @@ export class ListeningTimeComponent {
 
   /**
     * A formatting method that wraps the getDaysHoursMinutesSeconds into a format usable by d3's text formatting
-    * 
+    *
     * @author: Simon (scg@mail.upb.de)
     *
     */
@@ -346,7 +346,7 @@ export class ListeningTimeComponent {
 
   /**
     * Creates a bar chart for the listening time based on the given data. The data may have any granularity
-    * 
+    *
     * @param data: The data array (structure: {name: string, value: number, color: string}[]) that should be used to fill the bar chart
     *
     * @author: Simon (scg@mail.upb.de)
@@ -436,7 +436,7 @@ export class ListeningTimeComponent {
       .selectAll("text")
       .style("font-size", textSize);
 
-    // create tooltip element  
+    // create tooltip element
     const tooltip = d3.select("body")
       .append("div")
       .attr("class", "d3-tooltip")
@@ -490,7 +490,7 @@ export class ListeningTimeComponent {
         //d3.select(this).style("cursor", "auto");
       });
 
-    //add texts above bars  
+    //add texts above bars
     if (this.showDataTextAboveBars) {
       svg
         .selectAll("text.bar")
@@ -510,9 +510,9 @@ export class ListeningTimeComponent {
 
   /**
     * Callback that handles stepping into a bar by changing the filters accordingly to the clicked bar
-    *  
+    *
     * @param clickedBarDateString The iso-date string of the bar that was clicked: either YYYY or YYYY-MM or YYYY-MM-DD
-    * 
+    *
     * @author: Simon (scg@mail.upb.de)
     */
   onBarClicked(clickedBarDateString: string) {
@@ -531,10 +531,10 @@ export class ListeningTimeComponent {
 
   /**
     * Calculates the necessary new values for the filters to inspect a single bar after that bar in the bar chart was clicked
-    * 
+    *
     * @param newGranularity The new smaller granularity to which should be switched after a bar was clicked
     * @param selectedBarDateString The iso-date string of the bar that was clicked: either YYYY or YYYY-MM or YYYY-MM-DD
-    * 
+    *
     * @author: Simon (scg@mail.upb.de)
     */
   calculateFilters(newGranularity: GranularityEnum, selectedBarDateString: string) {
@@ -564,12 +564,12 @@ export class ListeningTimeComponent {
 /**
   * A function that handles displaying the tooltip when hovering over a bar in the barchart
   * This has to be a function since in the d3 onmouseover event, the 'this'-reference to the component object is not available
-  * 
+  *
   * @param selectedGranularity the current granularity that is selected
   * @param tooltip the d3 tooltip to update
   * @param currRect The d3 rect of the bar chart that is hovered
   * @param data the data associated with the hovered barchart
-  * 
+  *
   * @author: Simon (scg@mail.upb.de)
   */
 function onMouseOver(selectedGranularity: GranularityEnum, tooltip: d3.Selection<HTMLDivElement, unknown, HTMLElement, any>, currRect: SVGRectElement, data: { name: string, value: number, color: string }) {
