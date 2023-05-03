@@ -19,6 +19,12 @@
   </div>
   <!--when not in previewmode the whole page is rendered-->
   <div *ngIf="!previewMode">
+    <nz-breadcrumb>
+      <nz-breadcrumb-item>
+        <a [routerLink]="['../dashboard/']">Dashboard</a>
+      </nz-breadcrumb-item>
+      <nz-breadcrumb-item>Personal Information</nz-breadcrumb-item>
+    </nz-breadcrumb>
     <h2 nz-typography>Personal Information</h2>
     <p nz-typography>
       This following table shows the personal information that was collected by Instagram.

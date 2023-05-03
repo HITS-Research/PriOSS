@@ -17,6 +17,13 @@
 
 <!--only shows when visiting the page-->
 <div *ngIf="!previewMode">
+  <nz-breadcrumb>
+    <nz-breadcrumb-item>
+      <a [routerLink]="['../dashboard/']">Dashboard</a>
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>Account Creation and Login</nz-breadcrumb-item>
+  </nz-breadcrumb>
+
   <h2 nz-typography>Account Creation and Login</h2>
 
   <!-- Showcasing signup information and login and logout information if data is present -->

@@ -23,6 +23,13 @@
     
     <!--only shows when visiting the page-->
     <div *ngIf="!previewMode">
+        <nz-breadcrumb>
+            <nz-breadcrumb-item>
+                <a [routerLink]="['../dashboard/']">Dashboard</a>
+            </nz-breadcrumb-item>
+            <nz-breadcrumb-item>Advertisement</nz-breadcrumb-item>
+        </nz-breadcrumb>
+
         <h2 nz-typography>Advertisement</h2>
 
         <!--Advertisment Highlights-->
