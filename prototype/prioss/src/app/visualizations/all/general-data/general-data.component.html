@@ -1,25 +1,28 @@
-<div *ngIf="isSpotify && !previewMode">
-  <nz-breadcrumb>
-    <nz-breadcrumb-item>
-      <a [routerLink]="['../dashboard/']">Dashboard</a>
-    </nz-breadcrumb-item>
-    <nz-breadcrumb-item>User Data</nz-breadcrumb-item>
-  </nz-breadcrumb>
-</div>
+<div [ngClass]="{'component-page': !previewMode && isSpotify}">
+  <div *ngIf="isSpotify && !previewMode">
+    <nz-breadcrumb>
+      <nz-breadcrumb-item>
+        <a [routerLink]="['../dashboard/']">Dashboard</a>
+      </nz-breadcrumb-item>
+      <nz-breadcrumb-item>User Data</nz-breadcrumb-item>
+    </nz-breadcrumb>
+  </div>
 
-<!-- This table can be embedded in a Card component -->
-<nz-table nzTemplateMode>
-  <thead>
+  <!-- This table can be embedded in a Card component -->
+  <nz-table nzTemplateMode>
+    <thead>
     <tr>
       <th><strong>Categories</strong></th>
       <th><strong>Information</strong></th>
     </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let pair of getObjectPairsNotNull(this.userdata) | slice:0:getObjectPairsNotNull(this.userdata).length-1">
+    </thead>
+    <tbody>
+    <tr
+      *ngFor="let pair of getObjectPairsNotNull(this.userdata) | slice:0:getObjectPairsNotNull(this.userdata).length-1">
       <!-- the part after the | in the *ngFor is responsible for cutting of the last element in userdata, which is the database index -->
       <td>{{ capitalize(pair[0]) }}</td>
       <td>{{ pair[1] }}</td>
     </tr>
-  </tbody>
-</nz-table>
+    </tbody>
+  </nz-table>
+</div>
