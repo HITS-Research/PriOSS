@@ -26,6 +26,51 @@ export class InstaDashboardComponent {
     private introService: IntrojsService,
   ) { }
 
+  current = 0;
+  index = 'First-content';
+
+  pre(): void {
+    this.current -= 1;
+    this.changeContent();
+  }
+
+  next(): void {
+    this.current += 1;
+    this.changeContent();
+  }
+
+  done(): void {
+    console.log('done');
+  }
+
+  changeContent(): void {
+    switch (this.current) {
+      case 0: {
+        this.index = 'First-content';
+        break;
+      }
+      case 1: {
+        this.index = 'Second-content';
+        break;
+      }
+      case 2: {
+        this.index = 'third-content';
+        break;
+      }
+      case 3: {
+        this.index = 'fourth-content';
+        break;
+      }
+      case 4: {
+        this.index = 'fifth-content';
+        break;
+      }
+      default: {
+        this.index = 'error';
+      }
+    }
+  }
+
   /**
     * This method starts the tour and sets @param tourCompleted in the @service introjs to true.
     * The boolean is set so not every time the page is navigated to, the tour starts again.
