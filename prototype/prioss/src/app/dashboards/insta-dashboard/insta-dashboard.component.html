@@ -95,27 +95,54 @@
     <li><b>Penalties:</b> Non-compliance with the GDPR can result in fines of up to 4% of a company's annual global revenue or €20 million (whichever is greater).</li>
   </ol>
   <p nz-typography>
-    The GDPR aims to protect the privacy and personal data of individuals within the EU, and has had a significant impact on the way that companies handle and store personal data. More information can be found under <a>https://gdpr.eu/</a>.
+    The GDPR aims to protect the privacy and personal data of individuals within the EU, and has had a significant impact on the way that companies handle and store personal data. More information can be found under <a href="https://gdpr.eu/">GDPR</a>.
   </p>
 </div>
 <div id="purpose">
   <h2 nz-typography>Purpose</h2>
   <p nz-typography>
-    This section describes the purpose of our application. We are providing a privacy-focused application that will help users to exercise their General Data Protection Regulation (GDPR) rights. 
-    Also helping them to rectify and get additional context information and recommendations about their personal data collected by Instagram. 
+    The following purposes should give an example of Instagram's reasoning in regards to data collection. To Get a full list of their reasons you can check out Instagram's privacy policy <a href="https://privacycenter.instagram.com/policy/?section_id=0-WhatIsThePrivacy">privacy policy</a>
+    <nz-table nzTemplateMode>
+      <thead>
+        <tr>
+          <th>Purpose</th>
+          <th>Data used</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+        </tr>
+      </tbody>
+    </nz-table>
 </div>
 <div id="faq">
   <h2 nz-typography>Frequently asked questions</h2>
   <p nz-typography>
     This section describes frequently asked questions.
   </p>
-  <ol nz-typography>
-    <li>How to download the Instagram data?</li>
-    <li>How to traverse inside the data?</li>
-    <li>How to edit or change something in the data download that is not correct?</li>
-    <li>How to delete data from data download?</li>
-    <li>I am not able to find some data/ My data is incomplete whom should I contact?</li>
-  </ol>
+  <nz-collapse nzAccordion>
+    <nz-collapse-panel *ngFor="let purpose of purposes" [nzHeader]="purpose.name" [nzActive]="purpose.active">
+      <p>{{ purpose.content }}</p>
+    </nz-collapse-panel>
+  </nz-collapse>
 </div>
 <app-help-button (startTourClick)="startTour()">
   <h2 nz-typography id="introduction">Introduction</h2>
