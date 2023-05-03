@@ -1,6 +1,6 @@
 <div [ngClass]="{'component-page': !previewMode}">
 
-    <p *ngIf="previewMode">Day: {{filterSingleDate?.toLocaleString([], { year: "numeric", month: "2-digit", day: "2-digit" })}}</p>
+<!--    <p *ngIf="previewMode">Day: {{filterSingleDate?.toLocaleString([], { year: "numeric", month: "2-digit", day: "2-digit" })}}</p>-->
 
     <div *ngIf="!previewMode">
         <nz-breadcrumb>
@@ -10,7 +10,7 @@
           <nz-breadcrumb-item>Listening Time</nz-breadcrumb-item>
         </nz-breadcrumb>
         <h3 style="position: relative;">Listening Time
-            <span nz-tooltip nzTooltipTitle="Use the 'Visualize by' drop-down to switch between viewing how much time you spent listening to Spotify during which hours, days, months or years. 
+            <span nz-tooltip nzTooltipTitle="Use the 'Visualize by' drop-down to switch between viewing how much time you spent listening to Spotify during which hours, days, months or years.
             You can hover over or click the bars in the chart with your mouse for more information.">
                 <span class="title-info-icon" nz-icon nzType="info-circle" nzTheme="outline">
                 </span>
