@@ -43,6 +43,7 @@ export class TopArtistsComponent {
    *
    */
   async initializeVisualisation() {
+    await new Promise(f => setTimeout(f, 500));  // TODO: fix
     this.filterFromDate = await this.spotHistoryRepo.getFirstDay();
     this.filterToDate = await this.spotHistoryRepo.getMostRecentDay();
 
