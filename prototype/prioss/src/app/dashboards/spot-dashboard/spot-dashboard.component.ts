@@ -83,10 +83,10 @@ export class SpotDashboardComponent {
    * @author: Sven (svenf@mail.upb.de)
    */
   ngAfterViewInit(): void  {
-    // if (this.introService.isSpotifyTourCompleted() == false) {
-    //   this.introService.spotifyDashboardTour();
-    //   this.introService.setSpotifyTourCompleted(true);
-    // }
+    if (this.introService.isSpotifyTourCompleted() == false) {
+      this.introService.spotifyDashboardTour();
+      this.introService.setSpotifyTourCompleted(true);
+    }
 
   }
 
