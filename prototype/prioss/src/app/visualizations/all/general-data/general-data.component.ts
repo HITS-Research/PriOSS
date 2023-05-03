@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, Input} from '@angular/core';
 import { NgxIndexedDBService } from 'ngx-indexed-db';
 import * as utilities from 'src/app/utilities/generalUtilities.functions'
 import { UserdataRepository } from 'src/app/db/data-repositories/general/userdata/userdata.repository';
@@ -22,9 +22,15 @@ export class GeneralDataComponent {
   // userdata: object = {}
   userdata: readonly userdataEntry[] = [];
   getObjectPairs: (obj: object) => [string, any][] = utilities.getObjectPairs;
+  isSpotify = false;
+  @Input()
+  previewMode: boolean = false;
 
   constructor(private userdataRepo: UserdataRepository) {
-
+    if (window.location.href.includes('/spot/')) {
+      this.isSpotify = true;
+    }
+    
     this.userdataRepo.getAlluserdata().then((userdata) => {
       this.userdata = userdata;
     });

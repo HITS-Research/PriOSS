@@ -361,7 +361,7 @@ export class ServiceSelectionComponent {
     if (selectedApp == this.appType.Instagram) {
       console.log("Parsing Instagram file...");
       this.parseInstagramFile();
-      this.parseInstagramFileToSQLite();
+      await this.parseInstagramFileToSQLite();
     }
     else if (selectedApp == this.appType.Spotify) {
       console.log("Parsing Spotify file...");
@@ -590,16 +590,17 @@ export class ServiceSelectionComponent {
       }
       else if (filename.startsWith("profile_changes")) {
         let jsonData = JSON.parse(content);
+        let profileData = jsonData.profile_profile_change;
+        
+        for (let i = 0; i < profileData.length; i++) {
+          
 
-        for (let i = 0; i < jsonData.length; i++) {
-          let profileData = jsonData[i].profile_profile_change;
+          var changed_data = profileData[i].string_map_data.Changed.value
+          var previous_value = utilities.getValueIgnoreCase(profileData[i].string_map_data,"Previous Value", false);
+          var new_value = utilities.getValueIgnoreCase(profileData[i].string_map_data,"New Value", false);
+          var change_date = utilities.getValueIgnoreCase(profileData[i].string_map_data,"Change Date", true);
 
-          var changed_data = profileData.string_map_data.Changed.value
-          var previous_value = utilities.getValueIgnoreCase(profileData.string_map_data,"Previous Value", false);
-          var new_value = utilities.getValueIgnoreCase(profileData.string_map_data,"New Value", false);
-          var change_date = utilities.getValueIgnoreCase(profileData.string_map_data,"Change Date", true);
-
-          await this.instaPersonalRepo.addProfileChanges(profileData.title, changed_data, previous_value, new_value, change_date);
+          await this.instaPersonalRepo.addProfileChanges(profileData[i].title, changed_data, previous_value, new_value, change_date);
         }
       }
       //add ads related data

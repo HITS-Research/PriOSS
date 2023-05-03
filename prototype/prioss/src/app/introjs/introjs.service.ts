@@ -33,15 +33,35 @@ export class IntrojsService {
       steps: [
         {
           element: 'step0',
-          intro: 'New here? Click <b>Next</b>! <br><br> Already comfortable? <br> <b>Click</b> into the dashboard!'
+          intro: 'New here? Click <b>Next</b> for a quick tour of this dashboard! <br><br> Already comfortable? <br> <b>Click</b> somewhere else on the dashboard!'
         },
         {
           element: '#step1',
-          intro: 'This is the first step!'
+          intro: 'This card contains all personal information that Spotify has collected. To see more details click on "More".'
         },
         {
           element: '#step2',
-          intro: 'This is the second step!'
+          intro: 'This card shows all inferences Spotify made about you. You can rectify them here!'
+        },
+        {
+          element: '#step3',
+          intro: 'Here you can see the visualization of your listening time.'
+        },
+        {
+          element: '#step4',
+          intro: 'Click this card to see your favorite artists and songs!'
+        },
+        {
+          element: '#step5',
+          intro: 'This section explains your rights about data collection backed by the GDPR.'
+        },
+        {
+          element: '#step6',
+          intro: 'Want to know why Spotify collects data about all your actions and activities? Look here!'
+        },
+        {
+          element: '#step7',
+          intro: 'You have more questions about this application? Stay right here.'
         },
         // more steps here...
       ]

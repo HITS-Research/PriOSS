@@ -1,15 +1,18 @@
 import { Injectable } from "@angular/core";
 import { SQLiteDBConnection, capSQLiteChanges } from "@capacitor-community/sqlite";
 import { DBService } from "../../../../services/db/db.service";
-import { bulkAddSpotHistoryBaseSQL, bulkAddSpotHistoryValuesSQL, bulkAddValueConnector, insertIntoSpotHistorySQL, selectAllSpotHistory, spotHistoryByDaySQL, spotHistoryByHourSQL, spotHistoryByMonthSQL, spotHistoryByYearSQL, spotHistoryMostRecentDaySQL } from "./spot-history.sql";
 import { SpotListenHistoryEntry } from "src/app/models/Spotify/ListeningHistory/SpotListenHistoryEntry";
 import { SpotYearlyListening } from "src/app/models/Spotify/ListeningHistory/SpotYearlyListening";
 import { SpotMonthlyListening } from "src/app/models/Spotify/ListeningHistory/SpotMonthlyListening";
 import { SpotDailyListening } from "src/app/models/Spotify/ListeningHistory/SpotDailyListening";
 import { SpotHourlyListening } from "src/app/models/Spotify/ListeningHistory/SpotHourlyListening";
+import { SpotMinListenedToArtist } from "src/app/models/Spotify/TopArtist/SpotMinListenedToArtist";
+import { SpotListeningHistoryOfArtist } from "src/app/models/Spotify/TopArtist/SpotListeningHistoryOfArtist";
 import * as dateUtils from "../../../../utilities/dateUtils.functions";
 import * as sql from "./spot-history.sql";
 import { BulkAddCapableRepository } from "../../general/inferences/bulk-add-capable.repository";
+import {SpotMinListenedToSong} from "../../../../models/Spotify/TopSong/SpotMinListenedToSong";
+import {SpotListeningHistoryOfSong} from "../../../../models/Spotify/TopSong/SpotListeningHistoryOfSong";
 
 /**
   * This repository component is responsible for providing functions to insert and request data from the spot_history table
@@ -61,15 +64,15 @@ export class SpotHistoryRepository extends BulkAddCapableRepository{
 
   /**
    * Queries the complete spotify listening history from the database
-   * @returns An array of SpotListenHistoryEntrys 
-   * 
+   * @returns An array of SpotListenHistoryEntrys
+   *
    * @author: Simon (scg@mail.upb.de)
    */
   async getSpotHistory(): Promise<SpotListenHistoryEntry[]>
   {
     return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
 
-      let result = await db.query(selectAllSpotHistory);
+      let result = await db.query(sql.selectAllSpotHistory);
       return result.values as SpotListenHistoryEntry[];
 
     });
@@ -77,15 +80,15 @@ export class SpotHistoryRepository extends BulkAddCapableRepository{
 
   /**
    * Queries the spotify listening history grouped by years from the database
-   * @returns An array of SpotYearlyListenings 
-   * 
+   * @returns An array of SpotYearlyListenings
+   *
    * @author: Simon (scg@mail.upb.de)
    */
   async getHistoryByYear(): Promise<SpotYearlyListening[]>
   {
     return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
 
-      let result = await db.query(spotHistoryByYearSQL);
+      let result = await db.query(sql.spotHistoryByYearSQL);
       return result.values as SpotYearlyListening[];
 
     });
@@ -93,15 +96,15 @@ export class SpotHistoryRepository extends BulkAddCapableRepository{
 
   /**
    * Queries the spotify listening history grouped by months from the database
-   * @returns An array of SpotMonthlyListenings 
-   * 
+   * @returns An array of SpotMonthlyListenings
+   *
    * @author: Simon (scg@mail.upb.de)
    */
   async getHistoryByMonth(): Promise<SpotMonthlyListening[]>
   {
     return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
 
-      let result = await db.query(spotHistoryByMonthSQL);
+      let result = await db.query(sql.spotHistoryByMonthSQL);
       return result.values as SpotMonthlyListening[];
 
     });
@@ -109,8 +112,8 @@ export class SpotHistoryRepository extends BulkAddCapableRepository{
 
   /**
    * Queries the spotify listening history grouped by days and filtered between the given start and end dates (TODO) from the database
-   * @returns An array of SpotDailyListenings 
-   * 
+   * @returns An array of SpotDailyListenings
+   *
    * @author: Simon (scg@mail.upb.de)
    */
   async getHistoryByDay(fromDate: Date, toDate: Date): Promise<SpotDailyListening[]>
@@ -118,16 +121,96 @@ export class SpotHistoryRepository extends BulkAddCapableRepository{
     return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
 
       let values = [dateUtils.getDisplayDateString(fromDate),dateUtils.getDisplayDateString(toDate)];
-      let result = await db.query(spotHistoryByDaySQL, values);
+      let result = await db.query(sql.spotHistoryByDaySQL, values);
       return result.values as SpotDailyListening[];
 
     });
   }
 
   /**
+   * Queries the spotify listening history for the duration in minutes that an artist has been listened to, filtered between the given start and end dates
+   * @returns An array of SpotMinListenedToArtist
+   *
+   * @param fromDate: start date for the time filter
+   * @param toDate: end date for the time filter
+   *
+   * @author: Jonathan (jvn@mail.upb.de)
+   */
+  async getMinListenedToArtists(fromDate: Date, toDate: Date): Promise<SpotMinListenedToArtist[]>
+  {
+    return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
+
+      let values = [dateUtils.getDisplayDateString(fromDate),dateUtils.getDisplayDateString(toDate)];
+      let result = await db.query(sql.spotMinListenedToArtistSQL, values);
+      return result.values as SpotMinListenedToArtist[];
+    });
+  }
+
+  /**
+   * Queries the spotify listening history for the duration in minutes that an artist has been listened to, filtered between the given start and end dates
+   * @returns An array of SpotMinListenedToArtist
+   *
+   * @param fromDate: start date for the time filter
+   * @param toDate: end date for the time filter
+   *
+   * @author: Jonathan (jvn@mail.upb.de)
+   */
+  async getMinListenedToSongs(fromDate: Date, toDate: Date): Promise<SpotMinListenedToSong[]>
+  {
+    return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
+
+      let values = [dateUtils.getDisplayDateString(fromDate),dateUtils.getDisplayDateString(toDate)];
+      let result = await db.query(sql.spotMinListenedToSongSQL, values);
+      return result.values as SpotMinListenedToSong[];
+    });
+  }
+
+  /**
+   * Queries the spotify listening history for all songs by an artist, filtered between the given start and end dates
+   * @returns An array of SpotListeningHistoryOfSong
+   *
+   * @param artistName: name of the artist
+   * @param fromDate: start date for the time filter
+   * @param toDate: end date for the time filter
+   *
+   * @author: Jonathan (jvn@mail.upb.de)
+   */
+  async getListeningHistoryOfArtist(artistName: string, fromDate: Date, toDate: Date): Promise<SpotListeningHistoryOfArtist[]>
+  {
+    return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
+
+      let values = [dateUtils.getDisplayDateString(fromDate),dateUtils.getDisplayDateString(toDate), artistName];
+      let result = await db.query(sql.spotListeningHistoryOfArtistSQL, values);
+      return result.values as SpotListeningHistoryOfArtist[];
+    });
+  }
+
+  /**
+   * Queries the spotify listening history for all entries of a song, filtered between the given start and end dates
+   * @returns An array of SpotListeningHistoryOfSong
+   *
+   * @param artistName: name of the artist
+   * @param trackName: name of the track
+   * @param fromDate: start date for the time filter
+   * @param toDate: end date for the time filter
+   *
+   * @author: Jonathan (jvn@mail.upb.de)
+   */
+  async getListeningHistoryOfSong(artistName: string, trackName: string, fromDate: Date, toDate: Date): Promise<SpotListeningHistoryOfSong[]>
+  {
+    return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
+
+      let values = [dateUtils.getDisplayDateString(fromDate),dateUtils.getDisplayDateString(toDate), artistName, trackName];
+      let result = await db.query(sql.spotListeningHistoryOfSongSQL, values);
+      return result.values as SpotListeningHistoryOfSong[];
+    });
+  }
+
+
+  /**
    * Queries the spotify listening history grouped by the hours within the given day from the database
    * @returns An array of SpotHourlyListenings. Each hour of the day is present once in the array (24 entries)
-   * 
+   *
    * @author: Simon (scg@mail.upb.de)
    */
   async getHistoryByHour(day: Date): Promise<SpotHourlyListening[]>
@@ -135,21 +218,21 @@ export class SpotHistoryRepository extends BulkAddCapableRepository{
     return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
 
       let dateString: string = dateUtils.getDisplayDateString(day);
-      let result = await db.query(spotHistoryByHourSQL, [dateString]);
+      let result = await db.query(sql.spotHistoryByHourSQL, [dateString]);
       return result.values as SpotHourlyListening[];
     });
   }
 
   /**
    * @returns the most recent day that occurs in the spotify listening history in the database
-   * 
+   *
    * @author: Simon (scg@mail.upb.de)
    */
   async getMostRecentDay(): Promise<Date>
   {
     return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
 
-      let result = await db.query(spotHistoryMostRecentDaySQL);
+      let result = await db.query(sql.spotHistoryMostRecentDaySQL);
       if(result.values)
       {
         let dateString: string = result.values[0].date;
@@ -158,6 +241,28 @@ export class SpotHistoryRepository extends BulkAddCapableRepository{
       else
       {
         throw Error('getMostRecentDay did not return anything!');
+      }
+    });
+  }
+
+  /**
+   * @returns the first/earliest day that occurs in the spotify listening history
+   *
+   * @author: Jonathan (jvn@mail.upb.de)
+   */
+  async getFirstDay(): Promise<Date>
+  {
+    return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
+
+      let result = await db.query(sql.spotHistoryFirstDaySQL);
+      if(result.values)
+      {
+        let dateString: string = result.values[0].date;
+        return dateUtils.parseDate(dateString) as Date;
+      }
+      else
+      {
+        throw Error('getFirstDay did not return anything!');
       }
     });
   }
