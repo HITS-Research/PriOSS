@@ -21,10 +21,9 @@
       <th><strong>Categories</strong></th>
       <th><strong>Information</strong></th>
     </tr>
-    </thead>
-    <tbody>
-    <tr
-      *ngFor="let pair of getObjectPairsNotNull(this.userdata) | slice:0:getObjectPairsNotNull(this.userdata).length-1">
+  </thead>
+  <tbody>
+    <tr *ngFor="let pair of getObjectPairsNotNull(this.userdata[0])">
       <!-- the part after the | in the *ngFor is responsible for cutting of the last element in userdata, which is the database index -->
       <td>{{ capitalize(pair[0]) }}</td>
       <td>{{ pair[1] }}</td>

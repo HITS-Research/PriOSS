@@ -23,10 +23,6 @@ import { IntrojsService } from 'src/app/introjs/introjs.service';
 })
 export class SpotDashboardComponent {
   thirdPartyConnection = false;
-  username: string = "";
-  pathToGeneralData: string = "";
-  pathToMood: string = "";
-  pathToInference: string = "";
   purposes = [
     {
       active: false,
@@ -47,33 +43,6 @@ export class SpotDashboardComponent {
 
 
   constructor(private dbService: NgxIndexedDBService, private router: Router, private introService: IntrojsService) {
-    this.dbService.getAll('all/userdata').subscribe((userdata: any) => {
-      this.username = userdata[0].username;
-    });
-  }
-
-
-  /**
-  * This method is responsible for getting the appropriate component's paths from the app-routing module
-  *
-  * for example it gets "spot/general-data" for pathToGeneralData from the app-routing module
-  *
-  * @author: Max (maxy@mail.upb.de))
-  *
-  */
-  ngOnInit() {
-    //console.log(this.router.config);
-    for (var route of this.router.config) {
-      if (route.component == GeneralDataComponent) {
-        this.pathToGeneralData = route.path!; // The exclemation mark ensures that route.path is non-null, which we know because routes are hardcoded
-      }
-      if (route.component == MoodComponent) {
-        this.pathToMood = route.path!;
-      }
-      if (route.component == InferencesComponent) {
-        this.pathToInference = route.path!;
-      }
-    }
   }
 
   /**

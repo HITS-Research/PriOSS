@@ -1,6 +1,7 @@
 import {Component, Input} from '@angular/core';
-import { NgxIndexedDBService } from 'ngx-indexed-db';
 import * as utilities from 'src/app/utilities/generalUtilities.functions'
+import { UserdataRepository } from 'src/app/db/data-repositories/general/userdata/userdata.repository';
+import { UserdataEntry } from 'src/app/models/General/userdata/userdataEntry';
 
 /**
   * This component visualizes the general data of the user.
@@ -17,45 +18,23 @@ import * as utilities from 'src/app/utilities/generalUtilities.functions'
 })
 export class GeneralDataComponent {
 
-  userdata: object = {}
+  // userdata: object = {}
+  userdata: readonly UserdataEntry[] = [];
   getObjectPairs: (obj: object) => [string, any][] = utilities.getObjectPairs;
+  getObjectPairsNotNull: (obj: object) => [string, any][] = utilities.getObjectPairsNotNull
+  capitalize: (str: string) => string = utilities.capitalize
   isSpotify = false;
   @Input()
   previewMode: boolean = false;
 
-  constructor(private dbService: NgxIndexedDBService)
-  {
+  constructor(private userdataRepo: UserdataRepository) {
     if (window.location.href.includes('/spot/')) {
       this.isSpotify = true;
     }
-    this.dbService.getAll('all/userdata').subscribe((userdata: any) =>
-    {
-        this.userdata = userdata[0];
-        console.log("Userdata:");
-        console.log(this.userdata);
+    
+    this.userdataRepo.getAllUserdata().then((userdata) => {
+      this.userdata = userdata;
     });
   }
-
-  /**
-   * This method returns a database object (key-value pair) as two entries in an array.
-   * Pairs with null values are excluded
-   *
-   *
-   * @author: Jonathan (jvn@mail.upb.de)
-   *
-   */
-  getObjectPairsNotNull(obj: object): [string, any][] {
-    return this.getObjectPairs(obj).filter( ([_, v]) => v != null );
-  }
-
-  /**
-  * This method capitalizes the first letter of a string.
-  * used to capitalize the (non-capitalized) database entries (e.g. email -> Email)
-  *
-  * @author: Max (maxy@mail.upb.de)
-  *
-  */
-  capitalize(str: string) {
-    return str.charAt(0).toUpperCase() + str.slice(1);
-  }
+  
 }

@@ -23,6 +23,8 @@ import { InstaAdsInterestRepository } from '../db/data-repositories/instagram/in
 import { InstaAdsClickedRepository } from '../db/data-repositories/instagram/insta-ads/insta-ads-clicked.repository';
 import { InstaAdsViewedRepository } from '../db/data-repositories/instagram/insta-ads/insta-ads-viewed.repository';
 
+import { UserdataRepository } from '../db/data-repositories/general/userdata/userdata.repository';
+
 //service identifier filenames
 const instaIDFilename = "TODO";
 const spotIDFilename = "MyData/Read_Me_First.pdf";
@@ -78,6 +80,7 @@ export class ServiceSelectionComponent {
               private notifyService: NotificationService, 
               private spotHistoryRepo: SpotHistoryRepository, 
               private inferencesRepo: InferencesRepository, 
+              private UserdataRepo: UserdataRepository,
               private instaPersonalRepo: InstaPersonalRepository, 
               private instaAdsActivityRepo: InstaAdsActivityRepository, 
               private instaAdsInterestRepo: InstaAdsInterestRepository,
@@ -414,9 +417,13 @@ export class ServiceSelectionComponent {
 
       if (filename == "Userdata.json") {
         console.log('Parsing: ' + filename);
+        
         let jsonData = JSON.parse(content);
-
-        await this.dbService.add("all/userdata",
+        
+        await this.UserdataRepo.addUserdata(jsonData.username, jsonData.email, jsonData.country, jsonData.birthdate, jsonData.gender, jsonData.postalCode,
+          jsonData.mobileNumber, jsonData.mobileOperator, jsonData.mobileBrand, jsonData.creationTime);
+        
+        /* await this.dbService.add("all/userdata",
           {
             username: jsonData.username,
             email: jsonData.email,
@@ -433,7 +440,7 @@ export class ServiceSelectionComponent {
           }).subscribe((key) => {
             //console.log("Userdata:")
             //console.log(key);
-          });
+          }); */
       }
       else if (filename == "Inferences.json") {
         console.log('Parsing: ' + filename);
