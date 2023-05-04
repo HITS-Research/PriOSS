@@ -44,7 +44,7 @@ export class InstaDashboardComponent {
   ];
   current = 0;
   rectificationInstructionText="Choose your country.";
-  rectificationInstructionPicture="/../../assets/images/insta-rectifcation/step1.PNG"
+  rectificationInstructionPicture="/../../assets/images/insta-rectifcation/step1.png"
 
   /**
   * Decrease the "current" variable.
@@ -75,27 +75,27 @@ export class InstaDashboardComponent {
     switch (this.current) {
       case 0: {
         this.rectificationInstructionText="Choose your country.";
-        this.rectificationInstructionPicture="/../../assets/images/insta-rectifcation/step1.PNG"
+        this.rectificationInstructionPicture="/../../assets/images/insta-rectifcation/step1.png"
         break;
       }
       case 1: {
         this.rectificationInstructionText="Choose the highlighted options.";
-        this.rectificationInstructionPicture="/../../assets/images/insta-rectifcation/step2.PNG"
+        this.rectificationInstructionPicture="/../../assets/images/insta-rectifcation/step2.png"
         break;
       }
       case 2: {
         this.rectificationInstructionText="Choose the highlighted option.";
-        this.rectificationInstructionPicture="/../../assets/images/insta-rectifcation/step3.PNG"
+        this.rectificationInstructionPicture="/../../assets/images/insta-rectifcation/step3.png"
         break;
       }
       case 3: {
         this.rectificationInstructionText="Choose the highlighted option.";
-        this.rectificationInstructionPicture="/../../assets/images/insta-rectifcation/step4.PNG"
+        this.rectificationInstructionPicture="/../../assets/images/insta-rectifcation/step4.png"
         break;
       }
       case 4: {
         this.rectificationInstructionText="Enter your information into the text boxes.";
-        this.rectificationInstructionPicture="/../../assets/images/insta-rectifcation/step5.PNG"
+        this.rectificationInstructionPicture="/../../assets/images/insta-rectifcation/step5.png"
         break;
       }
       default: {
