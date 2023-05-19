@@ -1201,6 +1201,11 @@ export class ServiceSelectionComponent {
     }
   }
 
+  /**
+   * Add Go-to-Top button on Facebook service selection page
+   * Author: Deepa (dbelvi@mail.upb.de)
+   */
+  
   @HostListener('window:scroll', []) onScroll(){
     this.pageYoffset = window.pageYOffset;
   }
