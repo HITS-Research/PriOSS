@@ -40,15 +40,12 @@ import { Router } from '@angular/router';
       this.dbService.getAll('face/ads_interacted').subscribe((ads_interacted_with: any) => {
         for (let i = 0; i < ads_interacted_with.length; i++) {
           const name = ads_interacted_with[i].title;
-          const encodedName = encodeURIComponent(name);
-          const decodedName = decodeURIComponent(encodedName);
-          this.adNames.push(decodedName);
+          this.adNames.push(name);
+
           if (ads_interacted_with[i].action === 'Clicked ad') {
             this.totalCount++;
           }
         }
-        
-        
       });
       this.dbService.getAll('face/apps_websites').subscribe((apps_websites: any) => {
         if (apps_websites.length !== 0) {
