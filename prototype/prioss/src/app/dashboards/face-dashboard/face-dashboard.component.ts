@@ -25,11 +25,69 @@ export class FaceDashboardComponent {
     private dbService: NgxIndexedDBService,
     private introService: IntrojsService,
   ) { }
+
+  /**
+    * The 'faqs' variable contains the FAQs for Facebook dashboard.
+    * To add a new FAQ, add an object with its state, question, and answer.
+    * 
+    * @author: Deepa (dbelvi@mail.upb.de)
+    *
+  */
+  faqs = [
+    {
+      state: false,
+      question: 'What is the purpose of Facebook dashboard?',
+      answer: 'The Facebook dashboard presents your personal data in an easily understandable form. This helps you understand what personal data of yours Facebook has been collecting, and how that data is being used. The dashboard also intends to help you change your excercise your privacy rights by making you more aware of your rights and by guiding you how to excercise your rights.'
+    },
+
+    {
+      state: false,
+      question: 'How does this dashboard help me improve my privacy on Facebook?',
+      answer: 'You can go to each visualization tile and inspect your data for its correctness. You can also see how your activities are being tracked. The visualizations explain how that particular has been created. If you do not intend Facebook to know any of your particular personal data, you can follow the instructions mentioned on the page to manage your permissions and/or privacy.'
+    },
+
+    {
+      state: false,
+      question: 'Can I excercise my privacy rights on this platform?',
+      answer: 'This platform helps you excercise your privacy instructions through appropriate instructions. You have to go to your logged-in Facebook account and follow the instructions. Since this platform works offline, without internet, you can not click something here to make changes in your Facebook account!'
+    },
+
+    {
+      state: false,
+      question: 'Is downloading my data compulsory to use the platform?',
+      answer: 'No. This platform offers sample data for Facebook. You can see how your data might look, by uploading the sample data.'
+    },
+
+    {
+      state: false,
+      question: 'Is my data safe after I upload my data on this platform?',
+      answer: 'Yes. This platform can completely run offline, without internet. Make sure to upload your data after you are disconnected from internet. Your data will not leave your computer then!'
+    },
+
+    {
+      state: false,
+      question: 'What are my privacy rights?',
+      answer: 'We reccommend you to read your rights as explained in GDPR Rights section.'
+    },
+
+    {
+      state: false,
+      question: 'How do I excercise my privacy rights?',
+      answer: 'By following the instructions mentioned in the Manage my Privacy Section.'
+    },
+
+    {
+      state: false,
+      question: 'Does this platform has any privacy recommedations for my personal Facebook account?',
+      answer: 'Yes. Please refer to Privacy Recommendations section.'
+    }
+
+  ]
   /**
     * This  method is responsible to navigate to the ads component page.
     * @author: rishmamn@campus.uni-paderborn.de
     *
-   */
+  */
   adsData() {
     this.router.navigate(['face/ads-related-data']);
   }
@@ -76,6 +134,8 @@ export class FaceDashboardComponent {
 
   /**
    * This method is called on button click and starts the tour.
+   * 
+   * @author: Deepa (dbelvi@mail.upb.de)
    */
   startTour() {
     this.introService.facebookDashboardTour();
