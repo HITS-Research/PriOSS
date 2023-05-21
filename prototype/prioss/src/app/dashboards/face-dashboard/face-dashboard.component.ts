@@ -27,6 +27,78 @@ export class FaceDashboardComponent {
   ) { }
 
   /**
+   * Rectification instruction steps.
+   * 
+   * @current : A pointer to the steps.
+   * @rectificationText : Appropriate rectification text as per the step.
+   * @rectificationImage : Appropriate rectification image as per the step.
+   * 
+   * @start : To always come to the 1st step.
+   * @pre : To go back to previous step from current step.
+   * @next : To go to next step from current step.
+   * 
+   * @author: Deepa (dbelvi@mail.upb.de)
+   * 
+   */
+  current = 0;
+  rectificationText="Choose your country. (Click on the image to zoom-in)";
+  rectificationImage="/../../assets/images/fb-rectification/1.png";
+
+  start(): void {
+    this.current = 0;
+    this.changeContent();
+  }
+
+  pre(): void {
+    this.current -= 1;
+    this.changeContent();
+  }
+
+  next(): void {
+    this.current += 1;
+    this.changeContent();
+  }
+
+  /**
+  * Updates the rectification visualization regarding the current value.
+  * 
+  * @author: Deepa (dbelvi@mail.upb.de)
+  * 
+  */
+  changeContent(): void {
+    switch (this.current) {
+      case 0: {
+        this.rectificationText="Choose your country. (Click on the image to zoom-in)";
+        this.rectificationImage="/../../assets/images/fb-rectification/1.png"
+        break;
+      }
+      case 1: {
+        this.rectificationText="Choose 'Facebook' and appropriate age bracket.";
+        this.rectificationImage="/../../assets/images/fb-rectification/2.png"
+        break;
+      }
+      case 2: {
+        this.rectificationText="Choose the highlighted options.";
+        this.rectificationImage="/../../assets/images/fb-rectification/3.png"
+        break;
+      }
+      case 3: {
+        this.rectificationText="Choose the highlighted option.";
+        this.rectificationImage="/../../assets/images/fb-rectification/4.png"
+        break;
+      }
+      case 4: {
+        this.rectificationText="Enter your information into the text boxes and hit Send.";
+        this.rectificationImage="/../../assets/images/fb-rectification/5.png"
+        break;
+      }
+      default: {
+        this.rectificationText="Error";
+      }
+    }
+  }
+
+  /**
     * The 'faqs' variable contains the FAQs for Facebook dashboard.
     * To add a new FAQ, add an object with its state, question, and answer.
     * 
@@ -82,7 +154,7 @@ export class FaceDashboardComponent {
       answer: 'Yes. Please refer to Privacy Recommendations section.'
     }
 
-  ]
+  ];
   /**
     * This  method is responsible to navigate to the ads component page.
     * @author: rishmamn@campus.uni-paderborn.de
