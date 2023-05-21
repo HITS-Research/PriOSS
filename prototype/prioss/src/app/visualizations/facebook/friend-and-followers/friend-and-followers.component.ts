@@ -14,7 +14,7 @@ export class chartData{
 export class FriendAndFollowersComponent {
   friends: any[] = [];
   removedFriends: any[] = [];
-  friendRequestRecieved: any[] = [];
+  friendRequestReceived: any[] = [];
   friendRequestSent: any[] = [];
   rejectedFriendRequests: any[] = [];
   whoYouFollow: any[] = [];
@@ -46,12 +46,12 @@ export class FriendAndFollowersComponent {
       this.createData(friends,"#removedFriends", "green"); 
     });
     this.dbService.getAll('face/friend_requests_received').subscribe((friends) => {
-      this.friendRequestRecieved= friends;    
-      this.createData(friends,"#friendRequestSent", "red"); 
+      this.friendRequestReceived = friends;    
+      this.createData(friends,"#friendRequestReceived", "red"); 
     });
     this.dbService.getAll('face/friend_requests_sent').subscribe((friends) => {
       this.friendRequestSent= friends;
-      this.createData(friends,"#friendRequestRecieved", "yellow");
+      this.createData(friends,"#friendRequestSent", "yellow");
     });
     this.dbService.getAll('face/rejected_friend_requests').subscribe((friends) => {
       this.rejectedFriendRequests= friends;
@@ -133,7 +133,7 @@ export class FriendAndFollowersComponent {
       .attr("x", 0)
       .attr("y", 0)
       .style("color", "white")
-      .style("opacity", 0);
+      .style("opacity", 1);
 
     // Fill the chart with data values
     svg.append("g")
@@ -151,9 +151,10 @@ export class FriendAndFollowersComponent {
           const barX = x(d.year.toString())! + x.bandwidth() / 2;
           const barY = y(d.count);
           tooltip.text(d.count)
-            .attr("x", barX)
-            .attr("y", barY - 5)
-            .style("opacity", 1);
+            .attr("x", barX + 20)
+            .attr("y", barY + 18)
+            .style("opacity", 1)
+            .style("font-size", "24px");
         })
         // Change position of tooltip on mouse move
         .on("mousemove", function (event) {
@@ -188,7 +189,7 @@ export class FriendAndFollowersComponent {
     svg.append("text")
       .attr("transform", `rotate(-90) translate(${-margin.top - height / 2}, ${margin.left - 40})`)
       .style("text-anchor", "middle")
-      .style("font-size", "20px")
+      .style("font-size", "24px")
       .text("Count");
   }
  
