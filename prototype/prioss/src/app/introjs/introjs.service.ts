@@ -105,6 +105,11 @@ export class IntrojsService {
           intro: 'This card shows your personal data that Facebook has collected. Click <b>More</b> to see details.'
         },
         {
+          element: '#fstep80',
+          intro: 'This section visualizes your data in more understandable way. You can analyse your data and make appropriate decisions for your data privacy!.'
+
+        },
+        {
           element: '#fStep20',
           intro: 'This tile gives you more information about Ads-related data. Click <b>More</b> to see what information Facebook has been tracking related to your interaction with Ads.'
         },
@@ -115,6 +120,10 @@ export class IntrojsService {
         {
           element: '#fStep22',
           intro: 'This tile gives a gist of your Facebook connections. Click <b>More</b> to see year-wise details.'
+        },
+        {
+          element: '#fStep70',
+          intro: 'This tile illustrates the steps to object the use of your personal information to show personalized ads.'
         },
         {
           element: '#fStep30',
