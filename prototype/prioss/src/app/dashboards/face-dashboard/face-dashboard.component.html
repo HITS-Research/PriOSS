@@ -1,5 +1,5 @@
 <h1 nz-typography>PriOSS - Facebook</h1>
-<h2 nz-typography>User</h2>
+<h2 nz-typography>User Information</h2>
 <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
   <div id="fStep10" nz-col nzXs="24" nzXl="8">
     <app-general-data></app-general-data>
@@ -9,7 +9,7 @@
   </div>
 </div>
 <br>
-<h2 nz-typography id="visualization">Visualization</h2>
+<div id="fstep80"> <h2  nz-typography id="visualization">Visualization</h2> </div>
 <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
     <div id="fStep20" nz-col nzXs="24" nzXl="8">
       <nz-card nzTitle="Advertisements" nzHoverable  (click)="adsData()">
@@ -29,6 +29,47 @@
 </div>
 <br>
 <app-help-button (startTourClick)="startTour()"></app-help-button>
+<br>
+<div id="rectification_instructions">
+  <h2 nz-typography id="fStep70">Rectification</h2>
+  <p nz-typography>
+    Follow the instructions to object the use of your personal data to show you ads.
+  </p>
+  <h6>  Visit the webpage and follow the instruction steps: <a href='https://www.facebook.com/help/contact/367438723733209'>Facebook Help Center</a> </h6>
+  <br>
+  <nz-steps [nzCurrent]="current">
+    <nz-step nzTitle="Step 1"></nz-step>
+    <nz-step nzTitle="Step 2"></nz-step>
+    <nz-step nzTitle="Step 3"></nz-step>
+    <nz-step nzTitle="Step 4"></nz-step>
+    <nz-step nzTitle="Step 5"></nz-step>
+  </nz-steps>
+
+  <div class="steps-content">
+    <img
+      nz-image
+      height="300px"
+      nzSrc={{rectificationImage}}
+      alt=""
+    />
+    <nz-divider></nz-divider>
+    <p nz-typography class="rectificationSteps">{{ rectificationText }}</p>  
+  </div>
+  <div class="steps-action">
+    <button nz-button nzType="default" (click)="start()" *ngIf="current <= 4">
+      <span>Start</span>
+    </button>
+    <button nz-button nzType="default" (click)="pre()" *ngIf="current > 0">
+      <span>Previous</span>
+    </button>
+    <button nz-button nzType="default" (click)="next()" *ngIf="current < 4">
+      <span>Next</span>
+    </button>
+  </div>
+<br>
+<br>
+</div>
+<br>
 <div id="rectification">
   <h2 nz-typography id="fStep30">Mange Privacy</h2>
   <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
@@ -45,7 +86,7 @@
     <div id="fStep20" >
       <nz-card nzTitle="Your Rights under GDPR">
         <p>
-  The General Data Protection Regulation (GDPR) is a regulation in EU law on data protection and privacy for all individuals within the
+  The <b>G</b>eneral <b>D</b>ata <b>P</b>rotection <b>R</b>egulation (GDPR) is a regulation in EU law on data protection and privacy for all individuals within the
   European Union and the European Economic Area (EEA). The GDPR provides various rights to individuals regarding their personal data. 
   Some of the key rights under GDPR include:
   <br>

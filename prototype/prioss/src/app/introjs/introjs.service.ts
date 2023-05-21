@@ -105,6 +105,11 @@ export class IntrojsService {
           intro: 'Your Personal Data'
         },
         {
+          element: '#fstep80',
+          intro: 'This section visualizes your data in more understandable way. You can analyse your data and make appropriate decisions for your data privacy!.'
+
+        },
+        {
           element: '#fStep20',
           intro: 'Click to see more about your Ads related Data. See how Facebook tracks your activity to show you fitting Ads while you surf through Facebook'
         },
@@ -115,6 +120,10 @@ export class IntrojsService {
         {
           element: '#fStep22',
           intro: 'Click to see a gist of your Friends, Followers, and more!'
+        },
+        {
+          element: '#fStep70',
+          intro: 'This tile illustrates the steps to object the use of your personal information to show personalized ads.'
         },
         {
           element: '#fStep30',
