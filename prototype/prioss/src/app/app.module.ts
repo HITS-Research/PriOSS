@@ -14,7 +14,8 @@ import { LandingComponent } from './landing/landing.component';
 import { ServiceSelectionComponent } from './service-selection/service-selection.component';
 import { FaceDashboardComponent } from './dashboards/face-dashboard/face-dashboard.component';
 import { InstaDashboardComponent } from './dashboards/insta-dashboard/insta-dashboard.component';
-import {Insta_PersonalInfoComponent} from './visualizations/instagram/Insta_personal-info/personal-info.component';
+import { Insta_PersonalInfoComponent} from './visualizations/instagram/Insta_personal-info/personal-info.component';
+import { InstaFollowersComponent } from './visualizations/instagram/insta-followers/insta-followers.component';
 import { InstaAccountCreationLoginComponent } from './visualizations/instagram/insta-account-creation-login/insta-account-creation-login.component';
 import { InstaAdsComponent } from './visualizations/instagram/insta-ads/insta-ads.component';
 import { SpotDashboardComponent } from './dashboards/spot-dashboard/spot-dashboard.component';
@@ -419,6 +420,7 @@ const dbConfig: DBConfig  =
     FaceDashboardComponent,
     InstaDashboardComponent,
     Insta_PersonalInfoComponent,
+    InstaFollowersComponent,
     SpotDashboardComponent,
     MoodComponent,
     NotificationComponent,

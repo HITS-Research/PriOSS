@@ -1,0 +1,17 @@
+<div [ngClass]="{'component-page': !previewMode}">
+    <!--only shows a preview of the visualization-->
+    <div *ngIf="previewMode">
+        <p>Test</p>
+    </div>
+    <!--only shows when visiting the page-->
+    <div *ngIf="!previewMode">
+        <nz-breadcrumb>
+            <nz-breadcrumb-item>
+            <a [routerLink]="['../dashboard/']">Dashboard</a>
+            </nz-breadcrumb-item>
+            <nz-breadcrumb-item>Followers</nz-breadcrumb-item>
+        </nz-breadcrumb>
+
+        <h2 nz-typography>Followers</h2>
+    </div>
+</div>
