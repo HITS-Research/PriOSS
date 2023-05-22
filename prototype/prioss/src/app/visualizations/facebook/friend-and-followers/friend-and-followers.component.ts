@@ -110,8 +110,8 @@ export class FriendAndFollowersComponent {
       data = [];
     }
 
-    const margin = { top: 20, right: 20, bottom: 30, left: 50 };
-    const width = 600 - margin.left - margin.right;
+    const margin = { top: 40, right: 20, bottom: 30, left: 0 };
+    const width = 650 - margin.left - margin.right;
     const height = 500 - margin.top - margin.bottom;
 
     // Get svg based on the id to draw chart
@@ -133,7 +133,7 @@ export class FriendAndFollowersComponent {
       .attr("x", 0)
       .attr("y", 0)
       .style("color", "white")
-      .style("opacity", 1);
+      .style("opacity", 0);
 
     // Fill the chart with data values
     svg.append("g")
@@ -151,8 +151,8 @@ export class FriendAndFollowersComponent {
           const barX = x(d.year.toString())! + x.bandwidth() / 2;
           const barY = y(d.count);
           tooltip.text(d.count)
-            .attr("x", barX + 20)
-            .attr("y", barY + 18)
+            .attr("x", barX - 19)
+            .attr("y", barY + 20)
             .style("opacity", 1)
             .style("font-size", "24px");
         })
@@ -189,7 +189,7 @@ export class FriendAndFollowersComponent {
     svg.append("text")
       .attr("transform", `rotate(-90) translate(${-margin.top - height / 2}, ${margin.left - 40})`)
       .style("text-anchor", "middle")
-      .style("font-size", "24px")
+      .style("font-size", "26px")
       .text("Count");
   }
  
