@@ -143,6 +143,8 @@
   <nz-collapse nzAccordion>
     <nz-collapse-panel *ngFor="let purpose of purposes" [nzHeader]="purpose.name" [nzActive]="purpose.active">
       <p>{{ purpose.content }}</p>
+      <span *ngIf="purpose.link" nz-icon nzType="link"><a *ngIf="purpose.link" [href]="purpose.link" target="_blank">{{purpose.linkLabel}}</a></span>
+      
     </nz-collapse-panel>
   </nz-collapse>
 </div>
