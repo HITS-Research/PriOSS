@@ -40,6 +40,13 @@ export class InstaDashboardComponent {
       active: false,
       name: 'Who developed this website?',
       content: 'We are a Team called PriOSS and made up of students from the University of Paderborn. This website is a Student Project developed with a passion for privacy during the Course „Project Group: a Privacy One-Stop Shop“ over the course of one year between October 2022 and September 2023. To get more information about us and the project, visit our About Us page',
+    },
+    {
+      active: false,
+      name: 'How can I improve my privacy?',
+      content: 'Instagram provides some information and security tips at their help center (linked below). This can help you to improve the security for your Instagram account.',
+      link: 'https://help.instagram.com/369001149843369/?helpref=hc_fnav',
+      linkLabel: 'Instagram help center'
     }
   ];
   current = 0;

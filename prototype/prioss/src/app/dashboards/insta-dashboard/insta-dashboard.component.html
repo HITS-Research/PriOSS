@@ -73,10 +73,10 @@
     <p nz-typography>{{ rectificationInstructionText }}</p>  
   </div>
   <div class="steps-action">
-    <button nz-button nzType="default" (click)="pre()" *ngIf="current > 0">
+    <button nz-button nzType="default" (click)="pre()" [disabled]="current <= 0">
       <span>Previous</span>
     </button>
-    <button nz-button nzType="default" (click)="next()" *ngIf="current < 4">
+    <button nz-button nzType="default" (click)="next()" [disabled]="current >= 4">
       <span>Next</span>
     </button>
   </div>
@@ -143,6 +143,8 @@
   <nz-collapse nzAccordion>
     <nz-collapse-panel *ngFor="let purpose of purposes" [nzHeader]="purpose.name" [nzActive]="purpose.active">
       <p>{{ purpose.content }}</p>
+      <span *ngIf="purpose.link" nz-icon nzType="link"><a *ngIf="purpose.link" [href]="purpose.link" target="_blank">{{purpose.linkLabel}}</a></span>
+      
     </nz-collapse-panel>
   </nz-collapse>
 </div>
