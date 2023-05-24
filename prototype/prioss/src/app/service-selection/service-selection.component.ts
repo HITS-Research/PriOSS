@@ -1002,7 +1002,13 @@ export class ServiceSelectionComponent {
                 gender: personal_data.gender.gender_option
               }).subscribe((key) => {
               });
+              setTimeout(() => {
+                //TODO: properly wait for data to be available in DB
+                this.progressBarPercent = 30;
+              }, 1000);
+         
           }
+       
           else if (filename == "ads_information/advertisers_using_your_activity_or_information.json") {
             console.log('Parsing: ' + filename);
             let jsonData = JSON.parse(content);
@@ -1016,6 +1022,11 @@ export class ServiceSelectionComponent {
                 }).subscribe((key) => {
                 });
             });
+            setTimeout(() => {
+              //TODO: properly wait for data to be available in DB
+              this.progressBarPercent = 60;
+            }, 1500);
+         
           }
           else if (filename == "ads_information/advertisers_you've_interacted_with.json") {
             console.log('Parsing: ' + filename);
@@ -1153,6 +1164,10 @@ export class ServiceSelectionComponent {
                 });
             });
           }
+          setTimeout(() => {
+        
+            this.progressBarPercent = 100;
+          }, 2000);
         });
       });
       return true;
