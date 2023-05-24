@@ -69,12 +69,16 @@
   <nz-layout>
     <!--defines the header with the button to collapse the slider-->
     <nz-header>
-      <div class="app-header">
+      <div class="app-header" >
         <span class="header-trigger" 
           (click)="isCollapsed = !isCollapsed" 
           nz-icon
           [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'">
         </span>
+        <button *ngIf="showBackButton" nz-button nzType="default" class="header-back-button" (click)="routeToDashboard()">
+          <span nz-icon nzType="arrow-left"></span>
+          Back to Dashboard
+        </button>
       </div>
     </nz-header>
     <!--defines the content-->
