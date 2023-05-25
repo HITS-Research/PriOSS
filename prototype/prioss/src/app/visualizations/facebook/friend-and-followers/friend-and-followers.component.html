@@ -1,60 +1,73 @@
 <div [ngClass]="{'component-page': !previewMode}">
   <div *ngIf="previewMode">
     <nz-row [nzGutter]="16">
-      <nz-col [nzSpan]="12">
+      <nz-col [nzSpan]="10">
         <nz-statistic [nzValue]="friends.length" [nzTitle]="'Friends'"></nz-statistic>
       </nz-col>
-      <nz-col [nzSpan]="12">
+      <nz-col [nzSpan]="11">
         <nz-statistic [nzValue]="removedFriends.length" [nzTitle]="'Removed friends'"></nz-statistic>
       </nz-col>
-      <nz-col [nzSpan]="12">
-        <nz-statistic [nzValue]="friendRequestRecieved.length" [nzTitle]="'Friend request sent'"></nz-statistic>
+      <nz-col [nzSpan]="10">
+        <nz-statistic [nzValue]="friendRequestSent.length" [nzTitle]="'Friend requests sent'"></nz-statistic>
       </nz-col>
-      <nz-col [nzSpan]="12">
-        <nz-statistic [nzValue]="friendRequestSent.length" [nzTitle]="'Friend request sent'"></nz-statistic>
+      <nz-col [nzSpan]="11">
+        <nz-statistic [nzValue]="friendRequestReceived.length" [nzTitle]="'Friend requests received'"></nz-statistic>
       </nz-col>
-      <nz-col [nzSpan]="12">
+      <nz-col [nzSpan]="10">
         <nz-statistic [nzValue]="rejectedFriendRequests.length" [nzTitle]="'Rejected requests'"></nz-statistic>
       </nz-col>
-      <nz-col [nzSpan]="12">
-        <nz-statistic [nzValue]="whoYouFollow.length" [nzTitle]="'Who you follow'"></nz-statistic>
+      <nz-col [nzSpan]="11">
+        <nz-statistic [nzValue]="whoYouFollow.length" [nzTitle]="'People who follow you'"></nz-statistic>
       </nz-col>
     </nz-row>
-</div>
-  <nz-row [nzGutter]="16" *ngIf="!previewMode">
-    <nz-col [nzSpan]="12">
-      <nz-card class="friends-card" nzTitle="Friends count: {{friends.length}}">
-        <svg viewBox="0 0 1000 1000" id="myFriends"></svg>
-      </nz-card> 
-    </nz-col>
-    <nz-col [nzSpan]="12">
-      <nz-card class="friends-card" nzTitle="Removed friend count: {{removedFriends.length}}">
-        <svg viewBox="0 0 1000 1000" id="removedFriends"></svg>
-      </nz-card> 
+  </div>
+  <div *ngIf="!previewMode">
+    <nz-breadcrumb>
+      <nz-breadcrumb-item>
+        <a [routerLink]="['../dashboard/']">Dashboard</a>
+      </nz-breadcrumb-item>
+      <nz-breadcrumb-item>Connections</nz-breadcrumb-item>
+    </nz-breadcrumb>
+    <nz-row [nzGutter]="16" class="margin-top-20">
+      <nz-col [nzSpan]="12">
+        <nz-card class="friends-card" nzTitle="Friends: {{friends.length}}">
+          <div>People you are currently connected to</div>
+          <svg viewBox="0 0 1000 1000" id="myFriends" class="margin-top-20"></svg>
+        </nz-card> 
+      </nz-col>
+      <nz-col [nzSpan]="12"> 
+        <nz-card class="friends-card" nzTitle="Who you follow: {{whoYouFollow.length}}">
+          <div>People, organisations or business that you choose to see content from</div>
+          <svg viewBox="0 0 1000 1000" id="following" class="margin-top-20"></svg> 
+        </nz-card>
+      </nz-col>
+      <nz-col [nzSpan]="12">
+        <nz-card class="friends-card" nzTitle="Friend requests recieved : {{friendRequestReceived.length}}">
+          <div>Request from others asking you to be friends on Facebook</div>
+          <svg viewBox="0 0 1000 1000" id="friendRequestReceived" class="margin-top-20"></svg>
+        </nz-card>
       
-    </nz-col>
-    <nz-col [nzSpan]="12">
-      <nz-card class="friends-card" nzTitle="Friend request recieved count: {{friendRequestRecieved.length}}">
-        <svg viewBox="0 0 1000 1000" id="friendRequestRecieved"></svg>
-      </nz-card>
-     
-    </nz-col>
-    <nz-col [nzSpan]="12">
-      <nz-card class="friends-card" nzTitle="Friend request sent count: {{friendRequestSent.length}}">
-        <svg viewBox="0 0 1000 1000" id="friendRequestSent"></svg>
-      </nz-card>
-     
-    </nz-col>
-    <nz-col [nzSpan]="12"> 
-      <nz-card class="friends-card" nzTitle="Rejected friends count: {{rejectedFriendRequests.length}}">
-        <svg viewBox="0 0 1000 1000" id="rejectedFriends"></svg>
-      </nz-card>
-      
-    </nz-col>
-    <nz-col [nzSpan]="12"> 
-      <nz-card class="friends-card" nzTitle="Who you follow count: {{whoYouFollow.length}}">
-        <svg viewBox="0 0 1000 1000" id="following"></svg> 
-      </nz-card>
-    </nz-col>
-  </nz-row>
+      </nz-col>
+      <nz-col [nzSpan]="12">
+        <nz-card class="friends-card" nzTitle="Friend requests sent: {{friendRequestSent.length}}">
+          <div>Request sent to others to ask them to be friends on Facebook</div>
+          <svg viewBox="0 0 1000 1000" id="friendRequestSent" class="margin-top-20"></svg>
+        </nz-card>
+      </nz-col>
+      <nz-col [nzSpan]="12">
+        <nz-card class="friends-card" nzTitle="Removed friends: {{removedFriends.length}}">
+          <div>People who you are no longer connected to on Facebook</div>
+          <svg viewBox="0 0 1000 1000" id="removedFriends" class="margin-top-20"></svg>
+        </nz-card> 
+        
+      </nz-col>
+      <nz-col [nzSpan]="12"> 
+        <nz-card class="friends-card" nzTitle="Rejected friends: {{rejectedFriendRequests.length}}">
+          <div>Rejected friend requests on Facebook</div>
+          <svg viewBox="0 0 1000 1000" id="rejectedFriends" class="margin-top-20"></svg>
+        </nz-card>
+        
+      </nz-col>
+    </nz-row>
+  </div> 
 </div>
