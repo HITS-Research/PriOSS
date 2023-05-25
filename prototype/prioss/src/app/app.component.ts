@@ -62,22 +62,6 @@ export class AppComponent {
         this.serviceName = 'spot';
         this.isDashboard = true;
         break;
-      case '/serviceSelection':
-        this.isDashboard = false;
-        break;
     }
-  }
-
-  /**
-   * This method checks if the current url contains a specific fragment
-   * 
-   * @param fragment the fragment or section to be checked
-   * @returns true, if the fragment is contained in the dashboard url
-   *          false, if not
-   *
-   * @author: Paul (pasch@mail.upb.de)
-   */
-  isSelected(fragment: string): boolean {
-    return this.router.url === '/' + this.serviceName + '/dashboard' + fragment;
   }
 }
