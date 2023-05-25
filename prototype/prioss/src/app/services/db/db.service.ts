@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { SQLiteDBConnection } from '@capacitor-community/sqlite';
+import { SQLiteDBConnection, capSQLiteResult } from '@capacitor-community/sqlite';
 import { environment } from 'src/environments/environment';
 import { SQLiteService } from '../sqlite/sqlite.service';
 import { createSchema, dropSchema } from 'src/app/db/schema.sql';
@@ -25,25 +25,49 @@ export class DBService {
    * @author: https://github.com/jepiqueau
    */
   async executeQuery<T>(callback: SQLiteDBConnectionCallback<T>, databaseName: string = environment.databaseName): Promise<T> {
-    //try {
-      let isConnection = await this.sqlite.isConnection(databaseName);
 
+    await customElements.whenDefined('jeep-sqlite');
+    const jeepSqliteEl = document.querySelector('jeep-sqlite');
+    if(jeepSqliteEl != null) {
+      console.log(`>>DbService: isStoreOpen ${await jeepSqliteEl.isStoreOpen()}`);
+    }
+
+    try {
+      let isConnection = await this.sqlite.isConnection(databaseName);
+      console.log('executing query, isConnection: ' + isConnection.result);
+
+/*
       if (isConnection.result) {
+        console.log('retrieving Connection');
         let db = await this.sqlite.retrieveConnection(databaseName);
+        
         return await callback(db);
+
       }
       else {
-        const db = await this.sqlite.createConnection(databaseName, false, "no-encryption", this.dbVersion);
-        await db.open();
-
-        let cb = await callback(db);
-
+        */
+      if(isConnection.result) {
+        console.log('closing previous Connection');
         await this.sqlite.closeConnection(databaseName);
-        return cb;
-      }
-    /*} catch (error) {
+      } 
+
+      console.log('creating connection');
+      const db = await this.sqlite.createConnection(databaseName, false, "no-encryption", this.dbVersion);
+      await db.open();
+
+      let consistency: capSQLiteResult = await  this.sqlite.checkConnectionsConsistency();
+      console.log('>>> Connection consistency: ' + consistency.result);
+      let dbOpen: capSQLiteResult = await db.isDBOpen();
+      console.log('>>> DB open: ' + dbOpen.result);
+      let cb = await callback(db);
+
+      console.log('closing Connection');
+      await this.sqlite.closeConnection(databaseName);
+      return cb;
+      //}
+    } catch (error) {
       throw Error(`DatabaseServiceError: ${error}`);
-    }*/
+    }
   }
 
 /**

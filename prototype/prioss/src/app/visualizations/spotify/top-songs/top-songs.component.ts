@@ -2,6 +2,7 @@ import {Component, Input} from '@angular/core';
 import * as d3 from "d3";
 import {SpotHistoryRepository} from "../../../db/data-repositories/spotify/spot-history/spot-history.repository";
 import {NotificationService} from "../../../notification/notification.component";
+import { SpotMinListenedToSong } from 'src/app/models/Spotify/TopSong/SpotMinListenedToSong';
 
 /**
  * This component visualizes which songs have been listened the most to
@@ -41,13 +42,13 @@ export class TopSongsComponent {
    */
   async initializeVisualisation() {
     await new Promise(f => setTimeout(f, 1000));  // TODO: fix
+    console.log('>> initializing songs visualization');
     this.filterFromDate = await this.spotHistoryRepo.getFirstDay();
     this.filterToDate = await this.spotHistoryRepo.getMostRecentDay();
 
-    this.spotHistoryRepo.getMinListenedToSongs(this.filterFromDate, this.filterToDate).then((result) => {
-      this.minListenedToSong = result;
-      this.makeBarChart(result.slice(0, 10));
-    });
+    let result: SpotMinListenedToSong[] = await this.spotHistoryRepo.getMinListenedToSongs(this.filterFromDate, this.filterToDate);
+    this.minListenedToSong = result;
+    this.makeBarChart(result.slice(0, 10));
   }
 
   /**

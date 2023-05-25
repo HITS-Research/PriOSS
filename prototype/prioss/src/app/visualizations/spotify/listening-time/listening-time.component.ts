@@ -67,6 +67,7 @@ export class ListeningTimeComponent {
   * @author: Simon (scg@mail.upb.de)
   */
   async initializeVisualization() {
+
     //Shows the single day view first because it takes less time to build than year/month/day views,
     //this gives us time to parse and compile the data needed for the year, month and day views
     this.selectedGranularity = GranularityEnum.Year;
