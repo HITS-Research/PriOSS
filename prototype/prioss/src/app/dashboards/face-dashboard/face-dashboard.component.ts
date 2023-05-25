@@ -179,7 +179,7 @@ export class FaceDashboardComponent {
   *
  */
   navigateToFriendsAndFollowers() {
-    this.router.navigate(['face/connections']);
+    this.router.navigate(['face/friendsandfollowers']);
   }
 /**
     * This  method is responsible to navigate to Off-Facebook Activity Guidelines page.

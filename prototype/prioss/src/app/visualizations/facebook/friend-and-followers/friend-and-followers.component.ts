@@ -14,7 +14,7 @@ export class chartData{
 export class FriendAndFollowersComponent {
   friends: any[] = [];
   removedFriends: any[] = [];
-  friendRequestReceived: any[] = [];
+  friendRequestRecieved: any[] = [];
   friendRequestSent: any[] = [];
   rejectedFriendRequests: any[] = [];
   whoYouFollow: any[] = [];
@@ -39,27 +39,27 @@ export class FriendAndFollowersComponent {
   {
     this.dbService.getAll('face/friends').subscribe((friends) => {
       this.friends= friends;
-      this.createData(friends, "#myFriends", "#1877F2");
+      this.createData(friends, "#myFriends", "blue");
     });
     this.dbService.getAll('face/removed_friends').subscribe((friends) => {
       this.removedFriends = friends;
-      this.createData(friends,"#removedFriends", "#808080"); 
+      this.createData(friends,"#removedFriends", "green"); 
     });
     this.dbService.getAll('face/friend_requests_received').subscribe((friends) => {
-      this.friendRequestReceived = friends;    
-      this.createData(friends,"#friendRequestReceived", "#FF9800"); 
+      this.friendRequestRecieved= friends;    
+      this.createData(friends,"#friendRequestSent", "red"); 
     });
     this.dbService.getAll('face/friend_requests_sent').subscribe((friends) => {
       this.friendRequestSent= friends;
-      this.createData(friends,"#friendRequestSent", "#00C853");
+      this.createData(friends,"#friendRequestRecieved", "yellow");
     });
     this.dbService.getAll('face/rejected_friend_requests').subscribe((friends) => {
       this.rejectedFriendRequests= friends;
-      this.createData(friends,"#rejectedFriends", "#FF0000");
+      this.createData(friends,"#rejectedFriends", "pink");
     });
     this.dbService.getAll('face/who_you_follow').subscribe((friends) => {
       this.whoYouFollow= friends;
-      this.createData(friends,"#following", "#00BCD4");
+      this.createData(friends,"#following", "brown");
     });
   }
 
@@ -110,8 +110,8 @@ export class FriendAndFollowersComponent {
       data = [];
     }
 
-    const margin = { top: 40, right: 20, bottom: 30, left: 0 };
-    const width = 650 - margin.left - margin.right;
+    const margin = { top: 20, right: 20, bottom: 30, left: 50 };
+    const width = 600 - margin.left - margin.right;
     const height = 500 - margin.top - margin.bottom;
 
     // Get svg based on the id to draw chart
@@ -151,10 +151,9 @@ export class FriendAndFollowersComponent {
           const barX = x(d.year.toString())! + x.bandwidth() / 2;
           const barY = y(d.count);
           tooltip.text(d.count)
-            .attr("x", barX - 19)
-            .attr("y", barY + 20)
-            .style("opacity", 1)
-            .style("font-size", "24px");
+            .attr("x", barX)
+            .attr("y", barY - 5)
+            .style("opacity", 1);
         })
         // Change position of tooltip on mouse move
         .on("mousemove", function (event) {
@@ -189,7 +188,7 @@ export class FriendAndFollowersComponent {
     svg.append("text")
       .attr("transform", `rotate(-90) translate(${-margin.top - height / 2}, ${margin.left - 40})`)
       .style("text-anchor", "middle")
-      .style("font-size", "26px")
+      .style("font-size", "20px")
       .text("Count");
   }
  

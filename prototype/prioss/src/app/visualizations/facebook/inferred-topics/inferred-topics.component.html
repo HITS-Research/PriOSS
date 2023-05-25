@@ -1,15 +1,11 @@
 <nz-statistic  [nzTitle]="'Total inferred topics'" [nzValue]="inferredTopics.length" class ="bold-title" *ngIf="previewMode">
 </nz-statistic>
-<div class="component-page" *ngIf="!previewMode">
-  <nz-breadcrumb>
-    <nz-breadcrumb-item>
-      <a [routerLink]="['../dashboard/']">Dashboard</a>
-    </nz-breadcrumb-item>
-    <nz-breadcrumb-item>Your topics</nz-breadcrumb-item>
-  </nz-breadcrumb>
-  <nz-list nzGrid class="margin-top-20">
-    <nz-list-item *ngFor="let item of inferredTopics">
-      {{item.topic}}
-    </nz-list-item>
+<nz-list nzGrid *ngIf="!previewMode">
+    <div nz-row [nzGutter]="16">
+      <div nz-col [nzSpan]="6" *ngFor="let item of inferredTopics">
+        <nz-list-item>
+          <nz-card >{{item.topic}}</nz-card>
+        </nz-list-item>
+      </div>
+    </div>
 </nz-list>
-</div>

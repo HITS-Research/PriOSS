@@ -12,4 +12,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./off-facebook-activity.component.less']
 })
 export class OffFacebookActivityComponent {
+
 }

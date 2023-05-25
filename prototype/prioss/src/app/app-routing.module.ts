@@ -41,7 +41,7 @@ const routes: Routes = [
   { path: 'face/inferred-topics', component: InferredTopicsComponent },
   { path: 'serviceSelection', component: ServiceSelectionComponent },
   { path: 'face/ads-related-data', component: AdsRelatedDataComponent },
-  { path: 'face/connections', component: FriendAndFollowersComponent },
+  { path: 'face/friendsandfollowers', component: FriendAndFollowersComponent },
   { path: 'face/configure-off-facebook-activity', component: OffFacebookActivityComponent}
 ];
 
