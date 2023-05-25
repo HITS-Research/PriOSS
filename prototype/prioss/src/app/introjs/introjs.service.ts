@@ -106,7 +106,7 @@ export class IntrojsService {
         },
         {
           element: '#fstep80',
-          intro: 'This section visualizes your data in more understandable way. You can analyse your data and make appropriate decisions for your data privacy!.'
+          intro: 'This section visualizes your data in more understandable way. This helps make you aware of what data Facebook has about you, and allows you to analyze it for its correctness. Being aware enables you to take best Privacy decisions!.'
 
         },
         {
@@ -131,7 +131,7 @@ export class IntrojsService {
         },
         {
           element: '#fStep40',
-          intro: 'This section explains the instructions to exercise your <b>G</b>eneral <b>D</b>ata <b>P</b>rotection <b>R</b>egulation rights. Click to know more!'
+          intro: 'This section explains what is <b>G</b>eneral <b>D</b>ata <b>P</b>rotection <b>R</b>egulation (GDPR) and explains your GDPR privacy rights. Click to know more!'
         },
         {
           element: '#fStep50',
