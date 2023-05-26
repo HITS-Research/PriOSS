@@ -34,10 +34,10 @@ export class DBService {
 
     try {
       let isConnection = await this.sqlite.isConnection(databaseName);
-      console.log('executing query, isConnection: ' + isConnection.result);
+      //console.log('executing query, isConnection: ' + isConnection.result);
 
       if(isConnection.result) {
-        console.log('closing previous Connection');
+        //console.log('closing previous Connection');
         await this.sqlite.closeConnection(databaseName);
       } 
     } catch (error) {
@@ -46,26 +46,30 @@ export class DBService {
 
     try{
 
-      console.log('creating connection');
-      const db = await this.sqlite.createConnection(databaseName, false, "no-encryption", this.dbVersion);
-      await db.open();
-
+      //console.log('creating connection');
+      let db = await this.sqlite.createConnection(databaseName, false, "no-encryption", this.dbVersion);
       let consistency: capSQLiteResult = await  this.sqlite.checkConnectionsConsistency();
       console.log('>>> Connection consistency: ' + consistency.result);
+      while(!consistency.result)
+      {
+        db = await this.sqlite.createConnection(databaseName, false, "no-encryption", this.dbVersion);
+        consistency = await this.sqlite.checkConnectionsConsistency();
+        console.log('>>> RETRY: consistency: ' + consistency.result);
+      }
+
+      await db.open();
       let dbOpen: capSQLiteResult = await db.isDBOpen();
-      
-      
       console.log('>>> DB open: ' + dbOpen.result);
       while(!dbOpen.result)
       {
         await db.open();
         dbOpen = await db.isDBOpen();
-        console.log('>>> DB open: ' + dbOpen.result);
+        console.log('>>> RETRY: DB open: ' + dbOpen.result);
       }
    
       let cb = await callback(db);
 
-      console.log('closing Connection');
+      //console.log('closing Connection');
       await this.sqlite.closeConnection(databaseName);
       return cb;
       
