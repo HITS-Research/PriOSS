@@ -22,9 +22,9 @@ export class DBService {
    * 
    * @returns any type you want to receive from the callback function.
    * 
-   * @author: https://github.com/jepiqueau
+   * @author: https://github.com/jepiqueau, Simon (scg@mail.upb.de)
    */
-  async executeQuery<T>(callback: SQLiteDBConnectionCallback<T>, databaseName: string = environment.databaseName): Promise<T> {
+  async executeQuery<T>(callback: SQLiteDBConnectionCallback<T>, databaseName: string = environment.databaseName, debug_info: string = ''): Promise<T> {
 
     await customElements.whenDefined('jeep-sqlite');
     const jeepSqliteEl = document.querySelector('jeep-sqlite');
@@ -36,20 +36,15 @@ export class DBService {
       let isConnection = await this.sqlite.isConnection(databaseName);
       console.log('executing query, isConnection: ' + isConnection.result);
 
-/*
-      if (isConnection.result) {
-        console.log('retrieving Connection');
-        let db = await this.sqlite.retrieveConnection(databaseName);
-        
-        return await callback(db);
-
-      }
-      else {
-        */
       if(isConnection.result) {
         console.log('closing previous Connection');
         await this.sqlite.closeConnection(databaseName);
       } 
+    } catch (error) {
+      throw Error(`DatabaseClosingError: ${error}`);
+    }
+
+    try{
 
       console.log('creating connection');
       const db = await this.sqlite.createConnection(databaseName, false, "no-encryption", this.dbVersion);
@@ -59,12 +54,13 @@ export class DBService {
       console.log('>>> Connection consistency: ' + consistency.result);
       let dbOpen: capSQLiteResult = await db.isDBOpen();
       console.log('>>> DB open: ' + dbOpen.result);
+   
       let cb = await callback(db);
 
       console.log('closing Connection');
       await this.sqlite.closeConnection(databaseName);
       return cb;
-      //}
+      
     } catch (error) {
       throw Error(`DatabaseServiceError: ${error}`);
     }

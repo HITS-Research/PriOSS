@@ -41,7 +41,7 @@ export class TopSongsComponent {
    *
    */
   async initializeVisualisation() {
-    await new Promise(f => setTimeout(f, 1000));  // TODO: fix
+    //await new Promise(f => setTimeout(f, 1000));  // TODO: fix
     console.log('>> initializing songs visualization');
     this.filterFromDate = await this.spotHistoryRepo.getFirstDay();
     this.filterToDate = await this.spotHistoryRepo.getMostRecentDay();
