@@ -136,25 +136,6 @@ export class SpotHistoryRepository extends BulkAddCapableRepository{
    *
    * @author: Jonathan (jvn@mail.upb.de)
    */
-  async getMinListenedToArtists(fromDate: Date, toDate: Date): Promise<SpotMinListenedToArtist[]>
-  {
-    return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
-
-      let values = [dateUtils.getDisplayDateString(fromDate),dateUtils.getDisplayDateString(toDate)];
-      let result = await db.query(sql.spotMinListenedToArtistSQL, values);
-      return result.values as SpotMinListenedToArtist[];
-    });
-  }
-
-  /**
-   * Queries the spotify listening history for the duration in minutes that an artist has been listened to, filtered between the given start and end dates
-   * @returns An array of SpotMinListenedToArtist
-   *
-   * @param fromDate: start date for the time filter
-   * @param toDate: end date for the time filter
-   *
-   * @author: Jonathan (jvn@mail.upb.de)
-   */
   async getMinListenedToSongs(fromDate: Date, toDate: Date): Promise<SpotMinListenedToSong[]>
   {
     return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
@@ -162,26 +143,6 @@ export class SpotHistoryRepository extends BulkAddCapableRepository{
       let values = [dateUtils.getDisplayDateString(fromDate),dateUtils.getDisplayDateString(toDate)];
       let result = await db.query(sql.spotMinListenedToSongSQL, values);
       return result.values as SpotMinListenedToSong[];
-    });
-  }
-
-  /**
-   * Queries the spotify listening history for all songs by an artist, filtered between the given start and end dates
-   * @returns An array of SpotListeningHistoryOfSong
-   *
-   * @param artistName: name of the artist
-   * @param fromDate: start date for the time filter
-   * @param toDate: end date for the time filter
-   *
-   * @author: Jonathan (jvn@mail.upb.de)
-   */
-  async getListeningHistoryOfArtist(artistName: string, fromDate: Date, toDate: Date): Promise<SpotListeningHistoryOfArtist[]>
-  {
-    return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
-
-      let values = [dateUtils.getDisplayDateString(fromDate),dateUtils.getDisplayDateString(toDate), artistName];
-      let result = await db.query(sql.spotListeningHistoryOfArtistSQL, values);
-      return result.values as SpotListeningHistoryOfArtist[];
     });
   }
 

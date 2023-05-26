@@ -3,6 +3,7 @@ import * as d3 from 'd3';
 import {SpotHistoryRepository} from "../../../db/data-repositories/spotify/spot-history/spot-history.repository";
 import {NotificationService} from "../../../notification/notification.component";
 import { SpotMinListenedToArtist } from 'src/app/models/Spotify/TopArtist/SpotMinListenedToArtist';
+import { SpotTopArtistsRepository } from 'src/app/db/data-repositories/spotify/spot-history/spot-top-artists.repository';
 
 /**
  * This component visualizes how many songs from an artist were listened to
@@ -33,7 +34,7 @@ export class TopArtistsComponent {
   selectedArtistName : string = "";
   selectedArtistHistory : any[];
 
-  constructor(private spotHistoryRepo: SpotHistoryRepository, private notifyService: NotificationService) {
+  constructor(private spotTopArtistsRepo: SpotTopArtistsRepository, private notifyService: NotificationService) {
     console.log('>> constructor artists visualization');
     this.initializeVisualisation()
   }
@@ -47,10 +48,10 @@ export class TopArtistsComponent {
   async initializeVisualisation() {
     //await new Promise(f => setTimeout(f, 500));  // TODO: fix
     console.log('>> initializing artists visualization');
-    this.filterFromDate = await this.spotHistoryRepo.getFirstDay();
-    this.filterToDate = await this.spotHistoryRepo.getMostRecentDay();
+    this.filterFromDate = await this.spotTopArtistsRepo.getFirstDay();
+    this.filterToDate = await this.spotTopArtistsRepo.getMostRecentDay();
 
-    let result: SpotMinListenedToArtist[] = await this.spotHistoryRepo.getMinListenedToArtists(this.filterFromDate, this.filterToDate)
+    let result: SpotMinListenedToArtist[] = await this.spotTopArtistsRepo.getMinListenedToArtists(this.filterFromDate, this.filterToDate)
     this.minListenedToArtist = result;
     this.makeBarChart(result.slice(0, 10));
     
@@ -65,7 +66,7 @@ export class TopArtistsComponent {
   onDateFilterChanged() {
     if (this.filterFromDate !== null && this.filterToDate !== null) {
       if (this.filterFromDate <= this.filterToDate) {
-        this.spotHistoryRepo.getMinListenedToArtists(this.filterFromDate, this.filterToDate).then((result) => {
+        this.spotTopArtistsRepo.getMinListenedToArtists(this.filterFromDate, this.filterToDate).then((result) => {
           this.minListenedToArtist = result;
           if (this.activeTabIndex === 0) {
             this.makeBarChart(this.minListenedToArtist.slice(0, 10));
@@ -203,7 +204,7 @@ export class TopArtistsComponent {
   onBarClicked(artistName: string) {
     if (this.filterFromDate !== null && this.filterToDate !== null) {
       if (this.filterFromDate <= this.filterToDate) {
-        this.spotHistoryRepo.getListeningHistoryOfArtist(artistName, this.filterFromDate, this.filterToDate).then((result) => {
+        this.spotTopArtistsRepo.getListeningHistoryOfArtist(artistName, this.filterFromDate, this.filterToDate).then((result) => {
           this.selectedArtistName = artistName;
           this.selectedArtistHistory = result;
           this.showArtistHistoy = true;

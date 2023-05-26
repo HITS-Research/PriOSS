@@ -53,7 +53,15 @@ export class DBService {
       let consistency: capSQLiteResult = await  this.sqlite.checkConnectionsConsistency();
       console.log('>>> Connection consistency: ' + consistency.result);
       let dbOpen: capSQLiteResult = await db.isDBOpen();
+      
+      
       console.log('>>> DB open: ' + dbOpen.result);
+      while(!dbOpen.result)
+      {
+        await db.open();
+        dbOpen = await db.isDBOpen();
+        console.log('>>> DB open: ' + dbOpen.result);
+      }
    
       let cb = await callback(db);
 
