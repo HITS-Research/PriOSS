@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormBuilder, UntypedFormGroup } from '@angular/forms';
 import { SpotPrivacySettingsService } from '../spot-privacy-settings.service';
+import { InstaPrivacySettingsService } from '../insta-privacy-settings.service';
+import { FacePrivacySettingsService } from '../face-privacy-settings.service';
 
 
 @Component({
@@ -10,40 +12,74 @@ import { SpotPrivacySettingsService } from '../spot-privacy-settings.service';
 })
 export class SettingsFormComponent {
   settingsForm: UntypedFormGroup;
-  panel = {name: "How to Check ?"}
-
-  settings = {
-    setting1: {
-      Question : "Public Profile?",
-      HowToCheck : "Go to your Spotify settings ... 1",
-      Options : [
-        { label: 'Option 23', value: 'option23', advice: "dont kill yourself" },
-        { label: 'Option 22', value: 'option2', advice: "change it" }
-                ]
-    },
-    setting2: {
-      Question : "Sharing User Data with Spotify ?",
-      HowToCheck : "Go to your Spotify settings ... 2",
-      Options : [
-        { label: 'Option 99', value: 'option23', advice: "welp now google knows it too" },
-        { label: 'Option 98', value: 'option2', advice: "dont care" }
-      ]
-    } }
-
+  index = 0
   selectedOption: any;
-  optionList = this.settings["setting1"]["Options"]
-  question = this.settings["setting2"]["Question"]
-  howToCheck = this.settings["setting2"]["HowToCheck"]
-  selectedValue = { label: 'Option 1', value: 'option1', advice: "" }
+  panel = {name: "How to Check ?"}
+  @Input("service") service: string;
 
-  constructor(private fb: FormBuilder, private spotPrivacySettingsService: SpotPrivacySettingsService) {
+  settings = [
+    {
+      Question : "",
+      HowToCheck : "",
+      Options : [
+        { label: '', value: '', advice: "" },
+        { label: '', value: '', advice: "" }
+                ]
+    }]
+  optionList = this.settings[this.index]["Options"]
+  question = this.settings[this.index]["Question"]
+  howToCheck = this.settings[this.index]["HowToCheck"]
+  selectedValue = { label: 'Option 1', value: 'option1', advice: "" } // needed for clearing the forms options (choices)
+  
+  /**
+   * This method is needed, becausea the "service" value is not available on class initialization. Only later (when the ngOnInit method is started) will it be available
+   * Initializes the privacy settings judge with values for the corresponding service. E.g. Spotify
+   * 
+   * @author: Maximilian (maxy@mail.upb.de)
+   *
+   */
+  ngOnInit() {
+    console.log("service:" + this.service)
+    if(this.service === "Spotify") {
+      this.settings = this.spotPrivacySettingsService.settings
+    }
+    else if(this.service === "Instagram") {
+      this.settings = this.instaPrivacySettingsService.settings
+    }
+    else if(this.service === "Facebook") {
+      this.settings = this.facePrivacySettingsService.settings
+    }
+    this.optionList = this.settings[this.index]["Options"]
+    this.question = this.settings[this.index]["Question"]
+    this.howToCheck = this.settings[this.index]["HowToCheck"]
+    this.selectedValue = { label: 'Option 1', value: 'option1', advice: "" }
   }
 
-  onSubmit() {
-      this.selectedValue = { label: 'Option 1', value: 'option1', advice: "" }
-      this.optionList = this.settings["setting2"]["Options"]
-      this.question = this.settings["setting2"]["Question"]
-      this.howToCheck = this.settings["setting2"]["HowToCheck"]
+  constructor(private fb: FormBuilder, private spotPrivacySettingsService: SpotPrivacySettingsService, 
+    private instaPrivacySettingsService: InstaPrivacySettingsService, private facePrivacySettingsService: FacePrivacySettingsService) {
+  }
+
+
+  onNext() {
+    this.index++;
+    if(this.index >= this.settings.length) {
+      this.index = 0;
+    }
+    this.optionList = this.settings[this.index]["Options"]
+    this.question = this.settings[this.index]["Question"]
+    this.howToCheck = this.settings[this.index]["HowToCheck"]
+    this.selectedValue = { label: 'Option 1', value: 'option1', advice: "" }
+  }
+
+  onPrev() {
+    this.index--;
+    if(this.index < 0) {
+      this.index = this.settings.length-1;
+    }
+    this.optionList = this.settings[this.index]["Options"]
+    this.question = this.settings[this.index]["Question"]
+    this.howToCheck = this.settings[this.index]["HowToCheck"]
+    this.selectedValue = { label: 'Option 1', value: 'option1', advice: "" }
   }
 
   log2(selectedOption: any): void {
