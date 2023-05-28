@@ -1,4 +1,5 @@
 <nz-layout>
+  <jeep-sqlite *ngIf="isWeb"></jeep-sqlite>
   <app-notification></app-notification>
   <!--defines a collapsable slider with a logo-->
   <nz-sider class="menu-sidebar"
@@ -17,45 +18,35 @@
     <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
       <li nz-menu-item nzMatchRouter>
         <span nz-icon nzType="home" nzTheme="outline"></span>
-        <span><a routerLink="/home" (click)="isDashboard = false">Home</a></span>
+        <span><a routerLink="/home">Home</a></span>
       </li>
       <li nz-menu-item nzMatchRouter>
         <span nz-icon nzType="info-circle" nzTheme="outline"></span>
-        <span><a routerLink="/about" (click)="isDashboard = false">About</a></span>
+        <span><a routerLink="/about">About</a></span>
       </li>
       <li nz-menu-item nzMatchRouter>
         <span nz-icon nzType="form" nzTheme="outline"></span>
-        <span><a routerLink="/contact" (click)="isDashboard = false">Contact</a></span>
-      </li>
-      <li nz-submenu nzOpen nzTitle="Development" nzIcon="dashboard">
-        <ul>
-          <li nz-menu-item nzMatchRouter>
-            <a routerLink="/face/dashboard">Facebook</a>
-          </li>
-          <li nz-menu-item nzMatchRouter>
-            <a routerLink="/insta/dashboard">Instagram</a>
-          </li>
-          <li nz-menu-item nzMatchRouter>
-            <a routerLink="/spot/dashboard">Spotify</a>
-          </li>
-        </ul>
+        <span><a routerLink="/contact">Contact</a></span>
       </li>
       <!--this submenu is only shown when on a dashboard-->
       <li *ngIf="isDashboard" nz-submenu nzOpen nzTitle="Dashboard" nzIcon="dashboard">
         <ul>
-          <li nz-menu-item>
+          <li nz-menu-item [nzSelected]="this.isSelected('')">
             <a (click)="navigateAndScroll(pRouter, serviceName + '/dashboard')">Introduction</a>
           </li>
-          <li nz-menu-item>
+          <li nz-menu-item [nzSelected]="this.isSelected('#visualization')">
+            <a routerLink="{{serviceName}}/dashboard" fragment="visualization">Visualization</a>
+          </li>
+          <li nz-menu-item [nzSelected]="this.isSelected('#rectification')">
             <a routerLink="{{serviceName}}/dashboard" fragment="rectification">Rectification</a>
           </li>
-          <li nz-menu-item>
+          <li nz-menu-item [nzSelected]="this.isSelected('#gdpr')">
             <a routerLink="{{serviceName}}/dashboard" fragment="gdpr">GDPR/Rights</a>
           </li>
-          <li nz-menu-item>
+          <li nz-menu-item [nzSelected]="this.isSelected('#purpose')">
             <a routerLink="{{serviceName}}/dashboard" fragment="purpose">Purpose</a>
           </li>
-          <li nz-menu-item>
+          <li nz-menu-item [nzSelected]="this.isSelected('#faq')">
             <a routerLink="{{serviceName}}/dashboard" fragment="faq">Frequently asked questions</a>
           </li>
         </ul>

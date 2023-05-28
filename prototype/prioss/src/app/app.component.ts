@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import * as utilities from 'src/app/utilities/generalUtilities.functions'
+import { SQLiteService } from './services/sqlite/sqlite.service';
 
 @Component({
   selector: 'app-root',
@@ -15,8 +16,29 @@ export class AppComponent {
   isDashboard: boolean = false;
   navigateAndScroll: (router: Router, url: string) => void = utilities.navigateAndScroll;
 
-  constructor(private router: Router) {
+  public isWeb: boolean = false;
+  private initPlugin: boolean;
+
+  constructor(private router: Router, private sqlite: SQLiteService) {
     this.pRouter = router;
+
+    this.sqlite.initializePlugin().then(async (ret) => {
+      this.initPlugin = ret;
+
+      if( this.sqlite.platform === "web") {
+        this.isWeb = true;
+        await customElements.whenDefined('jeep-sqlite');
+        const jeepSqliteEl = document.querySelector('jeep-sqlite');
+        if(jeepSqliteEl != null) {
+          await this.sqlite.initWebStore();
+          console.log(`>>>> isStoreOpen ${await jeepSqliteEl.isStoreOpen()}`);
+        } else {
+          console.log('>>>> jeepSqliteEl is null');
+        }
+      }
+
+      console.log('>>>> in App  this.initPlugin ' + this.initPlugin);
+    });
   }
 
   /**
@@ -40,6 +62,22 @@ export class AppComponent {
         this.serviceName = 'spot';
         this.isDashboard = true;
         break;
+      case '/serviceSelection':
+        this.isDashboard = false;
+        break;
     }
+  }
+
+  /**
+   * This method checks if the current url contains a specific fragment
+   * 
+   * @param fragment the fragment or section to be checked
+   * @returns true, if the fragment is contained in the dashboard url
+   *          false, if not
+   *
+   * @author: Paul (pasch@mail.upb.de)
+   */
+  isSelected(fragment: string): boolean {
+    return this.router.url === '/' + this.serviceName + '/dashboard' + fragment;
   }
 }

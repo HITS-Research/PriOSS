@@ -1,3 +1,4 @@
+
 .t-explanation
 {
     text-align: center;
@@ -52,15 +53,21 @@
     color: #262626;
 }
 
+/* 
+ * Buttons
+ */
+.t-buttons-container 
+{
+    text-align: right;
+}
+
 //the explore data button
 .t-explore-data-btn
 {
     margin-top: 10px;
     display: block;
-    float: right;
-    display: flex;
-    align-items: center;
-    justify-content: right;
+    margin-right: 0;
+    margin-left: auto;
 }
 
 .input-hidden 
@@ -122,5 +129,24 @@ input[type=radio]:checked + label>img
     {
         width: 200px;
     }
+}
+
+//disclaimer div
+.selection-disclaimer 
+{
+    margin: 20px 15px;
+    border-style: solid;
+    border-color: red;
+    border-width: 1.5px;
+
+    p
+    {
+        font-size: 18px;
+    }
+}
+
+//disclaimer content
+.disclaimer-content {
+    margin: 20px 20px;
 }
 

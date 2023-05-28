@@ -24,6 +24,27 @@
     </div>
   </div>
 
+  <nz-modal id="progress-bar-dialog"
+      [(nzVisible)]="progressBarVisible"
+      [nzTitle]="progressBarTitle"
+      [nzContent]="progressBarContent"
+      [nzFooter]="modalFooter"
+      (nzOnCancel)="abortDataParsing()"
+      nzCentered>
+      
+    <ng-template #progressBarTitle>
+      Reading in your data-download...
+    </ng-template>
+
+    <ng-template #progressBarContent>
+      <nz-progress [nzPercent]="progressBarPercent"></nz-progress>
+    </ng-template>
+
+    <ng-template #modalFooter>
+        <span>Please wait, this can take a short while...</span>
+    </ng-template>
+  </nz-modal>
+
   <div class="instructions row">
     <h5 *ngIf="!selectedServiceName" class="t-explanation">
       You have the right to download the personal data that an online service collected about you from it.
@@ -48,11 +69,12 @@
       </div>
       <div class="t-buttons-container">
         <button class="t-btn t-explore-data-btn" (click)="onClickedExploreData()">
-          <div class="spinner-border" *ngIf="isProcessingFile">
-            <span class="sr-only">Loading...</span>
-          </div>
-          <fa-icon *ngIf="!isProcessingFile" [icon]="faCircleRight"></fa-icon>
-          <span style="margin-left:5px;">Explore Data  </span>
+          <fa-icon [icon]="faCircleRight"></fa-icon>
+          <span style="margin-left:5px;">Explore My Data  </span>
+        </button>
+        <button class="t-btn t-explore-data-btn" (click)="onClickedExploreSampleData()">
+          <fa-icon [icon]="faCircleRight"></fa-icon>
+          <span style="margin-left:5px;">Continue with Sample Data </span>
         </button>
       </div>
     </div>
@@ -60,6 +82,16 @@
     <h5 *ngIf="selectedServiceName">Download Instructions:</h5>  
     
     <div class="instructions-content col-md-12" id="instagram-instructions" *ngIf="selectedServiceName === appType.Instagram">
+      <div class="selection-disclaimer">
+        <div class="disclaimer-content">
+          <h4>Disclaimer!</h4>
+
+          <p>Unfortunately it is impossible to use the data download option directly in the 'Instagram' app because it only allows
+            the user to download the data as an 'HTML' file. To visualize your data we need it packed into different 'json' files.<br>
+            Therefore please follow the upcomming instructions on how to download your data via an internet browser.</p>
+        </div>
+      </div>
+
       <ol>
         <li>
           <span>Log in to your account, click your profile picture and select <b><i>Settings</i></b>.</span><br>

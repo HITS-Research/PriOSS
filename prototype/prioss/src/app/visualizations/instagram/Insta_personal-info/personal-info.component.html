@@ -1,24 +1,30 @@
 <div [ngClass]="{'component-page': !previewMode}">
   <!--in previewmode only a small table with personal information is shown-->
   <div *ngIf="previewMode">
-    <nz-table nzTemplateMode>
-      <thead>
-        <tr>
-          <th>Categories</th>
-          <th>Information</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let pair of getObjectPairs(personalInfo) | slice:0:getObjectPairs(personalInfo).length-1">
-          <!-- the part after the | in the *ngFor is responsible for cutting of the last element in userdata, which is the database index -->
-          <td>{{ capitalizeAndPrettify(pair[0]) }}</td>
-          <td>{{ pair[1] }}</td>
-        </tr>
-      </tbody>
-    </nz-table>
+    <div *ngIf="personalInfo !== undefined">
+      <nz-row [nzGutter]="16">
+          <nz-col [nzSpan]="12">
+          <nz-statistic [nzValue]="(personalInfo.username)!" [nzTitle]="'Username'"></nz-statistic>
+          </nz-col>
+          <nz-col [nzSpan]="12">
+          <nz-statistic [nzValue]="(personalInfo.birthdate)!" [nzTitle]="'Birthdate'"></nz-statistic>
+          </nz-col>
+      </nz-row>
+      <nz-row [nzGutter]="16">
+          <nz-col [nzSpan]="12">
+              <nz-statistic [nzValue]="(personalInfo.email)!" [nzTitle]="'Email'"></nz-statistic>
+          </nz-col>
+      </nz-row>
+    </div>
   </div>
   <!--when not in previewmode the whole page is rendered-->
   <div *ngIf="!previewMode">
+    <nz-breadcrumb>
+      <nz-breadcrumb-item>
+        <a [routerLink]="['../dashboard/']">Dashboard</a>
+      </nz-breadcrumb-item>
+      <nz-breadcrumb-item>Personal Information</nz-breadcrumb-item>
+    </nz-breadcrumb>
     <h2 nz-typography>Personal Information</h2>
     <p nz-typography>
       This following table shows the personal information that was collected by Instagram.
@@ -30,14 +36,13 @@
           <th>Information</th>
         </tr>
       </thead>
-      <tbody>
-        <tr *ngFor="let pair of getObjectPairs(personalInfo) | slice:0:getObjectPairs(personalInfo).length-1">
-          <!-- the part after the | in the *ngFor is responsible for cutting of the last element in userdata, which is the database index -->
+      <!--waits for the personal data to be loaded-->
+      <tbody *ngIf="personalInfo !== undefined && accountInfo !== undefined && professionalInfo !== undefined">
+        <tr *ngFor="let pair of getObjectPairs(personalInfo)">
           <td>{{ capitalizeAndPrettify(pair[0]) }}</td>
           <td>{{ pair[1] }}</td>
         </tr>
-        <tr *ngFor="let pair of getObjectPairs(accountInfo) | slice:0:getObjectPairs(accountInfo).length-1">
-          <!-- the part after the | in the *ngFor is responsible for cutting of the last element in userdata, which is the database index -->
+        <tr *ngFor="let pair of getObjectPairs(accountInfo)">
           <td>{{ capitalizeAndPrettify(pair[0]) }}</td>
           <td>{{ convertTimestamp(pair[1]) }}</td>
         </tr>

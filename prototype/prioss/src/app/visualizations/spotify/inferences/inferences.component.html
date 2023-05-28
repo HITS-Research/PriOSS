@@ -9,35 +9,53 @@
     </nz-table>
   </div>
   <div *ngIf="!previewMode">
-    <nz-table #nzTable [nzData]="listOfInferences" nzTableLayout="fixed">
+    <nz-breadcrumb>
+      <nz-breadcrumb-item>
+        <a [routerLink]="['../dashboard/']">Dashboard</a>
+      </nz-breadcrumb-item>
+      <nz-breadcrumb-item>Inferences</nz-breadcrumb-item>
+    </nz-breadcrumb>
+    <!-- https://stackoverflow.com/questions/73631070/how-to-set-scrollable-content-dinamically-in-ng-zorro-table -->
+    <h1 style="position: relative;">Inferences
+      <span nz-tooltip nzTooltipTitle="An Inference is a topic of interest or information that Spotify has infered about you. 
+      They're used for marketing or advertising purposes and to curate and create content. 
+      First-party (1P_) inferences are created by Spotify. Third-Party (3P_) inferences come from other services like Facebook.">
+        <span nz-icon nzType="info-circle" nzTheme="outline" style="font-size: 16px; vertical-align: .7rem;">
+        </span>
+      </span>
+    </h1>
+    <nz-table #rowSelectionTable [nzData]="listOfInferences" [nzPageSize]="50000" [nzFooter]="footerTemplate"
+      [nzScroll]="{ y: 'calc(100vh - 369px)' }" [nzShowPagination]="false">
       <thead>
         <tr>
-          <th nzCustomFilter>
-            Inference
-            <nz-filter-trigger [(nzVisible)]="visible" [nzActive]="searchValue.length > 0" [nzDropdownMenu]="menu">
-              <span nz-icon nzType="search"></span>
-            </nz-filter-trigger>
+          <th nzWidth="5%" [(nzChecked)]="checked" [nzIndeterminate]="indeterminate"
+            (nzCheckedChange)="onAllChecked($event)"></th>
+          <th nzWidth="90%">
+            <nz-input-group [nzSuffix]="suffixIconSearch">
+              <input type="text" #searchText nz-input placeholder="Search your inferences"
+                (keyup)="search(searchText.value)" />
+              <ng-template #suffixIconSearch>
+                <button nz-button nzType="text" (click)="reset()"><span nz-icon nzType="close"></span></button>
+              </ng-template>
+            </nz-input-group>
           </th>
-          <th nzRight>Action</th>
+          <th nzWidth="5%">
+            <span nz-tooltip nzTooltipTitle="Create a rectification email with all selected inferences. Rectifying inferences means to request Spotify to delete inferences that you think are incorrect about yourself."><button
+                nz-button nzType="default" nzSize="large" [disabled]="setOfCheckedId.size === 0"
+                (click)="rectifyInferences()"><span nz-icon nzType="delete"></span></button></span>
+          </th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let inference of nzTable.data">
-          <td>{{ inference.inference }}</td>
-          <td nzRight>
-            <a (click)="handleClick(inference.inference)">Rectify</a>
-          </td>
+        <tr *ngFor="let data of rowSelectionTable.data">
+          <td [nzChecked]="setOfCheckedId.has(data.id)" (nzCheckedChange)="onItemChecked(data.id, $event)"></td>
+          <td>{{ data.inference }}</td>
+          <td></td>
         </tr>
       </tbody>
+      <ng-template #footerTemplate>
+        <tfoot>{{setOfCheckedId.size}}/{{rowSelectionTable.nzData.length}}</tfoot>
+      </ng-template>
     </nz-table>
-    <nz-dropdown-menu #menu="nzDropdownMenu">
-      <div class="ant-table-filter-dropdown">
-        <div class="search-box">
-          <input type="text" nz-input placeholder="Search name" [(ngModel)]="searchValue" />
-          <button nz-button nzSize="small" nzType="primary" (click)="search()" class="search-button">Search</button>
-          <button nz-button nzSize="small" (click)="reset()">Reset</button>
-        </div>
-      </div>
-    </nz-dropdown-menu>
   </div>
 </div>

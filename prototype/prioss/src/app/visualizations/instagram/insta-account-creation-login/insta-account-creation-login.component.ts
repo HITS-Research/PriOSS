@@ -21,6 +21,11 @@ export class InstaAccountCreationLoginComponent{
   login_logout_activities: Login_Logout_Actvity_Output[] = [];
   signup_information: SignUp_Information;
 
+  login_amount: number=0;
+  logout_amount: number=0;
+  most_used_device_amount: number=0;
+  most_used_device: string="";
+
   constructor(private dbService: NgxIndexedDBService)
   {
 
@@ -77,12 +82,14 @@ export class InstaAccountCreationLoginComponent{
 
       // Assigning login data values to local variable 
       let login_data = results[0] as Login_Logout_Actvity_Fetch[];
+      this.login_amount = login_data.length;
 
       // Assigning logout data values to local variable 
       let logout_data = results[1] as Login_Logout_Actvity_Fetch[];
+      this.logout_amount = logout_data.length;
       
       // Checking if login and logout data is present or not
-      if(login_data.length > 0 || logout_data.length > 0) {
+      if(this.login_amount > 0 || this.logout_amount > 0) {
 
         // Fetching each row value and assigning it to new variable with additional parameters
         login_data.forEach((record: Login_Logout_Actvity_Fetch) => {
@@ -107,10 +114,11 @@ export class InstaAccountCreationLoginComponent{
             device: this.getDeviceNameBasedOnUserAgent(record.user_agent),
             type: "Logout",
             color: "red"
-          }
-          this.login_logout_activities.push(item)
+          };
+          this.login_logout_activities.push(item);
         });
-        this.sortLoginLogoutData()
+        this.sortLoginLogoutData();
+        this.mostUsedDevice();
       }
     }).catch(error => {
         console.log("Error occurred while fetching login and logout data")
@@ -125,6 +133,32 @@ export class InstaAccountCreationLoginComponent{
     }
   }
 
+  /**
+  * Returns the most used device.
+  * @returns the string of the most used device and the amout of time it appears
+  *
+  * @author: Melina (kleber@mail.uni-paderborn.de )
+  */
+  mostUsedDevice() {
+    const activityAmounts: { [id: string] : number; } = {};
+    let mostUsedDevice: string = '';
+    let mostUsedAmount: number = 0;
+    this.login_logout_activities.forEach((login_logout_activity)=>{
+      if( activityAmounts[login_logout_activity.device] > 0){
+        activityAmounts[login_logout_activity.device] = activityAmounts[login_logout_activity.device] + 1;
+      }else{
+        activityAmounts[login_logout_activity.device] = 1;
+      }
+
+      if(activityAmounts[login_logout_activity.device] > mostUsedAmount){
+        mostUsedAmount = activityAmounts[login_logout_activity.device];
+        mostUsedDevice = login_logout_activity.device;
+      }
+    });
+    this.most_used_device = mostUsedDevice;
+    this.most_used_device_amount = mostUsedAmount;
+  }
+
   // Returning device type value based on user agent value
   getDeviceNameBasedOnUserAgent(user_agent: string): string {
     if(user_agent.includes("Mac OS")) {
@@ -133,6 +167,8 @@ export class InstaAccountCreationLoginComponent{
       return "iPhone"
     } else if (user_agent.includes("Android")) {
       return "Android"
+    } else if (user_agent.match(/(Chrome)|(Safari)/g)) {
+      return "Webbrowser"
     }
     return "Unknown Device"
   }
