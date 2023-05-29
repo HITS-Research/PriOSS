@@ -10,6 +10,7 @@ import { SpotYearlyListening } from 'src/app/models/Spotify/ListeningHistory/Spo
 import { SpotMonthlyListening } from 'src/app/models/Spotify/ListeningHistory/SpotMonthlyListening';
 import { SpotHourlyListening } from 'src/app/models/Spotify/ListeningHistory/SpotHourlyListening';
 import { SpotDailyListening } from 'src/app/models/Spotify/ListeningHistory/SpotDailyListening';
+import { SequenceComponentInit } from '../../sequence-component-init.abstract';
 
 /**
   * This component visualizes the total listening time in relation to configurable time periods
@@ -22,7 +23,7 @@ import { SpotDailyListening } from 'src/app/models/Spotify/ListeningHistory/Spot
   templateUrl: './listening-time.component.html',
   styleUrls: ['./listening-time.component.less']
 })
-export class ListeningTimeComponent {
+export class ListeningTimeComponent extends SequenceComponentInit {
 
   @Input()
   previewMode: boolean = false;
@@ -58,31 +59,47 @@ export class ListeningTimeComponent {
   history: any;
 
   constructor(private spotHistoryRepo: SpotHistoryRepository, private dbService: NgxIndexedDBService, private notifyService: NotificationService) {
+    super();
 
-    this.initializeVisualization();
+   
   }
+
+/**
+  * A Callback called by angular when the views have been initialized
+  * It handles the initialization when the component is displayed on its own dedicated page.
+  *
+  * @author: Simon (scg@mail.upb.de)
+  */
+  ngAfterViewInit()
+  {
+    console.log("--- Preview Mode: " + this.previewMode);
+    if (!this.previewMode)
+    {
+      this.initComponent();
+    }
+  }
+
 /**
   * Displays the initial version of the visulaization and calculates the year and month based data for later reuse
   *
   * @author: Simon (scg@mail.upb.de)
   */
-  async initializeVisualization() {
+  override async initComponent(): Promise<void> {
+
+    console.log("--- Initializing Component 2: ListeningTime");
 
     //Shows the single day view first because it takes less time to build than year/month/day views,
     //this gives us time to parse and compile the data needed for the year, month and day views
     this.selectedGranularity = GranularityEnum.Year;
 
-    await this.createYearData().then((dataMap) => {
-      this.yearDataMap = dataMap;
-    });
+    let dataMap = await this.createYearData();
+    this.yearDataMap = dataMap;
 
     await this.recreateVisualization();
     this.isFirstVisualizationRun = false;
 
-    //async method calls, run in background
-    this.createMonthData().then((dataMap) => {
-        this.monthDataMap = dataMap;
-      });
+    dataMap = await this.createMonthData();
+    this.monthDataMap = dataMap;
   }
 
   /**

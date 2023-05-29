@@ -3,6 +3,7 @@ import * as d3 from "d3";
 import {SpotHistoryRepository} from "../../../db/data-repositories/spotify/spot-history/spot-history.repository";
 import {NotificationService} from "../../../notification/notification.component";
 import { SpotMinListenedToSong } from 'src/app/models/Spotify/TopSong/SpotMinListenedToSong';
+import { SequenceComponentInit } from '../../sequence-component-init.abstract';
 
 /**
  * This component visualizes which songs have been listened the most to
@@ -15,7 +16,7 @@ import { SpotMinListenedToSong } from 'src/app/models/Spotify/TopSong/SpotMinLis
   templateUrl: './top-songs.component.html',
   styleUrls: ['./top-songs.component.less']
 })
-export class TopSongsComponent {
+export class TopSongsComponent extends SequenceComponentInit {
 
   readonly spotifyGreen: string = "#1DB954";
   @Input()
@@ -31,7 +32,19 @@ export class TopSongsComponent {
   selectedSongHistory: any[];
 
   constructor(private spotHistoryRepo: SpotHistoryRepository, private notifyService: NotificationService) {
-    this.initializeVisualisation()
+    super();
+  }
+
+/**
+  * A Callback called by angular when the views have been initialized
+  * It handles the initialization when the component is displayed on its own dedicated page.
+  *
+  * @author: Simon (scg@mail.upb.de)
+  */
+  ngAfterViewInit() {
+    if(!this.previewMode) {
+      this.initComponent();
+    }
   }
 
   /**
@@ -40,9 +53,9 @@ export class TopSongsComponent {
    * @author: Jonathan (jvn@mail.upb.de))
    *
    */
-  async initializeVisualisation() {
+  override async initComponent() {
     //await new Promise(f => setTimeout(f, 1000));  // TODO: fix
-    console.log('>> initializing songs visualization');
+    console.log("--- Initializing Component 4: TopSongs");
     this.filterFromDate = await this.spotHistoryRepo.getFirstDay();
     this.filterToDate = await this.spotHistoryRepo.getMostRecentDay();
 
