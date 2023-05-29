@@ -24,5 +24,4 @@ export abstract class SequenceComponentInit {
     await this.initComponent();
     parentDashboard.notifyInitializationComplete(initID);
   }
-  
 }

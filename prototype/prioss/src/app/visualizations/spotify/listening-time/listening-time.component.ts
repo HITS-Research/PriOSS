@@ -60,8 +60,6 @@ export class ListeningTimeComponent extends SequenceComponentInit {
 
   constructor(private spotHistoryRepo: SpotHistoryRepository, private dbService: NgxIndexedDBService, private notifyService: NotificationService) {
     super();
-
-   
   }
 
 /**
@@ -102,20 +100,20 @@ export class ListeningTimeComponent extends SequenceComponentInit {
     this.monthDataMap = dataMap;
   }
 
-  /**
-    * Callback that handles updating the visualization after the user changed the date filters of the chart
-    *
-    * @author: Simon (scg@mail.upb.de)
-    */
+/**
+  * Callback that handles updating the visualization after the user changed the date filters of the chart
+  *
+  * @author: Simon (scg@mail.upb.de)
+  */
   onDateFilterChanged() {
     this.recreateVisualization();
   }
 
-  /**
-    * Callback that handles updating the visualization after the user changed the granularity of the chart
-    *
-    * @author: Simon (scg@mail.upb.de)
-    */
+/**
+  * Callback that handles updating the visualization after the user changed the granularity of the chart
+  *
+  * @author: Simon (scg@mail.upb.de)
+  */
   onGranularityChanged() {
     this.filterFromDate = null;
     this.filterToDate = null;

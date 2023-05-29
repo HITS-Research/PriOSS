@@ -47,9 +47,9 @@ export class SpotDashboardComponent extends BaseDashboard {
   ];
 
   //Components to Initialize Sequentially
-  @ViewChild(ListeningTimeComponent) spotListeningTime : ListeningTimeComponent;
   @ViewChild(GeneralDataComponent) spotGeneralData : GeneralDataComponent;
   @ViewChild(InferencesComponent) spotInferences : InferencesComponent;
+  @ViewChild(ListeningTimeComponent) spotListeningTime : ListeningTimeComponent;
   @ViewChild(TopArtistsComponent) spotTopArtists : TopArtistsComponent;
   @ViewChild(TopSongsComponent) spotTopSongs : TopSongsComponent;
 

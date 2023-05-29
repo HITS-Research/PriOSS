@@ -17,8 +17,6 @@ import { SequenceComponentInit } from '../../sequence-component-init.abstract';
   templateUrl: './top-artists.component.html',
   styleUrls: ['./top-artists.component.less']
 })
-
-
 export class TopArtistsComponent extends SequenceComponentInit {
 
   readonly spotifyGreen: string = "#1DB954";
