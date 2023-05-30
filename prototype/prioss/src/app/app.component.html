@@ -15,7 +15,7 @@
       </a>
     </div>
     <!--adding menu items-->
-    <ul nz-menu nzTheme="light" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
+    <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
       <li nz-menu-item nzMatchRouter>
         <span nz-icon nzType="home" nzTheme="outline"></span>
         <span><a routerLink="/home">Home</a></span>
@@ -27,19 +27,6 @@
       <li nz-menu-item nzMatchRouter>
         <span nz-icon nzType="form" nzTheme="outline"></span>
         <span><a routerLink="/contact">Contact</a></span>
-      </li>
-      <li nz-submenu nzOpen nzTitle="Development" nzIcon="dashboard">
-        <ul>
-          <li nz-menu-item nzMatchRouter>
-            <a routerLink="/face/dashboard">Facebook</a>
-          </li>
-          <li nz-menu-item nzMatchRouter>
-            <a routerLink="/insta/dashboard">Instagram</a>
-          </li>
-          <li nz-menu-item nzMatchRouter>
-            <a routerLink="/spot/dashboard">Spotify</a>
-          </li>
-        </ul>
       </li>
       <!--this submenu is only shown when on a dashboard-->
       <li *ngIf="isDashboard" nz-submenu nzOpen nzTitle="Dashboard" nzIcon="dashboard">

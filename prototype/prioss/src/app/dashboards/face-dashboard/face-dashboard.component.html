@@ -12,19 +12,28 @@
 <div id="fstep80"> <h2  nz-typography id="visualization">Visualization</h2> </div>
 <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
     <div id="fStep20" nz-col nzXs="24" nzXl="8">
-      <nz-card nzTitle="Advertisements" nzHoverable  (click)="adsData()">
+      <nz-card nzTitle="Advertisements" nzHoverable [nzExtra]="extraAds">
         <app-ads-related-data [previewMode]="true"></app-ads-related-data>
       </nz-card>
+      <ng-template #extraAds>
+        <a routerLink="/face/ads-related-data">More</a>
+      </ng-template>
     </div>
     <div id="fStep21" nz-col nzXs="24" nzXl="8">
-      <nz-card nzTitle="Your topics" nzHoverable (click)="navigateToInferredTopics()">
+      <nz-card nzTitle="Your topics" nzHoverable [nzExtra]="extraTopic">
         <app-inferred-topics [previewMode]="true"></app-inferred-topics>
       </nz-card>
+      <ng-template #extraTopic>
+        <a routerLink="/face/inferred-topics">More</a>
+      </ng-template>
     </div>
     <div id="fStep22" nz-col nzXs="24" nzXl="8">
-      <nz-card nzTitle="Friends and followers" nzHoverable (click)="navigateToFriendsAndFollowers()">
+      <nz-card nzTitle="Facebook Connections" nzHoverable [nzExtra]="extraConnections">
         <app-friend-and-followers [previewMode]="true"></app-friend-and-followers>
       </nz-card>
+      <ng-template #extraConnections>
+        <a routerLink="/face/connections">More</a>
+      </ng-template>
     </div>
 </div>
 <br>
@@ -35,7 +44,7 @@
   <p nz-typography>
     Follow the instructions to object the use of your personal data to show you ads.
   </p>
-  <h6>  Visit the webpage and follow the instruction steps: <a href='https://www.facebook.com/help/contact/367438723733209'>Facebook Help Center</a> </h6>
+  <h6>  Visit the webpage and follow the instruction steps: <span nz-icon nzType="link"><a target="_blank" href='https://www.facebook.com/help/contact/367438723733209'>Facebook Help Center</a></span> </h6>
   <br>
   <nz-steps [nzCurrent]="current">
     <nz-step nzTitle="Step 1"></nz-step>
@@ -74,9 +83,12 @@
   <h2 nz-typography id="fStep30">Mange Privacy</h2>
   <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
     <div id="fStep20" nz-col nzXs="24" nzXl="8">
-      <nz-card nzTitle="Configure Off-Facebook Activity" nzHoverable  (click)="navigateToOFA()">
+      <nz-card nzTitle="Configure Off-Facebook Activity" nzHoverable  [nzExtra]="extraPrivacy">
         <p>This section provides you guidelines to Turn OFF your Off-Facebook Activity.</p>
       </nz-card>
+      <ng-template #extraPrivacy>
+        <a routerLink="/face/configure-off-facebook-activity">More</a>
+      </ng-template>
     </div>
   </div>
 </div>
@@ -130,7 +142,7 @@
 <div id="purpose">
   <h2 nz-typography id="fStep50">Purposes for Data Collection</h2>
   <p nz-typography>
-    The following purposes should give an example of Facebook's purpose to collect personal data. To Get a full list of their reasons you can check out Facebook's <a href="https://www.facebook.com/privacy/policy">privacy policy</a>
+    The following purposes should give an example of Facebook's purpose to collect personal data. To Get a full list of their reasons you can check out Facebook's <span nz-icon nzType="link"><a target="_blank" href="https://www.facebook.com/privacy/policy">privacy policy</a></span>
     <br></p>
     <nz-table nzTemplateMode>
       <thead>
@@ -142,19 +154,19 @@
       <tbody>
         <tr>
           <td>To provide, personalise and improve our products</td>
-          <td>Posts, comments. messages, hashtags, the time, frequency and duration of your activities on Facebook. For more information follow this <a href="https://www.facebook.com/privacy/policy/?subpage=1.subpage.1-YourActivityAndInformation">link</a></td>
+          <td>Posts, comments. messages, hashtags, the time, frequency and duration of your activities on Facebook. For more information follow this <span nz-icon nzType="link"><a target="_blank" href="https://www.facebook.com/privacy/policy/?subpage=1.subpage.1-YourActivityAndInformation">link</a></span></td>
         </tr>
         <tr>
           <td>To promote safety, security and integrity</td>
-          <td>The device and software you're using, signals from your device, GPS location. For more information follow this <a href="https://www.facebook.com/privacy/policy/?subpage=2.subpage.8-PromotingSafetySecurityAnd">link</a></td>
+          <td>The device and software you're using, signals from your device, GPS location. For more information follow this <span nz-icon nzType="link"><a target="_blank" href="https://www.facebook.com/privacy/policy/?subpage=2.subpage.8-PromotingSafetySecurityAnd">link</a></span></td>
         </tr>
         <tr>
           <td>To provide measurement, analytics and business services</td>
-          <td>Your device information, websites that you visit and cookie data, apps you use, games you play, purchases and transactions you make, the ads you see and how you interact with them. For more information follow this <a href="https://www.facebook.com/privacy/policy/?subpage=1.subpage.4-InformationFromPartnersVendors">link</a></td>
+          <td>Your device information, websites that you visit and cookie data, apps you use, games you play, purchases and transactions you make, the ads you see and how you interact with them. For more information follow this <span nz-icon nzType="link"><a target="_blank" href="https://www.facebook.com/privacy/policy/?subpage=1.subpage.4-InformationFromPartnersVendors">link</a></span></td>
         </tr>
         <tr>
           <td>To communicate with you</td>
-          <td>Contact information, settings data and other information related to your friends and followers on Facebook. For more information follow this <a href="https://www.facebook.com/privacy/policy/?subpage=2.subpage.12-CommunicatingWithYouWe">link</a></td>
+          <td>Contact information, settings data and other information related to your friends and followers on Facebook. For more information follow this <span nz-icon nzType="link"><a target="_blank" href="https://www.facebook.com/privacy/policy/?subpage=2.subpage.12-CommunicatingWithYouWe">link</a></span></td>
         </tr>
       </tbody>
     </nz-table>
