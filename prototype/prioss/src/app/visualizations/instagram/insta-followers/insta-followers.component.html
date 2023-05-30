@@ -1,7 +1,22 @@
 <div [ngClass]="{'component-page': !previewMode}">
     <!--only shows a preview of the visualization-->
     <div *ngIf="previewMode">
-        <p>Test</p>
+            <nz-row [nzGutter]="16">
+                <nz-col [nzSpan]="12">
+                <nz-statistic [nzValue]="(42|number)!" [nzTitle]="'Number of followers'"></nz-statistic>
+                </nz-col>
+                <nz-col [nzSpan]="12">
+                <nz-statistic [nzValue]="(42| number)!" [nzTitle]="'Number of following accounts'"></nz-statistic>
+                </nz-col>
+            </nz-row>
+            <nz-row [nzGutter]="16">
+                <nz-col [nzSpan]="12">
+                    <nz-statistic [nzValue]="(42 | number)!" [nzTitle]="'Number of advertisment interests'"></nz-statistic>
+                </nz-col>
+                <nz-col [nzSpan]="12">
+                    <nz-statistic [nzValue]="(42| number)!" [nzTitle]="'Number of advertisments viewed'"></nz-statistic>
+                </nz-col>
+            </nz-row>
     </div>
     <!--only shows when visiting the page-->
     <div *ngIf="!previewMode">
@@ -12,6 +27,34 @@
             <nz-breadcrumb-item>Followers</nz-breadcrumb-item>
         </nz-breadcrumb>
 
-        <h2 nz-typography>Followers</h2>
+        <h3 nz-typography>Highlights</h3>
+        <p>The below displays the advertisment highlights for your Instagram data. </p>
+            <nz-row [nzGutter]="16">
+                <nz-col [nzSpan]="12">
+                <nz-statistic [nzValue]="(42|number)!" [nzTitle]="'Number of followers'"></nz-statistic>
+                </nz-col>
+                <nz-col [nzSpan]="12">
+                <nz-statistic [nzValue]="(42| number)!" [nzTitle]="'Number of following accounts'"></nz-statistic>
+                </nz-col>
+            </nz-row>
+            <nz-row [nzGutter]="16">
+                <nz-col [nzSpan]="12">
+                    <nz-statistic [nzValue]="(42 | number)!" [nzTitle]="'Number of advertisment interests'"></nz-statistic>
+                </nz-col>
+                <nz-col [nzSpan]="12">
+                    <nz-statistic [nzValue]="(42| number)!" [nzTitle]="'Number of advertisments viewed'"></nz-statistic>
+                </nz-col>
+            </nz-row>
+            <br>
+
+        <h3 nz-typography>Followers</h3>
+        <p nz-typography>
+            The following graph visualizes all follower or following relations with you.</p>
+            <strong>Relations:   </strong>
+            <nz-tag *ngFor="let tag of graphOptions" nzMode="checkable" [nzChecked]="selectedTags.indexOf(tag) > -1" 
+                (nzCheckedChange)="handleChange($event, tag)">
+                {{ tag }}
+            </nz-tag>
+        <div id="cy"></div>
     </div>
 </div>
