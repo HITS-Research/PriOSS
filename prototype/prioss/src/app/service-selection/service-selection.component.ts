@@ -24,6 +24,7 @@ import { InstaAdsClickedRepository } from '../db/data-repositories/instagram/ins
 import { InstaAdsViewedRepository } from '../db/data-repositories/instagram/insta-ads/insta-ads-viewed.repository';
 
 import { UserdataRepository } from '../db/data-repositories/general/userdata/userdata.repository';
+import { InferredTopicsRepository } from '../db/data-repositories/facebook/fb-inferred-data/face_inferred_topics.repo';
 
 //service identifier filenames
 const instaIDFilename = "TODO";
@@ -87,7 +88,8 @@ export class ServiceSelectionComponent {
               private instaAdsClickedRepo: InstaAdsClickedRepository,
               private instaAdsViewedRepo: InstaAdsViewedRepository,
               private sqlDBService: DBService, 
-              private http: HttpClient) {
+              private http: HttpClient,
+              private inferredTopicsDataRepo: InferredTopicsRepository) {
 
     //clear the database when this component gets created
     this.dbService.clear("all/userdata").subscribe((deleted) => {
@@ -369,8 +371,55 @@ export class ServiceSelectionComponent {
     }
     else if (selectedApp == this.appType.Facebook) {
       console.log("Parsing Facebook file...");
-      this.parseFacebookFile();
+      this.parseFacebookFileToSQLite();
     }
+  }
+
+  async parseFacebookFileToSQLite() {
+    let file = this.uploadedFiles[0];
+
+    let zip: JSZip = await this.loadZipFile(file);
+
+    this.isProcessingFile = true;//shows the processing icon on the button
+
+    this.progressBarPercent = 0;
+    this.progressBarVisible = true;
+
+    let filepaths: string[] = Object.keys(zip.files);
+    for (let i = 0; i < filepaths.length; i++) {
+      if (this.requestedAbortDataParsing) {
+        this.requestedAbortDataParsing = false;
+        return;
+      }
+      this.progressBarPercent = Math.round(100 * (i / filepaths.length));
+
+      let filepath: string = filepaths[i];
+      let content: string = await zip.files[filepath].async("string");
+      let filename: string | undefined = filepath.split('\\').pop()?.split('/').pop();
+
+      if (!filename) {
+        continue;
+      }
+      console.log('Opening: ' + filename);
+
+      if (filename == "your_topics.json") {
+        console.log('Parsing: ' + filename);
+        
+        let jsonData = JSON.parse(content);
+        await this.inferredTopicsDataRepo.addInferredTopics(jsonData[0], jsonData.length);
+        
+      }
+      
+    }
+    console.log("Start topics Fetching");
+    this.inferredTopicsDataRepo.getAllInferredTopics().then((topics) => {
+      console.log("Read topics:");
+      console.log(topics);
+    });
+    this.progressBarPercent = 100;
+    await delay(500);
+
+    this.progressBarVisible = false;
   }
 
 
