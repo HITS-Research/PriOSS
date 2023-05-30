@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component,OnInit, Inject, HostListener } from '@angular/core';
+import { ViewportScroller } from "@angular/common";
 import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { faCircleRight } from '@fortawesome/free-regular-svg-icons'
 import { faArrowRotateRight } from '@fortawesome/free-solid-svg-icons'
@@ -57,6 +58,7 @@ export class ServiceSelectionComponent {
   faCircleRight = faCircleRight;
   faArrowRotateRight = faArrowRotateRight;
   isProcessingFile = false;
+  pageYoffset = 0;;
 
   //file upload
   uploadedFiles: File[] = [];
@@ -87,8 +89,9 @@ export class ServiceSelectionComponent {
               private instaAdsClickedRepo: InstaAdsClickedRepository,
               private instaAdsViewedRepo: InstaAdsViewedRepository,
               private sqlDBService: DBService, 
-              private http: HttpClient) {
-
+              private http: HttpClient,
+              private scroll: ViewportScroller) {
+    
     //clear the database when this component gets created
     this.dbService.clear("all/userdata").subscribe((deleted) => {
       console.log("Cleared all/userdata: " + deleted);
@@ -1198,4 +1201,17 @@ export class ServiceSelectionComponent {
     }
   }
 
+  /**
+   * Add Go-to-Top button on Facebook service selection page
+   * Author: Deepa (dbelvi@mail.upb.de)
+   */
+  
+  @HostListener('window:scroll', []) onScroll(){
+    this.pageYoffset = window.pageYOffset;
+  }
+
+  scrollToTop(){
+    this.scroll.scrollToPosition([0,0]);
+  }
+        
 }
