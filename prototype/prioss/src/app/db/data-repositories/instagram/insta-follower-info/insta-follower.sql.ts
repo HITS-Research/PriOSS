@@ -25,3 +25,23 @@ select instaProfileURL,
         instaAccountName 
     from insta_following_info;
 `;
+
+export const insertIntoInstaFollowerSQL: string = `
+insert into insta_follower_info
+(instaProfileURL, timestamp, instaAccountName)
+values 
+(?, ?, ?);
+`;
+
+export const bulkAddInstaFollowerBaseSQL: string = `
+insert into insta_follower_info
+(instaProfileURL, timestamp, instaAccountName)
+`;
+
+export const bulkAddInstaFollowerValuesSQL: string = `
+select ?, ?, ?
+`;
+
+export const bulkAddValueConnector: string = `
+union all
+`;

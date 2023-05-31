@@ -673,12 +673,16 @@ export class ServiceSelectionComponent {
       //add follower information
       if (filename.startsWith("followers_1")) {
         let jsonData = JSON.parse(content);
-        for(let i = 0; i < jsonData.length; i++){
+        await this.instaFollowerRepo.startFollowerBulkAdd(jsonData[0].string_list_data[0].href,
+                                                          jsonData[0].string_list_data[0].timestamp,
+                                                          jsonData[0].string_list_data[0].value,
+                                                          jsonData.length);
+        for(let i = 1; i < jsonData.length; i++){
           var accountURL = jsonData[i].string_list_data[0].href;
           var timestamp = utilities.convertTimestamp(jsonData[i].string_list_data[0].timestamp);
           var accountName = jsonData[i].string_list_data[0].value;
-          await this.instaFollowerRepo.addFollowerInformation(accountURL, timestamp, accountName);
-        }       
+          await this.instaFollowerRepo.addFollowerBulkEntry(accountURL, timestamp, accountName);
+        }    
       }
     }
 
