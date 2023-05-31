@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
-import { NgxIndexedDBService } from 'ngx-indexed-db';
-import { ActivatedRoute, Router } from "@angular/router";
+import { Component, ViewChild } from '@angular/core';
 import { IntrojsService } from 'src/app/introjs/introjs.service';
+import { BaseDashboard } from '../base-dashboard.abstract';
+import { Insta_PersonalInfoComponent } from 'src/app/visualizations/instagram/Insta_personal-info/personal-info.component';
+import { InstaAdsComponent } from 'src/app/visualizations/instagram/insta-ads/insta-ads.component';
+import { InstaAccountCreationLoginComponent } from 'src/app/visualizations/instagram/insta-account-creation-login/insta-account-creation-login.component';
 
 /**
   * This component is the root component for instagram's dashboard page.
@@ -18,13 +20,8 @@ import { IntrojsService } from 'src/app/introjs/introjs.service';
   templateUrl: './insta-dashboard.component.html',
   styleUrls: ['./insta-dashboard.component.less']
 })
-export class InstaDashboardComponent {
-  constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-    private dbService: NgxIndexedDBService,
-    private introService: IntrojsService,
-  ) { }
+export class InstaDashboardComponent extends BaseDashboard{
+
   purposes = [
     {
       active: false,
@@ -53,24 +50,13 @@ export class InstaDashboardComponent {
   rectificationInstructionText="Choose your country.";
   rectificationInstructionPicture="/../../assets/images/insta-rectifcation/step1.png"
 
-  /**
-  * Decrease the "current" variable.
-  * @author: Melina (kleber@mail.uni-paderborn.de)
-  * 
-  */
-  pre(): void {
-    this.current -= 1;
-    this.changeContent();
-  }
+  //Components to Initialize Sequentially
+  @ViewChild(Insta_PersonalInfoComponent) instaPersonalInfo : Insta_PersonalInfoComponent;
+  @ViewChild(InstaAdsComponent) instaAds : InstaAdsComponent;
+  @ViewChild(InstaAccountCreationLoginComponent) instaAccount : InstaAccountCreationLoginComponent;
 
-  /**
-  * Increases the "current" variable.
-  * @author: Melina (kleber@mail.uni-paderborn.de)
-  * 
-  */
-  next(): void {
-    this.current += 1;
-    this.changeContent();
+  constructor( private introService: IntrojsService) { 
+    super();
   }
 
   /**
@@ -114,21 +100,50 @@ export class InstaDashboardComponent {
   /**
     * This method starts the tour and sets @param tourCompleted in the @service introjs to true.
     * The boolean is set so not every time the page is navigated to, the tour starts again.
+    * It also starts the visualization initialization workflow
     * 
-    * @author: Melina (kleber@mail.uni-paderborn.de)
+    * @author: Melina (kleber@mail.uni-paderborn.de), Paul (pasch@mail.upb.de)
     */
   ngAfterViewInit(): void  {
     if (this.introService.isInstagramTourCompleted() == false) {
       this.introService.instagramDashboardTour();
       this.introService.setInstagramTourCompleted(true);
     }
+
+    //Component initialization
+    //Add components to component Initialization list from BaseDashboard
+    this.componentInitializationList = [];
+    this.componentInitializationList.push(this.instaPersonalInfo);
+    this.componentInitializationList.push(this.instaAds);
+    this.componentInitializationList.push(this.instaAccount);
+    //Start Component Initialization run
+    this.startSequentialInitialization();
   }
 
   /**
   * This method is called on button click and starts the tour.
   */
   startTour() {
-    //TODO: Add introjs here
     this.introService.instagramDashboardTour();
+  }
+
+  /**
+  * Decrease the "current" variable.
+  * @author: Melina (kleber@mail.uni-paderborn.de)
+  * 
+  */
+  pre(): void {
+    this.current -= 1;
+    this.changeContent();
+  }
+
+  /**
+  * Increases the "current" variable.
+  * @author: Melina (kleber@mail.uni-paderborn.de)
+  * 
+  */
+  next(): void {
+    this.current += 1;
+    this.changeContent();
   }
 }
