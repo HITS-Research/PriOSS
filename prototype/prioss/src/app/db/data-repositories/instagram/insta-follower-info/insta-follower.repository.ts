@@ -26,14 +26,9 @@ export class InstaFollowerRepository {
      */
     async addFollowerInformation(instaProfileURL: string, timestamp: number, instaAccountName: string) {
         await this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
-            console.log("Enter addFollowerInformation")
-            let sqlStatement = sql.insertIntoInstaFollowerInfoSQL; //SQL Statement per hand versuchen?
-            console.log("Enter FollowerInformation into SQL")
+            let sqlStatement = sql.insertIntoInstaFollowerInfoSQL; 
             let values = [instaProfileURL, timestamp, instaAccountName];
-            console.log(values)
-      
             let ret: capSQLiteChanges = await db.run(sqlStatement, values);
-            console.log("End of addFollowerInformation method")
           });
     }
 
