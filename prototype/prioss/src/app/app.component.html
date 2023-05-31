@@ -56,7 +56,7 @@
       </li>
     </ul>
     <div class="navbar-btn-container">
-      <button *ngIf="showServiceButton" nz-button nzType="default" class="navbar-btn" id="service-btn" nzSize="large" (click)="pRouter.navigate(['/serviceSelection'])">
+      <button *ngIf="showServiceButton" nz-button nzType="default" class="navbar-btn" id="service-btn" nzSize="large" (click)="pRouter.navigateByUrl('/serviceSelection')">
         Change Service
       </button>
     </div>
@@ -79,10 +79,6 @@
     <!--defines the content-->
     <nz-content>
       <div class="inner-content">
-        <button *ngIf="showBackButton" nz-button nzType="default" class="navbar-btn" (click)="routeToDashboard()">
-          <span nz-icon nzType="arrow-left"></span>
-          Back to Dashboard
-        </button>
         <!--the content of the routed page is shown here-->
         <router-outlet (activate)="setServiceName()"></router-outlet>
       </div>

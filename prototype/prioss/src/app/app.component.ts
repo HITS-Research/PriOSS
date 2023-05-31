@@ -94,6 +94,6 @@ export class AppComponent {
    * 
    */
   routeToDashboard(): void {
-    this.router.navigate(['/' + this.serviceName + '/dashboard']);
+    this.router.navigateByUrl('/' + this.serviceName + '/dashboard');
   }
 }
