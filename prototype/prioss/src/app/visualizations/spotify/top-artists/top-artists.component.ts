@@ -2,6 +2,8 @@ import {Component, Input} from '@angular/core';
 import * as d3 from 'd3';
 import {SpotHistoryRepository} from "../../../db/data-repositories/spotify/spot-history/spot-history.repository";
 import {NotificationService} from "../../../notification/notification.component";
+import { SpotMinListenedToArtist } from 'src/app/models/Spotify/TopArtist/SpotMinListenedToArtist';
+import { SequenceComponentInit } from '../../sequence-component-init.abstract';
 
 /**
  * This component visualizes how many songs from an artist were listened to
@@ -15,9 +17,7 @@ import {NotificationService} from "../../../notification/notification.component"
   templateUrl: './top-artists.component.html',
   styleUrls: ['./top-artists.component.less']
 })
-
-
-export class TopArtistsComponent {
+export class TopArtistsComponent extends SequenceComponentInit {
 
   readonly spotifyGreen: string = "#1DB954";
   @Input()
@@ -32,8 +32,21 @@ export class TopArtistsComponent {
   selectedArtistName : string = "";
   selectedArtistHistory : any[];
 
-  constructor(private spotHistoryRepo: SpotHistoryRepository, private notifyService: NotificationService) {
-    this.initializeVisualisation()
+  constructor(private spothistoryRepo: SpotHistoryRepository, private notifyService: NotificationService) {
+    super();
+    console.log('>> constructor artists visualization');
+  }
+
+/**
+  * A Callback called by angular when the views have been initialized
+  * It handles the initialization when the component is displayed on its own dedicated page.
+  *
+  * @author: Simon (scg@mail.upb.de)
+  */
+  ngAfterViewInit() {
+    if(!this.previewMode) {
+      this.initComponent();
+    }
   }
 
   /**
@@ -42,15 +55,17 @@ export class TopArtistsComponent {
    * @author: Jonathan (jvn@mail.upb.de))
    *
    */
-  async initializeVisualisation() {
-    await new Promise(f => setTimeout(f, 500));  // TODO: fix
-    this.filterFromDate = await this.spotHistoryRepo.getFirstDay();
-    this.filterToDate = await this.spotHistoryRepo.getMostRecentDay();
+  override async initComponent() {
+    //await new Promise(f => setTimeout(f, 500));  // TODO: fix
+    console.log("--- Initializing Component 3: TopArtists");
+    
+    this.filterFromDate = await this.spothistoryRepo.getFirstDay();
+    this.filterToDate = await this.spothistoryRepo.getMostRecentDay();
 
-    this.spotHistoryRepo.getMinListenedToArtists(this.filterFromDate, this.filterToDate).then((result) => {
-      this.minListenedToArtist = result;
-      this.makeBarChart(result.slice(0, 10));
-    });
+    let result: SpotMinListenedToArtist[] = await this.spothistoryRepo.getMinListenedToArtists(this.filterFromDate, this.filterToDate)
+    this.minListenedToArtist = result;
+    this.makeBarChart(result.slice(0, 10));
+    
   }
 
   /**
@@ -62,7 +77,7 @@ export class TopArtistsComponent {
   onDateFilterChanged() {
     if (this.filterFromDate !== null && this.filterToDate !== null) {
       if (this.filterFromDate <= this.filterToDate) {
-        this.spotHistoryRepo.getMinListenedToArtists(this.filterFromDate, this.filterToDate).then((result) => {
+        this.spothistoryRepo.getMinListenedToArtists(this.filterFromDate, this.filterToDate).then((result) => {
           this.minListenedToArtist = result;
           if (this.activeTabIndex === 0) {
             this.makeBarChart(this.minListenedToArtist.slice(0, 10));
@@ -200,7 +215,7 @@ export class TopArtistsComponent {
   onBarClicked(artistName: string) {
     if (this.filterFromDate !== null && this.filterToDate !== null) {
       if (this.filterFromDate <= this.filterToDate) {
-        this.spotHistoryRepo.getListeningHistoryOfArtist(artistName, this.filterFromDate, this.filterToDate).then((result) => {
+        this.spothistoryRepo.getListeningHistoryOfArtist(artistName, this.filterFromDate, this.filterToDate).then((result) => {
           this.selectedArtistName = artistName;
           this.selectedArtistHistory = result;
           this.showArtistHistoy = true;
