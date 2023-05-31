@@ -53,9 +53,11 @@
     </h5>
 
     <h5 *ngIf="selectedServiceName" class="t-explanation">
-      After you downloaded your personal data as a ".zip"-file you can input it below.
-      <br>This file will not uploaded to the internet. The website works offline.
-      <br>You can switch into flight mode or disconnect from the internet to be sure.
+      <div>
+      Follow data download instructions below and download your personal data as ".zip".<br>
+      Drop your ".zip" file by clicking below and "Explore My Data" to visualize your data like never before!.<br><br>
+      The website works offline. You can switch into flight mode or disconnect from the internet before uploading your ".zip" file.<br>
+      </div>
     </h5>
 
     <div class="col-md-12" *ngIf="selectedServiceName">
@@ -70,16 +72,17 @@
       <div class="t-buttons-container">
         <button class="t-btn t-explore-data-btn" (click)="onClickedExploreData()">
           <fa-icon [icon]="faCircleRight"></fa-icon>
-          <span style="margin-left:5px;">Explore My Data  </span>
+          <span style="margin-left:5px; font-size: 16px;">Explore My Data  </span>
         </button>
+        <br>
         <button class="t-btn t-explore-data-btn" (click)="onClickedExploreSampleData()">
           <fa-icon [icon]="faCircleRight"></fa-icon>
-          <span style="margin-left:5px;">Continue with Sample Data </span>
+          <span style="margin-left:5px; font-size: 16px;">Continue with Sample Data </span>
         </button>
       </div>
     </div>
 
-    <h5 *ngIf="selectedServiceName">Download Instructions:</h5>  
+    <h5 *ngIf="selectedServiceName"> Follow Download Instructions</h5>  
     
     <div class="instructions-content col-md-12" id="instagram-instructions" *ngIf="selectedServiceName === appType.Instagram">
       <div class="selection-disclaimer">
@@ -128,7 +131,18 @@
       </ol>
     </div>
     <div class="instructions-content col-md-12" id="facebook-instructions" *ngIf="selectedServiceName === appType.Facebook">
+
+      <div class="selection-disclaimer">
+        <div class="disclaimer-content">
+          <h4>Important!</h4>
+          <p>Use <a href="https://www.facebook.com/dyi/?referrer=yfi_settings" target="_blank">this link </a> to go to the Facebook data download page.  We can't see or access any of your personal information, like cookies or passwords, by using this link. If you're signed into Facebook, the link takes you directly to the download page. If not, it takes you to the login page, and then to the download page once you sign in. 
+           If the link fails, follow the instructions below. As Facebook's menu varies by country and language, you may need to navigate a bit to find the download page.
+           </p>
+        </div>
+      </div>
+
       <ol>
+        
         <li>
           <span>Log in to your account and click your profile photo in the top right of Facebook.</span><br>
           <img class="i-image-potrait" src="../../assets/images/fb-instructions/fb-instruction1.png">
@@ -166,6 +180,13 @@
           </span>
         </li>
       </ol>
+      <br>
+      <!-- Add Scroll-to-top button after facebook download instructions-->
+      <!-- Author: Deepa(dbelvi@mail.upb.de)-->
+        <button class="t-btn t-explore-data-btn" (click)="scrollToTop()">
+          <span style="margin-left:5px; font-size: 16px;"> Go to Top  </span>
+        </button>
+      <br>
     </div>
     <div class="instructions-content col-md-12" id="spotify-instructions" *ngIf="selectedServiceName === appType.Spotify">
       <ol>

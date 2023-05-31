@@ -12,8 +12,9 @@ export class AppComponent {
   title: string = 'prioss';
   pRouter: Router;
   isCollapsed: boolean = false;
-  serviceName: string;
+  serviceName: string | null;
   isDashboard: boolean = false;
+  showBackButton: boolean = false;
   navigateAndScroll: (router: Router, url: string) => void = utilities.navigateAndScroll;
 
   public isWeb: boolean = false;
@@ -48,7 +49,7 @@ export class AppComponent {
   *
   */
   setServiceName(): void {
-    console.log(this.router.url)
+    console.log(this.router.url);
     switch ( this.router.url ) {
       case '/face/dashboard':
         this.serviceName = 'face';
@@ -62,6 +63,35 @@ export class AppComponent {
         this.serviceName = 'spot';
         this.isDashboard = true;
         break;
+      case '/serviceSelection':
+        this.serviceName = null;
+        this.isDashboard = false;
+        break;
     }
+    this.showBackButton = !this.router.url.includes('dashboard')  && this.serviceName != null;
+  }
+
+  /**
+   * This method checks if the current url contains a specific fragment
+   * 
+   * @param fragment the fragment or section to be checked
+   * @returns true, if the fragment is contained in the dashboard url
+   *          false, if not
+   *
+   * @author: Paul (pasch@mail.upb.de)
+   * 
+   */
+  isSelected(fragment: string): boolean {
+    return this.router.url === '/' + this.serviceName + '/dashboard' + fragment;
+  }
+
+  /**
+   * This method navigates to the current Dashboard.
+   * 
+   * @author: Paul (pasch@mail.upb.de)
+   * 
+   */
+  routeToDashboard(): void {
+    this.router.navigate(['/' + this.serviceName + '/dashboard']);
   }
 }

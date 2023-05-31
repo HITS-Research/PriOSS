@@ -100,8 +100,81 @@ CREATE TABLE IF NOT EXISTS insta_following_info (
     timestamp INTEGER NOT NULL,
     instaAccountName TEXT NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS face_ads_information (
+    id INTEGER PRIMARY KEY,
+    advertiser_name TEXT NOT NULL,
+    has_data_file_custom_audience TEXT NOT NULL,
+    has_remarketing_custom_audience TEXT NOT NULL,
+    has_in_person_store_visit TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS face_ads_interacted (
+    id INTEGER PRIMARY KEY,
+    title TEXT NOT NULL,
+    action TEXT NOT NULL,
+    timestamp TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS face_apps_websites (
+    id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL,
+    added_timestamp TEXT NOT NULL,
+    user_app_scoped_id TEXT NOT NULL,
+    category TEXT NOT NULL,
+    removed_timestamp TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS face_off_facebook_activity (
+    name TEXT NOT NULL,
+    events TEXT NOT NULL,
+    id TEXT NOT NULL,
+    type TEXT NOT NULL,
+    timestamp TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS face_friend_requests_received (
+    id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL,
+    timestamp TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS face_friend_requests_sent (
+    id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL,
+    timestamp TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS face_friends (
+    id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL,
+    timestamp TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS face_rejected_friend_requests (
+    id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL,
+    timestamp TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS face_removed_friends (
+    id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL,
+    timestamp TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS face_who_you_follow (
+    id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL,
+    timestamp TEXT NOT NULL
+);
 `;
 //PRAGMA user_version = 1;
+
+/**
+ * Facebook table are renamed with a suffix 'face_<table_name>' compared to IndexDB table names.
+ * 
+ */
 
 export const dropSchema: string =`
 DROP TABLE IF EXISTS spot_history;
@@ -117,4 +190,14 @@ DROP TABLE IF EXISTS insta_ads_viewed;
 DROP TABLE IF EXISTS userdata;
 DROP TABLE IF EXISTS insta_follower_info;
 DROP TABLE IF EXISTS insta_following_info;
+DROP TABLE IF EXISTS face_ads_information;
+DROP TABLE IF EXISTS face_ads_interacted;
+DROP TABLE IF EXISTS face_apps_websites;
+DROP TABLE IF EXISTS face_off_facebook_activity;
+DROP TABLE IF EXISTS face_friend_requests_received;
+DROP TABLE IF EXISTS face_friend_requests_sent;
+DROP TABLE IF EXISTS face_friends;
+DROP TABLE IF EXISTS face_rejected_friend_requests;
+DROP TABLE IF EXISTS face_removed_friends;
+DROP TABLE IF EXISTS face_who_you_follow;
 `;

@@ -2,6 +2,7 @@ import {Component, Input} from '@angular/core';
 import * as utilities from 'src/app/utilities/generalUtilities.functions'
 import { UserdataRepository } from 'src/app/db/data-repositories/general/userdata/userdata.repository';
 import { UserdataEntry } from 'src/app/models/General/userdata/userdataEntry';
+import { SequenceComponentInit } from '../../sequence-component-init.abstract';
 
 /**
   * This component visualizes the general data of the user.
@@ -16,7 +17,8 @@ import { UserdataEntry } from 'src/app/models/General/userdata/userdataEntry';
   templateUrl: './general-data.component.html',
   styleUrls: ['./general-data.component.less']
 })
-export class GeneralDataComponent {
+export class GeneralDataComponent extends SequenceComponentInit {
+
 
   // userdata: object = {}
   userdata: readonly UserdataEntry[] = [];
@@ -28,13 +30,35 @@ export class GeneralDataComponent {
   previewMode: boolean = false;
 
   constructor(private userdataRepo: UserdataRepository) {
+    super();
+
     if (window.location.href.includes('/spot/')) {
       this.isSpotify = true;
-    }
-    
-    this.userdataRepo.getAllUserdata().then((userdata) => {
-      this.userdata = userdata;
-    });
+    }    
   }
-  
+
+/**
+  * A Callback called by angular when the views have been initialized
+  * It handles the initialization when the component is displayed on its own dedicated page.
+  *
+  * @author: Simon (scg@mail.upb.de)
+  */
+  ngAfterViewInit()
+  {
+    console.log("--- Preview Mode: " + this.previewMode);
+    if(!this.previewMode) {
+      
+      this.initComponent();
+    }
+  }
+
+/**
+  * @see-super-class
+  * @author: Simon (scg@mail.upb.de) 
+  */
+  override async initComponent(): Promise<void> {
+    console.log("--- Initializing Component 0: GeneralData");
+    let userdata = await this.userdataRepo.getAllUserdata()
+    this.userdata = userdata;
+  }
 }
