@@ -51,6 +51,7 @@ export class InstaFollowersComponent {
 
   async ngOnInit(){
     await this.collectData();
+    
   }
   /**
    * Builds the graph for the followers and following accounts.

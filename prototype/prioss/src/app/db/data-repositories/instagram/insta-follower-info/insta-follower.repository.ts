@@ -19,18 +19,21 @@ export class InstaFollowerRepository {
      * This async method adds follower information to the insta_follower_information table.
      * 
      * @param instaProfileURL the url to the followers profile
-     * @param instaAccountName the followers account name
      * @param timestamp since the user follows this account
+     * @param instaAccountName the followers account name
      * 
      * @author: Melina (kleber@mail.uni-paderborn.de)
      */
-    async addFollowerInformation(instaProfileURL: string, instaAccountName: string, timestamp: number) {
+    async addFollowerInformation(instaProfileURL: string, timestamp: number, instaAccountName: string) {
         await this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
-
-            let sqlStatement = sql.insertIntoInstaFollowerInfoSQL;
-            let values = [instaProfileURL, instaAccountName, timestamp];
+            console.log("Enter addFollowerInformation")
+            let sqlStatement = sql.insertIntoInstaFollowerInfoSQL; //SQL Statement per hand versuchen?
+            console.log("Enter FollowerInformation into SQL")
+            let values = [instaProfileURL, timestamp, instaAccountName];
+            console.log(values)
       
             let ret: capSQLiteChanges = await db.run(sqlStatement, values);
+            console.log("End of addFollowerInformation method")
           });
     }
 
@@ -38,16 +41,16 @@ export class InstaFollowerRepository {
      * This async method adds following information to the insta_following_information table.
      * 
      * @param instaProfileURL the url to the following profile
-     * @param instaAccountName the following account name
      * @param timestamp since the user following this account
+     * @param instaAccountName the following account name
      * 
      * @author: Melina (kleber@mail.uni-paderborn.de)
      */
-    async addFollowingInformation(instaProfileURL: string, instaAccountName: string, timestamp: number) {
+    async addFollowingInformation(instaProfileURL: string, timestamp: number, instaAccountName: string) {
         await this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
 
             let sqlStatement = sql.insertIntoInstaFollowingInfoSQL;
-            let values = [instaProfileURL, instaAccountName, timestamp];
+            let values = [instaProfileURL, timestamp, instaAccountName];
       
             let ret: capSQLiteChanges = await db.run(sqlStatement, values);
           });

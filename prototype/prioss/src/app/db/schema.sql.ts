@@ -86,6 +86,20 @@ CREATE TABLE IF NOT EXISTS insta_ads_viewed (
     title TEXT NOT NULL,
     timestamp TEXT NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS insta_follower_info (
+    id INTEGER PRIMARY KEY,
+    instaProfileURL TEXT NOT NULL,
+    timestamp INTEGER NOT NULL,
+    instaAccountName TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS insta_following_info (
+    id INTEGER PRIMARY KEY,
+    instaProfileURL TEXT NOT NULL,
+    timestamp INTEGER NOT NULL,
+    instaAccountName TEXT NOT NULL
+);
 `;
 //PRAGMA user_version = 1;
 
@@ -101,4 +115,6 @@ DROP TABLE IF EXISTS insta_ads_interests;
 DROP TABLE IF EXISTS insta_ads_clicked;
 DROP TABLE IF EXISTS insta_ads_viewed;
 DROP TABLE IF EXISTS userdata;
+DROP TABLE IF EXISTS insta_follower_info;
+DROP TABLE IF EXISTS insta_following_info;
 `;

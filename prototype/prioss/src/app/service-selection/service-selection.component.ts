@@ -22,8 +22,10 @@ import { InstaAdsActivityRepository } from '../db/data-repositories/instagram/in
 import { InstaAdsInterestRepository } from '../db/data-repositories/instagram/insta-ads/insta-ads-interest.repository';
 import { InstaAdsClickedRepository } from '../db/data-repositories/instagram/insta-ads/insta-ads-clicked.repository';
 import { InstaAdsViewedRepository } from '../db/data-repositories/instagram/insta-ads/insta-ads-viewed.repository';
+import { InstaFollowerRepository } from '../db/data-repositories/instagram/insta-follower-info/insta-follower.repository';
 
 import { UserdataRepository } from '../db/data-repositories/general/userdata/userdata.repository';
+import { timestamp } from 'rxjs';
 
 //service identifier filenames
 const instaIDFilename = "TODO";
@@ -86,6 +88,7 @@ export class ServiceSelectionComponent {
               private instaAdsInterestRepo: InstaAdsInterestRepository,
               private instaAdsClickedRepo: InstaAdsClickedRepository,
               private instaAdsViewedRepo: InstaAdsViewedRepository,
+              private instaFollowerRepo: InstaFollowerRepository,
               private sqlDBService: DBService, 
               private http: HttpClient) {
 
@@ -663,6 +666,20 @@ export class ServiceSelectionComponent {
 
           await this.instaAdsViewedRepo.addAdsViewedBulkEntry(entry.Author.value, time);
         }
+      }
+      //add follower information
+      if (filename.startsWith("followers_1")) {
+        let jsonData = JSON.parse(content);
+        let followerData = jsonData[0].string_list_data; //seems wrong
+
+        console.log(followerData)
+        
+        //var accountURL = utilities.
+        var accountURL = followerData[0].href;
+        var timestamp = utilities.convertTimestamp(followerData[0].timestamp);
+        var accountName = followerData[0].value;
+        console.log(accountURL, timestamp, accountName)
+        await this.instaFollowerRepo.addFollowerInformation(accountURL, timestamp, accountName);
       }
     }
 
