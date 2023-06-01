@@ -1,27 +1,47 @@
 <div class="component-page t-title-page">
 
-   <div class="t-title">
-      <div class="t-main-logo">
-         <img src="/assets/images/icons/prioss_icon.png" alt="logo">   
-      </div>  
-      <h1>PriOSS: The Privacy One Stop Shop</h1>
-      <p class="t-sub-title">Easy. Accessible. Privacy.</p>   
-   </div>
+   <table>
+      <tr>
+         <td style="width: 55%">
+            <div class="t-title">
+               <div class="t-main-logo">
+                  <img src="/assets/images/icons/prioss_icon.png" alt="logo">   
+               </div>  
+               <h1>PriOSS: The Privacy One Stop Shop</h1>
+               <p class="t-sub-title">Easy. Accessible. Privacy.</p>   
+            </div>
+            
+            <div class="t-v-spacer"></div>
+      
+            <div class="t-text-container"> 
+               <p>This website helps you to download and explore your personal data that services like Instagram, Spotify and Facebook have collected about you.
+               </p>
+            
+               <p>After the download, everything works offline. Your data never leaves your computer!
+               </p> 
+            </div>
+
+            <div class="t-v-spacer"></div>
+
+            <div class="t-explore-btn-click-space" (click)="goToServiceSelection()">
+               <button  class="btn btn-outline-secondary btn-lg">Explore</button>
+               <fa-icon class="t-icon-explore-chevron" [icon]="faChevronDown"></fa-icon>
+            </div>
+         </td>
+         <td style="width: 10%">
+         </td>
+         <td style="width: 35%">
+            <img class="appflow-img" src="assets/images/appflow-draft.jpg">
+         </td>
+      </tr>
+   </table>
+      
+         <!--
+         <p>This website helps you to download and explore your personal data that services like Instagram, Spotify and Facebook have collected about you.</p>
+         <div class="t-v-paragraph-spacer"></div>
+         <p>After the download, everything works offline. Your data never leaves your computer!</p>
+         -->
+
    
-   <div class="t-v-spacer"></div>
-
-   <div class="t-text-container"> 
-      <p>This website helps you visualize your personal data and to excercise your privacy rights for the platforms like
-         Instagram, Spotify and Facebook.</p>
-      <div class="t-v-paragraph-spacer"></div>
-      <p>See what data these platforms have collected about you without having to send any personal data across the internet.</p>
-   </div>   
-
-   <div class="t-v-spacer"></div>
-
-   <div class="t-explore-btn-click-space" (click)="goToServiceSelection()">
-      <button  class="btn btn-outline-secondary btn-lg">Explore</button>
-      <fa-icon class="t-icon-explore-chevron" [icon]="faChevronDown"></fa-icon>
-   </div>
    
 </div>
