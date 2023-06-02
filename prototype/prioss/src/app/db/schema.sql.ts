@@ -157,7 +157,7 @@ CREATE TABLE IF NOT EXISTS face_who_you_follow (
 
 CREATE TABLE IF NOT EXISTS face_inferred_topics (
     id INTEGER PRIMARY KEY,
-    inference TEXT NOT NULL
+    topics TEXT NOT NULL
 );
 
 `;

@@ -409,7 +409,12 @@ export class ServiceSelectionComponent {
         console.log('Parsing: ' + filename);
         
         let jsonData = JSON.parse(content);
-        await this.inferredTopicsDataRepo.addInferredTopics(jsonData[0], jsonData.length);
+        let inferredTopics = jsonData.inferred_topics_v2;
+        await this.inferredTopicsDataRepo.addInferredTopics(inferredTopics[0], inferredTopics.length);
+
+        for (let i = 1; i < inferredTopics.length; i++) {
+          await this.inferredTopicsDataRepo.addBulkInferredTopicsEntry(inferredTopics[i]);
+        }
         
       }
       

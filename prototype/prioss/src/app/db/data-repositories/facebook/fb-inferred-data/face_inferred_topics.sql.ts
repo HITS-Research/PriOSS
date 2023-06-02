@@ -1,13 +1,18 @@
-export const insertIntoFacebookInferredTopicSQL: string = `
-  insert into face_inferred_topics
-  (inferred_topics_v2)
+export const bulkAddFaceInferredTopicsBaseSQL: string = `
+  insert into face_inferred_topics 
+  (topics)
 `;
 
-export const selectAllInferredTopics: string = `
- select *
-   from face_inferred_topics;
+export const bulkAddFaceInferredTopicsValuesSQL: string = `
+  select ?
 `;
 
 export const bulkAddValueConnector: string = `
 union all
+`;
+
+export const selectAllInferredTopics: string = `
+ select id,
+        topics
+  from face_inferred_topics;
 `;
