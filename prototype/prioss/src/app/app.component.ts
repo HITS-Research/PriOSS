@@ -17,6 +17,7 @@ export class AppComponent {
   serviceName: string | null;
   isDashboard: boolean = false;
   showBackButton: boolean = false;
+  showServiceButton: boolean = false;
   navigateAndScroll: (router: Router, url: string) => void = utilities.navigateAndScroll;
 
   public isWeb: boolean = false;
@@ -76,6 +77,7 @@ export class AppComponent {
         break;
     }
     this.showBackButton = !this.router.url.includes('dashboard')  && this.serviceName != null;
+    this.showServiceButton = !this.router.url.includes('serviceSelection') && !this.isCollapsed;
   }
 
   /**
@@ -99,7 +101,7 @@ export class AppComponent {
    * 
    */
   routeToDashboard(): void {
-    this.router.navigate(['/' + this.serviceName + '/dashboard']);
+    this.router.navigateByUrl('/' + this.serviceName + '/dashboard');
   }
 
   /**

@@ -40,6 +40,9 @@
           <li nz-menu-item [nzSelected]="this.isSelected('#rectification')">
             <a routerLink="{{serviceName}}/dashboard" fragment="rectification">Rectification</a>
           </li>
+          <li nz-menu-item [nzSelected]="this.isSelected('#recommendation')">
+            <a routerLink="{{serviceName}}/dashboard" fragment="recommendation">Recommendation</a>
+          </li>
           <li nz-menu-item [nzSelected]="this.isSelected('#gdpr')">
             <a routerLink="{{serviceName}}/dashboard" fragment="gdpr">GDPR/Rights</a>
           </li>
@@ -52,6 +55,12 @@
         </ul>
       </li>
     </ul>
+    <div class="navbar-btn-container">
+      <button *ngIf="showServiceButton" nz-button nzType="default" class="navbar-btn" id="service-btn" nzSize="large" (click)="pRouter.navigateByUrl('/serviceSelection')">
+        <span nz-icon nzType="arrow-left" nzTheme="outline"></span>
+        Change Service
+      </button>
+    </div>
   </nz-sider>
   <nz-layout>
     <!--defines the header with the button to collapse the slider-->
