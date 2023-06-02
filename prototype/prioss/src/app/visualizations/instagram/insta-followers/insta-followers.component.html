@@ -6,7 +6,7 @@
                 <nz-statistic [nzValue]="(followerInfo.length|number)!" [nzTitle]="'Number of followers'"></nz-statistic>
                 </nz-col>
                 <nz-col [nzSpan]="12">
-                <nz-statistic [nzValue]="(42| number)!" [nzTitle]="'Number of following accounts'"></nz-statistic>
+                <nz-statistic [nzValue]="(followingInfo.length| number)!" [nzTitle]="'Number of following accounts'"></nz-statistic>
                 </nz-col>
             </nz-row>
             <nz-row [nzGutter]="16">
@@ -34,7 +34,7 @@
                 <nz-statistic [nzValue]="(followerInfo.length|number)!" [nzTitle]="'Number of followers'"></nz-statistic>
                 </nz-col>
                 <nz-col [nzSpan]="12">
-                <nz-statistic [nzValue]="(42| number)!" [nzTitle]="'Number of following accounts'"></nz-statistic>
+                <nz-statistic [nzValue]="(followingInfo.length| number)!" [nzTitle]="'Number of following accounts'"></nz-statistic>
                 </nz-col>
             </nz-row>
             <nz-row [nzGutter]="16">
@@ -47,15 +47,16 @@
             </nz-row>
             <br>
 
-        <h3 nz-typography>Followers</h3>
+        <h3 nz-typography>Followers and Following</h3>
         <p nz-typography>
             The following graph visualizes all follower or following relations with you.</p>
-            {{followerInfo[19].instaAccountName}}
-            <strong>Relations:   </strong>
-            <nz-tag *ngFor="let tag of graphOptions" nzMode="checkable" [nzChecked]="selectedTags.indexOf(tag) > -1" 
-                (nzCheckedChange)="handleChange($event, tag)">
-                {{ tag }}
-            </nz-tag>
-        <div id="cy"></div>
+            <nz-card>
+                <strong>Relations:   </strong>
+                <nz-tag *ngFor="let tag of graphOptions" nzMode="checkable" [nzChecked]="selectedTags.indexOf(tag) > -1" 
+                    (nzCheckedChange)="handleChange($event, tag)">
+                    {{ tag }}
+                </nz-tag>
+                <div id="cy"></div>
+            </nz-card>
     </div>
 </div>

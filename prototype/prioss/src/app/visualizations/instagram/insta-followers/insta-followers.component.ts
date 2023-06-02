@@ -15,8 +15,9 @@ import { InstaFollowerRepository } from 'src/app/db/data-repositories/instagram/
 export class InstaFollowersComponent {
   previewMode: boolean = false;
 
-  followerInfo : InstaFollowerInfo[] = [{instaProfileURL: "url1", instaAccountName: "Max Mustermann", timestamp: 1234567}];
-  followingInfo : InstaFollowerInfo[] = [{instaProfileURL: "url2", instaAccountName: "Max Mustermann", timestamp: 1234567}];
+  followerInfo : InstaFollowerInfo[] = [];
+  followingInfo : InstaFollowerInfo[] = [];
+  graphElements: { data: { id?: string, source?: string, target?: string  }, position?: {x: number, y: number} }[] = [];
 
   getObjectPairs: (obj: object) => [string, any][] = utilities.getObjectPairs;
   convertTimestamp: (str: string) => any = utilities.convertTimestamp;
@@ -46,42 +47,60 @@ export class InstaFollowersComponent {
    * @author: Melina (kleber@mail.uni-paderborn.de)
    */
   prepareGraphData(){
-    console.log(this.followerInfo)
+    //Creates a set of nodes for the star-pattern
+    const nodes = new Set<string>();
+    if(this.graphOptions.includes('Followers')){
+      this.followerInfo.forEach(follower => nodes.add(follower.instaAccountName)); 
+    } 
+    if(this.graphOptions.includes('Following')){
+      this.followingInfo.forEach(following => nodes.add(following.instaAccountName)); 
+    } 
+    const numberOfNodes = nodes.size;
+    //Gives every node their position in the cycle and add the nodes to the graphElement array
+    this.graphElements = [...nodes].map((node, index) => ({
+      data: {
+        id: node,
+      },
+      position: { 
+        x: 100 + 200 * Math.cos(360/numberOfNodes*index),
+        y: 100 + 200 * Math.sin(360/numberOfNodes*index),
+      },
+
+    }))
+    //adds the users node to the array and fix his position into the center
+    const you = 'you';
+    this.graphElements.push({
+      data:{
+        id: you,
+      },
+      position:{
+        x: 100,
+        y: 100,
+      }
+    });
+    //Add the edges between the user to its followers
+    this.followerInfo.forEach((follower)=>{
+      this.graphElements.push({
+        data:{
+          //id: `${follower.instaAccountName}${you}`,
+          source: follower.instaAccountName,
+          target: you,
+        }
+      });
+    });
   }
 
-  async ngOnInit(){
-    await this.collectData();
-    
-  }
   /**
    * Builds the graph for the followers and following accounts.
    * 
    * @author: Melina (kleber@mail.uni-paderborn.de)
    */
-  ngAfterViewInit() {
-    this.prepareGraphData()
+  async ngAfterViewInit() {
+    await this.collectData();
+    this.prepareGraphData();
     var cy = cytoscape({
-  
       container: document.getElementById('cy'), // container to render in
-    
-      elements: [ // list of graph elements to start with
-        { // node a
-          data: { id: 'a' }
-        },
-        { // node b
-          data: { id: 'b' }
-        },
-        { // node c
-          data: { id: 'c' }
-        },
-        { // edge ab
-          data: { id: 'ab', source: 'a', target: 'b' }
-        },
-        { // edge ba
-          data: { id: 'ba', source: 'b', target: 'a' }
-        }
-      ],
-    
+      elements: this.graphElements,     
       style: [ // the stylesheet for the graph
         {
           selector: 'node',
@@ -90,7 +109,6 @@ export class InstaFollowersComponent {
             'label': 'data(id)'
           }
         },
-    
         {
           selector: 'edge',
           style: {
@@ -99,14 +117,12 @@ export class InstaFollowersComponent {
             'target-arrow-color': '#ccc',
             'target-arrow-shape': 'triangle',
             'curve-style': 'bezier',
-            'label':'data(id)'
           }
         }
       ],
-    
       layout: {
-        name: 'grid',
-        rows: 1
+        name: 'preset',
+        fit: true,
       }
     
     });
