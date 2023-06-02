@@ -1,6 +1,7 @@
 import { Component, Input, SimpleChanges } from '@angular/core';
 import { InferencesRepository } from 'src/app/db/data-repositories/general/inferences/inferences.repository';
 import { InferencesEntry } from 'src/app/models/General/Inferences/InferencesEntry';
+import { SequenceComponentInit } from '../../sequence-component-init.abstract';
 
 
 /**
@@ -15,7 +16,7 @@ import { InferencesEntry } from 'src/app/models/General/Inferences/InferencesEnt
   templateUrl: './inferences.component.html',
   styleUrls: ['./inferences.component.less']
 })
-export class InferencesComponent {
+export class InferencesComponent extends SequenceComponentInit {
 
   @Input()
   previewMode: boolean = false;
@@ -29,11 +30,31 @@ export class InferencesComponent {
   listOfInferencesToDelete: InferencesEntry[];
 
   constructor(private inferencesRepo: InferencesRepository) {
+    super();
+  }
 
-    this.inferencesRepo.getAllInferences().then((inferences) => {
-      this.inferences = inferences;
-      this.listOfInferences = [...this.inferences];
-    });
+/**
+  * A Callback called by angular when the views have been initialized
+  * It handles the initialization when the component is displayed on its own dedicated page.
+  *
+  * @author: Simon (scg@mail.upb.de)
+  */
+  ngAfterViewInit() {
+    if(!this.previewMode) {
+      this.initComponent();
+    }
+  }
+
+/**
+  * @see-super-class
+  * @author Simon (scg@mail.upb.de) 
+  */
+  override async initComponent(): Promise<void> {
+    console.log("--- Initializing Component 1: Inferences");
+    let inferences = await this.inferencesRepo.getAllInferences();
+
+    this.inferences = inferences;
+    this.listOfInferences = [...this.inferences];
   }
 
   /**

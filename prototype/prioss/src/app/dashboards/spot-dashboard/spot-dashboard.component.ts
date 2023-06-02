@@ -1,10 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { Router } from '@angular/router';
 import { GeneralDataComponent } from 'src/app/visualizations/all/general-data/general-data.component';
 import { MoodComponent } from 'src/app/visualizations/spotify/mood/mood.component';
 import { InferencesComponent } from 'src/app/visualizations/spotify/inferences/inferences.component';
 import { IntrojsService } from 'src/app/introjs/introjs.service';
+import { ListeningTimeComponent } from 'src/app/visualizations/spotify/listening-time/listening-time.component';
+import { BaseDashboard } from '../base-dashboard.abstract';
+import { TopArtistsComponent } from 'src/app/visualizations/spotify/top-artists/top-artists.component';
+import { TopSongsComponent } from 'src/app/visualizations/spotify/top-songs/top-songs.component';
 
 /**
   * This component is the root component for spotify's dashboard page.
@@ -21,7 +25,8 @@ import { IntrojsService } from 'src/app/introjs/introjs.service';
   templateUrl: './spot-dashboard.component.html',
   styleUrls: ['./spot-dashboard.component.less']
 })
-export class SpotDashboardComponent {
+export class SpotDashboardComponent extends BaseDashboard {
+  
   thirdPartyConnection = false;
   purposes = [
     {
@@ -46,15 +51,25 @@ export class SpotDashboardComponent {
     }
   ];
 
+  //Components to Initialize Sequentially
+  @ViewChild(GeneralDataComponent) spotGeneralData : GeneralDataComponent;
+  @ViewChild(InferencesComponent) spotInferences : InferencesComponent;
+  @ViewChild(ListeningTimeComponent) spotListeningTime : ListeningTimeComponent;
+  @ViewChild(TopArtistsComponent) spotTopArtists : TopArtistsComponent;
+  @ViewChild(TopSongsComponent) spotTopSongs : TopSongsComponent;
 
   constructor(private dbService: NgxIndexedDBService, private router: Router, private introService: IntrojsService) {
+    super();
   }
 
   /**
-   * This method starts the tour and sets @param tourCompleted in the @service introjs to true.
+   * A Callback called by angular when the views have been initialized
+   * 
+   * It starts the tour and sets @param tourCompleted in the @service introjs to true.
    * The boolean is set so not every time the page is navigated to, the tour starts again.
+   * It also starts the visualization initialization workflow
    *
-   * @author: Sven (svenf@mail.upb.de)
+   * @author: Sven (svenf@mail.upb.de), Simon (scg@mail.upb.de)
    */
   ngAfterViewInit(): void  {
     if (this.introService.isSpotifyTourCompleted() == false) {
@@ -62,6 +77,16 @@ export class SpotDashboardComponent {
       this.introService.setSpotifyTourCompleted(true);
     }
 
+    //Component initialization
+    //Add components to component Initialization list from BaseDashboard
+    this.componentInitializationList = [];
+    this.componentInitializationList.push(this.spotGeneralData);
+    this.componentInitializationList.push(this.spotInferences);
+    this.componentInitializationList.push(this.spotListeningTime);
+    this.componentInitializationList.push(this.spotTopArtists);
+    this.componentInitializationList.push(this.spotTopSongs);
+    //Start Component Initialization run
+    this.startSequentialInitialization();
   }
 
   /**

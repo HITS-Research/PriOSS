@@ -27,6 +27,16 @@ export class FaceDashboardComponent {
   ) { }
 
   /**
+   * Collapsible sections
+   */
+
+  isCollapsed: boolean = true;
+
+  toggleCollapsibleSection() {
+    this.isCollapsed = !this.isCollapsed;
+  }
+
+  /**
    * Rectification instruction steps.
    * 
    * @current : A pointer to the steps.
@@ -109,13 +119,13 @@ export class FaceDashboardComponent {
     {
       state: false,
       question: 'What is the purpose of Facebook dashboard?',
-      answer: 'The Facebook dashboard presents your personal data in an easily understandable form. This helps you understand what personal data of yours Facebook has been collecting, and how that data is being used. The dashboard also intends to help you change your excercise your privacy rights by making you more aware of your rights and by guiding you how to excercise your rights.'
+      answer: 'The Facebook dashboard presents your personal data in an easily understandable way. This helps you understand what personal data Facebook has been collecting, and how that data is being used. The dashboard also intends to help you excercise your privacy rights by making you more aware of your rights and by guiding you how to excercise your rights.'
     },
 
     {
       state: false,
       question: 'How does this dashboard help me improve my privacy on Facebook?',
-      answer: 'You can go to each visualization tile and inspect your data for its correctness. You can also see how your activities are being tracked. The visualizations explain how that particular has been created. If you do not intend Facebook to know any of your particular personal data, you can follow the instructions mentioned on the page to manage your permissions and/or privacy.'
+      answer: 'You can go to each visualization tile and inspect your data for its correctness. You can also see how your activities are being tracked. If you do not intend Facebook to know any of your particular personal data, you can follow the instructions mentioned in \'Manage Privacy\' section to manage your permissions and/or privacy.'
     },
 
     {
@@ -127,7 +137,7 @@ export class FaceDashboardComponent {
     {
       state: false,
       question: 'Is downloading my data compulsory to use the platform?',
-      answer: 'No. This platform offers sample data for Facebook. You can see how your data might look, by uploading the sample data.'
+      answer: 'No. This platform offers sample data for Facebook. You can explore how your data might look, by using the sample data.'
     },
 
     {
@@ -139,13 +149,13 @@ export class FaceDashboardComponent {
     {
       state: false,
       question: 'What are my privacy rights?',
-      answer: 'We reccommend you to read your rights as explained in GDPR Rights section.'
+      answer: 'We reccommend you to read your rights as explained in \'GDPR and Your Rights\' section.'
     },
 
     {
       state: false,
       question: 'How do I excercise my privacy rights?',
-      answer: 'By following the instructions mentioned in the Manage my Privacy Section.'
+      answer: 'By following the instructions mentioned in the \'Manage Privacy\' Section.'
     },
 
     {
@@ -212,4 +222,6 @@ export class FaceDashboardComponent {
   startTour() {
     this.introService.facebookDashboardTour();
   }
+
+
 }
