@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { ActivatedRoute, Router } from "@angular/router";
 import { IntrojsService } from 'src/app/introjs/introjs.service';
+import { AppComponent } from 'src/app/app.component'
+import { getLocaleDayPeriods } from '@angular/common';
 
 /**
   * This component is the root component for facebook's dashboard page.
@@ -25,16 +27,6 @@ export class FaceDashboardComponent {
     private dbService: NgxIndexedDBService,
     private introService: IntrojsService,
   ) { }
-
-  /**
-   * Collapsible sections
-   */
-
-  isCollapsed: boolean = true;
-
-  toggleCollapsibleSection() {
-    this.isCollapsed = !this.isCollapsed;
-  }
 
   /**
    * Rectification instruction steps.
@@ -163,8 +155,8 @@ export class FaceDashboardComponent {
       question: 'Does this platform has any privacy recommedations for my personal Facebook account?',
       answer: 'Yes. Please refer to Privacy Recommendations section.'
     }
-
   ];
+
   /**
     * This  method is responsible to navigate to the ads component page.
     * @author: rishmamn@campus.uni-paderborn.de
@@ -222,6 +214,4 @@ export class FaceDashboardComponent {
   startTour() {
     this.introService.facebookDashboardTour();
   }
-
-
 }
