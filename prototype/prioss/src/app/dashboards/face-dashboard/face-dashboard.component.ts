@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { ActivatedRoute, Router } from "@angular/router";
 import { IntrojsService } from 'src/app/introjs/introjs.service';
-import { AppComponent } from 'src/app/app.component'
 import { getLocaleDayPeriods } from '@angular/common';
 
 /**
@@ -20,6 +19,7 @@ import { getLocaleDayPeriods } from '@angular/common';
   templateUrl: './face-dashboard.component.html',
   styleUrls: ['./face-dashboard.component.less']
 })
+
 export class FaceDashboardComponent {
   constructor(
     private router: Router,

@@ -70,7 +70,7 @@
 
 // For collapsible sections
 
-.collapse_title {
+.section-title {
   text-align:justify;
   font-size: x-large;
   font-feature-settings:"dist";
@@ -79,33 +79,41 @@
 }
 
 summary {
+  // display: block;
+  position: relative;
   margin: -0.4em -0.4em 0;
   padding: 0.5em;
+  text-align:justify;
+  font-size: x-large;
+  font-feature-settings:"dist";
+  font-weight: bold;
+  color: rgb(27, 55, 87);
 }
 
-details[open] {
-  padding: 0.5em;
-}
 
-// To remove arrow
 
-// details > summary {
-//   list-style: none;
-// }
+// Can be used to animate details[open]
 
-// Can be used to manage details[open]
-
-// details[open] summary {
+// details[open] > summary::after {
+//   padding: 0.5em;
 //   position: relative;
 //   height: 2;
-//   -webkit-transition-timing-function: ease;
-//   -o-transition-timing-function: ease;
-//   transition-timing-function: ease;
-//   -webkit-transition-duration: .40s;
-//   -o-transition-duration: .40s;
-//   transition-duration: .40s;
-//   -webkit-transition-property: height,visibility;
-//   -o-transition-property: height,visibility;
-//   transition-property: height,visibility;
+//   -webkit-transition-timing-function: ease-in-out;
+//   -o-transition-timing-function: ease-in-out;
+//   transition-timing-function: ease-in-out;
 // }
+
+// details[open]>summary:before {
+//   transform: rotate(90deg);
+// }
+
+// summary:before {
+//   content: '';
+//   position: absolute;
+//   left: -20px;
+//   top: 2px;
+//   transition: all .4s;
+// }
+
+
 
