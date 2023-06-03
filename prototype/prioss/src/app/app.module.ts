@@ -64,6 +64,7 @@ import { InstaAdsActivityRepository } from './db/data-repositories/instagram/ins
 import { InstaAdsInterestRepository } from './db/data-repositories/instagram/insta-ads/insta-ads-interest.repository';
 import { InstaAdsClickedRepository } from './db/data-repositories/instagram/insta-ads/insta-ads-clicked.repository';
 import { InstaAdsViewedRepository } from './db/data-repositories/instagram/insta-ads/insta-ads-viewed.repository';
+import { TitleBarComponent } from './page-sub-components/title-bar/title-bar.component';
 
 registerLocaleData(de);
 
@@ -436,7 +437,8 @@ const dbConfig: DBConfig  =
     AdsRelatedDataComponent,
     FriendAndFollowersComponent,
     HelpButtonComponent,
-    OffFacebookActivityComponent
+    OffFacebookActivityComponent,
+    TitleBarComponent
   ],
   imports: [
     BrowserModule,
