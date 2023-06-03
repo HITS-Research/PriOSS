@@ -8,7 +8,7 @@ import * as sql from "./face_inferred_topics.sql";
 /** 
  * This class handles data that is inserted into and extracted from the userdata table. The Table is mainly used for the General-Data visualization.
  * 
- * @author: Max (maxy@mail.upb.de)
+ * @author: Rashida (rbharmal@mail.upb.de)
  */
 @Injectable()
 export class InferredTopicsRepository extends BulkAddCapableRepository {
