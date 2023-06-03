@@ -87,6 +87,14 @@ CREATE TABLE IF NOT EXISTS insta_ads_viewed (
     timestamp TEXT NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS insta_contacts (
+    id INTEGER PRIMARY KEY,
+    first_name TEXT NOT NULL,
+    surname TEXT NOT NULL,
+    contact_information TEXT NOT NULL,
+    imported_time TEXT NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS face_ads_information (
     id INTEGER PRIMARY KEY,
     advertiser_name TEXT NOT NULL,
@@ -173,6 +181,7 @@ DROP TABLE IF EXISTS insta_ads_activity;
 DROP TABLE IF EXISTS insta_ads_interests;
 DROP TABLE IF EXISTS insta_ads_clicked;
 DROP TABLE IF EXISTS insta_ads_viewed;
+DROP TABLE IF EXISTS insta_contacts;
 DROP TABLE IF EXISTS userdata;
 DROP TABLE IF EXISTS face_ads_information;
 DROP TABLE IF EXISTS face_ads_interacted;

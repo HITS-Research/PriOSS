@@ -65,6 +65,8 @@ import { InstaAdsInterestRepository } from './db/data-repositories/instagram/ins
 import { InstaAdsClickedRepository } from './db/data-repositories/instagram/insta-ads/insta-ads-clicked.repository';
 import { InstaAdsViewedRepository } from './db/data-repositories/instagram/insta-ads/insta-ads-viewed.repository';
 import { TitleBarComponent } from './page-sub-components/title-bar/title-bar.component';
+import { InstaContactComponent } from './visualizations/instagram/insta-contact/insta-contact.component';
+import { InstaContactsRepository } from './db/data-repositories/instagram/insta-contacts/insta-contacts.repository';
 
 registerLocaleData(de);
 
@@ -434,6 +436,7 @@ const dbConfig: DBConfig  =
     InferredTopicsComponent,
     InstaAccountCreationLoginComponent,
     InstaAdsComponent,
+    InstaContactComponent,
     AdsRelatedDataComponent,
     FriendAndFollowersComponent,
     HelpButtonComponent,
@@ -477,6 +480,7 @@ const dbConfig: DBConfig  =
     InstaAdsInterestRepository,
     InstaAdsClickedRepository,
     InstaAdsViewedRepository,
+    InstaContactsRepository,
     InferencesRepository,
     UserdataRepository,
     { provide: NZ_I18N, useValue: de_DE }
