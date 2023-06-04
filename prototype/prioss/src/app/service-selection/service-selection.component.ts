@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component,OnInit, Inject, HostListener } from '@angular/core';
+import { ViewportScroller } from "@angular/common";
 import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { faCircleRight } from '@fortawesome/free-regular-svg-icons'
 import { faArrowRotateRight } from '@fortawesome/free-solid-svg-icons'
@@ -57,6 +58,7 @@ export class ServiceSelectionComponent {
   faCircleRight = faCircleRight;
   faArrowRotateRight = faArrowRotateRight;
   isProcessingFile = false;
+  pageYoffset = 0;;
 
   //file upload
   uploadedFiles: File[] = [];
@@ -87,8 +89,9 @@ export class ServiceSelectionComponent {
               private instaAdsClickedRepo: InstaAdsClickedRepository,
               private instaAdsViewedRepo: InstaAdsViewedRepository,
               private sqlDBService: DBService, 
-              private http: HttpClient) {
-
+              private http: HttpClient,
+              private scroll: ViewportScroller) {
+    
     //clear the database when this component gets created
     this.dbService.clear("all/userdata").subscribe((deleted) => {
       console.log("Cleared all/userdata: " + deleted);
@@ -1002,7 +1005,13 @@ export class ServiceSelectionComponent {
                 gender: personal_data.gender.gender_option
               }).subscribe((key) => {
               });
+              setTimeout(() => {
+                //TODO: properly wait for data to be available in DB
+                this.progressBarPercent = 30;
+              }, 1000);
+         
           }
+       
           else if (filename == "ads_information/advertisers_using_your_activity_or_information.json") {
             console.log('Parsing: ' + filename);
             let jsonData = JSON.parse(content);
@@ -1016,6 +1025,11 @@ export class ServiceSelectionComponent {
                 }).subscribe((key) => {
                 });
             });
+            setTimeout(() => {
+              //TODO: properly wait for data to be available in DB
+              this.progressBarPercent = 60;
+            }, 1500);
+         
           }
           else if (filename == "ads_information/advertisers_you've_interacted_with.json") {
             console.log('Parsing: ' + filename);
@@ -1153,6 +1167,10 @@ export class ServiceSelectionComponent {
                 });
             });
           }
+          setTimeout(() => {
+        
+            this.progressBarPercent = 100;
+          }, 2000);
         });
       });
       return true;
@@ -1198,4 +1216,17 @@ export class ServiceSelectionComponent {
     }
   }
 
+  /**
+   * Add Go-to-Top button on Facebook service selection page
+   * Author: Deepa (dbelvi@mail.upb.de)
+   */
+  
+  @HostListener('window:scroll', []) onScroll(){
+    this.pageYoffset = window.pageYOffset;
+  }
+
+  scrollToTop(){
+    this.scroll.scrollToPosition([0,0]);
+  }
+        
 }
