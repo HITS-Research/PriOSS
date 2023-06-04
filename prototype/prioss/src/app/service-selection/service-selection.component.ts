@@ -405,26 +405,37 @@ export class ServiceSelectionComponent {
       }
       console.log('Opening: ' + filename);
 
-      if (filename == "your_topics.json") {
+      if (filename === "your_topics.json") {
         console.log('Parsing: ' + filename);
         
         let jsonData = JSON.parse(content);
         let inferredTopics = jsonData.inferred_topics_v2;
         await this.inferredTopicsDataRepo.addInferredTopics(inferredTopics[0], inferredTopics.length);
 
-        for (let i = 1; i < inferredTopics.length; i++) {
+        for (let i = 0; i < inferredTopics.length; i++) {
           await this.inferredTopicsDataRepo.addBulkInferredTopicsEntry(inferredTopics[i]);
         }
-        
       }
-      
+      else if(filename === "profile_information.json") {
+        let jsonData = JSON.parse(content);
+        let personal_data = jsonData.profile_v2;
+        const birthdate = personal_data.birthday;
+        const formattedBirthdate = `${birthdate.day.toString().padStart(2, '0')}
+        -${birthdate.month.toString().padStart(2, '0')}-${birthdate.year}`;
+        await this.UserdataRepo.addUserdata(personal_data.name.full_name, personal_data.emails.emails[0], personal_data.current_city.name, formattedBirthdate, personal_data.gender.gender_option, -1,
+          personal_data.phone_numbers[0], "", "", "");
+      }
     }
     console.log("Start topics Fetching");
     this.inferredTopicsDataRepo.getAllInferredTopics().then((topics) => {
       console.log("Read topics:");
       console.log(topics);
     });
-    this.progressBarPercent = 100;
+    console.log("view personal data")
+    this.UserdataRepo.getAllUserdata().then((info) => {
+      console.log("Personal info:");
+      console.log(info);
+    });
     await delay(500);
 
     this.progressBarVisible = false;
