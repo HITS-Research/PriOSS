@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import * as utilities from 'src/app/utilities/generalUtilities.functions'
 import { SQLiteService } from './services/sqlite/sqlite.service';
+import { AppComponentMsgService } from './services/app-component-msg/app-component-msg.service';
+import { AppComponentMsg } from './enum/app-component-msg.enum';
 
 @Component({
   selector: 'app-root',
@@ -21,8 +23,13 @@ export class AppComponent {
   public isWeb: boolean = false;
   private initPlugin: boolean;
 
-  constructor(private router: Router, private sqlite: SQLiteService) {
+  constructor(private router: Router, private sqlite: SQLiteService, private appComponentMsgService: AppComponentMsgService) {
     this.pRouter = router;
+
+    appComponentMsgService.appMsg$.subscribe((msg) =>
+    {
+      this.parseAppMsg(msg);
+    });
 
     this.sqlite.initializePlugin().then(async (ret) => {
       this.initPlugin = ret;
@@ -95,5 +102,24 @@ export class AppComponent {
    */
   routeToDashboard(): void {
     this.router.navigateByUrl('/' + this.serviceName + '/dashboard');
+  }
+
+  /**
+   * Reacts to messages received from the app component msg service
+   * 
+   * @param msg The message received from the msg service
+   * 
+   * @author Simon (scg@mail.upb.de)
+   */
+  parseAppMsg(msg: AppComponentMsg): void {
+    switch(msg) {
+      case AppComponentMsg.backToDashboard:
+        this.routeToDashboard();
+        break;
+      case AppComponentMsg.none:
+        break;
+      default:
+        break;
+    }
   }
 }
