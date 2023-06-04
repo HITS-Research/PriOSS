@@ -1,31 +1,27 @@
-
-.t-explanation
-{
+.t-explanation {
     text-align: center;
 }
 
 //the container of the file upload field
-.image-upload-wrap 
-{
+.image-upload-wrap {
     margin-top: 20px;
     border: 4px dashed #262626;
     position: relative;
 }
 
 //These rules invert colors of the file upload field container when hovering over it 
-.image-upload-wrap:hover 
-{
+.image-upload-wrap:hover {
     background-color: #262626;
     border: 4px dashed #ffffff;
 }
-.image-upload-wrap:hover .drag-text h3, .image-upload-wrap:hover .drag-text h5
-{
+
+.image-upload-wrap:hover .drag-text h3,
+.image-upload-wrap:hover .drag-text h5 {
     color: #ffffff;
 }
 
 //the input field for file upload
-.file-upload-input 
-{
+.file-upload-input {
     position: absolute;
     margin: 0;
     padding: 0;
@@ -37,18 +33,17 @@
 }
 
 //the div containing the text inside the file upload field
-.drag-text 
-{
+.drag-text {
     text-align: center;
 }
+
 //the actual text inside the file upload field
-.drag-text h3 
-{
+.drag-text h3 {
     font-weight: 100;
     color: #262626;
 }
-.drag-text h5 
-{
+
+.drag-text h5 {
     font-weight: 100;
     color: #262626;
 }
@@ -56,14 +51,12 @@
 /* 
  * Buttons
  */
-.t-buttons-container 
-{
+.t-buttons-container {
     text-align: center;
 }
 
 //the explore data button
-.t-explore-data-btn
-{
+.t-explore-data-btn {
     margin-top: 30px;
     display: block;
     position: relative;
@@ -72,77 +65,67 @@
     width: 240px;
 }
 
-.input-hidden 
-{
-  position: absolute;
-  left: -9999px;
+.input-hidden {
+    position: absolute;
+    left: -9999px;
 }
 
-label img
-{
+label img {
     width: 135px;
 }
 
-input[type=radio]:checked + label>img 
-{
-    border: 1px solid #fff;
-    box-shadow: 0 0 3px 3px #090;
+input[type=radio]:checked+label>img {
+  border-radius: 50%;
+  box-shadow: 0 0 3px 3px black;
+  transform: scale(1.1);
 }
 
-.selection-list
-{
+.selection-list {
     display: flex;
     justify-content: center;
-    .selection-choice
-    {
+
+    .selection-choice {
         padding: 16px;
-        
-        label h3 
-        {
+
+        label h3 {
             text-align: center;
         }
     }
 }
 
-.instructions 
-{
+.instructions {
     padding: 20px;
     display: flex;
     align-items: center;
 }
 
-.instructions-content
-{
+.instructions-content {
     margin-top: 20px;
     border: 1px solid #fff;
-    box-shadow: 0 0 3px 3px #090;
-    ol li 
-    {
+    box-shadow: 0 0 3px 3px black;
+
+    ol li {
         line-height: 2;
         font-size: 18px;
     }
 
-    .i-image
-    {
+    .i-image {
         width: 500px;
     }
 
-    .i-image-potrait
-    {
+    .i-image-potrait {
         width: 200px;
     }
 }
 
 //disclaimer div
-.selection-disclaimer 
-{
+.selection-disclaimer {
     margin: 20px 15px;
     border-style: solid;
     border-color: red;
     border-width: 1.5px;
 
-    p
-    {
+    p {
         font-size: 18px;
     }
 }
@@ -152,3 +135,17 @@ input[type=radio]:checked + label>img
     margin: 20px 20px;
 }
 
+
+.selection-choice {
+    perspective: 1000px;
+  }
+
+  .selection-choice:hover img {
+    transform: scale(1.1);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  }
+
+  .selection-choice:hover img {
+    border-radius: 50%;
+  }
