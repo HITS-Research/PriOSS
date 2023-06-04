@@ -41,7 +41,7 @@ export class IntrojsService {
         },
         {
           element: '#step2',
-          intro: 'This card shows all inferences Spotify made about you. You can rectify them here!'
+          intro: 'This card shows all inferences Spotify made about you. You can correct them here by sending Spotify an email with the selected inferences!'
         },
         {
           element: '#step3',
