@@ -8,12 +8,7 @@
       </nz-row>
       </div>
 <div *ngIf="!previewMode">
-  <nz-breadcrumb>
-    <nz-breadcrumb-item>
-      <a [routerLink]="['../dashboard/']">Dashboard</a>
-    </nz-breadcrumb-item>
-    <nz-breadcrumb-item>Ads data</nz-breadcrumb-item>
-  </nz-breadcrumb>
+  <app-title-bar titleText="Advertisements" tooltipText="TBD"></app-title-bar>
   <nz-tabset class="margin-top-20">
     <nz-tab nzTitle="Off-Site Interactions">
       <h3  nz-typography>What are Off-Site Interactions?</h3>
