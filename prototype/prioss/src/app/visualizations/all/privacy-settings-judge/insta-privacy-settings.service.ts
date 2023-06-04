@@ -6,17 +6,17 @@ import { Injectable } from '@angular/core';
 export class InstaPrivacySettingsService {
   settings = [
     {
-      Question : "Public Profile?",
-      HowToCheck : "",
-      Options : [
-        { label: "Option 1", value: "option1", advice: "Bad" },
-        { label: "Option 2", value: "option2", advice: "Good" }
+      question : "Public Profile?",
+      howToCheck : "",
+      options : [
+        { label: "option 1", value: "option1", advice: "Bad" },
+        { label: "option 2", value: "option2", advice: "Good" }
                 ]
     },
     {
-      Question : "",
-      HowToCheck : "",
-      Options : [
+      question : "",
+      howToCheck : "",
+      options : [
         { label: "", value: "", advice: "" },
         { label: "", value: "", advice: "" }
       ]

@@ -13,34 +13,37 @@ import { FacePrivacySettingsService } from '../face-privacy-settings.service';
 export class SettingsFormComponent {
   settingsForm: UntypedFormGroup;
   index = 0
-  selectedOption: any;
   panel = {name: "How to Check ?"}
   @Input("service") service: string;
 
   settings = [
     {
-      Question : "",
-      HowToCheck : "",
-      Options : [
+      question : "",
+      howToCheck : "",
+      options : [
         { label: '', value: '', advice: "" },
         { label: '', value: '', advice: "" }
                 ]
     }]
   
-    finish = [
+    finish = [ //used to display the finish-message and clear advice and options fields. The above settings is changed by then.
       {
-        Question : "Good Job! You properly checked all your privacy settings",
-        HowToCheck : "",
-        Options : [
+        question : "Good Job! You properly checked all your privacy settings",
+        howToCheck : "",
+        options : [
           { label: '', value: '', advice: "" },
           { label: '', value: '', advice: "" }
                   ]
       }]
 
-  optionList = this.settings[this.index]["Options"]
-  question = this.settings[this.index]["Question"]
-  howToCheck = this.settings[this.index]["HowToCheck"]
-  selectedValue = { label: 'Option 1', value: 'option1', advice: "" } // needed for clearing the forms options (choices)
+  optionList = this.settings[this.index]["options"]
+  question = this.settings[this.index]["question"]
+  howToCheck = this.settings[this.index]["howToCheck"]
+  selectedValue = { label: 'option 1', value: 'option1', advice: "" } // needed for clearing the forms options (choices)
+
+  constructor(private fb: FormBuilder, private spotPrivacySettingsService: SpotPrivacySettingsService, 
+    private instaPrivacySettingsService: InstaPrivacySettingsService, private facePrivacySettingsService: FacePrivacySettingsService) {
+  }
   
   /**
    * This method is needed, becausea the "service" value is not available on class initialization. Only later (when the ngOnInit method is started) will it be available
@@ -50,7 +53,6 @@ export class SettingsFormComponent {
    *
    */
   ngOnInit() {
-    console.log("service:" + this.service)
     if(this.service === "Spotify") {
       this.settings = this.spotPrivacySettingsService.settings
     }
@@ -60,47 +62,54 @@ export class SettingsFormComponent {
     else if(this.service === "Facebook") {
       this.settings = this.facePrivacySettingsService.settings
     }
-    this.optionList = this.settings[this.index]["Options"]
-    this.question = this.settings[this.index]["Question"]
-    this.howToCheck = this.settings[this.index]["HowToCheck"]
-    this.selectedValue = { label: 'Option 1', value: 'option1', advice: "" }
-  }
-
-  constructor(private fb: FormBuilder, private spotPrivacySettingsService: SpotPrivacySettingsService, 
-    private instaPrivacySettingsService: InstaPrivacySettingsService, private facePrivacySettingsService: FacePrivacySettingsService) {
+    this.optionList = this.settings[this.index]["options"]
+    this.question = this.settings[this.index]["question"]
+    this.howToCheck = this.settings[this.index]["howToCheck"]
+    this.selectedValue = { label: 'option 1', value: 'option1', advice: "" }
   }
 
 
+  /**
+   * Called by a "Forward" button in the front-end to go to the next question. 
+   * This Method uses an index to shift the displayed information in the privacy settings judge by one option to the next element. 
+   * 
+   * @author: Maximilian (maxy@mail.upb.de)
+   *
+   */
   onNext() {
     if(this.index < this.settings.length) {
       this.index++;
     }
     if(this.index >= this.settings.length) {
-      this.optionList = this.finish[0]["Options"]
-      this.question = this.finish[0]["Question"]
-      this.howToCheck = this.finish[0]["HowToCheck"]
-      this.selectedValue = { label: 'Option 1', value: 'option1', advice: "" }
+      this.optionList = this.finish[0]["options"]
+      this.question = this.finish[0]["question"]
+      this.howToCheck = this.finish[0]["howToCheck"]
+      this.selectedValue = { label: 'option 1', value: 'option1', advice: "" }
     }
     else{
-      this.optionList = this.settings[this.index]["Options"]
-      this.question = this.settings[this.index]["Question"]
-      this.howToCheck = this.settings[this.index]["HowToCheck"]
-      this.selectedValue = { label: 'Option 1', value: 'option1', advice: "" }
+      this.optionList = this.settings[this.index]["options"]
+      this.question = this.settings[this.index]["question"]
+      this.howToCheck = this.settings[this.index]["howToCheck"]
+      this.selectedValue = { label: 'option 1', value: 'option1', advice: "" }
     }
 
   }
 
+  /**
+   * Called by a "Backward" button in the front-end to go to the previous question. 
+   * This Method uses an index to shift the displayed information in the privacy settings judge by one option to the previous element. 
+   * 
+   * @author: Maximilian (maxy@mail.upb.de)
+   *
+   */
   onPrev() {
     if(this.index > 0) {
       this.index--;
     }
-    this.optionList = this.settings[this.index]["Options"]
-    this.question = this.settings[this.index]["Question"]
-    this.howToCheck = this.settings[this.index]["HowToCheck"]
-    this.selectedValue = { label: 'Option 1', value: 'option1', advice: "" }
+    this.optionList = this.settings[this.index]["options"]
+    this.question = this.settings[this.index]["question"]
+    this.howToCheck = this.settings[this.index]["howToCheck"]
+    this.selectedValue = { label: 'option 1', value: 'option1', advice: "" }
   }
 
-  log2(selectedOption: any): void {
-    console.log(selectedOption);
-  }
 }
