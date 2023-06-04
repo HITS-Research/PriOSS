@@ -39,9 +39,9 @@ export class InstaDashboardComponent {
     {
       active: false,
       name: 'Who developed this website?',
-      content: 'Users can find information about this section in "About" part of application or by visiting the below link.',
+      content: 'You can find information about this section in "About" part of application or by visiting the link below.',
       link: '../../about',
-      linkLabel: 'link'
+      linkLabel: 'AboutPage'
     },
     {
       active: false,
@@ -51,9 +51,9 @@ export class InstaDashboardComponent {
     {
       active: false,
       name: 'How to download the Instagram data? ',
-      content: 'Please visist the below link and select Instagram application',
+      content: 'Please visit the below link and select Instagram application',
       link: '../../serviceSelection',
-      linkLabel: 'link'
+      linkLabel: 'Service Selection'
     },
     {
       active: false,
