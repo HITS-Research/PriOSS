@@ -12,7 +12,7 @@
       </p>
       </nz-collapse-panel>
     </nz-collapse>
-    <br/>
+    <br>
     <nz-form-control>
       <nz-select
       name="optionSelecter"
@@ -24,6 +24,7 @@
       </nz-select>
     </nz-form-control>
   <br>
+  <nz-form-label *ngIf="!selectedValue.advice"></nz-form-label>
   <nz-form-label *ngIf="selectedValue.advice">{{"&ldquo;"}}{{selectedValue.advice}}{{"&rdquo;"}}</nz-form-label>
   </nz-form-item>
   <nz-form-item>
@@ -33,6 +34,8 @@
           <span nz-icon nzType="left"></span>
           Backward
         </button>
+        <button *ngIf="this.index !== this.settings.length" class="no-click" nz-button nzType="default" disabled>Progress: {{this.index + "/" + this.settings.length}}</button>
+        <nz-progress *ngIf="this.index === this.settings.length" class="small-progress" [nzPercent]="100" nzSize="small"></nz-progress>
         <button nz-button nzType="default" (click)="onNext()">
           Forward
           <span nz-icon nzType="right"></span>

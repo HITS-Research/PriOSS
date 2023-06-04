@@ -26,6 +26,17 @@ export class SettingsFormComponent {
         { label: '', value: '', advice: "" }
                 ]
     }]
+  
+    finish = [
+      {
+        Question : "Good Job! You properly checked all your privacy settings",
+        HowToCheck : "",
+        Options : [
+          { label: '', value: '', advice: "" },
+          { label: '', value: '', advice: "" }
+                  ]
+      }]
+
   optionList = this.settings[this.index]["Options"]
   question = this.settings[this.index]["Question"]
   howToCheck = this.settings[this.index]["HowToCheck"]
@@ -61,20 +72,27 @@ export class SettingsFormComponent {
 
 
   onNext() {
-    this.index++;
-    if(this.index >= this.settings.length) {
-      this.index = 0;
+    if(this.index < this.settings.length) {
+      this.index++;
     }
-    this.optionList = this.settings[this.index]["Options"]
-    this.question = this.settings[this.index]["Question"]
-    this.howToCheck = this.settings[this.index]["HowToCheck"]
-    this.selectedValue = { label: 'Option 1', value: 'option1', advice: "" }
+    if(this.index >= this.settings.length) {
+      this.optionList = this.finish[0]["Options"]
+      this.question = this.finish[0]["Question"]
+      this.howToCheck = this.finish[0]["HowToCheck"]
+      this.selectedValue = { label: 'Option 1', value: 'option1', advice: "" }
+    }
+    else{
+      this.optionList = this.settings[this.index]["Options"]
+      this.question = this.settings[this.index]["Question"]
+      this.howToCheck = this.settings[this.index]["HowToCheck"]
+      this.selectedValue = { label: 'Option 1', value: 'option1', advice: "" }
+    }
+
   }
 
   onPrev() {
-    this.index--;
-    if(this.index < 0) {
-      this.index = this.settings.length-1;
+    if(this.index > 0) {
+      this.index--;
     }
     this.optionList = this.settings[this.index]["Options"]
     this.question = this.settings[this.index]["Question"]
