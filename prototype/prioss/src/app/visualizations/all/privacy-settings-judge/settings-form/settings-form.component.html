@@ -30,13 +30,13 @@
   <nz-form-item>
     <nz-form-control>
       <nz-button-group [nzSize]="'large'">
-        <button nz-button nzType="default" (click)="onPrev()">
+        <button nz-button nzType="default" (click)="onPrev()" [disabled]="this.index === 0">
           <span nz-icon nzType="left"></span>
           Backward
         </button>
         <button *ngIf="this.index !== this.settings.length" class="no-click" nz-button nzType="default" disabled>Progress: {{this.index + "/" + this.settings.length}}</button>
         <nz-progress *ngIf="this.index === this.settings.length" class="small-progress" [nzPercent]="100" nzSize="small"></nz-progress>
-        <button nz-button nzType="default" (click)="onNext()">
+        <button nz-button nzType="default" (click)="onNext()" [disabled]="this.index === this.settings.length">
           Forward
           <span nz-icon nzType="right"></span>
         </button>
