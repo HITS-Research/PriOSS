@@ -36,7 +36,31 @@ export class InstaDashboardComponent extends BaseDashboard{
     {
       active: false,
       name: 'Who developed this website?',
-      content: 'We are a Team called PriOSS and made up of students from the University of Paderborn. This website is a Student Project developed with a passion for privacy during the Course „Project Group: a Privacy One-Stop Shop“ over the course of one year between October 2022 and September 2023. To get more information about us and the project, visit our About Us page',
+      content: 'You can find information about this section in "About" part of application or by visiting the link below.',
+      link: '../../about',
+      linkLabel: 'AboutPage'
+    },
+    {
+      active: false,
+      name: 'Why was this application created?',
+      content: 'Users often lack awareness of their rights regarding data downloads under the General Data Protection Regulation (GDPR). Our platform not only offers data visualization but also assists users in rectifying inaccurate data and enhancing transparency. This includes providing additional context information, such as explanations regarding the purposes for which user data is collected by specific services, as well as guidance on how to exercise the right to erasure within those services. Through these measures, we aim to empower users to adopt privacy-conscious behaviors while using the Instagram platform.',
+    },
+    {
+      active: false,
+      name: 'How to download the Instagram data? ',
+      content: 'Please visit the below link and select Instagram application',
+      link: '../../serviceSelection',
+      linkLabel: 'Service Selection'
+    },
+    {
+      active: false,
+      name: 'How to traverse inside the data? ',
+      content: 'Users can navigate through their downloaded JSON data. The data is collected and grouped based on various interests such as ads_and_businesses, ads_and_topics, comments, and more. User data is organized into different folders and sorted alphabetically. To comprehend the contents of these JSON files, a basic understanding of JSON is required beforehand. This application simplifies the process and makes it straightforward to comprehend the data.',
+    },
+    {
+      active: false,
+      name: 'Is this application really offline?',
+      content: 'Yes, the application is offline. We have used SQLite which is a local database. For more detail, users can contact the University of Paderborn. „Project Group: a Privacy One-Stop Shop“ over the course of one year between October 2022 and September 2023. To get more information about us and the project, visit our About Us page',
     },
     {
       active: false,
