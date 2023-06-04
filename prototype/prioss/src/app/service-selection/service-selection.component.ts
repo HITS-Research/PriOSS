@@ -24,6 +24,7 @@ import { InstaAdsInterestRepository } from '../db/data-repositories/instagram/in
 import { InstaAdsClickedRepository } from '../db/data-repositories/instagram/insta-ads/insta-ads-clicked.repository';
 import { InstaAdsViewedRepository } from '../db/data-repositories/instagram/insta-ads/insta-ads-viewed.repository';
 import { InstaFollowerRepository } from '../db/data-repositories/instagram/insta-follower-info/insta-follower.repository';
+import { InstaFollowingRepository } from '../db/data-repositories/instagram/insta-follower-info/insta-following.repository';
 
 import { UserdataRepository } from '../db/data-repositories/general/userdata/userdata.repository';
 import { timestamp } from 'rxjs';
@@ -91,6 +92,7 @@ export class ServiceSelectionComponent {
               private instaAdsClickedRepo: InstaAdsClickedRepository,
               private instaAdsViewedRepo: InstaAdsViewedRepository,
               private instaFollowerRepo: InstaFollowerRepository,
+              private instaFollowingRepo: InstaFollowingRepository,
               private sqlDBService: DBService, 
               private http: HttpClient,
               private scroll: ViewportScroller) {
@@ -674,7 +676,7 @@ export class ServiceSelectionComponent {
       if (filename.startsWith("followers_1")) {
         let jsonData = JSON.parse(content);
         await this.instaFollowerRepo.startFollowerBulkAdd(jsonData[0].string_list_data[0].href,
-                                                          jsonData[0].string_list_data[0].timestamp,
+          utilities.convertTimestamp(jsonData[0].string_list_data[0].timestamp),
                                                           jsonData[0].string_list_data[0].value,
                                                           jsonData.length);
         for(let i = 1; i < jsonData.length; i++){
@@ -682,6 +684,21 @@ export class ServiceSelectionComponent {
           var timestamp = utilities.convertTimestamp(jsonData[i].string_list_data[0].timestamp);
           var accountName = jsonData[i].string_list_data[0].value;
           await this.instaFollowerRepo.addFollowerBulkEntry(accountURL, timestamp, accountName);
+        }    
+      }
+      //add following information
+      if (filename.startsWith("following")) {
+        let jsonData = JSON.parse(content);
+        let followingData = jsonData.relationships_following;
+        await this.instaFollowingRepo.startFollowingBulkAdd(followingData[0].string_list_data[0].href,
+          utilities.convertTimestamp(followingData[0].string_list_data[0].timestamp),
+          followingData[0].string_list_data[0].value,
+          followingData.length);
+        for(let i = 1; i < followingData.length; i++){
+          var accountURL = followingData[i].string_list_data[0].href;
+          var timestamp = utilities.convertTimestamp(followingData[i].string_list_data[0].timestamp);
+          var accountName = followingData[i].string_list_data[0].value;
+          await this.instaFollowingRepo.addFollowingBulkEntry(accountURL, timestamp, accountName);
         }    
       }
     }

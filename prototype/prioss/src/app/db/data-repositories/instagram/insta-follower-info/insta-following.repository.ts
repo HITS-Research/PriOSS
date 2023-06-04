@@ -1,8 +1,8 @@
 import { Injectable } from "@angular/core";
 import { SQLiteDBConnection, capSQLiteChanges } from "@capacitor-community/sqlite";
 import { DBService } from "../../../../services/db/db.service";
-import * as sql from "./insta-follower.sql";
-import { InstaFollowerInfo } from 'src/app/models/Instagram/FollowerInfo/FollowerInfo';
+import * as sql from "./insta-following.sql";
+import { InstaFollowingInfo } from "src/app/models/Instagram/FollowerInfo/followingInfo";
 import { BulkAddCapableRepository } from "../../general/inferences/bulk-add-capable.repository";
 /**
  * This class handles all communication with the database tables that are used in the InstaFollower Component.
@@ -10,14 +10,14 @@ import { BulkAddCapableRepository } from "../../general/inferences/bulk-add-capa
  * @author: Melina (kleber@mail.uni-paderborn.de)
  */
 @Injectable()
-export class InstaFollowerRepository extends BulkAddCapableRepository {
+export class InstaFollowingRepository extends BulkAddCapableRepository {
 
     constructor(dbService: DBService) {
-        super(sql.bulkAddInstaFollowerBaseSQL, sql.bulkAddInstaFollowerValuesSQL, sql.bulkAddValueConnector, dbService);
+        super(sql.bulkAddInstaFollowingBaseSQL, sql.bulkAddInstaFollowingValuesSQL, sql.bulkAddValueConnector, dbService);
     }
 
     /**
-     * Starts a bulk-add run that adds multiple rows from subsequent addFollowerBulkEntry-Calls to the DB in a single SQL statement.
+     * Starts a bulk-add run that adds multiple rows from subsequent addFollowingBulkEntry-Calls to the DB in a single SQL statement.
      * 
      * @param instaProfileURL the url to the followers profile
      * @param timestamp since the user follows this account
@@ -27,12 +27,12 @@ export class InstaFollowerRepository extends BulkAddCapableRepository {
      * 
      * @author: Melina (kleber@mail.uni-paderborn.de)
      */
-    async startFollowerBulkAdd(instaProfileURL: string, timestamp: number, instaAccountName: string, totalRowCount: number, targetBulkSize: number = 500) {
+    async startFollowingBulkAdd(instaProfileURL: string, timestamp: number, instaAccountName: string, totalRowCount: number, targetBulkSize: number = 500) {
         this.startBulkAdd([instaProfileURL, timestamp, instaAccountName], totalRowCount, targetBulkSize);
     }
 
     /**
-     * Adds a row to the Instagram follower table as part of a bulk-add run
+     * Adds a row to the Instagram following table as part of a bulk-add run
      * 
      * @param instaProfileURL the url to the followers profile
      * @param timestamp since the user follows this account
@@ -42,41 +42,43 @@ export class InstaFollowerRepository extends BulkAddCapableRepository {
      * 
      * @returns 
      */
-    async addFollowerBulkEntry(instaProfileURL: string, timestamp: number, instaAccountName: string) : Promise<void> {
+    async addFollowingBulkEntry(instaProfileURL: string, timestamp: number, instaAccountName: string) : Promise<void> {
         return this.addBulkEntry([instaProfileURL, timestamp, instaAccountName]);
     }
 
+
     /**
-     * This async method adds follower information to the insta_follower_information table.
+     * This async method adds following information to the insta_following_information table.
      * 
-     * @param instaProfileURL the url to the followers profile
-     * @param timestamp since the user follows this account
-     * @param instaAccountName the followers account name
+     * @param instaProfileURL the url to the following profile
+     * @param timestamp since the user following this account
+     * @param instaAccountName the following account name
      * 
      * @author: Melina (kleber@mail.uni-paderborn.de)
      */
-    async addFollowerInformation(instaProfileURL: string, timestamp: number, instaAccountName: string) {
+    async addFollowingInformation(instaProfileURL: string, timestamp: number, instaAccountName: string) {
         await this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
-            let sqlStatement = sql.insertIntoInstaFollowerInfoSQL; 
+
+            let sqlStatement = sql.insertIntoInstaFollowingInfoSQL;
             let values = [instaProfileURL, timestamp, instaAccountName];
+      
             let ret: capSQLiteChanges = await db.run(sqlStatement, values);
           });
     }
-   
 
     /**
-     * This async method selects all entries from the insta_follower_information table
+     * This async method selects all entries from the insta_following_info table
      * 
-     * @returns an array of InstaFollowerInformation
+     * @returns an array of InstaFollowingInfos
      * 
      * @author: Melina (kleber@mail.uni-paderborn.de)
      */
-    async getFollowerInfo(): Promise<InstaFollowerInfo[]>
+    async getFollowingInfo(): Promise<InstaFollowingInfo[]>
     {
         return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
 
-            let result = await db.query(sql.selectFollowerInfo);
-            return result.values as InstaFollowerInfo[];
+            let result = await db.query(sql.selectFollowingInfo);
+            return result.values as InstaFollowingInfo[];
         });
     }
 }
