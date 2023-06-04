@@ -9,15 +9,17 @@ import { InstaContactInfo } from 'src/app/models/Instagram/ContactInfo/InstaCont
   styleUrls: ['./insta-contact.component.less']
 })
 export class InstaContactComponent extends SequenceComponentInit{
-  @Input()
-    previewMode: boolean = false;
 
-    contacts: InstaContactInfo[] = [];
+  @Input()
+  previewMode: boolean = false;
+
+  contacts: InstaContactInfo[] = [];
+
+  constructor(private instaContactsRepo: InstaContactsRepository){
+    super();
+  }
   
-    constructor(private instaContactsRepo: InstaContactsRepository){
-      super();
-    }
-   /**
+  /**
   * A Callback called by angular when the views have been initialized
   * It handles the initialization when the component is displayed on its own dedicated page.
   *
@@ -28,17 +30,16 @@ export class InstaContactComponent extends SequenceComponentInit{
       this.initComponent();
     }
   } 
+
   /**
   * @see-super-class
   * @author Durva & Mayank (dghurye@mail.upb.de & mayank@mail.upb.de)
   */
   override async initComponent(): Promise<void> {
-
+    console.log("--- Initializing Component 4: Contacts");
     // Contacts fetched from SQlite
-    
-    let contacts = await this.instaContactsRepo.getAllContacts();
-    if(contacts.length > 0) {
-      this.contacts = contacts
-    }
-}
+    await this.instaContactsRepo.getAllContacts().then((contacts) => {
+      this.contacts = contacts;
+    });
+  }
 }

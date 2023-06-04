@@ -43,6 +43,15 @@
         <a routerLink="/insta/account">More</a>
       </ng-template>
     </div>
+    <div nz-col nzXs="24" nzXl="8">
+      <!--card for visualizing the contacts-->
+      <nz-card nzTitle="Contacts" nzHoverable [nzExtra]="extraContacts">
+        <app-insta-contact [previewMode]="true"></app-insta-contact>
+      </nz-card>
+      <ng-template #extraContacts>
+        <a routerLink="/insta/contacts">More</a>
+      </ng-template>
+    </div>
   </div>
   <br>
 </div>

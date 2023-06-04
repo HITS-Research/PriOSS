@@ -673,11 +673,16 @@ export class ServiceSelectionComponent {
         let jsonData = JSON.parse(content);
         let contactsData = jsonData.contacts_contact_info;
 
-        await this.instaContactsRepo.startContactBulkAdd(contactsData[0].string_map_data["First name"], contactsData[0].string_map_data["Surname"], 
-          contactsData[0].string_map_data["Contact information"], contactsData[0].string_map_data["Imported time"], contactsData.length);          
+        await this.instaContactsRepo.startContactBulkAdd(contactsData[0].string_map_data["First name"].value, 
+                contactsData[0].string_map_data["Surname"].value, 
+                contactsData[0].string_map_data["Contact information"].value, 
+                contactsData[0].string_map_data["Imported time"].value, 
+                contactsData.length);          
         for (let i = 1; i < contactsData.length; i++) {
-          await this.instaContactsRepo.addContactsBulkEntry(contactsData[i].string_map_data["First name"], contactsData[i].string_map_data["Surname"], 
-            contactsData[i].string_map_data["Contact information"], contactsData[i].string_map_data["Imported time"]);
+          await this.instaContactsRepo.addContactsBulkEntry(contactsData[i].string_map_data["First name"].value,
+                contactsData[i].string_map_data["Surname"].value, 
+                contactsData[i].string_map_data["Contact information"].value,
+                contactsData[i].string_map_data["Imported time"].value);
         }
       }
 
