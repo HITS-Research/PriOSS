@@ -23,39 +23,27 @@
     
     <!--only shows when visiting the page-->
     <div *ngIf="!previewMode">
-        <nz-breadcrumb>
-            <nz-breadcrumb-item>
-                <a [routerLink]="['../dashboard/']">Dashboard</a>
-            </nz-breadcrumb-item>
-            <nz-breadcrumb-item>Advertisement</nz-breadcrumb-item>
-        </nz-breadcrumb>
-
-        <h2 nz-typography>Advertisement</h2>
-
-        <!--Advertisment Highlights-->
-        <h3 nz-typography>Advertisement Highlights</h3>
-        <p>The below displays the advertisment highlights for your Instagram data. </p>
-            <nz-row [nzGutter]="16">
-                <nz-col [nzSpan]="12">
-                <nz-statistic [nzValue]="(ads_activity.length|number)!" [nzTitle]="'Number of advertisment activities'"></nz-statistic>
-                </nz-col>
-                <nz-col [nzSpan]="12">
-                <nz-statistic [nzValue]="(ads_clicked.length| number)!" [nzTitle]="'Number of advertisments clicked'"></nz-statistic>
-                </nz-col>
-            </nz-row>
-            <nz-row [nzGutter]="16">
-                <nz-col [nzSpan]="12">
-                    <nz-statistic [nzValue]="(ads_interests.length | number)!" [nzTitle]="'Number of advertisment interests'"></nz-statistic>
-                </nz-col>
-                <nz-col [nzSpan]="12">
-                    <nz-statistic [nzValue]="(ads_viewed.length| number)!" [nzTitle]="'Number of advertisments viewed'"></nz-statistic>
-                </nz-col>
-            </nz-row>
-            <br>
+        <app-title-bar titleText="Advertisement Highlights" tooltipText="The below displays the advertisment highlights for your Instagram data."></app-title-bar>
+        <nz-row [nzGutter]="16">
+            <nz-col [nzSpan]="12">
+            <nz-statistic [nzValue]="(ads_activity.length|number)!" [nzTitle]="'Number of advertisment activities'"></nz-statistic>
+            </nz-col>
+            <nz-col [nzSpan]="12">
+            <nz-statistic [nzValue]="(ads_clicked.length| number)!" [nzTitle]="'Number of advertisments clicked'"></nz-statistic>
+            </nz-col>
+        </nz-row>
+        <nz-row [nzGutter]="16">
+            <nz-col [nzSpan]="12">
+                <nz-statistic [nzValue]="(ads_interests.length | number)!" [nzTitle]="'Number of advertisment interests'"></nz-statistic>
+            </nz-col>
+            <nz-col [nzSpan]="12">
+                <nz-statistic [nzValue]="(ads_viewed.length| number)!" [nzTitle]="'Number of advertisments viewed'"></nz-statistic>
+            </nz-col>
+        </nz-row>
+        <br>
 
         <!-- Advertisement Activity -->
-        <h3 nz-typography>Advertisements Activity</h3>
-        <p>The below displays the advertisement activity performed by you on your Instagram account. </p>
+        <app-title-bar titleText="Advertisement Activity" tooltipText="The below displays the advertisement activity performed by you on your Instagram account." [includeButton]="false"></app-title-bar>
         <!-- If Advertisement Activity Data present -->
         <div *ngIf="ads_activity?.length">
             <nz-table [nzData]="ads_activity" [nzPageSize]="pageSize" [nzPageIndex]="currentPage" (nzPageIndexChange)="on_ads_actvity_page_change($event)">
@@ -84,8 +72,7 @@
         <br>
 
         <!-- Advertisement Clicked -->
-        <h3 nz-typography>Advertisements Clicked</h3>
-        <p>The below displays the advertisement clicked by you on your Instagram account. </p>
+        <app-title-bar titleText="Advertisements Clicked" tooltipText="The below displays the advertisement clicked by you on your Instagram account." [includeButton]="false"></app-title-bar>
         <!-- If Advertisement Clicked Data present -->
         <div *ngIf="ads_clicked?.length">
             <div class="list-view">
@@ -101,8 +88,7 @@
         <br>
 
         <!-- Advertisement Interests -->
-        <h3 nz-typography>Advertisements Interests</h3>
-        <p> The below displays the advertisement interests inferred by Instagram. </p>
+        <app-title-bar titleText="Advertisements Interests" tooltipText="The below displays the advertisement interests inferred by Instagram." [includeButton]="false"></app-title-bar>
         <!-- If Advertisement Interests Data present -->
         <div *ngIf="ads_interests?.length">
             <div class="list-view">
@@ -118,8 +104,7 @@
         <br>
 
         <!-- Advertisement Viewed -->
-        <h3 nz-typography>Advertisements Viewed</h3>
-        <p>The below displays the advertisement viewed by you on your Instagram account. </p>
+        <app-title-bar titleText="Advertisements Viewed" tooltipText="The below displays the advertisement viewed by you on your Instagram account." [includeButton]="false"></app-title-bar>
         <!-- If Advertisement Viewed Data present -->
         <div *ngIf="ads_viewed?.length">
             <div class="list-view">

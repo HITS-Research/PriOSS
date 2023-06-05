@@ -15,16 +15,42 @@ import { Router } from '@angular/router';
     appNames: string[] = [];
     adNames: string[] = [];
     appsByCategory: { inactive: any[], active: any[], removed: any[] } = { inactive: [], active: [], removed: [] };
-    apptype: { PAGE_VIEW: any[], VIEW_CONTENT: any[] } = { PAGE_VIEW: [], VIEW_CONTENT: [] };
+    apptype: { PAGE_VIEW: any[], VIEW_CONTENT: any[] ,INITIATE_CHECKOUT: any[]} = { PAGE_VIEW: [], VIEW_CONTENT: [], INITIATE_CHECKOUT: [] };
     totalCount = 0;
+    totalAdsCount = 0;
     activeWebsite = 0;
     inActiveWebsite = 0;
     removedWebsite = 0;
+    defaultTabIndex = 0;
+    pageViewViewContentCount: number = 0;
+    initiateCheckoutCount: number = 0;
     constructor(private dbService: NgxIndexedDBService, private router: Router) { }
     ngOnInit(): void {
+      this.activateTab(this.defaultTabIndex);  
       this.getData();
-      this.generateBubbleChart();
+  }
+   /**
+    * This method is responsible to activate the respective link based on clicked events.
+    * @author: Rishma (rishmamn@mail.uni-paderborn.de))
+    *
+    */
+  activateTab(tabIndex: number) {
+    if (tabIndex === 0) {
+      const types = ['PAGE_VIEW', 'VIEW_CONTENT'];
+      const chartId = 'bubble-chart-interactions';
+      const yAxisLabel = 'Businesses or Organizations';
+      const xAxisLabel = 'Number of Interactions';
+      const title = 'Top 20 Interacted Applications';
+     this.generateBubbleChart(types, chartId, xAxisLabel, yAxisLabel, title,0);
+    }else if (tabIndex === 1) {
+    const types = ['INITIATE_CHECKOUT'];
+    const chartId = 'bubble-chart-purchase-tracking';
+    const yAxisLabel = 'Businesses or Organizations';
+    const xAxisLabel = 'Number of Checkout Events';
+    const title = 'Top Apps with Most Checkout Events';
+    this.generateBubbleChart(types, chartId, xAxisLabel, yAxisLabel, title,1);
     }
+  }
 
     /**
     * This method is responsible to show the stored data from  the Indexed DB to the browser.
@@ -80,47 +106,66 @@ import { Router } from '@angular/router';
     * @author: Rishma (rishmamn@mail.uni-paderborn.de))
     *
     */
-
-      generateBubbleChart(){
+    generateBubbleChart(types: string[], chartId: string, xAxisLabel: string, yAxisLabel: string,title:string,selectedTab:any): void {
       this.dbService.getAll('face/off_facebook_activity').subscribe((apps: any) => {
-        if (apps.length != 0) {
+        if (apps.length !== 0) {
           const appCounts: { [key: string]: { [key: string]: number } } = {};
           for (let i = 0; i < apps.length; i++) {
             const app = apps[i];
             const appName = app.name;
             const events = app.events;
-
-            // Check if the app has the types PAGE_VIEW or VIEW_CONTENT
+    
+            // Check if the app has the selected types based on the selected tab
             for (let j = 0; j < events.length; j++) {
               const eventType = events[j].type;
-              if (eventType === 'PAGE_VIEW' || eventType === 'VIEW_CONTENT') {
+              if (selectedTab === 0 && (eventType === 'PAGE_VIEW' || eventType === 'VIEW_CONTENT')) {
                 // Initialize the app count if it doesn't exist
                 if (!appCounts[appName]) {
                   appCounts[appName] = {
                     PAGE_VIEW: 0,
-                    VIEW_CONTENT: 0
+                    VIEW_CONTENT: 0,
                   };
                 }
-
+    
+                // Increment the app count for the event type
+                appCounts[appName][eventType] += 1;
+              } else if (selectedTab === 1 && eventType === 'INITIATE_CHECKOUT') {
+                // Initialize the app count if it doesn't exist
+                if (!appCounts[appName]) {
+                  appCounts[appName] = {
+                    INITIATE_CHECKOUT: 0
+                  };
+                }
+    
                 // Increment the app count for the event type
                 appCounts[appName][eventType] += 1;
               }
             }
           }
-
-          // Convert the appCounts object into an array of objects and sort by total count
-        const appCountsArray = Object.entries(appCounts).map(([appName, counts]) => ({
-            appName,
-            pageViews: counts['PAGE_VIEW'],
-            viewContent: counts['VIEW_CONTENT'],
-            totalCount: counts['PAGE_VIEW'] + counts['VIEW_CONTENT']
-          })).sort((a, b) => b.totalCount - a.totalCount);
-
-        // Sort appCountsArray by count in descending order
-      const topApps = appCountsArray.slice(0, 20);
+          // Convert the appCounts object into an array of objects and calculate total counts
+          const appCountsArray = Object.entries(appCounts).map(([appName, counts]) => {
+            const pageViewViewContentCount = counts['PAGE_VIEW'] + counts['VIEW_CONTENT'];
+            const initiateCheckoutCount = counts['INITIATE_CHECKOUT'];
+            const totalCount = selectedTab === 0 ? pageViewViewContentCount : initiateCheckoutCount;
+    
+            return {
+              appName,
+              pageViewViewContentCount,
+              initiateCheckoutCount,
+              totalCount
+            };
+          }).sort((a, b) => b.totalCount - a.totalCount);
+          Object.entries(appCounts).forEach(([appName, counts]) => {
+            this.pageViewViewContentCount += counts['PAGE_VIEW'] + counts['VIEW_CONTENT'];
+            this.initiateCheckoutCount += counts['INITIATE_CHECKOUT'];
+          });
+          console.log("pp",this.pageViewViewContentCount)
+          console.log("ii",this.initiateCheckoutCount)
+    
+          const topApps = appCountsArray.slice(0, 20);
 
     // Remove old bubble chart
-    d3.select("#bubble-chart").selectAll("*").remove();
+    d3.select(`#${chartId}`).selectAll("*").remove();
     let margin = 10;
     let leftmargin = 330;
     let rightMargin = 80; // Adjust the right margin value
@@ -129,7 +174,7 @@ import { Router } from '@angular/router';
     let yAxisHeight = window.innerHeight - margin - bottomMargin;
 
     let svg = d3
-      .select("#bubble-chart")
+      .select(`#${chartId}`)
       .append("svg")
       .attr("viewBox", `0 0 ${xAxisWidth + leftmargin + rightMargin} ${yAxisHeight + margin + bottomMargin}`)
       .append("g")
@@ -141,7 +186,7 @@ import { Router } from '@angular/router';
       .attr("text-anchor", "middle")
       .style("font-size", "35px")
       .style("font-weight","bold")
-      .text("Top 20 Interacted Applications");
+      .text(title);
     // The minimum and maximum values in the totalCount data 
     // are mapped to the minimum and maximum bubble sizes respectively
     const sizeScale = d3.scaleLinear()
@@ -154,12 +199,11 @@ import { Router } from '@angular/router';
       .domain([topApps.length, 0]);
 
       const yScale = d3.scalePoint()
-  .range([0, yAxisHeight])
-  .padding(1.1)
-  .domain(topApps.map(d => d.appName));
+    .range([0, yAxisHeight])
+    .padding(1.1)
+    .domain(topApps.map(d => d.appName));
 
-
-      const yAxis = d3.axisLeft(yScale)
+    const yAxis = d3.axisLeft(yScale)
       .tickFormat(d => d)
       .ticks(topApps.length) // Adjust the number of ticks to match the number of labels
       .tickSize(20);
@@ -173,7 +217,7 @@ import { Router } from '@angular/router';
     .attr("dy", "1em")
     .style("text-anchor", "middle")
     .style("font-size", "24px")
-    .text("Applications interacted by users");
+    .text(yAxisLabel);
 
     svg.append("g")
     .attr("class", "y-axis")
@@ -200,7 +244,7 @@ import { Router } from '@angular/router';
     .attr("transform", `translate(${xAxisWidth / 2},${yAxisHeight + margin + 90})`)
     .style("text-anchor", "middle")
     .style("font-size", "24px")
-    .text("No of times the applications has been interacted by users");
+    .text(xAxisLabel);
 
     svg.append("g")
     .attr("class", "x-axis")
@@ -260,7 +304,7 @@ import { Router } from '@angular/router';
       }
       });
     } 
-
+ 
       /**
   * This method is responsible to navigate to off-facebook activity guidelines  
   *

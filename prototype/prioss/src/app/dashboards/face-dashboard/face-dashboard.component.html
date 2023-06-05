@@ -1,14 +1,14 @@
 <h1 nz-typography>PriOSS - Facebook</h1>
-<div class="dashboard-intro">
+  <div class="dashboard-intro" id="fstep100">
   Welcome to the Facebook Dashboard! <br><br>
   You can acquaint yourself about <b>G</b>eneral <b>D</b>ata <b>P</b>rotection <b>R</b>egulation (GDPR) under <b style='color:rgb(57, 144, 243) !important;'>GDPR and Your Rights</b> section. <br>
   Visualize your personal data in easily comprehensible way, and verify your data for its correctness in <b style='color:rgb(57, 144, 243) !important;'>Visualizations</b> section.<br>
   The Dashboard also gives you recommendations and instructions to enhance your privacy. Take a look at <b style='color:rgb(57, 144, 243) !important;'> Recommendations, Rectification, and Manage Privacy </b> sections. <br>
   Visit <b style='color:rgb(57, 144, 243) !important;'>FAQ</b> section if you have questions, or click on <b style='color:rgb(57, 144, 243) !important;'>Contact</b> on the side menu bar to contact us.
-  <br>
-</div>
+  </div> 
+
 <br>
-<h2 nz-typography>Your Information</h2>
+<div nz-typography id="fstep90" class="section-title">Your Information</div>
 <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
   <div id="fStep10" nz-col nzXs="24" nzXl="8">
     <app-general-data></app-general-data>
@@ -18,8 +18,9 @@
   </div>
 </div>
 <br>
-<br>
-<div id="fstep80"> <h2  nz-typography id="visualization">Visualization</h2> </div>
+
+
+<div id="fstep80" class="section-title"> Visualization </div>
 <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
     <div id="fStep20" nz-col nzXs="24" nzXl="8">
       <nz-card nzTitle="Advertisements" nzHoverable [nzExtra]="extraAds">
@@ -50,8 +51,9 @@
 <app-help-button (startTourClick)="startTour()"></app-help-button>
 <br>
 
-<div nz-typography id="fStep70"><h2>Rectification</h2></div>
-<div id="rectification_instructions"> 
+<details open>
+  <summary class="collapse_title" id="fStep70">Rectification</summary>
+  <div id="rectification_instructions"> 
     <h6>  You can object the use of your personal data to show you personalized Ads on your timeline. Visit <span nz-icon nzType="link"><a target="_blank" href='https://www.facebook.com/help/contact/367438723733209'>Facebook Help Center</a></span> and follow the instructions below: </h6>
     <br>
     <nz-steps [nzCurrent]="current">
@@ -84,14 +86,12 @@
     </button>
   </div>
 </div>
-
-<br>
-<br>
+</details>
 <br>
 
-
+<details open>
+  <summary class="collapse_title" id="fStep30">Manage Privacy</summary>
   <div id="rectification">
-    <h2 nz-typography id="fStep30">Manage Privacy</h2>
     <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
       <div id="fStep20" nz-col nzXs="24" nzXl="8">
         <nz-card nzTitle="Configure Off-Facebook Activity" nzHoverable  [nzExtra]="extraPrivacy">
@@ -103,12 +103,12 @@
       </div>
     </div>
   </div>
-
+</details>
 <br>
-<br>
 
+<details open>
+  <summary class="collapse_title" id="fStep40">GDPR and Your Rights</summary>
 <div id="gdpr">
-  <h2 nz-typography id="fStep40">GDPR and Your Rights</h2>
     <div class="dashboard-intro"  id="fStep20" >
         <p>
   The GDPR is European Union's data protection law effective from May 2018. It is applicable for all individuals within the European Union and the European Economic Area (EEA). It imposes obligations onto organizations anywhere, as long as they target or collect data related to people in the EU. GDPR governs how personal data must be collected, processed, and erased while defining individual rights.
@@ -150,10 +150,12 @@
     </p>  
   </div>
 </div>
+</details>
 <br>
 
-<div class="dashboard-intro" id="purpose">
-  <h2 nz-typography id="fStep50">Purpose for Data Collection</h2>
+<details open>
+  <summary class="collapse_title" id="fStep50">Purpose for Data Collection</summary>
+  <div class="dashboard-intro" id="purpose">
   <p nz-typography>
     The following purposes should give an example of Facebook's purpose to collect personal data. To Get a full list of their reasons you can check out Facebook's <span nz-icon nzType="link"><a target="_blank" href="https://www.facebook.com/privacy/policy">privacy policy</a></span>
     <br>
@@ -185,17 +187,18 @@
       </tbody>
     </nz-table>
 </div>
-<br>
+</details>
 <br>
 
-<div id="faq">
-  <h2 nz-typography id="fStep60">Frequently Asked Questions</h2>
-  <nz-collapse nzAccordion>
-    <nz-collapse-panel class="faq_info" *ngFor="let eachFaq of faqs" [nzHeader]="eachFaq.question" [nzActive]="eachFaq.state">
-      <p class="faq_info">{{ eachFaq.answer }}</p>
-    </nz-collapse-panel>
-  </nz-collapse>
-<div id="faq">
+<details open>
+  <div id="faq"></div>
+    <summary class="collapse_title" id="fStep60">Frequently Asked Questions</summary>
+      <nz-collapse nzAccordion>
+        <nz-collapse-panel class="faq_info" *ngFor="let eachFaq of faqs" [nzHeader]="eachFaq.question" [nzActive]="eachFaq.state">
+          <p class="faq_info">{{ eachFaq.answer }}</p>
+        </nz-collapse-panel>
+      </nz-collapse>
+</details>
 
 
 

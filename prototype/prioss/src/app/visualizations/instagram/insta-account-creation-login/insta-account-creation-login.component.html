@@ -17,14 +17,8 @@
 
 <!--only shows when visiting the page-->
 <div *ngIf="!previewMode">
-  <nz-breadcrumb>
-    <nz-breadcrumb-item>
-      <a [routerLink]="['../dashboard/']">Dashboard</a>
-    </nz-breadcrumb-item>
-    <nz-breadcrumb-item>Account Creation and Login</nz-breadcrumb-item>
-  </nz-breadcrumb>
-
-  <h2 nz-typography>Account Creation and Login</h2>
+  <!--Titlebar component -->
+  <app-title-bar titleText="Account Creation and Login" tooltipText="The timeline below displays the timeline for account creation, login and logout activity of your instagram account."></app-title-bar>
 
   <!-- Showcasing signup information and login and logout information if data is present -->
   <div *ngIf="login_logout_activities?.length && signup_information != null">
@@ -43,7 +37,7 @@
     <br>
 
     <h3 nz-typography>Timeline</h3>
-    <p>The below displays the timeline for account creation, login and logout activity of your instagram account</p>
+    <br>
 
     <div class="timeline_div">
       <!-- Creating timeline for complete data -->

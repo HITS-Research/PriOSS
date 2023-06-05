@@ -1,4 +1,4 @@
-<button nz-button nzType="text" class="header-back-button" (click)="routeToDashboard()">
+<button *ngIf="includeButton" nz-button nzType="text" class="header-back-button" (click)="routeToDashboard()">
   <span nz-icon nzType="arrow-left"></span>
   Back to Dashboard
 </button>

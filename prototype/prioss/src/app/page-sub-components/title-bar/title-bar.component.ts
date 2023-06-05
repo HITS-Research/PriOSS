@@ -19,6 +19,8 @@ export class TitleBarComponent {
   titleText: string = "Default Title";
   @Input()
   tooltipText: string = "";
+  @Input()
+  includeButton: boolean = true;
 
   constructor(private appMsgService: AppComponentMsgService) {
 
