@@ -64,7 +64,14 @@ import { InstaAdsActivityRepository } from './db/data-repositories/instagram/ins
 import { InstaAdsInterestRepository } from './db/data-repositories/instagram/insta-ads/insta-ads-interest.repository';
 import { InstaAdsClickedRepository } from './db/data-repositories/instagram/insta-ads/insta-ads-clicked.repository';
 import { InstaAdsViewedRepository } from './db/data-repositories/instagram/insta-ads/insta-ads-viewed.repository';
+import { InstaSignUpRepository } from './db/data-repositories/instagram/insta-accountcreation-login/insta-signup.repository';
+import { InstaLikedCommentsRepository } from './db/data-repositories/instagram/insta-liked-content/insta-likedcomments.repository';
+import { InstaLikedPostsRepository } from './db/data-repositories/instagram/insta-liked-content/insta-likedposts.repository';
+
 import { TitleBarComponent } from './page-sub-components/title-bar/title-bar.component';
+import { InstaLikedContentComponent } from './visualizations/instagram/insta-liked-content/insta-liked-content.component';
+import { InstaLoginRepository } from './db/data-repositories/instagram/insta-accountcreation-login/insta-login.repository';
+import { InstaLogoutRepository } from './db/data-repositories/instagram/insta-accountcreation-login/insta-logout.repository';
 
 registerLocaleData(de);
 
@@ -434,6 +441,7 @@ const dbConfig: DBConfig  =
     InferredTopicsComponent,
     InstaAccountCreationLoginComponent,
     InstaAdsComponent,
+    InstaLikedContentComponent,
     AdsRelatedDataComponent,
     FriendAndFollowersComponent,
     HelpButtonComponent,
@@ -477,6 +485,11 @@ const dbConfig: DBConfig  =
     InstaAdsInterestRepository,
     InstaAdsClickedRepository,
     InstaAdsViewedRepository,
+    InstaSignUpRepository,
+    InstaLoginRepository,
+    InstaLogoutRepository,
+    InstaLikedCommentsRepository,
+    InstaLikedPostsRepository,
     InferencesRepository,
     UserdataRepository,
     { provide: NZ_I18N, useValue: de_DE }

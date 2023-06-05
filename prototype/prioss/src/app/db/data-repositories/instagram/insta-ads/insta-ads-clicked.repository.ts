@@ -2,6 +2,8 @@ import { Injectable } from "@angular/core";
 import { DBService } from "../../../../services/db/db.service";
 import { BulkAddCapableRepository } from "../../general/inferences/bulk-add-capable.repository";
 import * as sql from "./insta-ads-clicked.sql";
+import { InstaAdsClickedInfo } from "src/app/models/Instagram/LikedAdsInfo/InstaAdsClickedInfo";
+import { SQLiteDBConnection } from "@capacitor-community/sqlite";
 
 
 /**
@@ -40,5 +42,21 @@ export class InstaAdsClickedRepository extends BulkAddCapableRepository {
      */
     async addAdsClickedBulkEntry(title: string, timestamp: string) : Promise<void> {
         return this.addBulkEntry([title, timestamp]);
+    }
+
+    /**
+     * This async method selects all entries from the insta_ads_clicked table
+     * 
+     * @returns an array of InstaAdsClicked
+     * 
+     * @author: Mayank (mayank@mail.upb.de)
+     */
+    async getAllInstaAdsClicked(): Promise<InstaAdsClickedInfo[]>
+    {
+        return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
+
+            let result = await db.query(sql.selectInstaAdsClickedSQL);
+            return result.values as InstaAdsClickedInfo[];
+        });
     }
 }

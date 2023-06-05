@@ -60,11 +60,11 @@
 
           <!-- Creating a template to show additional data -->
           <ng-template #contentTemplateSignUp>
-            <strong>IP Address</strong> : {{signup_information.ip_address}}
+            <strong>IP Address</strong> : {{signup_information[0].ip_address}}
           </ng-template>
 
           <!-- Showcasing necessary details in timeline -->
-          Create account with device [{{signup_information.device}}] on {{signup_information.time*1000 | date: 'MMM d, y h:mm a'}} 
+          Create account with device [{{signup_information[0].device}}] on {{signup_information[0].timestamp*1000 | date: 'MMM d, y h:mm a'}} 
         </nz-timeline-item>
 
         <!-- Looping throught each login and logout activity values -->
@@ -90,7 +90,7 @@
           </ng-template>
 
           <!-- Showcasing necessary details in timeline -->
-          {{activity.type}} with device [{{activity.device}}] on {{activity.time*1000 | date: 'MMM d, y h:mm a'}}
+          {{activity.type}} with device [{{activity.device}}] on {{activity.timestamp*1000 | date: 'MMM d, y h:mm a'}}
         </nz-timeline-item>
       </nz-timeline>
     </div>

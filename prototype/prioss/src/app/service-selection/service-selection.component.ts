@@ -23,8 +23,13 @@ import { InstaAdsActivityRepository } from '../db/data-repositories/instagram/in
 import { InstaAdsInterestRepository } from '../db/data-repositories/instagram/insta-ads/insta-ads-interest.repository';
 import { InstaAdsClickedRepository } from '../db/data-repositories/instagram/insta-ads/insta-ads-clicked.repository';
 import { InstaAdsViewedRepository } from '../db/data-repositories/instagram/insta-ads/insta-ads-viewed.repository';
+import { InstaSignUpRepository } from '../db/data-repositories/instagram/insta-accountcreation-login/insta-signup.repository';
 
 import { UserdataRepository } from '../db/data-repositories/general/userdata/userdata.repository';
+import { InstaLikedCommentsRepository } from '../db/data-repositories/instagram/insta-liked-content/insta-likedcomments.repository';
+import { InstaLikedPostsRepository } from '../db/data-repositories/instagram/insta-liked-content/insta-likedposts.repository';
+import { InstaLoginRepository } from '../db/data-repositories/instagram/insta-accountcreation-login/insta-login.repository';
+import { InstaLogoutRepository } from '../db/data-repositories/instagram/insta-accountcreation-login/insta-logout.repository';
 
 //service identifier filenames
 const instaIDFilename = "TODO";
@@ -88,6 +93,11 @@ export class ServiceSelectionComponent {
               private instaAdsInterestRepo: InstaAdsInterestRepository,
               private instaAdsClickedRepo: InstaAdsClickedRepository,
               private instaAdsViewedRepo: InstaAdsViewedRepository,
+              private instaSignUpRepo: InstaSignUpRepository,
+              private instaLoginRepo: InstaLoginRepository,
+              private instaLogoutRepo: InstaLogoutRepository,
+              private instaLikedCommentsRepo: InstaLikedCommentsRepository,
+              private instaLikedPostsRepo: InstaLikedPostsRepository,
               private sqlDBService: DBService, 
               private http: HttpClient,
               private scroll: ViewportScroller) {
@@ -105,6 +115,7 @@ export class ServiceSelectionComponent {
     this.dbService.clear("spot/history").subscribe((deleted) => {
       console.log("Cleared spot/history: " + deleted);
     });
+
     this.dbService.clear("insta/ads_interests").subscribe((deleted) => {
       console.log("Cleared insta/ads_interests: " + deleted);
     });
@@ -141,6 +152,7 @@ export class ServiceSelectionComponent {
     this.dbService.clear("insta/profile_changes").subscribe((deleted) => {
       console.log("Cleared insta/profile_changes: " + deleted);
     });
+
     this.dbService.clear("face/ads_information").subscribe((deleted) => {
       console.log("Cleared face/ads_information: " + deleted);
     });
@@ -667,6 +679,91 @@ export class ServiceSelectionComponent {
           await this.instaAdsViewedRepo.addAdsViewedBulkEntry(entry.Author.value, time);
         }
       }
+      else if (filename.startsWith("signup_information.json")) {
+        let jsonData = JSON.parse(content);
+        let signup_data = jsonData.account_history_registration_info[0].string_map_data;
+        
+        let username = utilities.getValueIgnoreCase(signup_data, "Username", false);
+        let ip_address = utilities.getValueIgnoreCase(signup_data, "IP Address", false);
+        let time = utilities.getValueIgnoreCase(signup_data, "Time", true);
+        let email = utilities.getValueIgnoreCase(signup_data, "Email", false);
+        let phone_number = utilities.getValueIgnoreCase(signup_data, "Phone Number", false);
+        let device = utilities.getValueIgnoreCase(signup_data, "Device", false);
+
+        await this.instaSignUpRepo.addSignUpInformation(
+          username, ip_address, time, email, phone_number, device
+        );
+      }
+      else if (filename.startsWith("login_activity.json")) {
+        let jsonData = JSON.parse(content);
+        let loginData = jsonData.account_history_login_history;
+        
+        await this.instaLoginRepo.startLoginBulkAdd(
+          utilities.getValueIgnoreCase(loginData[0].string_map_data,"IP Address",false), 
+          utilities.getValueIgnoreCase(loginData[0].string_map_data,"Time",true), 
+          utilities.getValueIgnoreCase(loginData[0].string_map_data,"User Agent",false),
+          loginData.length);
+        
+        for (let i = 1; i < loginData.length; i++) {
+          await this.instaLoginRepo.addLoginBulkEntry(
+            utilities.getValueIgnoreCase(loginData[i].string_map_data,"IP Address",false), 
+            utilities.getValueIgnoreCase(loginData[i].string_map_data,"Time",true), 
+            utilities.getValueIgnoreCase(loginData[i].string_map_data,"User Agent",false)
+          );
+        }
+      }
+      else if (filename.startsWith("logout_activity.json")) {
+        let jsonData = JSON.parse(content);
+        let logoutData = jsonData.account_history_logout_history;
+        
+        await this.instaLogoutRepo.startLogoutBulkAdd(
+          utilities.getValueIgnoreCase(logoutData[0].string_map_data,"IP Address",false), 
+          utilities.getValueIgnoreCase(logoutData[0].string_map_data,"Time",true), 
+          utilities.getValueIgnoreCase(logoutData[0].string_map_data,"User Agent",false),
+          logoutData.length);
+        
+        for (let i = 1; i < logoutData.length; i++) {
+          await this.instaLogoutRepo.addLogoutBulkEntry(
+            utilities.getValueIgnoreCase(logoutData[i].string_map_data,"IP Address",false), 
+            utilities.getValueIgnoreCase(logoutData[i].string_map_data,"Time",true), 
+            utilities.getValueIgnoreCase(logoutData[i].string_map_data,"User Agent",false)
+          );
+        }
+      }
+      else if (filename.startsWith("liked_comments")) {
+        let jsonData = JSON.parse(content);
+        let likedComments = jsonData.likes_comment_likes;
+        
+        await this.instaLikedCommentsRepo.startLikedCommentsBulkAdd(
+          likedComments[0].title, 
+          likedComments[0].string_list_data[0].href, 
+          likedComments[0].string_list_data[0].timestamp, 
+          likedComments.length);
+        
+        for (let i = 1; i < likedComments.length; i++) {
+          await this.instaLikedCommentsRepo.addLikedCommentsBulkEntry(
+            likedComments[i].title,
+            likedComments[i].string_list_data[0].href,
+            likedComments[i].string_list_data[0].timestamp);
+        }
+      }
+      else if (filename.startsWith("liked_posts")) {
+        let jsonData = JSON.parse(content);
+        let likedPosts = jsonData.likes_media_likes;
+        
+        await this.instaLikedPostsRepo.startLikedPostsBulkAdd(
+          likedPosts[0].title, 
+          likedPosts[0].string_list_data[0].href, 
+          likedPosts[0].string_list_data[0].timestamp, 
+          likedPosts.length);
+        
+        for (let i = 1; i < likedPosts.length; i++) {
+          await this.instaLikedPostsRepo.addLikedPostsBulkEntry(
+            likedPosts[i].title,
+            likedPosts[i].string_list_data[0].href,
+            likedPosts[i].string_list_data[0].timestamp);
+        }
+      }
     }
 
     if (this.requestedAbortDataParsing) {
@@ -682,20 +779,6 @@ export class ServiceSelectionComponent {
 
     this.progressBarVisible = false;
     this.router.navigate(['insta/dashboard']);
-  }
-
-  getValueIgnoreCase(jsonObj: any, key: string, time_value : boolean): any {
-    const keys = Object.keys(jsonObj);
-    for (const i in keys) {
-      if (keys[i].toLowerCase() === key.toLowerCase()) {
-        if(time_value) {
-          return jsonObj[keys[i]].timestamp;
-        } else {
-          return jsonObj[keys[i]].value;
-        }
-      }
-    }
-    return undefined;
   }
 
   /**

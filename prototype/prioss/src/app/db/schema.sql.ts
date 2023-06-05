@@ -87,6 +87,51 @@ CREATE TABLE IF NOT EXISTS insta_ads_viewed (
     timestamp TEXT NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS insta_signup_information (
+    id INTEGER PRIMARY KEY,
+    username TEXT NOT NULL,
+    ip_address TEXT NOT NULL,
+    timestamp INTEGER NOT NULL,
+    email TEXT NOT NULL,
+    phone_number TEXT NOT NULL,
+    device TEXT NOT NULL,
+    color TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS insta_login_information (
+    id INTEGER PRIMARY KEY,
+    ip_address TEXT NOT NULL,
+    timestamp INTEGER NOT NULL,
+    user_agent TEXT NOT NULL,
+    type TEXT NOT NULL,
+    color TEXT NOT NULL,
+    device TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS insta_logout_information (
+    id INTEGER PRIMARY KEY,
+    ip_address TEXT NOT NULL,
+    timestamp INTEGER NOT NULL,
+    user_agent TEXT NOT NULL,
+    type TEXT NOT NULL,
+    color TEXT NOT NULL,
+    device TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS insta_liked_comments (
+    id INTEGER PRIMARY KEY,
+    user TEXT NOT NULL,
+    href_link TEXT NOT NULL,
+    timestamp TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS insta_liked_posts (
+    id INTEGER PRIMARY KEY,
+    user TEXT NOT NULL,
+    href_link TEXT NOT NULL,
+    timestamp TEXT NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS face_ads_information (
     id INTEGER PRIMARY KEY,
     advertiser_name TEXT NOT NULL,
@@ -173,6 +218,11 @@ DROP TABLE IF EXISTS insta_ads_activity;
 DROP TABLE IF EXISTS insta_ads_interests;
 DROP TABLE IF EXISTS insta_ads_clicked;
 DROP TABLE IF EXISTS insta_ads_viewed;
+DROP TABLE IF EXISTS insta_signup_information;
+DROP TABLE IF EXISTS insta_login_information;
+DROP TABLE IF EXISTS insta_logout_information;
+DROP TABLE IF EXISTS insta_liked_comments;
+DROP TABLE IF EXISTS insta_liked_posts;
 DROP TABLE IF EXISTS userdata;
 DROP TABLE IF EXISTS face_ads_information;
 DROP TABLE IF EXISTS face_ads_interacted;

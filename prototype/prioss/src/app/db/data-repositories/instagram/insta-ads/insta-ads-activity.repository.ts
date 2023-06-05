@@ -2,7 +2,8 @@ import { Injectable } from "@angular/core";
 import { DBService } from "../../../../services/db/db.service";
 import { BulkAddCapableRepository } from "../../general/inferences/bulk-add-capable.repository";
 import * as sql from "./insta-ads-activity.sql";
-
+import { InstaAdsActivityInfo } from "src/app/models/Instagram/LikedAdsInfo/InstaAdsActivityInfo";
+import { SQLiteDBConnection } from "@capacitor-community/sqlite";
 
 /**
  * This repository component is responsible for providing functions to insert and request data from the
@@ -44,5 +45,21 @@ export class InstaAdsActivityRepository extends BulkAddCapableRepository {
      */
     async addAdActivityBulkEntry(advertiserName: string, has_data_file_custom_audience: string, has_remarketing_custom_audience: string, has_in_person_store_visit: string) : Promise<void> {
         return this.addBulkEntry([advertiserName, has_data_file_custom_audience, has_remarketing_custom_audience, has_in_person_store_visit]);
+    }
+
+    /**
+     * This async method selects all entries from the insta_ads_activity table
+     * 
+     * @returns an array of InstaAdsActivity
+     * 
+     * @author: Mayank (mayank@mail.upb.de)
+     */
+    async getAllInstaAdsActivity(): Promise<InstaAdsActivityInfo[]>
+    {
+        return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
+
+            let result = await db.query(sql.selectInstaAdsActivitySQL);
+            return result.values as InstaAdsActivityInfo[];
+        });
     }
 }
