@@ -1,0 +1,48 @@
+<form nz-form nzLayout="vertical">
+  <nz-form-item>
+     
+    <nz-form-label> <img class="i-image" src="../../assets/images/icons/chatbot-icon.png">{{"&ldquo;"}}{{this.question}}{{"&rdquo;"}}</nz-form-label>
+    <!-- Robot image from uxwing.com . This image was free to use in any personal and commercial projects without any attribution or credit.-->
+    <br>
+    <nz-collapse>
+      <nz-collapse-panel
+      [nzHeader]="panel.name"
+     > 
+      <p [innerHTML]="howToCheck" style="margin:0;">
+      </p>
+      </nz-collapse-panel>
+    </nz-collapse>
+    <br>
+    <nz-form-control>
+      <nz-select
+      name="optionSelecter"
+      [(ngModel)]="selectedValue"
+      nzAllowClear
+      nzPlaceHolder="Choose"
+      >
+        <nz-option *ngFor="let option of optionList" [nzValue]="option" [nzLabel]="option.label"></nz-option>
+      </nz-select>
+    </nz-form-control>
+  <br>
+  <nz-form-label *ngIf="!selectedValue.advice"></nz-form-label>
+  <nz-form-label *ngIf="selectedValue.advice">{{"&ldquo;"}}{{selectedValue.advice}}{{"&rdquo;"}}</nz-form-label>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control>
+      <nz-button-group [nzSize]="'large'">
+        <button nz-button nzType="default" (click)="onPrev()" [disabled]="this.index === 0">
+          <span nz-icon nzType="left"></span>
+          Backward
+        </button>
+        <button *ngIf="this.index !== this.settings.length" class="no-click" nz-button nzType="default" disabled>Progress: {{this.index + "/" + this.settings.length}}</button>
+        <nz-progress *ngIf="this.index === this.settings.length" class="small-progress" [nzPercent]="100" nzSize="small"></nz-progress>
+        <button nz-button nzType="default" (click)="onNext()" [disabled]="this.index === this.settings.length">
+          Forward
+          <span nz-icon nzType="right"></span>
+        </button>
+      </nz-button-group>
+    </nz-form-control>
+</nz-form-item>
+</form>
+
+  

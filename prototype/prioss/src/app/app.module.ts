@@ -30,7 +30,7 @@ import { NZ_I18N } from 'ng-zorro-antd/i18n';
 import { de_DE } from 'ng-zorro-antd/i18n';
 import { registerLocaleData } from '@angular/common';
 import de from '@angular/common/locales/de';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { IconsProviderModule } from './icons-provider.module';
@@ -51,10 +51,11 @@ import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NzStatisticModule } from 'ng-zorro-antd/statistic';
 import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { TopSongsComponent } from './visualizations/spotify/top-songs/top-songs.component';
+import { SettingsFormComponent } from './visualizations/all/privacy-settings-judge/settings-form/settings-form.component';
+import { NzFormModule } from 'ng-zorro-antd/form';
 import { HelpButtonComponent } from './help-button/help-button/help-button.component';
 import { IntrojsService } from './introjs/introjs.service';
 import { OffFacebookActivityComponent } from './rectification/facebook/off-facebook-activity/off-facebook-activity.component';
-
 import { DBService } from './services/db/db.service';
 import { SpotHistoryRepository } from './db/data-repositories/spotify/spot-history/spot-history.repository';
 import { UserdataRepository } from './db/data-repositories/general/userdata/userdata.repository';
@@ -436,6 +437,7 @@ const dbConfig: DBConfig  =
     InstaAdsComponent,
     AdsRelatedDataComponent,
     FriendAndFollowersComponent,
+    SettingsFormComponent,
     HelpButtonComponent,
     OffFacebookActivityComponent,
     TitleBarComponent
@@ -466,7 +468,9 @@ const dbConfig: DBConfig  =
     NzPopoverModule,
     NzTabsModule,
     NzStatisticModule,
-    NzSpaceModule
+    NzSpaceModule,
+    ReactiveFormsModule,
+    NzFormModule
   ],
   providers: [
     SQLiteService,
