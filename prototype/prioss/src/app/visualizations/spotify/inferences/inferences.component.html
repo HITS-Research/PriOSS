@@ -17,7 +17,8 @@
     </nz-breadcrumb>
     <!-- https://stackoverflow.com/questions/73631070/how-to-set-scrollable-content-dinamically-in-ng-zorro-table -->
     <h1 style="position: relative;">Inferences
-      <span nz-tooltip nzTooltipTitle="An Inference is a topic of interest or information that Spotify has infered about you. 
+      <span nz-tooltip
+        nzTooltipTitle="An Inference is a topic of interest or information that Spotify has infered about you. 
       They're used for marketing or advertising purposes and to curate and create content. 
       First-party (1P_) inferences are created by Spotify. Third-Party (3P_) inferences come from other services like Facebook.">
         <span nz-icon nzType="info-circle" nzTheme="outline" style="font-size: 16px; vertical-align: .7rem;">
@@ -30,7 +31,7 @@
         <tr>
           <th nzWidth="5%" [(nzChecked)]="checked" [nzIndeterminate]="indeterminate"
             (nzCheckedChange)="onAllChecked($event)"></th>
-          <th nzWidth="90%">
+          <th nzWidth="82%">
             <nz-input-group [nzSuffix]="suffixIconSearch">
               <input type="text" #searchText nz-input placeholder="Search your inferences"
                 (keyup)="search(searchText.value)" />
@@ -38,11 +39,15 @@
                 <button nz-button nzType="text" (click)="reset()"><span nz-icon nzType="close"></span></button>
               </ng-template>
             </nz-input-group>
-          </th>
-          <th nzWidth="5%">
-            <span nz-tooltip nzTooltipTitle="Create a rectification email with all selected inferences. Rectifying inferences means to request Spotify to delete inferences that you think are incorrect about yourself."><button
-                nz-button nzType="default" nzSize="large" [disabled]="setOfCheckedId.size === 0"
-                (click)="rectifyInferences()"><span nz-icon nzType="delete"></span></button></span>
+          </th> 
+          <th  style="float: right;">
+            <span nz-tooltip
+              nzTooltipTitle="Create a rectification email with all selected inferences. Rectifying inferences means to request Spotify to correct inferences that you think are wrong about yourself.">
+              <button nz-button nzType="default" nzSize="large" [disabled]="setOfCheckedId.size === 0"
+                (click)="rectifyInferences()">
+                Correct selected
+              </button>
+            </span>
           </th>
         </tr>
       </thead>
