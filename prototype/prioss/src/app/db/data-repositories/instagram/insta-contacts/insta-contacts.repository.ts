@@ -20,31 +20,31 @@ export class InstaContactsRepository extends BulkAddCapableRepository {
     /**
      * Starts a bulk-add run that adds multiple rows from subsequent addAdActivityBulkEntry-Calls to the DB in a single SQL statement.
      * 
-     * @param first_name the first name of the contact
+     * @param firstName the first name of the contact
      * @param surname the value for surname of the contact
-     * @param contact_information the value for the contact information
-     * @param imported_time the value for the imported time
+     * @param contactInformation the value for the contact information
+     * @param importedTime the value for the imported time
      * @param totalRowCount the total number of rows that should be added to the Instagram ads activity table in this bulk add run
      * @param targetBulkSize the number of rows that should be inserted in a single SQL query. The SQLite engine does not seem to support much more than 500 at a time
      * 
      * @author: Durva & Mayank (dghurye@mail.upb.de & mayank@mail.upb.de)
      */
-    async startContactBulkAdd(first_name: string, surname: string, contact_information: string, imported_time: string, totalRowCount: number, targetBulkSize: number = 500) {
-        this.startBulkAdd([first_name, surname, contact_information, imported_time], totalRowCount, targetBulkSize);
+    async startContactBulkAdd(firstName: string, surname: string, contactInformation: string, importedTime: string, totalRowCount: number, targetBulkSize: number = 500) {
+        this.startBulkAdd([firstName, surname, contactInformation, importedTime], totalRowCount, targetBulkSize);
     }
 
     /**
      * Adds a row to the Instagram ads activity table as part of a bulk-add run
      * 
-     * @param first_name the first name of the contact
+     * @param firstName the first name of the contact
      * @param surname the value for surname of the contact
-     * @param contact_information the value for the contact information
-     * @param imported_time the value for the imported time
+     * @param contactInformation the value for the contact information
+     * @param importedTime the value for the imported time
      * 
      * @author: Durva & Mayank (dghurye@mail.upb.de & mayank@mail.upb.de)
      */
-    async addContactsBulkEntry(first_name: string, surname: string, contact_information: string, imported_time: string) : Promise<void> {
-        return this.addBulkEntry([first_name, surname, contact_information, imported_time]);
+    async addContactsBulkEntry(firstName: string, surname: string, contactInformation: string, importedTime: string) : Promise<void> {
+        return this.addBulkEntry([firstName, surname, contactInformation, importedTime]);
     }
 
     /**

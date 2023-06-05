@@ -1,6 +1,6 @@
 export interface InstaContactInfo {
-    first_name: string,
+    firstName: string,
     surname: string,
-    contact_information: string,
-    imported_time: string
+    contactInformation: string,
+    importedTime: string
 }
