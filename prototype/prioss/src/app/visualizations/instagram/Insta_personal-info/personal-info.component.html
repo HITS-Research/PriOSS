@@ -19,16 +19,8 @@
   </div>
   <!--when not in previewmode the whole page is rendered-->
   <div *ngIf="!previewMode">
-    <nz-breadcrumb>
-      <nz-breadcrumb-item>
-        <a [routerLink]="['../dashboard/']">Dashboard</a>
-      </nz-breadcrumb-item>
-      <nz-breadcrumb-item>Personal Information</nz-breadcrumb-item>
-    </nz-breadcrumb>
-    <h2 nz-typography>Personal Information</h2>
-    <p nz-typography>
-      This following table shows the personal information that was collected by Instagram.
-    </p>
+    <!--Titlebar component -->
+    <app-title-bar titleText="Personal Information" tooltipText="This following table shows the personal information that was collected by Instagram."></app-title-bar>
     <nz-table nzTemplateMode>
       <thead>
         <tr>
@@ -51,11 +43,7 @@
     <br>
     <br>
 
-    <h2 nz-typography>Profile Changes</h2>
-    <p nz-typography>
-      The following table shows all profile changes that were made by the user over the course of the accounts
-      lifetime.
-    </p>
+    <app-title-bar titleText="Profile Changes" tooltipText="The following table shows all profile changes that were made by the user over the course of the accounts lifetime." [includeButton]="false"></app-title-bar>
     <nz-table #basicTable [nzData]="profileChanges">
       <thead>
         <tr>
