@@ -154,6 +154,12 @@ CREATE TABLE IF NOT EXISTS face_who_you_follow (
     name TEXT NOT NULL,
     timestamp TEXT NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS face_inferred_topics (
+    id INTEGER PRIMARY KEY,
+    topic TEXT NOT NULL
+);
+
 `;
 //PRAGMA user_version = 1;
 
@@ -184,4 +190,5 @@ DROP TABLE IF EXISTS face_friends;
 DROP TABLE IF EXISTS face_rejected_friend_requests;
 DROP TABLE IF EXISTS face_removed_friends;
 DROP TABLE IF EXISTS face_who_you_follow;
+DROP TABLE IF EXISTS face_inferred_topics;
 `;

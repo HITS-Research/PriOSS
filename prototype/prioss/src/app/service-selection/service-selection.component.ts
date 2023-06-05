@@ -25,6 +25,7 @@ import { InstaAdsClickedRepository } from '../db/data-repositories/instagram/ins
 import { InstaAdsViewedRepository } from '../db/data-repositories/instagram/insta-ads/insta-ads-viewed.repository';
 
 import { UserdataRepository } from '../db/data-repositories/general/userdata/userdata.repository';
+import { InferredTopicsRepository } from '../db/data-repositories/facebook/fb-inferred-data/face_inferred_topics.repo';
 
 //service identifier filenames
 const instaIDFilename = "TODO";
@@ -90,7 +91,8 @@ export class ServiceSelectionComponent {
               private instaAdsViewedRepo: InstaAdsViewedRepository,
               private sqlDBService: DBService, 
               private http: HttpClient,
-              private scroll: ViewportScroller) {
+              private inferredTopicsDataRepo: InferredTopicsRepository,
+              private scroll: ViewportScroller)  {
     
     //clear the database when this component gets created
     this.dbService.clear("all/userdata").subscribe((deleted) => {
@@ -373,7 +375,82 @@ export class ServiceSelectionComponent {
     else if (selectedApp == this.appType.Facebook) {
       console.log("Parsing Facebook file...");
       this.parseFacebookFile();
+      await this.parseFacebookFileToSQLite();
     }
+  }
+
+   /*
+   * Service Specific File Parsing Methods
+   */
+
+  /**
+    * Parses the uploaded Facebook data-download-zip file into the SQLite database
+    *
+    * @author: Rashida (rbharmal@mail.upb.de)
+    *
+  */
+  async parseFacebookFileToSQLite() {
+    let file = this.uploadedFiles[0];
+
+    let zip: JSZip = await this.loadZipFile(file);
+
+    this.isProcessingFile = true;//shows the processing icon on the button
+
+    this.progressBarPercent = 0;
+    this.progressBarVisible = true;
+
+    let filepaths: string[] = Object.keys(zip.files);
+    for (let i = 0; i < filepaths.length; i++) {
+      if (this.requestedAbortDataParsing) {
+        this.requestedAbortDataParsing = false;
+        return;
+      }
+      this.progressBarPercent = Math.round(100 * (i / filepaths.length));
+
+      let filepath: string = filepaths[i];
+      let content: string = await zip.files[filepath].async("string");
+      let filename: string | undefined = filepath.split('\\').pop()?.split('/').pop();
+
+      if (!filename) {
+        continue;
+      }
+      console.log('Opening: ' + filename);
+
+      if (filename === "your_topics.json") {
+        console.log('Parsing: ' + filename);
+        
+        let jsonData = JSON.parse(content);
+        let inferredTopics = jsonData.inferred_topics_v2;
+        await this.inferredTopicsDataRepo.addInferredTopics(inferredTopics[0], inferredTopics.length);
+
+        for (let i = 1; i < inferredTopics.length; i++) {
+          await this.inferredTopicsDataRepo.addBulkInferredTopicsEntry(inferredTopics[i]);
+        }
+      }
+      else if(filename === "profile_information.json") {
+        let jsonData = JSON.parse(content);
+        let personal_data = jsonData.profile_v2;
+        const birthdate = personal_data.birthday;
+        const formattedBirthdate = `${birthdate.day.toString().padStart(2, '0')}-${birthdate.month.toString().padStart(2, '0')}-${birthdate.year}`;
+        await this.UserdataRepo.addUserdata(personal_data.name.full_name, personal_data.emails.emails[0], personal_data.current_city.name, formattedBirthdate, personal_data.gender.gender_option, 0,0,"","","");
+      }
+    }
+    console.log("Start topics Fetching");
+    this.inferredTopicsDataRepo.getAllInferredTopics().then((topics) => {
+      console.log("Read topics:");
+      console.log(topics);
+    });
+    console.log("view personal data")
+    this.UserdataRepo.getAllUserdata().then((info) => {
+      console.log("Personal info:");
+      console.log(info);
+    });
+    
+    this.progressBarPercent = 100;
+    await delay(500);
+
+    this.progressBarVisible = false;
+    this.router.navigate(['face/dashboard']);
   }
 
 
@@ -423,8 +500,8 @@ export class ServiceSelectionComponent {
         
         let jsonData = JSON.parse(content);
         
-        await this.UserdataRepo.addUserdata(jsonData.username, jsonData.email, jsonData.country, jsonData.birthdate, jsonData.gender, jsonData.postalCode,
-          jsonData.mobileNumber, jsonData.mobileOperator, jsonData.mobileBrand, jsonData.creationTime);
+        await this.UserdataRepo.addUserdata(jsonData.username, jsonData.email, jsonData.country, jsonData.birthdate, jsonData.gender, jsonData.postalCode, jsonData.mobileNumber,
+          jsonData.mobileOperator, jsonData.mobileBrand, jsonData.creationTime);
         
         /* await this.dbService.add("all/userdata",
           {
@@ -987,7 +1064,6 @@ export class ServiceSelectionComponent {
     let file = this.uploadedFiles[0];
 
     this.loadZipFile(file).then((zip: any) => {
-      this.isProcessingFile = true;//shows the processing icon on the button
 
       Object.keys(zip.files).forEach((filename: any) => {
         zip.files[filename].async("string").then((content: any) => {
@@ -1006,8 +1082,6 @@ export class ServiceSelectionComponent {
               }).subscribe((key) => {
               });
               setTimeout(() => {
-                //TODO: properly wait for data to be available in DB
-                this.progressBarPercent = 30;
               }, 1000);
          
           }
@@ -1026,8 +1100,6 @@ export class ServiceSelectionComponent {
                 });
             });
             setTimeout(() => {
-              //TODO: properly wait for data to be available in DB
-              this.progressBarPercent = 60;
             }, 1500);
          
           }
@@ -1168,19 +1240,11 @@ export class ServiceSelectionComponent {
             });
           }
           setTimeout(() => {
-        
-            this.progressBarPercent = 100;
           }, 2000);
         });
       });
       return true;
     });
-
-    console.log("navigating...");
-    setTimeout(() => {
-      //TODO: properly wait for data to be available in DB
-      this.router.navigate(['face/dashboard']);
-    }, 3000);
   }
 
   /*
