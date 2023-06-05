@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { SQLiteDBConnection, capSQLiteChanges } from "@capacitor-community/sqlite";
 import { DBService } from "../../../../services/db/db.service";
 import * as sql from "./insta-following.sql";
-import { InstaFollowingInfo } from "src/app/models/Instagram/FollowerInfo/followingInfo";
+import { InstaFollowingInfo } from "src/app/models/Instagram/FollowerInfo/FollowingInfo";
 import { BulkAddCapableRepository } from "../../general/inferences/bulk-add-capable.repository";
 /**
  * This class handles all communication with the database tables that are used in the InstaFollower Component.

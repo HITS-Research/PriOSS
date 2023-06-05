@@ -2,22 +2,27 @@ import { Component, Input} from '@angular/core';
 import cytoscape from 'cytoscape';
 import * as utilities from 'src/app/utilities/generalUtilities.functions'
 import { InstaFollowerInfo } from 'src/app/models/Instagram/FollowerInfo/FollowerInfo';
+import { InstaFollowingInfo } from 'src/app/models/Instagram/FollowerInfo/FollowingInfo';
+import { InstaBlockedInfo } from 'src/app/models/Instagram/FollowerInfo/BlockedInfo';
 import { InstaFollowerRepository } from 'src/app/db/data-repositories/instagram/insta-follower-info/insta-follower.repository';
 import { InstaFollowingRepository } from 'src/app/db/data-repositories/instagram/insta-follower-info/insta-following.repository';
+import { InstaBlockedRepository } from 'src/app/db/data-repositories/instagram/insta-follower-info/insta-blocked.repository';
 
 @Component({
   selector: 'app-insta-followers',
   templateUrl: './insta-followers.component.html',
   styleUrls: ['./insta-followers.component.less'],
-  providers: [InstaFollowerRepository, InstaFollowingRepository]
+  providers: [InstaFollowerRepository, InstaFollowingRepository, InstaBlockedRepository]
 })
 
 
 export class InstaFollowersComponent {
+  @Input()
   previewMode: boolean = false;
 
   followerInfo : InstaFollowerInfo[] = [];
-  followingInfo : InstaFollowerInfo[] = [];
+  followingInfo : InstaFollowingInfo[] = [];
+  blockedInfo : InstaBlockedInfo[] = [];
   graphElements: { data: { id?: string, source?: string, target?: string  }, position?: {x: number, y: number} }[] = [];
 
   getObjectPairs: (obj: object) => [string, any][] = utilities.getObjectPairs;
@@ -30,9 +35,10 @@ export class InstaFollowersComponent {
    // Default page configuration for Follower / Following
    currentFollowerPage = 1;
    currentFollowingPage = 1;
+   currentBlockedPage = 1;
    pageSize = 10;
 
-  constructor(private instaFollowerRepo: InstaFollowerRepository, private instaFollowingRepo: InstaFollowingRepository) {
+  constructor(private instaFollowerRepo: InstaFollowerRepository, private instaFollowingRepo: InstaFollowingRepository, private instaBlockedRepo: InstaBlockedRepository) {
   }
 
    /**
@@ -48,6 +54,10 @@ export class InstaFollowersComponent {
     this.followingInfo = await this.instaFollowingRepo.getFollowingInfo();
     await this.instaFollowingRepo.getFollowingInfo().then((followingInfo) => {
       this.followingInfo = followingInfo;
+    });
+    this.blockedInfo = await this.instaBlockedRepo.getBlockedInfo();
+    await this.instaBlockedRepo.getBlockedInfo().then((blockedInfo) => {
+      this.blockedInfo = blockedInfo;
     });
   }
 
@@ -152,8 +162,6 @@ export class InstaFollowersComponent {
     });
   }
 
-  //EVENT HANDLER BELOW
-
   handleChange(checked: boolean, tag: string): void {
     if (checked) {
       this.selectedTags.push(tag);
@@ -164,18 +172,30 @@ export class InstaFollowersComponent {
     console.log('You are interested in: ', this.selectedTags);
   }
 
-   // Pushing only necessary value to table as per page number
-  get sliced_follower_data() {
-    const start = (this.currentFollowerPage - 1) * this.pageSize;
+  /**
+   * This method slice a dataset for the tables in 10 entrys per page
+   * 
+   * @param data the dataset that sould be sliced
+   * @param currentPage the current page of the dataset
+   * @returns the sliced data
+   * @author Melina (kleber@mail.uni-paderborn.de)
+   */
+  getSlicedData(data: Array<any>, currentPage: number) {
+    const start = (currentPage - 1) * this.pageSize;
     const end = start + this.pageSize;
-    return this.followerInfo.slice(start, end);
+    return data.slice(start, end);
   }
 
-  // Pushing only necessary value to table as per page number
+  get sliced_follower_data() {
+    return this.getSlicedData(this.followerInfo, this.currentFollowerPage);
+  }
+  
   get sliced_following_data() {
-    const start = (this.currentFollowingPage - 1) * this.pageSize;
-    const end = start + this.pageSize;
-    return this.followingInfo.slice(start, end);
+    return this.getSlicedData(this.followingInfo, this.currentFollowingPage);
+  }
+  
+  get sliced_blocked_data() {
+    return this.getSlicedData(this.blockedInfo, this.currentBlockedPage);
   }
 
   // Changing the page number based on user selection
@@ -186,6 +206,11 @@ export class InstaFollowersComponent {
   // Changing the page number based on user selection
   on_following_page_change(event: any) {
     this.currentFollowingPage = event;
+  }
+
+  // Changing the page number based on user selection
+  on_blocked_page_change(event: any) {
+    this.currentBlockedPage = event;
   }
 }
 

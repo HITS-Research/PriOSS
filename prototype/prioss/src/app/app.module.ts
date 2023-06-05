@@ -67,6 +67,7 @@ import { InstaAdsClickedRepository } from './db/data-repositories/instagram/inst
 import { InstaAdsViewedRepository } from './db/data-repositories/instagram/insta-ads/insta-ads-viewed.repository';
 import { InstaFollowerRepository } from './db/data-repositories/instagram/insta-follower-info/insta-follower.repository';
 import { InstaFollowingRepository } from './db/data-repositories/instagram/insta-follower-info/insta-following.repository';
+import { InstaBlockedRepository } from './db/data-repositories/instagram/insta-follower-info/insta-blocked.repository';
 
 registerLocaleData(de);
 
@@ -481,6 +482,7 @@ const dbConfig: DBConfig  =
     InstaAdsViewedRepository,
     InstaFollowerRepository,
     InstaFollowingRepository,
+    InstaBlockedRepository,
     InferencesRepository,
     UserdataRepository,
     { provide: NZ_I18N, useValue: de_DE }

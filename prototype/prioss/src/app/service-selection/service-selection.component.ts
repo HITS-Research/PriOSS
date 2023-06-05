@@ -25,6 +25,7 @@ import { InstaAdsClickedRepository } from '../db/data-repositories/instagram/ins
 import { InstaAdsViewedRepository } from '../db/data-repositories/instagram/insta-ads/insta-ads-viewed.repository';
 import { InstaFollowerRepository } from '../db/data-repositories/instagram/insta-follower-info/insta-follower.repository';
 import { InstaFollowingRepository } from '../db/data-repositories/instagram/insta-follower-info/insta-following.repository';
+import { InstaBlockedRepository } from '../db/data-repositories/instagram/insta-follower-info/insta-blocked.repository';
 
 import { UserdataRepository } from '../db/data-repositories/general/userdata/userdata.repository';
 import { timestamp } from 'rxjs';
@@ -92,6 +93,7 @@ export class ServiceSelectionComponent {
               private instaAdsClickedRepo: InstaAdsClickedRepository,
               private instaAdsViewedRepo: InstaAdsViewedRepository,
               private instaFollowerRepo: InstaFollowerRepository,
+              private instaBlockedRepo: InstaBlockedRepository,
               private instaFollowingRepo: InstaFollowingRepository,
               private sqlDBService: DBService, 
               private http: HttpClient,
@@ -699,6 +701,22 @@ export class ServiceSelectionComponent {
           var timestamp = utilities.convertTimestamp(followingData[i].string_list_data[0].timestamp);
           var accountName = followingData[i].string_list_data[0].value;
           await this.instaFollowingRepo.addFollowingBulkEntry(accountURL, timestamp, accountName);
+        }    
+      }
+      //add blocked information
+      if (filename.startsWith("blocked_accounts")) {
+        let jsonData = JSON.parse(content);
+        let blockedData = jsonData.relationships_blocked_users;
+        await this.instaBlockedRepo.startBlockedBulkAdd(blockedData[0].title,
+          blockedData[0].string_list_data[0].href,
+          utilities.convertTimestamp(blockedData[0].string_list_data[0].timestamp),
+          blockedData.length);
+        for(let i = 1; i < blockedData.length; i++){
+          var accountName = blockedData[i].title;
+          var accountURL = blockedData[i].string_list_data[0].href;
+          var timestamp = utilities.convertTimestamp(blockedData[i].string_list_data[0].timestamp);
+          
+          await this.instaBlockedRepo.addBlockedBulkEntry(accountName, accountURL, timestamp);
         }    
       }
     }
