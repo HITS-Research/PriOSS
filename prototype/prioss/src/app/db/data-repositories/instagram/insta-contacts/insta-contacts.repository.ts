@@ -23,14 +23,13 @@ export class InstaContactsRepository extends BulkAddCapableRepository {
      * @param firstName the first name of the contact
      * @param surname the value for surname of the contact
      * @param contactInformation the value for the contact information
-     * @param importedTime the value for the imported time
      * @param totalRowCount the total number of rows that should be added to the Instagram ads activity table in this bulk add run
      * @param targetBulkSize the number of rows that should be inserted in a single SQL query. The SQLite engine does not seem to support much more than 500 at a time
      * 
      * @author: Durva & Mayank (dghurye@mail.upb.de & mayank@mail.upb.de)
      */
-    async startContactBulkAdd(firstName: string, surname: string, contactInformation: string, importedTime: string, totalRowCount: number, targetBulkSize: number = 500) {
-        this.startBulkAdd([firstName, surname, contactInformation, importedTime], totalRowCount, targetBulkSize);
+    async startContactBulkAdd(firstName: string, surname: string, contactInformation: string, totalRowCount: number, targetBulkSize: number = 500) {
+        this.startBulkAdd([firstName, surname, contactInformation], totalRowCount, targetBulkSize);
     }
 
     /**
@@ -39,12 +38,11 @@ export class InstaContactsRepository extends BulkAddCapableRepository {
      * @param firstName the first name of the contact
      * @param surname the value for surname of the contact
      * @param contactInformation the value for the contact information
-     * @param importedTime the value for the imported time
      * 
      * @author: Durva & Mayank (dghurye@mail.upb.de & mayank@mail.upb.de)
      */
-    async addContactsBulkEntry(firstName: string, surname: string, contactInformation: string, importedTime: string) : Promise<void> {
-        return this.addBulkEntry([firstName, surname, contactInformation, importedTime]);
+    async addContactsBulkEntry(firstName: string, surname: string, contactInformation: string) : Promise<void> {
+        return this.addBulkEntry([firstName, surname, contactInformation]);
     }
 
     /**

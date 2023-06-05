@@ -675,14 +675,12 @@ export class ServiceSelectionComponent {
 
         await this.instaContactsRepo.startContactBulkAdd(contactsData[0].string_map_data["First name"].value, 
                 contactsData[0].string_map_data["Surname"].value, 
-                contactsData[0].string_map_data["Contact information"].value, 
-                contactsData[0].string_map_data["Imported time"].value, 
+                contactsData[0].string_map_data["Contact information"].value,
                 contactsData.length);          
         for (let i = 1; i < contactsData.length; i++) {
           await this.instaContactsRepo.addContactsBulkEntry(contactsData[i].string_map_data["First name"].value,
                 contactsData[i].string_map_data["Surname"].value, 
-                contactsData[i].string_map_data["Contact information"].value,
-                contactsData[i].string_map_data["Imported time"].value);
+                contactsData[i].string_map_data["Contact information"].value);
         }
       }
 
