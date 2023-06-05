@@ -374,10 +374,21 @@ export class ServiceSelectionComponent {
     }
     else if (selectedApp == this.appType.Facebook) {
       console.log("Parsing Facebook file...");
-      this.parseFacebookFileToSQLite();
+      this.parseFacebookFile();
+      await this.parseFacebookFileToSQLite();
     }
   }
 
+   /*
+   * Service Specific File Parsing Methods
+   */
+
+  /**
+    * Parses the uploaded Facebook data-download-zip file into the SQLite database
+    *
+    * @author: Rashida (rbharmal@mail.upb.de)
+    *
+  */
   async parseFacebookFileToSQLite() {
     let file = this.uploadedFiles[0];
 
@@ -412,7 +423,7 @@ export class ServiceSelectionComponent {
         let inferredTopics = jsonData.inferred_topics_v2;
         await this.inferredTopicsDataRepo.addInferredTopics(inferredTopics[0], inferredTopics.length);
 
-        for (let i = 0; i < inferredTopics.length; i++) {
+        for (let i = 1; i < inferredTopics.length; i++) {
           await this.inferredTopicsDataRepo.addBulkInferredTopicsEntry(inferredTopics[i]);
         }
       }
@@ -420,10 +431,8 @@ export class ServiceSelectionComponent {
         let jsonData = JSON.parse(content);
         let personal_data = jsonData.profile_v2;
         const birthdate = personal_data.birthday;
-        const formattedBirthdate = `${birthdate.day.toString().padStart(2, '0')}
-        -${birthdate.month.toString().padStart(2, '0')}-${birthdate.year}`;
-        await this.UserdataRepo.addUserdata(personal_data.name.full_name, personal_data.emails.emails[0], personal_data.current_city.name, formattedBirthdate, personal_data.gender.gender_option, -1,
-          personal_data.phone_numbers[0], "", "", "");
+        const formattedBirthdate = `${birthdate.day.toString().padStart(2, '0')}-${birthdate.month.toString().padStart(2, '0')}-${birthdate.year}`;
+        await this.UserdataRepo.addUserdata(personal_data.name.full_name, personal_data.emails.emails[0], personal_data.current_city.name, formattedBirthdate, personal_data.gender.gender_option, 0,0,"","","");
       }
     }
     console.log("Start topics Fetching");
@@ -436,9 +445,12 @@ export class ServiceSelectionComponent {
       console.log("Personal info:");
       console.log(info);
     });
+    
+    this.progressBarPercent = 100;
     await delay(500);
 
     this.progressBarVisible = false;
+    this.router.navigate(['face/dashboard']);
   }
 
 
@@ -488,8 +500,8 @@ export class ServiceSelectionComponent {
         
         let jsonData = JSON.parse(content);
         
-        await this.UserdataRepo.addUserdata(jsonData.username, jsonData.email, jsonData.country, jsonData.birthdate, jsonData.gender, jsonData.postalCode,
-          jsonData.mobileNumber, jsonData.mobileOperator, jsonData.mobileBrand, jsonData.creationTime);
+        await this.UserdataRepo.addUserdata(jsonData.username, jsonData.email, jsonData.country, jsonData.birthdate, jsonData.gender, jsonData.postalCode, jsonData.mobileNumber,
+          jsonData.mobileOperator, jsonData.mobileBrand, jsonData.creationTime);
         
         /* await this.dbService.add("all/userdata",
           {
@@ -1052,7 +1064,6 @@ export class ServiceSelectionComponent {
     let file = this.uploadedFiles[0];
 
     this.loadZipFile(file).then((zip: any) => {
-      this.isProcessingFile = true;//shows the processing icon on the button
 
       Object.keys(zip.files).forEach((filename: any) => {
         zip.files[filename].async("string").then((content: any) => {
@@ -1071,8 +1082,6 @@ export class ServiceSelectionComponent {
               }).subscribe((key) => {
               });
               setTimeout(() => {
-                //TODO: properly wait for data to be available in DB
-                this.progressBarPercent = 30;
               }, 1000);
          
           }
@@ -1091,8 +1100,6 @@ export class ServiceSelectionComponent {
                 });
             });
             setTimeout(() => {
-              //TODO: properly wait for data to be available in DB
-              this.progressBarPercent = 60;
             }, 1500);
          
           }
@@ -1233,19 +1240,11 @@ export class ServiceSelectionComponent {
             });
           }
           setTimeout(() => {
-        
-            this.progressBarPercent = 100;
           }, 2000);
         });
       });
       return true;
     });
-
-    console.log("navigating...");
-    setTimeout(() => {
-      //TODO: properly wait for data to be available in DB
-      this.router.navigate(['face/dashboard']);
-    }, 3000);
   }
 
   /*

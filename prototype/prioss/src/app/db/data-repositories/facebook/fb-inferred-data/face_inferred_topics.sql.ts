@@ -1,6 +1,6 @@
 export const bulkAddFaceInferredTopicsBaseSQL: string = `
   insert into face_inferred_topics 
-  (topics)
+  (topic)
 `;
 
 export const bulkAddFaceInferredTopicsValuesSQL: string = `
@@ -13,6 +13,6 @@ union all
 
 export const selectAllInferredTopics: string = `
  select id,
-        topics
+        topic
   from face_inferred_topics;
 `;

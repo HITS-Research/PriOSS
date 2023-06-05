@@ -1,5 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { NgxIndexedDBService } from 'ngx-indexed-db';
+import { InferredTopicsRepository } from 'src/app/db/data-repositories/facebook/fb-inferred-data/face_inferred_topics.repo';
+import { InferredTopicsModel } from 'src/app/models/Facebook/inferredTopics';
 
 /**
   * This component visualizes inferred topics in facebook.
@@ -17,13 +19,13 @@ import { NgxIndexedDBService } from 'ngx-indexed-db';
 })
 export class InferredTopicsComponent {
 
-  constructor(private dbService: NgxIndexedDBService)
+  constructor( private inferredTopicsDataRepo: InferredTopicsRepository)
   {}
 
   @Input()
   previewMode: boolean = false;
 
-  inferredTopics: any[] = [];
+  inferredTopics: InferredTopicsModel[] = [];
 
   /**
   * This method gets all inferred topics on intialization of the component
@@ -33,10 +35,9 @@ export class InferredTopicsComponent {
   *
   */
   ngOnInit() {
-    this.dbService.getAll('face/inferred_topics').subscribe(topics => {
+    this.inferredTopicsDataRepo.getAllInferredTopics().then((topics) => {
       this.inferredTopics = topics;
-      console.log(this.inferredTopics);
-    })
+    });
   }
 
 }

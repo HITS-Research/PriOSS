@@ -22,7 +22,7 @@ export class InferredTopicsRepository extends BulkAddCapableRepository {
      * 
      * @author: Rashida (rbharmal@mail.upb.de)
      * 
-     * @param topics: array of inferred topics
+     * @param topic: array of inferred topics
      */
     async addInferredTopics(topic: string,totalRowCount: number, targetBulkSize: number = 500) {
         await this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
