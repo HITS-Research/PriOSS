@@ -22,6 +22,7 @@ import { InferredTopicsComponent } from './visualizations/facebook/inferred-topi
 import { AdsRelatedDataComponent } from './visualizations/facebook/ads-related-data/ads-related-data.component';
 import { FriendAndFollowersComponent } from './visualizations/facebook/friend-and-followers/friend-and-followers.component';
 import { OffFacebookActivityComponent } from './rectification/facebook/off-facebook-activity/off-facebook-activity.component';
+import { InstaSearchesComponent } from './visualizations/instagram/insta-searches/insta-searches.component';
 import { InstaFollowersComponent } from './visualizations/instagram/insta-followers/insta-followers.component';
 import { InstaContactComponent } from './visualizations/instagram/insta-contact/insta-contact.component';
 import { FaqComponent } from './info-pages/faq/faq.component';
@@ -51,7 +52,8 @@ const routes: Routes = [
   { path: 'serviceSelection', component: ServiceSelectionComponent },
   { path: 'face/ads-related-data', component: AdsRelatedDataComponent },
   { path: 'face/connections', component: FriendAndFollowersComponent },
-  { path: 'face/configure-off-facebook-activity', component: OffFacebookActivityComponent }
+  { path: 'face/configure-off-facebook-activity', component: OffFacebookActivityComponent },
+  { path: 'insta/searches', component: InstaSearchesComponent}
 ];
 
 @NgModule({
