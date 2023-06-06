@@ -10,17 +10,8 @@
 
   <!--only shows when visiting the page-->
   <div *ngIf="!previewMode">
-    <nz-breadcrumb>
-        <nz-breadcrumb-item>
-            <a [routerLink]="['../dashboard/']">Dashboard</a>
-        </nz-breadcrumb-item>
-        <nz-breadcrumb-item>Contacts</nz-breadcrumb-item>
-    </nz-breadcrumb>
-
-    <h2 nz-typography>Contacts</h2>
-    <p nz-typography>
-      The following table shows all the details about contact synced from user's mobile.
-    </p>
+    <!--Titlebar component -->
+    <app-title-bar titleText="Contacts" tooltipText="The following table shows all the details about contact synced from user's mobile."></app-title-bar>
     <nz-table #basicTable [nzData]="contacts">
       <thead>
         <tr>
