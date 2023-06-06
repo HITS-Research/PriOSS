@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import * as utilities from 'src/app/utilities/generalUtilities.functions'
 import { SQLiteService } from './services/sqlite/sqlite.service';
+import { AppComponentMsgService } from './services/app-component-msg/app-component-msg.service';
+import { AppComponentMsg } from './enum/app-component-msg.enum';
 
 @Component({
   selector: 'app-root',
@@ -12,15 +14,22 @@ export class AppComponent {
   title: string = 'prioss';
   pRouter: Router;
   isCollapsed: boolean = false;
-  serviceName: string;
+  serviceName: string | null;
   isDashboard: boolean = false;
+  showBackButton: boolean = false;
+  showServiceButton: boolean = false;
   navigateAndScroll: (router: Router, url: string) => void = utilities.navigateAndScroll;
 
   public isWeb: boolean = false;
   private initPlugin: boolean;
 
-  constructor(private router: Router, private sqlite: SQLiteService) {
+  constructor(private router: Router, private sqlite: SQLiteService, private appComponentMsgService: AppComponentMsgService) {
     this.pRouter = router;
+
+    appComponentMsgService.appMsg$.subscribe((msg) =>
+    {
+      this.parseAppMsg(msg);
+    });
 
     this.sqlite.initializePlugin().then(async (ret) => {
       this.initPlugin = ret;
@@ -48,7 +57,7 @@ export class AppComponent {
   *
   */
   setServiceName(): void {
-    console.log(this.router.url)
+    console.log(this.router.url);
     switch ( this.router.url ) {
       case '/face/dashboard':
         this.serviceName = 'face';
@@ -63,9 +72,12 @@ export class AppComponent {
         this.isDashboard = true;
         break;
       case '/serviceSelection':
+        this.serviceName = null;
         this.isDashboard = false;
         break;
     }
+    this.showBackButton = !this.router.url.includes('dashboard')  && this.serviceName != null;
+    this.showServiceButton = !this.router.url.includes('serviceSelection') && !this.router.url.includes('home') && !this.isCollapsed;
   }
 
   /**
@@ -76,8 +88,38 @@ export class AppComponent {
    *          false, if not
    *
    * @author: Paul (pasch@mail.upb.de)
+   * 
    */
   isSelected(fragment: string): boolean {
     return this.router.url === '/' + this.serviceName + '/dashboard' + fragment;
+  }
+
+  /**
+   * This method navigates to the current Dashboard.
+   * 
+   * @author: Paul (pasch@mail.upb.de)
+   * 
+   */
+  routeToDashboard(): void {
+    this.router.navigateByUrl('/' + this.serviceName + '/dashboard');
+  }
+
+  /**
+   * Reacts to messages received from the app component msg service
+   * 
+   * @param msg The message received from the msg service
+   * 
+   * @author Simon (scg@mail.upb.de)
+   */
+  parseAppMsg(msg: AppComponentMsg): void {
+    switch(msg) {
+      case AppComponentMsg.backToDashboard:
+        this.routeToDashboard();
+        break;
+      case AppComponentMsg.none:
+        break;
+      default:
+        break;
+    }
   }
 }

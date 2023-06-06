@@ -1,76 +1,99 @@
 <div [ngClass]="{'component-page': !previewMode}">
   <div *ngIf="previewMode">
-  <nz-row [nzGutter]="16">
-    <nz-col [nzSpan]="12">
-      <nz-statistic  [nzTitle]="'Total No Of Ads Clicked'" [nzValue]="totalCount" class ="bold-title">
-      </nz-statistic>
+    <nz-row [nzGutter]="16">
+      <nz-col [nzSpan]="16">
+        <nz-statistic [nzTitle]="'Ads Clicked'"  [nzValue]="totalCountClickedAds"></nz-statistic>
       </nz-col>
-      </nz-row>
-      </div>
-<div *ngIf="!previewMode">
-  <nz-breadcrumb>
-    <nz-breadcrumb-item>
-      <a [routerLink]="['../dashboard/']">Dashboard</a>
-    </nz-breadcrumb-item>
-    <nz-breadcrumb-item>Ads data</nz-breadcrumb-item>
-  </nz-breadcrumb>
-  <nz-tabset class="margin-top-20">
-    <nz-tab nzTitle="Off-Site Interactions">
-      <h3  nz-typography>What are Off-Site Interactions?</h3>
-      <h6  nz-typography>Off-site interactions on Facebook are the actions you do outside of Facebook itself. This includes clicking on links to other websites, sharing Facebook content on other social media, and leaving comments on articles or blogs.The Bubble chart below shows all your interactions captured by Facebook.</h6>
-      <svg id="bubble-chart"></svg>
-      <div id="tooltip"></div>
-      <h3  nz-typography>For the guidelines to Turn OFF Off-Site Interactions(OFF-Facebook Activity), click on the below button.</h3>
-      <button nz-button nzType="primary" (click)="navigateToRectification()">Guidelines to Turn OFF Off-Site Interactions</button> 
-    </nz-tab>
-    <nz-tab nzTitle="Clicked ads">
-      <h3 nz-typography>What are Clicked ads?</h3>
-      <h6 nz-typography>
-        Clicked ads on Facebook are the ads you choose to click. When you click on an ad, it means you're interested and want to learn more about it. Facebook uses this information to show you similar ads based on your preferences.</h6>
-      <h3 nz-typography>Here are the ads you clicked on while using Facebook.</h3>
-      <nz-row [nzGutter]="16">
+      <nz-col [nzSpan]="16">
+        <nz-statistic  [nzTitle]="'Off-Site Interactions'" [nzValue]="pageViewViewContentCount"></nz-statistic>
+      </nz-col>
+      <nz-col [nzSpan]="16">
+        <nz-statistic  [nzTitle]="'Checkout Activities'" [nzValue]="2" tooltipText="TBD"></nz-statistic> 
+      </nz-col>
+      <nz-col [nzSpan]="16">
+        <nz-statistic  [nzTitle]="'Website Associations'" [nzValue]="totalWebsites"></nz-statistic>
+      </nz-col>
+    </nz-row>
+  </div>
+      <!-- <nz-row [nzGutter]="16">
         <nz-col [nzSpan]="12">
-          <nz-card>
-            <nz-statistic
-              [nzValue]="totalCount"
-              [nzTitle]="'Total Number of Clicked Ads'"
-              [nzValueStyle]="{ color: '#3F8600' }"
-            ></nz-statistic>
-            <ng-template #prefixTplOne><span nz-icon nzType="arrow-up"></span></ng-template>
-          </nz-card>
-        </nz-col>
-        </nz-row>
-      <nz-table #basicTable>
-        <tbody>
-          <tr *ngFor="let name of this.adNames">
-            <td>{{name}}</td>
-          </tr>
-        </tbody>
-      </nz-table>
-      </nz-tab>
-      //shown only if they have website interactions
-     
-      <nz-tab nzTitle="No Of Website Interactions" id="website-interactions">
-      <h3 nz-typography>What are Active,InActive and Removed Websites ?</h3>
-      <h5 nz-typography nzType="success"><span class="labels">Active Websites: </span> Websites that collaborates with Facebook lets you log in and interact using your Facebook account. It also shares information with Facebook about what you do on the site, your preferences, and how you use it. They are currently operational and accessible.</h5>
-      <h5 nz-typography nzType="danger"><span class="labels">InActive Websites: </span> Websites that operates independently without any connection to Facebook. It does not support logging in or engagement using your Facebook account, and no data about your activities, preferences, or site usage is shared with Facebook.They are no longer active but may still exist.</h5>
-      <h5 nz-typography nzType="secondary"><span class="labels">Removed Websites: </span> Websites that no longer exists or is no longer accessible, and therefore, there is no possibility to log in or interact with it using your Facebook account. Since the website has been removed, there is no sharing of information with Facebook regarding your activities, preferences, or how you used the site.</h5>
-      <h3 nz-typography>Below is a table that includes website names and their corresponding statuses:</h3>
-      <div class="cards">
-        <nz-space nzDirection="horizontal" [nzSize] = "'large'">
-          <nz-card *nzSpaceItem nzTitle="Active Websites - {{activeWebsite}}" class="cards-content">
-            <p *ngFor="let name of appsByCategory.active">{{name}}</p>
-          </nz-card>
-          <nz-card *nzSpaceItem nzTitle="InActive Websites - {{inActiveWebsite}}" class="cards-content">
-            <p *ngFor="let name of appsByCategory.inactive">{{name}}</p>
-          </nz-card>
-          <nz-card *nzSpaceItem nzTitle="Removed Websites - {{removedWebsite}}" class="cards-content">
-            <p *ngFor="let name of appsByCategory.removed">{{name}}</p>
-          </nz-card>
-        </nz-space>
-        </div>
-        </nz-tab>
-  </nz-tabset>
+          <nz-statistic  [nzTitle]="'Total No Off-Site Checkout Activities'" [nzValue]="initiateCheckoutCount" class ="bold-title">
+          </nz-statistic>
+          </nz-col>
+          </nz-row> -->
 </div>
 
+<div *ngIf="!previewMode">
+  <app-title-bar titleText="Advertisements" tooltipText="TBD"></app-title-bar>
+  <nz-tabset class="margin-top-20">
+      <nz-tab nzTitle="Off-Site Interactions" (nzSelect)="activateTab(0)">
+        <h3  nz-typography>What are Off-Site Interactions?</h3>
+        <br>
+        <h6  nz-typography>When you visit a website or use an app, businesses or organizations can share information about your activity with Facebook by using Facebook business tools. Facebook claims to use your activity information to show you things or events that you might be interested in, and to show you relevant ads that introduce you to new products and services. The below chart shows how many times you have interacted with businesses or organizations which Facebook  knows  about.
+        This is popularly also known as <b>Off-Facebook-Activity</b>. Facebook receives this information from businesses whether or not you have an account on Facebook.</h6><br>
+        <svg id="bubble-chart-interactions" class="chart"></svg>
+        <div id="tooltip"></div>
+        <br>
+        <br>
+        <h4 nz-typography>To manage ads based on data from Facebook's partners,</h4>
+        <button nz-button nzType="primary" (click)="navigateToRectification()">Click here</button> 
+      </nz-tab>
+      <nz-tab nzTitle="Off-Site Checkout Activities" (nzSelect)="activateTab(1)">
+        <h3 nz-typography>What are Off-Site Checkout Activities?</h3>
+        <h6 nz-typography>Off-Site Checkout Activities on Facebook gives information of the checkouts made outside of Facebook.
+          The Bubble chart below showcases the top applications based on your initiated checkout events.</h6>
+        <svg id="bubble-chart-purchase-tracking" class="chart"></svg>
+        <div id="tooltip"></div>
+      </nz-tab>
+      <nz-tab nzTitle="Clicked ads">
+        <h3 nz-typography>What are Clicked ads?</h3>
+        <h6 nz-typography>
+          Based on your Off-Site interactions, Facebook shows you personalized ads. This visualization lists which of those ads you have clicked. When you click on an ad, you reveal your interest in the product or information and you would want to learn more about it. Facebook uses this information to show you similar ads based on your preferences.</h6>
+        <h3 nz-typography>Here are the ads you clicked on while using Facebook.</h3>
+        <nz-row [nzGutter]="16">
+          <nz-col [nzSpan]="12">
+            <nz-card>
+              <nz-statistic
+                [nzValue]="totalCountClickedAds"
+                [nzTitle]="'Total Number of Clicked Ads'"
+                [nzValueStyle]="{ color: '#3F8600' }"
+              ></nz-statistic>
+              <ng-template #prefixTplOne><span nz-icon nzType="arrow-up"></span></ng-template>
+            </nz-card>
+          </nz-col>
+          </nz-row>
+        <nz-table #basicTable>
+          <tbody>
+            <tr *ngFor="let name of this.adNames">
+              <td>{{name}}</td>
+            </tr>
+          </tbody>
+        </nz-table>
+        </nz-tab>
+      <nz-tab nzTitle="Website Associations" id="website-interactions">
+        <h3 nz-typography>What are Website Associations?</h3>
+        <h6 nz-typography>These are apps and websites that you've connected to your Facebook account by either logging in to them with Facebook or by connecting an account that you have with them to your Facebook. These websites will have access to your public or non-public Facebook data.</h6>
+        <h3 nz-typography>What are Active,Expired and Removed Websites?</h3>
+        <h5 nz-typography nzType="success"><span class="labels">Active Websites: </span> If it appears that you have been actively logging in to an app or website with your Facebook account.</h5>
+        <h5 nz-typography nzType="danger"><span class="labels">Expired Websites: </span> If you haven't logged in to an app or website with your Facebook account in the last 90 days.</h5>
+        <h5 nz-typography nzType="secondary"><span class="labels">Removed Websites: </span> If you have removed apps or websites from accessing your public or non-public information. </h5>
+        <h3 nz-typography>Below is a table that includes website names and their corresponding statuses:</h3>
+        <div class="cards">
+          <nz-space nzDirection="horizontal" [nzSize] = "'large'">
+            <nz-card *nzSpaceItem nzTitle="Active Websites - {{activeWebsite}}" class="cards-content">
+              <p *ngFor="let name of appsByCategory.active">{{name}}</p>
+            </nz-card>
+            <nz-card *nzSpaceItem nzTitle="Expired Websites - {{inActiveWebsite}}" class="cards-content">
+              <p *ngFor="let name of appsByCategory.inactive">{{name}}</p>
+            </nz-card>
+            <nz-card *nzSpaceItem nzTitle="Removed Websites - {{removedWebsite}}" class="cards-content">
+              <p *ngFor="let name of appsByCategory.removed">{{name}}</p>
+            </nz-card>
+          </nz-space>
+        </div>
+        <nz-space [nzSize]="10"></nz-space>
+          <h3  nz-typography>To manage access to such websites, log in to your Facebook account and <button nz-button nzType="primary"><a href="https://www.facebook.com/settings?tab=applications" target="_blank">
+          </a>Click here</button></h3>
+          </nz-tab>
+  </nz-tabset>
 </div>

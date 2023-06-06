@@ -30,6 +30,7 @@ export class IntrojsService {
   spotifyDashboardTour() {
     this.introJS = introJs();
     this.introJS.setOptions({
+      disableInteraction: true,
       steps: [
         {
           element: 'step0',
@@ -41,7 +42,7 @@ export class IntrojsService {
         },
         {
           element: '#step2',
-          intro: 'This card shows all inferences Spotify made about you. You can rectify them here!'
+          intro: 'This card shows all inferences Spotify made about you. You can correct them here by sending Spotify an email with the selected inferences!'
         },
         {
           element: '#step3',
@@ -95,31 +96,32 @@ export class IntrojsService {
   facebookDashboardTour() {
     this.introJSF = introJs();
     this.introJSF.setOptions({
+      disableInteraction: true,
       steps: [
         {
           element: 'step0',
-          intro: 'New here? Click <b>Next</b>! <br><br> Already comfortable? <br> <b>Click</b> into the dashboard!'
+          intro: 'New here? Click <b>Next</b>! <br><br> Already comfortable? <br> <b>Click</b> anywhere into the dashboard!'
         },
         {
           element: '#fStep10',
-          intro: 'Your Personal Data'
+          intro: 'This card shows your personal data that Facebook has collected. Click <b>More</b> to see details.'
         },
         {
           element: '#fstep80',
-          intro: 'This section visualizes your data in more understandable way. You can analyse your data and make appropriate decisions for your data privacy!.'
+          intro: 'This section visualizes your data in more understandable way. This helps make you aware of what data Facebook has about you, and allows you to analyze it for its correctness. Being aware enables you to take best Privacy decisions!.'
 
         },
         {
           element: '#fStep20',
-          intro: 'Click to see more about your Ads related Data. See how Facebook tracks your activity to show you fitting Ads while you surf through Facebook'
+          intro: 'This tile gives you more information about Ads-related data. Click <b>More</b> to see what information Facebook has been tracking related to your interaction with Ads.'
         },
         {
           element: '#fStep21',
-          intro: 'Click to see Facebook inferences based on your activity. Be it posts you liked, videos you watched, Ads you have clicked!'
+          intro: 'This tile lists the inferences made by Facebook based on your profile activity - be it posts you liked, videos you watched, Ads you have clicked!'
         },
         {
           element: '#fStep22',
-          intro: 'Click to see a gist of your Friends, Followers, and more!'
+          intro: 'This tile gives a gist of your Facebook connections. Click <b>More</b> to see year-wise details.'
         },
         {
           element: '#fStep70',
@@ -127,15 +129,15 @@ export class IntrojsService {
         },
         {
           element: '#fStep30',
-          intro: 'This section shows how you can rectify your data in Facebook'
+          intro: 'This section gives you step-by-step instructions to excercise your privacy rights on Facebook website. Choose an action of your interest and follow the instructions to ensure your data privacy.'
         },
         {
           element: '#fStep40',
-          intro: 'This section explains the instructions to exercise your GDPR rights. Click to know more!'
+          intro: 'This section explains what is <b>G</b>eneral <b>D</b>ata <b>P</b>rotection <b>R</b>egulation (GDPR) and explains your GDPR privacy rights. Click to know more!'
         },
         {
           element: '#fStep50',
-          intro: 'Want to know why Facebook collects data about all your actions and activities? Click here!'
+          intro: 'This section explains the purpose of collecting your data while tracking all your activities on Facebook.'
         },
         {
           element: '#fStep60',
@@ -173,6 +175,7 @@ export class IntrojsService {
    instagramDashboardTour() {
     this.introJSI = introJs();
     this.introJSI.setOptions({
+      disableInteraction: true,
       steps: [
         {
           element: '#welcome',

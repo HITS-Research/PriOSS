@@ -5,6 +5,7 @@ import { InstaPersonalInfo } from 'src/app/models/Instagram/PersonalInfo/InstaPe
 import { InstaAccountInfo } from 'src/app/models/Instagram/PersonalInfo/InstaAccountInfo';
 import { InstaProfessionalInfo } from 'src/app/models/Instagram/PersonalInfo/InstaProfessionalInfo';
 import { InstaProfileChange } from 'src/app/models/Instagram/PersonalInfo/InstaProfileChange';
+import { SequenceComponentInit } from '../../sequence-component-init.abstract';
 
 
 
@@ -20,7 +21,7 @@ import { InstaProfileChange } from 'src/app/models/Instagram/PersonalInfo/InstaP
   styleUrls: ['./personal-info.component.less']
 })
 
-export class Insta_PersonalInfoComponent {
+export class Insta_PersonalInfoComponent extends SequenceComponentInit{
   @Input()
   previewMode: boolean = false;
 
@@ -35,15 +36,28 @@ export class Insta_PersonalInfoComponent {
 
 
   constructor(private instaPersonalRepo: InstaPersonalRepository) {
-    this.collectData();
+    super();
   }
 
   /**
-   * Stores all needed data from the different tables into the corresponding interface variables.
-   * 
-   * @author: Paul (pasch@mail.upb.de)
-   */
-  async collectData() {
+  * A Callback called by angular when the views have been initialized
+  * It handles the initialization when the component is displayed on its own dedicated page.
+  *
+  * @author: Paul (pasch@mail.upb.de)
+  */
+  ngAfterViewInit() {
+    if(!this.previewMode) {
+      this.initComponent();
+    }
+  }
+
+  /**
+  * @see-super-class
+  * @author: Paul (pasch@mail.upb.de)
+  */
+  override async initComponent(): Promise<void> {
+    console.log("--- Initializing Component 1: PersonalInfo");
+
     await this.instaPersonalRepo.getPersonalInfo().then((pInfo) => {
       this.personalInfo = pInfo[0];
     });

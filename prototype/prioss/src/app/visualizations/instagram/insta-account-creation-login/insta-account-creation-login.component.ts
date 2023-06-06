@@ -1,6 +1,11 @@
 import { Component, Input } from '@angular/core';
-import { NgxIndexedDBService } from 'ngx-indexed-db';
-import { map } from 'rxjs/operators';
+import { SequenceComponentInit } from '../../sequence-component-init.abstract';
+import { InstaSignUpInfo } from 'src/app/models/Instagram/InstaAccountCreationAndLoginInfo/InstaSignUpInfo';
+import { InstaSignUpRepository } from 'src/app/db/data-repositories/instagram/insta-accountcreation-login/insta-signup.repository';
+import { InstaLoginRepository } from 'src/app/db/data-repositories/instagram/insta-accountcreation-login/insta-login.repository';
+import { InstaLogoutRepository } from 'src/app/db/data-repositories/instagram/insta-accountcreation-login/insta-logout.repository';
+import { InstaLoginInfo } from 'src/app/models/Instagram/InstaAccountCreationAndLoginInfo/InstaLoginInfo';
+import { InstaLogoutInfo } from 'src/app/models/Instagram/InstaAccountCreationAndLoginInfo/InstaLogoutInfo';
 
 /**
  * This component is for instagram's account creation and login page.
@@ -14,122 +19,83 @@ import { map } from 'rxjs/operators';
   templateUrl: './insta-account-creation-login.component.html',
   styleUrls: ['./insta-account-creation-login.component.less']
 })
-export class InstaAccountCreationLoginComponent{
+export class InstaAccountCreationLoginComponent extends SequenceComponentInit{
   @Input()
   previewMode: boolean = false;
 
   login_logout_activities: Login_Logout_Actvity_Output[] = [];
-  signup_information: SignUp_Information;
+  signup_information: InstaSignUpInfo[] = [];
+  login_activities: InstaLoginInfo[] = [];
+  logout_activities: InstaLogoutInfo[] = [];
 
   login_amount: number=0;
   logout_amount: number=0;
   most_used_device_amount: number=0;
   most_used_device: string="";
 
-  constructor(private dbService: NgxIndexedDBService)
-  {
-
-    this.dbService.getAll('insta/signup_information').subscribe({
-      next: (signup_information: any) => {
-        if(signup_information.length > 0) {
-              const item = {
-                ip_address: signup_information[0].ip_address,
-                time: signup_information[0].time,
-                device: signup_information[0].device,
-                color: "blue"
-              }
-              this.signup_information = item;
-            }
-      },
-      error: (error: any) => {
-        console.log("Error occurred while fetching signup information data")
-        console.log(error)
-      }
-    });
-
-    
-
-    // Variable for promise functionality
-    const promises = [];
-
-    // Reading the login data from indexeddb with promise for the asynchronous operation
-    promises.push(new Promise((resolve, reject) => {
-      this.dbService.getAll('insta/login_activity').subscribe({
-        next: (data) => {
-          resolve(data);
-        },
-        error: (error: any) => {
-          reject(error);
-        }
-      });
-    }));
-
-    // Reading the logout data from indexeddb with promise for the asynchronous operation
-    promises.push(new Promise((resolve, reject) => {
-      this.dbService.getAll('insta/logout_activity').subscribe({
-        next: (data) => {
-          resolve(data);
-        },
-        error: (error: any) => {
-          reject(error);
-        }
-      });
-    }));
-
-
-    // Combining data after both asynchronous operations are completed
-    Promise.all(promises).then(results => {
-
-      // Assigning login data values to local variable 
-      let login_data = results[0] as Login_Logout_Actvity_Fetch[];
-      this.login_amount = login_data.length;
-
-      // Assigning logout data values to local variable 
-      let logout_data = results[1] as Login_Logout_Actvity_Fetch[];
-      this.logout_amount = logout_data.length;
-      
-      // Checking if login and logout data is present or not
-      if(this.login_amount > 0 || this.logout_amount > 0) {
-
-        // Fetching each row value and assigning it to new variable with additional parameters
-        login_data.forEach((record: Login_Logout_Actvity_Fetch) => {
-          const item = {
-            ip_address: record.ip_address,
-            time: record.time,
-            user_agent: record.user_agent,
-            device: this.getDeviceNameBasedOnUserAgent(record.user_agent),
-            type: "Login",
-            color: "green"
-          }
-          this.login_logout_activities.push(item)
-        });
-
-        // Fetching each row value and assigning it to new variable with additional parameters
-        
-        logout_data.forEach((record: Login_Logout_Actvity_Fetch) => {
-          const item = {
-            ip_address: record.ip_address,
-            time: record.time,
-            user_agent: record.user_agent,
-            device: this.getDeviceNameBasedOnUserAgent(record.user_agent),
-            type: "Logout",
-            color: "red"
-          };
-          this.login_logout_activities.push(item);
-        });
-        this.sortLoginLogoutData();
-        this.mostUsedDevice();
-      }
-    }).catch(error => {
-        console.log("Error occurred while fetching login and logout data")
-        console.log(error)
-    });    
+  constructor(private instaSignUpRepo: InstaSignUpRepository,
+              private instaLoginRepo: InstaLoginRepository,
+              private instaLogoutRepo: InstaLogoutRepository) {
+    super();
   }
 
-  // Sorting login and logout data based on timestamp
+  /**
+  * A Callback called by angular when the views have been initialized
+  * It handles the initialization when the component is displayed on its own dedicated page.
+  *
+  * @author: Paul (pasch@mail.upb.de)
+  */
+  ngAfterViewInit() {
+    if(!this.previewMode) {
+      this.initComponent();
+    }
+  }
+
+  /**
+  * @see-super-class
+  * @author Paul (pasch@mail.upb.de)
+  */
+  override async initComponent(): Promise<void> {
+    console.log("--- Initializing Component 3: AccountCreationAndLogin");
+    // SignUp Information fetched from SQLite
+    let signup_information = await this.instaSignUpRepo.getSignUpInfo();
+    if(signup_information.length > 0) {
+      this.signup_information = signup_information
+    }
+
+    // Login Activities fetched from SQLite
+    let login_activities = await this.instaLoginRepo.getLoginInfo();
+    this.login_amount = login_activities.length;
+    if(login_activities.length > 0) {
+      this.login_activities = login_activities;
+    }
+
+    // Logout Activities fetched from SQLite
+    let logout_activities = await this.instaLogoutRepo.getLogoutInfo();
+    this.logout_amount = logout_activities.length;
+    if(logout_activities.length > 0) {
+      this.logout_activities = logout_activities;
+    }
+
+    // Merging Login and Logout Activities into one array
+    this.login_logout_activities = [...this.login_activities, ...this.logout_activities]
+
+    // Sorting array of login and logout activities
+    this.sortLoginLogoutData();
+
+    // Finding the most used device
+    this.mostUsedDevice();
+  }
+
+  /**
+   * 
+   * This method is used to sort login and logout activities based on their timestamp
+   * 
+   * @author: Mayank (mayank@mail.upb.de)
+   */
   sortLoginLogoutData() {
     if(this.login_logout_activities && this.login_logout_activities.length > 0) {
-      this.login_logout_activities = this.login_logout_activities.sort((a, b) => a.time - b.time);
+      this.login_logout_activities = this.login_logout_activities.sort((a, b) => a.timestamp - b.timestamp);
     }
   }
 
@@ -158,47 +124,14 @@ export class InstaAccountCreationLoginComponent{
     this.most_used_device = mostUsedDevice;
     this.most_used_device_amount = mostUsedAmount;
   }
-
-  // Returning device type value based on user agent value
-  getDeviceNameBasedOnUserAgent(user_agent: string): string {
-    if(user_agent.includes("Mac OS")) {
-      return "Macbook"
-    } else if (user_agent.includes("iPhone")) {
-      return "iPhone"
-    } else if (user_agent.includes("Android")) {
-      return "Android"
-    } else if (user_agent.match(/(Chrome)|(Safari)/g)) {
-      return "Webbrowser"
-    }
-    return "Unknown Device"
-  }
-
-}
-
-/** Created interface for fetching value in HTML for User Last Known Locations */
-interface SignUp_Information {
-  ip_address: string;
-  time: number;
-  device: string;
-  color: string;
-}
-
-/** Created interface for fetching value from Indexed DB for User Login Activity */
-interface Login_Logout_Actvity_Fetch {
-  title: string;
-  ip_address: string;
-  time: number;
-  user_agent: string;
 }
 
 /** Created interface for fetching value in HTML for User Login Activity */
 export interface Login_Logout_Actvity_Output {
   ip_address: string;
-  time: number;
+  timestamp: number;
   user_agent: string;
   device: string,
   type: string,
   color: string
 }
-
-

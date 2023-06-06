@@ -5,6 +5,8 @@ import { InstaDashboardComponent } from './dashboards/insta-dashboard/insta-dash
 import {Insta_PersonalInfoComponent} from './visualizations/instagram/Insta_personal-info/personal-info.component';
 import { InstaAccountCreationLoginComponent } from './visualizations/instagram/insta-account-creation-login/insta-account-creation-login.component';
 import { InstaAdsComponent } from './visualizations/instagram/insta-ads/insta-ads.component';
+import { InstaLikedContentComponent } from './visualizations/instagram/insta-liked-content/insta-liked-content.component';
+
 import { SpotDashboardComponent } from './dashboards/spot-dashboard/spot-dashboard.component';
 import { LandingComponent } from './landing/landing.component';
 import { ServiceSelectionComponent } from './service-selection/service-selection.component';
@@ -20,6 +22,8 @@ import { InferredTopicsComponent } from './visualizations/facebook/inferred-topi
 import { AdsRelatedDataComponent } from './visualizations/facebook/ads-related-data/ads-related-data.component';
 import { FriendAndFollowersComponent } from './visualizations/facebook/friend-and-followers/friend-and-followers.component';
 import { OffFacebookActivityComponent } from './rectification/facebook/off-facebook-activity/off-facebook-activity.component';
+import { InstaFollowersComponent } from './visualizations/instagram/insta-followers/insta-followers.component';
+import { InstaContactComponent } from './visualizations/instagram/insta-contact/insta-contact.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -37,12 +41,15 @@ const routes: Routes = [
   { path: 'insta/personal-info', component:Insta_PersonalInfoComponent },
   { path: 'insta/account', component:InstaAccountCreationLoginComponent },
   { path: 'insta/ads', component: InstaAdsComponent },
+  { path: 'insta/followers', component: InstaFollowersComponent},
+  { path: 'insta/likedcontent', component: InstaLikedContentComponent },
+  { path: 'insta/contacts', component: InstaContactComponent },
   { path: 'face/dashboard', component: FaceDashboardComponent },
   { path: 'face/inferred-topics', component: InferredTopicsComponent },
   { path: 'serviceSelection', component: ServiceSelectionComponent },
   { path: 'face/ads-related-data', component: AdsRelatedDataComponent },
   { path: 'face/connections', component: FriendAndFollowersComponent },
-  { path: 'face/configure-off-facebook-activity', component: OffFacebookActivityComponent}
+  { path: 'face/configure-off-facebook-activity', component: OffFacebookActivityComponent }
 ];
 
 @NgModule({

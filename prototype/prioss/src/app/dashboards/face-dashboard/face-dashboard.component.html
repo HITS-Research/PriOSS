@@ -1,5 +1,14 @@
 <h1 nz-typography>PriOSS - Facebook</h1>
-<h2 nz-typography>User Information</h2>
+  <div class="dashboard-intro" id="fstep100">
+  Welcome to the Facebook Dashboard! <br><br>
+  You can acquaint yourself about <b>G</b>eneral <b>D</b>ata <b>P</b>rotection <b>R</b>egulation (GDPR) under <b class="intro_content">GDPR and Your Rights</b> section. <br>
+  Visualize your personal data in easily comprehensible way, and verify your data for its correctness in <b class="intro_content">Visualizations</b> section.<br>
+  The Dashboard also gives you recommendations and instructions to enhance your privacy. Take a look at <b class="intro_content"> Recommendations, Rectification, and Manage Privacy </b> sections. <br>
+  Visit <b class="intro_content">FAQ</b> section if you have questions, or click on <b class="intro_content">Contact</b> on the side menu bar to contact us.
+  </div> 
+
+<br>
+<div nz-typography id="fstep90" class="section-title">Your Information</div>
 <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
   <div id="fStep10" nz-col nzXs="24" nzXl="8">
     <app-general-data></app-general-data>
@@ -9,7 +18,10 @@
   </div>
 </div>
 <br>
-<div id="fstep80"> <h2  nz-typography id="visualization">Visualization</h2> </div>
+<br>
+
+
+<div id="fstep80" class="section-title"> Visualization </div>
 <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
     <div id="fStep20" nz-col nzXs="24" nzXl="8">
       <nz-card nzTitle="Advertisements" nzHoverable [nzExtra]="extraAds">
@@ -38,21 +50,22 @@
 </div>
 <br>
 <app-help-button (startTourClick)="startTour()"></app-help-button>
+<app-offline-indicator></app-offline-indicator>
 <br>
-<div id="rectification_instructions">
-  <h2 nz-typography id="fStep70">Rectification</h2>
-  <p nz-typography>
-    Follow the instructions to object the use of your personal data to show you ads.
-  </p>
-  <h6>  Visit the webpage and follow the instruction steps: <a href='https://www.facebook.com/help/contact/367438723733209'>Facebook Help Center</a> </h6>
-  <br>
-  <nz-steps [nzCurrent]="current">
-    <nz-step nzTitle="Step 1"></nz-step>
-    <nz-step nzTitle="Step 2"></nz-step>
-    <nz-step nzTitle="Step 3"></nz-step>
-    <nz-step nzTitle="Step 4"></nz-step>
-    <nz-step nzTitle="Step 5"></nz-step>
-  </nz-steps>
+<br>
+
+<details open>
+  <summary class="collapse_title" id="fStep70">Rectification</summary>
+  <div id="rectification_instructions"> 
+    <h6>  You can object the use of your personal data to show you personalized Ads on your timeline. Visit <span nz-icon nzType="link"><a target="_blank" href='https://www.facebook.com/help/contact/367438723733209'>Facebook Help Center</a></span> and follow the instructions below: </h6>
+    <br>
+    <nz-steps [nzCurrent]="current">
+      <nz-step nzTitle="Step 1"></nz-step>
+      <nz-step nzTitle="Step 2"></nz-step>
+      <nz-step nzTitle="Step 3"></nz-step>
+      <nz-step nzTitle="Step 4"></nz-step>
+      <nz-step nzTitle="Step 5"></nz-step>
+    </nz-steps>
 
   <div class="steps-content">
     <img
@@ -62,7 +75,7 @@
       alt=""
     />
     <nz-divider></nz-divider>
-    <p nz-typography class="rectificationSteps">{{ rectificationText }}</p>  
+    <p nz-typography class="rectification-steps">{{ rectificationText }}</p>  
   </div>
   <div class="steps-action">
     <button nz-button nzType="default" (click)="start()" *ngIf="current <= 4">
@@ -75,34 +88,39 @@
       <span>Next</span>
     </button>
   </div>
-<br>
-<br>
 </div>
+</details>
 <br>
-<div id="rectification">
-  <h2 nz-typography id="fStep30">Mange Privacy</h2>
-  <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
-    <div id="fStep20" nz-col nzXs="24" nzXl="8">
-      <nz-card nzTitle="Configure Off-Facebook Activity" nzHoverable  [nzExtra]="extraPrivacy">
+<br>
+
+<details open>
+  <summary class="collapse_title" id="fStep30">Manage Privacy</summary>
+  <div id="rectification">
+    <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
+      <div id="fStep20" nz-col nzXs="24" nzXl="8">
+        <nz-card nzTitle="Configure Off-Facebook Activity" nzHoverable  [nzExtra]="extraPrivacy">
         <p>This section provides you guidelines to Turn OFF your Off-Facebook Activity.</p>
-      </nz-card>
-      <ng-template #extraPrivacy>
-        <a routerLink="/face/configure-off-facebook-activity">More</a>
-      </ng-template>
+        </nz-card>
+        <ng-template #extraPrivacy>
+          <a routerLink="/face/configure-off-facebook-activity">More</a>
+        </ng-template>
+      </div>
     </div>
   </div>
-</div>
+</details>
 <br>
+<br>
+
+<details open>
+  <summary class="collapse_title" id="fStep40">GDPR and Your Rights</summary>
 <div id="gdpr">
-  <h2 nz-typography id="fStep40">GDPR / Rights</h2>
-    <div id="fStep20" >
-      <nz-card nzTitle="Your Rights under GDPR">
+    <div class="dashboard-intro"  id="fStep20" >
         <p>
-  The <b>G</b>eneral <b>D</b>ata <b>P</b>rotection <b>R</b>egulation (GDPR) is a regulation in EU law on data protection and privacy for all individuals within the
-  European Union and the European Economic Area (EEA). The GDPR provides various rights to individuals regarding their personal data. 
-  Some of the key rights under GDPR include:
+  The GDPR is European Union's data protection law effective from May 2018. It is applicable for all individuals within the European Union and the European Economic Area (EEA). It imposes obligations onto organizations anywhere, as long as they target or collect data related to people in the EU. GDPR governs how personal data must be collected, processed, and erased while defining individual rights.
+  To know more, check <span nz-icon nzType="link"><a target="_blank" href='https://gdpr.eu/'>Complete guide to GDPR compliance</a></span>.
   <br>
   <br>
+  <nz-card class="gdpr-header" nzTitle="Your Rights under GDPR">
   <strong>Right to be informed:</strong> Individuals have the right to be informed about the collection and use of their personal data.
   <br>
   <br>
@@ -131,53 +149,65 @@
   processing, including profiling, which produces legal effects concerning them or similarly significantly affects them.
   <br>
   <br>
-  <b style="font-size: large;">It is important to note that these rights are not absolute and may be subject to certain limitations or conditions under certain 
+  <b style="font-size: medium;">It is important to note that these rights are not absolute and may be subject to certain limitations or conditions under certain 
   circumstances. Additionally, these rights apply only to personal data that is processed by a controller subject to the GDPR.</b>
-        </p>
       </nz-card>
+    </p>  
   </div>
 </div>
+</details>
+<br>
 <br>
 
-<div id="purpose">
-  <h2 nz-typography id="fStep50">Purposes for Data Collection</h2>
+<details open>
+  <summary class="collapse_title" id="fStep50">Purpose for Data Collection</summary>
+  <div class="dashboard-intro" id="purpose">
   <p nz-typography>
-    The following purposes should give an example of Facebook's purpose to collect personal data. To Get a full list of their reasons you can check out Facebook's <a href="https://www.facebook.com/privacy/policy">privacy policy</a>
-    <br></p>
+    The following purposes should give an example of Facebook's purpose to collect personal data. To Get a full list of their reasons you can check out Facebook's <span nz-icon nzType="link"><a target="_blank" href="https://www.facebook.com/privacy/policy">privacy policy</a></span>
+    <br>
+  </p>
     <nz-table nzTemplateMode>
       <thead>
         <tr>
-          <th>Purpose</th>
-          <th>Data Collected</th>
+          <th class="purpose-header">Purpose</th>
+          <th class="purpose-header">Data Collected</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td>To provide, personalise and improve our products</td>
-          <td>Posts, comments. messages, hashtags, the time, frequency and duration of your activities on Facebook. For more information follow this <a href="https://www.facebook.com/privacy/policy/?subpage=1.subpage.1-YourActivityAndInformation">link</a></td>
+          <td class="purpose-info">To provide, personalise and improve the Facebook products</td>
+          <td class="purpose-info"> Your posts, comments, messages, hashtags, time of activity, frequency and duration of your activities on Facebook. For more information follow this <span nz-icon nzType="link"><a target="_blank" href="https://www.facebook.com/privacy/policy/?subpage=1.subpage.1-YourActivityAndInformation">link</a></span></td>.
         </tr>
         <tr>
-          <td>To promote safety, security and integrity</td>
-          <td>The device and software you're using, signals from your device, GPS location. For more information follow this <a href="https://www.facebook.com/privacy/policy/?subpage=2.subpage.8-PromotingSafetySecurityAnd">link</a></td>
+          <td class="purpose-info">To promote safety, security and integrity</td>
+          <td class="purpose-info">The device and software you are using, signals from your device, and GPS locations. For more information follow this <span nz-icon nzType="link"><a target="_blank" href="https://www.facebook.com/privacy/policy/?subpage=2.subpage.8-PromotingSafetySecurityAnd">link</a></span></td>
         </tr>
         <tr>
-          <td>To provide measurement, analytics and business services</td>
-          <td>Your device information, websites that you visit and cookie data, apps you use, games you play, purchases and transactions you make, the ads you see and how you interact with them. For more information follow this <a href="https://www.facebook.com/privacy/policy/?subpage=1.subpage.4-InformationFromPartnersVendors">link</a></td>
+          <td class="purpose-info">To provide measurement, analytics and business services</td>
+          <td class="purpose-info">Your device information, websites that you visit and cookie data, apps you use, games you play, purchases and transactions you make online, the ads you see and how you interact with them. For more information follow this <span nz-icon nzType="link"><a target="_blank" href="https://www.facebook.com/privacy/policy/?subpage=1.subpage.4-InformationFromPartnersVendors">link</a></span></td>
         </tr>
         <tr>
-          <td>To communicate with you</td>
-          <td>Contact information, settings data and other information related to your friends and followers on Facebook. For more information follow this <a href="https://www.facebook.com/privacy/policy/?subpage=2.subpage.12-CommunicatingWithYouWe">link</a></td>
+          <td class="purpose-info">To communicate with you</td>
+          <td class="purpose-info">Your contact information, settings data and other information related to your friends and followers on Facebook. For more information follow this <span nz-icon nzType="link"><a target="_blank" href="https://www.facebook.com/privacy/policy/?subpage=2.subpage.12-CommunicatingWithYouWe">link</a></span></td>
         </tr>
       </tbody>
     </nz-table>
 </div>
+</details>
+<br>
+<br>
 
-<div id="faq">
-  <h2 nz-typography id="fStep60">Frequently Asked Questions</h2>
-  <nz-collapse nzAccordion>
-    <nz-collapse-panel *ngFor="let eachFaq of faqs" [nzHeader]="eachFaq.question" [nzActive]="eachFaq.state">
-      <p>{{ eachFaq.answer }}</p>
-    </nz-collapse-panel>
-  </nz-collapse>
-<div id="faq">
+<details open>
+  <div id="faq"></div>
+    <summary class="collapse_title" id="fStep60">Frequently Asked Questions</summary>
+      <nz-collapse nzAccordion>
+        <nz-collapse-panel class="faq_info" *ngFor="let eachFaq of faqs" [nzHeader]="eachFaq.question" [nzActive]="eachFaq.state">
+          <p class="faq_info">{{ eachFaq.answer }}</p>
+        </nz-collapse-panel>
+      </nz-collapse>
+</details>
+<br>
 
+
+
+  
