@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS insta_personal_info (
 );
 
 CREATE TABLE IF NOT EXISTS insta_account_info (
-    id INTERGER PRIMARY KEY,
+    id INTEGER PRIMARY KEY,
     contact_syncing TEXT NOT NULL,
     first_country_code TEXT NOT NULL,
     has_shared_live_video TEXT NOT NULL,
@@ -84,6 +84,51 @@ CREATE TABLE IF NOT EXISTS insta_ads_clicked (
 CREATE TABLE IF NOT EXISTS insta_ads_viewed (
     id INTEGER PRIMARY KEY,
     title TEXT NOT NULL,
+    timestamp TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS insta_signup_information (
+    id INTEGER PRIMARY KEY,
+    username TEXT NOT NULL,
+    ip_address TEXT NOT NULL,
+    timestamp INTEGER NOT NULL,
+    email TEXT NOT NULL,
+    phone_number TEXT NOT NULL,
+    device TEXT NOT NULL,
+    color TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS insta_login_information (
+    id INTEGER PRIMARY KEY,
+    ip_address TEXT NOT NULL,
+    timestamp INTEGER NOT NULL,
+    user_agent TEXT NOT NULL,
+    type TEXT NOT NULL,
+    color TEXT NOT NULL,
+    device TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS insta_logout_information (
+    id INTEGER PRIMARY KEY,
+    ip_address TEXT NOT NULL,
+    timestamp INTEGER NOT NULL,
+    user_agent TEXT NOT NULL,
+    type TEXT NOT NULL,
+    color TEXT NOT NULL,
+    device TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS insta_liked_comments (
+    id INTEGER PRIMARY KEY,
+    user TEXT NOT NULL,
+    href_link TEXT NOT NULL,
+    timestamp TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS insta_liked_posts (
+    id INTEGER PRIMARY KEY,
+    user TEXT NOT NULL,
+    href_link TEXT NOT NULL,
     timestamp TEXT NOT NULL
 );
 
@@ -186,6 +231,11 @@ DROP TABLE IF EXISTS insta_ads_activity;
 DROP TABLE IF EXISTS insta_ads_interests;
 DROP TABLE IF EXISTS insta_ads_clicked;
 DROP TABLE IF EXISTS insta_ads_viewed;
+DROP TABLE IF EXISTS insta_signup_information;
+DROP TABLE IF EXISTS insta_login_information;
+DROP TABLE IF EXISTS insta_logout_information;
+DROP TABLE IF EXISTS insta_liked_comments;
+DROP TABLE IF EXISTS insta_liked_posts;
 DROP TABLE IF EXISTS insta_contacts;
 DROP TABLE IF EXISTS userdata;
 DROP TABLE IF EXISTS face_ads_information;

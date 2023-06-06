@@ -5,6 +5,8 @@ import { InstaDashboardComponent } from './dashboards/insta-dashboard/insta-dash
 import {Insta_PersonalInfoComponent} from './visualizations/instagram/Insta_personal-info/personal-info.component';
 import { InstaAccountCreationLoginComponent } from './visualizations/instagram/insta-account-creation-login/insta-account-creation-login.component';
 import { InstaAdsComponent } from './visualizations/instagram/insta-ads/insta-ads.component';
+import { InstaLikedContentComponent } from './visualizations/instagram/insta-liked-content/insta-liked-content.component';
+
 import { SpotDashboardComponent } from './dashboards/spot-dashboard/spot-dashboard.component';
 import { LandingComponent } from './landing/landing.component';
 import { ServiceSelectionComponent } from './service-selection/service-selection.component';
@@ -38,6 +40,7 @@ const routes: Routes = [
   { path: 'insta/personal-info', component:Insta_PersonalInfoComponent },
   { path: 'insta/account', component:InstaAccountCreationLoginComponent },
   { path: 'insta/ads', component: InstaAdsComponent },
+  { path: 'insta/likedcontent', component: InstaLikedContentComponent },
   { path: 'insta/contacts', component: InstaContactComponent },
   { path: 'face/dashboard', component: FaceDashboardComponent },
   { path: 'face/inferred-topics', component: InferredTopicsComponent },

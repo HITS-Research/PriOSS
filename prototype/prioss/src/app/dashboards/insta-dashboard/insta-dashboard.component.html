@@ -55,6 +55,15 @@
         <a routerLink="/insta/contacts">More</a>
       </ng-template>
     </div>
+    <div nz-col nzXs="24" nzXl="8">
+      <!--card for visualizing the liked comments and posts-->
+      <nz-card nzTitle="Liked Comments and Posts" nzHoverable [nzExtra]="extraLikedContent">
+        <app-insta-liked-content [previewMode]="true"></app-insta-liked-content>
+      </nz-card>
+      <ng-template #extraLikedContent>
+        <a routerLink="/insta/likedcontent">More</a>
+      </ng-template>
+    </div>
   </div>
   <br>
 </div>
