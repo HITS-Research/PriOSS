@@ -87,6 +87,13 @@ CREATE TABLE IF NOT EXISTS insta_ads_viewed (
     timestamp TEXT NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS insta_contacts (
+    id INTEGER PRIMARY KEY,
+    firstName TEXT NOT NULL,
+    surname TEXT NOT NULL,
+    contactInformation TEXT NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS insta_follower_info (
     id INTEGER PRIMARY KEY,
     instaProfileURL TEXT NOT NULL,
@@ -175,6 +182,12 @@ CREATE TABLE IF NOT EXISTS face_who_you_follow (
     name TEXT NOT NULL,
     timestamp TEXT NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS face_inferred_topics (
+    id INTEGER PRIMARY KEY,
+    topic TEXT NOT NULL
+);
+
 `;
 //PRAGMA user_version = 1;
 
@@ -194,6 +207,7 @@ DROP TABLE IF EXISTS insta_ads_activity;
 DROP TABLE IF EXISTS insta_ads_interests;
 DROP TABLE IF EXISTS insta_ads_clicked;
 DROP TABLE IF EXISTS insta_ads_viewed;
+DROP TABLE IF EXISTS insta_contacts;
 DROP TABLE IF EXISTS userdata;
 DROP TABLE IF EXISTS insta_follower_info;
 DROP TABLE IF EXISTS insta_following_info;
@@ -208,4 +222,5 @@ DROP TABLE IF EXISTS face_friends;
 DROP TABLE IF EXISTS face_rejected_friend_requests;
 DROP TABLE IF EXISTS face_removed_friends;
 DROP TABLE IF EXISTS face_who_you_follow;
+DROP TABLE IF EXISTS face_inferred_topics;
 `;

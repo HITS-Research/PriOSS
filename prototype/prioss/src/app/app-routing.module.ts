@@ -21,6 +21,7 @@ import { AdsRelatedDataComponent } from './visualizations/facebook/ads-related-d
 import { FriendAndFollowersComponent } from './visualizations/facebook/friend-and-followers/friend-and-followers.component';
 import { OffFacebookActivityComponent } from './rectification/facebook/off-facebook-activity/off-facebook-activity.component';
 import { InstaFollowersComponent } from './visualizations/instagram/insta-followers/insta-followers.component';
+import { InstaContactComponent } from './visualizations/instagram/insta-contact/insta-contact.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -39,12 +40,13 @@ const routes: Routes = [
   { path: 'insta/account', component:InstaAccountCreationLoginComponent },
   { path: 'insta/ads', component: InstaAdsComponent },
   { path: 'insta/followers', component: InstaFollowersComponent},
+  { path: 'insta/contacts', component: InstaContactComponent },
   { path: 'face/dashboard', component: FaceDashboardComponent },
   { path: 'face/inferred-topics', component: InferredTopicsComponent },
   { path: 'serviceSelection', component: ServiceSelectionComponent },
   { path: 'face/ads-related-data', component: AdsRelatedDataComponent },
   { path: 'face/connections', component: FriendAndFollowersComponent },
-  { path: 'face/configure-off-facebook-activity', component: OffFacebookActivityComponent}
+  { path: 'face/configure-off-facebook-activity', component: OffFacebookActivityComponent }
 ];
 
 @NgModule({

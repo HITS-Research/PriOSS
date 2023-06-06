@@ -10,12 +10,12 @@
             [nzTrigger]="null">
     <div class="sidebar-logo">
       <a routerLink="/">
-        <img src="/assets/images/icons/prioss_icon.png" alt="logo">
+        <img src="/assets/images/icons/prioss_icon_borderless.png" alt="logo">
         <h1>PriOSS</h1>
       </a>
     </div>
     <!--adding menu items-->
-    <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
+    <ul nz-menu nzTheme="light" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
       <li nz-menu-item nzMatchRouter>
         <span nz-icon nzType="home" nzTheme="outline"></span>
         <span><a routerLink="/home">Home</a></span>
@@ -40,6 +40,9 @@
           <li nz-menu-item [nzSelected]="this.isSelected('#rectification')">
             <a routerLink="{{serviceName}}/dashboard" fragment="rectification">Rectification</a>
           </li>
+          <li nz-menu-item [nzSelected]="this.isSelected('#recommendation')">
+            <a routerLink="{{serviceName}}/dashboard" fragment="recommendation">Recommendation</a>
+          </li>
           <li nz-menu-item [nzSelected]="this.isSelected('#gdpr')">
             <a routerLink="{{serviceName}}/dashboard" fragment="gdpr">GDPR/Rights</a>
           </li>
@@ -52,6 +55,12 @@
         </ul>
       </li>
     </ul>
+    <div class="navbar-btn-container">
+      <button *ngIf="showServiceButton" nz-button nzType="default" class="navbar-btn" id="service-btn" nzSize="large" (click)="pRouter.navigateByUrl('/serviceSelection')">
+        <span nz-icon nzType="arrow-left" nzTheme="outline"></span>
+        Change Service
+      </button>
+    </div>
   </nz-sider>
   <nz-layout>
     <!--defines the header with the button to collapse the slider-->
@@ -62,10 +71,6 @@
           nz-icon
           [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'">
         </span>
-        <button *ngIf="showBackButton" nz-button nzType="default" class="header-back-button" (click)="routeToDashboard()">
-          <span nz-icon nzType="arrow-left"></span>
-          Back to Dashboard
-        </button>
       </div>
     </nz-header>
     <!--defines the content-->

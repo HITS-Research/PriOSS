@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { Router } from '@angular/router';
 import { NotificationService } from '../../../notification/notification.component';
+import { SequenceComponentInit } from '../../sequence-component-init.abstract';
 
 /**
  * This component is fsor instagram's advertisement page.
@@ -15,7 +16,7 @@ import { NotificationService } from '../../../notification/notification.componen
   templateUrl: './insta-ads.component.html',
   styleUrls: ['./insta-ads.component.less']
 })
-export class InstaAdsComponent {
+export class InstaAdsComponent extends SequenceComponentInit{
 
   @Input()
   previewMode: boolean = false;
@@ -25,9 +26,27 @@ export class InstaAdsComponent {
   ads_interests: Ads_Interested[] = [];
   ads_viewed: Ads_Viewed[] = [];
 
-  constructor(private dbService: NgxIndexedDBService, private router: Router, private notifyService: NotificationService)
-  {
+  constructor(private dbService: NgxIndexedDBService, private router: Router, private notifyService: NotificationService){
+    super();
+   }
 
+  /**
+  * A Callback called by angular when the views have been initialized
+  * It handles the initialization when the component is displayed on its own dedicated page.
+  *
+  * @author: Paul (pasch@mail.upb.de)
+  */
+  ngAfterViewInit() {
+    if(!this.previewMode) {
+      this.initComponent();
+    }
+  }
+
+  /**
+  * @see-super-class
+  * @author Paul (pasch@mail.upb.de)
+  */
+  override async initComponent(): Promise<void> {
     // Ads Interest Data fetch from IndexedDB
     this.dbService.getAll('insta/ads_interests').subscribe({
       next: (ads_interests: any) => {

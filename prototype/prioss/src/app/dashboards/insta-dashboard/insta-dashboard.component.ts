@@ -1,7 +1,10 @@
-import { Component } from '@angular/core';
-import { NgxIndexedDBService } from 'ngx-indexed-db';
-import { ActivatedRoute, Router } from "@angular/router";
+import { Component, ViewChild } from '@angular/core';
 import { IntrojsService } from 'src/app/introjs/introjs.service';
+import { BaseDashboard } from '../base-dashboard.abstract';
+import { Insta_PersonalInfoComponent } from 'src/app/visualizations/instagram/Insta_personal-info/personal-info.component';
+import { InstaAdsComponent } from 'src/app/visualizations/instagram/insta-ads/insta-ads.component';
+import { InstaAccountCreationLoginComponent } from 'src/app/visualizations/instagram/insta-account-creation-login/insta-account-creation-login.component';
+import { InstaContactComponent } from 'src/app/visualizations/instagram/insta-contact/insta-contact.component';
 
 /**
   * This component is the root component for instagram's dashboard page.
@@ -18,13 +21,8 @@ import { IntrojsService } from 'src/app/introjs/introjs.service';
   templateUrl: './insta-dashboard.component.html',
   styleUrls: ['./insta-dashboard.component.less']
 })
-export class InstaDashboardComponent {
-  constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-    private dbService: NgxIndexedDBService,
-    private introService: IntrojsService,
-  ) { }
+export class InstaDashboardComponent extends BaseDashboard{
+
   purposes = [
     {
       active: false,
@@ -39,7 +37,31 @@ export class InstaDashboardComponent {
     {
       active: false,
       name: 'Who developed this website?',
-      content: 'We are a Team called PriOSS and made up of students from the University of Paderborn. This website is a Student Project developed with a passion for privacy during the Course „Project Group: a Privacy One-Stop Shop“ over the course of one year between October 2022 and September 2023. To get more information about us and the project, visit our About Us page',
+      content: 'You can find information about this section in "About" part of application or by visiting the link below.',
+      link: '../../about',
+      linkLabel: 'AboutPage'
+    },
+    {
+      active: false,
+      name: 'Why was this application created?',
+      content: 'Users often lack awareness of their rights regarding data downloads under the General Data Protection Regulation (GDPR). Our platform not only offers data visualization but also assists users in rectifying inaccurate data and enhancing transparency. This includes providing additional context information, such as explanations regarding the purposes for which user data is collected by specific services, as well as guidance on how to exercise the right to erasure within those services. Through these measures, we aim to empower users to adopt privacy-conscious behaviors while using the Instagram platform.',
+    },
+    {
+      active: false,
+      name: 'How to download the Instagram data? ',
+      content: 'Please visit the below link and select Instagram application',
+      link: '../../serviceSelection',
+      linkLabel: 'Service Selection'
+    },
+    {
+      active: false,
+      name: 'How to traverse inside the data? ',
+      content: 'Users can navigate through their downloaded JSON data. The data is collected and grouped based on various interests such as ads_and_businesses, ads_and_topics, comments, and more. User data is organized into different folders and sorted alphabetically. To comprehend the contents of these JSON files, a basic understanding of JSON is required beforehand. This application simplifies the process and makes it straightforward to comprehend the data.',
+    },
+    {
+      active: false,
+      name: 'Is this application really offline?',
+      content: 'Yes, the application is offline. We have used SQLite which is a local database. For more detail, users can contact the University of Paderborn. „Project Group: a Privacy One-Stop Shop“ over the course of one year between October 2022 and September 2023. To get more information about us and the project, visit our About Us page',
     },
     {
       active: false,
@@ -53,24 +75,14 @@ export class InstaDashboardComponent {
   rectificationInstructionText="Choose your country.";
   rectificationInstructionPicture="/../../assets/images/insta-rectifcation/step1.png"
 
-  /**
-  * Decrease the "current" variable.
-  * @author: Melina (kleber@mail.uni-paderborn.de)
-  * 
-  */
-  pre(): void {
-    this.current -= 1;
-    this.changeContent();
-  }
+  //Components to Initialize Sequentially
+  @ViewChild(Insta_PersonalInfoComponent) instaPersonalInfo : Insta_PersonalInfoComponent;
+  @ViewChild(InstaAdsComponent) instaAds : InstaAdsComponent;
+  @ViewChild(InstaAccountCreationLoginComponent) instaAccount : InstaAccountCreationLoginComponent;
+  @ViewChild(InstaContactComponent) instaContact : InstaContactComponent;
 
-  /**
-  * Increases the "current" variable.
-  * @author: Melina (kleber@mail.uni-paderborn.de)
-  * 
-  */
-  next(): void {
-    this.current += 1;
-    this.changeContent();
+  constructor( private introService: IntrojsService) { 
+    super();
   }
 
   /**
@@ -114,21 +126,51 @@ export class InstaDashboardComponent {
   /**
     * This method starts the tour and sets @param tourCompleted in the @service introjs to true.
     * The boolean is set so not every time the page is navigated to, the tour starts again.
+    * It also starts the visualization initialization workflow
     * 
-    * @author: Melina (kleber@mail.uni-paderborn.de)
+    * @author: Melina (kleber@mail.uni-paderborn.de), Paul (pasch@mail.upb.de)
     */
   ngAfterViewInit(): void  {
     if (this.introService.isInstagramTourCompleted() == false) {
       this.introService.instagramDashboardTour();
       this.introService.setInstagramTourCompleted(true);
     }
+
+    //Component initialization
+    //Add components to component Initialization list from BaseDashboard
+    this.componentInitializationList = [];
+    this.componentInitializationList.push(this.instaPersonalInfo);
+    this.componentInitializationList.push(this.instaAds);
+    this.componentInitializationList.push(this.instaAccount);
+    this.componentInitializationList.push(this.instaContact);
+    //Start Component Initialization run
+    this.startSequentialInitialization();
   }
 
   /**
   * This method is called on button click and starts the tour.
   */
   startTour() {
-    //TODO: Add introjs here
     this.introService.instagramDashboardTour();
+  }
+
+  /**
+  * Decrease the "current" variable.
+  * @author: Melina (kleber@mail.uni-paderborn.de)
+  * 
+  */
+  pre(): void {
+    this.current -= 1;
+    this.changeContent();
+  }
+
+  /**
+  * Increases the "current" variable.
+  * @author: Melina (kleber@mail.uni-paderborn.de)
+  * 
+  */
+  next(): void {
+    this.current += 1;
+    this.changeContent();
   }
 }
