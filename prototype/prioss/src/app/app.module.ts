@@ -74,6 +74,8 @@ import { TitleBarComponent } from './page-sub-components/title-bar/title-bar.com
 import { InstaLikedContentComponent } from './visualizations/instagram/insta-liked-content/insta-liked-content.component';
 import { InstaLoginRepository } from './db/data-repositories/instagram/insta-accountcreation-login/insta-login.repository';
 import { InstaLogoutRepository } from './db/data-repositories/instagram/insta-accountcreation-login/insta-logout.repository';
+import { InstaContactComponent } from './visualizations/instagram/insta-contact/insta-contact.component';
+import { InstaContactsRepository } from './db/data-repositories/instagram/insta-contacts/insta-contacts.repository';
 
 registerLocaleData(de);
 
@@ -315,6 +317,7 @@ const dbConfig: DBConfig  =
     InstaAccountCreationLoginComponent,
     InstaAdsComponent,
     InstaLikedContentComponent,
+    InstaContactComponent,
     AdsRelatedDataComponent,
     FriendAndFollowersComponent,
     SettingsFormComponent,
@@ -366,6 +369,7 @@ const dbConfig: DBConfig  =
     InstaLogoutRepository,
     InstaLikedCommentsRepository,
     InstaLikedPostsRepository,
+    InstaContactsRepository,
     InferencesRepository,
     UserdataRepository,
     InferredTopicsRepository,

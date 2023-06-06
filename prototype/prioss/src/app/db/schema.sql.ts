@@ -130,6 +130,11 @@ CREATE TABLE IF NOT EXISTS insta_liked_posts (
     user TEXT NOT NULL,
     href_link TEXT NOT NULL,
     timestamp TEXT NOT NULL
+CREATE TABLE IF NOT EXISTS insta_contacts (
+    id INTEGER PRIMARY KEY,
+    firstName TEXT NOT NULL,
+    surname TEXT NOT NULL,
+    contactInformation TEXT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS face_ads_information (
@@ -229,6 +234,7 @@ DROP TABLE IF EXISTS insta_login_information;
 DROP TABLE IF EXISTS insta_logout_information;
 DROP TABLE IF EXISTS insta_liked_comments;
 DROP TABLE IF EXISTS insta_liked_posts;
+DROP TABLE IF EXISTS insta_contacts;
 DROP TABLE IF EXISTS userdata;
 DROP TABLE IF EXISTS face_ads_information;
 DROP TABLE IF EXISTS face_ads_interacted;

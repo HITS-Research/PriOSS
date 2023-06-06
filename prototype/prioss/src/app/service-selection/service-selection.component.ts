@@ -30,6 +30,7 @@ import { InstaLikedCommentsRepository } from '../db/data-repositories/instagram/
 import { InstaLikedPostsRepository } from '../db/data-repositories/instagram/insta-liked-content/insta-likedposts.repository';
 import { InstaLoginRepository } from '../db/data-repositories/instagram/insta-accountcreation-login/insta-login.repository';
 import { InstaLogoutRepository } from '../db/data-repositories/instagram/insta-accountcreation-login/insta-logout.repository';
+import { InstaContactsRepository } from '../db/data-repositories/instagram/insta-contacts/insta-contacts.repository';
 import { InferredTopicsRepository } from '../db/data-repositories/facebook/fb-inferred-data/face_inferred_topics.repo';
 
 //service identifier filenames
@@ -99,6 +100,7 @@ export class ServiceSelectionComponent {
               private instaLogoutRepo: InstaLogoutRepository,
               private instaLikedCommentsRepo: InstaLikedCommentsRepository,
               private instaLikedPostsRepo: InstaLikedPostsRepository,
+              private instaContactsRepo: InstaContactsRepository,
               private sqlDBService: DBService, 
               private http: HttpClient,
               private inferredTopicsDataRepo: InferredTopicsRepository,
@@ -840,6 +842,21 @@ export class ServiceSelectionComponent {
             likedPosts[i].string_list_data[0].timestamp);
         }
       }
+      else if (filename.startsWith('synced_contacts')) {
+        let jsonData = JSON.parse(content);
+        let contactsData = jsonData.contacts_contact_info;
+
+        await this.instaContactsRepo.startContactBulkAdd(contactsData[0].string_map_data["First name"].value, 
+                contactsData[0].string_map_data["Surname"].value, 
+                contactsData[0].string_map_data["Contact information"].value,
+                contactsData.length);          
+        for (let i = 1; i < contactsData.length; i++) {
+          await this.instaContactsRepo.addContactsBulkEntry(contactsData[i].string_map_data["First name"].value,
+                contactsData[i].string_map_data["Surname"].value, 
+                contactsData[i].string_map_data["Contact information"].value);
+        }
+      }
+
     }
 
     if (this.requestedAbortDataParsing) {
