@@ -30,6 +30,7 @@ export class IntrojsService {
   spotifyDashboardTour() {
     this.introJS = introJs();
     this.introJS.setOptions({
+      disableInteraction: true,
       steps: [
         {
           element: 'step0',
@@ -95,6 +96,7 @@ export class IntrojsService {
   facebookDashboardTour() {
     this.introJSF = introJs();
     this.introJSF.setOptions({
+      disableInteraction: true,
       steps: [
         {
           element: 'step0',
@@ -173,6 +175,7 @@ export class IntrojsService {
    instagramDashboardTour() {
     this.introJSI = introJs();
     this.introJSI.setOptions({
+      disableInteraction: true,
       steps: [
         {
           element: '#welcome',
