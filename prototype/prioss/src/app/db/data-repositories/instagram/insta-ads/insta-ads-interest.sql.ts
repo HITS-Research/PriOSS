@@ -1,3 +1,5 @@
+// INSERT Queries
+
 export const insertIntoInstaAdsInterestsSQL: string = `
 insert into insta_ads_interests
 (interest)
@@ -16,4 +18,12 @@ select ?
 
 export const bulkAddValueConnector: string = `
 union all
+`;
+
+// SELECT Queries
+
+export const selectInstaAdsInterestSQL: string = `
+    select 
+    interest
+    from insta_ads_interests;
 `;

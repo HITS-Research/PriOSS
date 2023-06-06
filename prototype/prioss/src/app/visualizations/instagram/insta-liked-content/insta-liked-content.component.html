@@ -1,0 +1,65 @@
+<div [ngClass]="{'component-page': !previewMode}">
+
+  <!--only shows a preview of the visualization-->
+  <div *ngIf="previewMode">
+      <nz-row [nzGutter]="16">
+          <nz-col [nzSpan]="12">
+            <nz-statistic [nzValue]="(liked_comments_amount|number)!" [nzTitle]="'Number of Liked Comments'"></nz-statistic>
+          </nz-col>
+          <nz-col [nzSpan]="12">
+            <nz-statistic [nzValue]="(liked_posts_amount|number)!" [nzTitle]="'Number of Liked Posts'"></nz-statistic>
+          </nz-col>
+        </nz-row>
+  </div>
+
+  <!--only shows when visiting the page-->
+  <div *ngIf="!previewMode">
+    <nz-breadcrumb>
+      <nz-breadcrumb-item>
+        <a [routerLink]="['../dashboard/']">Dashboard</a>
+      </nz-breadcrumb-item>
+      <nz-breadcrumb-item>Liked Comments and Posts</nz-breadcrumb-item>
+    </nz-breadcrumb>
+    
+    <div>
+      <h3 style="position: relative;">Liked Comments
+        <span nz-tooltip nzTooltipTitle="This bar chart shows the liked comments that was collected by Instagram">
+            <span class="title-info-icon" nz-icon nzType="info-circle" nzTheme="outline">
+            </span>
+        </span>
+      </h3>
+      <div>
+        User:
+        <nz-select style="width: 180px;"[(ngModel)]="selectedUserForComments"  (ngModelChange)="onUserChangeForComment()">
+          <nz-option *ngFor="let user of userListForComments" [nzValue]="user" [nzLabel]="user"></nz-option>
+        </nz-select>
+        From:
+        <nz-date-picker [(ngModel)]="filterFromDateForComments" (ngModelChange)="onDateFilterChangeForComment()"></nz-date-picker>
+        To:
+        <nz-date-picker [(ngModel)]="filterToDateForComments" (ngModelChange)="onDateFilterChangeForComment()"></nz-date-picker>
+        <div class="bar_chart_liked_comments"></div>
+      </div>
+    </div>
+
+    <div>
+      <h3 style="position: relative;">Liked Posts
+        <span nz-tooltip nzTooltipTitle="This bar chart shows the liked posts that was collected by Instagram">
+            <span class="title-info-icon" nz-icon nzType="info-circle" nzTheme="outline">
+            </span>
+        </span>
+      </h3>
+      <div>
+        User:
+        <nz-select style="width: 180px;"[(ngModel)]="selectedUserForPosts"  (ngModelChange)="onUserChangeForPost()">
+          <nz-option *ngFor="let user of userListForPosts" [nzValue]="user" [nzLabel]="user"></nz-option>
+        </nz-select>
+        From:
+        <nz-date-picker [(ngModel)]="filterFromDateForPosts" (ngModelChange)="onDateFilterChangeForPost()"></nz-date-picker>
+        To:
+        <nz-date-picker [(ngModel)]="filterToDateForPosts" (ngModelChange)="onDateFilterChangeForPost()"></nz-date-picker>
+        <div class="bar_chart_liked_posts"></div>
+      </div>
+    </div>
+    
+  </div>
+</div>
