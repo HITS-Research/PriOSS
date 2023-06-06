@@ -1,0 +1,4 @@
+<div id="onlineStatus" style="position: fixed; bottom: 74px; right: 32px;">
+    <span *ngIf="onlineStatus"><span nz-tooltip nzTooltipTitle="You're still online! You can disconnect from the internet and still use all functionality!"><button nz-button nzType="default" nzShape="circle"><span nz-icon nzType="wifi" nzTheme="outline" style="color: red"></span></button></span></span>
+    <span *ngIf="!onlineStatus"><span nz-tooltip nzTooltipTitle="Great you're offline! You can still use all functionality!"><button nz-button nzType="default" nzShape="circle"><span nz-icon nzType="wifi" nzTheme="outline" style="color: green"></span></button></span></span>
+</div>
