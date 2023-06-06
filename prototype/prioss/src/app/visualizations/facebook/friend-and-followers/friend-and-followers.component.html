@@ -22,12 +22,7 @@
     </nz-row>
   </div>
   <div *ngIf="!previewMode">
-    <nz-breadcrumb>
-      <nz-breadcrumb-item>
-        <a [routerLink]="['../dashboard/']">Dashboard</a>
-      </nz-breadcrumb-item>
-      <nz-breadcrumb-item>Connections</nz-breadcrumb-item>
-    </nz-breadcrumb>
+    <app-title-bar titleText="Facebook Connections" tooltipText="This visualization shows overall data related to friends based on years."></app-title-bar>
     <nz-row [nzGutter]="16" class="margin-top-20">
       <nz-col [nzSpan]="12">
         <nz-card class="friends-card" nzTitle="Friends: {{friends.length}}">

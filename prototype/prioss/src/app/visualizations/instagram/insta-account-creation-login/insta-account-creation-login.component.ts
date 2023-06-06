@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { map } from 'rxjs/operators';
+import { SequenceComponentInit } from '../../sequence-component-init.abstract';
 
 /**
  * This component is for instagram's account creation and login page.
@@ -14,7 +15,7 @@ import { map } from 'rxjs/operators';
   templateUrl: './insta-account-creation-login.component.html',
   styleUrls: ['./insta-account-creation-login.component.less']
 })
-export class InstaAccountCreationLoginComponent{
+export class InstaAccountCreationLoginComponent extends SequenceComponentInit{
   @Input()
   previewMode: boolean = false;
 
@@ -26,9 +27,27 @@ export class InstaAccountCreationLoginComponent{
   most_used_device_amount: number=0;
   most_used_device: string="";
 
-  constructor(private dbService: NgxIndexedDBService)
-  {
+  constructor(private dbService: NgxIndexedDBService) {
+    super();
+  }
 
+  /**
+  * A Callback called by angular when the views have been initialized
+  * It handles the initialization when the component is displayed on its own dedicated page.
+  *
+  * @author: Paul (pasch@mail.upb.de)
+  */
+  ngAfterViewInit() {
+    if(!this.previewMode) {
+      this.initComponent();
+    }
+  }
+
+  /**
+  * @see-super-class
+  * @author Paul (pasch@mail.upb.de)
+  */
+  override async initComponent(): Promise<void> {
     this.dbService.getAll('insta/signup_information').subscribe({
       next: (signup_information: any) => {
         if(signup_information.length > 0) {
@@ -46,8 +65,6 @@ export class InstaAccountCreationLoginComponent{
         console.log(error)
       }
     });
-
-    
 
     // Variable for promise functionality
     const promises = [];
