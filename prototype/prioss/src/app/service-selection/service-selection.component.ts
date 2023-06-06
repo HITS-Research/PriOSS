@@ -119,44 +119,6 @@ export class ServiceSelectionComponent {
     this.dbService.clear("spot/history").subscribe((deleted) => {
       console.log("Cleared spot/history: " + deleted);
     });
-
-    this.dbService.clear("insta/ads_interests").subscribe((deleted) => {
-      console.log("Cleared insta/ads_interests: " + deleted);
-    });
-    this.dbService.clear("insta/advertisers_using_your_activity_or_information").subscribe((deleted) => {
-      console.log("Cleared insta/advertisers_using_your_activity_or_information: " + deleted);
-    });
-    this.dbService.clear("insta/ads_viewed").subscribe((deleted) => {
-      console.log("Cleared insta/ads_viewed: " + deleted);
-    });
-    this.dbService.clear("insta/ads_clicked").subscribe((deleted) => {
-      console.log("Cleared insta/ads_clicked: " + deleted);
-    });
-    this.dbService.clear("insta/last_known_location").subscribe((deleted) => {
-      console.log("Cleared insta/last_known_location: " + deleted);
-    });
-    this.dbService.clear("insta/login_activity").subscribe((deleted) => {
-      console.log("Cleared insta/login_activity: " + deleted);
-    });
-    this.dbService.clear("insta/logout_activity").subscribe((deleted) => {
-      console.log("Cleared insta/logout_activity: " + deleted);
-    });
-    this.dbService.clear("insta/password_change_activity").subscribe((deleted) => {
-      console.log("Cleared insta/password_change_activity: " + deleted);
-    });
-    this.dbService.clear("insta/signup_information").subscribe((deleted) => {
-      console.log("Cleared insta/signup_information: " + deleted);
-    });
-    this.dbService.clear("insta/account_information").subscribe((deleted) => {
-      console.log("Cleared insta/account_information: " + deleted);
-    });
-    this.dbService.clear("insta/professional_information").subscribe((deleted) => {
-      console.log("Cleared insta/professional_information: " + deleted);
-    });
-    this.dbService.clear("insta/profile_changes").subscribe((deleted) => {
-      console.log("Cleared insta/profile_changes: " + deleted);
-    });
-
     this.dbService.clear("face/ads_information").subscribe((deleted) => {
       console.log("Cleared face/ads_information: " + deleted);
     });

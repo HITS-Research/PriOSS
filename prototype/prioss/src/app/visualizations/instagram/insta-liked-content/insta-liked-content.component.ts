@@ -27,7 +27,7 @@ export class InstaLikedContentComponent extends SequenceComponentInit {
   @Input()
   previewMode: boolean = false;
 
-  readonly green: string = "#1DB954";
+  readonly color: string = "#DD2A7B";
 
   liked_comments: InstaLikedCommentsWithCount[] = [];
   liked_posts: InstaLikedPostsWithCount[] = [];
@@ -274,7 +274,7 @@ export class InstaLikedContentComponent extends SequenceComponentInit {
       .attr("y", d => yScale(d.user))
       .attr("width", d => xScale(d.counts))
       .attr("height", yScale.bandwidth())
-      .attr("fill", this.green)
+      .attr("fill", this.color)
 
       //Mouse Hover
       .on("mouseover", function (event, data) {

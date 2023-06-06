@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS insta_personal_info (
 );
 
 CREATE TABLE IF NOT EXISTS insta_account_info (
-    id INTERGER PRIMARY KEY,
+    id INTEGER PRIMARY KEY,
     contact_syncing TEXT NOT NULL,
     first_country_code TEXT NOT NULL,
     has_shared_live_video TEXT NOT NULL,
@@ -130,6 +130,8 @@ CREATE TABLE IF NOT EXISTS insta_liked_posts (
     user TEXT NOT NULL,
     href_link TEXT NOT NULL,
     timestamp TEXT NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS insta_contacts (
     id INTEGER PRIMARY KEY,
     firstName TEXT NOT NULL,
