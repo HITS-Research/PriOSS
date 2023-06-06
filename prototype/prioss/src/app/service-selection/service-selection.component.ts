@@ -23,8 +23,17 @@ import { InstaAdsActivityRepository } from '../db/data-repositories/instagram/in
 import { InstaAdsInterestRepository } from '../db/data-repositories/instagram/insta-ads/insta-ads-interest.repository';
 import { InstaAdsClickedRepository } from '../db/data-repositories/instagram/insta-ads/insta-ads-clicked.repository';
 import { InstaAdsViewedRepository } from '../db/data-repositories/instagram/insta-ads/insta-ads-viewed.repository';
+import { InstaSignUpRepository } from '../db/data-repositories/instagram/insta-accountcreation-login/insta-signup.repository';
+import { InstaFollowerRepository } from '../db/data-repositories/instagram/insta-follower-info/insta-follower.repository';
+import { InstaFollowingRepository } from '../db/data-repositories/instagram/insta-follower-info/insta-following.repository';
+import { InstaBlockedRepository } from '../db/data-repositories/instagram/insta-follower-info/insta-blocked.repository';
 
 import { UserdataRepository } from '../db/data-repositories/general/userdata/userdata.repository';
+import { InstaLikedCommentsRepository } from '../db/data-repositories/instagram/insta-liked-content/insta-likedcomments.repository';
+import { InstaLikedPostsRepository } from '../db/data-repositories/instagram/insta-liked-content/insta-likedposts.repository';
+import { InstaLoginRepository } from '../db/data-repositories/instagram/insta-accountcreation-login/insta-login.repository';
+import { InstaLogoutRepository } from '../db/data-repositories/instagram/insta-accountcreation-login/insta-logout.repository';
+import { InstaContactsRepository } from '../db/data-repositories/instagram/insta-contacts/insta-contacts.repository';
 import { InferredTopicsRepository } from '../db/data-repositories/facebook/fb-inferred-data/face_inferred_topics.repo';
 
 //service identifier filenames
@@ -89,6 +98,15 @@ export class ServiceSelectionComponent {
               private instaAdsInterestRepo: InstaAdsInterestRepository,
               private instaAdsClickedRepo: InstaAdsClickedRepository,
               private instaAdsViewedRepo: InstaAdsViewedRepository,
+              private instaSignUpRepo: InstaSignUpRepository,
+              private instaLoginRepo: InstaLoginRepository,
+              private instaLogoutRepo: InstaLogoutRepository,
+              private instaLikedCommentsRepo: InstaLikedCommentsRepository,
+              private instaLikedPostsRepo: InstaLikedPostsRepository,
+              private instaContactsRepo: InstaContactsRepository,
+              private instaFollowerRepo: InstaFollowerRepository,
+              private instaBlockedRepo: InstaBlockedRepository,
+              private instaFollowingRepo: InstaFollowingRepository,
               private sqlDBService: DBService, 
               private http: HttpClient,
               private inferredTopicsDataRepo: InferredTopicsRepository,
@@ -106,42 +124,6 @@ export class ServiceSelectionComponent {
     });
     this.dbService.clear("spot/history").subscribe((deleted) => {
       console.log("Cleared spot/history: " + deleted);
-    });
-    this.dbService.clear("insta/ads_interests").subscribe((deleted) => {
-      console.log("Cleared insta/ads_interests: " + deleted);
-    });
-    this.dbService.clear("insta/advertisers_using_your_activity_or_information").subscribe((deleted) => {
-      console.log("Cleared insta/advertisers_using_your_activity_or_information: " + deleted);
-    });
-    this.dbService.clear("insta/ads_viewed").subscribe((deleted) => {
-      console.log("Cleared insta/ads_viewed: " + deleted);
-    });
-    this.dbService.clear("insta/ads_clicked").subscribe((deleted) => {
-      console.log("Cleared insta/ads_clicked: " + deleted);
-    });
-    this.dbService.clear("insta/last_known_location").subscribe((deleted) => {
-      console.log("Cleared insta/last_known_location: " + deleted);
-    });
-    this.dbService.clear("insta/login_activity").subscribe((deleted) => {
-      console.log("Cleared insta/login_activity: " + deleted);
-    });
-    this.dbService.clear("insta/logout_activity").subscribe((deleted) => {
-      console.log("Cleared insta/logout_activity: " + deleted);
-    });
-    this.dbService.clear("insta/password_change_activity").subscribe((deleted) => {
-      console.log("Cleared insta/password_change_activity: " + deleted);
-    });
-    this.dbService.clear("insta/signup_information").subscribe((deleted) => {
-      console.log("Cleared insta/signup_information: " + deleted);
-    });
-    this.dbService.clear("insta/account_information").subscribe((deleted) => {
-      console.log("Cleared insta/account_information: " + deleted);
-    });
-    this.dbService.clear("insta/professional_information").subscribe((deleted) => {
-      console.log("Cleared insta/professional_information: " + deleted);
-    });
-    this.dbService.clear("insta/profile_changes").subscribe((deleted) => {
-      console.log("Cleared insta/profile_changes: " + deleted);
     });
     this.dbService.clear("face/ads_information").subscribe((deleted) => {
       console.log("Cleared face/ads_information: " + deleted);
@@ -365,7 +347,6 @@ export class ServiceSelectionComponent {
     //Handing over parsing to service specific parsing methods
     if (selectedApp == this.appType.Instagram) {
       console.log("Parsing Instagram file...");
-      this.parseInstagramFile();
       await this.parseInstagramFileToSQLite();
     }
     else if (selectedApp == this.appType.Spotify) {
@@ -744,6 +725,151 @@ export class ServiceSelectionComponent {
           await this.instaAdsViewedRepo.addAdsViewedBulkEntry(entry.Author.value, time);
         }
       }
+      else if (filename.startsWith("signup_information.json")) {
+        let jsonData = JSON.parse(content);
+        let signup_data = jsonData.account_history_registration_info[0].string_map_data;
+        
+        let username = utilities.getValueIgnoreCase(signup_data, "Username", false);
+        let ip_address = utilities.getValueIgnoreCase(signup_data, "IP Address", false);
+        let time = utilities.getValueIgnoreCase(signup_data, "Time", true);
+        let email = utilities.getValueIgnoreCase(signup_data, "Email", false);
+        let phone_number = utilities.getValueIgnoreCase(signup_data, "Phone Number", false);
+        let device = utilities.getValueIgnoreCase(signup_data, "Device", false);
+
+        await this.instaSignUpRepo.addSignUpInformation(
+          username, ip_address, time, email, phone_number, device
+        );
+      }
+      else if (filename.startsWith("login_activity.json")) {
+        let jsonData = JSON.parse(content);
+        let loginData = jsonData.account_history_login_history;
+        
+        await this.instaLoginRepo.startLoginBulkAdd(
+          utilities.getValueIgnoreCase(loginData[0].string_map_data,"IP Address",false), 
+          utilities.getValueIgnoreCase(loginData[0].string_map_data,"Time",true), 
+          utilities.getValueIgnoreCase(loginData[0].string_map_data,"User Agent",false),
+          loginData.length);
+        
+        for (let i = 1; i < loginData.length; i++) {
+          await this.instaLoginRepo.addLoginBulkEntry(
+            utilities.getValueIgnoreCase(loginData[i].string_map_data,"IP Address",false), 
+            utilities.getValueIgnoreCase(loginData[i].string_map_data,"Time",true), 
+            utilities.getValueIgnoreCase(loginData[i].string_map_data,"User Agent",false)
+          );
+        }
+      }
+      else if (filename.startsWith("logout_activity.json")) {
+        let jsonData = JSON.parse(content);
+        let logoutData = jsonData.account_history_logout_history;
+        
+        await this.instaLogoutRepo.startLogoutBulkAdd(
+          utilities.getValueIgnoreCase(logoutData[0].string_map_data,"IP Address",false), 
+          utilities.getValueIgnoreCase(logoutData[0].string_map_data,"Time",true), 
+          utilities.getValueIgnoreCase(logoutData[0].string_map_data,"User Agent",false),
+          logoutData.length);
+        
+        for (let i = 1; i < logoutData.length; i++) {
+          await this.instaLogoutRepo.addLogoutBulkEntry(
+            utilities.getValueIgnoreCase(logoutData[i].string_map_data,"IP Address",false), 
+            utilities.getValueIgnoreCase(logoutData[i].string_map_data,"Time",true), 
+            utilities.getValueIgnoreCase(logoutData[i].string_map_data,"User Agent",false)
+          );
+        }
+      }
+      else if (filename.startsWith("liked_comments")) {
+        let jsonData = JSON.parse(content);
+        let likedComments = jsonData.likes_comment_likes;
+        
+        await this.instaLikedCommentsRepo.startLikedCommentsBulkAdd(
+          likedComments[0].title, 
+          likedComments[0].string_list_data[0].href, 
+          likedComments[0].string_list_data[0].timestamp, 
+          likedComments.length);
+        
+        for (let i = 1; i < likedComments.length; i++) {
+          await this.instaLikedCommentsRepo.addLikedCommentsBulkEntry(
+            likedComments[i].title,
+            likedComments[i].string_list_data[0].href,
+            likedComments[i].string_list_data[0].timestamp);
+        }
+      }
+      else if (filename.startsWith("liked_posts")) {
+        let jsonData = JSON.parse(content);
+        let likedPosts = jsonData.likes_media_likes;
+        
+        await this.instaLikedPostsRepo.startLikedPostsBulkAdd(
+          likedPosts[0].title, 
+          likedPosts[0].string_list_data[0].href, 
+          likedPosts[0].string_list_data[0].timestamp, 
+          likedPosts.length);
+        
+        for (let i = 1; i < likedPosts.length; i++) {
+          await this.instaLikedPostsRepo.addLikedPostsBulkEntry(
+            likedPosts[i].title,
+            likedPosts[i].string_list_data[0].href,
+            likedPosts[i].string_list_data[0].timestamp);
+        }
+      }
+      else if (filename.startsWith('synced_contacts')) {
+        let jsonData = JSON.parse(content);
+        let contactsData = jsonData.contacts_contact_info;
+
+        await this.instaContactsRepo.startContactBulkAdd(contactsData[0].string_map_data["First name"].value, 
+                contactsData[0].string_map_data["Surname"].value, 
+                contactsData[0].string_map_data["Contact information"].value,
+                contactsData.length);          
+        for (let i = 1; i < contactsData.length; i++) {
+          await this.instaContactsRepo.addContactsBulkEntry(contactsData[i].string_map_data["First name"].value,
+                contactsData[i].string_map_data["Surname"].value, 
+                contactsData[i].string_map_data["Contact information"].value);
+        }
+      }
+
+      //add follower information
+      if (filename.startsWith("followers_1")) {
+        let jsonData = JSON.parse(content);
+        await this.instaFollowerRepo.startFollowerBulkAdd(jsonData[0].string_list_data[0].href,
+          utilities.convertTimestamp(jsonData[0].string_list_data[0].timestamp),
+                                                          jsonData[0].string_list_data[0].value,
+                                                          jsonData.length);
+        for(let i = 1; i < jsonData.length; i++){
+          var accountURL = jsonData[i].string_list_data[0].href;
+          var timestamp = utilities.convertTimestamp(jsonData[i].string_list_data[0].timestamp);
+          var accountName = jsonData[i].string_list_data[0].value;
+          await this.instaFollowerRepo.addFollowerBulkEntry(accountURL, timestamp, accountName);
+        }    
+      }
+      //add following information
+      if (filename.startsWith("following")) {
+        let jsonData = JSON.parse(content);
+        let followingData = jsonData.relationships_following;
+        await this.instaFollowingRepo.startFollowingBulkAdd(followingData[0].string_list_data[0].href,
+          utilities.convertTimestamp(followingData[0].string_list_data[0].timestamp),
+          followingData[0].string_list_data[0].value,
+          followingData.length);
+        for(let i = 1; i < followingData.length; i++){
+          var accountURL = followingData[i].string_list_data[0].href;
+          var timestamp = utilities.convertTimestamp(followingData[i].string_list_data[0].timestamp);
+          var accountName = followingData[i].string_list_data[0].value;
+          await this.instaFollowingRepo.addFollowingBulkEntry(accountURL, timestamp, accountName);
+        }    
+      }
+      //add blocked information
+      if (filename.startsWith("blocked_accounts")) {
+        let jsonData = JSON.parse(content);
+        let blockedData = jsonData.relationships_blocked_users;
+        await this.instaBlockedRepo.startBlockedBulkAdd(blockedData[0].title,
+          blockedData[0].string_list_data[0].href,
+          utilities.convertTimestamp(blockedData[0].string_list_data[0].timestamp),
+          blockedData.length);
+        for(let i = 1; i < blockedData.length; i++){
+          var accountName = blockedData[i].title;
+          var accountURL = blockedData[i].string_list_data[0].href;
+          var timestamp = utilities.convertTimestamp(blockedData[i].string_list_data[0].timestamp);
+          
+          await this.instaBlockedRepo.addBlockedBulkEntry(accountName, accountURL, timestamp);
+        }    
+      }
     }
 
     if (this.requestedAbortDataParsing) {
@@ -759,207 +885,6 @@ export class ServiceSelectionComponent {
 
     this.progressBarVisible = false;
     this.router.navigate(['insta/dashboard']);
-  }
-
-  getValueIgnoreCase(jsonObj: any, key: string, time_value : boolean): any {
-    const keys = Object.keys(jsonObj);
-    for (const i in keys) {
-      if (keys[i].toLowerCase() === key.toLowerCase()) {
-        if(time_value) {
-          return jsonObj[keys[i]].timestamp;
-        } else {
-          return jsonObj[keys[i]].value;
-        }
-      }
-    }
-    return undefined;
-  }
-
-  /**
-    * Parses the uploaded Instagram data-download-zip file into the indexedDB
-    *
-    * @author: Paul (pasch@mail.upb.de)
-    *
-    */
-  parseInstagramFile() {
-    let file = this.uploadedFiles[0];
-
-    this.loadZipFile(file).then((zip: any) => {
-      this.isProcessingFile = true;//shows the processing icon on the button
-
-      Object.keys(zip.files).forEach((filename: any) => {
-        zip.files[filename].async("string").then((content: any) => {
-          //data regarding general personal infomation
-          if (filename == "personal_information/personal_information.json") {
-            console.log('Parsing: ' + filename);
-            let jsonData = JSON.parse(content);
-            let personal_data = jsonData.profile_user[0].string_map_data;//the data is nested in some objects
-
-            this.dbService.add("all/userdata",
-              {
-                username: personal_data.Username.value,
-                email: personal_data.Email.value,
-                birthdate: personal_data["Date of birth"].value,
-                gender: personal_data.Gender.value,
-              }).subscribe();
-          }
-          //data regarding ads
-          else if (filename == "information_about_you/ads_interests.json") {
-            console.log('Parsing: ' + filename);
-            let jsonData = JSON.parse(content);
-            jsonData.inferred_data_ig_interest.forEach((interest: any) => {
-              this.dbService.add('insta/ads_interests',
-                {
-                  interest: interest.string_map_data.Interest.value
-                }).subscribe();
-            });
-          }
-          else if (filename == "ads_and_businesses/advertisers_using_your_activity_or_information.json") {
-            console.log('Parsing: ' + filename);
-            let jsonData = JSON.parse(content);
-            jsonData.ig_custom_audiences_all_types.forEach((advertiser: any) => {
-              this.dbService.add('insta/advertisers_using_your_activity_or_information',
-                {
-                  advertiser_name: advertiser.advertiser_name,
-                  has_data_file_custom_audience: advertiser.has_data_file_custom_audience,
-                  has_remarketing_custom_audience: advertiser.has_remarketing_custom_audience,
-                  has_in_person_store_visit: advertiser.has_in_person_store_visit
-                }).subscribe();
-            });
-          }
-          else if (filename == "ads_and_topics/ads_clicked.json") {
-            console.log('Parsing: ' + filename);
-            let jsonData = JSON.parse(content);
-            jsonData.impressions_history_ads_clicked.forEach((ad: any) => {
-              this.dbService.add('insta/ads_clicked',
-                {
-                  title: ad.title,
-                  timestamp: ad.string_list_data.timestamp
-                }).subscribe();
-            });
-          }
-          else if (filename == "ads_and_topics/ads_viewed.json") {
-            console.log('Parsing: ' + filename);
-            let jsonData = JSON.parse(content);
-            jsonData.impressions_history_ads_seen.forEach((ad: any) => {
-              if (ad.string_map_data.Author != undefined) {
-                this.dbService.add('insta/ads_viewed',
-                  {
-                    title: ad.string_map_data["Author"].value,
-                    timestamp: ad.string_map_data["Time"].timestamp
-                  }).subscribe();
-              }
-            });
-          }
-          //data regarding login and account creation
-          else if (filename == "login_and_account_creation/last_known_location.json") {
-            console.log('Parsing: ' + filename);
-            let jsonData = JSON.parse(content);
-            let last_location_data = jsonData.account_history_imprecise_last_known_location[0].string_map_data;
-
-            this.dbService.add('insta/last_known_location',
-              {
-                imprecise_latitude: last_location_data["Imprecise Latitude"].value,
-                imprecise_longitude: last_location_data["Imprecise Longitude"].value,
-                time_uploaded: last_location_data["Time Uploaded"].timestamp
-              }).subscribe();
-          }
-          else if (filename == "login_and_account_creation/login_activity.json") {
-            console.log('Parsing: ' + filename);
-            let jsonData = JSON.parse(content);
-            jsonData.account_history_login_history.forEach((activity: any) => {
-              this.dbService.add('insta/login_activity',
-                {
-                  title: activity.title,
-                  ip_address: activity.string_map_data["IP Address"].value,
-                  time: activity.string_map_data.Time.timestamp,
-                  user_agent: activity.string_map_data["User Agent"].value
-                }).subscribe();
-            });
-          }
-          else if (filename == "login_and_account_creation/logout_activity.json") {
-            console.log('Parsing: ' + filename);
-            let jsonData = JSON.parse(content);
-            jsonData.account_history_logout_history.forEach((activity: any) => {
-              this.dbService.add('insta/logout_activity',
-                {
-                  title: activity.title,
-                  ip_address: activity.string_map_data["IP Address"].value,
-                  time: activity.string_map_data.Time.timestamp,
-                  user_agent: activity.string_map_data["User Agent"].value
-                }).subscribe();
-            });
-          }
-          else if (filename == "login_and_account_creation/password_change_activity.json") {
-            console.log('Parsing: ' + filename);
-            let jsonData = JSON.parse(content);
-            jsonData.account_history_password_change_history.forEach((activity: any) => {
-              this.dbService.add('insta/password_change_activity',
-                {
-                  time: activity.string_map_data.Time.timestamp
-                }).subscribe();
-            });
-          }
-          else if (filename == "login_and_account_creation/signup_information.json") {
-            console.log('Parsing: ' + filename);
-            let jsonData = JSON.parse(content);
-            let signup_data = jsonData.account_history_registration_info[0].string_map_data;
-
-            this.dbService.add('insta/signup_information',
-              {
-                username: signup_data.Username.value,
-                ip_address: signup_data["IP Address"].value,
-                time: signup_data.Time.timestamp,
-                email: signup_data.Email.value,
-                phone_number: signup_data["Phone Number"].value,
-                device: signup_data.Device.value
-              }).subscribe();
-          }
-          //data regarding instagram personal information
-          else if (filename == "personal_information/account_information.json") {
-            console.log('Parsing: ' + filename);
-            let jsonData = JSON.parse(content);
-            let account_data = jsonData.profile_account_insights[0].string_map_data;
-
-            this.dbService.add('insta/account_information',
-              {
-                contact_syncing: account_data["Contact Syncing"].value,
-                first_country_code: account_data["First Country Code"].value,
-                has_shared_live_video: account_data["Has Shared Live Video"].value,
-                last_login: account_data["Last Login"].timestamp,
-                last_logout: account_data["Last Logout"].timestamp,
-                first_story_time: account_data["First Story Time"].timestamp,
-                last_story_time: account_data["Last Story Time"].timestamp,
-                first_close_friends_story_time: account_data["First Close Friends Story Time"].timestamp
-              }).subscribe();
-          }
-          else if (filename == "personal_information/professional_information.json") {
-            console.log('Parsing: ' + filename);
-            let jsonData = JSON.parse(content);
-            let prof_data = jsonData.profile_business[0];
-
-            this.dbService.add('insta/professional_information',
-              {
-                title: prof_data.title
-              }).subscribe();
-          }
-          else if (filename == "personal_information/profile_changes.json") {
-            console.log('Parsing: ' + filename);
-            let jsonData = JSON.parse(content);
-            jsonData.profile_profile_change.forEach((change: any) => {
-              this.dbService.add('insta/profile_changes', {
-                title: change.title,
-                changed: change.string_map_data.Changed.value,
-                previous_value: change.string_map_data["Previous Value"].value,
-                new_value: change.string_map_data["New Value"].value,
-                change_date: change.string_map_data["Change Date"].timestamp
-              }).subscribe();
-            });
-          }
-        });
-        return true;
-      });
-    });
   }
 
   /**

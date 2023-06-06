@@ -14,7 +14,8 @@ import { LandingComponent } from './landing/landing.component';
 import { ServiceSelectionComponent } from './service-selection/service-selection.component';
 import { FaceDashboardComponent } from './dashboards/face-dashboard/face-dashboard.component';
 import { InstaDashboardComponent } from './dashboards/insta-dashboard/insta-dashboard.component';
-import {Insta_PersonalInfoComponent} from './visualizations/instagram/Insta_personal-info/personal-info.component';
+import { Insta_PersonalInfoComponent} from './visualizations/instagram/Insta_personal-info/personal-info.component';
+import { InstaFollowersComponent } from './visualizations/instagram/insta-followers/insta-followers.component';
 import { InstaAccountCreationLoginComponent } from './visualizations/instagram/insta-account-creation-login/insta-account-creation-login.component';
 import { InstaAdsComponent } from './visualizations/instagram/insta-ads/insta-ads.component';
 import { SpotDashboardComponent } from './dashboards/spot-dashboard/spot-dashboard.component';
@@ -60,13 +61,26 @@ import { DBService } from './services/db/db.service';
 import { SpotHistoryRepository } from './db/data-repositories/spotify/spot-history/spot-history.repository';
 import { UserdataRepository } from './db/data-repositories/general/userdata/userdata.repository';
 import { InferencesRepository } from './db/data-repositories/general/inferences/inferences.repository';
+import { OfflineIndicatorComponent } from './offline-indicator/offline-indicator.component';
+
 import { InstaPersonalRepository } from './db/data-repositories/instagram/insta-personal-info/insta-personal.repository';
 import { InstaAdsActivityRepository } from './db/data-repositories/instagram/insta-ads/insta-ads-activity.repository';
 import { InstaAdsInterestRepository } from './db/data-repositories/instagram/insta-ads/insta-ads-interest.repository';
 import { InstaAdsClickedRepository } from './db/data-repositories/instagram/insta-ads/insta-ads-clicked.repository';
 import { InstaAdsViewedRepository } from './db/data-repositories/instagram/insta-ads/insta-ads-viewed.repository';
+import { InstaSignUpRepository } from './db/data-repositories/instagram/insta-accountcreation-login/insta-signup.repository';
+import { InstaLikedCommentsRepository } from './db/data-repositories/instagram/insta-liked-content/insta-likedcomments.repository';
+import { InstaLikedPostsRepository } from './db/data-repositories/instagram/insta-liked-content/insta-likedposts.repository';
 import { InferredTopicsRepository } from './db/data-repositories/facebook/fb-inferred-data/face_inferred_topics.repo';
 import { TitleBarComponent } from './page-sub-components/title-bar/title-bar.component';
+import { InstaLikedContentComponent } from './visualizations/instagram/insta-liked-content/insta-liked-content.component';
+import { InstaLoginRepository } from './db/data-repositories/instagram/insta-accountcreation-login/insta-login.repository';
+import { InstaLogoutRepository } from './db/data-repositories/instagram/insta-accountcreation-login/insta-logout.repository';
+import { InstaContactComponent } from './visualizations/instagram/insta-contact/insta-contact.component';
+import { InstaContactsRepository } from './db/data-repositories/instagram/insta-contacts/insta-contacts.repository';
+import { InstaFollowerRepository } from './db/data-repositories/instagram/insta-follower-info/insta-follower.repository';
+import { InstaFollowingRepository } from './db/data-repositories/instagram/insta-follower-info/insta-following.repository';
+import { InstaBlockedRepository } from './db/data-repositories/instagram/insta-follower-info/insta-blocked.repository';
 
 registerLocaleData(de);
 
@@ -165,135 +179,6 @@ const dbConfig: DBConfig  =
         { name: 'artist', keypath: 'artist', options: { unique: false } },
         { name: 'album', keypath: 'album', options: { unique: false } },
         { name: 'uri', keypath: 'uri', options: { unique: false } },
-      ]
-    },
-    //instagram specific data
-    //data regarding ads
-    {
-      store: 'insta/ads_interests',
-      storeConfig: { keyPath: '$id', autoIncrement: true },
-      storeSchema:
-      [
-        { name: 'interest', keypath: 'interest', options: { unique: false } },
-      ]
-    },
-    {
-      store: 'insta/advertisers_using_your_activity_or_information',
-      storeConfig: { keyPath: '$id', autoIncrement: true },
-      storeSchema:
-      [
-        { name: 'advertiser_name', keypath: 'advertiser_name', options: { unique: false } },
-        { name: 'has_data_file_custom_audience', keypath: 'has_data_file_custom_audience', options: { unique: false } },
-        { name: 'has_remarketing_custom_audience', keypath: 'has_remarketing_custom_audience', options: { unique: false } },
-        { name: 'has_in_person_store_visit', keypath: 'has_in_person_store_visit', options: { unique: false } },
-      ]
-    },
-    {
-      store: 'insta/ads_viewed',
-      storeConfig: { keyPath: '$id', autoIncrement: true },
-      storeSchema:
-      [
-        { name: 'author', keypath: 'author', options: { unique: false } },
-        { name: 'timestamp', keypath: 'timestamp', options: { unique: false } },
-      ]
-    },
-    {
-      store: 'insta/ads_clicked',
-      storeConfig: { keyPath: '$id', autoIncrement: true },
-      storeSchema:
-      [
-        { name: 'title', keypath: 'title', options: { unique: false } },
-        { name: 'timestamp', keypath: 'timestamp', options: { unique: false } },
-      ]
-    },
-    //data ragarding login and account creation
-    {
-      store: 'insta/last_known_location',
-      storeConfig: { keyPath: '$id', autoIncrement: true },
-      storeSchema:
-      [
-        { name: 'imprecise_latitude', keypath: 'imprecise_latitude', options: { unique: false } },
-        { name: 'imprecise_longitude', keypath: 'imprecise_longitude', options: { unique: false } },
-        { name: 'time_uploaded', keypath: 'time_uploaded', options: { unique: false } },
-      ]
-    },
-    {
-      store: 'insta/login_activity',
-      storeConfig: { keyPath: '$id', autoIncrement: true },
-      storeSchema:
-      [
-        { name: 'title', keypath: 'title', options: { unique: false } },
-        { name: 'ip_address', keypath: 'ip_address', options: { unique: false } },
-        { name: 'time', keypath: 'time', options: { unique: false } },
-        { name: 'user_agent', keypath: 'user_agent', options: { unique: false } },
-      ]
-    },
-    {
-      store: 'insta/logout_activity',
-      storeConfig: { keyPath: '$id', autoIncrement: true },
-      storeSchema:
-      [
-        { name: 'title', keypath: 'title', options: { unique: false } },
-        { name: 'ip_address', keypath: 'ip_address', options: { unique: false } },
-        { name: 'time', keypath: 'time', options: { unique: false } },
-        { name: 'user_agent', keypath: 'user_agent', options: { unique: false } },
-      ]
-    },
-    {
-      store: 'insta/password_change_activity',
-      storeConfig: { keyPath: '$id', autoIncrement: true },
-      storeSchema:
-      [
-        { name: 'time', keypath: 'time', options: { unique: false } },
-      ]
-    },
-    {
-      store: 'insta/signup_information',
-      storeConfig: { keyPath: '$id', autoIncrement: true },
-      storeSchema:
-      [
-        { name: 'username', keypath: 'username', options: { unique: false } },
-        { name: 'ip_address', keypath: 'ip_address', options: { unique: false } },
-        { name: 'time', keypath: 'time', options: { unique: false } },
-        { name: 'email', keypath: 'email', options: { unique: false } },
-        { name: 'phone_number', keypath: 'phone_number', options: { unique: false } },
-        { name: 'device', keypath: 'device', options: { unique: false } },
-      ]
-    },
-    //data regarding personal information
-    {
-      store: 'insta/account_information',
-      storeConfig: { keyPath: '$id', autoIncrement: true },
-      storeSchema:
-      [
-        { name: 'contact_syncing', keypath: 'contact_syncing', options: { unique: false } },
-        { name: 'first_country_code', keypath: 'first_country_code', options: { unique: false } },
-        { name: 'has_shared_live_video', keypath: 'has_shared_live_video', options: { unique: false } },
-        { name: 'last_login', keypath: 'last_login', options: { unique: false } },
-        { name: 'last_logout', keypath: 'last_logout', options: { unique: false } },
-        { name: 'first_story_time', keypath: 'first_story_time', options: { unique: false } },
-        { name: 'last_story_time', keypath: 'last_story_time', options: { unique: false } },
-        { name: 'first_close_friends_story_time', keypath: 'first_close_friends_story_time', options: { unique: false } },
-      ]
-    },
-    {
-      store: 'insta/professional_information',
-      storeConfig: { keyPath: '$id', autoIncrement: true },
-      storeSchema:
-      [
-        { name: 'title', keypath: 'title', options: { unique: false } },
-      ]
-    },
-    {
-      store: 'insta/profile_changes',
-      storeConfig: { keyPath: '$id', autoIncrement: true },
-      storeSchema:
-      [
-        { name: 'title', keypath: 'title', options: { unique: false } },
-        { name: 'changed', keypath: 'changed', options: { unique: false } },
-        { name: 'previous_value', keypath: 'previous_value', options: { unique: false } },
-        { name: 'new_value', keypath: 'new_value', options: { unique: false } },
-        { name: 'change_date', keypath: 'change_date', options: { unique: false } },
       ]
     },
      //facebook data ads related data
@@ -422,6 +307,7 @@ const dbConfig: DBConfig  =
     FaceDashboardComponent,
     InstaDashboardComponent,
     Insta_PersonalInfoComponent,
+    InstaFollowersComponent,
     SpotDashboardComponent,
     MoodComponent,
     NotificationComponent,
@@ -436,11 +322,14 @@ const dbConfig: DBConfig  =
     InferredTopicsComponent,
     InstaAccountCreationLoginComponent,
     InstaAdsComponent,
+    InstaLikedContentComponent,
+    InstaContactComponent,
     AdsRelatedDataComponent,
     FriendAndFollowersComponent,
     SettingsFormComponent,
     HelpButtonComponent,
     OffFacebookActivityComponent,
+    OfflineIndicatorComponent,
     TitleBarComponent
   ],
   imports: [
@@ -482,6 +371,15 @@ const dbConfig: DBConfig  =
     InstaAdsInterestRepository,
     InstaAdsClickedRepository,
     InstaAdsViewedRepository,
+    InstaSignUpRepository,
+    InstaLoginRepository,
+    InstaLogoutRepository,
+    InstaLikedCommentsRepository,
+    InstaLikedPostsRepository,
+    InstaContactsRepository,
+    InstaFollowerRepository,
+    InstaFollowingRepository,
+    InstaBlockedRepository,
     InferencesRepository,
     UserdataRepository,
     InferredTopicsRepository,

@@ -45,6 +45,36 @@
     </div>
   </div>
   <br>
+  <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
+    <div nz-col nzXs="24" nzXl="8">
+      <!--card for visualizing for friends and followers-->
+      <nz-card nzTitle="Followers and Following" nzHoverable [nzExtra]="extraFollowers">
+        <app-insta-followers [previewMode]="true"></app-insta-followers>
+      </nz-card>
+      <ng-template #extraFollowers>
+        <a routerLink="/insta/followers">More</a>
+      </ng-template>
+    </div>
+    <div nz-col nzXs="24" nzXl="8">
+      <!--card for visualizing the contacts-->
+      <nz-card nzTitle="Contacts" nzHoverable [nzExtra]="extraContacts">
+        <app-insta-contact [previewMode]="true"></app-insta-contact>
+      </nz-card>
+      <ng-template #extraContacts>
+        <a routerLink="/insta/contacts">More</a>
+      </ng-template>
+    </div>
+    <div nz-col nzXs="24" nzXl="8">
+      <!--card for visualizing the liked comments and posts-->
+      <nz-card nzTitle="Liked Comments and Posts" nzHoverable [nzExtra]="extraLikedContent">
+        <app-insta-liked-content [previewMode]="true"></app-insta-liked-content>
+      </nz-card>
+      <ng-template #extraLikedContent>
+        <a routerLink="/insta/likedcontent">More</a>
+      </ng-template>
+    </div>
+  </div>
+  <br>
 </div>
 
 <div id="rectification">
@@ -155,3 +185,4 @@
   <h2 nz-typography id="purpose">Purposes</h2>
   <h2 nz-typography id="faq">Frequently asked questions</h2>
 </app-help-button>
+<app-offline-indicator></app-offline-indicator>

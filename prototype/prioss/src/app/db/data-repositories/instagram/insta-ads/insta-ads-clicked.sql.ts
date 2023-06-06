@@ -1,3 +1,5 @@
+// INSERT Queries
+
 export const insertIntoInstaAdsClickedSQL: string = `
 insert into insta_ads_clicked
 (title, timestamp)
@@ -16,4 +18,12 @@ select ?, ?
 
 export const bulkAddValueConnector: string = `
 union all
+`;
+
+// SELECT Queries
+
+export const selectInstaAdsClickedSQL: string = `
+    select 
+    title, timestamp
+    from insta_ads_clicked;
 `;
