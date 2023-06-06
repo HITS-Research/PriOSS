@@ -53,6 +53,7 @@
         </nz-card>
       </a>
     </div>
+  </div>
 <!--      <div nz-col nzXs="24" nzXl="8">-->
 <!--        <nz-card nzTitle="Average Audio Feature Value" nzHoverable [nzExtra]="switchTemplate">-->
 <!--          <div *ngIf="thirdPartyConnection; then spotifyMood else requiresConnectionText"></div>-->
@@ -69,14 +70,21 @@
 <!--          <nz-switch [(ngModel)]="thirdPartyConnection"></nz-switch>-->
 <!--        </ng-template>-->
 <!--      </div>-->
-    
+
+  <br>
+  <div id="stepX">
+    <h2 nz-typography id="Manage-Privacy">Manage-Privacy</h2>
+    <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
+      <br>
+      <div nz-col nzXs="24" nzXl="8">
+        <nz-card nzTitle="Privacy Settings Judge" nzHoverable>
+          <app-settings-form [service]="'Spotify'"></app-settings-form>
+        </nz-card>
+      </div> 
+    </div>
   </div>
-
-
-
   <!--<h2 nz-typography id="rectification">Rectification</h2>-->
-
-  
+  <br>
   <div id="step5">
     <h2 nz-typography id="gdpr">Your Rights</h2>
 
@@ -151,4 +159,5 @@
     </nz-collapse>
   </div>
   <app-help-button (startTourClick)="startTour()"></app-help-button>
+  <app-offline-indicator></app-offline-indicator>
 </div>

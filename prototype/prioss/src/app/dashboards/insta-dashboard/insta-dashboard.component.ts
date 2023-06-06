@@ -4,6 +4,9 @@ import { BaseDashboard } from '../base-dashboard.abstract';
 import { Insta_PersonalInfoComponent } from 'src/app/visualizations/instagram/Insta_personal-info/personal-info.component';
 import { InstaAdsComponent } from 'src/app/visualizations/instagram/insta-ads/insta-ads.component';
 import { InstaAccountCreationLoginComponent } from 'src/app/visualizations/instagram/insta-account-creation-login/insta-account-creation-login.component';
+import { InstaFollowersComponent } from 'src/app/visualizations/instagram/insta-followers/insta-followers.component';
+import { InstaLikedContentComponent } from 'src/app/visualizations/instagram/insta-liked-content/insta-liked-content.component';
+import { InstaContactComponent } from 'src/app/visualizations/instagram/insta-contact/insta-contact.component';
 
 /**
   * This component is the root component for instagram's dashboard page.
@@ -78,6 +81,9 @@ export class InstaDashboardComponent extends BaseDashboard{
   @ViewChild(Insta_PersonalInfoComponent) instaPersonalInfo : Insta_PersonalInfoComponent;
   @ViewChild(InstaAdsComponent) instaAds : InstaAdsComponent;
   @ViewChild(InstaAccountCreationLoginComponent) instaAccount : InstaAccountCreationLoginComponent;
+  @ViewChild(InstaFollowersComponent) instaFollower : InstaFollowersComponent;
+  @ViewChild(InstaLikedContentComponent) instaLikedContent: InstaLikedContentComponent;
+  @ViewChild(InstaContactComponent) instaContact : InstaContactComponent;
 
   constructor( private introService: IntrojsService) { 
     super();
@@ -140,6 +146,9 @@ export class InstaDashboardComponent extends BaseDashboard{
     this.componentInitializationList.push(this.instaPersonalInfo);
     this.componentInitializationList.push(this.instaAds);
     this.componentInitializationList.push(this.instaAccount);
+    this.componentInitializationList.push(this.instaFollower);
+    this.componentInitializationList.push(this.instaContact);
+    this.componentInitializationList.push(this.instaLikedContent);
     //Start Component Initialization run
     this.startSequentialInitialization();
   }
