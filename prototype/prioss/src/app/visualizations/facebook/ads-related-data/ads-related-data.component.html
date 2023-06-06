@@ -1,28 +1,41 @@
 <div [ngClass]="{'component-page': !previewMode}">
   <div *ngIf="previewMode">
-  <nz-row [nzGutter]="16">
-    <nz-col [nzSpan]="12">
-      <nz-statistic  [nzTitle]="'Total No Of Ads Clicked'" [nzValue]="totalCount" class ="bold-title">
-      </nz-statistic>
+    <nz-row [nzGutter]="16">
+      <nz-col [nzSpan]="16">
+        <nz-statistic [nzTitle]="'Ads Clicked'"  [nzValue]="totalCountClickedAds"></nz-statistic>
       </nz-col>
-      </nz-row>
+      <nz-col [nzSpan]="16">
+        <nz-statistic  [nzTitle]="'Off-Site Interactions'" [nzValue]="pageViewViewContentCount"></nz-statistic>
+      </nz-col>
+      <nz-col [nzSpan]="16">
+        <nz-statistic  [nzTitle]="'Checkout Activities'" [nzValue]="2" tooltipText="TBD"></nz-statistic> 
+      </nz-col>
+      <nz-col [nzSpan]="16">
+        <nz-statistic  [nzTitle]="'Website Associations'" [nzValue]="totalWebsites"></nz-statistic>
+      </nz-col>
+    </nz-row>
+  </div>
       <!-- <nz-row [nzGutter]="16">
         <nz-col [nzSpan]="12">
           <nz-statistic  [nzTitle]="'Total No Off-Site Checkout Activities'" [nzValue]="initiateCheckoutCount" class ="bold-title">
           </nz-statistic>
           </nz-col>
           </nz-row> -->
-      </div>
+</div>
+
 <div *ngIf="!previewMode">
   <app-title-bar titleText="Advertisements" tooltipText="TBD"></app-title-bar>
   <nz-tabset class="margin-top-20">
       <nz-tab nzTitle="Off-Site Interactions" (nzSelect)="activateTab(0)">
         <h3  nz-typography>What are Off-Site Interactions?</h3>
+        <br>
         <h6  nz-typography>When you visit a website or use an app, businesses or organizations can share information about your activity with Facebook by using Facebook business tools. Facebook claims to use your activity information to show you things or events that you might be interested in, and to show you relevant ads that introduce you to new products and services. The below chart shows how many times you have interacted with businesses or organizations which Facebook  knows  about.
-        This is popularly also known as Off-Facebook-Activity. Facebook receives this information from businesses whether or not you have an account on Facebook.</h6>
+        This is popularly also known as <b>Off-Facebook-Activity</b>. Facebook receives this information from businesses whether or not you have an account on Facebook.</h6><br>
         <svg id="bubble-chart-interactions" class="chart"></svg>
         <div id="tooltip"></div>
-        <h3 nz-typography>To manage ads based on data from Facebook's partners,</h3>
+        <br>
+        <br>
+        <h4 nz-typography>To manage ads based on data from Facebook's partners,</h4>
         <button nz-button nzType="primary" (click)="navigateToRectification()">Click here</button> 
       </nz-tab>
       <nz-tab nzTitle="Off-Site Checkout Activities" (nzSelect)="activateTab(1)">
@@ -41,7 +54,7 @@
           <nz-col [nzSpan]="12">
             <nz-card>
               <nz-statistic
-                [nzValue]="totalCount"
+                [nzValue]="totalCountClickedAds"
                 [nzTitle]="'Total Number of Clicked Ads'"
                 [nzValueStyle]="{ color: '#3F8600' }"
               ></nz-statistic>
@@ -83,6 +96,4 @@
           </a>Click here</button></h3>
           </nz-tab>
   </nz-tabset>
-</div>
-
 </div>

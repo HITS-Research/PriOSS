@@ -17,6 +17,7 @@ import { Router } from '@angular/router';
     appsByCategory: { inactive: any[], active: any[], removed: any[] } = { inactive: [], active: [], removed: [] };
     apptype: { PAGE_VIEW: any[], VIEW_CONTENT: any[] ,INITIATE_CHECKOUT: any[]} = { PAGE_VIEW: [], VIEW_CONTENT: [], INITIATE_CHECKOUT: [] };
     totalCount = 0;
+    totalCountClickedAds = 0;
     totalAdsCount = 0;
     activeWebsite = 0;
     inActiveWebsite = 0;
@@ -24,6 +25,8 @@ import { Router } from '@angular/router';
     defaultTabIndex = 0;
     pageViewViewContentCount: number = 0;
     initiateCheckoutCount: number = 0;
+    totalWebsites = 0;
+    totalOffsiteInteractions = 0;
     constructor(private dbService: NgxIndexedDBService, private router: Router) { }
     ngOnInit(): void {
       this.activateTab(this.defaultTabIndex);  
@@ -69,7 +72,7 @@ import { Router } from '@angular/router';
           this.adNames.push(name);
 
           if (ads_interacted_with[i].action === 'Clicked ad') {
-            this.totalCount++;
+            this.totalCountClickedAds++;
           }
         }
       });
@@ -139,6 +142,7 @@ import { Router } from '@angular/router';
     
                 // Increment the app count for the event type
                 appCounts[appName][eventType] += 1;
+                this.totalOffsiteInteractions += 1;
               }
             }
           }
