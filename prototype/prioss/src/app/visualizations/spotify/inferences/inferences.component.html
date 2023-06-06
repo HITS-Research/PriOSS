@@ -31,7 +31,7 @@
         <tr>
           <th nzWidth="5%" [(nzChecked)]="checked" [nzIndeterminate]="indeterminate"
             (nzCheckedChange)="onAllChecked($event)"></th>
-          <th nzWidth="85%">
+          <th nzWidth="83%">
             <nz-input-group [nzSuffix]="suffixIconSearch">
               <input type="text" #searchText nz-input placeholder="Search your inferences"
                 (keyup)="search(searchText.value)" />
@@ -40,10 +40,10 @@
               </ng-template>
             </nz-input-group>
           </th> 
-          <th nzWidth="10%">
+          <th nzAlign="right">
             <span nz-tooltip
               nzTooltipTitle="Create a rectification email with all selected inferences. Rectifying inferences means to request Spotify to correct inferences that you think are wrong about yourself.">
-              <button nz-button nzType="default" nzSize="large" [disabled]="setOfCheckedId.size === 0"
+              <button class="rectify-button" nz-button nzType="default" nzSize="large" [disabled]="setOfCheckedId.size === 0"
                 (click)="rectifyInferences()">
                 <span nz-icon nzType="mail" nzTheme="outline"></span>
                 Correct selected
