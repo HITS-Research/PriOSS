@@ -1,15 +1,8 @@
 <div [ngClass]="{'component-page': !previewMode}">
     <!--only shows when visiting the page-->
     <div *ngIf="!previewMode">
-        <nz-breadcrumb>
-            <nz-breadcrumb-item>
-                <a [routerLink]="['../dashboard/']">Dashboard</a>
-            </nz-breadcrumb-item>
-            <nz-breadcrumb-item>Followers</nz-breadcrumb-item>
-        </nz-breadcrumb>
-
-        <h3 nz-typography>Highlights</h3>
-        <p>This are some important entrys in your data download regarding your followers or following relations. </p>
+        <!--Titlebar component -->
+        <app-title-bar titleText="Highlights" tooltipText="This are some important entrys in your data download regarding your followers or following relations."></app-title-bar>
     </div>
     <!--This is the preview and the highlights section-->
     <div *ngIf="previewMode || !previewMode">
@@ -28,14 +21,14 @@
                 <nz-statistic [nzValue]="(blockedInfo.length | number)!"
                     [nzTitle]="'Number of blocked accounts'"></nz-statistic>
             </nz-col>
-            <nz-col [nzSpan]="12">
+            <!-- <nz-col [nzSpan]="12">
                 <nz-statistic [nzValue]="(42| number)!" [nzTitle]="'Number of advertisments viewed'"></nz-statistic>
-            </nz-col>
+            </nz-col> -->
         </nz-row>
     </div>
     <div *ngIf="!previewMode">
         <br>
-        <h3 nz-typography>Followers and Following</h3>
+        <app-title-bar titleText="Followers and Following" [includeButton]="false"></app-title-bar>
         <nz-card style="width:100%;">
             <nz-tabset nzType="card">
                 <nz-tab nzTitle="Graph representation">
@@ -111,7 +104,7 @@
             </nz-tabset></nz-card>
         <br>
 
-        <h3 nz-typography>Blocked Accounts</h3>
+        <app-title-bar titleText="Blocked Accounts" [includeButton]="false"></app-title-bar>
         <!-- If Blocked Data present -->
         <div *ngIf="blockedInfo?.length">
             <nz-table [nzData]="blockedInfo" [nzPageSize]="pageSize" [nzPageIndex]="currentBlockedPage"

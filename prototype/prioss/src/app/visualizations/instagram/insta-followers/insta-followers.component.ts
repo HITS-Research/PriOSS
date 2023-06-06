@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import cytoscape from 'cytoscape';
 import * as utilities from 'src/app/utilities/generalUtilities.functions';
+import { SequenceComponentInit } from '../../sequence-component-init.abstract';
 import { InstaFollowerInfo } from 'src/app/models/Instagram/FollowerInfo/FollowerInfo';
 import { InstaFollowingInfo } from 'src/app/models/Instagram/FollowerInfo/FollowingInfo';
 import { InstaBlockedInfo } from 'src/app/models/Instagram/FollowerInfo/BlockedInfo';
@@ -18,7 +19,7 @@ import { InstaBlockedRepository } from 'src/app/db/data-repositories/instagram/i
     InstaBlockedRepository,
   ],
 })
-export class InstaFollowersComponent {
+export class InstaFollowersComponent extends SequenceComponentInit{
   @Input()
   previewMode: boolean = false;
 
@@ -49,7 +50,9 @@ export class InstaFollowersComponent {
     private instaFollowerRepo: InstaFollowerRepository,
     private instaFollowingRepo: InstaFollowingRepository,
     private instaBlockedRepo: InstaBlockedRepository
-  ) {}
+  ) {
+    super();
+  }
 
   /**
    * Stores all needed data from the different tables into the corresponding interface variables.
@@ -89,7 +92,6 @@ export class InstaFollowersComponent {
         nodes.add(following.instaAccountName)
       );
     }
-    const numberOfNodes = nodes.size;
     //Gives every node their position in the cycle and add the nodes to the graphElement array
     this.graphElements = [...nodes].map((node, index) => ({
       data: {
@@ -146,6 +148,13 @@ export class InstaFollowersComponent {
    * @author: Melina (kleber@mail.uni-paderborn.de)
    */
   async ngAfterViewInit() {
+    if(!this.previewMode) {
+      this.initComponent();
+    }
+  }
+
+  override async initComponent(): Promise<void> {
+    console.log("--- Initializing Component 4: FollowerInfo");
     await this.collectData();
     this.prepareGraphData();
     this.cy = cytoscape({
@@ -187,7 +196,7 @@ export class InstaFollowersComponent {
    * @param data the dataset that sould be sliced
    * @param currentPage the current page of the dataset
    * @returns the sliced data
-   * @author Melina (kleber@mail.uni-paderborn.de)
+   * @author: Melina (kleber@mail.uni-paderborn.de)
    */
   getSlicedData(data: Array<any>, currentPage: number) {
     const start = (currentPage - 1) * this.pageSize;

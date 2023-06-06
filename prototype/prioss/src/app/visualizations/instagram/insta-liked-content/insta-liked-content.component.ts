@@ -67,7 +67,7 @@ export class InstaLikedContentComponent extends SequenceComponentInit {
   * @author: Mayank (mayank@mail.upb.de)
   */
   override async initComponent(): Promise<void> {
-    console.log("--- Initializing Component 5: Liked Comments and Posts");
+    console.log("--- Initializing Component 6: Liked Comments and Posts");
     
     await this.instaLikedCommentsRepo.getLikedCommentsInfo().then((liked_comments) => {
       this.liked_comments_amount = liked_comments.length;
