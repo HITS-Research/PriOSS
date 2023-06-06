@@ -217,7 +217,7 @@ export class InstaLikedContentComponent extends SequenceComponentInit {
     d3.select(divId).selectAll("*").remove();
 
     if (this.liked_comments.length === 0) {
-      this.notificationService.showNotification("You did not liked any comment in the selected filter options.");
+      //this.notificationService.showNotification("You did not liked any comment in the selected filter options.");
       return;
     }
 
