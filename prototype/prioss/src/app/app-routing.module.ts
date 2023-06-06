@@ -22,6 +22,7 @@ import { InferredTopicsComponent } from './visualizations/facebook/inferred-topi
 import { AdsRelatedDataComponent } from './visualizations/facebook/ads-related-data/ads-related-data.component';
 import { FriendAndFollowersComponent } from './visualizations/facebook/friend-and-followers/friend-and-followers.component';
 import { OffFacebookActivityComponent } from './rectification/facebook/off-facebook-activity/off-facebook-activity.component';
+import { InstaFollowersComponent } from './visualizations/instagram/insta-followers/insta-followers.component';
 import { InstaContactComponent } from './visualizations/instagram/insta-contact/insta-contact.component';
 
 const routes: Routes = [
@@ -40,6 +41,7 @@ const routes: Routes = [
   { path: 'insta/personal-info', component:Insta_PersonalInfoComponent },
   { path: 'insta/account', component:InstaAccountCreationLoginComponent },
   { path: 'insta/ads', component: InstaAdsComponent },
+  { path: 'insta/followers', component: InstaFollowersComponent},
   { path: 'insta/likedcontent', component: InstaLikedContentComponent },
   { path: 'insta/contacts', component: InstaContactComponent },
   { path: 'face/dashboard', component: FaceDashboardComponent },

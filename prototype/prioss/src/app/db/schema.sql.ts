@@ -139,6 +139,27 @@ CREATE TABLE IF NOT EXISTS insta_contacts (
     contactInformation TEXT NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS insta_follower_info (
+    id INTEGER PRIMARY KEY,
+    instaProfileURL TEXT NOT NULL,
+    timestamp INTEGER NOT NULL,
+    instaAccountName TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS insta_following_info (
+    id INTEGER PRIMARY KEY,
+    instaProfileURL TEXT NOT NULL,
+    timestamp INTEGER NOT NULL,
+    instaAccountName TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS insta_blocked_info (
+    id INTEGER PRIMARY KEY,
+    instaAccountName TEXT NOT NULL,
+    instaProfileURL TEXT NOT NULL,
+    timestamp INTEGER NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS face_ads_information (
     id INTEGER PRIMARY KEY,
     advertiser_name TEXT NOT NULL,
@@ -238,6 +259,9 @@ DROP TABLE IF EXISTS insta_liked_comments;
 DROP TABLE IF EXISTS insta_liked_posts;
 DROP TABLE IF EXISTS insta_contacts;
 DROP TABLE IF EXISTS userdata;
+DROP TABLE IF EXISTS insta_follower_info;
+DROP TABLE IF EXISTS insta_following_info;
+DROP TABLE IF EXISTS insta_blocked_info;
 DROP TABLE IF EXISTS face_ads_information;
 DROP TABLE IF EXISTS face_ads_interacted;
 DROP TABLE IF EXISTS face_apps_websites;

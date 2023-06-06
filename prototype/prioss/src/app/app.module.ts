@@ -14,7 +14,8 @@ import { LandingComponent } from './landing/landing.component';
 import { ServiceSelectionComponent } from './service-selection/service-selection.component';
 import { FaceDashboardComponent } from './dashboards/face-dashboard/face-dashboard.component';
 import { InstaDashboardComponent } from './dashboards/insta-dashboard/insta-dashboard.component';
-import {Insta_PersonalInfoComponent} from './visualizations/instagram/Insta_personal-info/personal-info.component';
+import { Insta_PersonalInfoComponent} from './visualizations/instagram/Insta_personal-info/personal-info.component';
+import { InstaFollowersComponent } from './visualizations/instagram/insta-followers/insta-followers.component';
 import { InstaAccountCreationLoginComponent } from './visualizations/instagram/insta-account-creation-login/insta-account-creation-login.component';
 import { InstaAdsComponent } from './visualizations/instagram/insta-ads/insta-ads.component';
 import { SpotDashboardComponent } from './dashboards/spot-dashboard/spot-dashboard.component';
@@ -76,6 +77,9 @@ import { InstaLoginRepository } from './db/data-repositories/instagram/insta-acc
 import { InstaLogoutRepository } from './db/data-repositories/instagram/insta-accountcreation-login/insta-logout.repository';
 import { InstaContactComponent } from './visualizations/instagram/insta-contact/insta-contact.component';
 import { InstaContactsRepository } from './db/data-repositories/instagram/insta-contacts/insta-contacts.repository';
+import { InstaFollowerRepository } from './db/data-repositories/instagram/insta-follower-info/insta-follower.repository';
+import { InstaFollowingRepository } from './db/data-repositories/instagram/insta-follower-info/insta-following.repository';
+import { InstaBlockedRepository } from './db/data-repositories/instagram/insta-follower-info/insta-blocked.repository';
 
 registerLocaleData(de);
 
@@ -302,6 +306,7 @@ const dbConfig: DBConfig  =
     FaceDashboardComponent,
     InstaDashboardComponent,
     Insta_PersonalInfoComponent,
+    InstaFollowersComponent,
     SpotDashboardComponent,
     MoodComponent,
     NotificationComponent,
@@ -370,6 +375,9 @@ const dbConfig: DBConfig  =
     InstaLikedCommentsRepository,
     InstaLikedPostsRepository,
     InstaContactsRepository,
+    InstaFollowerRepository,
+    InstaFollowingRepository,
+    InstaBlockedRepository,
     InferencesRepository,
     UserdataRepository,
     InferredTopicsRepository,

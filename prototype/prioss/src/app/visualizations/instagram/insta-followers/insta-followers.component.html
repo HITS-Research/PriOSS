@@ -1,0 +1,140 @@
+<div [ngClass]="{'component-page': !previewMode}">
+    <!--only shows when visiting the page-->
+    <div *ngIf="!previewMode">
+        <!--Titlebar component -->
+        <app-title-bar titleText="Highlights" tooltipText="This are some important entrys in your data download regarding your followers or following relations."></app-title-bar>
+    </div>
+    <!--This is the preview and the highlights section-->
+    <div *ngIf="previewMode || !previewMode">
+        <nz-row [nzGutter]="16">
+            <nz-col [nzSpan]="12">
+                <nz-statistic [nzValue]="(followerInfo.length|number)!"
+                    [nzTitle]="'Number of followers'"></nz-statistic>
+            </nz-col>
+            <nz-col [nzSpan]="12">
+                <nz-statistic [nzValue]="(followingInfo.length| number)!"
+                    [nzTitle]="'Number of following accounts'"></nz-statistic>
+            </nz-col>
+        </nz-row>
+        <nz-row [nzGutter]="16">
+            <nz-col [nzSpan]="12">
+                <nz-statistic [nzValue]="(blockedInfo.length | number)!"
+                    [nzTitle]="'Number of blocked accounts'"></nz-statistic>
+            </nz-col>
+            <!-- <nz-col [nzSpan]="12">
+                <nz-statistic [nzValue]="(42| number)!" [nzTitle]="'Number of advertisments viewed'"></nz-statistic>
+            </nz-col> -->
+        </nz-row>
+    </div>
+    <div *ngIf="!previewMode">
+        <br>
+        <app-title-bar titleText="Followers and Following" [includeButton]="false"></app-title-bar>
+        <nz-card style="width:100%;">
+            <nz-tabset nzType="card">
+                <nz-tab nzTitle="Graph representation">
+                    <p nz-typography>
+                        The following graph visualizes all follower or following relations with you. You can grab the
+                        nodes and move them arround.</p>
+
+                    <strong>Relations: </strong>
+                    <nz-tag *ngFor="let tag of graphOptions" nzMode="checkable"
+                        [nzChecked]="selectedTags.indexOf(tag) > -1" (nzCheckedChange)="handleChange($event, tag)">
+                        {{ tag }}
+                    </nz-tag>
+                    <div id="cy"></div>
+                </nz-tab>
+                <nz-tab nzTitle="Follower List"><ng-template nz-tab><nz-demo-tab-content-lazy>
+                            <!-- If Follower Data present -->
+                            <div *ngIf="followerInfo?.length">
+                                <nz-table [nzData]="followerInfo" [nzPageSize]="pageSize"
+                                    [nzPageIndex]="currentFollowerPage"
+                                    (nzPageIndexChange)="on_follower_page_change($event)">
+                                    <thead>
+                                        <tr>
+                                            <th>Follower name</th>
+                                            <th>Timestamp since this user follows you</th>
+                                            <th>Followers Profile URL</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let follower_info of sliced_follower_data">
+                                            <td>{{ follower_info.instaAccountName }}</td>
+                                            <td>{{ follower_info.timestamp }}</td>
+                                            <td><span nz-icon nzType="link"><a target="_blank"
+                                                        href={{follower_info.instaProfileURL}}>{{follower_info.instaAccountName}}</a></span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </nz-table>
+                            </div>
+                            <!-- If No Follower Data present -->
+                            <div *ngIf="followerInfo?.length === 0">
+                                <nz-empty nzNotFoundImage="simple"></nz-empty>
+                            </div>
+                        </nz-demo-tab-content-lazy></ng-template></nz-tab>
+                <nz-tab nzTitle="Following List"><ng-template nz-tab><nz-demo-tab-content-lazy>
+                            <!-- If Following Data present -->
+                            <div *ngIf="followingInfo?.length">
+                                <nz-table [nzData]="followingInfo" [nzPageSize]="pageSize"
+                                    [nzPageIndex]="currentFollowingPage"
+                                    (nzPageIndexChange)="on_following_page_change($event)">
+                                    <thead>
+                                        <tr>
+                                            <th>Following name</th>
+                                            <th>Timestamp since you follow this user</th>
+                                            <th>Following Profile URL</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let following_info of sliced_following_data">
+                                            <td>{{ following_info.instaAccountName }}</td>
+                                            <td>{{ following_info.timestamp }}</td>
+                                            <td><span nz-icon nzType="link"><a target="_blank"
+                                                        href={{following_info.instaProfileURL}}>{{following_info.instaAccountName}}</a></span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </nz-table>
+                            </div>
+                            <!-- If No Follower Data present -->
+                            <div *ngIf="followingInfo?.length === 0">
+                                <nz-empty nzNotFoundImage="simple"></nz-empty>
+                            </div>
+                        </nz-demo-tab-content-lazy></ng-template></nz-tab>
+            </nz-tabset></nz-card>
+        <br>
+
+        <app-title-bar titleText="Blocked Accounts" [includeButton]="false"></app-title-bar>
+        <!-- If Blocked Data present -->
+        <div *ngIf="blockedInfo?.length">
+            <nz-table [nzData]="blockedInfo" [nzPageSize]="pageSize" [nzPageIndex]="currentBlockedPage"
+                (nzPageIndexChange)="on_blocked_page_change($event)">
+                <thead>
+                    <tr>
+                        <th>Blocked username</th>
+                        <th>Timestamp since this user is blocked</th>
+                        <th>Blocked users Profile URL</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let blocked_info of sliced_blocked_data">
+                        <td>{{ blocked_info.instaAccountName }}</td>
+                        <td>{{ blocked_info.timestamp }}</td>
+                        <td><span nz-icon nzType="link"><a target="_blank"
+                                    href={{blocked_info.instaProfileURL}}>{{blocked_info.instaAccountName}}</a></span>
+                        </td>
+                    </tr>
+                </tbody>
+            </nz-table>
+        </div>
+        <!-- If No Blocked Data present -->
+        <div *ngIf="blockedInfo?.length === 0">
+            <nz-empty nzNotFoundImage="simple"></nz-empty>
+        </div>
+
+        <h3 nz-typography>Follow requests you have received</h3>
+        <h3 nz-typography>Pending follow requests </h3>
+        <h3 nz-typography>Recently unfollowed accounts</h3>
+        <h3 nz-typography>Restricted accounts</h3>
+    </div>
+</div>
