@@ -61,6 +61,8 @@ import { DBService } from './services/db/db.service';
 import { SpotHistoryRepository } from './db/data-repositories/spotify/spot-history/spot-history.repository';
 import { UserdataRepository } from './db/data-repositories/general/userdata/userdata.repository';
 import { InferencesRepository } from './db/data-repositories/general/inferences/inferences.repository';
+import { OfflineIndicatorComponent } from './offline-indicator/offline-indicator.component';
+
 import { InstaPersonalRepository } from './db/data-repositories/instagram/insta-personal-info/insta-personal.repository';
 import { InstaAdsActivityRepository } from './db/data-repositories/instagram/insta-ads/insta-ads-activity.repository';
 import { InstaAdsInterestRepository } from './db/data-repositories/instagram/insta-ads/insta-ads-interest.repository';
@@ -69,7 +71,6 @@ import { InstaAdsViewedRepository } from './db/data-repositories/instagram/insta
 import { InstaSignUpRepository } from './db/data-repositories/instagram/insta-accountcreation-login/insta-signup.repository';
 import { InstaLikedCommentsRepository } from './db/data-repositories/instagram/insta-liked-content/insta-likedcomments.repository';
 import { InstaLikedPostsRepository } from './db/data-repositories/instagram/insta-liked-content/insta-likedposts.repository';
-
 import { InferredTopicsRepository } from './db/data-repositories/facebook/fb-inferred-data/face_inferred_topics.repo';
 import { TitleBarComponent } from './page-sub-components/title-bar/title-bar.component';
 import { InstaLikedContentComponent } from './visualizations/instagram/insta-liked-content/insta-liked-content.component';
@@ -328,6 +329,7 @@ const dbConfig: DBConfig  =
     SettingsFormComponent,
     HelpButtonComponent,
     OffFacebookActivityComponent,
+    OfflineIndicatorComponent,
     TitleBarComponent
   ],
   imports: [
