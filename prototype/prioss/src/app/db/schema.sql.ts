@@ -89,9 +89,9 @@ CREATE TABLE IF NOT EXISTS insta_ads_viewed (
 
 CREATE TABLE IF NOT EXISTS insta_contacts (
     id INTEGER PRIMARY KEY,
-    first_name TEXT NOT NULL,
+    firstName TEXT NOT NULL,
     surname TEXT NOT NULL,
-    contact_information TEXT NOT NULL
+    contactInformation TEXT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS face_ads_information (

@@ -1,13 +1,13 @@
 export const insertIntoInstaContactsSQL: string = `
 insert into insta_contacts
-(first_name, surname, contact_information)
+(firstName, surname, contactInformation)
 values 
 (?, ?, ?);
 `;
 
 export const bulkAddInstaContactsBaseSQL: string = `
 insert into insta_contacts 
-(first_name, surname, contact_information)
+(firstName, surname, contactInformation)
 `;
 
 export const bulkAddInstaContactsValuesSQL: string = `
@@ -19,5 +19,5 @@ union all
 `;
 
 export const selectContactsSQL: string=`
-select first_name, surname, contact_information from insta_contacts;
+select firstName, surname, contactInformation from insta_contacts;
 `;
