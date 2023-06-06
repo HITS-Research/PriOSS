@@ -67,6 +67,8 @@ import { InstaAdsClickedRepository } from './db/data-repositories/instagram/inst
 import { InstaAdsViewedRepository } from './db/data-repositories/instagram/insta-ads/insta-ads-viewed.repository';
 import { InferredTopicsRepository } from './db/data-repositories/facebook/fb-inferred-data/face_inferred_topics.repo';
 import { TitleBarComponent } from './page-sub-components/title-bar/title-bar.component';
+import { InstaContactComponent } from './visualizations/instagram/insta-contact/insta-contact.component';
+import { InstaContactsRepository } from './db/data-repositories/instagram/insta-contacts/insta-contacts.repository';
 
 registerLocaleData(de);
 
@@ -436,6 +438,7 @@ const dbConfig: DBConfig  =
     InferredTopicsComponent,
     InstaAccountCreationLoginComponent,
     InstaAdsComponent,
+    InstaContactComponent,
     AdsRelatedDataComponent,
     FriendAndFollowersComponent,
     SettingsFormComponent,
@@ -482,6 +485,7 @@ const dbConfig: DBConfig  =
     InstaAdsInterestRepository,
     InstaAdsClickedRepository,
     InstaAdsViewedRepository,
+    InstaContactsRepository,
     InferencesRepository,
     UserdataRepository,
     InferredTopicsRepository,

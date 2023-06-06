@@ -25,6 +25,7 @@ import { InstaAdsClickedRepository } from '../db/data-repositories/instagram/ins
 import { InstaAdsViewedRepository } from '../db/data-repositories/instagram/insta-ads/insta-ads-viewed.repository';
 
 import { UserdataRepository } from '../db/data-repositories/general/userdata/userdata.repository';
+import { InstaContactsRepository } from '../db/data-repositories/instagram/insta-contacts/insta-contacts.repository';
 import { InferredTopicsRepository } from '../db/data-repositories/facebook/fb-inferred-data/face_inferred_topics.repo';
 
 //service identifier filenames
@@ -89,6 +90,7 @@ export class ServiceSelectionComponent {
               private instaAdsInterestRepo: InstaAdsInterestRepository,
               private instaAdsClickedRepo: InstaAdsClickedRepository,
               private instaAdsViewedRepo: InstaAdsViewedRepository,
+              private instaContactsRepo: InstaContactsRepository,
               private sqlDBService: DBService, 
               private http: HttpClient,
               private inferredTopicsDataRepo: InferredTopicsRepository,
@@ -744,6 +746,21 @@ export class ServiceSelectionComponent {
           await this.instaAdsViewedRepo.addAdsViewedBulkEntry(entry.Author.value, time);
         }
       }
+      else if (filename.startsWith('synced_contacts')) {
+        let jsonData = JSON.parse(content);
+        let contactsData = jsonData.contacts_contact_info;
+
+        await this.instaContactsRepo.startContactBulkAdd(contactsData[0].string_map_data["First name"].value, 
+                contactsData[0].string_map_data["Surname"].value, 
+                contactsData[0].string_map_data["Contact information"].value,
+                contactsData.length);          
+        for (let i = 1; i < contactsData.length; i++) {
+          await this.instaContactsRepo.addContactsBulkEntry(contactsData[i].string_map_data["First name"].value,
+                contactsData[i].string_map_data["Surname"].value, 
+                contactsData[i].string_map_data["Contact information"].value);
+        }
+      }
+
     }
 
     if (this.requestedAbortDataParsing) {
