@@ -77,7 +77,7 @@ export class AppComponent {
         break;
     }
     this.showBackButton = !this.router.url.includes('dashboard')  && this.serviceName != null;
-    this.showServiceButton = !this.router.url.includes('serviceSelection') && !this.isCollapsed;
+    this.showServiceButton = !this.router.url.includes('serviceSelection') && !this.router.url.includes('home') && !this.isCollapsed;
   }
 
   /**
