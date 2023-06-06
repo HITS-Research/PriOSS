@@ -1,18 +1,18 @@
 <div [ngClass]="{'component-page': !previewMode}">
   <div *ngIf="previewMode">
-    <nz-row [nzGutter]="28">
-      <nz-col [nzSpan]="14">
+    <nz-row [nzGutter]="16">
+      <nz-col [nzSpan]="16">
         <nz-statistic [nzTitle]="'Ads Clicked'"  [nzValue]="totalCountClickedAds"></nz-statistic>
       </nz-col>
-      <nz-row [nzSpan]="18">
+      <nz-col [nzSpan]="16">
         <nz-statistic  [nzTitle]="'Off-Site Interactions'" [nzValue]="pageViewViewContentCount"></nz-statistic>
-      </nz-row>
-      <nz-col [nzSpan]="14">
+      </nz-col>
+      <nz-col [nzSpan]="16">
         <nz-statistic  [nzTitle]="'Checkout Activities'" [nzValue]="2" tooltipText="TBD"></nz-statistic> 
       </nz-col>
-      <nz-row [nzSpan]="18">
+      <nz-col [nzSpan]="16">
         <nz-statistic  [nzTitle]="'Website Associations'" [nzValue]="totalWebsites"></nz-statistic>
-      </nz-row>
+      </nz-col>
     </nz-row>
   </div>
       <!-- <nz-row [nzGutter]="16">
@@ -54,7 +54,7 @@
           <nz-col [nzSpan]="12">
             <nz-card>
               <nz-statistic
-                [nzValue]="totalCount"
+                [nzValue]="totalCountClickedAds"
                 [nzTitle]="'Total Number of Clicked Ads'"
                 [nzValueStyle]="{ color: '#3F8600' }"
               ></nz-statistic>
