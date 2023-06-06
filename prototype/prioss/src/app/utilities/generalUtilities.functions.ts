@@ -103,7 +103,7 @@ export function getValueIgnoreCase(jsonObj: any, key: string, time_value : boole
       }
     }
   }
-  return undefined
+  return "Not Set"
 }
 
 /**
