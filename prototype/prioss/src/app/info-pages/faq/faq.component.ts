@@ -56,8 +56,11 @@ export class FaqComponent {
       name: 'What are my privacy rights?',
       content: 'We reccommend you to read your rights as explained in \'GDPR Rights\' section of the respective social media platform.'
     },
-    
-
+    {
+      active: false,
+      name: 'What is an inference?',
+      content: 'An inference is a category in which you are placed. Those categories should indicate your interests and preferences. To assign you to a category, Spotify analyses your usage behavior and collects data from advertising partners such as Facebook. Inferences are used for tailored advertising. If you opt out of tailored advertising, Spotify will not serve ads based on your inferences. Spotify also uses inferences to evaluate the use of their service, for example, the popularity of a feature like the Discover Weekly playlist. The exact meaning of the inferences Spotify draws about you cannot be determined, as Spotify does not provide any information on this.',
+    },
     {
       active: false,
       name: 'How can I improve my Instagram privacy?',
