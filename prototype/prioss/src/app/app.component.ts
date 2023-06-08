@@ -16,7 +16,6 @@ export class AppComponent {
   isCollapsed: boolean = false;
   serviceName: string | null;
   isDashboard: boolean = false;
-  showBackButton: boolean = false;
   showServiceButton: boolean = false;
   navigateAndScroll: (router: Router, url: string) => void = utilities.navigateAndScroll;
 
@@ -76,7 +75,6 @@ export class AppComponent {
         this.isDashboard = false;
         break;
     }
-    this.showBackButton = !this.router.url.includes('dashboard')  && this.serviceName != null;
     this.showServiceButton = !this.router.url.includes('serviceSelection') && !this.router.url.includes('home') && !this.isCollapsed;
   }
 
@@ -109,7 +107,7 @@ export class AppComponent {
    * 
    * @param msg The message received from the msg service
    * 
-   * @author Simon (scg@mail.upb.de)
+   * @author: Simon (scg@mail.upb.de)
    */
   parseAppMsg(msg: AppComponentMsg): void {
     switch(msg) {
@@ -121,5 +119,15 @@ export class AppComponent {
       default:
         break;
     }
+  }
+
+  /**
+   * This method is responsible for setting the variables that determine if the navbar is closed and buttons should be shown.
+   * 
+   * @author: Paul (pasch@mail.upb.de)
+   */
+  handleNavbarFold(): void {
+    this.isCollapsed = !this.isCollapsed;
+    this.showServiceButton = !this.router.url.includes('serviceSelection') && !this.router.url.includes('home') && !this.isCollapsed;
   }
 }
