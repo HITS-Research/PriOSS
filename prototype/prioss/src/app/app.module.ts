@@ -81,6 +81,7 @@ import { InstaContactsRepository } from './db/data-repositories/instagram/insta-
 import { InstaFollowerRepository } from './db/data-repositories/instagram/insta-follower-info/insta-follower.repository';
 import { InstaFollowingRepository } from './db/data-repositories/instagram/insta-follower-info/insta-following.repository';
 import { InstaBlockedRepository } from './db/data-repositories/instagram/insta-follower-info/insta-blocked.repository';
+import { FaqComponent } from './info-pages/faq/faq.component';
 
 registerLocaleData(de);
 
@@ -319,6 +320,7 @@ const dbConfig: DBConfig  =
     TopSongsComponent,
     AboutComponent,
     ContactComponent,
+    FaqComponent,
     InferredTopicsComponent,
     InstaAccountCreationLoginComponent,
     InstaAdsComponent,
