@@ -1,5 +1,9 @@
 <div class="component-page">
 
+  <p *ngIf="!selectedServiceName" class="t-explanation">
+    Please select a service below from which you want to explore some personal data.
+  </p>
+
   <div class="selection-list">
     <div class="selection-choice">
       <input type="radio" name="apps" id="instagram" class="input-hidden" (click)="selectApp(appType.Instagram)" />
@@ -45,46 +49,47 @@
     </ng-template>
   </nz-modal>
 
-  <div class="instructions row">
-    <h5 *ngIf="!selectedServiceName" class="t-explanation">
-      You have the right to download the personal data that an online service collected about you from it.
-      <br>This website helps you to inspect this data.
-      <br>Please select a service above to show instructions explaining how you can request your data from it.
-    </h5>
+  <div *ngIf="selectedServiceName">
+    <div class="page-instructions">
+      <p class="t-explanation">
+        Don't want to use your own personal data? Just continue with our provided sample data!
+      </p>
 
-    <h5 *ngIf="selectedServiceName" class="t-explanation">
-      <div>
-      Follow data download instructions below and download your personal data as ".zip".<br>
-      Drop your ".zip" file by clicking below and "Explore My Data" to visualize your data like never before!.<br><br>
-      The website works offline. You can switch into flight mode or disconnect from the internet before uploading your ".zip" file.<br>
-      </div>
-    </h5>
+      <button nz-button nzSize="large" nzType="primary" block="false" class="continue-btn" (click)="onClickedExploreSampleData()">
+        <span nz-icon nzType="arrow-right"></span>
+        Continue with Sample Data
+      </button>
 
-    <div class="col-md-12" *ngIf="selectedServiceName">
-      <div class="image-upload-wrap">
-        <input type="file" (change)="onFileSelected($event)" class="file-upload-input"  placeholder="Upload file" accept=".zip">
-        <div class="drag-text">
-          <h3>Drop file or click to choose your {{selectedServiceName}} data-download</h3>
-          <h5>Please input a ".zip"-file</h5>
-          <h5 *ngIf="selectedFileName.length > 0">Your selected file: {{selectedFileName}}</h5>
+      <p *ngIf="selectedServiceName" class="t-explanation">
+        OR:<br>
+        Follow the <a routerLink="/serviceSelection" fragment="download-instructions">download instructions below</a> to download your personal data as a ".zip"-file.<br>
+        Afterwards, input your ".zip"-file below and click 'Continue with personal data'.
+      </p>
+
+      <div *ngIf="selectedServiceName">
+        <div class="image-upload-wrap">
+          <input type="file" (change)="onFileSelected($event)" class="file-upload-input"  placeholder="Upload file" accept=".zip">
+          <div class="drag-text">
+            <h3>Drop file or click to choose your {{selectedServiceName}} data-download</h3>
+            <h5>Please input a ".zip"-file</h5>
+            <h5 *ngIf="selectedFileName.length > 0">Your selected file: {{selectedFileName}}</h5>
+          </div>
         </div>
-      </div>
-      <div class="t-buttons-container">
-        <button class="t-btn t-explore-data-btn" (click)="onClickedExploreData()">
-          <fa-icon [icon]="faCircleRight"></fa-icon>
-          <span style="margin-left:5px; font-size: 16px;">Explore My Data  </span>
+
+        <button nz-button nzSize="large" nzType="primary" block="false" class="continue-btn" (click)="onClickedExploreSampleData()">
+          <span nz-icon nzType="arrow-right"></span>
+          Continue with personal data
         </button>
-        <br>
-        <button class="t-btn t-explore-data-btn" (click)="onClickedExploreSampleData()">
-          <fa-icon [icon]="faCircleRight"></fa-icon>
-          <span style="margin-left:5px; font-size: 16px;">Continue with Sample Data </span>
-        </button>
+        
+        <p class="t-explanation">     
+          This website works offline. You can switch into flight mode or disconnect from the internet before uploading your ".zip"-file.<br>
+        </p>
       </div>
     </div>
 
-    <h5 *ngIf="selectedServiceName"> Follow Download Instructions</h5>  
+    <h5 id="download-instructions" *ngIf="selectedServiceName"> Follow Download Instructions</h5>  
     
-    <div class="instructions-content col-md-12" id="instagram-instructions" *ngIf="selectedServiceName === appType.Instagram">
+    <div class="instructions-content" id="instagram-instructions" *ngIf="selectedServiceName === appType.Instagram">
       <div class="selection-disclaimer">
         <div class="disclaimer-content">
           <h4>Disclaimer!</h4>
@@ -130,7 +135,7 @@
         </li>
       </ol>
     </div>
-    <div class="instructions-content col-md-12" id="facebook-instructions" *ngIf="selectedServiceName === appType.Facebook">
+    <div class="instructions-content" id="facebook-instructions" *ngIf="selectedServiceName === appType.Facebook">
 
       <div class="selection-disclaimer">
         <div class="disclaimer-content">
@@ -181,14 +186,10 @@
         </li>
       </ol>
       <br>
-      <!-- Add Scroll-to-top button after facebook download instructions-->
-      <!-- Author: Deepa(dbelvi@mail.upb.de)-->
-        <button class="t-btn t-explore-data-btn" (click)="scrollToTop()">
-          <span style="margin-left:5px; font-size: 16px;"> Go to Top  </span>
-        </button>
+      
       <br>
     </div>
-    <div class="instructions-content col-md-12" id="spotify-instructions" *ngIf="selectedServiceName === appType.Spotify">
+    <div class="instructions-content" id="spotify-instructions" *ngIf="selectedServiceName === appType.Spotify">
       <ol>
         <li>
           <span>Log in to your Spotify account. Click on your profile picture on the left. Select <b><i>Account</i></b>.</span><br>
@@ -222,5 +223,10 @@
       </ol>
     </div>
   </div>
+  
+  <button *ngIf="selectedServiceName" nz-button nzSize="large" class="go-to-top-btn" (click)="scrollToTop()">
+    <span nz-icon nzType="vertical-align-top" nzTheme="outline"></span>
+    Go to Top
+  </button>
 
 </div>
