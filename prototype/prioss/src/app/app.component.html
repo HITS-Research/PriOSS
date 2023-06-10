@@ -28,6 +28,10 @@
         <span nz-icon nzType="form" nzTheme="outline"></span>
         <span><a routerLink="/contact">Contact</a></span>
       </li>
+      <li nz-menu-item nzMatchRouter>
+        <span nz-icon nzType="question" nzTheme="outline"></span>
+        <span><a routerLink="/faq">FAQ</a></span>
+      </li>
       <!--this submenu is only shown when on a dashboard-->
       <li *ngIf="isDashboard" nz-submenu nzOpen nzTitle="Dashboard" nzIcon="dashboard">
         <ul>
@@ -67,7 +71,7 @@
     <nz-header>
       <div class="app-header" >
         <span class="header-trigger" 
-          (click)="isCollapsed = !isCollapsed" 
+          (click)="handleNavbarFold()"
           nz-icon
           [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'">
         </span>

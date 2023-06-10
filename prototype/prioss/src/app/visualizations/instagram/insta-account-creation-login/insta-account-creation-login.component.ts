@@ -56,7 +56,7 @@ export class InstaAccountCreationLoginComponent extends SequenceComponentInit{
   * @author Paul (pasch@mail.upb.de)
   */
   override async initComponent(): Promise<void> {
-
+    console.log("--- Initializing Component 3: AccountCreationAndLogin");
     // SignUp Information fetched from SQLite
     let signup_information = await this.instaSignUpRepo.getSignUpInfo();
     if(signup_information.length > 0) {

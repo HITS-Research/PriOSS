@@ -36,7 +36,7 @@ export class InstaContactComponent extends SequenceComponentInit{
   * @author Durva & Mayank (dghurye@mail.upb.de & mayank@mail.upb.de)
   */
   override async initComponent(): Promise<void> {
-    console.log("--- Initializing Component 4: Contacts");
+    console.log("--- Initializing Component 5: Contacts");
     // Contacts fetched from SQlite
     await this.instaContactsRepo.getAllContacts().then((contacts) => {
       this.contacts = contacts;

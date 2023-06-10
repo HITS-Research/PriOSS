@@ -58,6 +58,7 @@ export class InstaAdsComponent extends SequenceComponentInit{
   * @author Paul (pasch@mail.upb.de)
   */
   override async initComponent(): Promise<void> {
+    console.log("--- Initializing Component 2: Advertisement");
 
     // Ads Data fetched from SQlite
     

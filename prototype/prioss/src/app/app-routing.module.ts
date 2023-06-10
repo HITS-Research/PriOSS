@@ -22,13 +22,16 @@ import { InferredTopicsComponent } from './visualizations/facebook/inferred-topi
 import { AdsRelatedDataComponent } from './visualizations/facebook/ads-related-data/ads-related-data.component';
 import { FriendAndFollowersComponent } from './visualizations/facebook/friend-and-followers/friend-and-followers.component';
 import { OffFacebookActivityComponent } from './rectification/facebook/off-facebook-activity/off-facebook-activity.component';
+import { InstaFollowersComponent } from './visualizations/instagram/insta-followers/insta-followers.component';
 import { InstaContactComponent } from './visualizations/instagram/insta-contact/insta-contact.component';
+import { FaqComponent } from './info-pages/faq/faq.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: LandingComponent },
   { path: 'about', component: AboutComponent },
   { path: 'contact', component: ContactComponent },
+  { path: 'faq', component: FaqComponent },
   { path: 'spot/inference', component: InferencesComponent },
   { path: 'spot/mood', component: MoodComponent },
   { path: 'spot/listening-time', component: ListeningTimeComponent },
@@ -40,6 +43,7 @@ const routes: Routes = [
   { path: 'insta/personal-info', component:Insta_PersonalInfoComponent },
   { path: 'insta/account', component:InstaAccountCreationLoginComponent },
   { path: 'insta/ads', component: InstaAdsComponent },
+  { path: 'insta/followers', component: InstaFollowersComponent},
   { path: 'insta/likedcontent', component: InstaLikedContentComponent },
   { path: 'insta/contacts', component: InstaContactComponent },
   { path: 'face/dashboard', component: FaceDashboardComponent },

@@ -14,13 +14,6 @@
 
   <!--only shows when visiting the page-->
   <div *ngIf="!previewMode">
-    <nz-breadcrumb>
-      <nz-breadcrumb-item>
-        <a [routerLink]="['../dashboard/']">Dashboard</a>
-      </nz-breadcrumb-item>
-      <nz-breadcrumb-item>Liked Comments and Posts</nz-breadcrumb-item>
-    </nz-breadcrumb>
-    
     <div>
       <app-title-bar titleText="Liked Comments" tooltipText="This bar chart shows the liked comments that was collected by Instagram."></app-title-bar>
       <nz-card style="width:100%;">

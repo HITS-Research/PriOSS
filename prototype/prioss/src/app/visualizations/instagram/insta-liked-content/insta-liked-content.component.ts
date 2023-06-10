@@ -77,7 +77,7 @@ export class InstaLikedContentComponent extends SequenceComponentInit {
   * @author: Mayank (mayank@mail.upb.de)
   */
   override async initComponent(): Promise<void> {
-    console.log("--- Initializing Component 5: Liked Comments and Posts");
+    console.log("--- Initializing Component 6: Liked Comments and Posts");
     
     // Fetch Count and Table Data for Liked Comments from Database
     await this.instaLikedCommentsRepo.getLikedCommentsInfo().then((liked_comments) => {
@@ -234,7 +234,7 @@ export class InstaLikedContentComponent extends SequenceComponentInit {
     d3.select(divId).selectAll("*").remove();
 
     if (this.liked_comments.length === 0) {
-      this.notificationService.showNotification("You did not liked any comment in the selected filter options.");
+      //this.notificationService.showNotification("You did not liked any comment in the selected filter options.");
       return;
     }
 

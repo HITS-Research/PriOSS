@@ -14,7 +14,8 @@ import { LandingComponent } from './landing/landing.component';
 import { ServiceSelectionComponent } from './service-selection/service-selection.component';
 import { FaceDashboardComponent } from './dashboards/face-dashboard/face-dashboard.component';
 import { InstaDashboardComponent } from './dashboards/insta-dashboard/insta-dashboard.component';
-import {Insta_PersonalInfoComponent} from './visualizations/instagram/Insta_personal-info/personal-info.component';
+import { Insta_PersonalInfoComponent} from './visualizations/instagram/Insta_personal-info/personal-info.component';
+import { InstaFollowersComponent } from './visualizations/instagram/insta-followers/insta-followers.component';
 import { InstaAccountCreationLoginComponent } from './visualizations/instagram/insta-account-creation-login/insta-account-creation-login.component';
 import { InstaAdsComponent } from './visualizations/instagram/insta-ads/insta-ads.component';
 import { SpotDashboardComponent } from './dashboards/spot-dashboard/spot-dashboard.component';
@@ -60,6 +61,8 @@ import { DBService } from './services/db/db.service';
 import { SpotHistoryRepository } from './db/data-repositories/spotify/spot-history/spot-history.repository';
 import { UserdataRepository } from './db/data-repositories/general/userdata/userdata.repository';
 import { InferencesRepository } from './db/data-repositories/general/inferences/inferences.repository';
+import { OfflineIndicatorComponent } from './offline-indicator/offline-indicator.component';
+
 import { InstaPersonalRepository } from './db/data-repositories/instagram/insta-personal-info/insta-personal.repository';
 import { InstaAdsActivityRepository } from './db/data-repositories/instagram/insta-ads/insta-ads-activity.repository';
 import { InstaAdsInterestRepository } from './db/data-repositories/instagram/insta-ads/insta-ads-interest.repository';
@@ -68,7 +71,6 @@ import { InstaAdsViewedRepository } from './db/data-repositories/instagram/insta
 import { InstaSignUpRepository } from './db/data-repositories/instagram/insta-accountcreation-login/insta-signup.repository';
 import { InstaLikedCommentsRepository } from './db/data-repositories/instagram/insta-liked-content/insta-likedcomments.repository';
 import { InstaLikedPostsRepository } from './db/data-repositories/instagram/insta-liked-content/insta-likedposts.repository';
-
 import { InferredTopicsRepository } from './db/data-repositories/facebook/fb-inferred-data/face_inferred_topics.repo';
 import { TitleBarComponent } from './page-sub-components/title-bar/title-bar.component';
 import { InstaLikedContentComponent } from './visualizations/instagram/insta-liked-content/insta-liked-content.component';
@@ -76,6 +78,10 @@ import { InstaLoginRepository } from './db/data-repositories/instagram/insta-acc
 import { InstaLogoutRepository } from './db/data-repositories/instagram/insta-accountcreation-login/insta-logout.repository';
 import { InstaContactComponent } from './visualizations/instagram/insta-contact/insta-contact.component';
 import { InstaContactsRepository } from './db/data-repositories/instagram/insta-contacts/insta-contacts.repository';
+import { InstaFollowerRepository } from './db/data-repositories/instagram/insta-follower-info/insta-follower.repository';
+import { InstaFollowingRepository } from './db/data-repositories/instagram/insta-follower-info/insta-following.repository';
+import { InstaBlockedRepository } from './db/data-repositories/instagram/insta-follower-info/insta-blocked.repository';
+import { FaqComponent } from './info-pages/faq/faq.component';
 
 registerLocaleData(de);
 
@@ -302,6 +308,7 @@ const dbConfig: DBConfig  =
     FaceDashboardComponent,
     InstaDashboardComponent,
     Insta_PersonalInfoComponent,
+    InstaFollowersComponent,
     SpotDashboardComponent,
     MoodComponent,
     NotificationComponent,
@@ -313,6 +320,7 @@ const dbConfig: DBConfig  =
     TopSongsComponent,
     AboutComponent,
     ContactComponent,
+    FaqComponent,
     InferredTopicsComponent,
     InstaAccountCreationLoginComponent,
     InstaAdsComponent,
@@ -323,6 +331,7 @@ const dbConfig: DBConfig  =
     SettingsFormComponent,
     HelpButtonComponent,
     OffFacebookActivityComponent,
+    OfflineIndicatorComponent,
     TitleBarComponent
   ],
   imports: [
@@ -370,6 +379,9 @@ const dbConfig: DBConfig  =
     InstaLikedCommentsRepository,
     InstaLikedPostsRepository,
     InstaContactsRepository,
+    InstaFollowerRepository,
+    InstaFollowingRepository,
+    InstaBlockedRepository,
     InferencesRepository,
     UserdataRepository,
     InferredTopicsRepository,

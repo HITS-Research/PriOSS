@@ -9,29 +9,18 @@
     </nz-table>
   </div>
   <div *ngIf="!previewMode">
-    <nz-breadcrumb>
-      <nz-breadcrumb-item>
-        <a [routerLink]="['../dashboard/']">Dashboard</a>
-      </nz-breadcrumb-item>
-      <nz-breadcrumb-item>Inferences</nz-breadcrumb-item>
-    </nz-breadcrumb>
+    <app-title-bar titleText="Inferences" tooltipText="An Inference is a topic of interest or information that Spotify has infered about you. 
+    They're used for marketing or advertising purposes and to curate and create content. 
+    First-party (1P_) inferences are created by Spotify. Third-Party (3P_) inferences come from other services like Facebook.">
+    </app-title-bar>
     <!-- https://stackoverflow.com/questions/73631070/how-to-set-scrollable-content-dinamically-in-ng-zorro-table -->
-    <h1 style="position: relative;">Inferences
-      <span nz-tooltip
-        nzTooltipTitle="An Inference is a topic of interest or information that Spotify has infered about you. 
-      They're used for marketing or advertising purposes and to curate and create content. 
-      First-party (1P_) inferences are created by Spotify. Third-Party (3P_) inferences come from other services like Facebook.">
-        <span nz-icon nzType="info-circle" nzTheme="outline" style="font-size: 16px; vertical-align: .7rem;">
-        </span>
-      </span>
-    </h1>
     <nz-table #rowSelectionTable [nzData]="listOfInferences" [nzPageSize]="50000" [nzFooter]="footerTemplate"
       [nzScroll]="{ y: 'calc(100vh - 369px)' }" [nzShowPagination]="false">
       <thead>
         <tr>
           <th nzWidth="5%" [(nzChecked)]="checked" [nzIndeterminate]="indeterminate"
             (nzCheckedChange)="onAllChecked($event)"></th>
-          <th nzWidth="82%">
+          <th nzWidth="83%">
             <nz-input-group [nzSuffix]="suffixIconSearch">
               <input type="text" #searchText nz-input placeholder="Search your inferences"
                 (keyup)="search(searchText.value)" />
@@ -40,11 +29,12 @@
               </ng-template>
             </nz-input-group>
           </th> 
-          <th  style="float: right;">
+          <th nzAlign="right">
             <span nz-tooltip
               nzTooltipTitle="Create a rectification email with all selected inferences. Rectifying inferences means to request Spotify to correct inferences that you think are wrong about yourself.">
-              <button nz-button nzType="default" nzSize="large" [disabled]="setOfCheckedId.size === 0"
+              <button class="rectify-button" nz-button nzType="default" nzSize="large" [disabled]="setOfCheckedId.size === 0"
                 (click)="rectifyInferences()">
+                <span nz-icon nzType="mail" nzTheme="outline"></span>
                 Correct selected
               </button>
             </span>
