@@ -1,22 +1,23 @@
-<div id="onlineStatus" style="position: fixed; bottom: 32px; right: 76px;">
+<div [style.bottom]="bottom" [style.right]="right" style="position: fixed;">
     <span *ngIf="onlineStatus">
-        <button style="display: inline-flex; align-items: center;" nz-button nzType="default"
-            nzShape="round"><span><button nz-button nzType="text" nzShape="circle" nz-tooltip
-                    nzTooltipTitle="You're still online! You can disconnect from the internet and still use all functionality!"
-                    class="wifi-icon">
-                    <span nz-icon nzType="wifi" nzTheme="outline" style="color: red"></span>
-                    You are still online
-                </button></span>
-        </button>
+      <button style="display: inline-flex; align-items: center;" nz-button nzType="default" nzShape="round">
+        <span>
+          <button nz-button nzType="text" nzShape="circle" nz-tooltip nzTooltipTitle="You're still online! You can disconnect from the internet and still use all functionality!" class="wifi-icon">
+            <span nz-icon nzType="wifi" nzTheme="outline" style="color: red"></span>
+            You are still online
+          </button>
+        </span>
+      </button>
     </span>
     <span *ngIf="!onlineStatus">
-        <button style="display: inline-flex; align-items: center;" nz-button nzType="default"
-            nzShape="round"><span><button nz-button nzType="text" nzShape="circle" nz-tooltip
-                    nzTooltipTitle="Great you're offline! You can still use all functionality!"
-                    class="wifi-icon">
-                    <span nz-icon nzType="wifi" nzTheme="outline" style="color: green"></span>
-                    Safe to browse
-                </button></span>
-        </button>
+      <button style="display: inline-flex; align-items: center;" nz-button nzType="default" nzShape="round">
+        <span>
+          <button nz-button nzType="text" nzShape="circle" nz-tooltip nzTooltipTitle="Great you're offline! You can still use all functionality!" class="wifi-icon">
+            <span nz-icon nzType="wifi" nzTheme="outline" style="color: green"></span>
+            Safe to browse
+          </button>
+        </span>
+      </button>
     </span>
-</div>
+  </div>
+  
