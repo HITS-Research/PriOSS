@@ -198,16 +198,13 @@
 <br>
 
 <details open>
-  <div id="faq"></div>
-    <summary class="collapse_title" id="fStep60">Frequently Asked Questions</summary>
+  <!-- <div id="faq"></div> -->
+    <!-- <summary class="collapse_title" id="fStep60">Frequently Asked Questions</summary>
       <nz-collapse nzAccordion>
         <nz-collapse-panel class="faq_info" *ngFor="let eachFaq of faqs" [nzHeader]="eachFaq.question" [nzActive]="eachFaq.state">
           <p class="faq_info">{{ eachFaq.answer }}</p>
         </nz-collapse-panel>
-      </nz-collapse>
+      </nz-collapse> -->
+  <app-faq id="fStep60" serviceName="face"></app-faq>
 </details>
 <br>
-
-
-
-  

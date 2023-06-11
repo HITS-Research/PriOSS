@@ -150,14 +150,15 @@
     </nz-card>
   </div>
   <br>
-  <div id="step7">
+  <!-- <div id="step7">
     <h2 nz-typography id="faq">Frequently Asked Questions (FAQ)</h2>
     <nz-collapse nzAccordion>
       <nz-collapse-panel *ngFor="let purpose of purposes" [nzHeader]="purpose.name" [nzActive]="purpose.active">
         <p>{{ purpose.content }}</p>
       </nz-collapse-panel>
     </nz-collapse>
-  </div>
+  </div> -->
+  <app-faq id="step7" serviceName="spot"></app-faq>
   <app-help-button (startTourClick)="startTour()"></app-help-button>
   <app-offline-indicator></app-offline-indicator>
 </div>
