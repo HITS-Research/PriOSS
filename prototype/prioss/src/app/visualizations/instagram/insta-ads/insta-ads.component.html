@@ -23,30 +23,132 @@
     
     <!--only shows when visiting the page-->
     <div *ngIf="!previewMode">
-        <app-title-bar titleText="Advertisement Highlights" tooltipText="The below displays the advertisment highlights for your Instagram data."></app-title-bar>
-        <nz-row [nzGutter]="16">
-            <nz-col [nzSpan]="12">
-            <nz-statistic [nzValue]="(ads_activity.length|number)!" [nzTitle]="'Number of advertisment activities'"></nz-statistic>
-            </nz-col>
-            <nz-col [nzSpan]="12">
-            <nz-statistic [nzValue]="(ads_clicked.length| number)!" [nzTitle]="'Number of advertisments clicked'"></nz-statistic>
-            </nz-col>
-        </nz-row>
-        <nz-row [nzGutter]="16">
-            <nz-col [nzSpan]="12">
-                <nz-statistic [nzValue]="(ads_interests.length | number)!" [nzTitle]="'Number of advertisment interests'"></nz-statistic>
-            </nz-col>
-            <nz-col [nzSpan]="12">
-                <nz-statistic [nzValue]="(ads_viewed.length| number)!" [nzTitle]="'Number of advertisments viewed'"></nz-statistic>
-            </nz-col>
-        </nz-row>
-        <br>
+        
+        <app-title-bar titleText="Advertisements" tooltipText="The below displays the advertisement details for your Instagram data."></app-title-bar>
+        <nz-card style="width:100%;">
+            <nz-tabset nzType="card">
+                <nz-tab nzTitle="Advertisement Activity">
+                    <ng-template nz-tab>
+                        <nz-demo-tab-content-lazy>
+                            <!-- If Ads Activity Data present -->
+                            <div *ngIf="ads_activity?.length">
+                                <nz-table [nzData]="ads_activity" [nzPageSize]="10"
+                                    [nzPageIndex]="ads_activity_pageindex"
+                                    (nzPageIndexChange)="on_ads_activity_page_change($event)">
+                                        <thead>
+                                            <tr>
+                                                <th>Advertiser Name</th>
+                                                <th>Has Data file custom audience</th>
+                                                <th>Has in person store visit</th>
+                                                <th>Has remarketing custom audience</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let ad_activity of sliced_ads_activity_data">
+                                                <td>{{ ad_activity.advertiserName }}</td>
+                                                <td>{{ ad_activity.has_data_file_custom_audience }}</td>
+                                                <td>{{ ad_activity.has_in_person_store_visit }}</td>
+                                                <td>{{ ad_activity.has_remarketing_custom_audience }}</td>
+                                            </tr>
+                                        </tbody>
+                                </nz-table>
+                            </div>
+                            <!-- If No Ads Activity Data present -->
+                            <div *ngIf="ads_activity?.length === 0">
+                                <nz-empty nzNotFoundImage="simple"></nz-empty>
+                            </div>
+                        </nz-demo-tab-content-lazy>
+                    </ng-template>
+                </nz-tab>
+                <nz-tab nzTitle="Advertisement Clicked">
+                    <ng-template nz-tab>
+                        <nz-demo-tab-content-lazy>
+                            <!-- If Ads Clicked Data present -->
+                            <div *ngIf="ads_clicked?.length">
+                                <nz-table [nzData]="ads_clicked" [nzPageSize]="10"
+                                    [nzPageIndex]="ads_clicked_pageindex"
+                                    (nzPageIndexChange)="on_ads_clicked_page_change($event)">
+                                        <thead>
+                                            <tr>
+                                                <th>Title</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let ad_clicked of sliced_ads_clicked_data">
+                                                <td>{{ ad_clicked.title }}</td>
+                                            </tr>
+                                        </tbody>
+                                </nz-table>
+                            </div>
+                            <!-- If No Ads Clicked Data present -->
+                            <div *ngIf="ads_clicked?.length === 0">
+                                <nz-empty nzNotFoundImage="simple"></nz-empty>
+                            </div>
+                        </nz-demo-tab-content-lazy>
+                    </ng-template>
+                </nz-tab>
+                <nz-tab nzTitle="Advertisement Interest">
+                    <ng-template nz-tab>
+                        <nz-demo-tab-content-lazy>
+                            <!-- If Ads Interest Data present -->
+                            <div *ngIf="ads_interests?.length">
+                                <nz-table [nzData]="ads_interests" [nzPageSize]="10"
+                                    [nzPageIndex]="ads_interests_pageindex"
+                                    (nzPageIndexChange)="on_ads_interests_page_change($event)">
+                                        <thead>
+                                            <tr>
+                                                <th>Interest</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let ad_interests of sliced_ads_interests_data">
+                                                <td>{{ ad_interests.interest }}</td>
+                                            </tr>
+                                        </tbody>
+                                </nz-table>
+                            </div>
+                            <!-- If No Ads Interest Data present -->
+                            <div *ngIf="ads_interests?.length === 0">
+                                <nz-empty nzNotFoundImage="simple"></nz-empty>
+                            </div>
+                        </nz-demo-tab-content-lazy>
+                    </ng-template>
+                </nz-tab>
+                <nz-tab nzTitle="Advertisement Viewed">
+                    <ng-template nz-tab>
+                        <nz-demo-tab-content-lazy>
+                            <!-- If Ads Viewed Data present -->
+                            <div *ngIf="ads_viewed?.length">
+                                <nz-table [nzData]="ads_viewed" [nzPageSize]="10"
+                                    [nzPageIndex]="ads_viewed_pageindex"
+                                    (nzPageIndexChange)="on_ads_viewed_page_change($event)">
+                                        <thead>
+                                            <tr>
+                                                <th>Title</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let ad_viewed of sliced_ads_viewed_data">
+                                                <td>{{ ad_viewed.title }}</td>
+                                            </tr>
+                                        </tbody>
+                                </nz-table>
+                            </div>
+                            <!-- If No Ads Viewed Data present -->
+                            <div *ngIf="ads_viewed?.length === 0">
+                                <nz-empty nzNotFoundImage="simple"></nz-empty>
+                            </div>
+                        </nz-demo-tab-content-lazy>
+                    </ng-template>
+                </nz-tab>
+            </nz-tabset>
+        </nz-card>
 
         <!-- Advertisement Activity -->
-        <app-title-bar titleText="Advertisement Activity" tooltipText="The below displays the advertisement activity performed by you on your Instagram account." [includeButton]="false"></app-title-bar>
+        <!-- <app-title-bar titleText="Advertisement Activity" tooltipText="The below displays the advertisement activity performed by you on your Instagram account." [includeButton]="false"></app-title-bar> -->
         <!-- If Advertisement Activity Data present -->
-        <div *ngIf="ads_activity?.length">
-            <nz-table [nzData]="ads_activity" [nzPageSize]="pageSize" [nzPageIndex]="currentPage" (nzPageIndexChange)="on_ads_actvity_page_change($event)">
+        <!-- <div *ngIf="ads_activity?.length">
+            <nz-table [nzData]="ads_activity" [nzPageSize]="pageSize" [nzPageIndex]="ads_activity_pageindex" (nzPageIndexChange)="on_ads_activity_page_change($event)">
                 <thead>
                     <tr>
                     <th>Advertiser name</th>
@@ -64,59 +166,59 @@
                     </tr>
                 </tbody>
             </nz-table>
-        </div>
+        </div> -->
         <!-- If No Advertisement Activity Data present -->
-        <div *ngIf="ads_activity?.length === 0">
+        <!-- <div *ngIf="ads_activity?.length === 0">
             <p>No advertisements activity</p>
         </div>
-        <br>
+        <br> -->
 
         <!-- Advertisement Clicked -->
-        <app-title-bar titleText="Advertisements Clicked" tooltipText="The below displays the advertisement clicked by you on your Instagram account." [includeButton]="false"></app-title-bar>
+        <!-- <app-title-bar titleText="Advertisements Clicked" tooltipText="The below displays the advertisement clicked by you on your Instagram account." [includeButton]="false"></app-title-bar> -->
         <!-- If Advertisement Clicked Data present -->
-        <div *ngIf="ads_clicked?.length">
+        <!-- <div *ngIf="ads_clicked?.length">
             <div class="list-view">
                 <div *ngFor="let ad_clicked of ads_clicked" class="list-individual-item">
                 {{ ad_clicked.title }}
                 </div>
             </div>
-        </div>
+        </div> -->
         <!-- If No Advertisement Clicked Data present -->
-        <div *ngIf="ads_clicked?.length === 0">
+        <!-- <div *ngIf="ads_clicked?.length === 0">
             <p>No advertisements clicked</p>
         </div>
-        <br>
+        <br> -->
 
         <!-- Advertisement Interests -->
-        <app-title-bar titleText="Advertisements Interests" tooltipText="The below displays the advertisement interests inferred by Instagram." [includeButton]="false"></app-title-bar>
+        <!-- <app-title-bar titleText="Advertisements Interests" tooltipText="The below displays the advertisement interests inferred by Instagram." [includeButton]="false"></app-title-bar> -->
         <!-- If Advertisement Interests Data present -->
-        <div *ngIf="ads_interests?.length">
+        <!-- <div *ngIf="ads_interests?.length">
             <div class="list-view">
                 <div *ngFor="let ad_interest of ads_interests" class="list-individual-item">
                 {{ ad_interest.interest }}
                 </div>
             </div>
-        </div>
+        </div> -->
         <!-- If No Advertisement Interests Data present -->
-        <div *ngIf="ads_interests?.length === 0">
+        <!-- <div *ngIf="ads_interests?.length === 0">
             <p>No advertisements Interests</p>
         </div>
-        <br>
+        <br> -->
 
         <!-- Advertisement Viewed -->
-        <app-title-bar titleText="Advertisements Viewed" tooltipText="The below displays the advertisement viewed by you on your Instagram account." [includeButton]="false"></app-title-bar>
+        <!-- <app-title-bar titleText="Advertisements Viewed" tooltipText="The below displays the advertisement viewed by you on your Instagram account." [includeButton]="false"></app-title-bar> -->
         <!-- If Advertisement Viewed Data present -->
-        <div *ngIf="ads_viewed?.length">
+        <!-- <div *ngIf="ads_viewed?.length">
             <div class="list-view">
                 <div *ngFor="let ad_viewed of ads_viewed" class="list-individual-item">
                 {{ ad_viewed.title }}
                 </div>
             </div>
-        </div>
+        </div> -->
         <!-- If No Advertisement Viewed Data present -->
-        <div *ngIf="ads_viewed?.length === 0">
+        <!-- <div *ngIf="ads_viewed?.length === 0">
             <p>No advertisements Viewed</p>
-        </div>
+        </div> -->
     </div>
     
 </div>

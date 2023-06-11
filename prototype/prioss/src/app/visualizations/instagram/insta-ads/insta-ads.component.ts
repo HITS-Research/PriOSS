@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { SequenceComponentInit } from '../../sequence-component-init.abstract';
+
 import { InstaAdsActivityRepository } from 'src/app/db/data-repositories/instagram/insta-ads/insta-ads-activity.repository';
 import { InstaAdsClickedRepository } from 'src/app/db/data-repositories/instagram/insta-ads/insta-ads-clicked.repository';
 import { InstaAdsInterestRepository } from 'src/app/db/data-repositories/instagram/insta-ads/insta-ads-interest.repository';
@@ -10,6 +11,7 @@ import { InstaAdsClickedInfo } from 'src/app/models/Instagram/LikedAdsInfo/Insta
 import { InstaAdsInterestInfo } from 'src/app/models/Instagram/LikedAdsInfo/InstaAdsInterestInfo';
 import { InstaAdsViewedInfo } from 'src/app/models/Instagram/LikedAdsInfo/InstaAdsViewedInfo';
 
+import * as generalUtils from "../../../utilities/generalUtilities.functions";
 
 /**
  * This component is fsor instagram's advertisement page.
@@ -32,6 +34,11 @@ export class InstaAdsComponent extends SequenceComponentInit{
   ads_clicked: InstaAdsClickedInfo[] = [];
   ads_interests: InstaAdsInterestInfo[] = [];
   ads_viewed: InstaAdsViewedInfo[] = [];
+
+  ads_activity_pageindex = 1;
+  ads_clicked_pageindex = 1;
+  ads_interests_pageindex = 1;
+  ads_viewed_pageindex = 1;
 
   constructor(private instaAdsActivityRepo: InstaAdsActivityRepository,
     private instaAdsClickedRepo: InstaAdsClickedRepository,
@@ -83,20 +90,84 @@ export class InstaAdsComponent extends SequenceComponentInit{
     }
   }
 
-  // Default page configuration for Ads Activity 
-  currentPage = 1;
-  pageSize = 10;
-
-  // Pushing only necessary value to table as per page number
+  /**
+   * This method returns the sliced data based on page number
+   * 
+   * @author Mayank (mayank@mail.upb.de)
+   */
   get sliced_ads_activity_data() {
-    const start = (this.currentPage - 1) * this.pageSize;
-    const end = start + this.pageSize;
-    return this.ads_activity.slice(start, end);
+    return generalUtils.getSlicedData(this.ads_activity, this.ads_activity_pageindex);
   }
 
-  // Changing the page number based on user selection
-  on_ads_actvity_page_change(event: any) {
-    this.currentPage = event;
+  /**
+   * This method returns the sliced data based on page number
+   * 
+   * @author Mayank (mayank@mail.upb.de)
+   */
+  get sliced_ads_clicked_data() {
+    return generalUtils.getSlicedData(this.ads_clicked, this.ads_clicked_pageindex);
+  }
+
+  /**
+   * This method returns the sliced data based on page number
+   * 
+   * @author Mayank (mayank@mail.upb.de)
+   */
+  get sliced_ads_interests_data() {
+    return generalUtils.getSlicedData(this.ads_interests, this.ads_interests_pageindex);
+  }
+
+  /**
+   * This method returns the sliced data based on page number
+   * 
+   * @author Mayank (mayank@mail.upb.de)
+   */
+  get sliced_ads_viewed_data() {
+    return generalUtils.getSlicedData(this.ads_viewed, this.ads_viewed_pageindex);
+  }
+
+  /**
+   * This method changes the page number based on user selection
+   * 
+   * @param event The event of page number change
+   * 
+   * @author Mayank (mayank@mail.upb.de)
+   */
+  on_ads_activity_page_change(event: any) {
+    this.ads_activity_pageindex = event;
+  }
+
+  /**
+   * This method changes the page number based on user selection
+   * 
+   * @param event The event of page number change
+   * 
+   * @author Mayank (mayank@mail.upb.de)
+   */
+  on_ads_clicked_page_change(event: any) {
+    this.ads_clicked_pageindex = event;
+  }
+
+   /**
+   * This method changes the page number based on user selection
+   * 
+   * @param event The event of page number change
+   * 
+   * @author Mayank (mayank@mail.upb.de)
+   */
+   on_ads_interests_page_change(event: any) {
+    this.ads_interests_pageindex = event;
+  }
+
+   /**
+   * This method changes the page number based on user selection
+   * 
+   * @param event The event of page number change
+   * 
+   * @author Mayank (mayank@mail.upb.de)
+   */
+   on_ads_viewed_page_change(event: any) {
+    this.ads_viewed_pageindex = event;
   }
 
 }
