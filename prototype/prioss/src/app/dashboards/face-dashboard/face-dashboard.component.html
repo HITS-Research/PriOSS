@@ -8,46 +8,53 @@
   </div> 
 
 <br>
-<div nz-typography id="fstep90" class="section-title">Your Information</div>
-<div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
-  <div id="fStep10" nz-col nzXs="24" nzXl="8">
-    <app-general-data></app-general-data>
-      <ng-template #extraTemplate>
-        <a>More</a>
-      </ng-template>
+<details open>
+  <summary class="collapsible-dashboard-section-title">Your Information</summary>
+  <div nz-typography id="fstep90">
+    <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
+      <div id="fStep10" nz-col nzXs="24" nzXl="8">
+        <app-general-data></app-general-data>
+          <ng-template #extraTemplate>
+            <a>More</a>
+          </ng-template>
+      </div>
+    </div>
+  </div>
+</details>
+<br>
+<br>
+
+<details open>
+  <summary class="collapsible-dashboard-section-title">Visualization</summary>
+<div id="fstep80">
+  <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
+      <div id="fStep20" nz-col nzXs="24" nzXl="8">
+        <nz-card nzTitle="Advertisements" nzHoverable [nzExtra]="extraAds">
+          <app-ads-related-data [previewMode]="true"></app-ads-related-data>
+        </nz-card>
+        <ng-template #extraAds>
+          <a routerLink="/face/ads-related-data">More</a>
+        </ng-template>
+      </div>
+      <div id="fStep21" nz-col nzXs="24" nzXl="8">
+        <nz-card nzTitle="Your topics" nzHoverable [nzExtra]="extraTopic">
+          <app-inferred-topics [previewMode]="true"></app-inferred-topics>
+        </nz-card>
+        <ng-template #extraTopic>
+          <a routerLink="/face/inferred-topics">More</a>
+        </ng-template>
+      </div>
+      <div id="fStep22" nz-col nzXs="24" nzXl="8">
+        <nz-card nzTitle="Facebook Connections" nzHoverable [nzExtra]="extraConnections">
+          <app-friend-and-followers [previewMode]="true"></app-friend-and-followers>
+        </nz-card>
+        <ng-template #extraConnections>
+          <a routerLink="/face/connections">More</a>
+        </ng-template>
+      </div>
   </div>
 </div>
-<br>
-<br>
 
-
-<div id="fstep80" class="section-title"> Visualization </div>
-<div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
-    <div id="fStep20" nz-col nzXs="24" nzXl="8">
-      <nz-card nzTitle="Advertisements" nzHoverable [nzExtra]="extraAds">
-        <app-ads-related-data [previewMode]="true"></app-ads-related-data>
-      </nz-card>
-      <ng-template #extraAds>
-        <a routerLink="/face/ads-related-data">More</a>
-      </ng-template>
-    </div>
-    <div id="fStep21" nz-col nzXs="24" nzXl="8">
-      <nz-card nzTitle="Your topics" nzHoverable [nzExtra]="extraTopic">
-        <app-inferred-topics [previewMode]="true"></app-inferred-topics>
-      </nz-card>
-      <ng-template #extraTopic>
-        <a routerLink="/face/inferred-topics">More</a>
-      </ng-template>
-    </div>
-    <div id="fStep22" nz-col nzXs="24" nzXl="8">
-      <nz-card nzTitle="Facebook Connections" nzHoverable [nzExtra]="extraConnections">
-        <app-friend-and-followers [previewMode]="true"></app-friend-and-followers>
-      </nz-card>
-      <ng-template #extraConnections>
-        <a routerLink="/face/connections">More</a>
-      </ng-template>
-    </div>
-</div>
 <br>
 <app-help-button (startTourClick)="startTour()"></app-help-button>
 <app-offline-indicator [bottom]="'32px'" [right]="'76px'"></app-offline-indicator>
@@ -55,7 +62,7 @@
 <br>
 
 <details open>
-  <summary class="collapse_title" id="fStep70">Rectification</summary>
+  <summary class="collapsible-dashboard-section-title" id="fStep70">Rectification</summary>
   <div id="rectification_instructions"> 
     <h6>  You can object the use of your personal data to show you personalized Ads on your timeline. Visit <span nz-icon nzType="link"><a target="_blank" href='https://www.facebook.com/help/contact/367438723733209'>Facebook Help Center</a></span> and follow the instructions below: </h6>
     <br>
@@ -94,7 +101,7 @@
 <br>
 
 <details open>
-  <summary class="collapse_title" id="fStep30">Manage Privacy</summary>
+  <summary class="collapsible-dashboard-section-title" id="fStep30">Manage Privacy</summary>
   <div id="rectification">
     <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
       <div id="fStep20" nz-col nzXs="24" nzXl="8">
@@ -112,7 +119,7 @@
 <br>
 
 <details open>
-  <summary class="collapse_title" id="fStep40">GDPR and Your Rights</summary>
+  <summary class="collapsible-dashboard-section-title" id="fStep40">GDPR and Your Rights</summary>
 <div id="gdpr">
     <div class="dashboard-intro"  id="fStep20" >
         <p>
@@ -160,7 +167,7 @@
 <br>
 
 <details open>
-  <summary class="collapse_title" id="fStep50">Purpose for Data Collection</summary>
+  <summary class="collapsible-dashboard-section-title" id="fStep50">Purpose for Data Collection</summary>
   <div class="dashboard-intro" id="purpose">
   <p nz-typography>
     The following purposes should give an example of Facebook's purpose to collect personal data. To Get a full list of their reasons you can check out Facebook's <span nz-icon nzType="link"><a target="_blank" href="https://www.facebook.com/privacy/policy">privacy policy</a></span>
@@ -197,7 +204,6 @@
 <br>
 <br>
 
-<details open>
   <!-- <div id="faq"></div> -->
     <!-- <summary class="collapse_title" id="fStep60">Frequently Asked Questions</summary>
       <nz-collapse nzAccordion>
@@ -205,6 +211,4 @@
           <p class="faq_info">{{ eachFaq.answer }}</p>
         </nz-collapse-panel>
       </nz-collapse> -->
-  <app-faq id="fStep60" serviceName="face"></app-faq>
-</details>
-<br>
+<app-faq id="fStep60" serviceName="face"></app-faq>
