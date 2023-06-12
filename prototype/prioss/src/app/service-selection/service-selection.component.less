@@ -16,9 +16,13 @@
     border: 4px dashed #ffffff;
 }
 
-.image-upload-wrap:hover .drag-text h3,
-.image-upload-wrap:hover .drag-text h5 {
+.image-upload-wrap:hover .drag-text p {
     color: #ffffff;
+}
+
+.file-upload-explanation {
+    font-size: 0.75vw;
+    text-align: center;
 }
 
 //the input field for file upload
@@ -36,26 +40,24 @@
 //the div containing the text inside the file upload field
 .drag-text {
     text-align: center;
+    font-size: .9vw;
 }
 
 //the actual text inside the file upload field
-.drag-text h3 {
-    font-weight: 100;
-    color: #262626;
-}
-
-.drag-text h5 {
-    font-weight: 100;
+.drag-text p {
     color: #262626;
 }
 
 /* 
  * Buttons
  */
-.continue-btn {
+.icon-button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+}
+
+.continue-btn {
     margin-block: 2vh;
 }
 

@@ -1,6 +1,6 @@
 <div class="component-page">
 
-  <p *ngIf="!selectedServiceName" class="t-explanation">
+  <p class="t-explanation">
     Please select a service below from which you want to explore some personal data.
   </p>
 
@@ -49,41 +49,66 @@
     </ng-template>
   </nz-modal>
 
+  <nz-modal id="upload-dialog"
+      [(nzVisible)]="uploadDialogVisible"
+      [nzTitle]="uploadDialogTitle"
+      [nzContent]="uploadContent"
+      [nzFooter]="uploadDialogFooter"
+      (nzOnCancel)="abortDataUpload()"
+      nzCentered>
+      
+    <ng-template #uploadDialogTitle>
+      Input your data-download file
+    </ng-template>
+
+    <ng-template #uploadContent>
+      <p class="file-upload-explanation">From here, everything works offline. You can switch into flight mode or disconnect from the internet before uploading your ".zip"-file.</p>
+      <div class="image-upload-wrap">
+        <input type="file" (change)="onFileSelected($event)" class="file-upload-input"  placeholder="Upload file" accept=".zip">
+        <div class="drag-text">
+          <p>Drop file or click to choose your {{selectedServiceName}} data-download</p>
+          <p>Please input a ".zip"-file</p>
+          <p *ngIf="selectedFileName.length > 0">Your selected file: {{selectedFileName}}</p>
+        </div>
+      </div>
+    </ng-template>
+
+    <ng-template #uploadDialogFooter>
+      <button nz-button nzType="primary" class="icon-button" block="false" (click)="onClickedExploreData()">
+        <span nz-icon nzType="arrow-right"></span>
+        Continue with personal data
+      </button>
+    </ng-template>
+  </nz-modal>
+
   <div *ngIf="selectedServiceName">
     <div class="page-instructions">
       <p class="t-explanation">
         Don't want to use your own personal data? Just continue with our provided sample data!
       </p>
 
-      <button nz-button nzSize="large" nzType="primary" block="false" class="continue-btn" (click)="onClickedExploreSampleData()">
+      <button nz-button nzSize="large" nzType="primary" block="false" class="icon-button continue-btn" (click)="onClickedExploreSampleData()">
         <span nz-icon nzType="arrow-right"></span>
         Continue with Sample Data
       </button>
 
-      <p *ngIf="selectedServiceName" class="t-explanation">
+      <p class="t-explanation">
         OR:<br>
         Follow the <a routerLink="/serviceSelection" fragment="download-instructions">download instructions below</a> to download your personal data as a ".zip"-file.<br>
-        Afterwards, input your ".zip"-file below and click 'Continue with personal data'.
+        Afterwards, click 'Continue with personal data' and input your ".zip"-file in the popup.
       </p>
 
-      <div *ngIf="selectedServiceName">
-        <div class="image-upload-wrap">
-          <input type="file" (change)="onFileSelected($event)" class="file-upload-input"  placeholder="Upload file" accept=".zip">
-          <div class="drag-text">
-            <h3>Drop file or click to choose your {{selectedServiceName}} data-download</h3>
-            <h5>Please input a ".zip"-file</h5>
-            <h5 *ngIf="selectedFileName.length > 0">Your selected file: {{selectedFileName}}</h5>
-          </div>
-        </div>
-
-        <button nz-button nzSize="large" nzType="primary" block="false" class="continue-btn" (click)="onClickedExploreSampleData()">
+      <div>
+        
+        <button nz-button nzSize="large" nzType="primary" block="false" class="icon-button continue-btn" (click)="openDataUploadDialog()">
           <span nz-icon nzType="arrow-right"></span>
           Continue with personal data
         </button>
         
-        <p class="t-explanation">     
-          This website works offline. You can switch into flight mode or disconnect from the internet before uploading your ".zip"-file.<br>
+        <p *ngIf="selectedServiceName" class="t-explanation">
+          This website works offline. You can switch into flight mode or disconnect from the internet before uploading your ".zip"-file.
         </p>
+
       </div>
     </div>
 
