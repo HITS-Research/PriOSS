@@ -75,6 +75,7 @@ export class ServiceSelectionComponent {
   //file upload
   uploadedFiles: File[] = [];
   selectedFileName: string = "";
+  uploadDialogVisible: boolean = false;
 
   progressBarPercent: number = 0;
   progressBarVisible: boolean = false;
@@ -189,6 +190,17 @@ export class ServiceSelectionComponent {
     console.log("ABORTING DATA-DOWNLOAD PARSING");
     await this.sqlDBService.rebuildDatabase();
     //this.router.navigate(["home"]);
+  }
+
+/**
+  * Callback called when pressing the X-button in the upload file dialog. 
+  *
+  * @author: Simon (scg@mail.upb.de)
+  *
+  */
+  async abortDataUpload() {
+    this.uploadedFiles = [];
+    this.uploadDialogVisible = false;
   }
 
   /*
@@ -327,6 +339,16 @@ export class ServiceSelectionComponent {
     
   }
 
+/**
+  * Callback that opens up the data upload dialog.
+  *
+  * @author: Simon (scg@mail.upb.de)
+  *
+  */
+  async openDataUploadDialog() {
+    this.uploadDialogVisible = true;
+  }
+
   /**
     * Event callback that is called when the user clicks the explore data button
     * This callback starts the process of parsing the datadownload by calling the parseFile method for the selected service
@@ -337,6 +359,7 @@ export class ServiceSelectionComponent {
   async onClickedExploreData() {
     console.log("Clicked explore data");
     this.isProcessingFile = true;
+    this.uploadDialogVisible = false;
     await this.parseFile(this.selectedServiceName);//TODO: get selected service's name
   }
 
