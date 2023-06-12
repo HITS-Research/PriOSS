@@ -2,7 +2,12 @@ import { Component, Input, OnInit} from '@angular/core';
 import { NgxIndexedDBService } from 'ngx-indexed-db';
 import * as d3 from 'd3';
 import { Router } from '@angular/router';
-
+import { FacebookAdsInteractedRepository } from 'src/app/db/data-repositories/facebook/fb_ads_data/face_ads_interacted.repo';
+import { AdsInteractedModel } from "src/app/models/Facebook/adsInteracted";
+import { FacebookAppsWebsitesRepository } from 'src/app/db/data-repositories/facebook/fb_ads_data/face_apps_websites.repo';
+import { AppsAndWebsitesModel } from 'src/app/models/Facebook/appsAndWebsites';
+import { FacebookOffFacebookActivityRepository } from 'src/app/db/data-repositories/facebook/fb_ads_data/face_off_facebook_activity.repo';
+import { OffFacebookActivityModel } from 'src/app/models/Facebook/offfacebookactivity';
   @Component({
     selector: 'app-ads-related-data',
     templateUrl: './ads-related-data.component.html',
@@ -10,6 +15,7 @@ import { Router } from '@angular/router';
   })
 
   export class AdsRelatedDataComponent implements OnInit {
+    
     @Input()
     previewMode: boolean = false;
     appNames: string[] = [];
@@ -27,33 +33,50 @@ import { Router } from '@angular/router';
     initiateCheckoutCount: number = 0;
     totalWebsites = 0;
     totalOffsiteInteractions = 0;
-    constructor(private dbService: NgxIndexedDBService, private router: Router) { }
-    ngOnInit(): void {
-      this.activateTab(this.defaultTabIndex);  
-      this.getData();
-  }
-   /**
-    * This method is responsible to activate the respective link based on clicked events.
-    * @author: Rishma (rishmamn@mail.uni-paderborn.de))
-    *
-    */
-  activateTab(tabIndex: number) {
-    if (tabIndex === 0) {
-      const types = ['PAGE_VIEW', 'VIEW_CONTENT'];
-      const chartId = 'bubble-chart-interactions';
+    totalOffsiteCheckoutActivities =0;
+    adsInteracted: AdsInteractedModel[] = [];
+    apps_websites: AppsAndWebsitesModel[] = [];
+    activeTab: number = 0;
+    off_facebook_activity: OffFacebookActivityModel[] = [];
+    constructor(private router: Router,private faceAdsInteractedRepo: FacebookAdsInteractedRepository,private faceAppsAndWebsitesRepo: FacebookAppsWebsitesRepository,
+      private faceOffFacebookActivityRepo: FacebookOffFacebookActivityRepository) { }
+      ngOnInit(): void {
+        this.loadTabContent();
+        this.getData();
+      }
+       /**
+      * This method is responsible toload the respective tabs.
+      * @author: Rishma (rishmamn@mail.uni-paderborn.de))
+      *
+      */
+      loadTabContent() {
+        this.activateTab(0);
+        this.activateTab(1);
+      }
+     /**
+      * This method is responsible to activate the respective link based on clicked events.
+      * @author: Rishma (rishmamn@mail.uni-paderborn.de))
+      *
+      */
+    activateTab(tabIndex: number) {
+      this.activeTab = tabIndex;
+      if (tabIndex === 0) {
+        const types = ['PAGE_VIEW', 'VIEW_CONTENT'];
+        const chartId = 'bubble-chart-interactions';
+        const yAxisLabel = 'Businesses or Organizations';
+        const xAxisLabel = 'Number of Interactions';
+        const title = 'Top 20 Interacted Applications';
+       this.generateBubbleChart(types, chartId, xAxisLabel, yAxisLabel, title,0);
+      }else if (tabIndex === 1) {
+      const types = ['INITIATE_CHECKOUT'];
+      const chartId = 'bubble-chart-purchase-tracking';
       const yAxisLabel = 'Businesses or Organizations';
-      const xAxisLabel = 'Number of Interactions';
-      const title = 'Top 20 Interacted Applications';
-     this.generateBubbleChart(types, chartId, xAxisLabel, yAxisLabel, title,0);
-    }else if (tabIndex === 1) {
-    const types = ['INITIATE_CHECKOUT'];
-    const chartId = 'bubble-chart-purchase-tracking';
-    const yAxisLabel = 'Businesses or Organizations';
-    const xAxisLabel = 'Number of Checkout Events';
-    const title = 'Top Apps with Most Checkout Events';
-    this.generateBubbleChart(types, chartId, xAxisLabel, yAxisLabel, title,1);
+      const xAxisLabel = 'Number of Checkout Events';
+      const title = 'Top Apps with Most Checkout Events';
+      this.generateBubbleChart(types, chartId, xAxisLabel, yAxisLabel, title,1);
+      }
     }
-  }
+  
 
     /**
     * This method is responsible to show the stored data from  the Indexed DB to the browser.
@@ -66,38 +89,42 @@ import { Router } from '@angular/router';
     *
     */
     async getData() {
-      this.dbService.getAll('face/ads_interacted').subscribe((ads_interacted_with: any) => {
-        for (let i = 0; i < ads_interacted_with.length; i++) {
-          const name = ads_interacted_with[i].title;
+      this.faceAdsInteractedRepo.getAllFaceAdsInteracted().then((ads_interacted_with) => {
+        this.adsInteracted = ads_interacted_with;
+        for (let i = 0; i < this.adsInteracted.length; i++) {
+          const name = this.adsInteracted[i].title;
           this.adNames.push(name);
 
-          if (ads_interacted_with[i].action === 'Clicked ad') {
+          if (this.adsInteracted[i].action === 'Clicked ad') {
             this.totalCountClickedAds++;
           }
         }
       });
-      this.dbService.getAll('face/apps_websites').subscribe((apps_websites: any) => {
+      this.faceAppsAndWebsitesRepo.getAllFaceAppsAndWebsites().then((apps_websites) => {
+        this.apps_websites = apps_websites;
+        const category = this.apps_websites[0].category;
         if (apps_websites.length !== 0) {
           for (let app of apps_websites) {
-            if (app.category === 'inactive') {
+            if (category === 'inactive') {
               //display unique apps checking the category and name
-              if (!this.appsByCategory.inactive.includes(app.name)) {
+              if (!category.includes(app.name)) {
                 this.appsByCategory.inactive.push(app.name);
                 this.inActiveWebsite++;
               }
-            } else if (app.category === 'active') {
-              if (!this.appsByCategory.active.includes(app.name)) {
+            } else if (category === 'active') {
+              if (!category.includes(app.name)) {
                 this.appsByCategory.active.push(app.name);
                 this.activeWebsite++;
               }
-            } else if (app.category === 'removed') {
-              if (!this.appsByCategory.removed.includes(app.name)) {
+            } else if (category === 'removed') {
+              if (!category.includes(app.name)) {
                 this.appsByCategory.removed.push(app.name);
                 this.removedWebsite++;
               }
             }
           }
         }
+        this.totalWebsites =  this.inActiveWebsite + this.activeWebsite + this.removedWebsite;
       });
     }
 
@@ -106,70 +133,65 @@ import { Router } from '@angular/router';
     * 
     *  on the interactions with the most viewed applications. 
     *
-    * @author: Rishma (rishmamn@mail.uni-paderborn.de))
+    * @author: Rishma (rishmamn@mail.uni-paderborn.de)
     *
     */
-    generateBubbleChart(types: string[], chartId: string, xAxisLabel: string, yAxisLabel: string,title:string,selectedTab:any): void {
-      this.dbService.getAll('face/off_facebook_activity').subscribe((apps: any) => {
-        if (apps.length !== 0) {
+    generateBubbleChart(types: string[], chartId: string, xAxisLabel: string, yAxisLabel: string, title: string,selectedTab : number): void {
+      this.faceOffFacebookActivityRepo.getAllOffFacebookActivity().then((apps) => {
+        this.off_facebook_activity = apps;
+        if (this.off_facebook_activity.length !== 0) {
           const appCounts: { [key: string]: { [key: string]: number } } = {};
-          for (let i = 0; i < apps.length; i++) {
-            const app = apps[i];
+
+          for (let i = 0; i < this.off_facebook_activity.length; i++) {
+            const app = this.off_facebook_activity[i];
             const appName = app.name;
             const events = app.events;
-    
-            // Check if the app has the selected types based on the selected tab
-            for (let j = 0; j < events.length; j++) {
-              const eventType = events[j].type;
-              if (selectedTab === 0 && (eventType === 'PAGE_VIEW' || eventType === 'VIEW_CONTENT')) {
-                // Initialize the app count if it doesn't exist
-                if (!appCounts[appName]) {
-                  appCounts[appName] = {
-                    PAGE_VIEW: 0,
-                    VIEW_CONTENT: 0,
-                  };
+            const eventType = app.type;
+
+            if (types.includes(eventType)) {
+              // Initialize the app count if it doesn't exist
+              if (!appCounts[appName]) {
+                appCounts[appName] = {
+                  PAGE_VIEW: 0,
+                  VIEW_CONTENT: 0,
+                  INITIATE_CHECKOUT: 0
+                };
+              }
+            
+              for (let j = 0; j < events.length; j++) {
+                const event = events[j];
+                if ((selectedTab === 0) && (eventType === 'PAGE_VIEW' || eventType === 'VIEW_CONTENT')) {
+                  appCounts[appName][eventType] += 1;
+                  this.totalOffsiteInteractions += 1; // Increment the total offsite interactions count
+                } else if ((selectedTab === 1) && eventType === 'INITIATE_CHECKOUT') {
+                  appCounts[appName][eventType] += 1;
+                  this.totalOffsiteCheckoutActivities += 1; 
+                  // Increment the total offsite checkout activities count
                 }
-    
-                // Increment the app count for the event type
-                appCounts[appName][eventType] += 1;
-              } else if (selectedTab === 1 && eventType === 'INITIATE_CHECKOUT') {
-                // Initialize the app count if it doesn't exist
-                if (!appCounts[appName]) {
-                  appCounts[appName] = {
-                    INITIATE_CHECKOUT: 0
-                  };
-                }
-    
-                // Increment the app count for the event type
-                appCounts[appName][eventType] += 1;
-                this.totalOffsiteInteractions += 1;
               }
             }
           }
-          // Convert the appCounts object into an array of objects and calculate total counts
-          const appCountsArray = Object.entries(appCounts).map(([appName, counts]) => {
-            const pageViewViewContentCount = counts['PAGE_VIEW'] + counts['VIEW_CONTENT'];
-            const initiateCheckoutCount = counts['INITIATE_CHECKOUT'];
-            const totalCount = selectedTab === 0 ? pageViewViewContentCount : initiateCheckoutCount;
-    
-            return {
-              appName,
-              pageViewViewContentCount,
-              initiateCheckoutCount,
-              totalCount
-            };
-          }).sort((a, b) => b.totalCount - a.totalCount);
-          Object.entries(appCounts).forEach(([appName, counts]) => {
-            this.pageViewViewContentCount += counts['PAGE_VIEW'] + counts['VIEW_CONTENT'];
-            this.initiateCheckoutCount += counts['INITIATE_CHECKOUT'];
-          });
-          console.log("pp",this.pageViewViewContentCount)
-          console.log("ii",this.initiateCheckoutCount)
-    
-          const topApps = appCountsArray.slice(0, 20);
+
+          console.log("totalsite", this.totalOffsiteInteractions)
+          console.log("totalsite", this.totalOffsiteCheckoutActivities)
+            // Convert the appCounts object into an array of objects and calculate total counts
+             const appCountsArray = Object.entries(appCounts).map(([appName, counts]) => {
+              const pageViewViewContentCount = counts['PAGE_VIEW'] + counts['VIEW_CONTENT'];
+              const initiateCheckoutCount = counts['INITIATE_CHECKOUT'];
+              const totalCount = selectedTab === 0 ? pageViewViewContentCount : initiateCheckoutCount;
+            
+              return {
+                appName,
+                pageViewViewContentCount,
+                initiateCheckoutCount,
+                totalCount
+              };
+            }).sort((a, b) => b.totalCount - a.totalCount);
+            
+            const topApps = appCountsArray.slice(0, 20);
+            
 
     // Remove old bubble chart
-    d3.select(`#${chartId}`).selectAll("*").remove();
     let margin = 10;
     let leftmargin = 330;
     let rightMargin = 80; // Adjust the right margin value
@@ -304,12 +326,11 @@ import { Router } from '@angular/router';
     d3.select("#count-label").remove();
   });
 
-
       }
       });
     } 
  
-      /**
+   /**
   * This method is responsible to navigate to off-facebook activity guidelines  
   *
   * @author: Mukul (mukuls@mail.uni-paderborn.de)
@@ -317,5 +338,14 @@ import { Router } from '@angular/router';
   */
   navigateToRectification(){
     this.router.navigate(['face/configure-off-facebook-activity']);
+  }
+/**
+  * This method is responsible to navigate to apps and websites page.  
+  *
+  * @author: Rishma (rishmamn@mail.uni-paderborn.de)
+  *
+  */
+  redirectToFacebookSettings() {
+    window.open('https://www.facebook.com/settings?tab=applications', '_blank');
   }
 }

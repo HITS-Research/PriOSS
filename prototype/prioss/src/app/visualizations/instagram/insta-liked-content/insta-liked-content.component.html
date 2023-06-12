@@ -16,7 +16,102 @@
   <div *ngIf="!previewMode">
     <div>
       <app-title-bar titleText="Liked Comments" tooltipText="This bar chart shows the liked comments that was collected by Instagram."></app-title-bar>
-      <div>
+      <nz-card style="width:100%;">
+        <nz-tabset nzType="card">
+          <nz-tab nzTitle="Graph representation">
+            <p nz-typography>
+              The following graph visualizes top 10 comments and posts liked by you.
+            </p>
+
+            <!-- <strong>Selected Area: </strong> -->
+            <!-- <nz-tag *ngFor="let tag of graphOptions" nzMode="checkable"
+                [nzChecked]="selectedTags.indexOf(tag) > -1" (nzCheckedChange)="handleChange($event, tag)">
+                {{ tag }}
+            </nz-tag> -->
+            
+            <div class="liked_contents">
+              <div class="bar_chart_liked_comments"></div>
+              <div class="bar_chart_liked_posts"></div>
+            </div>
+          </nz-tab>
+          <nz-tab nzTitle="Liked Comments List">
+            <ng-template nz-tab>
+              <nz-demo-tab-content-lazy>
+                <!-- If Liked Comments Data present -->
+                <div *ngIf="liked_comments?.length">
+                    <nz-table [nzData]="liked_comments" [nzPageSize]="10"
+                        [nzPageIndex]="liked_comments_pageindex"
+                        (nzPageIndexChange)="on_liked_comments_page_change($event)">
+                        <thead>
+                            <tr>
+                                <th>Username</th>
+                                <th>Date</th>
+                                <th>Comment URL</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let like_comment of sliced_liked_comments_data">
+                                <td>{{ like_comment.user }}</td>
+                                <td>{{ like_comment.timestamp }}</td>
+                                <td>
+                                  <span nz-icon nzType="link">
+                                    <a target="_blank" href={{like_comment.href_link}}>
+                                      Link
+                                    </a>
+                                  </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </nz-table>
+                </div>
+                <!-- If No Follower Data present -->
+                <div *ngIf="liked_comments?.length === 0">
+                    <nz-empty nzNotFoundImage="simple"></nz-empty>
+                </div>
+              </nz-demo-tab-content-lazy>
+            </ng-template>
+          </nz-tab>
+          <nz-tab nzTitle="Liked Posts List">
+            <ng-template nz-tab>
+              <nz-demo-tab-content-lazy>
+                <!-- If Liked Posts Data present -->
+                <div *ngIf="liked_posts?.length">
+                    <nz-table [nzData]="liked_posts" [nzPageSize]="10"
+                        [nzPageIndex]="liked_posts_pageindex"
+                        (nzPageIndexChange)="on_liked_posts_page_change($event)">
+                        <thead>
+                            <tr>
+                                <th>Username</th>
+                                <th>Date</th>
+                                <th>Post URL</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let liked_post of sliced_liked_posts_data">
+                                <td>{{ liked_post.user }}</td>
+                                <td>{{ liked_post.timestamp }}</td>
+                                <td>
+                                  <span nz-icon nzType="link">
+                                    <a target="_blank" href={{liked_post.href_link}}>
+                                      Link
+                                    </a>
+                                  </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </nz-table>
+                </div>
+                <!-- If No Follower Data present -->
+                <div *ngIf="liked_posts?.length === 0">
+                    <nz-empty nzNotFoundImage="simple"></nz-empty>
+                </div>
+              </nz-demo-tab-content-lazy>
+            </ng-template>
+          </nz-tab>
+        </nz-tabset>
+      </nz-card>
+      
+      <!-- <div>
         User:
         <nz-select style="width: 180px;"[(ngModel)]="selectedUserForComments"  (ngModelChange)="onUserChangeForComment()">
           <nz-option *ngFor="let user of userListForComments" [nzValue]="user" [nzLabel]="user"></nz-option>
@@ -27,9 +122,9 @@
         <nz-date-picker [(ngModel)]="filterToDateForComments" (ngModelChange)="onDateFilterChangeForComment()"></nz-date-picker>
         <div class="bar_chart_liked_comments"></div>
       </div>
-    </div>
+    </div> -->
 
-    <div>
+    <!-- <div>
       <app-title-bar titleText="Liked Posts" tooltipText="This bar chart shows the liked posts that was collected by Instagram." [includeButton]="false"></app-title-bar>
       <div>
         User:
@@ -42,7 +137,7 @@
         <nz-date-picker [(ngModel)]="filterToDateForPosts" (ngModelChange)="onDateFilterChangeForPost()"></nz-date-picker>
         <div class="bar_chart_liked_posts"></div>
       </div>
-    </div>
+    </div> -->
     
   </div>
 </div>

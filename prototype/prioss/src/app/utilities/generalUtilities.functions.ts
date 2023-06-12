@@ -131,3 +131,18 @@ export function getObjectPairsNotNull(obj: object): [string, any][] {
 export function capitalize(str: string) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
+
+/**
+   * This method slice a dataset for the tables in 10 entrys per page
+   *
+   * @param data the dataset that sould be sliced
+   * @param currentPage the current page of the dataset
+   * @returns the sliced data
+   * 
+   * @author: Melina (kleber@mail.uni-paderborn.de)
+   */
+export function getSlicedData(data: Array<any>, currentPage: number) {
+  const start = (currentPage - 1) * 10;
+  const end = start + 10;
+  return data.slice(start, end);
+}
