@@ -39,10 +39,7 @@ export class InstaLikedContentComponent extends SequenceComponentInit {
   liked_posts_amount: number=0;
 
   liked_comments: InstaLikedCommentsInfo[] = [];
-  liked_comments_pageindex = 1;
-
   liked_posts: InstaLikedPostsInfo[] = [];
-  liked_posts_pageindex = 1;
 
   filterFromDateForComments: Date | null;
   filterToDateForComments: Date | null;
@@ -344,21 +341,5 @@ export class InstaLikedContentComponent extends SequenceComponentInit {
       }
     });
     return maxCount;
-  }
-
-  get sliced_liked_comments_data() {
-    return generalUtils.getSlicedData(this.liked_comments, this.liked_comments_pageindex);
-  }
-
-  on_liked_comments_page_change(event: any) {
-    this.liked_comments_pageindex = event;
-  }
-
-  get sliced_liked_posts_data() {
-    return generalUtils.getSlicedData(this.liked_posts, this.liked_posts_pageindex);
-  }
-
-  on_liked_posts_page_change(event: any) {
-    this.liked_posts_pageindex = event;
   }
 }

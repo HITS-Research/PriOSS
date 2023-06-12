@@ -48,25 +48,24 @@
                         <nz-demo-tab-content-lazy>
                             <!-- If Ads Activity Data present -->
                             <div *ngIf="ads_activity?.length">
-                                <nz-table [nzData]="ads_activity" [nzPageSize]="10"
-                                    [nzPageIndex]="ads_activity_pageindex"
-                                    (nzPageIndexChange)="on_ads_activity_page_change($event)">
-                                        <thead>
-                                            <tr>
-                                                <th>Advertiser Name</th>
-                                                <th>Has Data file custom audience</th>
-                                                <th>Has in person store visit</th>
-                                                <th>Has remarketing custom audience</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr *ngFor="let ad_activity of sliced_ads_activity_data">
-                                                <td>{{ ad_activity.advertiserName }}</td>
-                                                <td>{{ ad_activity.has_data_file_custom_audience }}</td>
-                                                <td>{{ ad_activity.has_in_person_store_visit }}</td>
-                                                <td>{{ ad_activity.has_remarketing_custom_audience }}</td>
-                                            </tr>
-                                        </tbody>
+                                <p>The below displays the advertisement activity performed by you on your Instagram account.</p>
+                                <nz-table [nzData]="ads_activity" #adsActivityTable>
+                                    <thead>
+                                        <tr>
+                                            <th>Advertiser Name</th>
+                                            <th>Has Data file custom audience</th>
+                                            <th>Has in person store visit</th>
+                                            <th>Has remarketing custom audience</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let ad_activity of adsActivityTable.data">
+                                            <td>{{ ad_activity.advertiserName }}</td>
+                                            <td>{{ ad_activity.has_data_file_custom_audience }}</td>
+                                            <td>{{ ad_activity.has_in_person_store_visit }}</td>
+                                            <td>{{ ad_activity.has_remarketing_custom_audience }}</td>
+                                        </tr>
+                                    </tbody>
                                 </nz-table>
                             </div>
                             <!-- If No Ads Activity Data present -->
@@ -81,16 +80,15 @@
                         <nz-demo-tab-content-lazy>
                             <!-- If Ads Clicked Data present -->
                             <div *ngIf="ads_clicked?.length">
-                                <nz-table [nzData]="ads_clicked" [nzPageSize]="10"
-                                    [nzPageIndex]="ads_clicked_pageindex"
-                                    (nzPageIndexChange)="on_ads_clicked_page_change($event)">
+                                <p>The below displays the advertisement clicked by you on your Instagram account.</p>
+                                <nz-table [nzData]="ads_clicked" #adsClickedTable>
                                         <thead>
                                             <tr>
                                                 <th>Title</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr *ngFor="let ad_clicked of sliced_ads_clicked_data">
+                                            <tr *ngFor="let ad_clicked of adsClickedTable.data">
                                                 <td>{{ ad_clicked.title }}</td>
                                             </tr>
                                         </tbody>
@@ -108,16 +106,15 @@
                         <nz-demo-tab-content-lazy>
                             <!-- If Ads Interest Data present -->
                             <div *ngIf="ads_interests?.length">
-                                <nz-table [nzData]="ads_interests" [nzPageSize]="10"
-                                    [nzPageIndex]="ads_interests_pageindex"
-                                    (nzPageIndexChange)="on_ads_interests_page_change($event)">
+                                <p>The below displays the advertisement interests inferred by Instagram.</p>
+                                <nz-table [nzData]="ads_interests" #adsInterestsTable>
                                         <thead>
                                             <tr>
                                                 <th>Interest</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr *ngFor="let ad_interests of sliced_ads_interests_data">
+                                            <tr *ngFor="let ad_interests of adsInterestsTable.data">
                                                 <td>{{ ad_interests.interest }}</td>
                                             </tr>
                                         </tbody>
@@ -135,16 +132,15 @@
                         <nz-demo-tab-content-lazy>
                             <!-- If Ads Viewed Data present -->
                             <div *ngIf="ads_viewed?.length">
-                                <nz-table [nzData]="ads_viewed" [nzPageSize]="10"
-                                    [nzPageIndex]="ads_viewed_pageindex"
-                                    (nzPageIndexChange)="on_ads_viewed_page_change($event)">
+                                <p>The below displays the advertisement viewed by you on your Instagram account.</p>
+                                <nz-table [nzData]="ads_viewed" #adsViewedTable>
                                         <thead>
                                             <tr>
                                                 <th>Title</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr *ngFor="let ad_viewed of sliced_ads_viewed_data">
+                                            <tr *ngFor="let ad_viewed of adsViewedTable.data">
                                                 <td>{{ ad_viewed.title }}</td>
                                             </tr>
                                         </tbody>

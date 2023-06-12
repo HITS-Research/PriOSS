@@ -35,11 +35,6 @@ export class InstaAdsComponent extends SequenceComponentInit{
   ads_interests: InstaAdsInterestInfo[] = [];
   ads_viewed: InstaAdsViewedInfo[] = [];
 
-  ads_activity_pageindex = 1;
-  ads_clicked_pageindex = 1;
-  ads_interests_pageindex = 1;
-  ads_viewed_pageindex = 1;
-
   constructor(private instaAdsActivityRepo: InstaAdsActivityRepository,
     private instaAdsClickedRepo: InstaAdsClickedRepository,
     private instaAdsInterestRepo: InstaAdsInterestRepository,
@@ -89,85 +84,4 @@ export class InstaAdsComponent extends SequenceComponentInit{
       this.ads_viewed = ads_viewed
     }
   }
-
-  /**
-   * This method returns the sliced data based on page number
-   * 
-   * @author Mayank (mayank@mail.upb.de)
-   */
-  get sliced_ads_activity_data() {
-    return generalUtils.getSlicedData(this.ads_activity, this.ads_activity_pageindex);
-  }
-
-  /**
-   * This method returns the sliced data based on page number
-   * 
-   * @author Mayank (mayank@mail.upb.de)
-   */
-  get sliced_ads_clicked_data() {
-    return generalUtils.getSlicedData(this.ads_clicked, this.ads_clicked_pageindex);
-  }
-
-  /**
-   * This method returns the sliced data based on page number
-   * 
-   * @author Mayank (mayank@mail.upb.de)
-   */
-  get sliced_ads_interests_data() {
-    return generalUtils.getSlicedData(this.ads_interests, this.ads_interests_pageindex);
-  }
-
-  /**
-   * This method returns the sliced data based on page number
-   * 
-   * @author Mayank (mayank@mail.upb.de)
-   */
-  get sliced_ads_viewed_data() {
-    return generalUtils.getSlicedData(this.ads_viewed, this.ads_viewed_pageindex);
-  }
-
-  /**
-   * This method changes the page number based on user selection
-   * 
-   * @param event The event of page number change
-   * 
-   * @author Mayank (mayank@mail.upb.de)
-   */
-  on_ads_activity_page_change(event: any) {
-    this.ads_activity_pageindex = event;
-  }
-
-  /**
-   * This method changes the page number based on user selection
-   * 
-   * @param event The event of page number change
-   * 
-   * @author Mayank (mayank@mail.upb.de)
-   */
-  on_ads_clicked_page_change(event: any) {
-    this.ads_clicked_pageindex = event;
-  }
-
-   /**
-   * This method changes the page number based on user selection
-   * 
-   * @param event The event of page number change
-   * 
-   * @author Mayank (mayank@mail.upb.de)
-   */
-   on_ads_interests_page_change(event: any) {
-    this.ads_interests_pageindex = event;
-  }
-
-   /**
-   * This method changes the page number based on user selection
-   * 
-   * @param event The event of page number change
-   * 
-   * @author Mayank (mayank@mail.upb.de)
-   */
-   on_ads_viewed_page_change(event: any) {
-    this.ads_viewed_pageindex = event;
-  }
-
 }
