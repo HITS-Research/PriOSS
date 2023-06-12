@@ -783,14 +783,14 @@ export class ServiceSelectionComponent {
         await this.instaLikedCommentsRepo.startLikedCommentsBulkAdd(
           likedComments[0].title, 
           likedComments[0].string_list_data[0].href, 
-          likedComments[0].string_list_data[0].timestamp, 
+          utilities.convertTimestamp(likedComments[0].string_list_data[0].timestamp), 
           likedComments.length);
         
         for (let i = 1; i < likedComments.length; i++) {
           await this.instaLikedCommentsRepo.addLikedCommentsBulkEntry(
             likedComments[i].title,
             likedComments[i].string_list_data[0].href,
-            likedComments[i].string_list_data[0].timestamp);
+            utilities.convertTimestamp(likedComments[i].string_list_data[0].timestamp));
         }
       }
       else if (filename.startsWith("liked_posts")) {
@@ -800,14 +800,14 @@ export class ServiceSelectionComponent {
         await this.instaLikedPostsRepo.startLikedPostsBulkAdd(
           likedPosts[0].title, 
           likedPosts[0].string_list_data[0].href, 
-          likedPosts[0].string_list_data[0].timestamp, 
+          utilities.convertTimestamp(likedPosts[0].string_list_data[0].timestamp), 
           likedPosts.length);
         
         for (let i = 1; i < likedPosts.length; i++) {
           await this.instaLikedPostsRepo.addLikedPostsBulkEntry(
             likedPosts[i].title,
             likedPosts[i].string_list_data[0].href,
-            likedPosts[i].string_list_data[0].timestamp);
+            utilities.convertTimestamp(likedPosts[i].string_list_data[0].timestamp));
         }
       }
       else if (filename.startsWith('synced_contacts')) {
