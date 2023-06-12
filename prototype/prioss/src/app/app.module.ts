@@ -85,6 +85,7 @@ import { FaqComponent } from './info-pages/faq/faq.component';
 import { FacebookAdsInteractedRepository } from './db/data-repositories/facebook/fb_ads_data/face_ads_interacted.repo';
 import { FacebookAppsWebsitesRepository } from './db/data-repositories/facebook/fb_ads_data/face_apps_websites.repo';
 import { FacebookOffFacebookActivityRepository } from './db/data-repositories/facebook/fb_ads_data/face_off_facebook_activity.repo';
+import { KnownIssuesComponent } from './info-pages/known-issues/known-issues.component';
 
 registerLocaleData(de);
 
@@ -335,7 +336,8 @@ const dbConfig: DBConfig  =
     HelpButtonComponent,
     OffFacebookActivityComponent,
     OfflineIndicatorComponent,
-    TitleBarComponent
+    TitleBarComponent,
+    KnownIssuesComponent
   ],
   imports: [
     BrowserModule,

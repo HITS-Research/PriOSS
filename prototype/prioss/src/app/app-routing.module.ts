@@ -25,10 +25,12 @@ import { OffFacebookActivityComponent } from './rectification/facebook/off-faceb
 import { InstaFollowersComponent } from './visualizations/instagram/insta-followers/insta-followers.component';
 import { InstaContactComponent } from './visualizations/instagram/insta-contact/insta-contact.component';
 import { FaqComponent } from './info-pages/faq/faq.component';
+import { KnownIssuesComponent } from './info-pages/known-issues/known-issues.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: LandingComponent },
+  { path: 'known-issues', component: KnownIssuesComponent },
   { path: 'about', component: AboutComponent },
   { path: 'contact', component: ContactComponent },
   { path: 'faq', component: FaqComponent },
