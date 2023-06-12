@@ -50,7 +50,7 @@ export const selectLikedCommentsWithCountSQL: string = `
  from insta_liked_comments
  group by user
  having (count(user) > 0)
- order by count(user) desc;
+ order by count(user) desc  LIMIT 10;
 `;
 
 export const getFirstDateForLikedCommentsSQL: string = `
@@ -69,7 +69,7 @@ export const filterLikedCommentBasedOnStartAndEndDateSQL: string = `
  where (? <= strftime('%Y-%m-%d', datetime(timestamp, 'unixepoch')) and strftime('%Y-%m-%d', datetime(timestamp, 'unixepoch')) <= ?)
  group by user
  having (count(user) > 0)
- order by count(user) desc;
+ order by count(user) desc  LIMIT 10;
 `;
 
 export const filterLikedCommentBasedOnUserAndStartAndEndDateSQL: string = `
@@ -78,7 +78,7 @@ export const filterLikedCommentBasedOnUserAndStartAndEndDateSQL: string = `
  where (? <= strftime('%Y-%m-%d', datetime(timestamp, 'unixepoch')) and strftime('%Y-%m-%d', datetime(timestamp, 'unixepoch')) <= ?) AND user == ?
  group by user
  having (count(user) > 0)
- order by count(user) desc;
+ order by count(user) desc  LIMIT 10;
 `;
 
 export const selectLikedPostsSQL: string = `
@@ -90,7 +90,7 @@ export const selectLikedPostsWithCountSQL: string = `
  from insta_liked_posts
  group by user
  having (count(user) > 0)
- order by count(user) desc;
+ order by count(user) desc LIMIT 10;
 `;
 
 export const getFirstDateForLikedPostsSQL: string = `
@@ -109,7 +109,7 @@ export const filterLikedPostsBasedOnStartAndEndDateSQL: string = `
  where (? <= strftime('%Y-%m-%d', datetime(timestamp, 'unixepoch')) and strftime('%Y-%m-%d', datetime(timestamp, 'unixepoch')) <= ?)
  group by user
  having (count(user) > 0)
- order by count(user) desc;
+ order by count(user) desc  LIMIT 10;
 `;
 
 export const filterLikedPostsBasedOnUserAndStartAndEndDateSQL: string = `
@@ -118,5 +118,5 @@ export const filterLikedPostsBasedOnUserAndStartAndEndDateSQL: string = `
  where (? <= strftime('%Y-%m-%d', datetime(timestamp, 'unixepoch')) and strftime('%Y-%m-%d', datetime(timestamp, 'unixepoch')) <= ?) AND user == ?
  group by user
  having (count(user) > 0)
- order by count(user) desc;
+ order by count(user) desc  LIMIT 10;
 `;

@@ -2,6 +2,8 @@ import { Injectable } from "@angular/core";
 import { DBService } from "../../../../services/db/db.service";
 import { BulkAddCapableRepository } from "../../general/inferences/bulk-add-capable.repository";
 import * as sql from "./face_off_facebook_activity.sql";
+import { OffFacebookActivityModel } from "src/app/models/Facebook/offfacebookactivity";
+import { SQLiteDBConnection } from "@capacitor-community/sqlite";
 
 
 /**
@@ -29,8 +31,8 @@ export class FacebookOffFacebookActivityRepository extends BulkAddCapableReposit
      *
      * @author: Deepa (dbelvi@mail.upb.de)
      */
-    async startAdActivityBulkAdd(name: string, events: string, id: string, type: string, timestamp: string, totalRowCount: number, targetBulkSize: number = 500) {
-        this.startBulkAdd([name, events, id, type, timestamp], totalRowCount, targetBulkSize);
+    async startAdActivityBulkAdd(name: string, events: string, type: string, totalRowCount: number, targetBulkSize: number = 500) {
+        this.startBulkAdd([name, events, type], totalRowCount, targetBulkSize);
     }
 
     /**
@@ -38,7 +40,20 @@ export class FacebookOffFacebookActivityRepository extends BulkAddCapableReposit
      * 
      * @author: Deepa (dbelvi@mail.upb.de)
      */
-    async addAdActivityBulkEntry(name: string, events: string, id: string, type: string, timestamp: string) : Promise<void> {
-        return this.addBulkEntry([name, events, id, type, timestamp]);
+    async addAdActivityBulkEntry(name: string, events: string,  type: string) : Promise<void> {
+        return this.addBulkEntry([name, events, type]);
     }
+     /**
+     * This async method fetches all entries from the off facebook activity  table.
+     * 
+     * @author: @author: rishmamn@campus.uni-paderborn.de
+     * 
+     */
+     async getAllOffFacebookActivity() : Promise<OffFacebookActivityModel[]> {
+        return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
+    
+          let result = await db.query(sql.selectAllFaceOffFacebookActivity);
+          return result.values as OffFacebookActivityModel[];
+        });
+      }
 }
