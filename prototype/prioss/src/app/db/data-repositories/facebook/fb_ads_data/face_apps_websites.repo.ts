@@ -2,6 +2,8 @@ import { Injectable } from "@angular/core";
 import { DBService } from "../../../../services/db/db.service";
 import { BulkAddCapableRepository } from "../../general/inferences/bulk-add-capable.repository";
 import * as sql from "./face_apps_websites.sql";
+import { AppsAndWebsitesModel } from "src/app/models/Facebook/appsAndWebsites";
+import { SQLiteDBConnection } from "@capacitor-community/sqlite";
 
 
 /**
@@ -28,7 +30,7 @@ export class FacebookAppsWebsitesRepository extends BulkAddCapableRepository {
      *
      * @author: Deepa (dbelvi@mail.upb.de)
      */
-    async startAdActivityBulkAdd(name: string, added_timestamp: string, user_app_scoped_id: string, category: string, removed_timestamp: string, totalRowCount: number, targetBulkSize: number = 500) {
+    async startAdActivityBulkAdd(name: string, added_timestamp: number, user_app_scoped_id: number, category: string, removed_timestamp: number, totalRowCount: number, targetBulkSize: number = 500) {
         this.startBulkAdd([name, added_timestamp, user_app_scoped_id, category, removed_timestamp], totalRowCount, targetBulkSize);
     }
 
@@ -37,7 +39,21 @@ export class FacebookAppsWebsitesRepository extends BulkAddCapableRepository {
      * 
      * @author: Deepa (dbelvi@mail.upb.de)
      */
-    async addAdActivityBulkEntry(name: string, added_timestamp: string, user_app_scoped_id: string, category: string, removed_timestamp: string) : Promise<void> {
+    async addAdActivityBulkEntry(name: string, added_timestamp: number, user_app_scoped_id: number, category: string, removed_timestamp: number) : Promise<void> {
         return this.addBulkEntry([name, added_timestamp, user_app_scoped_id, category, removed_timestamp]);
     }
+
+     /**
+     * This async method fetches all entries from the off facebook apps and websites  table.
+     * 
+     * @author: @author: rishmamn@campus.uni-paderborn.de
+     * 
+     */
+     async getAllFaceAppsAndWebsites() : Promise<AppsAndWebsitesModel[]> {
+        return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
+    
+          let result = await db.query(sql.selectAllFaceAppsAndWebsites);
+          return result.values as AppsAndWebsitesModel[];
+        });
+      }
 }

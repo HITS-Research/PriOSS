@@ -27,3 +27,10 @@ select ?, ?, ?
 export const bulkAddValueConnector: string = `
 union all
 `;
+export const selectAllFaceAdsInteracted: string = `
+ select id,
+        title,
+        action,
+        timestamp
+  from face_ads_interacted;
+`;
