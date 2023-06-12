@@ -72,6 +72,7 @@ import { InstaAdsClickedRepository } from './db/data-repositories/instagram/inst
 import { InstaAdsViewedRepository } from './db/data-repositories/instagram/insta-ads/insta-ads-viewed.repository';
 import { InstaUserSearchesRepository } from './db/data-repositories/instagram/insta-searches/insta-user-searches.repository';
 import { InstaKeywordSearchesRepository } from './db/data-repositories/instagram/insta-searches/insta-keyword-searches.repository';
+import { InstaTagSearchesRepository } from './db/data-repositories/instagram/insta-searches/insta-tag-searches.repository';
 import { InstaSignUpRepository } from './db/data-repositories/instagram/insta-accountcreation-login/insta-signup.repository';
 import { InstaLikedCommentsRepository } from './db/data-repositories/instagram/insta-liked-content/insta-likedcomments.repository';
 import { InstaLikedPostsRepository } from './db/data-repositories/instagram/insta-liked-content/insta-likedposts.repository';
@@ -394,6 +395,7 @@ const dbConfig: DBConfig  =
     UserdataRepository,
     InstaUserSearchesRepository,
     InstaKeywordSearchesRepository,
+    InstaTagSearchesRepository,
     InferredTopicsRepository,
     FacebookAdsInteractedRepository,
     FacebookAppsWebsitesRepository,

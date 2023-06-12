@@ -1,7 +1,9 @@
 import { Injectable } from "@angular/core";
 import { DBService } from "../../../../services/db/db.service";
+import { SQLiteDBConnection, capSQLiteChanges } from "@capacitor-community/sqlite";
 import { BulkAddCapableRepository } from "../../general/inferences/bulk-add-capable.repository";
 import * as sql from "./insta-keyword-search.sql";
+import { InstaKeywordSearch } from "src/app/models/Instagram/Searches/InstaKeywordSearch";
 
 
 /**
@@ -40,5 +42,21 @@ export class InstaKeywordSearchesRepository extends BulkAddCapableRepository {
      */
     async addKeywordSearchBulkEntry(search: string, timestamp: string) : Promise<void> {
         return this.addBulkEntry([search, timestamp]);
+    }
+
+    /**
+     * This async method selects all entries from the insta_keyword_searches table
+     * 
+     * @returns an array of InstaKeywordSearches
+     * 
+     * @author: Paul (pasch@mail.upb.de)
+     */
+    async getKeywordSearches(): Promise<InstaKeywordSearch[]>
+    {
+        return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
+
+            let result = await db.query(sql.selectAllFromInstaKeywordSearches);
+            return result.values as InstaKeywordSearch[];
+        });
     }
 }

@@ -1,1 +1,115 @@
-<p>insta-searches works!</p>
+<div [ngClass]="{'component-page': !previewMode}">
+    <div *ngIf="previewMode">
+        <nz-row [nzGutter]="16">
+            <nz-col [nzSpan]="12">
+            <nz-statistic [nzValue]="(userSearches.length)!" [nzTitle]="'Number of User Searches'"></nz-statistic>
+            </nz-col>
+            <nz-col [nzSpan]="12">
+            <nz-statistic [nzValue]="(keywordSearches.length)!" [nzTitle]="'Number of Keyword Searches'"></nz-statistic>
+            </nz-col>
+        </nz-row>
+        <nz-row [nzGutter]="16">
+            <nz-col [nzSpan]="12">
+                <nz-statistic [nzValue]="(tagSearches.length)!" [nzTitle]="'Number of Tag Searches'"></nz-statistic>
+            </nz-col>
+        </nz-row>
+    </div>
+
+    <div *ngIf="!previewMode">
+        <app-title-bar titleText="Highlights" tooltipText="This are some important entrys in your data download regarding your searches."></app-title-bar>
+        <nz-row [nzGutter]="16">
+            <nz-col [nzSpan]="12">
+            <nz-statistic [nzValue]="(userSearches.length)!" [nzTitle]="'Number of User Searches'"></nz-statistic>
+            </nz-col>
+            <nz-col [nzSpan]="12">
+            <nz-statistic [nzValue]="(keywordSearches.length)!" [nzTitle]="'Number of Keyword Searches'"></nz-statistic>
+            </nz-col>
+        </nz-row>
+        <nz-row [nzGutter]="16">
+            <nz-col [nzSpan]="12">
+                <nz-statistic [nzValue]="(tagSearches.length)!" [nzTitle]="'Number of Tag Searches'"></nz-statistic>
+            </nz-col>
+        </nz-row>
+        <br>
+
+        <app-title-bar titleText="Searches" tooltipText="This site shows all the different searches of the instagram user." [includeButton]="false"></app-title-bar>
+        <nz-card style="width:100%;">
+            <nz-tabset nzType="card">
+                <nz-tab nzTitle="User Searches"><ng-template nz-tab><nz-demo-tab-content-lazy>
+                    <!-- If user search data present -->
+                    <div *ngIf="userSearches?.length">
+                        <nz-table #searchTable [nzData]="userSearches">
+                            <thead>
+                                <tr>
+                                    <th>Searched User</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let data of searchTable.data">
+                                    <td>{{ data.search }}</td>
+                                    <td>{{ convertTimestamp(data.timestamp) }}</td>
+                                </tr>
+                            </tbody>
+                        </nz-table>
+                    </div>
+                    <!-- If no user search data present -->
+                    <div *ngIf="userSearches?.length === 0">
+                        <nz-empty nzNotFoundImage="simple"></nz-empty>
+                    </div>
+                </nz-demo-tab-content-lazy></ng-template></nz-tab>
+
+                <nz-tab nzTitle="Keyword Searches"><ng-template nz-tab><nz-demo-tab-content-lazy>
+                    <!-- If keyword search data present -->
+                    <div *ngIf="keywordSearches?.length">
+                        <nz-table #searchTable [nzData]="keywordSearches">
+                            <thead>
+                                <tr>
+                                    <th>Searched Keyword</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let data of searchTable.data">
+                                    <td>{{ data.search }}</td>
+                                    <td>{{ convertTimestamp(data.timestamp) }}</td>
+                                </tr>
+                            </tbody>
+                        </nz-table>
+                    </div>
+                    <!-- If no keyword search data present -->
+                    <div *ngIf="keywordSearches?.length === 0">
+                        <nz-empty nzNotFoundImage="simple"></nz-empty>
+                    </div>
+                </nz-demo-tab-content-lazy></ng-template></nz-tab>
+                
+                <nz-tab nzTitle="Tag Searches"><ng-template nz-tab><nz-demo-tab-content-lazy>
+                    <!-- If keyword search data present -->
+                    <div *ngIf="tagSearches?.length">
+                        <nz-table #searchTable [nzData]="tagSearches">
+                            <thead>
+                                <tr>
+                                    <th>Searched Tag</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let data of searchTable.data">
+                                    <td>{{ data.search }}</td>
+                                    <td>{{ convertTimestamp(data.timestamp) }}</td>
+                                </tr>
+                            </tbody>
+                        </nz-table>
+                    </div>
+                    <!-- If no keyword search data present -->
+                    <div *ngIf="tagSearches?.length === 0">
+                        <nz-empty nzNotFoundImage="simple"></nz-empty>
+                    </div>
+                </nz-demo-tab-content-lazy></ng-template></nz-tab>
+            </nz-tabset>
+        </nz-card>
+
+        
+    </div>
+
+</div>

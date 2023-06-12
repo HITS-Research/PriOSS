@@ -99,13 +99,7 @@ CREATE TABLE IF NOT EXISTS insta_keyword_searches (
     timestamp TEXT NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS insta_user_searches (
-    id INTEGER PRIMARY KEY,
-    search TEXT NOT NULL,
-    timestamp TEXT NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS insta_keyword_searches (
+CREATE TABLE IF NOT EXISTS insta_tag_searches (
     id INTEGER PRIMARY KEY,
     search TEXT NOT NULL,
     timestamp TEXT NOT NULL
@@ -269,6 +263,7 @@ DROP TABLE IF EXISTS insta_ads_clicked;
 DROP TABLE IF EXISTS insta_ads_viewed;
 DROP TABLE IF EXISTS insta_user_searches;
 DROP TABLE IF EXISTS insta_keyword_searches;
+DROP TABLE IF EXISTS insta_tag_searches;
 DROP TABLE IF EXISTS insta_signup_information;
 DROP TABLE IF EXISTS insta_login_information;
 DROP TABLE IF EXISTS insta_logout_information;

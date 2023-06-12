@@ -7,6 +7,7 @@ import { InstaAccountCreationLoginComponent } from 'src/app/visualizations/insta
 import { InstaFollowersComponent } from 'src/app/visualizations/instagram/insta-followers/insta-followers.component';
 import { InstaLikedContentComponent } from 'src/app/visualizations/instagram/insta-liked-content/insta-liked-content.component';
 import { InstaContactComponent } from 'src/app/visualizations/instagram/insta-contact/insta-contact.component';
+import { InstaSearchesComponent } from 'src/app/visualizations/instagram/insta-searches/insta-searches.component';
 
 /**
   * This component is the root component for instagram's dashboard page.
@@ -35,6 +36,7 @@ export class InstaDashboardComponent extends BaseDashboard{
   @ViewChild(InstaFollowersComponent) instaFollower : InstaFollowersComponent;
   @ViewChild(InstaLikedContentComponent) instaLikedContent: InstaLikedContentComponent;
   @ViewChild(InstaContactComponent) instaContact : InstaContactComponent;
+  @ViewChild(InstaSearchesComponent) instaSearches : InstaSearchesComponent;
 
   constructor( private introService: IntrojsService) { 
     super();
@@ -99,6 +101,7 @@ export class InstaDashboardComponent extends BaseDashboard{
     this.componentInitializationList.push(this.instaAccount);
     this.componentInitializationList.push(this.instaContact);
     this.componentInitializationList.push(this.instaLikedContent);
+    this.componentInitializationList.push(this.instaSearches);
     this.componentInitializationList.push(this.instaFollower);
     //Start Component Initialization run
     this.startSequentialInitialization();

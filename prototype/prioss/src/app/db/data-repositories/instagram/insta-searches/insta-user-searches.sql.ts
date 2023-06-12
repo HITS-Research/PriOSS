@@ -17,3 +17,8 @@ select ?, ?
 export const bulkAddValueConnector: string = `
 union all
 `;
+
+export const selectAllFromInstaUserSearches: string = `
+select *
+  from insta_user_searches;
+`

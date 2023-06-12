@@ -75,6 +75,18 @@
     </div>
   </div>
   <br>
+  <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
+    <div nz-col nzXs="24" nzXl="8">
+      <!--card for visualizing for searches-->
+      <nz-card nzTitle="Searches" nzHoverable [nzExtra]="extraSearches">
+        <app-insta-searches [previewMode]="true"></app-insta-searches>
+      </nz-card>
+      <ng-template #extraSearches>
+        <a routerLink="/insta/searches">More</a>
+      </ng-template>
+    </div>
+  </div>
+  <br>
 </div>
 
 <div id="rectification">

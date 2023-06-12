@@ -1,12 +1,12 @@
 export const insertIntoInstaKeywordSearchesSQL: string = `
-insert into insta_user_searches
+insert into insta_keyword_searches
 (search, timestamp)
 values 
 (?, ?);
 `;
 
 export const bulkAddInstaKeywordSearchesBaseSQL: string = `
-insert into insta_user_searches
+insert into insta_keyword_searches
 (search, timestamp)
 `;
 
@@ -17,3 +17,8 @@ select ?, ?
 export const bulkAddValueConnector: string = `
 union all
 `;
+
+export const selectAllFromInstaKeywordSearches: string = `
+select *
+  from insta_keyword_searches;
+`
