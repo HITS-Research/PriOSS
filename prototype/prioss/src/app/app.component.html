@@ -28,10 +28,12 @@
         <span nz-icon nzType="form" nzTheme="outline"></span>
         <span><a routerLink="/contact">Contact</a></span>
       </li>
+      <!-- FAQ page not needed, only shown as component on dashboards
       <li nz-menu-item nzMatchRouter>
         <span nz-icon nzType="question" nzTheme="outline"></span>
         <span><a routerLink="/faq">FAQ</a></span>
       </li>
+      -->
       <!--this submenu is only shown when on a dashboard-->
       <li *ngIf="isDashboard" nz-submenu nzOpen nzTitle="Dashboard" nzIcon="dashboard">
         <ul>

@@ -31,7 +31,7 @@ const routes: Routes = [
   { path: 'home', component: LandingComponent },
   { path: 'about', component: AboutComponent },
   { path: 'contact', component: ContactComponent },
-  { path: 'faq', component: FaqComponent },
+ // { path: 'faq', component: FaqComponent },
   { path: 'spot/inference', component: InferencesComponent },
   { path: 'spot/mood', component: MoodComponent },
   { path: 'spot/listening-time', component: ListeningTimeComponent },
