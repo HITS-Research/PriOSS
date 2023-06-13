@@ -124,6 +124,14 @@ export class IntrojsService {
           intro: 'This tile gives a gist of your Facebook connections. Click <b>More</b> to see year-wise details.'
         },
         {
+          element: '#fStep23',
+          intro: 'This tile gives information about guidelines to turn OFF Off-Site Interactions(Off-Facebook Activity).'
+        },
+        {
+          element: '#fStep24',
+          intro: 'This tile gives information about guidelines to hide ads.'
+        },
+        {
           element: '#fStep70',
           intro: 'This tile illustrates the steps to object the use of your personal information to show personalized ads.'
         },
@@ -208,6 +216,14 @@ export class IntrojsService {
         {
           element: '#faq',
           intro: 'You have more questions about this application? Click to see answers.'
+        },
+        {
+          element: '#extraprivacy',
+          intro: 'This section gives guidelines to turn OFF Off-Site Interactions(Off-Facebook Activity)'
+        },
+        {
+          element: '#adssettings',
+          intro: 'This sections provides guidelines to hide ads you do not want to see anymore'
         },
         // more steps here...
       ]
