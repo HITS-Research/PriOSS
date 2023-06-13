@@ -216,7 +216,8 @@ CREATE TABLE IF NOT EXISTS face_friend_requests_sent (
 CREATE TABLE IF NOT EXISTS face_friends (
     id INTEGER PRIMARY KEY,
     name TEXT NOT NULL,
-    timestamp TEXT NOT NULL
+    timestamp INTEGER NOT NULL,
+    type TEXT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS face_rejected_friend_requests (

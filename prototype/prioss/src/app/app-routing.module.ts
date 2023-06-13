@@ -26,10 +26,13 @@ import { InstaSearchesComponent } from './visualizations/instagram/insta-searche
 import { InstaFollowersComponent } from './visualizations/instagram/insta-followers/insta-followers.component';
 import { InstaContactComponent } from './visualizations/instagram/insta-contact/insta-contact.component';
 import { FaqComponent } from './info-pages/faq/faq.component';
+import { KnownIssuesComponent } from './info-pages/known-issues/known-issues.component';
+import { AdsSettingsComponent } from './manage-privacy/facebook/guidlines-for-ads-settings/ads-settings/ads-settings.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: LandingComponent },
+  { path: 'known-issues', component: KnownIssuesComponent },
   { path: 'about', component: AboutComponent },
   { path: 'contact', component: ContactComponent },
   { path: 'faq', component: FaqComponent },
@@ -53,6 +56,7 @@ const routes: Routes = [
   { path: 'face/ads-related-data', component: AdsRelatedDataComponent },
   { path: 'face/connections', component: FriendAndFollowersComponent },
   { path: 'face/configure-off-facebook-activity', component: OffFacebookActivityComponent },
+  { path: 'face/guidelines-for-ads-settings', component: AdsSettingsComponent },
   { path: 'insta/searches', component: InstaSearchesComponent}
 ];
 

@@ -15,8 +15,10 @@ export function formatDisplayTime(ms: number) {
   const minutesms = ms % (60 * 1000);
   const sec = Math.floor(minutesms / 1000);
 
+  return days + "d " + String(hours).padStart(2, '0') + "h " + String(minutes).padStart(2, '0') + "m";
+/*
   if (days > 0) {
-    return days + "d " + String(hours).padStart(2, '0') + "h " + String(minutes).padStart(2, '0') + "m " + String(sec).padStart(2, '0') + "s";
+    return days + "d " + String(hours).padStart(2, '0') + "h " + String(minutes).padStart(2, '0') + "m";
   }
   else if (hours > 0) {
     return hours + "h " + String(minutes).padStart(2, '0') + "m " + String(sec).padStart(2, '0') + "s";
@@ -24,4 +26,5 @@ export function formatDisplayTime(ms: number) {
   else {
     return minutes + "m " + String(sec).padStart(2, '0') + "s";
   }
+*/
 }

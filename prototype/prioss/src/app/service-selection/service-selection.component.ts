@@ -38,6 +38,7 @@ import { InferredTopicsRepository } from '../db/data-repositories/facebook/fb-in
 import { FacebookAdsInteractedRepository } from '../db/data-repositories/facebook/fb_ads_data/face_ads_interacted.repo';
 import { FacebookAppsWebsitesRepository } from '../db/data-repositories/facebook/fb_ads_data/face_apps_websites.repo';
 import { FacebookOffFacebookActivityRepository } from '../db/data-repositories/facebook/fb_ads_data/face_off_facebook_activity.repo';
+import { FacebookFriendsRepository } from '../db/data-repositories/facebook/fb-friends-data/face_friends.repo';
 import { InstaUserSearchesRepository } from '../db/data-repositories/instagram/insta-searches/insta-user-searches.repository';
 import { InstaKeywordSearchesRepository } from '../db/data-repositories/instagram/insta-searches/insta-keyword-searches.repository';
 import { InstaTagSearchesRepository } from '../db/data-repositories/instagram/insta-searches/insta-tag-searches.repository';
@@ -125,7 +126,8 @@ export class ServiceSelectionComponent {
               private faceAdsInteractedRepo: FacebookAdsInteractedRepository,
               private faceAppsAndWebsitesRepo: FacebookAppsWebsitesRepository,
               private faceOffFacebookActivityRepo: FacebookOffFacebookActivityRepository,
-              private scroll: ViewportScroller
+              private scroll: ViewportScroller,
+              private faceFriendsRepo: FacebookFriendsRepository
              )  {
     
     //clear the database when this component gets created
@@ -393,7 +395,6 @@ export class ServiceSelectionComponent {
     }
     else if (selectedApp == this.appType.Facebook) {
       console.log("Parsing Facebook file...");
-      this.parseFacebookFile();
       await this.parseFacebookFileToSQLite();
     }
   }
@@ -478,6 +479,66 @@ export class ServiceSelectionComponent {
         }
         console.log("data",offfacebookActivityData)
       }
+      else if (filename === "friend_requests_received.json") {
+        console.log("fileoff---",filename)
+        let jsonData = JSON.parse(content);
+        let friendRequestsRecieved = jsonData.received_requests_v2;
+
+        await this.faceFriendsRepo.startAdActivityBulkAdd(friendRequestsRecieved[0].name, friendRequestsRecieved[0].timestamp,"#requestsReceived",friendRequestsRecieved.length);
+        for (let i = 1; i < friendRequestsRecieved.length; i++) {
+          await this.faceFriendsRepo.addAdActivityBulkEntry(friendRequestsRecieved[i].name, friendRequestsRecieved[i].timestamp,"#requestsReceived");
+        }
+      }
+      else if (filename === "friend_requests_sent.json") {
+        console.log("fileoff---",filename)
+        let jsonData = JSON.parse(content);
+        let friendRequestsSent = jsonData.sent_requests_v2;
+
+        await this.faceFriendsRepo.startAdActivityBulkAdd(friendRequestsSent[0].name, friendRequestsSent[0].timestamp,"#requestsSent",friendRequestsSent.length);
+        for (let i = 1; i < friendRequestsSent.length; i++) {
+          await this.faceFriendsRepo.addAdActivityBulkEntry(friendRequestsSent[i].name, friendRequestsSent[i].timestamp,"#requestsSent");
+        }
+      }
+      else if (filename === "friends.json") {
+        console.log("fileoff---",filename)
+        let jsonData = JSON.parse(content);
+        let friends = jsonData.friends_v2;
+
+        await this.faceFriendsRepo.startAdActivityBulkAdd(friends[0].name, friends[0].timestamp,"#friends",friends.length);
+        for (let i = 1; i < friends.length; i++) {
+          await this.faceFriendsRepo.addAdActivityBulkEntry(friends[i].name, friends[i].timestamp,"#friends");
+        }
+      }
+      else if (filename === "rejected_friend_requests.json") {
+        console.log("fileoff---",filename)
+        let jsonData = JSON.parse(content);
+        let rejectedFriends = jsonData.rejected_requests_v2;
+
+        await this.faceFriendsRepo.startAdActivityBulkAdd(rejectedFriends[0].name, rejectedFriends[0].timestamp,"#rejectedFriends",rejectedFriends.length);
+        for (let i = 1; i < rejectedFriends.length; i++) {
+          await this.faceFriendsRepo.addAdActivityBulkEntry(rejectedFriends[i].name, rejectedFriends[i].timestamp,"#rejectedFriends");
+        }
+      }
+      else if (filename === "removed_friends.json") {
+        console.log("fileoff---",filename)
+        let jsonData = JSON.parse(content);
+        let removedFriends = jsonData.deleted_friends_v2;
+
+        await this.faceFriendsRepo.startAdActivityBulkAdd(removedFriends[0].name, removedFriends[0].timestamp,"#removedFriends",removedFriends.length);
+        for (let i = 1; i < removedFriends.length; i++) {
+          await this.faceFriendsRepo.addAdActivityBulkEntry(removedFriends[i].name, removedFriends[i].timestamp,"#removedFriends");
+        }
+      }
+      else if (filename === "who_you_follow.json") {
+        console.log("fileoff---",filename)
+        let jsonData = JSON.parse(content);
+        let following = jsonData.following_v2;
+
+        await this.faceFriendsRepo.startAdActivityBulkAdd(following[0].name, following[0].timestamp,"#following",following.length);
+        for (let i = 1; i < following.length; i++) {
+          await this.faceFriendsRepo.addAdActivityBulkEntry(following[i].name, following[i].timestamp,"#following");
+        }
+      }
       else if(filename === "profile_information.json") {
         let jsonData = JSON.parse(content);
         let personal_data = jsonData.profile_v2;
@@ -511,6 +572,10 @@ export class ServiceSelectionComponent {
     this.faceOffFacebookActivityRepo.getAllOffFacebookActivity().then((offfacebookactivity) => {
       console.log("Read Off Facebook Activity:");
       console.log(offfacebookactivity);
+    });
+    this.faceFriendsRepo.getAllFacebookFriends().then((friends) => {
+      console.log("Read friends:");
+      console.log(friends);
     });
     this.progressBarPercent = 100;
     await delay(500);
