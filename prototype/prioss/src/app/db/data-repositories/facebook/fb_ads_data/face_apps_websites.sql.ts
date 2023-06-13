@@ -17,3 +17,12 @@ select ?, ?, ?, ?, ?
 export const bulkAddValueConnector: string = `
 union all
 `;
+export const selectAllFaceAppsAndWebsites: string = `
+ select id,
+        name,
+        added_timestamp,
+        user_app_scoped_id,
+        category,
+        removed_timestamp
+  from face_apps_websites;
+`;

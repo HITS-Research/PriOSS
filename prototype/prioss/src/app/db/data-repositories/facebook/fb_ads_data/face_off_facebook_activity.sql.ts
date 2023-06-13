@@ -1,19 +1,26 @@
 export const insertIntoFaceOffFacebookActivitySQL: string = `
-insert into face_off_facebook_activity
-(name, events, id, type, timestamp)
-values 
-(?, ?, ?, ?, ?);
+INSERT INTO face_off_facebook_activity
+(name, events, type)
+VALUES 
+(?, ?, ?);
 `;
+
 
 export const bulkAddFaceOffFacebookActivityBaseSQL: string = `
 insert into face_off_facebook_activity 
-(name, events, id, type, timestamp)
+(name, events, type)
 `;
 
 export const bulkAddFaceOffFacebookActivityValuesSQL: string = `
-select ?, ?, ?, ?, ?
+select ?, ?, ?
 `;
 
 export const bulkAddValueConnector: string = `
 union all
+`;
+export const selectAllFaceOffFacebookActivity: string = `
+ select name,
+        events,
+        type
+  from face_off_facebook_activity;
 `;

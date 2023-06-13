@@ -17,14 +17,8 @@
 
 <!--only shows when visiting the page-->
 <div *ngIf="!previewMode">
-  <nz-breadcrumb>
-    <nz-breadcrumb-item>
-      <a [routerLink]="['../dashboard/']">Dashboard</a>
-    </nz-breadcrumb-item>
-    <nz-breadcrumb-item>Account Creation and Login</nz-breadcrumb-item>
-  </nz-breadcrumb>
-
-  <h2 nz-typography>Account Creation and Login</h2>
+  <!--Titlebar component -->
+  <app-title-bar titleText="Account Creation and Login" tooltipText="The timeline below displays the timeline for account creation, login and logout activity of your instagram account."></app-title-bar>
 
   <!-- Showcasing signup information and login and logout information if data is present -->
   <div *ngIf="login_logout_activities?.length && signup_information != null">
@@ -43,9 +37,9 @@
     <br>
 
     <h3 nz-typography>Timeline</h3>
-    <p>The below displays the timeline for account creation, login and logout activity of your instagram account</p>
+    <br>
 
-    <div class="timeline_div">
+    <div class="timeline_div" class="visualization-card">
       <!-- Creating timeline for complete data -->
       <nz-timeline nzMode="alternate">
         <nz-timeline-item [nzDot]="dotTemplateSignUp">
@@ -60,11 +54,11 @@
 
           <!-- Creating a template to show additional data -->
           <ng-template #contentTemplateSignUp>
-            <strong>IP Address</strong> : {{signup_information.ip_address}}
+            <strong>IP Address</strong> : {{signup_information[0].ip_address}}
           </ng-template>
 
           <!-- Showcasing necessary details in timeline -->
-          Create account with device [{{signup_information.device}}] on {{signup_information.time*1000 | date: 'MMM d, y h:mm a'}} 
+          Create account with device [{{signup_information[0].device}}] on {{signup_information[0].timestamp*1000 | date: 'MMM d, y h:mm a'}} 
         </nz-timeline-item>
 
         <!-- Looping throught each login and logout activity values -->
@@ -90,7 +84,7 @@
           </ng-template>
 
           <!-- Showcasing necessary details in timeline -->
-          {{activity.type}} with device [{{activity.device}}] on {{activity.time*1000 | date: 'MMM d, y h:mm a'}}
+          {{activity.type}} with device [{{activity.device}}] on {{activity.timestamp*1000 | date: 'MMM d, y h:mm a'}}
         </nz-timeline-item>
       </nz-timeline>
     </div>

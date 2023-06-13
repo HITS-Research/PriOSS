@@ -53,7 +53,7 @@ export class Insta_PersonalInfoComponent extends SequenceComponentInit{
 
   /**
   * @see-super-class
-  * @author Paul (pasch@mail.upb.de)
+  * @author: Paul (pasch@mail.upb.de)
   */
   override async initComponent(): Promise<void> {
     console.log("--- Initializing Component 1: PersonalInfo");

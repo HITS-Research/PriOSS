@@ -1,17 +1,7 @@
 <div [ngClass]="{'component-page': !previewMode && isSpotify}">
   <div *ngIf="isSpotify && !previewMode">
-    <nz-breadcrumb>
-      <nz-breadcrumb-item>
-        <a [routerLink]="['../dashboard/']">Dashboard</a>
-      </nz-breadcrumb-item>
-      <nz-breadcrumb-item>User Data</nz-breadcrumb-item>
-    </nz-breadcrumb>
-    <h3 style="position: relative;">User Data
-      <span nz-tooltip nzTooltipTitle="This table shows the user data Spotify has collected about you.">
-                <span class="title-info-icon" nz-icon nzType="info-circle" nzTheme="outline">
-                </span>
-            </span>
-    </h3>
+    <app-title-bar titleText="User Data" tooltipText="This table shows the general user data Spotify has collected about you.">
+    </app-title-bar>
   </div>
 
   <!-- This table can be embedded in a Card component -->
@@ -25,8 +15,8 @@
   <tbody>
     <tr *ngFor="let pair of getObjectPairsNotNull(this.userdata[0])">
       <!-- the part after the | in the *ngFor is responsible for cutting of the last element in userdata, which is the database index -->
-      <td>{{ capitalize(pair[0]) }}</td>
-      <td>{{ pair[1] }}</td>
+      <td *ngIf="pair[1]">{{ capitalize(pair[0]) }}</td>
+      <td *ngIf="pair[1]">{{ pair[1] }}</td>
     </tr>
     </tbody>
   </nz-table>

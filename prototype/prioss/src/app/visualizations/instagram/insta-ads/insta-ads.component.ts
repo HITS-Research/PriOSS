@@ -1,8 +1,15 @@
 import { Component, Input } from '@angular/core';
-import { NgxIndexedDBService } from 'ngx-indexed-db';
-import { Router } from '@angular/router';
-import { NotificationService } from '../../../notification/notification.component';
 import { SequenceComponentInit } from '../../sequence-component-init.abstract';
+import { InstaAdsActivityRepository } from 'src/app/db/data-repositories/instagram/insta-ads/insta-ads-activity.repository';
+import { InstaAdsClickedRepository } from 'src/app/db/data-repositories/instagram/insta-ads/insta-ads-clicked.repository';
+import { InstaAdsInterestRepository } from 'src/app/db/data-repositories/instagram/insta-ads/insta-ads-interest.repository';
+import { InstaAdsViewedRepository } from 'src/app/db/data-repositories/instagram/insta-ads/insta-ads-viewed.repository';
+
+import { InstaAdsActivityInfo } from 'src/app/models/Instagram/LikedAdsInfo/InstaAdsActivityInfo';
+import { InstaAdsClickedInfo } from 'src/app/models/Instagram/LikedAdsInfo/InstaAdsClickedInfo';
+import { InstaAdsInterestInfo } from 'src/app/models/Instagram/LikedAdsInfo/InstaAdsInterestInfo';
+import { InstaAdsViewedInfo } from 'src/app/models/Instagram/LikedAdsInfo/InstaAdsViewedInfo';
+
 
 /**
  * This component is fsor instagram's advertisement page.
@@ -21,14 +28,18 @@ export class InstaAdsComponent extends SequenceComponentInit{
   @Input()
   previewMode: boolean = false;
 
-  ads_activity: Ads_Activity[] = [];
-  ads_clicked: Ads_Clicked[] = [];
-  ads_interests: Ads_Interested[] = [];
-  ads_viewed: Ads_Viewed[] = [];
+  ads_activity: InstaAdsActivityInfo[] = [];
+  ads_clicked: InstaAdsClickedInfo[] = [];
+  ads_interests: InstaAdsInterestInfo[] = [];
+  ads_viewed: InstaAdsViewedInfo[] = [];
 
-  constructor(private dbService: NgxIndexedDBService, private router: Router, private notifyService: NotificationService){
+  constructor(private instaAdsActivityRepo: InstaAdsActivityRepository,
+    private instaAdsClickedRepo: InstaAdsClickedRepository,
+    private instaAdsInterestRepo: InstaAdsInterestRepository,
+    private instaAdsViewedRepo: InstaAdsViewedRepository){
+
     super();
-   }
+  }
 
   /**
   * A Callback called by angular when the views have been initialized
@@ -47,57 +58,29 @@ export class InstaAdsComponent extends SequenceComponentInit{
   * @author Paul (pasch@mail.upb.de)
   */
   override async initComponent(): Promise<void> {
-    // Ads Interest Data fetch from IndexedDB
-    this.dbService.getAll('insta/ads_interests').subscribe({
-      next: (ads_interests: any) => {
-        if(ads_interests.length > 0) {
-          this.ads_interests = ads_interests
-        }
-      },
-      error: (error: any) => {
-        console.log("Error occurred while fetching ads interests data")
-        console.log(error)
-      }
-    });
+    console.log("--- Initializing Component 2: Advertisement");
 
-    // Ads Activity Data fetch from IndexedDB
-    this.dbService.getAll('insta/advertisers_using_your_activity_or_information').subscribe({
-      next: (ads_activity: any) => {
-        if(ads_activity.length > 0) {
-          this.ads_activity = ads_activity
-        }
-      },
-      error: (error: any) => {
-        console.log("Error occurred while fetching ads activity data")
-        console.log(error)
-      }
-    });
+    // Ads Data fetched from SQlite
+    
+    let ads_activity = await this.instaAdsActivityRepo.getAllInstaAdsActivity();
+    if(ads_activity.length > 0) {
+      this.ads_activity = ads_activity
+    }
 
-    // Ads Viewed Data fetch from IndexedDB
-    this.dbService.getAll('insta/ads_viewed').subscribe({
-      next: (ads_viewed: any) => {
-        if(ads_viewed.length > 0) {
-          this.ads_viewed = ads_viewed
-        }
-      },
-      error: (error: any) => {
-        console.log("Error occurred while fetching ads viewed data")
-        console.log(error)
-      }
-    });
+    let ads_clicked = await this.instaAdsClickedRepo.getAllInstaAdsClicked();
+    if(ads_clicked.length > 0) {
+      this.ads_clicked = ads_clicked
+    }
 
-    // Ads Clicked Data fetch from IndexedDB
-    this.dbService.getAll('insta/ads_clicked').subscribe({
-      next: (ads_clicked: any) => {
-        if(ads_clicked.length > 0) {
-          this.ads_clicked = ads_clicked
-        }
-      },
-      error: (error: any) => {
-        console.log("Error occurred while fetching ads clicked data")
-        console.log(error)
-      }
-    });
+    let ads_interests = await this.instaAdsInterestRepo.getAllInstaAdsInterested();
+    if(ads_interests.length > 0) {
+      this.ads_interests = ads_interests
+    }
+
+    let ads_viewed = await this.instaAdsViewedRepo.getAllInstaAdsViewed();
+    if(ads_viewed.length > 0) {
+      this.ads_viewed = ads_viewed
+    }
   }
 
   // Default page configuration for Ads Activity 
@@ -116,36 +99,4 @@ export class InstaAdsComponent extends SequenceComponentInit{
     this.currentPage = event;
   }
 
-}
-
-
-/**
- * Created interface for fetching value in HTML for Advertisement User Activity
- */
-interface Ads_Activity {
-  advertiser_name: string;
-  has_data_file_custom_audience: boolean;
-  has_in_person_store_visit: boolean;
-  has_remarketing_custom_audience: boolean;
-}
-
-/**
- * Created interface for fetching value in HTML for Advertisement Clicked
- */
-interface Ads_Clicked {
-  title: string;
-}
-
-/**
- * Created interface for fetching value in HTML for Advertisement Interests
- */
-interface Ads_Interested {
-  interest: string;
-}
-
-/**
- * Created interface for fetching value in HTML for Advertisement Viewed
- */
-interface Ads_Viewed {
-  title: string;
 }

@@ -1,0 +1,32 @@
+<div [ngClass]="{'component-page': !previewMode}">
+  <!--only shows a preview of the visualization-->
+  <div *ngIf="previewMode">
+    <nz-row [nzGutter]="16">
+        <nz-col [nzSpan]="12">
+            <nz-statistic [nzValue]="(contacts.length | number)!" [nzTitle]="'Number of contacts'"></nz-statistic>
+        </nz-col>
+    </nz-row>
+  </div>
+
+  <!--only shows when visiting the page-->
+  <div *ngIf="!previewMode">
+    <!--Titlebar component -->
+    <app-title-bar titleText="Contacts" tooltipText="The following table shows all the details about contact synced from user's mobile."></app-title-bar>
+    <nz-table #basicTable [nzData]="contacts">
+      <thead>
+        <tr>
+          <th>First name</th>
+          <th>Last name</th>
+          <th>Contact information</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of basicTable.data">
+          <td>{{ data.firstName }}</td>
+          <td>{{ data.surname }}</td>
+          <td>{{ data.contactInformation }}</td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </div>
+</div>
