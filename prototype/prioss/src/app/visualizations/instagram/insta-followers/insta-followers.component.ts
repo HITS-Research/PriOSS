@@ -9,6 +9,12 @@ import { InstaFollowerRepository } from 'src/app/db/data-repositories/instagram/
 import { InstaFollowingRepository } from 'src/app/db/data-repositories/instagram/insta-follower-info/insta-following.repository';
 import { InstaBlockedRepository } from 'src/app/db/data-repositories/instagram/insta-follower-info/insta-blocked.repository';
 
+/**
+  * This component is the visualization component on instagram's dashboard page.
+  * This page is shown follower and following information on instagram's dashboard.
+  *
+  * @author: Melina (kleber@mail.uni-paderborn.de)
+  */
 @Component({
   selector: 'app-insta-followers',
   templateUrl: './insta-followers.component.html',
