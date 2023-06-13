@@ -386,7 +386,6 @@ export class ServiceSelectionComponent {
     }
     else if (selectedApp == this.appType.Facebook) {
       console.log("Parsing Facebook file...");
-      this.parseFacebookFile();
       await this.parseFacebookFileToSQLite();
     }
   }
