@@ -97,12 +97,20 @@
   <summary class="collapse_title" id="fStep30">Manage Privacy</summary>
   <div id="rectification">
     <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
-      <div id="fStep20" nz-col nzXs="24" nzXl="8">
+      <div id="fStep23" nz-col nzXs="24" nzXl="8">
         <nz-card nzTitle="Configure Off-Facebook Activity" nzHoverable  [nzExtra]="extraPrivacy">
         <p>This section provides you guidelines to Turn OFF your Off-Facebook Activity.</p>
         </nz-card>
         <ng-template #extraPrivacy>
           <a routerLink="/face/configure-off-facebook-activity">More</a>
+        </ng-template>
+      </div>
+      <div id="fStep24" nz-col nzXs="24" nzXl="8">
+        <nz-card nzTitle="Guidelines to hide advertisements" nzHoverable  [nzExtra]="adssettings">
+        <p>This section provides you guidelines to hide the ads you don't want to see anymore.</p>
+        </nz-card>
+        <ng-template #adssettings>
+          <a routerLink="/face/guidelines-for-ads-settings">More</a>
         </ng-template>
       </div>
     </div>
