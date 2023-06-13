@@ -149,7 +149,7 @@ export class InstaFollowersComponent extends SequenceComponentInit{
    */
   async ngAfterViewInit() {
     if(!this.previewMode) {
-      this.initComponent();
+      await this.initComponent();
     }
   }
 
