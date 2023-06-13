@@ -99,10 +99,11 @@ export class InstaDashboardComponent extends BaseDashboard{
     this.componentInitializationList.push(this.instaPersonalInfo);
     this.componentInitializationList.push(this.instaAds);
     this.componentInitializationList.push(this.instaAccount);
+    this.componentInitializationList.push(this.instaFollower);
     this.componentInitializationList.push(this.instaContact);
     this.componentInitializationList.push(this.instaLikedContent);
     this.componentInitializationList.push(this.instaSearches);
-    this.componentInitializationList.push(this.instaFollower);
+    
     //Start Component Initialization run
     this.startSequentialInitialization();
   }
