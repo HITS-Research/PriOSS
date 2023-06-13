@@ -81,6 +81,11 @@ import { InstaContactsRepository } from './db/data-repositories/instagram/insta-
 import { InstaFollowerRepository } from './db/data-repositories/instagram/insta-follower-info/insta-follower.repository';
 import { InstaFollowingRepository } from './db/data-repositories/instagram/insta-follower-info/insta-following.repository';
 import { InstaBlockedRepository } from './db/data-repositories/instagram/insta-follower-info/insta-blocked.repository';
+import { FaqComponent } from './info-pages/faq/faq.component';
+import { FacebookAdsInteractedRepository } from './db/data-repositories/facebook/fb_ads_data/face_ads_interacted.repo';
+import { FacebookAppsWebsitesRepository } from './db/data-repositories/facebook/fb_ads_data/face_apps_websites.repo';
+import { FacebookOffFacebookActivityRepository } from './db/data-repositories/facebook/fb_ads_data/face_off_facebook_activity.repo';
+import { KnownIssuesComponent } from './info-pages/known-issues/known-issues.component';
 
 registerLocaleData(de);
 
@@ -319,6 +324,7 @@ const dbConfig: DBConfig  =
     TopSongsComponent,
     AboutComponent,
     ContactComponent,
+    FaqComponent,
     InferredTopicsComponent,
     InstaAccountCreationLoginComponent,
     InstaAdsComponent,
@@ -330,7 +336,8 @@ const dbConfig: DBConfig  =
     HelpButtonComponent,
     OffFacebookActivityComponent,
     OfflineIndicatorComponent,
-    TitleBarComponent
+    TitleBarComponent,
+    KnownIssuesComponent
   ],
   imports: [
     BrowserModule,
@@ -383,6 +390,9 @@ const dbConfig: DBConfig  =
     InferencesRepository,
     UserdataRepository,
     InferredTopicsRepository,
+    FacebookAdsInteractedRepository,
+    FacebookAppsWebsitesRepository,
+    FacebookOffFacebookActivityRepository,
     { provide: NZ_I18N, useValue: de_DE }
   ],
   bootstrap: [AppComponent],

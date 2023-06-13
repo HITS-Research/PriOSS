@@ -5,22 +5,16 @@
         <nz-statistic [nzTitle]="'Ads Clicked'"  [nzValue]="totalCountClickedAds"></nz-statistic>
       </nz-col>
       <nz-col [nzSpan]="16">
-        <nz-statistic  [nzTitle]="'Off-Site Interactions'" [nzValue]="pageViewViewContentCount"></nz-statistic>
+        <nz-statistic  [nzTitle]="'Off-Site Interactions'" [nzValue]="totalOffsiteInteractions"></nz-statistic>
       </nz-col>
       <nz-col [nzSpan]="16">
-        <nz-statistic  [nzTitle]="'Checkout Activities'" [nzValue]="2" tooltipText="TBD"></nz-statistic> 
+        <nz-statistic  [nzTitle]="'Checkout Activities'" [nzValue]="totalOffsiteCheckoutActivities"></nz-statistic> 
       </nz-col>
       <nz-col [nzSpan]="16">
         <nz-statistic  [nzTitle]="'Website Associations'" [nzValue]="totalWebsites"></nz-statistic>
       </nz-col>
     </nz-row>
   </div>
-      <!-- <nz-row [nzGutter]="16">
-        <nz-col [nzSpan]="12">
-          <nz-statistic  [nzTitle]="'Total No Off-Site Checkout Activities'" [nzValue]="initiateCheckoutCount" class ="bold-title">
-          </nz-statistic>
-          </nz-col>
-          </nz-row> -->
 </div>
 
 <div *ngIf="!previewMode">
@@ -92,8 +86,10 @@
           </nz-space>
         </div>
         <nz-space [nzSize]="10"></nz-space>
-          <h3  nz-typography>To manage access to such websites, log in to your Facebook account and <button nz-button nzType="primary"><a href="https://www.facebook.com/settings?tab=applications" target="_blank">
-          </a>Click here</button></h3>
+        <h3 nz-typography>
+          To manage access to such websites, log in to your Facebook account and
+          <button nz-button nzType="primary" (click)="redirectToFacebookSettings()">Click here</button>
+        </h3>
           </nz-tab>
   </nz-tabset>
 </div>
