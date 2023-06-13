@@ -86,6 +86,7 @@ import { FacebookAdsInteractedRepository } from './db/data-repositories/facebook
 import { FacebookAppsWebsitesRepository } from './db/data-repositories/facebook/fb_ads_data/face_apps_websites.repo';
 import { FacebookOffFacebookActivityRepository } from './db/data-repositories/facebook/fb_ads_data/face_off_facebook_activity.repo';
 import { KnownIssuesComponent } from './info-pages/known-issues/known-issues.component';
+import { FacebookFriendsRepository } from './db/data-repositories/facebook/fb-friends-data/face_friends.repo';
 import { AdsSettingsComponent } from './manage-privacy/facebook/guidlines-for-ads-settings/ads-settings/ads-settings.component';
 
 registerLocaleData(de);
@@ -395,6 +396,7 @@ const dbConfig: DBConfig  =
     FacebookAdsInteractedRepository,
     FacebookAppsWebsitesRepository,
     FacebookOffFacebookActivityRepository,
+    FacebookFriendsRepository,
     { provide: NZ_I18N, useValue: de_DE }
   ],
   bootstrap: [AppComponent],
