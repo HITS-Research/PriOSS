@@ -156,13 +156,68 @@
                 </tbody>
             </nz-table>
         </div>
-        <!-- If No Blocked Data present -->
-        <div *ngIf="blockedInfo?.length === 0">
+        <!-- If No Recent Follow Data present -->
+        <div *ngIf="recentFollowInfo?.length === 0">
             <nz-empty nzNotFoundImage="simple"></nz-empty>
         </div>
 
-        <h3 nz-typography>Pending follow requests </h3>
-        <h3 nz-typography>Recently unfollowed accounts</h3>
+        <app-title-bar titleText="Pending Follow Requests" [includeButton]="false"></app-title-bar>
+        <!-- If Pending Follow Request Data present -->
+        <div *ngIf="pendingFollowRequestInfo?.length">
+            <nz-table [nzData]="pendingFollowRequestInfo" [nzPageSize]="pageSize" [nzPageIndex]="currentPendingFollowRequestPage"
+                (nzPageIndexChange)="on_pending_follow_request_page_chance($event)">
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Timestamp of the pending follow request</th>
+                        <th>Profile URL</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let pending_info of sliced_pending_follow_request_data">
+                        <td>{{ pending_info.instaAccountName }}</td>
+                        <td>{{ pending_info.timestamp }}</td>
+                        <td><span nz-icon nzType="link"><a target="_blank"
+                                    href={{pending_info.instaProfileURL}}>{{pending_info.instaAccountName}}</a></span>
+                        </td>
+                    </tr>
+                </tbody>
+            </nz-table>
+        </div>
+        <!-- If No Pending Follow Request Data present -->
+        <div *ngIf="pendingFollowRequestInfo?.length === 0">
+            <nz-empty nzNotFoundImage="simple"></nz-empty>
+        </div>
+
+        <app-title-bar titleText="Recently Unfollowed Accounts" [includeButton]="false"></app-title-bar>
+        <!-- If Recently Unfollowed Accounts Data present -->
+        <div *ngIf="recentlyUnfollowedAccountInfo?.length">
+            <nz-table [nzData]="recentlyUnfollowedAccountInfo" [nzPageSize]="pageSize" [nzPageIndex]="currentRecentlyUnfollowedAccountsPage"
+                (nzPageIndexChange)="on_recently_unfollowed_account_page_chance($event)">
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Timestamp of unfollow</th>
+                        <th>Profile URL</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let unfollow_info of sliced_recently_unfollowed_account_data">
+                        <td>{{ unfollow_info.instaAccountName }}</td>
+                        <td>{{ unfollow_info.timestamp }}</td>
+                        <td><span nz-icon nzType="link"><a target="_blank"
+                                    href={{unfollow_info.instaProfileURL}}>{{unfollow_info.instaAccountName}}</a></span>
+                        </td>
+                    </tr>
+                </tbody>
+            </nz-table>
+        </div>
+        <!-- If No Recently Unfollowed Account Data present -->
+        <div *ngIf="recentlyUnfollowedAccountInfo?.length === 0">
+            <nz-empty nzNotFoundImage="simple"></nz-empty>
+        </div>
+
+
         <h3 nz-typography>Restricted accounts</h3>
     </div>
 </div>
