@@ -42,6 +42,7 @@ export class InstaFollowersComponent extends SequenceComponentInit{
   currentFollowerPage = 1;
   currentFollowingPage = 1;
   currentBlockedPage = 1;
+  currentRecentFollowPage = 1;
   pageSize = 10;
 
   cy: cytoscape.Core;
@@ -221,6 +222,10 @@ export class InstaFollowersComponent extends SequenceComponentInit{
     return this.getSlicedData(this.blockedInfo, this.currentBlockedPage);
   }
 
+  get sliced_recent_follow_data() {
+    return this.getSlicedData(this.recentFollowInfo, this.currentRecentFollowPage);
+  }
+
   //Event Handler
 
   // Changing the page number based on user selection
@@ -236,6 +241,11 @@ export class InstaFollowersComponent extends SequenceComponentInit{
   // Changing the page number based on user selection
   on_blocked_page_change(event: any) {
     this.currentBlockedPage = event;
+  }
+
+  // Changing the page number based on user selection
+  on_recent_follow_page_change(event: any) {
+    this.currentRecentFollowPage = event;
   }
 
   /**

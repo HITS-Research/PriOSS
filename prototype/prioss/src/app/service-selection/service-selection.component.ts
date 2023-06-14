@@ -1017,7 +1017,7 @@ export class ServiceSelectionComponent {
       if (filename.startsWith("recent_follow_requests")) {
         let jsonData = JSON.parse(content);
         let recentFollowData = jsonData.relationships_permanent_follow_requests;
-        await this.instaRecentFollowRepo.startRecentFollowBulkAdd(recentFollowData[0].string_list_data.href,
+        await this.instaRecentFollowRepo.startRecentFollowBulkAdd(recentFollowData[0].string_list_data[0].href,
           recentFollowData[0].string_list_data[0].value,
           utilities.convertTimestamp(recentFollowData[0].string_list_data[0].timestamp),
           recentFollowData.length);

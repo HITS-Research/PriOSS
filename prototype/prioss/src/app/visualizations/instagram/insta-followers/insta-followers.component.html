@@ -133,7 +133,34 @@
             <nz-empty nzNotFoundImage="simple"></nz-empty>
         </div>
 
-        <h3 nz-typography>Follow requests you have received</h3>
+        <app-title-bar titleText="Recent Follow Requests" [includeButton]="false"></app-title-bar>
+        <!-- If Recent Follow Data present -->
+        <div *ngIf="recentFollowInfo?.length">
+            <nz-table [nzData]="recentFollowInfo" [nzPageSize]="pageSize" [nzPageIndex]="currentRecentFollowPage"
+                (nzPageIndexChange)="on_recent_follow_page_change($event)">
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Timestamp of the follow request</th>
+                        <th>Profile URL</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let recent_info of sliced_recent_follow_data">
+                        <td>{{ recent_info.instaAccountName }}</td>
+                        <td>{{ recent_info.timestamp }}</td>
+                        <td><span nz-icon nzType="link"><a target="_blank"
+                                    href={{recent_info.instaProfileURL}}>{{recent_info.instaAccountName}}</a></span>
+                        </td>
+                    </tr>
+                </tbody>
+            </nz-table>
+        </div>
+        <!-- If No Blocked Data present -->
+        <div *ngIf="blockedInfo?.length === 0">
+            <nz-empty nzNotFoundImage="simple"></nz-empty>
+        </div>
+
         <h3 nz-typography>Pending follow requests </h3>
         <h3 nz-typography>Recently unfollowed accounts</h3>
         <h3 nz-typography>Restricted accounts</h3>
