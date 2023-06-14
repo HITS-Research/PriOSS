@@ -27,6 +27,7 @@ import { InstaSignUpRepository } from '../db/data-repositories/instagram/insta-a
 import { InstaFollowerRepository } from '../db/data-repositories/instagram/insta-follower-info/insta-follower.repository';
 import { InstaFollowingRepository } from '../db/data-repositories/instagram/insta-follower-info/insta-following.repository';
 import { InstaBlockedRepository } from '../db/data-repositories/instagram/insta-follower-info/insta-blocked.repository';
+import { InstaRecentFollowRepository } from '../db/data-repositories/instagram/insta-follower-info/insta-recent-follow.repository';
 
 import { UserdataRepository } from '../db/data-repositories/general/userdata/userdata.repository';
 import { InstaLikedCommentsRepository } from '../db/data-repositories/instagram/insta-liked-content/insta-likedcomments.repository';
@@ -111,6 +112,7 @@ export class ServiceSelectionComponent {
               private instaFollowerRepo: InstaFollowerRepository,
               private instaBlockedRepo: InstaBlockedRepository,
               private instaFollowingRepo: InstaFollowingRepository,
+              private instaRecentFollowRepo: InstaRecentFollowRepository,
               private sqlDBService: DBService, 
               private http: HttpClient,
               private inferredTopicsDataRepo: InferredTopicsRepository,
@@ -1009,6 +1011,22 @@ export class ServiceSelectionComponent {
           var timestamp = utilities.convertTimestamp(blockedData[i].string_list_data[0].timestamp);
           
           await this.instaBlockedRepo.addBlockedBulkEntry(accountName, accountURL, timestamp);
+        }    
+      }
+      //add recent follow information
+      if (filename.startsWith("recent_follow_requests")) {
+        let jsonData = JSON.parse(content);
+        let recentFollowData = jsonData.relationships_permanent_follow_requests;
+        await this.instaRecentFollowRepo.startRecentFollowBulkAdd(recentFollowData[0].string_list_data.href,
+          recentFollowData[0].string_list_data[0].value,
+          utilities.convertTimestamp(recentFollowData[0].string_list_data[0].timestamp),
+          recentFollowData.length);
+        for(let i = 1; i < recentFollowData.length; i++){
+          var accountURL = recentFollowData[i].string_list_data[0].href;
+          var accountName = recentFollowData[i].string_list_data[0].value;
+          var timestamp = utilities.convertTimestamp(recentFollowData[i].string_list_data[0].timestamp);
+          
+          await this.instaRecentFollowRepo.addRecentFollowBulkEntry(accountURL, accountName, timestamp);
         }    
       }
     }

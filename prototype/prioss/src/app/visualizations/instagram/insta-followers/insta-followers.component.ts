@@ -1,24 +1,22 @@
 import { Component, Input } from '@angular/core';
 import cytoscape from 'cytoscape';
-import * as utilities from 'src/app/utilities/generalUtilities.functions';
 import { SequenceComponentInit } from '../../sequence-component-init.abstract';
+
 import { InstaFollowerInfo } from 'src/app/models/Instagram/FollowerInfo/FollowerInfo';
 import { InstaFollowingInfo } from 'src/app/models/Instagram/FollowerInfo/FollowingInfo';
 import { InstaBlockedInfo } from 'src/app/models/Instagram/FollowerInfo/BlockedInfo';
 import { InstaFollowerRepository } from 'src/app/db/data-repositories/instagram/insta-follower-info/insta-follower.repository';
 import { InstaFollowingRepository } from 'src/app/db/data-repositories/instagram/insta-follower-info/insta-following.repository';
 import { InstaBlockedRepository } from 'src/app/db/data-repositories/instagram/insta-follower-info/insta-blocked.repository';
+import { InstaRecentFollowRepository } from 'src/app/db/data-repositories/instagram/insta-follower-info/insta-recent-follow.repository';
+import { InstaRecentFollowInfo } from 'src/app/models/Instagram/FollowerInfo/RecentFollow';
 
 @Component({
   selector: 'app-insta-followers',
   templateUrl: './insta-followers.component.html',
-  styleUrls: ['./insta-followers.component.less'],
-  providers: [
-    InstaFollowerRepository,
-    InstaFollowingRepository,
-    InstaBlockedRepository,
-  ],
+  styleUrls: ['./insta-followers.component.less']
 })
+
 export class InstaFollowersComponent extends SequenceComponentInit{
   @Input()
   previewMode: boolean = false;
@@ -26,14 +24,10 @@ export class InstaFollowersComponent extends SequenceComponentInit{
   followerInfo: InstaFollowerInfo[] = [];
   followingInfo: InstaFollowingInfo[] = [];
   blockedInfo: InstaBlockedInfo[] = [];
+  recentFollowInfo: InstaRecentFollowInfo[] = [];
   graphElements: {
     data: { id?: string; source?: string; target?: string };
   }[] = [];
-
-  getObjectPairs: (obj: object) => [string, any][] = utilities.getObjectPairs;
-  convertTimestamp: (str: string) => any = utilities.convertTimestamp;
-  capitalizeAndPrettify: (str: string) => string =
-    utilities.capitalizeAndPrettify;
 
   graphOptions = ['Followers', 'Following'];
   selectedTags: string[] = ['Followers', 'Following'];
@@ -49,7 +43,8 @@ export class InstaFollowersComponent extends SequenceComponentInit{
   constructor(
     private instaFollowerRepo: InstaFollowerRepository,
     private instaFollowingRepo: InstaFollowingRepository,
-    private instaBlockedRepo: InstaBlockedRepository
+    private instaBlockedRepo: InstaBlockedRepository,
+    private instaRecentFollowRepo: InstaRecentFollowRepository
   ) {
     super();
   }
@@ -71,6 +66,10 @@ export class InstaFollowersComponent extends SequenceComponentInit{
     this.blockedInfo = await this.instaBlockedRepo.getBlockedInfo();
     await this.instaBlockedRepo.getBlockedInfo().then((blockedInfo) => {
       this.blockedInfo = blockedInfo;
+    });
+    this.recentFollowInfo = await this.instaRecentFollowRepo.getRecentFollowInfo();
+    await this.instaRecentFollowRepo.getRecentFollowInfo().then((recentFollowInfo) => {
+      this.recentFollowInfo = recentFollowInfo;
     });
   }
 

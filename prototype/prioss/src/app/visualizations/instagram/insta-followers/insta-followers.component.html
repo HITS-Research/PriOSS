@@ -21,9 +21,10 @@
                 <nz-statistic [nzValue]="(blockedInfo.length | number)!"
                     [nzTitle]="'Number of blocked accounts'"></nz-statistic>
             </nz-col>
-            <!-- <nz-col [nzSpan]="12">
-                <nz-statistic [nzValue]="(42| number)!" [nzTitle]="'Number of advertisments viewed'"></nz-statistic>
-            </nz-col> -->
+            <nz-col [nzSpan]="12">
+                <nz-statistic [nzValue]="(recentFollowInfo.length| number)!" 
+                    [nzTitle]="'Number of recent follow requests'"></nz-statistic>
+            </nz-col>
         </nz-row>
     </div>
     <div *ngIf="!previewMode">
