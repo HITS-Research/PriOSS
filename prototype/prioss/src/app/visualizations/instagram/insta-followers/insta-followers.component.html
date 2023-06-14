@@ -5,7 +5,7 @@
         <app-title-bar titleText="Highlights" tooltipText="This are some important entrys in your data download regarding your followers or following relations."></app-title-bar>
     </div>
     <!--This is the preview and the highlights section-->
-    <div *ngIf="previewMode || !previewMode">
+    <div>
         <nz-row [nzGutter]="16">
             <nz-col [nzSpan]="12">
                 <nz-statistic [nzValue]="(followerInfo.length|number)!"
@@ -27,7 +27,7 @@
             </nz-col>
         </nz-row>
     </div>
-    <div *ngIf="!previewMode">
+    <div [class.hidden]="previewMode">
         <br>
         <app-title-bar titleText="Followers and Following" [includeButton]="false"></app-title-bar>
         <nz-card style="width:100%;">

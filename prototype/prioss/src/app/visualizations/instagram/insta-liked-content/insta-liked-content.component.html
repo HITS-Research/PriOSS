@@ -39,9 +39,7 @@
               <nz-demo-tab-content-lazy>
                 <!-- If Liked Comments Data present -->
                 <div *ngIf="liked_comments?.length">
-                    <nz-table [nzData]="liked_comments" [nzPageSize]="10"
-                        [nzPageIndex]="liked_comments_pageindex"
-                        (nzPageIndexChange)="on_liked_comments_page_change($event)">
+                    <nz-table [nzData]="liked_comments" #likedCommentsTable>
                         <thead>
                             <tr>
                                 <th>Username</th>
@@ -50,7 +48,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let like_comment of sliced_liked_comments_data">
+                            <tr *ngFor="let like_comment of likedCommentsTable.data">
                                 <td>{{ like_comment.user }}</td>
                                 <td>{{ like_comment.timestamp }}</td>
                                 <td>
@@ -76,9 +74,7 @@
               <nz-demo-tab-content-lazy>
                 <!-- If Liked Posts Data present -->
                 <div *ngIf="liked_posts?.length">
-                    <nz-table [nzData]="liked_posts" [nzPageSize]="10"
-                        [nzPageIndex]="liked_posts_pageindex"
-                        (nzPageIndexChange)="on_liked_posts_page_change($event)">
+                    <nz-table [nzData]="liked_posts" #likedPostsTable>
                         <thead>
                             <tr>
                                 <th>Username</th>
@@ -87,7 +83,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let liked_post of sliced_liked_posts_data">
+                            <tr *ngFor="let liked_post of likedPostsTable.data">
                                 <td>{{ liked_post.user }}</td>
                                 <td>{{ liked_post.timestamp }}</td>
                                 <td>
