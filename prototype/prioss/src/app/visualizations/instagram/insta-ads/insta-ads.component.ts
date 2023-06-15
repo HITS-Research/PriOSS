@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { SequenceComponentInit } from '../../sequence-component-init.abstract';
+
 import { InstaAdsActivityRepository } from 'src/app/db/data-repositories/instagram/insta-ads/insta-ads-activity.repository';
 import { InstaAdsClickedRepository } from 'src/app/db/data-repositories/instagram/insta-ads/insta-ads-clicked.repository';
 import { InstaAdsInterestRepository } from 'src/app/db/data-repositories/instagram/insta-ads/insta-ads-interest.repository';
@@ -10,6 +11,7 @@ import { InstaAdsClickedInfo } from 'src/app/models/Instagram/LikedAdsInfo/Insta
 import { InstaAdsInterestInfo } from 'src/app/models/Instagram/LikedAdsInfo/InstaAdsInterestInfo';
 import { InstaAdsViewedInfo } from 'src/app/models/Instagram/LikedAdsInfo/InstaAdsViewedInfo';
 
+import * as generalUtils from "../../../utilities/generalUtilities.functions";
 
 /**
  * This component is fsor instagram's advertisement page.
@@ -82,21 +84,4 @@ export class InstaAdsComponent extends SequenceComponentInit{
       this.ads_viewed = ads_viewed
     }
   }
-
-  // Default page configuration for Ads Activity 
-  currentPage = 1;
-  pageSize = 10;
-
-  // Pushing only necessary value to table as per page number
-  get sliced_ads_activity_data() {
-    const start = (this.currentPage - 1) * this.pageSize;
-    const end = start + this.pageSize;
-    return this.ads_activity.slice(start, end);
-  }
-
-  // Changing the page number based on user selection
-  on_ads_actvity_page_change(event: any) {
-    this.currentPage = event;
-  }
-
 }

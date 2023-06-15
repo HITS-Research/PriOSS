@@ -361,6 +361,30 @@ export class ListeningTimeComponent extends SequenceComponentInit {
   }
 
   /**
+   * Calculates at which values on the y-Axis a tick should be displayed. Aims for 10 ticks but may vary depending on the concrete values.
+   * The goal of this function is to display ticks that have rather even values (for example, dont have a tick at 1d 4h 23m but at 1d 4h 0m).
+   * 
+   * @param maxTimeValue the maximum value on the y-Axis (including a small margin over the highest actual value)
+   * @returns A series of values at which a tick on the y-Axis should be displayed
+   * @author: Simon (scg@mail.upb.de)
+   */
+  calculateTimeTicks(maxTimeValue : number) {
+
+    let stepSize = 1000;
+    let remainderFromMaxTime = maxTimeValue/1000;
+
+    while (remainderFromMaxTime > 60) {
+      remainderFromMaxTime /= 60;
+      stepSize *= 60;
+    }
+    let numberOfTicks = 10;
+    let stepSizeScaler = Math.round(maxTimeValue / (numberOfTicks * stepSize))
+    let tickStepSize = stepSize * (stepSizeScaler > 0 ? stepSizeScaler : 1);
+
+    return d3.range(0, maxTimeValue, (maxTimeValue/tickStepSize <= 5 ? tickStepSize/2 : tickStepSize));
+  }
+
+  /**
     * Creates a bar chart for the listening time based on the given data. The data may have any granularity
     *
     * @param data: The data array (structure: {name: string, value: number, color: string}[]) that should be used to fill the bar chart
@@ -368,7 +392,7 @@ export class ListeningTimeComponent extends SequenceComponentInit {
     * @author: Simon (scg@mail.upb.de)
     *
     */
-  makeBarChart(data: { name: string, value: number, color: string }[] | null) {
+  async makeBarChart(data: { name: string, value: number, color: string }[] | null) {
     //show an empty chart if the given data is null
     if (data == null) {
       data = [];
@@ -387,16 +411,17 @@ export class ListeningTimeComponent extends SequenceComponentInit {
     let textSize = "20px";
 
     let margin = 100;
-    let leftmargin = 125;
+    let leftmargin = 150;
     let bottomMargin = 125;
     let xAxisWidth = window.innerWidth - margin * 2;
-    let yAxisHeight = window.innerHeight - margin * 2;
+    let yAxisHeight = window.innerHeight*0.90 - margin * 2;
     let svg = d3
       .select("#listeningtime-bar-chart")
       .append("svg")
       .attr(
         "viewBox",
         `0 0 ${xAxisWidth + margin * 2} ${yAxisHeight + bottomMargin}`
+        //`0 0 ${xAxisWidth + margin * 2} ${yAxisHeight + bottomMargin}`
       )
       .append("g")
       .attr("transform", "translate(" + leftmargin + "," + 0 + ")");
@@ -438,17 +463,22 @@ export class ListeningTimeComponent extends SequenceComponentInit {
       .attr("dy", ".15em")
       .attr("transform", "rotate(-65)");
 
+      
+    let formatter = this.getTimeFormat;//d3.format(".0%");
+
     // Create Y-axis band scale
     let y = d3
       .scaleLinear()
       .domain([0, yAxisValueheight])
       .range([yAxisHeight, 0]);
 
-    let formatter = this.getTimeFormat;//d3.format(".0%");
     // Draw the Y-axis on the DOM
     svg
       .append("g")
-      .call(d3.axisLeft(y).scale(y).tickFormat(formatter))
+      .call(d3.axisLeft(y)
+              .scale(y)
+              .tickFormat(formatter)
+              .tickValues(this.calculateTimeTicks(yAxisValueheight)))
       .selectAll("text")
       .style("font-size", textSize);
 
@@ -520,8 +550,6 @@ export class ListeningTimeComponent extends SequenceComponentInit {
         .attr("y", (d: any) => y(d.value) - 5) // change text position
         .text((d: any) => formatDisplayTime(d.value));
     }
-
-
   }
 
   /**

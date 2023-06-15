@@ -60,6 +60,10 @@
           </li>
         </ul>
       </li>
+      <li nz-menu-item nzMatchRouter>
+        <span nz-icon nzType="warning" nzTheme="outline"></span>
+        <span><a routerLink="/known-issues">Known Issues</a></span>
+      </li>
     </ul>
     <div class="navbar-btn-container">
       <button *ngIf="showServiceButton" nz-button nzType="default" class="navbar-btn" id="service-btn" nzSize="large" (click)="pRouter.navigateByUrl('/serviceSelection')">

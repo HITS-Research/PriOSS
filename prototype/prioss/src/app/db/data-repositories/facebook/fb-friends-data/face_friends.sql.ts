@@ -4,26 +4,30 @@
 * @param name name of the friend of the user, to be added to the face_friends table.
 * @param timestamp timestamp to be added to the face_friends table
 *
-* @author: Deepa (dbelvi@mail.upb.de)
+* @author: rbharmal (rbharmal@mail.upb.de)
 *
 */
 
 export const insertIntoFaceFriendsSQL: string = `
 insert into face_friends
-(name, timestamp)
+(name, timestamp, type)
 values 
-(?, ?);
+(?, ?, ?);
 `;
 
 export const bulkAddFaceFriendsBaseSQL: string = `
 insert into face_friends
-(name, timestamp)
+(name, timestamp, type)
 `;
 
 export const bulkAddFaceFriendsValuesSQL: string = `
-select ?, ?
+select ?, ?, ?
 `;
 
 export const bulkAddValueConnector: string = `
 union all
 `;
+
+export const selectAllFacebookFriends: string = `
+select id, name, timestamp, type from face_friends
+`
