@@ -11,6 +11,14 @@ import { SpotMonthlyListening } from 'src/app/models/Spotify/ListeningHistory/Sp
 import { SpotHourlyListening } from 'src/app/models/Spotify/ListeningHistory/SpotHourlyListening';
 import { SpotDailyListening } from 'src/app/models/Spotify/ListeningHistory/SpotDailyListening';
 import { SequenceComponentInit } from '../../sequence-component-init.abstract';
+import { filter } from 'jszip';
+
+interface ListeningtimeFilterHistoryEntry {
+  granularity: GranularityEnum;
+  filterFromDate: Date|null;
+  filterToDate: Date|null;
+  filterSingleDate: Date|null;
+}
 
 /**
   * This component visualizes the total listening time in relation to configurable time periods
@@ -48,6 +56,9 @@ export class ListeningTimeComponent extends SequenceComponentInit {
   filterFromDate: Date | null;
   filterToDate: Date | null;
   filterSingleDate: Date | null;
+
+  filterHistory: ListeningtimeFilterHistoryEntry[] = []
+  currentFilterHistoryEntry: ListeningtimeFilterHistoryEntry;
 
   //Barchart visual elements
   showDataTextAboveBars: boolean = false;
@@ -89,6 +100,13 @@ export class ListeningTimeComponent extends SequenceComponentInit {
     //Shows the single day view first because it takes less time to build than year/month/day views,
     //this gives us time to parse and compile the data needed for the year, month and day views
     this.selectedGranularity = GranularityEnum.Year;
+    
+    this.currentFilterHistoryEntry = { 
+      granularity: this.selectedGranularity, 
+      filterFromDate: null, 
+      filterToDate: null, 
+      filterSingleDate: null
+    };
 
     let dataMap = await this.createYearData();
     this.yearDataMap = dataMap;
@@ -98,7 +116,16 @@ export class ListeningTimeComponent extends SequenceComponentInit {
 
     dataMap = await this.createMonthData();
     this.monthDataMap = dataMap;
+
+    this.filterHistory = [];
+    this.currentFilterHistoryEntry = { 
+      granularity: this.selectedGranularity, 
+      filterFromDate: null, 
+      filterToDate: null, 
+      filterSingleDate: null
+    };
   }
+
 
 /**
   * Callback that handles updating the visualization after the user changed the date filters of the chart
@@ -106,7 +133,67 @@ export class ListeningTimeComponent extends SequenceComponentInit {
   * @author: Simon (scg@mail.upb.de)
   */
   onDateFilterChanged() {
+
     this.recreateVisualization();
+  }
+
+  updateFilterHistory() {
+
+    console.log(this.filterHistory);
+    let lastFilters = this.currentFilterHistoryEntry;//this.filterHistory[this.filterHistory.length-1];
+
+    if(lastFilters.granularity != this.selectedGranularity ||
+       lastFilters.filterFromDate != this.filterFromDate ||
+       lastFilters.filterToDate != this.filterToDate ||
+       lastFilters.filterSingleDate != this.filterSingleDate) {
+
+      this.filterHistory.push(lastFilters);
+      this.currentFilterHistoryEntry = { 
+        granularity: this.selectedGranularity, 
+        filterFromDate: this.filterFromDate, 
+        filterToDate: this.filterToDate, 
+        filterSingleDate: this.filterSingleDate
+      };
+
+      console.log("##### NEW FILTER HISTORY ######");
+      console.log(this.filterHistory);
+    }
+    else
+    {
+      console.log("Filter History stayed the same");
+    }
+  }
+
+  onClickedRevertFilters() {
+    let filters = this.filterHistory.pop();
+
+    if(filters)
+    {
+      this.selectedGranularity = filters.granularity;
+      this.filterFromDate = filters.filterFromDate;
+      this.filterToDate = filters.filterToDate;
+      this.filterSingleDate = filters.filterSingleDate;
+      this.currentFilterHistoryEntry = filters;
+
+      this.recreateVisualization(false);
+    }
+    else
+    {
+      //reset to defaults
+      this.selectedGranularity = GranularityEnum.Year;
+      this.filterFromDate = null;
+      this.filterToDate = null;
+      this.filterSingleDate = null;
+
+      this.currentFilterHistoryEntry = { 
+        granularity: this.selectedGranularity, 
+        filterFromDate: this.filterFromDate, 
+        filterToDate: this.filterToDate, 
+        filterSingleDate: this.filterSingleDate
+      };
+
+      this.recreateVisualization(false);
+    }
   }
 
 /**
@@ -136,8 +223,12 @@ export class ListeningTimeComponent extends SequenceComponentInit {
     *
     * @author: Simon (scg@mail.upb.de)
     */
-  async recreateVisualization() {
+  async recreateVisualization(updateFilterHistory: boolean = true) {
     let data: { name: string, value: number, color: string }[] | null = [];
+
+    if(updateFilterHistory) {
+      this.updateFilterHistory();
+    }
 
     //compile the data based on the history in the selected granularity (e.g. by year / by month, etc.)
     switch (this.selectedGranularity) {
