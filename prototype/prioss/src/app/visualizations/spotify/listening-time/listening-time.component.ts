@@ -107,6 +107,7 @@ export class ListeningTimeComponent extends SequenceComponentInit {
     //this gives us time to parse and compile the data needed for the year, month and day views
     this.selectedGranularity = GranularityEnum.Year;
     
+    this.filterHistory = [];
     this.currentFilterHistoryEntry = { 
       granularity: this.selectedGranularity, 
       filterFromDate: null, 
@@ -122,14 +123,6 @@ export class ListeningTimeComponent extends SequenceComponentInit {
 
     dataMap = await this.createMonthData();
     this.monthDataMap = dataMap;
-
-    this.filterHistory = [];
-    this.currentFilterHistoryEntry = { 
-      granularity: this.selectedGranularity, 
-      filterFromDate: null, 
-      filterToDate: null, 
-      filterSingleDate: null
-    };
   }
 
 
