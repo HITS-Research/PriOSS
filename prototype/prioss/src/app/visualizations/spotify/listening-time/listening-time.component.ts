@@ -57,7 +57,13 @@ export class ListeningTimeComponent extends SequenceComponentInit {
   filterToDate: Date | null;
   filterSingleDate: Date | null;
 
+  /**
+   * A list of previously used filters, so users can easily go back to their previous views on the data
+   */
   filterHistory: ListeningtimeFilterHistoryEntry[] = []
+  /**
+   * A copy of the current filter values. This is needed, so when the actual filters change, their previous values can be inserted into the history.
+   */
   currentFilterHistoryEntry: ListeningtimeFilterHistoryEntry;
 
   //Barchart visual elements
@@ -137,9 +143,13 @@ export class ListeningTimeComponent extends SequenceComponentInit {
     this.recreateVisualization();
   }
 
+  /**
+   * Called when the filter values change. Takes the current filter history entry and saves it in the filter history list.
+   * 
+   * @author: Simon (scg@mail.upb.de)
+   */
   updateFilterHistory() {
 
-    console.log(this.filterHistory);
     let lastFilters = this.currentFilterHistoryEntry;//this.filterHistory[this.filterHistory.length-1];
 
     if(lastFilters.granularity != this.selectedGranularity ||
@@ -154,16 +164,14 @@ export class ListeningTimeComponent extends SequenceComponentInit {
         filterToDate: this.filterToDate, 
         filterSingleDate: this.filterSingleDate
       };
-
-      console.log("##### NEW FILTER HISTORY ######");
-      console.log(this.filterHistory);
-    }
-    else
-    {
-      console.log("Filter History stayed the same");
     }
   }
 
+  /**
+   * Callback for going back to the previous filter in the filter history list.
+   * 
+   * @author: Simon (scg@mail.upb.de)
+   */
   onClickedRevertFilters() {
     let filters = this.filterHistory.pop();
 
@@ -252,8 +260,6 @@ export class ListeningTimeComponent extends SequenceComponentInit {
     //make new barchart according to data
     this.makeBarChart(data);
   }
-
-
 
   /**
     * Parses the listening history into a data map usable for creating a bar chart with year-granularity
