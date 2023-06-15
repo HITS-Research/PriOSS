@@ -1,4 +1,4 @@
-Facebook GDPR
+All GDPR
 
 The GDPR is European Union's data protection law effective from May 2018. It is applicable for all individuals within the European Union (EU) and the European Economic Area (EEA). 
 It was created to regulate the collection, processing, and storage of personal data by any corporation in the world, as long as they target or collect data related to people in the EU.
