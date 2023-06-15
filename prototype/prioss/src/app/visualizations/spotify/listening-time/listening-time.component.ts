@@ -426,44 +426,6 @@ export class ListeningTimeComponent extends SequenceComponentInit {
       .append("g")
       .attr("transform", "translate(" + leftmargin + "," + 0 + ")");
 
-    /* 
-     * Bar drop shadows
-     */
-
-    // Dropshadows of Bars: filters go in defs element
-    var defs = svg.append("defs");
-
-    // create filter with id #drop-shadow
-    // height=130% so that the shadow is not clipped
-    var filter = defs.append("filter")
-        .attr("id", "drop-shadow")
-        .attr("height", "130%")
-
-    // SourceAlpha refers to opacity of graphic that this filter will be applied to
-    // convolve that with a Gaussian with standard deviation 3 and store result
-    // in blur
-    let feOffset = filter.append("feGaussianBlur")
-        .attr("in", "SourceAlpha")
-        .attr("stdDeviation", 5)
-        .attr("result", "blur");
-
-    // translate output of Gaussian blur to the right and downwards with 2px
-    // store result in offsetBlur
-    filter.append("feOffset")
-        .attr("in", "blur")
-        .attr("dx", 5)
-        .attr("dy", 5)
-        .attr("result", "offsetBlur");
-
-    // overlay original SourceGraphic over translated blurred opacity by using
-    // feMerge filter. Order of specifying inputs is important!
-    var feMerge = filter.append("feMerge");
-
-    feMerge.append("feMergeNode")
-        .attr("in", "offsetBlur")
-    feMerge.append("feMergeNode")
-        .attr("in", "SourceGraphic");
-
     let x: any = d3
       .scaleBand()
       .range([0, xAxisWidth])
@@ -478,11 +440,7 @@ export class ListeningTimeComponent extends SequenceComponentInit {
         .style("font-size", titleSize)
         .style("text-decoration", "underline")
         .text("Total listening time in the given time-period");
-      */
-
-    /* 
-     * Continue drawing svg
-     */    
+      */ 
 
     // Drawing X-axis on the DOM
     svg
@@ -557,7 +515,6 @@ export class ListeningTimeComponent extends SequenceComponentInit {
       .attr("height", 0)//calcBarHeight)
       //.attr("height", (d: any) => y(d.value) * height / 100)// this.height
       .attr("fill", (d: any) => d.color)
-      //.style("filter", "url(#drop-shadow)")//apply shadow
       .on("click", () => {
         if (this.selectedGranularity != GranularityEnum.Hour)
           tooltip.html(``).style("visibility", "hidden");
@@ -568,7 +525,6 @@ export class ListeningTimeComponent extends SequenceComponentInit {
       .on("mouseover", function (event, data) {
         onMouseOver(currentGranularity, tooltip, this, data);
         hoveringBarName = data.name;
-        d3.select(this).style("filter", "url(#drop-shadow)")//apply shadow
       })
       //Mouse moved: change tooltip position
       .on("mousemove", function (event) {
@@ -580,7 +536,6 @@ export class ListeningTimeComponent extends SequenceComponentInit {
       .on("mouseout", function () {
         tooltip.html(``).style("visibility", "hidden");
         hoveringBarName = "";
-        d3.select(this).style("filter", "none")//remove shadow
         //d3.select(this).style("boxshadow", "none");
         //d3.select(this).style("cursor", "auto");
       })
