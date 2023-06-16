@@ -14,6 +14,10 @@ import { InstaPendingFollowRequestInfo } from 'src/app/models/Instagram/Follower
 import { InstaPendingFollowRequestRepository } from 'src/app/db/data-repositories/instagram/insta-follower-info/insta-pending-follow-request.repository';
 import { InstaRecentlyUnfollowedInfo } from 'src/app/models/Instagram/FollowerInfo/RecentlyUnfollowedAccounts';
 import { InstaRecentlyUnfollowedAccountsRepository } from 'src/app/db/data-repositories/instagram/insta-follower-info/insta-recently-unfollowed-accounts.repository';
+import { InstaRemovedSuggestionRepository } from 'src/app/db/data-repositories/instagram/insta-follower-info/insta-removed-suggestion.repository';
+import { InstaRemovedSuggestionInfo } from 'src/app/models/Instagram/FollowerInfo/RemovedSuggestion';
+import { InstaReceivedFollowRequestRepository } from 'src/app/db/data-repositories/instagram/insta-follower-info/insta-received-follow-request.repository';
+import { InstaReceivedFollowRequestInfo } from 'src/app/models/Instagram/FollowerInfo/ReceivedFollowRequest';
 
 /**
   * This component is the visualization component on instagram's dashboard page.
@@ -37,6 +41,8 @@ export class InstaFollowersComponent extends SequenceComponentInit{
   recentFollowInfo: InstaRecentFollowInfo[] = [];
   pendingFollowRequestInfo: InstaPendingFollowRequestInfo[] = [];
   recentlyUnfollowedAccountInfo: InstaRecentlyUnfollowedInfo[] = [];
+  removedSuggestionInfo : InstaRemovedSuggestionInfo[] = [];
+  receivedFollowRequestInfo : InstaReceivedFollowRequestInfo[] = [];
   graphElements: {
     data: { id?: string; source?: string; target?: string };
   }[] = [];
@@ -51,6 +57,8 @@ export class InstaFollowersComponent extends SequenceComponentInit{
   currentRecentFollowPage = 1;
   currentPendingFollowRequestPage = 1;
   currentRecentlyUnfollowedAccountsPage = 1;
+  currentRemovedSuggestionPage = 1;
+  currentReceivedFollowRequestPage = 1;
   pageSize = 10;
 
   cy: cytoscape.Core;
@@ -61,7 +69,9 @@ export class InstaFollowersComponent extends SequenceComponentInit{
     private instaBlockedRepo: InstaBlockedRepository,
     private instaRecentFollowRepo: InstaRecentFollowRepository,
     private instaPendingFollowRequestRepo: InstaPendingFollowRequestRepository,
-    private instaRecentlyUnfollowedAccountsRepo: InstaRecentlyUnfollowedAccountsRepository
+    private instaRecentlyUnfollowedAccountsRepo: InstaRecentlyUnfollowedAccountsRepository,
+    private instaRemovedSuggestionRepo: InstaRemovedSuggestionRepository,
+    private instaReceivedFollowRequestRepo: InstaReceivedFollowRequestRepository
   ) {
     super();
   }
@@ -95,6 +105,14 @@ export class InstaFollowersComponent extends SequenceComponentInit{
     this.recentlyUnfollowedAccountInfo = await this.instaRecentlyUnfollowedAccountsRepo.getRecentlyUnfollowedAccountInfo();
     await this.instaRecentlyUnfollowedAccountsRepo.getRecentlyUnfollowedAccountInfo().then((recentlyUnfollowedAccountInfo) => {
       this.recentlyUnfollowedAccountInfo = recentlyUnfollowedAccountInfo;
+    });
+    this.removedSuggestionInfo = await this.instaRemovedSuggestionRepo.getRemovedSuggestionInfo();
+    await this.instaRemovedSuggestionRepo.getRemovedSuggestionInfo().then((removedSuggestionInfo) => {
+      this.removedSuggestionInfo = removedSuggestionInfo;
+    });
+    this.receivedFollowRequestInfo = await this.instaReceivedFollowRequestRepo.getReceivedFollowRequestInfo();
+    await this.instaReceivedFollowRequestRepo.getReceivedFollowRequestInfo().then((receivedFollowRequestInfo) => {
+      this.receivedFollowRequestInfo = receivedFollowRequestInfo;
     });
   }
 
@@ -252,6 +270,14 @@ export class InstaFollowersComponent extends SequenceComponentInit{
     return this.getSlicedData(this.recentlyUnfollowedAccountInfo, this.currentRecentlyUnfollowedAccountsPage);
   }
 
+  get sliced_removed_suggestion_data() {
+    return this.getSlicedData(this.removedSuggestionInfo, this.currentRemovedSuggestionPage);
+  }
+
+  get sliced_received_follow_request_data() {
+    return this.getSlicedData(this.receivedFollowRequestInfo, this.currentReceivedFollowRequestPage);
+  }
+
   //Event Handler
 
   // Changing the page number based on user selection
@@ -275,13 +301,23 @@ export class InstaFollowersComponent extends SequenceComponentInit{
   }
 
   // Changing the page number based on user selection
-  on_pending_follow_request_page_chance(event: any) {
+  on_pending_follow_request_page_change(event: any) {
     this.currentPendingFollowRequestPage = event;
   }
 
    // Changing the page number based on user selection
-   on_recently_unfollowed_account_page_chance(event: any) {
+   on_recently_unfollowed_account_page_change(event: any) {
     this.currentRecentlyUnfollowedAccountsPage = event;
+  }
+
+   // Changing the page number based on user selection
+   on_removed_suggestion_page_change(event: any) {
+    this.currentRemovedSuggestionPage = event;
+  }
+  
+  // Changing the page number based on user selection
+  on_received_follow_request_page_change(event: any) {
+    this.currentReceivedFollowRequestPage = event;
   }
 
   /**

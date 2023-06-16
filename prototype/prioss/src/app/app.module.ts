@@ -84,6 +84,8 @@ import { InstaBlockedRepository } from './db/data-repositories/instagram/insta-f
 import { InstaRecentFollowRepository } from './db/data-repositories/instagram/insta-follower-info/insta-recent-follow.repository';
 import { InstaPendingFollowRequestRepository } from './db/data-repositories/instagram/insta-follower-info/insta-pending-follow-request.repository';
 import { InstaRecentlyUnfollowedAccountsRepository } from './db/data-repositories/instagram/insta-follower-info/insta-recently-unfollowed-accounts.repository';
+import { InstaRemovedSuggestionRepository } from './db/data-repositories/instagram/insta-follower-info/insta-removed-suggestion.repository';
+import { InstaReceivedFollowRequestRepository } from './db/data-repositories/instagram/insta-follower-info/insta-received-follow-request.repository';
 import { FaqComponent } from './info-pages/faq/faq.component';
 import { FacebookAdsInteractedRepository } from './db/data-repositories/facebook/fb_ads_data/face_ads_interacted.repo';
 import { FacebookAppsWebsitesRepository } from './db/data-repositories/facebook/fb_ads_data/face_apps_websites.repo';
@@ -396,6 +398,8 @@ const dbConfig: DBConfig  =
     InstaRecentFollowRepository,
     InstaPendingFollowRequestRepository,
     InstaRecentlyUnfollowedAccountsRepository,
+    InstaRemovedSuggestionRepository,
+    InstaReceivedFollowRequestRepository,
     InferencesRepository,
     UserdataRepository,
     InferredTopicsRepository,

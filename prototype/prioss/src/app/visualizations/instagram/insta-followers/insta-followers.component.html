@@ -102,7 +102,9 @@
                                 <nz-empty nzNotFoundImage="simple"></nz-empty>
                             </div>
                         </nz-demo-tab-content-lazy></ng-template></nz-tab>
-            </nz-tabset></nz-card>
+            </nz-tabset>
+        </nz-card>
+        <br>
         <br>
 
         <app-title-bar titleText="Blocked Accounts" [includeButton]="false"></app-title-bar>
@@ -165,7 +167,7 @@
         <!-- If Pending Follow Request Data present -->
         <div *ngIf="pendingFollowRequestInfo?.length">
             <nz-table [nzData]="pendingFollowRequestInfo" [nzPageSize]="pageSize" [nzPageIndex]="currentPendingFollowRequestPage"
-                (nzPageIndexChange)="on_pending_follow_request_page_chance($event)">
+                (nzPageIndexChange)="on_pending_follow_request_page_change($event)">
                 <thead>
                     <tr>
                         <th>Username</th>
@@ -189,11 +191,39 @@
             <nz-empty nzNotFoundImage="simple"></nz-empty>
         </div>
 
+        <app-title-bar titleText="Received Follow Requests" [includeButton]="false"></app-title-bar>
+        <!-- If Received Follow Requests Data present -->
+        <div *ngIf="receivedFollowRequestInfo?.length">
+            <nz-table [nzData]="receivedFollowRequestInfo" [nzPageSize]="pageSize" [nzPageIndex]="currentReceivedFollowRequestPage"
+                (nzPageIndexChange)="on_received_follow_request_page_change($event)">
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Timestamp of the request</th>
+                        <th>Profile URL</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let request_info of sliced_received_follow_request_data">
+                        <td>{{ request_info.instaAccountName }}</td>
+                        <td>{{ request_info.timestamp }}</td>
+                        <td><span nz-icon nzType="link"><a target="_blank"
+                                    href={{request_info.instaProfileURL}}>{{request_info.instaAccountName}}</a></span>
+                        </td>
+                    </tr>
+                </tbody>
+            </nz-table>
+        </div>
+        <!-- If No Received Follow Requests Data present -->
+        <div *ngIf="receivedFollowRequestInfo?.length === 0">
+            <nz-empty nzNotFoundImage="simple"></nz-empty>
+        </div>
+
         <app-title-bar titleText="Recently Unfollowed Accounts" [includeButton]="false"></app-title-bar>
         <!-- If Recently Unfollowed Accounts Data present -->
         <div *ngIf="recentlyUnfollowedAccountInfo?.length">
             <nz-table [nzData]="recentlyUnfollowedAccountInfo" [nzPageSize]="pageSize" [nzPageIndex]="currentRecentlyUnfollowedAccountsPage"
-                (nzPageIndexChange)="on_recently_unfollowed_account_page_chance($event)">
+                (nzPageIndexChange)="on_recently_unfollowed_account_page_change($event)">
                 <thead>
                     <tr>
                         <th>Username</th>
@@ -217,7 +247,32 @@
             <nz-empty nzNotFoundImage="simple"></nz-empty>
         </div>
 
-
-        <h3 nz-typography>Restricted accounts</h3>
+        <app-title-bar titleText="Removed Suggestions" [includeButton]="false"></app-title-bar>
+        <!-- If Removed Suggestions Data present -->
+        <div *ngIf="removedSuggestionInfo?.length">
+            <nz-table [nzData]="removedSuggestionInfo" [nzPageSize]="pageSize" [nzPageIndex]="currentRemovedSuggestionPage"
+                (nzPageIndexChange)="on_removed_suggestion_page_change($event)">
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Timestamp of the removing</th>
+                        <th>Profile URL</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let removed_info of sliced_removed_suggestion_data">
+                        <td>{{ removed_info.instaAccountName }}</td>
+                        <td>{{ removed_info.timestamp }}</td>
+                        <td><span nz-icon nzType="link"><a target="_blank"
+                                    href={{removed_info.instaProfileURL}}>{{removed_info.instaAccountName}}</a></span>
+                        </td>
+                    </tr>
+                </tbody>
+            </nz-table>
+        </div>
+        <!-- If No Removed Suggestion Data present -->
+        <div *ngIf="removedSuggestionInfo?.length === 0">
+            <nz-empty nzNotFoundImage="simple"></nz-empty>
+        </div>
     </div>
 </div>

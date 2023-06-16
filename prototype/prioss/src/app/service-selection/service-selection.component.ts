@@ -30,6 +30,8 @@ import { InstaBlockedRepository } from '../db/data-repositories/instagram/insta-
 import { InstaRecentFollowRepository } from '../db/data-repositories/instagram/insta-follower-info/insta-recent-follow.repository';
 import { InstaPendingFollowRequestRepository } from '../db/data-repositories/instagram/insta-follower-info/insta-pending-follow-request.repository';
 import { InstaRecentlyUnfollowedAccountsRepository } from '../db/data-repositories/instagram/insta-follower-info/insta-recently-unfollowed-accounts.repository';
+import { InstaRemovedSuggestionRepository } from '../db/data-repositories/instagram/insta-follower-info/insta-removed-suggestion.repository';
+import { InstaReceivedFollowRequestRepository } from '../db/data-repositories/instagram/insta-follower-info/insta-received-follow-request.repository';
 
 import { UserdataRepository } from '../db/data-repositories/general/userdata/userdata.repository';
 import { InstaLikedCommentsRepository } from '../db/data-repositories/instagram/insta-liked-content/insta-likedcomments.repository';
@@ -117,6 +119,8 @@ export class ServiceSelectionComponent {
               private instaRecentFollowRepo: InstaRecentFollowRepository,
               private instaPendingFollowRequestRepo: InstaPendingFollowRequestRepository,
               private instaRecentlyUnfollowedAccountsRepo: InstaRecentlyUnfollowedAccountsRepository,
+              private instaRemovedSuggestionRepo: InstaRemovedSuggestionRepository,
+              private instaReceivedFollowRequestRepo: InstaReceivedFollowRequestRepository,
               private sqlDBService: DBService, 
               private http: HttpClient,
               private inferredTopicsDataRepo: InferredTopicsRepository,
@@ -1061,6 +1065,38 @@ export class ServiceSelectionComponent {
           var accountName = recentlyUnfollowData[i].string_list_data[0].value;
           var timestamp = utilities.convertTimestamp(recentlyUnfollowData[i].string_list_data[0].timestamp);
           await this.instaRecentlyUnfollowedAccountsRepo.addRecentlyUnfollowedAccountsBulkEntry(accountURL, accountName, timestamp);
+        }    
+      }
+
+      //add removed suggestion information
+      if (filename.startsWith("removed_suggestions")) {
+        let jsonData = JSON.parse(content);
+        let removedSuggestionData = jsonData.relationships_dismissed_suggested_users;
+        await this.instaRemovedSuggestionRepo.startRemovedSuggestionBulkAdd(removedSuggestionData[0].string_list_data[0].href,
+          removedSuggestionData[0].string_list_data[0].value,
+          utilities.convertTimestamp(removedSuggestionData[0].string_list_data[0].timestamp),
+          removedSuggestionData.length);
+        for(let i = 1; i < removedSuggestionData.length; i++){
+          var accountURL = removedSuggestionData[i].string_list_data[0].href;
+          var accountName = removedSuggestionData[i].string_list_data[0].value;
+          var timestamp = utilities.convertTimestamp(removedSuggestionData[i].string_list_data[0].timestamp);
+          await this.instaRemovedSuggestionRepo.addRemovedSuggestionBulkEntry(accountURL, accountName, timestamp);
+        }    
+      }
+
+      //add received follow request information
+      if (filename.startsWith("follow_requests_you've_received")) {
+        let jsonData = JSON.parse(content);
+        let receivedRequestData = jsonData.relationships_follow_requests_received;
+        await this.instaReceivedFollowRequestRepo.startReceivedFollowRequestBulkAdd(receivedRequestData[0].string_list_data[0].href,
+          receivedRequestData[0].string_list_data[0].value,
+          utilities.convertTimestamp(receivedRequestData[0].string_list_data[0].timestamp),
+          receivedRequestData.length);
+        for(let i = 1; i < receivedRequestData.length; i++){
+          var accountURL = receivedRequestData[i].string_list_data[0].href;
+          var accountName = receivedRequestData[i].string_list_data[0].value;
+          var timestamp = utilities.convertTimestamp(receivedRequestData[i].string_list_data[0].timestamp);
+          await this.instaReceivedFollowRequestRepo.addReceivedFollowRequestBulkEntry(accountURL, accountName, timestamp);
         }    
       }
     }
