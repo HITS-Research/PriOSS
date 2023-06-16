@@ -1,12 +1,11 @@
 <h1>Known Issues of this Application Version</h1>
 <ul style="width: 50%">
-  <li>Online/Offline Indicator not working on all clients:<br>
-    The online/offline indicator icon displayed on the dashboards is currently not working on some clients. 
-    Preliminary testing suggests that linux clients work but windows clients always show to be online, 
-    even when in flightmode or otherwise disconnected from the network.
+  <li>Limited Mobile Support:<br>
+    Only a few pages currently work well on mobile as we haven't had time to adapt them all to mobile screen size yet. 
+    The Landing page should already work on mobile devices as well as parts of the Dashboard pages, most visualizations however are not adjusted to mobile screen sizes yet.
   </li>
-  <li>Offline Functionality not working on all clients:<br>
-    The offline functionality currently does not seem to work on all clients. In some cases, the service worker does not start properly and thus only cached sites are available offline.
-    This is currently being investigated.
+  <li>Repeated Reloading Bug:<br>
+    When reloading the website from the development server, there is currently a bug where the page keeps repeatedly reloading for 10-20 seconds before finally displaying fully.
+    This bug likely is caused by the webservers used for locally testing the webapp during development and should not affect the released version of the site.
   </li>
 </ul>

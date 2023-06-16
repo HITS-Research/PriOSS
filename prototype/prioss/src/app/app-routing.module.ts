@@ -34,7 +34,7 @@ const routes: Routes = [
   { path: 'known-issues', component: KnownIssuesComponent },
   { path: 'about', component: AboutComponent },
   { path: 'contact', component: ContactComponent },
-  { path: 'faq', component: FaqComponent },
+ // { path: 'faq', component: FaqComponent },
   { path: 'spot/inference', component: InferencesComponent },
   { path: 'spot/mood', component: MoodComponent },
   { path: 'spot/listening-time', component: ListeningTimeComponent },
