@@ -115,6 +115,38 @@
   <h4 nz-typography>Contact the privacy center for Meta. It covers Facebook, Instagram, Messenger, and other Meta products.</h4>
 </div>
 <br>
+
+<div id="privacy">
+  <h2 nz-typography id="Manage-Privacy">Privacy Recommendations</h2>
+  <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
+    <div nz-col nzXs="24" nzXl="8">
+      <nz-card nzTitle="Privacy Settings Judge" nzHoverable>
+        <app-settings-form [service]="'Instagram'"></app-settings-form>
+      </nz-card>
+    </div> 
+
+  <div nz-col nzXs="24" nzXl="8">
+    <!--card for visualizing all about advertisements-->
+    <nz-card id ="advertisement" nzTitle="Advertisement" nzHoverable [nzExtra]="extraAds">
+        <app-insta-ads [previewMode]="true"></app-insta-ads>
+    </nz-card>
+    <ng-template #extraAds>
+      <a routerLink="/insta/ads">More</a>
+    </ng-template>
+  </div>
+
+  <div nz-col nzXs="24" nzXl="8">
+    <!--card for visualizing the login and account creation-->
+    <nz-card nzTitle="Account Creation and Login" nzHoverable [nzExtra]="extraAccount">
+      <app-insta-account-creation-login [previewMode]="true"></app-insta-account-creation-login>
+    </nz-card>
+    <ng-template #extraAccount>
+      <a routerLink="/insta/account">More</a>
+    </ng-template>
+  </div>
+
+</div>
+
 <div id="gdpr">
   <h2 nz-typography>GDPR Rights</h2>
   <p nz-typography>

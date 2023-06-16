@@ -9,25 +9,33 @@ export class InstaPrivacySettingsService {
    * For detailed information on the variable and on how to embed the privacy settings module to the Dashboard please refer to the documentation
    * Documentation File: "Privacy-Settings Module information.md"
    * 
-   * @author: Maximilian (maxy@mail.upb.de)
+   * @author: aayushma (aayushma@mail.uni-paderborn.de)
    *
    */
 
   settings = [
     {
-      question : "Public Profile?",
-      howToCheck : "",
+      question : "How to make Instagram private?",
+      howToCheck : "<strong> Picture Guide:</strong> -- Link Here --",
       options : [
-        { label: "option 1", value: "option1", advice: "Bad" },
-        { label: "option 2", value: "option2", advice: "Good" }
+        { label: "Account is Private", value: "Yes", advice: "Great! Your account is set to private." },
+        { label: "Account is not Private", value: "No", advice: "Maintaining privacy allows individulas to have better control over their online presence and choose who can view and interact with their content, enhancing their overall digital privacy and peace of mind." }
                 ]
     },
     {
-      question : "",
-      howToCheck : "",
+      question : "How to keep your Profile Information Private?",
+      howToCheck : "<strong> Picture Guide:</strong> -- Link Here --",
       options : [
-        { label: "", value: "", advice: "" },
-        { label: "", value: "", advice: "" }
+        { label: "Profile information is private", value: "Yes", advice: "Great! You did well." },
+        { label: "Profile information is not private", value: "No", advice: "By limiting access to this information, individuals can reduce the risk of identity theft, online scams, and unauthorized account access, ensuring the safety and integrity of their online presence and digital assets."}
       ]
-    } ]
+    },
+    {
+      question : "How to turn on two-factor authentication on Instagram?",
+      howToCheck : "<strong> Picture Guide:</strong> -- Link Here --",
+      options : [
+        { label: "Two-factor authentication is on", value: "Yes", advice: "Nice! It protects your privacy."},
+        { label: "Two-factor authentication is off", value: "No", advice: "Enabling two-factor authentication provides an additional security layer, making it harder for unauthorized individuals to access online accounts and safeguarding sensitive information from potential breaches."}
+      ]
+    } ] 
 }
