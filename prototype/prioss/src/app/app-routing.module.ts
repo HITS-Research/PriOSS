@@ -27,7 +27,11 @@ import { InstaContactComponent } from './visualizations/instagram/insta-contact/
 import { FaqComponent } from './info-pages/faq/faq.component';
 import { KnownIssuesComponent } from './info-pages/known-issues/known-issues.component';
 import { AdsSettingsComponent } from './manage-privacy/facebook/guidlines-for-ads-settings/ads-settings/ads-settings.component';
-
+import { InstaBlockFollowersComponent } from './rectification/instagram/insta-block-followers/insta-block-followers.component';
+import { InstaAccountPrivateComponent } from './rectification/instagram/insta-account-private/insta-account-private.component';
+import { InstaTwoFactorAuthenticationComponent } from './rectification/instagram/insta-two-factor-authentication/insta-two-factor-authentication.component';
+import { InstaHideStoriesComponent } from './rectification/instagram/insta-hide-stories/insta-hide-stories.component';
+import { InstaProfileInfoPrivateComponent } from './rectification/instagram/insta-profile-info-private/insta-profile-info-private.component';
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: LandingComponent },
@@ -55,7 +59,12 @@ const routes: Routes = [
   { path: 'face/ads-related-data', component: AdsRelatedDataComponent },
   { path: 'face/connections', component: FriendAndFollowersComponent },
   { path: 'face/configure-off-facebook-activity', component: OffFacebookActivityComponent },
-  { path: 'face/guidelines-for-ads-settings', component: AdsSettingsComponent }
+  { path: 'face/guidelines-for-ads-settings', component: AdsSettingsComponent },
+  { path: 'insta/block-followers', component: InstaBlockFollowersComponent },
+  { path: 'insta/account-private' , component: InstaAccountPrivateComponent},
+  { path: 'insta/two-factor-authentication' , component: InstaTwoFactorAuthenticationComponent},
+  { path: 'insta/hide-stories' , component:InstaHideStoriesComponent},
+  { path: 'insta/profile-info-private' , component:InstaProfileInfoPrivateComponent},
 ];
 
 @NgModule({

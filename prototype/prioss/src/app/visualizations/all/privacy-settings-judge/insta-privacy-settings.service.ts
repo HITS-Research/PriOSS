@@ -16,14 +16,14 @@ export class InstaPrivacySettingsService {
   settings = [
     {
       question : "How to make Instagram private?",
-      howToCheck : "<strong> Picture Guide:</strong> -- Link Here --",
+      howToCheck : "<strong> Picture Guide: Click here to view the picture guide",
       options : [
         { label: "Account is Private", value: "Yes", advice: "Great! Your account is set to private." },
         { label: "Account is not Private", value: "No", advice: "Maintaining privacy allows individulas to have better control over their online presence and choose who can view and interact with their content, enhancing their overall digital privacy and peace of mind." }
                 ]
     },
     {
-      question : "How to keep your Profile Information Private?",
+      question : "How to keep your profile information private?",
       howToCheck : "<strong> Picture Guide:</strong> -- Link Here --",
       options : [
         { label: "Profile information is private", value: "Yes", advice: "Great! You did well." },

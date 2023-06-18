@@ -17,7 +17,7 @@ import * as generalUtils from "../../../utilities/generalUtilities.functions";
  * This component is fsor instagram's advertisement page.
  * This page is shown once a user visits the advertisement tab in instagram dashboard
  * 
- * @author: Mayank (mayank@mail.upb.de)
+ * @author: Aayushma & Mayank (aayushma@mail.uni-paderborn.de & mayank@mail.upb.de) 
  * 
  */
 @Component({

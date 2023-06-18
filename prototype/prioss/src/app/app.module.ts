@@ -88,7 +88,11 @@ import { FacebookOffFacebookActivityRepository } from './db/data-repositories/fa
 import { KnownIssuesComponent } from './info-pages/known-issues/known-issues.component';
 import { FacebookFriendsRepository } from './db/data-repositories/facebook/fb-friends-data/face_friends.repo';
 import { AdsSettingsComponent } from './manage-privacy/facebook/guidlines-for-ads-settings/ads-settings/ads-settings.component';
-
+import { InstaBlockFollowersComponent } from './rectification/instagram/insta-block-followers/insta-block-followers.component';
+import { InstaAccountPrivateComponent } from './rectification/instagram/insta-account-private/insta-account-private.component';
+import { InstaTwoFactorAuthenticationComponent } from './rectification/instagram/insta-two-factor-authentication/insta-two-factor-authentication.component';
+import { InstaHideStoriesComponent } from './rectification/instagram/insta-hide-stories/insta-hide-stories.component';
+import { InstaProfileInfoPrivateComponent } from './rectification/instagram/insta-profile-info-private/insta-profile-info-private.component';
 registerLocaleData(de);
 
 // Ahead of time compiles requires an exported function for factories
@@ -397,6 +401,11 @@ const dbConfig: DBConfig  =
     FacebookAppsWebsitesRepository,
     FacebookOffFacebookActivityRepository,
     FacebookFriendsRepository,
+    InstaBlockFollowersComponent,
+    InstaAccountPrivateComponent,
+    InstaTwoFactorAuthenticationComponent,
+    InstaHideStoriesComponent,
+    InstaProfileInfoPrivateComponent,
     { provide: NZ_I18N, useValue: de_DE }
   ],
   bootstrap: [AppComponent],

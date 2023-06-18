@@ -126,22 +126,22 @@
     </div> 
 
   <div nz-col nzXs="24" nzXl="8">
-    <!--card for visualizing all about advertisements-->
-    <nz-card id ="advertisement" nzTitle="Advertisement" nzHoverable [nzExtra]="extraAds">
-        <app-insta-ads [previewMode]="true"></app-insta-ads>
+    <!--card for privacy recommendation - How to block folllowers-->
+    <nz-card id ="block_followers" nzTitle="How to block folllowers" nzHoverable [nzExtra]="extraBlockFollowers">
+        <!--<app-insta-ads [previewMode]="true"></app-insta-ads>-->
     </nz-card>
-    <ng-template #extraAds>
-      <a routerLink="/insta/ads">More</a>
+    <ng-template #extraBlockFollowers>
+      <a routerLink="/insta/block-followers">More</a>
     </ng-template>
   </div>
 
   <div nz-col nzXs="24" nzXl="8">
-    <!--card for visualizing the login and account creation-->
-    <nz-card nzTitle="Account Creation and Login" nzHoverable [nzExtra]="extraAccount">
-      <app-insta-account-creation-login [previewMode]="true"></app-insta-account-creation-login>
+    <!--card for privacy recommendation- How to hide Instagram Stories and live videos from specific people -->
+    <nz-card nzTitle="How to hide Instagram Stories and live videos from specific people" nzHoverable [nzExtra]="extraHideStories">
+     <!---- <app-insta-account-creation-login [previewMode]="true"></app-insta-account-creation-login> -->
     </nz-card>
-    <ng-template #extraAccount>
-      <a routerLink="/insta/account">More</a>
+    <ng-template #extraHideStories>
+      <a routerLink="/insta/hide-stories">More</a>
     </ng-template>
   </div>
 
