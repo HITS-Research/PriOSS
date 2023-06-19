@@ -344,7 +344,12 @@ const dbConfig: DBConfig  =
     OfflineIndicatorComponent,
     TitleBarComponent,
     KnownIssuesComponent,
-    AdsSettingsComponent
+    AdsSettingsComponent,
+    InstaBlockFollowersComponent,
+    InstaAccountPrivateComponent,
+    InstaTwoFactorAuthenticationComponent,
+    InstaHideStoriesComponent,
+    InstaProfileInfoPrivateComponent,
   ],
   imports: [
     BrowserModule,
@@ -401,11 +406,7 @@ const dbConfig: DBConfig  =
     FacebookAppsWebsitesRepository,
     FacebookOffFacebookActivityRepository,
     FacebookFriendsRepository,
-    InstaBlockFollowersComponent,
-    InstaAccountPrivateComponent,
-    InstaTwoFactorAuthenticationComponent,
-    InstaHideStoriesComponent,
-    InstaProfileInfoPrivateComponent,
+  
     { provide: NZ_I18N, useValue: de_DE }
   ],
   bootstrap: [AppComponent],

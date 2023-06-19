@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 /**
   * This component is responsible for providing guidelines to make instagram account private.
@@ -12,5 +12,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./insta-block-followers.component.less']
 })
 export class InstaBlockFollowersComponent {
-
+  @Input()
+  previewMode: boolean = false;
 }

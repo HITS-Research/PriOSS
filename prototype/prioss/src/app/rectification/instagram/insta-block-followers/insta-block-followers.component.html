@@ -1,5 +1,11 @@
+<div [ngClass]="{'component-page': !previewMode}">
+    <!--only shows a preview of the privcay recommendation-->
+    <div *ngIf="previewMode">
+        <nz-statistic nzTitle="''"></nz-statistic>
+    </div>
+    
 <div class="component-page">
-    <app-title-bar titleText="Guidelines to to block followers" tooltipText="TBD"></app-title-bar>
+    <app-title-bar titleText="Guidelines to Block Followers" tooltipText="The following guidelines helps you to block followers for your Instagram account. The guidelines are provided for Web Browser user as well as Mobile Application user."></app-title-bar>
     <br>
     <p>You have created an Instagram account and you want followers. So, you start following even unknown people that you discover. In return, some of them follow you back. However, after a while, you may start to receive inappropriate comments on your photos from those users. Or, on the contrary, they may not interact with your posts in any way and you feel that they are only lurking.</p>
     <br>
@@ -11,7 +17,7 @@
             <div>
                 <p>To remove one of your followers from your list, follow these steps:</p>
                 <br>
-                <h6 class="steps">Step 1 - First of all, you have to visit <a href="https://www.instagram.com/">Instagram website</a> on your computer or mobile browser. </h6>
+                <h6 class="steps">Step 1 - First of all, you have to visit <span nz-icon nzType="link"> <a href="https://www.instagram.com/" target="_blank">Instagram website</a> </span> on your computer or mobile browser. </h6>
                 <img class ="off-facebook-web" src="../../assets/images/insta-privacy-recommendations/8.png">
                 <br>
                 <h6 class ="steps">Step 2 – You need to click profile icon and then, click followers. </h6>

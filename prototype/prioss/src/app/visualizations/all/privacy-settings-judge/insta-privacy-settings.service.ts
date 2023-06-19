@@ -15,24 +15,24 @@ export class InstaPrivacySettingsService {
 
   settings = [
     {
-      question : "How to make Instagram private?",
-      howToCheck : "<strong> Picture Guide: Click here to view the picture guide",
-      options : [
+      question : "How to make Instagram account private?",
+      howToCheck :"<a href=/insta/account-private> <strong> Here is the picture guide to make Instagram account private.</a> </strong>",
+        options : [
         { label: "Account is Private", value: "Yes", advice: "Great! Your account is set to private." },
         { label: "Account is not Private", value: "No", advice: "Maintaining privacy allows individulas to have better control over their online presence and choose who can view and interact with their content, enhancing their overall digital privacy and peace of mind." }
                 ]
     },
     {
-      question : "How to keep your profile information private?",
-      howToCheck : "<strong> Picture Guide:</strong> -- Link Here --",
+      question : "How to keep your Instagram account's profile information private?",
+      howToCheck : "<a href=/insta/profile-info-private> <strong> Here is the picture guide to make Instagram profile information private. </a> </strong>",
       options : [
         { label: "Profile information is private", value: "Yes", advice: "Great! You did well." },
         { label: "Profile information is not private", value: "No", advice: "By limiting access to this information, individuals can reduce the risk of identity theft, online scams, and unauthorized account access, ensuring the safety and integrity of their online presence and digital assets."}
       ]
     },
     {
-      question : "How to turn on two-factor authentication on Instagram?",
-      howToCheck : "<strong> Picture Guide:</strong> -- Link Here --",
+      question : "How to turn ON two-factor authentication for Instagram?",
+      howToCheck : "<a href=/insta/two-factor-authentication> <strong> Here is the picture guide to turn ON two-factor authentication for Instagram. </a></strong> ",
       options : [
         { label: "Two-factor authentication is on", value: "Yes", advice: "Nice! It protects your privacy."},
         { label: "Two-factor authentication is off", value: "No", advice: "Enabling two-factor authentication provides an additional security layer, making it harder for unauthorized individuals to access online accounts and safeguarding sensitive information from potential breaches."}

@@ -127,8 +127,9 @@
 
   <div nz-col nzXs="24" nzXl="8">
     <!--card for privacy recommendation - How to block folllowers-->
-    <nz-card id ="block_followers" nzTitle="How to block folllowers" nzHoverable [nzExtra]="extraBlockFollowers">
-        <!--<app-insta-ads [previewMode]="true"></app-insta-ads>-->
+    <nz-card id ="block_followers" nzHoverable [nzExtra]="extraBlockFollowers">
+      <h4 nz-typography> How to Block Followers </h4>
+      <!--<app-insta-block-followers [previewMode]="true"></app-insta-block-followers>-->
     </nz-card>
     <ng-template #extraBlockFollowers>
       <a routerLink="/insta/block-followers">More</a>
@@ -138,14 +139,13 @@
   <div nz-col nzXs="24" nzXl="8">
     <!--card for privacy recommendation- How to hide Instagram Stories and live videos from specific people -->
     <nz-card nzTitle="How to hide Instagram Stories and live videos from specific people" nzHoverable [nzExtra]="extraHideStories">
-     <!---- <app-insta-account-creation-login [previewMode]="true"></app-insta-account-creation-login> -->
+     <!--<app-insta-hide-stories [previewMode]="true"></app-insta-hide-stories>-->
     </nz-card>
     <ng-template #extraHideStories>
       <a routerLink="/insta/hide-stories">More</a>
     </ng-template>
   </div>
-
-</div>
+  <br>
 
 <div id="gdpr">
   <h2 nz-typography>GDPR Rights</h2>
