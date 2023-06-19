@@ -15,3 +15,50 @@ nz-progress {
     margin-left: 15px;
     margin-right: 5px;
 }
+.talk-bubble {
+	margin: 20px;
+  margin-bottom: 10px;
+  display: inline-block;
+  position: relative;
+	width: 400px;
+  min-height: 85px;
+	height: auto;
+	background-color: #dcdcdc; //#fafafa
+}
+.round{
+    border-radius: 30px;
+      -webkit-border-radius: 30px;
+      -moz-border-radius: 30px;
+}
+.tri-right.border.left-in:before {
+	content: ' ';
+	position: absolute;
+	width: 0;
+	height: 0;
+  left: -40px;
+	right: auto;
+  top: 30px;
+	bottom: auto;
+	border: 20px solid;
+	border-color: #dcdcdc #dcdcdc transparent transparent;
+}
+.tri-right.left-in:after{
+	content: ' ';
+	position: absolute;
+	width: 0;
+	height: 0;
+  left: -20px;
+	right: auto;
+  top: 38px;
+	bottom: auto;
+	border: 12px solid;
+	border-color: #dcdcdc #dcdcdc transparent transparent;
+}
+// content of talk bubble
+.bubbletext{
+    margin-left: 5px;
+    margin-right: 5px;
+    padding: 1em;
+      text-align: left;
+    line-height: 1.5em;
+  }

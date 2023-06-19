@@ -23,9 +23,16 @@
         <nz-option *ngFor="let option of optionList" [nzValue]="option" [nzLabel]="option.label"></nz-option>
       </nz-select>
     </nz-form-control>
-  <br>
-  <nz-form-label *ngIf="!selectedValue.advice"></nz-form-label>
-  <nz-form-label *ngIf="selectedValue.advice">{{"&ldquo;"}}{{selectedValue.advice}}{{"&rdquo;"}}</nz-form-label>
+  <div *ngIf="!selectedValue.advice" class="talk-bubble tri-right round left-in">
+    <div class="bubbletext">
+      <p></p>
+    </div>
+  </div>
+  <div *ngIf="selectedValue.advice" class="talk-bubble tri-right round left-in">
+    <div class="bubbletext">
+        <p>{{"&ldquo;"}}{{selectedValue.advice}}{{"&rdquo;"}}</p>
+    </div>
+  </div>
   </nz-form-item>
   <nz-form-item>
     <nz-form-control>
@@ -44,5 +51,4 @@
     </nz-form-control>
 </nz-form-item>
 </form>
-
   
