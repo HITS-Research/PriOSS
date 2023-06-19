@@ -1,0 +1,232 @@
+<h2 nz-typography>Privacy Instructions</h2>
+<p nz-typography>
+  Here you find instructions on how to change privacy-related settings in Spotify. You can choose between instructions for desktop and mobile.
+</p>
+
+<nz-tabset (nzSelectedIndexChange)="onTabSwitch()">
+  <nz-tab nzTitle="Desktop">
+    <h4 nz-typography>Tailored ads & Facebook data</h4>
+    <nz-steps [nzCurrent]="currentTailoredAds">
+      <nz-step nzTitle="Login"></nz-step>
+      <nz-step nzTitle="Privacy Settings"></nz-step>
+      <nz-step nzTitle="Tailored Ads & Facebook Data"></nz-step>
+    </nz-steps>
+
+    <div class="steps-content">
+      <img
+        nz-image
+        height="300px"
+        nzSrc={{instructionPictureTailoredAds}}
+        alt=""
+      />
+      <nz-divider></nz-divider>
+      <p nz-typography>{{ instructionTextTailoredAds }}</p>
+    </div>
+    <div class="steps-action">
+      <button nz-button nzType="default" (click)="preTailoredAds()" [disabled]="currentTailoredAds <= 0">
+        <span>Previous</span>
+      </button>
+      <button nz-button nzType="default" (click)="nextTailoredAds()" [disabled]="currentTailoredAds >= 2">
+        <span>Next</span>
+      </button>
+    </div>
+    <br>
+
+    <h4 nz-typography>Registration Data</h4>
+    <nz-steps [nzCurrent]="currentRegistrationData">
+      <nz-step nzTitle="Login"></nz-step>
+      <nz-step nzTitle="Edit Profile"></nz-step>
+      <nz-step nzTitle="Registration Data"></nz-step>
+    </nz-steps>
+
+    <div class="steps-content">
+      <img
+        nz-image
+        height="300px"
+        nzSrc={{instructionPictureRegistrationData}}
+        alt=""
+      />
+      <nz-divider></nz-divider>
+      <p nz-typography>{{ instructionTextRegistrationData }}</p>
+    </div>
+    <div class="steps-action">
+      <button nz-button nzType="default" (click)="preRegistrationData()" [disabled]="currentRegistrationData <= 0">
+        <span>Previous</span>
+      </button>
+      <button nz-button nzType="default" (click)="nextRegistrationData()" [disabled]="currentRegistrationData >= 2">
+        <span>Next</span>
+      </button>
+    </div>
+    <br>
+
+    <h4 nz-typography>Social Activities</h4>
+    <nz-steps [nzCurrent]="currentSocial">
+      <nz-step nzTitle="Settings"></nz-step>
+      <nz-step nzTitle="Social"></nz-step>
+    </nz-steps>
+
+    <div class="steps-content">
+      <img
+        nz-image
+        height="300px"
+        nzSrc={{instructionPictureSocial}}
+        alt=""
+      />
+      <nz-divider></nz-divider>
+      <p nz-typography>{{ instructionTextSocial }}</p>
+    </div>
+    <div class="steps-action">
+      <button nz-button nzType="default" (click)="preSocial()" [disabled]="currentSocial <= 0">
+        <span>Previous</span>
+      </button>
+      <button nz-button nzType="default" (click)="nextSocial()" [disabled]="currentSocial >= 1">
+        <span>Next</span>
+      </button>
+    </div>
+    <br>
+
+    <h4 nz-typography>Public Playlists</h4>
+    <nz-steps [nzCurrent]="currentPlaylist">
+      <nz-step nzTitle="Settings"></nz-step>
+      <nz-step nzTitle="Profile Preview"></nz-step>
+    </nz-steps>
+
+    <div class="steps-content">
+      <img
+        nz-image
+        height="300px"
+        nzSrc={{instructionPicturePlaylist}}
+        alt=""
+      />
+      <nz-divider></nz-divider>
+      <p nz-typography>{{ instructionTextPlaylist }}</p>
+    </div>
+    <div class="steps-action">
+      <button nz-button nzType="default" (click)="prePlaylist()" [disabled]="currentPlaylist <= 0">
+        <span>Previous</span>
+      </button>
+      <button nz-button nzType="default" (click)="nextPlaylist()" [disabled]="currentPlaylist >= 1">
+        <span>Next</span>
+      </button>
+    </div>
+  </nz-tab>
+
+
+
+
+  <nz-tab nzTitle="Mobile">
+
+    <h4 nz-typography>Tailored ads & Facebook data</h4>
+    <nz-steps [nzCurrent]="currentTailoredAdsMobile">
+      <nz-step nzTitle="Login"></nz-step>
+      <nz-step nzTitle="Account Overview"></nz-step>
+      <nz-step nzTitle="Settings List"></nz-step>
+      <nz-step nzTitle="Tailored Ads"></nz-step>
+      <nz-step nzTitle="Facebook Data"></nz-step>
+    </nz-steps>
+
+    <div class="steps-content">
+      <img
+        nz-image
+        height="300px"
+        nzSrc={{instructionPictureTailoredAdsMobile}}
+        alt=""
+      />
+      <nz-divider></nz-divider>
+      <p nz-typography>{{ instructionTextTailoredAdsMobile }}</p>
+    </div>
+    <div class="steps-action">
+      <button nz-button nzType="default" (click)="preTailoredAdsMobile()" [disabled]="currentTailoredAdsMobile <= 0">
+        <span>Previous</span>
+      </button>
+      <button nz-button nzType="default" (click)="nextTailoredAdsMobile()" [disabled]="currentTailoredAdsMobile >= 4">
+        <span>Next</span>
+      </button>
+    </div>
+    <br>
+
+    <h4 nz-typography>Registration Data</h4>
+    <nz-steps [nzCurrent]="currentRegistrationDataMobile">
+      <nz-step nzTitle="Login"></nz-step>
+      <nz-step nzTitle="Account Overview"></nz-step>
+      <nz-step nzTitle="Settings List"></nz-step>
+      <nz-step nzTitle="Edit Profile"></nz-step>
+    </nz-steps>
+
+    <div class="steps-content">
+      <img
+        nz-image
+        height="300px"
+        nzSrc={{instructionPictureRegistrationDataMobile}}
+        alt=""
+      />
+      <nz-divider></nz-divider>
+      <p nz-typography>{{ instructionTextRegistrationDataMobile }}</p>
+    </div>
+    <div class="steps-action">
+      <button nz-button nzType="default" (click)="preRegistrationDataMobile()" [disabled]="currentRegistrationDataMobile <= 0">
+        <span>Previous</span>
+      </button>
+      <button nz-button nzType="default" (click)="nextRegistrationDataMobile()" [disabled]="currentRegistrationDataMobile >= 3">
+        <span>Next</span>
+      </button>
+    </div>
+    <br>
+
+    <h4 nz-typography>Social Activities</h4>
+    <nz-steps [nzCurrent]="currentSocialMobile">
+      <nz-step nzTitle="Step 1"></nz-step>
+      <nz-step nzTitle="Step 2"></nz-step>
+    </nz-steps>
+
+    <div class="steps-content">
+      <img
+        nz-image
+        height="300px"
+        nzSrc={{instructionPictureSocialMobile}}
+        alt=""
+      />
+      <nz-divider></nz-divider>
+      <p nz-typography>{{ instructionTextSocialMobile }}</p>
+    </div>
+    <div class="steps-action">
+      <button nz-button nzType="default" (click)="preSocialMobile()" [disabled]="currentSocialMobile <= 0">
+        <span>Previous</span>
+      </button>
+      <button nz-button nzType="default" (click)="nextSocialMobile()" [disabled]="currentSocialMobile >= 1">
+        <span>Next</span>
+      </button>
+    </div>
+    <br>
+
+    <h4 nz-typography>Public Playlists</h4>
+    <nz-steps [nzCurrent]="currentSocialMobile">
+      <nz-step nzTitle="Step 1"></nz-step>
+      <nz-step nzTitle="Step 2"></nz-step>
+      <nz-step nzTitle="Step 2"></nz-step>
+    </nz-steps>
+
+    <div class="steps-content">
+      <img
+        nz-image
+        height="300px"
+        nzSrc={{instructionPicturePlaylistMobile}}
+        alt=""
+      />
+      <nz-divider></nz-divider>
+      <p nz-typography>{{ instructionTextPlaylistMobile }}</p>
+    </div>
+    <div class="steps-action">
+      <button nz-button nzType="default" (click)="prePlaylistMobile()" [disabled]="currentPlaylistMobile <= 0">
+        <span>Previous</span>
+      </button>
+      <button nz-button nzType="default" (click)="nextPlaylistMobile()" [disabled]="currentPlaylistMobile >= 2">
+        <span>Next</span>
+      </button>
+    </div>
+
+  </nz-tab>
+</nz-tabset>
+
+
+

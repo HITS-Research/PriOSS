@@ -89,6 +89,7 @@ import { KnownIssuesComponent } from './info-pages/known-issues/known-issues.com
 import { FacebookFriendsRepository } from './db/data-repositories/facebook/fb-friends-data/face_friends.repo';
 import { AdsSettingsComponent } from './manage-privacy/facebook/guidlines-for-ads-settings/ads-settings/ads-settings.component';
 import { GdprComponent } from './info-pages/gdpr/gdpr.component';
+import { SpotPrivacyInstructionsComponent } from './visualizations/spotify/privacy-instructions/spot-privacy-instructions.component';
 
 registerLocaleData(de);
 
@@ -247,11 +248,11 @@ const dbConfig: DBConfig  =
         { name: 'timestamp', keypath: 'timestamp', options: { unique: false } },
       ]
     },
-    //facebook data friends and followers 
+    //facebook data friends and followers
     {
       store: 'face/friend_requests_received',
       storeConfig: { keyPath: '$id', autoIncrement: true },
-      storeSchema: 
+      storeSchema:
       [
         { name: 'name', keypath: 'title', options: { unique: false } },
         { name: 'timestamp', keypath: 'timestamp', options: { unique: false } },
@@ -260,7 +261,7 @@ const dbConfig: DBConfig  =
     {
       store: 'face/friend_requests_sent',
       storeConfig: { keyPath: '$id', autoIncrement: true },
-      storeSchema: 
+      storeSchema:
       [
         { name: 'name', keypath: 'title', options: { unique: false } },
         { name: 'timestamp', keypath: 'timestamp', options: { unique: false } },
@@ -269,7 +270,7 @@ const dbConfig: DBConfig  =
     {
       store: 'face/friends',
       storeConfig: { keyPath: '$id', autoIncrement: true },
-      storeSchema: 
+      storeSchema:
       [
         { name: 'name', keypath: 'title', options: { unique: false } },
         { name: 'timestamp', keypath: 'timestamp', options: { unique: false } },
@@ -278,7 +279,7 @@ const dbConfig: DBConfig  =
     {
       store: 'face/rejected_friend_requests',
       storeConfig: { keyPath: '$id', autoIncrement: true },
-      storeSchema: 
+      storeSchema:
       [
         { name: 'name', keypath: 'title', options: { unique: false } },
         { name: 'timestamp', keypath: 'timestamp', options: { unique: false } },
@@ -287,7 +288,7 @@ const dbConfig: DBConfig  =
     {
       store: 'face/removed_friends',
       storeConfig: { keyPath: '$id', autoIncrement: true },
-      storeSchema: 
+      storeSchema:
       [
         { name: 'name', keypath: 'title', options: { unique: false } },
         { name: 'timestamp', keypath: 'timestamp', options: { unique: false } },
@@ -296,7 +297,7 @@ const dbConfig: DBConfig  =
     {
       store: 'face/who_you_follow',
       storeConfig: { keyPath: '$id', autoIncrement: true },
-      storeSchema: 
+      storeSchema:
       [
         { name: 'name', keypath: 'title', options: { unique: false } },
         { name: 'timestamp', keypath: 'timestamp', options: { unique: false } },
@@ -342,7 +343,8 @@ const dbConfig: DBConfig  =
     TitleBarComponent,
     KnownIssuesComponent,
     AdsSettingsComponent,
-    GdprComponent
+    GdprComponent,
+    SpotPrivacyInstructionsComponent
   ],
   imports: [
     BrowserModule,
