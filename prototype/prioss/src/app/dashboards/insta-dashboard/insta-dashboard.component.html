@@ -88,7 +88,6 @@
   </div>
   <br>
 </div>
-
 <div id="rectification">
   <h2 nz-typography>Rectification</h2>
   <p nz-typography>
@@ -127,25 +126,9 @@
   <h4 nz-typography>Contact the privacy center for Meta. It covers Facebook, Instagram, Messenger, and other Meta products.</h4>
 </div>
 <br>
-<div id="gdpr">
-  <h2 nz-typography>GDPR Rights</h2>
-  <p nz-typography>
-    The General Data Protection Regulation (GDPR) is a data privacy regulation that came into effect in May 2018. It was created by the European Union (EU) to regulate the collection, processing, and storage of personal data of individuals residing in the EU.
-    The most important points of the GDPR are:
-  </p>
-  <ol nz-typography>
-    <li><b>Consent:</b> Companies must obtain explicit and informed consent from individuals to collect, process, and store their personal data.</li>
-    <li><b>Right to Access:</b> Individuals have the right to access their personal data that has been collected and stored by companies.</li>
-    <li><b>Right to be Forgotten:</b> Individuals have the right to request the deletion of their personal data.</li>
-    <li><b>Data Portability:</b> Individuals have the right to receive their personal data in a format that is easily transferable to another organization.</li>
-    <li><b>Data Protection Officers (DPOs):</b> Companies that process large amounts of personal data or sensitive personal data must appoint a DPO.</li>
-    <li><b>Data Breach Notification:</b> Companies must notify individuals and the relevant authorities within 72 hours of a data breach.</li>
-    <li><b>Penalties:</b> Non-compliance with the GDPR can result in fines of up to 4% of a company's annual global revenue or €20 million (whichever is greater).</li>
-  </ol>
-  <p nz-typography>
-    The GDPR aims to protect the privacy and personal data of individuals within the EU, and has had a significant impact on the way that companies handle and store personal data. More information can be found under <span nz-icon nzType="link"><a target="_blank" href="https://gdpr.eu/">GDPR</a></span>.
-  </p>
-</div>
+
+<app-gdpr></app-gdpr>
+
 <div id="purpose">
   <h2 nz-typography>Purpose</h2>
   <p nz-typography>
@@ -177,10 +160,12 @@
       </tbody>
     </nz-table>
 </div>
+<app-faq serviceName="insta"></app-faq>
 <app-help-button (startTourClick)="startTour()">
   <h2 nz-typography id="introduction">Introduction</h2>
   <h2 nz-typography id="rectification">Rectification</h2>
   <h2 nz-typography id="gdpr">GDPR Rights</h2>
   <h2 nz-typography id="purpose">Purposes</h2>
+  <h2 nz-typography id="faq">FAQ</h2>
 </app-help-button>
 <app-offline-indicator [bottom]="'32px'" [right]="'76px'"></app-offline-indicator>

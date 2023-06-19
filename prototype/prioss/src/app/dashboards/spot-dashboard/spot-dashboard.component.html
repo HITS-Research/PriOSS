@@ -1,59 +1,62 @@
 <div class="dashboard-page dashboard-container">
   <h1 nz-typography>PriOSS - Spotify</h1>
 
-  <h2 nz-typography id="visualization">Your Data</h2>
-  <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
-    <div id="step1" nz-col nzXs="24" nzXl="8">
-      <a routerLink="/spot/general-data">
-        <nz-card nzTitle="User Data" nzHoverable [nzExtra]="extraTemplate">
-          <app-general-data [previewMode]="true"></app-general-data>
-        </nz-card>
-      </a>
-      <ng-template #extraTemplate>
-        <a>More</a>
-      </ng-template>
+  <details open id="visualization">
+    <summary class="collapsible-dashboard-section-title">Your Data</summary>
+    <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
+      <div id="step1" nz-col nzXs="24" nzXl="8">
+        <a routerLink="/spot/general-data">
+          <nz-card nzTitle="User Data" nzHoverable [nzExtra]="extraTemplate">
+            <app-general-data [previewMode]="true"></app-general-data>
+          </nz-card>
+        </a>
+        <ng-template #extraTemplate>
+          <a>More</a>
+        </ng-template>
+      </div>
+
+      <div id="step2" nz-col nzXs="24" nzXl="8">
+        <a routerLink="/spot/inference">
+          <nz-card nzTitle="Inferences" nzHoverable [nzExtra]="extraTemplate">
+            <spot-inferences [previewMode]="true"></spot-inferences>
+          </nz-card>
+        </a>
+        <ng-template #extraTemplate>
+          <a>More</a>
+        </ng-template>
+      </div>
+
+      <div id="step3" nz-col nzXs="24" nzXl="8">
+        <a routerLink="/spot/listening-time">
+          <nz-card nzTitle="Listening Time" nzHoverable [nzExtra]="extraTemplate">
+            <spot-listening-time [previewMode]="true"></spot-listening-time>
+          </nz-card>
+        </a>
+        <ng-template #extraTemplate>
+          <a>More</a>
+        </ng-template>
+      </div>
     </div>
 
-    <div id="step2" nz-col nzXs="24" nzXl="8">
-      <a routerLink="/spot/inference">
-        <nz-card nzTitle="Inferences" nzHoverable [nzExtra]="extraTemplate">
-          <spot-inferences [previewMode]="true"></spot-inferences>
-        </nz-card>
-      </a>
-      <ng-template #extraTemplate>
-        <a>More</a>
-      </ng-template>
-    </div>
+    <br>
 
-    <div id="step3" nz-col nzXs="24" nzXl="8">
-      <a routerLink="/spot/listening-time">
-        <nz-card nzTitle="Listening Time" nzHoverable [nzExtra]="extraTemplate">
-          <spot-listening-time [previewMode]="true"></spot-listening-time>
-        </nz-card>
-      </a>
-      <ng-template #extraTemplate>
-        <a>More</a>
-      </ng-template>
+   <!-- <h3 nz-typography>Songs and Artists</h3>-->
+    <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
+      <div id="step4" nz-col nzXs="24" nzXl="8">
+        <a routerLink="/spot/top-artists">
+          <nz-card nzTitle="Top Artists" nzHoverable [nzExtra]="extraTemplate">
+            <spot-top-artists [previewMode]="true"></spot-top-artists>
+          </nz-card>
+        </a>
+      </div>
+      <div nz-col nzXs="24" nzXl="8">
+        <a routerLink="/spot/top-songs">
+          <nz-card nzTitle="Top Songs" nzHoverable [nzExtra]="extraTemplate">
+            <spot-top-songs [previewMode]="true"></spot-top-songs>
+          </nz-card>
+        </a>
+      </div>
     </div>
-  </div>
-
-  <h3 nz-typography>Songs and Artists</h3>
-  <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
-    <div id="step4" nz-col nzXs="24" nzXl="8">
-      <a routerLink="/spot/top-artists">
-        <nz-card nzTitle="Top Artists" nzHoverable [nzExtra]="extraTemplate">
-          <spot-top-artists [previewMode]="true"></spot-top-artists>
-        </nz-card>
-      </a>
-    </div>
-    <div nz-col nzXs="24" nzXl="8">
-      <a routerLink="/spot/top-songs">
-        <nz-card nzTitle="Top Songs" nzHoverable [nzExtra]="extraTemplate">
-          <spot-top-songs [previewMode]="true"></spot-top-songs>
-        </nz-card>
-      </a>
-    </div>
-  </div>
 <!--      <div nz-col nzXs="24" nzXl="8">-->
 <!--        <nz-card nzTitle="Average Audio Feature Value" nzHoverable [nzExtra]="switchTemplate">-->
 <!--          <div *ngIf="thirdPartyConnection; then spotifyMood else requiresConnectionText"></div>-->
@@ -70,94 +73,83 @@
 <!--          <nz-switch [(ngModel)]="thirdPartyConnection"></nz-switch>-->
 <!--        </ng-template>-->
 <!--      </div>-->
+  </details>
 
   <br>
-  <div id="stepX">
-    <h2 nz-typography id="Manage-Privacy">Manage-Privacy</h2>
-    <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
-      <br>
-      <div nz-col nzXs="24" nzXl="8">
-        <nz-card nzTitle="Privacy Settings Judge" nzHoverable>
-          <app-settings-form [service]="'Spotify'"></app-settings-form>
-        </nz-card>
-      </div> 
-    </div>
-  </div>
-  <!--<h2 nz-typography id="rectification">Rectification</h2>-->
-  <br>
-  <div id="step5">
-    <h2 nz-typography id="gdpr">Your Rights</h2>
-
-    <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
-      <div nz-col nzXs="24" nzXl="16">
-        <nz-card nzTitle="GDPR Rights" nzHoverable>
-          <p>
-          In response to privacy concerns about online data, the General Data Protection Regulation (GDPR) came into effect in the European Union in May 2018.<br>
-          The GDPR grants users different rights in regards to the personal data online services collect about them.<br>
-          For example, it grants the right for you to access your personal data that the company has collected.
-          We have compiled instructions on how you can obtain such a data-download for some examplary service on our <a routerLink="/serviceSelection">Services Page</a> that you have already visited.<br>
-          It also grants the right to data portability. This means that you should be able to take your data and upload it to a competing service or company.
-          Additionally, you have the right to erase your data if the legal basis on which the data was collected - for example your consent to the collection - is not given anymore,
-          and you also have the right to rectify your data, meaning to correct false information that a company has about yourself.
-          </p>
-        </nz-card>
+  <details open id="recommendation">
+    <summary class="collapsible-dashboard-section-title">Manage-Privacy</summary>
+    <div id="stepX">
+      <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
+        <br>
+        <div nz-col nzXs="24" nzXl="8">
+          <nz-card nzTitle="Privacy Settings Judge" nzHoverable>
+            <app-settings-form [service]="'Spotify'"></app-settings-form>
+          </nz-card>
+        </div> 
       </div>
     </div>
-  </div>
-  <br>
+  </details>
+  
+  <app-gdpr></app-gdpr>
 
-  <div id="step6">
-    <h2 nz-typography id="purpose">Purposes - Why does Spotify collect your data ?</h2>
-    <nz-card nzTitle="Exemplary Purposes" nzHoverable>
-      <p>
-        The following purposes should give an example of Spotify's reasoning in regards to data collection. To Get a full list of their reasons you can check out Spotify's <span nz-icon nzType="link"><a target="_blank" href="https://www.spotify.com/us/legal/privacy-policy/">privacy policy</a></span>
-      </p>
-      <br>
-      <nz-table nzTemplateMode>
-        <thead>
-          <tr>
-            <th>Purpose</th>
-            <th>Data Collected</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>To provide the Spotify Service in accordance with the contract with the user (E.g. personalize your account)</td>
-            <td>User Data, Street Address Data, Usage Data, Voice Data, Payment and Purchase Data.</td>
-          </tr>
-          <tr>
-            <td>To provide certain additional voluntary features of the Spotify Service (In this case explicit consent will be requested from Spotify)</td>
-            <td>User Data, Usage Data, Survey and Research Data, Payment and Purchase Data</td>
-          </tr>
-          <tr>
-            <td>To diagnose, troubleshoot, and fix issues with the Spotify Service</td>
-            <td>User Data, Usage Data</td>
-          </tr>
-          <tr>
-            <td>For marketing, promotion and advertising purposes </td>
-            <td>User Data, Street Address Data, Usage Data, Voice Data, Payment and Purchase Data, Survey and Research Data</td>
-          </tr>
-          <tr>
-            <td>To comply with requests from law enforcement, courts, or other competent authorities</td>
-            <td>User Data, Street Address Data, Usage Data, Voice Data, Payment and Purchase Data, Survey and Research Data</td>
-          </tr>
-          <tr>
-            <td>To conduct business planning, reporting, and forecasting</td>
-            <td>User Data, Usage Data, Payment and Purchase Data</td>
-          </tr>
-        </tbody>
-      </nz-table>
-    </nz-card>
-  </div>
   <br>
-  <div id="step7">
+  <details open id="purpose">
+    <summary class="collapsible-dashboard-section-title">Purposes - Why does Spotify collect your data ?</summary>
+    <div id="step6">
+      <nz-card nzTitle="Exemplary Purposes" nzHoverable>
+        <p>
+          The following purposes should give an example of Spotify's reasoning in regards to data collection. To Get a full list of their reasons you can check out Spotify's <span nz-icon nzType="link"><a target="_blank" href="https://www.spotify.com/us/legal/privacy-policy/">privacy policy</a></span>
+        </p>
+        <br>
+        <nz-table nzTemplateMode>
+          <thead>
+            <tr>
+              <th>Purpose</th>
+              <th>Data Collected</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>To provide the Spotify Service in accordance with the contract with the user (E.g. personalize your account)</td>
+              <td>User Data, Street Address Data, Usage Data, Voice Data, Payment and Purchase Data.</td>
+            </tr>
+            <tr>
+              <td>To provide certain additional voluntary features of the Spotify Service (In this case explicit consent will be requested from Spotify)</td>
+              <td>User Data, Usage Data, Survey and Research Data, Payment and Purchase Data</td>
+            </tr>
+            <tr>
+              <td>To diagnose, troubleshoot, and fix issues with the Spotify Service</td>
+              <td>User Data, Usage Data</td>
+            </tr>
+            <tr>
+              <td>For marketing, promotion and advertising purposes </td>
+              <td>User Data, Street Address Data, Usage Data, Voice Data, Payment and Purchase Data, Survey and Research Data</td>
+            </tr>
+            <tr>
+              <td>To comply with requests from law enforcement, courts, or other competent authorities</td>
+              <td>User Data, Street Address Data, Usage Data, Voice Data, Payment and Purchase Data, Survey and Research Data</td>
+            </tr>
+            <tr>
+              <td>To conduct business planning, reporting, and forecasting</td>
+              <td>User Data, Usage Data, Payment and Purchase Data</td>
+            </tr>
+          </tbody>
+        </nz-table>
+      </nz-card>
+    </div>
+  </details>
+
+  <br>
+  <!-- <div id="step7">
     <h2 nz-typography id="faq">Frequently Asked Questions (FAQ)</h2>
     <nz-collapse nzAccordion>
       <nz-collapse-panel *ngFor="let purpose of purposes" [nzHeader]="purpose.name" [nzActive]="purpose.active">
         <p>{{ purpose.content }}</p>
       </nz-collapse-panel>
     </nz-collapse>
-  </div>
+  </div> -->
+  <app-faq id="step7" serviceName="spot"></app-faq>
+
   <app-help-button (startTourClick)="startTour()"></app-help-button>
   <app-offline-indicator [bottom]="'32px'" [right]="'76px'"></app-offline-indicator>
 </div>
