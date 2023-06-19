@@ -37,12 +37,17 @@
             <nz-tabset nzType="card">
                 <nz-tab nzTitle="User Searches"><ng-template nz-tab><nz-demo-tab-content-lazy>
                     <!-- If user search data present -->
-                    <div *ngIf="userSearches?.length">
-                        <nz-table #searchTable [nzData]="userSearches">
+                    <div *ngIf="listOfUserSearches?.length">
+                        <nz-table #searchTable [nzData]="listOfUserSearches">
                             <thead>
                                 <tr>
-                                    <th>Searched User</th>
-                                    <th>Date</th>
+                                    <th nzCustomFilter>
+                                        Searched User
+                                        <nz-filter-trigger [(nzVisible)]="visible" [nzActive]="userSearchValue.length > 0" [nzDropdownMenu]="menu">
+                                          <span nz-icon nzType="search"></span>
+                                        </nz-filter-trigger>
+                                    </th>
+                                    <th [nzSortFn]="sortUserDate">Date</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -52,6 +57,15 @@
                                 </tr>
                             </tbody>
                         </nz-table>
+                        <nz-dropdown-menu #menu="nzDropdownMenu">
+                            <div class="ant-table-filter-dropdown">
+                              <div class="search-box">
+                                <input type="text" nz-input placeholder="Search name" [(ngModel)]="userSearchValue" />
+                                <button nz-button nzSize="small" nzType="primary" (click)="search('user')" class="search-button">Search</button>
+                                <button nz-button nzSize="small" (click)="reset('user')">Reset</button>
+                              </div>
+                            </div>
+                        </nz-dropdown-menu>
                     </div>
                     <!-- If no user search data present -->
                     <div *ngIf="userSearches?.length === 0">
@@ -61,12 +75,17 @@
 
                 <nz-tab nzTitle="Keyword Searches"><ng-template nz-tab><nz-demo-tab-content-lazy>
                     <!-- If keyword search data present -->
-                    <div *ngIf="keywordSearches?.length">
-                        <nz-table #searchTable [nzData]="keywordSearches">
+                    <div *ngIf="listOfKeywordSearches?.length">
+                        <nz-table #searchTable [nzData]="listOfKeywordSearches">
                             <thead>
                                 <tr>
-                                    <th>Searched Keyword</th>
-                                    <th>Date</th>
+                                    <th nzCustomFilter>
+                                        Searched Keyword
+                                        <nz-filter-trigger [(nzVisible)]="visible" [nzActive]="keywordSearchValue.length > 0" [nzDropdownMenu]="menu">
+                                          <span nz-icon nzType="search"></span>
+                                        </nz-filter-trigger>
+                                    </th>
+                                    <th [nzSortFn]="sortKeywordDate">Date</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -76,6 +95,15 @@
                                 </tr>
                             </tbody>
                         </nz-table>
+                        <nz-dropdown-menu #menu="nzDropdownMenu">
+                            <div class="ant-table-filter-dropdown">
+                              <div class="search-box">
+                                <input type="text" nz-input placeholder="Search name" [(ngModel)]="keywordSearchValue" />
+                                <button nz-button nzSize="small" nzType="primary" (click)="search('keyword')" class="search-button">Search</button>
+                                <button nz-button nzSize="small" (click)="reset('keyword')">Reset</button>
+                              </div>
+                            </div>
+                        </nz-dropdown-menu>
                     </div>
                     <!-- If no keyword search data present -->
                     <div *ngIf="keywordSearches?.length === 0">
@@ -85,12 +113,17 @@
                 
                 <nz-tab nzTitle="Tag Searches"><ng-template nz-tab><nz-demo-tab-content-lazy>
                     <!-- If keyword search data present -->
-                    <div *ngIf="tagSearches?.length">
-                        <nz-table #searchTable [nzData]="tagSearches">
+                    <div *ngIf="listOfTagSearches?.length">
+                        <nz-table #searchTable [nzData]="listOfTagSearches">
                             <thead>
                                 <tr>
-                                    <th>Searched Tag</th>
-                                    <th>Date</th>
+                                    <th nzCustomFilter>
+                                        Searched Keyword
+                                        <nz-filter-trigger [(nzVisible)]="visible" [nzActive]="tagSearchValue.length > 0" [nzDropdownMenu]="menu">
+                                          <span nz-icon nzType="search"></span>
+                                        </nz-filter-trigger>
+                                    </th>
+                                    <th [nzSortFn]="sortTagDate">Date</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -100,6 +133,15 @@
                                 </tr>
                             </tbody>
                         </nz-table>
+                        <nz-dropdown-menu #menu="nzDropdownMenu">
+                            <div class="ant-table-filter-dropdown">
+                              <div class="search-box">
+                                <input type="text" nz-input placeholder="Search name" [(ngModel)]="tagSearchValue" />
+                                <button nz-button nzSize="small" nzType="primary" (click)="search('tag')" class="search-button">Search</button>
+                                <button nz-button nzSize="small" (click)="reset('tag')">Reset</button>
+                              </div>
+                            </div>
+                        </nz-dropdown-menu>
                     </div>
                     <!-- If no keyword search data present -->
                     <div *ngIf="tagSearches?.length === 0">

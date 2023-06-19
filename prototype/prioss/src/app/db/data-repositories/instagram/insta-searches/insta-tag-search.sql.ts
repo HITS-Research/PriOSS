@@ -20,5 +20,6 @@ union all
 
 export const selectAllFromInstaTagSearches: string = `
 select *
-  from insta_tag_searches;
+  from insta_tag_searches
+ order by timestamp desc;
 `

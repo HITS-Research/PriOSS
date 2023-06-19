@@ -3,7 +3,7 @@ import { DBService } from "../../../../services/db/db.service";
 import { SQLiteDBConnection, capSQLiteChanges } from "@capacitor-community/sqlite";
 import { BulkAddCapableRepository } from "../../general/inferences/bulk-add-capable.repository";
 import * as sql from "./insta-tag-search.sql";
-import { InstaTagSearches } from "src/app/models/Instagram/Searches/InstaTagSearches";
+import { InstaTagSearch } from "src/app/models/Instagram/Searches/InstaTagSearches";
 
 
 /**
@@ -51,12 +51,12 @@ export class InstaTagSearchesRepository extends BulkAddCapableRepository {
      * 
      * @author: Paul (pasch@mail.upb.de)
      */
-    async getTagSearches(): Promise<InstaTagSearches[]>
+    async getTagSearches(): Promise<InstaTagSearch[]>
     {
         return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
 
             let result = await db.query(sql.selectAllFromInstaTagSearches);
-            return result.values as InstaTagSearches[];
+            return result.values as InstaTagSearch[];
         });
     }
 }
