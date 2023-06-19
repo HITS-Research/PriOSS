@@ -1,26 +1,48 @@
 import { Component } from '@angular/core';
 
+/**
+ * This component contains privacy instructions. The instructions show users how to
+ * change privacy-related settings in Spotify.
+ *
+ * @author: Jonathan (jvn@mail.upb.de)
+ *
+ */
 @Component({
   selector: 'spot-privacy-instructions',
   templateUrl: './spot-privacy-instructions.component.html',
   styleUrls: ['./spot-privacy-instructions.component.less']
 })
 export class SpotPrivacyInstructionsComponent {
-  isMobile = false;
-
   currentTailoredAds = 0;
   instructionTextTailoredAds='First, open https://accounts.spotify.com/en/login in your browser and log in. This will get you to your account overview.';
   instructionPictureTailoredAds="/../../assets/images/spot-privacy-instructions/desktop/spot-tailored-ads/1.png";
+
+  /**
+   * Callback function to decrement the "currentTailoredAds" variable.
+   * @author: Jonathan (jvn@mail.upb.de)
+   *
+   */
   preTailoredAds(): void {
     this.currentTailoredAds -= 1;
     this.changeContentTailoredAds();
   }
 
+  /**
+   * Callback function to increment the "currentTailoredAds" variable.
+   * @author: Jonathan (jvn@mail.upb.de)
+   *
+   */
   nextTailoredAds(): void {
     this.currentTailoredAds += 1;
     this.changeContentTailoredAds();
   }
 
+
+  /**
+   * This method shows the instruction text and picture depending on the step the user is in.
+   * @author: Jonathan (jvn@mail.upb.de)
+   *
+   */
   changeContentTailoredAds(): void {
     switch (this.currentTailoredAds) {
       case 0: {
@@ -48,16 +70,31 @@ export class SpotPrivacyInstructionsComponent {
   instructionTextTailoredAdsMobile='First, open https://accounts.spotify.com/en/login in your browser and log in.';
   instructionPictureTailoredAdsMobile="/../../assets/images/spot-privacy-instructions/mobile/web/general/web_1_login.png";
 
+  /**
+   * Callback function to decrement the "currentTailoredAdsMobile" variable.
+   * @author: Jonathan (jvn@mail.upb.de)
+   *
+   */
   preTailoredAdsMobile(): void {
     this.currentTailoredAdsMobile -= 1;
     this.changeContentTailoredAdsMobile();
   }
 
+  /**
+   * Callback function to increment the "currentTailoredAdsMobile" variable.
+   * @author: Jonathan (jvn@mail.upb.de)
+   *
+   */
   nextTailoredAdsMobile(): void {
     this.currentTailoredAdsMobile += 1;
     this.changeContentTailoredAdsMobile();
   }
 
+  /**
+   * This method shows the instruction text and picture depending on the step the user is in.
+   * @author: Jonathan (jvn@mail.upb.de)
+   *
+   */
   changeContentTailoredAdsMobile(): void {
     switch (this.currentTailoredAdsMobile) {
       case 0: {
@@ -95,16 +132,31 @@ export class SpotPrivacyInstructionsComponent {
   instructionTextRegistrationData='First, open https://accounts.spotify.com/en/login in your browser and log in. This will get you to your account overview.';
   instructionPictureRegistrationData="/../../assets/images/spot-privacy-instructions/desktop/spot-tailored-ads/1.png";
 
+  /**
+   * Callback function to decrement the "currentRegistrationData" variable.
+   * @author: Jonathan (jvn@mail.upb.de)
+   *
+   */
   preRegistrationData(): void {
     this.currentRegistrationData -= 1;
     this.changeContentRegistrationData();
   }
 
+  /**
+   * Callback function to increment the "currentRegistrationData" variable.
+   * @author: Jonathan (jvn@mail.upb.de)
+   *
+   */
   nextRegistrationData(): void {
     this.currentRegistrationData += 1;
     this.changeContentRegistrationData();
   }
 
+  /**
+   * This method shows the instruction text and picture depending on the step the user is in.
+   * @author: Jonathan (jvn@mail.upb.de)
+   *
+   */
   changeContentRegistrationData(): void {
     switch (this.currentRegistrationData) {
       case 0: {
@@ -132,16 +184,31 @@ export class SpotPrivacyInstructionsComponent {
   instructionTextRegistrationDataMobile='First, open https://accounts.spotify.com/en/login in your browser and log in.';
   instructionPictureRegistrationDataMobile="/../../assets/images/spot-privacy-instructions/mobile/web/general/web_1_login.png";
 
+  /**
+   * Callback function to decrement the "currentRegistrationDataMobile" variable.
+   * @author: Jonathan (jvn@mail.upb.de)
+   *
+   */
   preRegistrationDataMobile(): void {
     this.currentRegistrationDataMobile -= 1;
     this.changeContentRegistrationDataMobile();
   }
 
+  /**
+   * Callback function to increment the "currentRegistrationDataMobile" variable.
+   * @author: Jonathan (jvn@mail.upb.de)
+   *
+   */
   nextRegistrationDataMobile(): void {
     this.currentRegistrationDataMobile += 1;
     this.changeContentRegistrationDataMobile();
   }
 
+  /**
+   * This method shows the instruction text and picture depending on the step the user is in.
+   * @author: Jonathan (jvn@mail.upb.de)
+   *
+   */
   changeContentRegistrationDataMobile(): void {
     switch (this.currentRegistrationDataMobile) {
       case 0: {
@@ -175,16 +242,31 @@ export class SpotPrivacyInstructionsComponent {
   instructionTextSocial='First, open the Spotify application. Click on the icon in the top right corner and then choose "Settings".';
   instructionPictureSocial="/../../assets/images/spot-privacy-instructions/desktop/spot-social/1.png";
 
+  /**
+   * Callback function to decrement the "currentSocial" variable.
+   * @author: Jonathan (jvn@mail.upb.de)
+   *
+   */
   preSocial(): void {
     this.currentSocial -= 1;
     this.changeContentSocial();
   }
 
+  /**
+   * Callback function to increment the "currentSocial" variable.
+   * @author: Jonathan (jvn@mail.upb.de)
+   *
+   */
   nextSocial(): void {
     this.currentSocial += 1;
     this.changeContentSocial();
   }
 
+  /**
+   * This method shows the instruction text and picture depending on the step the user is in.
+   * @author: Jonathan (jvn@mail.upb.de)
+   *
+   */
   changeContentSocial(): void {
     switch (this.currentSocial) {
       case 0: {
@@ -212,16 +294,31 @@ export class SpotPrivacyInstructionsComponent {
   instructionTextSocialMobile='First, open the Spotify application. Click on the icon in the top right corner and choose settings.';
   instructionPictureSocialMobile="/../../assets/images/spot-privacy-instructions/mobile/app/app_1_home.png";
 
+  /**
+   * Callback function to decrement the "currentSocialMobile" variable.
+   * @author: Jonathan (jvn@mail.upb.de)
+   *
+   */
   preSocialMobile(): void {
     this.currentSocialMobile -= 1;
     this.changeContentSocialMobile();
   }
 
+  /**
+   * Callback function to increment the "currentSocialMobile" variable.
+   * @author: Jonathan (jvn@mail.upb.de)
+   *
+   */
   nextSocialMobile(): void {
     this.currentSocialMobile += 1;
     this.changeContentSocialMobile();
   }
 
+  /**
+   * This method shows the instruction text and picture depending on the step the user is in.
+   * @author: Jonathan (jvn@mail.upb.de)
+   *
+   */
   changeContentSocialMobile(): void {
     switch (this.currentSocialMobile) {
       case 0: {
@@ -246,16 +343,31 @@ export class SpotPrivacyInstructionsComponent {
   instructionTextPlaylist='First, open the Spotify application. Click on the icon in the top right corner and then choose "Profile".';
   instructionPicturePlaylist="/../../assets/images/spot-privacy-instructions/desktop/spot-public-playlists/1.png";
 
+  /**
+   * Callback function to decrement the "currentPlaylist" variable.
+   * @author: Jonathan (jvn@mail.upb.de)
+   *
+   */
   prePlaylist(): void {
     this.currentPlaylist -= 1;
     this.changeContentPlaylist();
   }
 
+  /**
+   * Callback function to increment the "currentPlaylist" variable.
+   * @author: Jonathan (jvn@mail.upb.de)
+   *
+   */
   nextPlaylist(): void {
     this.currentPlaylist += 1;
     this.changeContentPlaylist();
   }
 
+  /**
+   * This method shows the instruction text and picture depending on the step the user is in.
+   * @author: Jonathan (jvn@mail.upb.de)
+   *
+   */
   changeContentPlaylist(): void {
     switch (this.currentPlaylist) {
       case 0: {
@@ -278,16 +390,31 @@ export class SpotPrivacyInstructionsComponent {
   instructionTextPlaylistMobile='First, open the Spotify application. Click on the icon in the top right corner and choose settings.';
   instructionPicturePlaylistMobile="/../../assets/images/spot-privacy-instructions/mobile/app/app_1_home.png";
 
+  /**
+   * Callback function to decrement the "currentPlaylistMobile" variable.
+   * @author: Jonathan (jvn@mail.upb.de)
+   *
+   */
   prePlaylistMobile(): void {
     this.currentPlaylistMobile -= 1;
     this.changeContentPlaylistMobile();
   }
 
+  /**
+   * Callback function to increment the "currentPlaylistMobile" variable.
+   * @author: Jonathan (jvn@mail.upb.de)
+   *
+   */
   nextPlaylistMobile(): void {
     this.currentPlaylistMobile += 1;
     this.changeContentPlaylistMobile();
   }
 
+  /**
+   * This method shows the instruction text and picture depending on the step the user is in.
+   * @author: Jonathan (jvn@mail.upb.de)
+   *
+   */
   changeContentPlaylistMobile(): void {
     switch (this.currentPlaylistMobile) {
       case 0: {
@@ -310,10 +437,6 @@ export class SpotPrivacyInstructionsComponent {
       }
     }
 
-  }
-
-  onTabSwitch() {
-    this.isMobile = !this.isMobile;
   }
 }
 
