@@ -35,7 +35,10 @@ import { InstaLoginRepository } from '../db/data-repositories/instagram/insta-ac
 import { InstaLogoutRepository } from '../db/data-repositories/instagram/insta-accountcreation-login/insta-logout.repository';
 import { InstaContactsRepository } from '../db/data-repositories/instagram/insta-contacts/insta-contacts.repository';
 import { InferredTopicsRepository } from '../db/data-repositories/facebook/fb-inferred-data/face_inferred_topics.repo';
-
+import { FacebookAdsInteractedRepository } from '../db/data-repositories/facebook/fb_ads_data/face_ads_interacted.repo';
+import { FacebookAppsWebsitesRepository } from '../db/data-repositories/facebook/fb_ads_data/face_apps_websites.repo';
+import { FacebookOffFacebookActivityRepository } from '../db/data-repositories/facebook/fb_ads_data/face_off_facebook_activity.repo';
+import { FacebookFriendsRepository } from '../db/data-repositories/facebook/fb-friends-data/face_friends.repo';
 //service identifier filenames
 const instaIDFilename = "TODO";
 const spotIDFilename = "MyData/Read_Me_First.pdf";
@@ -73,6 +76,7 @@ export class ServiceSelectionComponent {
   //file upload
   uploadedFiles: File[] = [];
   selectedFileName: string = "";
+  uploadDialogVisible: boolean = false;
 
   progressBarPercent: number = 0;
   progressBarVisible: boolean = false;
@@ -110,7 +114,12 @@ export class ServiceSelectionComponent {
               private sqlDBService: DBService, 
               private http: HttpClient,
               private inferredTopicsDataRepo: InferredTopicsRepository,
-              private scroll: ViewportScroller)  {
+              private faceAdsInteractedRepo: FacebookAdsInteractedRepository,
+              private faceAppsAndWebsitesRepo: FacebookAppsWebsitesRepository,
+              private faceOffFacebookActivityRepo: FacebookOffFacebookActivityRepository,
+              private scroll: ViewportScroller,
+              private faceFriendsRepo: FacebookFriendsRepository
+             )  {
     
     //clear the database when this component gets created
     this.dbService.clear("all/userdata").subscribe((deleted) => {
@@ -183,6 +192,17 @@ export class ServiceSelectionComponent {
     console.log("ABORTING DATA-DOWNLOAD PARSING");
     await this.sqlDBService.rebuildDatabase();
     //this.router.navigate(["home"]);
+  }
+
+/**
+  * Callback called when pressing the X-button in the upload file dialog. 
+  *
+  * @author: Simon (scg@mail.upb.de)
+  *
+  */
+  async abortDataUpload() {
+    this.uploadedFiles = [];
+    this.uploadDialogVisible = false;
   }
 
   /*
@@ -321,6 +341,16 @@ export class ServiceSelectionComponent {
     
   }
 
+/**
+  * Callback that opens up the data upload dialog.
+  *
+  * @author: Simon (scg@mail.upb.de)
+  *
+  */
+  async openDataUploadDialog() {
+    this.uploadDialogVisible = true;
+  }
+
   /**
     * Event callback that is called when the user clicks the explore data button
     * This callback starts the process of parsing the datadownload by calling the parseFile method for the selected service
@@ -331,6 +361,7 @@ export class ServiceSelectionComponent {
   async onClickedExploreData() {
     console.log("Clicked explore data");
     this.isProcessingFile = true;
+    this.uploadDialogVisible = false;
     await this.parseFile(this.selectedServiceName);//TODO: get selected service's name
   }
 
@@ -355,7 +386,6 @@ export class ServiceSelectionComponent {
     }
     else if (selectedApp == this.appType.Facebook) {
       console.log("Parsing Facebook file...");
-      this.parseFacebookFile();
       await this.parseFacebookFileToSQLite();
     }
   }
@@ -367,7 +397,7 @@ export class ServiceSelectionComponent {
   /**
     * Parses the uploaded Facebook data-download-zip file into the SQLite database
     *
-    * @author: Rashida (rbharmal@mail.upb.de)
+    * @author: Rashida (rbharmal@mail.upb.de),Rishma (rishmamn@mail.uni-paderborn.de)
     *
   */
   async parseFacebookFileToSQLite() {
@@ -408,13 +438,106 @@ export class ServiceSelectionComponent {
           await this.inferredTopicsDataRepo.addBulkInferredTopicsEntry(inferredTopics[i]);
         }
       }
+      else if (filename === "advertisers_you've_interacted_with.json") {
+        console.log("file---",filename)
+        let jsonData = JSON.parse(content);
+        let adsInteractedWithData = jsonData.history_v2;
+
+        await this.faceAdsInteractedRepo.startAdsClickedBulkAdd(adsInteractedWithData[0].title, adsInteractedWithData[0].action,adsInteractedWithData[0].timestamp, adsInteractedWithData.length);
+        for (let i = 1; i < adsInteractedWithData.length; i++) {
+          await this.faceAdsInteractedRepo.addAdsClickedBulkEntry(adsInteractedWithData[i].title, adsInteractedWithData[i].action,adsInteractedWithData[0].timestamp);
+        }
+        console.log("repoads",this.faceAdsInteractedRepo)
+      }
+      else if (filename === "apps_and_websites.json") {
+         console.log("fileapps---",filename)
+         let jsonData = JSON.parse(content);
+         let appsAndWebsiteData = jsonData.installed_apps_v2;
+
+         await this.faceAppsAndWebsitesRepo.startAdActivityBulkAdd(appsAndWebsiteData[0].name, appsAndWebsiteData[0].added_timestamp,appsAndWebsiteData[0].user_app_scoped_id,appsAndWebsiteData[0].category, appsAndWebsiteData[0].removed_timestamp,appsAndWebsiteData.length);
+         for (let i = 1; i < appsAndWebsiteData.length; i++) {
+           await this.faceAppsAndWebsitesRepo.addAdActivityBulkEntry(appsAndWebsiteData[i].name, appsAndWebsiteData[i].added_timestamp,appsAndWebsiteData[i].user_app_scoped_id,appsAndWebsiteData[i].category, appsAndWebsiteData[i].removed_timestamp);
+         }
+       }
+      else if (filename === "your_off-facebook_activity.json") {
+        console.log("fileoff---",filename)
+        let jsonData = JSON.parse(content);
+        let offfacebookActivityData = jsonData.off_facebook_activity_v2;
+
+        await this.faceOffFacebookActivityRepo.startAdActivityBulkAdd(offfacebookActivityData[0].name, offfacebookActivityData[0].events,offfacebookActivityData[0].events[0].type,offfacebookActivityData.length);
+        for (let i = 1; i < offfacebookActivityData.length; i++) {
+          await this.faceOffFacebookActivityRepo.addAdActivityBulkEntry(offfacebookActivityData[i].name, offfacebookActivityData[i].events,offfacebookActivityData[i].events[0].type);
+        }
+        console.log("data",offfacebookActivityData)
+      }
+      else if (filename === "friend_requests_received.json") {
+        console.log("fileoff---",filename)
+        let jsonData = JSON.parse(content);
+        let friendRequestsRecieved = jsonData.received_requests_v2;
+
+        await this.faceFriendsRepo.startAdActivityBulkAdd(friendRequestsRecieved[0].name, friendRequestsRecieved[0].timestamp,"#requestsReceived",friendRequestsRecieved.length);
+        for (let i = 1; i < friendRequestsRecieved.length; i++) {
+          await this.faceFriendsRepo.addAdActivityBulkEntry(friendRequestsRecieved[i].name, friendRequestsRecieved[i].timestamp,"#requestsReceived");
+        }
+      }
+      else if (filename === "friend_requests_sent.json") {
+        console.log("fileoff---",filename)
+        let jsonData = JSON.parse(content);
+        let friendRequestsSent = jsonData.sent_requests_v2;
+
+        await this.faceFriendsRepo.startAdActivityBulkAdd(friendRequestsSent[0].name, friendRequestsSent[0].timestamp,"#requestsSent",friendRequestsSent.length);
+        for (let i = 1; i < friendRequestsSent.length; i++) {
+          await this.faceFriendsRepo.addAdActivityBulkEntry(friendRequestsSent[i].name, friendRequestsSent[i].timestamp,"#requestsSent");
+        }
+      }
+      else if (filename === "friends.json") {
+        console.log("fileoff---",filename)
+        let jsonData = JSON.parse(content);
+        let friends = jsonData.friends_v2;
+
+        await this.faceFriendsRepo.startAdActivityBulkAdd(friends[0].name, friends[0].timestamp,"#friends",friends.length);
+        for (let i = 1; i < friends.length; i++) {
+          await this.faceFriendsRepo.addAdActivityBulkEntry(friends[i].name, friends[i].timestamp,"#friends");
+        }
+      }
+      else if (filename === "rejected_friend_requests.json") {
+        console.log("fileoff---",filename)
+        let jsonData = JSON.parse(content);
+        let rejectedFriends = jsonData.rejected_requests_v2;
+
+        await this.faceFriendsRepo.startAdActivityBulkAdd(rejectedFriends[0].name, rejectedFriends[0].timestamp,"#rejectedFriends",rejectedFriends.length);
+        for (let i = 1; i < rejectedFriends.length; i++) {
+          await this.faceFriendsRepo.addAdActivityBulkEntry(rejectedFriends[i].name, rejectedFriends[i].timestamp,"#rejectedFriends");
+        }
+      }
+      else if (filename === "removed_friends.json") {
+        console.log("fileoff---",filename)
+        let jsonData = JSON.parse(content);
+        let removedFriends = jsonData.deleted_friends_v2;
+
+        await this.faceFriendsRepo.startAdActivityBulkAdd(removedFriends[0].name, removedFriends[0].timestamp,"#removedFriends",removedFriends.length);
+        for (let i = 1; i < removedFriends.length; i++) {
+          await this.faceFriendsRepo.addAdActivityBulkEntry(removedFriends[i].name, removedFriends[i].timestamp,"#removedFriends");
+        }
+      }
+      else if (filename === "who_you_follow.json") {
+        console.log("fileoff---",filename)
+        let jsonData = JSON.parse(content);
+        let following = jsonData.following_v2;
+
+        await this.faceFriendsRepo.startAdActivityBulkAdd(following[0].name, following[0].timestamp,"#following",following.length);
+        for (let i = 1; i < following.length; i++) {
+          await this.faceFriendsRepo.addAdActivityBulkEntry(following[i].name, following[i].timestamp,"#following");
+        }
+      }
       else if(filename === "profile_information.json") {
         let jsonData = JSON.parse(content);
         let personal_data = jsonData.profile_v2;
         const birthdate = personal_data.birthday;
         const formattedBirthdate = `${birthdate.day.toString().padStart(2, '0')}-${birthdate.month.toString().padStart(2, '0')}-${birthdate.year}`;
-        await this.UserdataRepo.addUserdata(personal_data.name.full_name, personal_data.emails.emails[0], personal_data.current_city.name, formattedBirthdate, personal_data.gender.gender_option, 0,0,"","","");
+        await this.UserdataRepo.addUserdata(personal_data.name.full_name, personal_data.emails.emails[0], personal_data.current_city ?  personal_data.current_city.name : "", formattedBirthdate, personal_data.gender.gender_option, 0,0,"","","");
       }
+      
     }
     console.log("Start topics Fetching");
     this.inferredTopicsDataRepo.getAllInferredTopics().then((topics) => {
@@ -426,7 +549,25 @@ export class ServiceSelectionComponent {
       console.log("Personal info:");
       console.log(info);
     });
-    
+    console.log("Start Ads Interacted Fetching");
+    this.faceAdsInteractedRepo.getAllFaceAdsInteracted().then((adsData) => {
+      console.log("Read Ads Interacted:");
+      console.log(adsData);
+    });
+    console.log("Start Apps and Websites Fetching");
+    this.faceAppsAndWebsitesRepo.getAllFaceAppsAndWebsites().then((apps_websites_data) => {
+      console.log("Read Apps and Websites:");
+      console.log(apps_websites_data);
+    });
+    console.log("Start Off Facebook Activity Fetching");
+    this.faceOffFacebookActivityRepo.getAllOffFacebookActivity().then((offfacebookactivity) => {
+      console.log("Read Off Facebook Activity:");
+      console.log(offfacebookactivity);
+    });
+    this.faceFriendsRepo.getAllFacebookFriends().then((friends) => {
+      console.log("Read friends:");
+      console.log(friends);
+    });
     this.progressBarPercent = 100;
     await delay(500);
 
@@ -783,14 +924,14 @@ export class ServiceSelectionComponent {
         await this.instaLikedCommentsRepo.startLikedCommentsBulkAdd(
           likedComments[0].title, 
           likedComments[0].string_list_data[0].href, 
-          likedComments[0].string_list_data[0].timestamp, 
+          utilities.convertTimestamp(likedComments[0].string_list_data[0].timestamp), 
           likedComments.length);
         
         for (let i = 1; i < likedComments.length; i++) {
           await this.instaLikedCommentsRepo.addLikedCommentsBulkEntry(
             likedComments[i].title,
             likedComments[i].string_list_data[0].href,
-            likedComments[i].string_list_data[0].timestamp);
+            utilities.convertTimestamp(likedComments[i].string_list_data[0].timestamp));
         }
       }
       else if (filename.startsWith("liked_posts")) {
@@ -800,14 +941,14 @@ export class ServiceSelectionComponent {
         await this.instaLikedPostsRepo.startLikedPostsBulkAdd(
           likedPosts[0].title, 
           likedPosts[0].string_list_data[0].href, 
-          likedPosts[0].string_list_data[0].timestamp, 
+          utilities.convertTimestamp(likedPosts[0].string_list_data[0].timestamp), 
           likedPosts.length);
         
         for (let i = 1; i < likedPosts.length; i++) {
           await this.instaLikedPostsRepo.addLikedPostsBulkEntry(
             likedPosts[i].title,
             likedPosts[i].string_list_data[0].href,
-            likedPosts[i].string_list_data[0].timestamp);
+            utilities.convertTimestamp(likedPosts[i].string_list_data[0].timestamp));
         }
       }
       else if (filename.startsWith('synced_contacts')) {
@@ -982,7 +1123,7 @@ export class ServiceSelectionComponent {
   /**
     * Parses the uploaded Facebook data-download-zip file into the indexedDB
     *
-    * @author: rishmamn@campus.uni-paderborn.de
+    * @author: rishmamn@campus.uni-paderborn.de,Rishma (rishmamn@mail.uni-paderborn.de)
     *
     */
   parseFacebookFile() {

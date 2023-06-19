@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 
 /**
@@ -14,6 +14,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class OfflineIndicatorComponent implements OnInit {
   onlineStatus: boolean;
+  @Input() bottom: string | null = null;
+  @Input() right: string | null = null;
 
   /**
    * This method calls @updateOnlineStatus() on init and adds eventlisteners to wlan icon.

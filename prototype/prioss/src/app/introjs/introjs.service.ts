@@ -53,7 +53,7 @@ export class IntrojsService {
           intro: 'Click this card to see your favorite artists and songs!'
         },
         {
-          element: '#step5',
+          element: '#gdpr',
           intro: 'This section explains your rights about data collection backed by the GDPR.'
         },
         {
@@ -61,7 +61,7 @@ export class IntrojsService {
           intro: 'Want to know why Spotify collects data about all your actions and activities? Look here!'
         },
         {
-          element: '#step7',
+          element: '#faq',
           intro: 'You have more questions about this application? Stay right here.'
         },
         // more steps here...
@@ -124,6 +124,14 @@ export class IntrojsService {
           intro: 'This tile gives a gist of your Facebook connections. Click <b>More</b> to see year-wise details.'
         },
         {
+          element: '#fStep23',
+          intro: 'This tile gives information about guidelines to turn OFF Off-Site Interactions(Off-Facebook Activity).'
+        },
+        {
+          element: '#fStep24',
+          intro: 'This tile gives information about guidelines to hide ads.'
+        },
+        {
           element: '#fStep70',
           intro: 'This tile illustrates the steps to object the use of your personal information to show personalized ads.'
         },
@@ -132,7 +140,7 @@ export class IntrojsService {
           intro: 'This section gives you step-by-step instructions to excercise your privacy rights on Facebook website. Choose an action of your interest and follow the instructions to ensure your data privacy.'
         },
         {
-          element: '#fStep40',
+          element: '#gdpr',
           intro: 'This section explains what is <b>G</b>eneral <b>D</b>ata <b>P</b>rotection <b>R</b>egulation (GDPR) and explains your GDPR privacy rights. Click to know more!'
         },
         {
@@ -140,7 +148,7 @@ export class IntrojsService {
           intro: 'This section explains the purpose of collecting your data while tracking all your activities on Facebook.'
         },
         {
-          element: '#fStep60',
+          element: '#faq',
           intro: 'You have more questions about this application? Click to see answers.'
         },
         // more steps here...
@@ -208,6 +216,14 @@ export class IntrojsService {
         {
           element: '#faq',
           intro: 'You have more questions about this application? Click to see answers.'
+        },
+        {
+          element: '#extraprivacy',
+          intro: 'This section gives guidelines to turn OFF Off-Site Interactions(Off-Facebook Activity)'
+        },
+        {
+          element: '#adssettings',
+          intro: 'This sections provides guidelines to hide ads you do not want to see anymore'
         },
         // more steps here...
       ]

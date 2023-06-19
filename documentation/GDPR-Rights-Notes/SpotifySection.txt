@@ -1,0 +1,9 @@
+Spotify GDPR Section
+
+In response to privacy concerns about online data, the General Data Protection Regulation (GDPR) came into effect in the European Union in May 2018.
+The GDPR grants users different rights in regards to the personal data online services collect about them.
+For example, it grants the right for you to access your personal data that the company has collected. 
+We have compiled instructions on how you can obtain such a data-download for some examplary service on our Services Page that you have already visited.
+It also grants the right to data portability. This means that you should be able to take your data and upload it to a competing service or company. 
+Additionally, you have the right to erase your data if the legal basis on which the data was collected - for example your consent to the collection - is not given anymore, 
+and you also have the right to rectify your data, meaning to correct false information that a company has about yourself.

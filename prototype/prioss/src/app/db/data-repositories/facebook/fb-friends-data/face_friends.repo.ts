@@ -1,4 +1,6 @@
 import { Injectable } from "@angular/core";
+import { SQLiteDBConnection } from "@capacitor-community/sqlite";
+import { FacebookFriendsModel } from "src/app/models/Facebook/faceFriends";
 import { DBService } from "../../../../services/db/db.service";
 import { BulkAddCapableRepository } from "../../general/inferences/bulk-add-capable.repository";
 import * as sql from "./face_friends.sql";
@@ -8,7 +10,7 @@ import * as sql from "./face_friends.sql";
  * This repository component is responsible for providing functions to insert and request data from the
  * face_friends table that holds all data regarding total number of friends of the user.
  * 
- * @author: Deepa (dbelvi@mail.upb.de)
+ * @author: rbharmal (rbharmal@mail.upb.de)
  */
 
 @Injectable()
@@ -22,23 +24,38 @@ export class FacebookFriendsRepository extends BulkAddCapableRepository {
      *
      * @param name name of the friend of the user, to be added to the face_friends table.
      * @param timestamp timestamp to be added to the face_friends table
+     * @param type :- what type of facebook friends to be added to the face_friends table
      * @param totalRowCount the total number of rows that should be added to the table in this bulk add run
      * @param targetBulkSize the number of rows that should be inserted in a single SQL query. The SQLite engine does not seem to support much more than 500 at a time
      *
-     * @author: Deepa (dbelvi@mail.upb.de)
+     * @author: rbharmal (rbharmal@mail.upb.de)
      */
 
-    async startAdActivityBulkAdd(name: string, timestamp: string, totalRowCount: number, targetBulkSize: number = 500) {
-        this.startBulkAdd([name, timestamp], totalRowCount, targetBulkSize);
+    async startAdActivityBulkAdd(name: string, timestamp: string, type: string, totalRowCount: number, targetBulkSize: number = 500) {
+        this.startBulkAdd([name, timestamp, type], totalRowCount, targetBulkSize);
     }
 
     /**
      * Adds a row to the Facebook face_friends table as part of a bulk-add run
      * 
-     * @author: Deepa (dbelvi@mail.upb.de)
+     * @author: rbharmal (rbharmal@mail.upb.de)
      */
     
-    async addAdActivityBulkEntry(name: string, timestamp: string) : Promise<void> {
-        return this.addBulkEntry([name, timestamp]);
+    async addAdActivityBulkEntry(name: string, timestamp: string, type: string) : Promise<void> {
+        return this.addBulkEntry([name, timestamp, type]);
     }
+
+     /**
+     * This async method fetches all entries from the face friends table.
+     * 
+     * @author: Rashida (rbharmal@mail.upb.de)
+     * 
+     */
+      async getAllFacebookFriends() : Promise<FacebookFriendsModel[]> {
+        return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
+    
+          let result = await db.query(sql.selectAllFacebookFriends);
+          return result.values as FacebookFriendsModel[];
+        });
+      }
 }

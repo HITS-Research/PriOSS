@@ -1,10 +1,11 @@
 .t-explanation {
     text-align: center;
+    font-size: 1vw;
 }
 
 //the container of the file upload field
 .image-upload-wrap {
-    margin-top: 20px;
+    margin-block: 1vh;
     border: 4px dashed #262626;
     position: relative;
 }
@@ -15,9 +16,13 @@
     border: 4px dashed #ffffff;
 }
 
-.image-upload-wrap:hover .drag-text h3,
-.image-upload-wrap:hover .drag-text h5 {
+.image-upload-wrap:hover .drag-text p {
     color: #ffffff;
+}
+
+.file-upload-explanation {
+    font-size: 0.75vw;
+    text-align: center;
 }
 
 //the input field for file upload
@@ -35,34 +40,37 @@
 //the div containing the text inside the file upload field
 .drag-text {
     text-align: center;
+    font-size: .9vw;
 }
 
 //the actual text inside the file upload field
-.drag-text h3 {
-    font-weight: 100;
-    color: #262626;
-}
-
-.drag-text h5 {
-    font-weight: 100;
+.drag-text p {
     color: #262626;
 }
 
 /* 
  * Buttons
  */
-.t-buttons-container {
-    text-align: center;
+.icon-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
-//the explore data button
-.t-explore-data-btn {
-    margin-top: 30px;
-    display: block;
-    position: relative;
-    left: 41%;
-    box-shadow: 0 0 2px 2px rgb(30, 45, 56);
-    width: 240px;
+.continue-btn {
+    margin-block: 2vh;
+}
+
+.go-to-top-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-block: 2vh;
+}
+
+.page-instructions {
+    text-align: center;
+    margin-bottom: 10vh;
 }
 
 .input-hidden {
@@ -92,12 +100,6 @@ input[type=radio]:checked+label>img {
             text-align: center;
         }
     }
-}
-
-.instructions {
-    padding: 20px;
-    display: flex;
-    align-items: center;
 }
 
 .instructions-content {
