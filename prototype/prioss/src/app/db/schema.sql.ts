@@ -182,6 +182,39 @@ CREATE TABLE IF NOT EXISTS insta_shopping (
     id INTEGER PRIMARY KEY,
     merchantName TEXT NOT NULL,
     productName TEXT NOT NULL
+CREATE TABLE IF NOT EXISTS insta_recent_follow_info (
+    id INTEGER PRIMARY KEY,
+    instaProfileURL TEXT NOT NULL,
+    instaAccountName TEXT NOT NULL,
+    timestamp INTEGER NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS insta_pending_follow_request_info (
+    id INTEGER PRIMARY KEY,
+    instaProfileURL TEXT NOT NULL,
+    instaAccountName TEXT NOT NULL,
+    timestamp INTEGER NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS insta_recently_unfollowed_accounts_info (
+    id INTEGER PRIMARY KEY,
+    instaProfileURL TEXT NOT NULL,
+    instaAccountName TEXT NOT NULL,
+    timestamp INTEGER NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS insta_removed_suggestion_info (
+    id INTEGER PRIMARY KEY,
+    instaProfileURL TEXT NOT NULL,
+    instaAccountName TEXT NOT NULL,
+    timestamp INTEGER NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS insta_received_follow_request_info (
+    id INTEGER PRIMARY KEY,
+    instaProfileURL TEXT NOT NULL,
+    instaAccountName TEXT NOT NULL,
+    timestamp INTEGER NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS face_ads_interacted (
@@ -282,6 +315,11 @@ DROP TABLE IF EXISTS insta_follower_info;
 DROP TABLE IF EXISTS insta_following_info;
 DROP TABLE IF EXISTS insta_blocked_info;
 DROP TABLE IF EXISTS insta_shopping;
+DROP TABLE IF EXISTS insta_recent_follow_info;
+DROP TABLE IF EXISTS insta_pending_follow_request_info;
+DROP TABLE IF EXISTS insta_recently_unfollowed_accounts_info;
+DROP TABLE IF EXISTS insta_removed_suggestion_info;
+DROP TABLE IF EXISTS insta_received_follow_request_info;
 DROP TABLE IF EXISTS face_ads_interacted;
 DROP TABLE IF EXISTS face_apps_websites;
 DROP TABLE IF EXISTS face_off_facebook_activity;
