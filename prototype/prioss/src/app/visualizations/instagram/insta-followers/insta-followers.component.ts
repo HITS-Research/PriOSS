@@ -185,8 +185,6 @@ export class InstaFollowersComponent extends SequenceComponentInit{
   }
 
   initGraph(){
-    console.log("Enter init graph");
-    console.log(document.getElementById('cy'));
     var container = document.getElementById('cy'); // container to render in
     this.cy = cytoscape({
       container, 
@@ -327,18 +325,12 @@ export class InstaFollowersComponent extends SequenceComponentInit{
     this.currentReceivedFollowRequestPage = event;
   }
 
-  on_graph_page_enter(){
-    console.log("Enter event method");
-    //this.cy.destroy();
-    //this.cy.unmount();
-    setTimeout(function() {
-      var element = document.getElementById("yourElementId");
-      // Do something with the element
-    }, 1000); // Delayed for 1 second (adjust as needed)
-    
-    console.log(document.getElementById('cy'));
+  async on_graph_page_enter(){
+    this.cy.unmount();
+    while(!document.getElementById("cy")) {
+      await new Promise(r => setTimeout(r, 500));
+    }
     this.initGraph();
-    this.updateGraph();
   }
 
   /**
