@@ -52,7 +52,7 @@ export class BulkAddCapableRepository {
     this.targetBulkSize = targetBulkSize;
 
     //executes the query because there is only one entry
-    if (totalRowCount <= 1) {
+    /*if (totalRowCount <= 1) {
       await this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
         let ret: capSQLiteChanges = await db.run(this.bulkAddSQL, this.bulkAddValues);
       });
@@ -62,7 +62,7 @@ export class BulkAddCapableRepository {
       this.currBulkSize = 0;
       this.bulkAddSQL = "";
       this.bulkAddValues = [];
-    }
+    }*/
   }
 
 /**

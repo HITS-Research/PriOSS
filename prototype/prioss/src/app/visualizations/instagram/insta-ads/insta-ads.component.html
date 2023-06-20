@@ -85,11 +85,13 @@
                                         <thead>
                                             <tr>
                                                 <th>Title</th>
+                                                <th>Date</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr *ngFor="let ad_clicked of adsClickedTable.data">
                                                 <td>{{ ad_clicked.title }}</td>
+                                                <td>{{ ad_clicked.timestamp }}</td>
                                             </tr>
                                         </tbody>
                                 </nz-table>
@@ -137,11 +139,13 @@
                                         <thead>
                                             <tr>
                                                 <th>Title</th>
+                                                <th>Date</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr *ngFor="let ad_viewed of adsViewedTable.data">
                                                 <td>{{ ad_viewed.title }}</td>
+                                                <td>{{ ad_viewed.timestamp }}</td>
                                             </tr>
                                         </tbody>
                                 </nz-table>

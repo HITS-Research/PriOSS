@@ -31,9 +31,13 @@ export class InstaAdsComponent extends SequenceComponentInit{
   previewMode: boolean = false;
 
   ads_activity: InstaAdsActivityInfo[] = [];
+  listOfAdsActivity: InstaAdsActivityInfo[] = [];
   ads_clicked: InstaAdsClickedInfo[] = [];
+  listOfAdsClicked: InstaAdsClickedInfo[] = [];
   ads_interests: InstaAdsInterestInfo[] = [];
+  listOfAdsInterests: InstaAdsInterestInfo[] = [];
   ads_viewed: InstaAdsViewedInfo[] = [];
+  listOfAdsViewed: InstaAdsViewedInfo[] = [];
 
   constructor(private instaAdsActivityRepo: InstaAdsActivityRepository,
     private instaAdsClickedRepo: InstaAdsClickedRepository,
@@ -57,7 +61,7 @@ export class InstaAdsComponent extends SequenceComponentInit{
 
   /**
   * @see-super-class
-  * @author Paul (pasch@mail.upb.de)
+  * @author: Paul (pasch@mail.upb.de)
   */
   override async initComponent(): Promise<void> {
     console.log("--- Initializing Component 2: Advertisement");
@@ -66,22 +70,26 @@ export class InstaAdsComponent extends SequenceComponentInit{
     
     let ads_activity = await this.instaAdsActivityRepo.getAllInstaAdsActivity();
     if(ads_activity.length > 0) {
-      this.ads_activity = ads_activity
+      this.ads_activity = ads_activity;
+      this.listOfAdsActivity = [...this.ads_activity];
     }
 
     let ads_clicked = await this.instaAdsClickedRepo.getAllInstaAdsClicked();
     if(ads_clicked.length > 0) {
-      this.ads_clicked = ads_clicked
+      this.ads_clicked = ads_clicked;
+      this.listOfAdsClicked = [...this.ads_clicked];
     }
 
     let ads_interests = await this.instaAdsInterestRepo.getAllInstaAdsInterested();
     if(ads_interests.length > 0) {
-      this.ads_interests = ads_interests
+      this.ads_interests = ads_interests;
+      this.listOfAdsInterests = [...this.ads_interests];
     }
 
     let ads_viewed = await this.instaAdsViewedRepo.getAllInstaAdsViewed();
     if(ads_viewed.length > 0) {
-      this.ads_viewed = ads_viewed
+      this.ads_viewed = ads_viewed;
+      this.listOfAdsViewed = [...this.ads_viewed];
     }
   }
 }
