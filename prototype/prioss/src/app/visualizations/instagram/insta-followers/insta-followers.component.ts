@@ -184,23 +184,12 @@ export class InstaFollowersComponent extends SequenceComponentInit{
     this.cy.layout(({name:'circle', padding:30, fit:true})).run();
   }
 
-  /**
-   * Builds the graph for the followers and following accounts.
-   *
-   * @author: Melina (kleber@mail.uni-paderborn.de)
-   */
-  async ngAfterViewInit() {
-    if(!this.previewMode) {
-      await this.initComponent();
-    }
-  }
-
-  override async initComponent(): Promise<void> {
-    console.log("--- Initializing Component 4: FollowerInfo");
-    await this.collectData();
-    this.prepareGraphData();
+  initGraph(){
+    console.log("Enter init graph");
+    console.log(document.getElementById('cy'));
+    var container = document.getElementById('cy'); // container to render in
     this.cy = cytoscape({
-      container: document.getElementById('cy'), // container to render in
+      container, 
       elements: this.graphElements,
       style: [
         // the stylesheet for the graph
@@ -228,6 +217,24 @@ export class InstaFollowersComponent extends SequenceComponentInit{
         fit: true
       },
     });
+  }
+
+  /**
+   * Builds the graph for the followers and following accounts.
+   *
+   * @author: Melina (kleber@mail.uni-paderborn.de)
+   */
+  async ngAfterViewInit() {
+    if(!this.previewMode) {
+      await this.initComponent();
+    }
+  }
+
+  override async initComponent(): Promise<void> {
+    console.log("--- Initializing Component 4: FollowerInfo");
+    await this.collectData();
+    this.prepareGraphData();
+    this.initGraph();
   }
 
   //Getter
@@ -318,6 +325,20 @@ export class InstaFollowersComponent extends SequenceComponentInit{
   // Changing the page number based on user selection
   on_received_follow_request_page_change(event: any) {
     this.currentReceivedFollowRequestPage = event;
+  }
+
+  on_graph_page_enter(){
+    console.log("Enter event method");
+    //this.cy.destroy();
+    //this.cy.unmount();
+    setTimeout(function() {
+      var element = document.getElementById("yourElementId");
+      // Do something with the element
+    }, 1000); // Delayed for 1 second (adjust as needed)
+    
+    console.log(document.getElementById('cy'));
+    this.initGraph();
+    this.updateGraph();
   }
 
   /**

@@ -54,7 +54,7 @@
         <app-title-bar titleText="Followers and Following" [includeButton]="false"></app-title-bar>
         <nz-card style="width:100%;">
             <nz-tabset nzType="card">
-                <nz-tab nzTitle="Graph representation">
+                <nz-tab nzTitle="Graph representation" (nzSelect)="on_graph_page_enter()">
                     <p nz-typography>
                         The following graph visualizes all follower or following relations with you. You can grab the
                         nodes and move them arround.</p>
