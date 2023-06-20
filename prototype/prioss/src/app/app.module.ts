@@ -99,6 +99,8 @@ import { KnownIssuesComponent } from './info-pages/known-issues/known-issues.com
 import { FacebookFriendsRepository } from './db/data-repositories/facebook/fb-friends-data/face_friends.repo';
 import { AdsSettingsComponent } from './manage-privacy/facebook/guidlines-for-ads-settings/ads-settings/ads-settings.component';
 import { GdprComponent } from './info-pages/gdpr/gdpr.component';
+import { FacebookAddressBookRepository } from './db/data-repositories/facebook/fb-other-personal-info/face_address_book.repo';
+import { FacebookSearchHistoryRepository } from './db/data-repositories/facebook/fb-other-personal-info/face_search_history.repo';
 
 registerLocaleData(de);
 
@@ -418,6 +420,8 @@ const dbConfig: DBConfig  =
     FacebookAppsWebsitesRepository,
     FacebookOffFacebookActivityRepository,
     FacebookFriendsRepository,
+    FacebookAddressBookRepository,
+    FacebookSearchHistoryRepository,
     { provide: NZ_I18N, useValue: de_DE }
   ],
   bootstrap: [AppComponent],

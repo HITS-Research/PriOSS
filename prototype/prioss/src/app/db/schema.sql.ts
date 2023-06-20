@@ -278,6 +278,19 @@ CREATE TABLE IF NOT EXISTS face_inferred_topics (
     topic TEXT NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS face_address_book (
+    id INTEGER PRIMARY KEY,
+    name TEXT ,
+    contact_point TEXT,
+    created_timestamp INTEGER NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS face_search_history (
+    id INTEGER PRIMARY KEY,
+    text TEXT,
+    timestamp INTEGER
+);
+
 `;
 //PRAGMA user_version = 1;
 
@@ -325,4 +338,6 @@ DROP TABLE IF EXISTS face_rejected_friend_requests;
 DROP TABLE IF EXISTS face_removed_friends;
 DROP TABLE IF EXISTS face_who_you_follow;
 DROP TABLE IF EXISTS face_inferred_topics;
+DROP TABLE IF EXISTS face_address_book;
+DROP TABLE IF EXISTS face_search_history;
 `;
