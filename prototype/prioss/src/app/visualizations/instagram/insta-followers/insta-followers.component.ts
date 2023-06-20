@@ -325,10 +325,15 @@ export class InstaFollowersComponent extends SequenceComponentInit{
     this.currentReceivedFollowRequestPage = event;
   }
 
+
+  /**
+   * This function adds a small delay in loading the graph when enter the tab again.
+   * 
+   * @author: Melina (kleber@mail.uni-paderborn.de)
+   */
   async on_graph_page_enter(){
-    this.cy.unmount();
     while(!document.getElementById("cy")) {
-      await new Promise(r => setTimeout(r, 500));
+      await new Promise(r => setTimeout(r, 100));
     }
     this.initGraph();
   }

@@ -245,7 +245,7 @@
         </div>
         <!-- If No Blocked Data present -->
         <div *ngIf="blockedInfo?.length === 0">
-            <nz-empty nzNotFoundImage="simple"></nz-empty>
+            <nz-card><nz-empty nzNotFoundImage="simple"></nz-empty></nz-card>
         </div>
 
         <app-title-bar titleText="Recently Unfollowed Accounts" [includeButton]="false"></app-title-bar>
@@ -273,9 +273,10 @@
         </div>
         <!-- If No Recently Unfollowed Account Data present -->
         <div *ngIf="recentlyUnfollowedAccountInfo?.length === 0">
-            <nz-empty nzNotFoundImage="simple"></nz-empty>
+            <nz-card><nz-empty nzNotFoundImage="simple"></nz-empty></nz-card>
         </div>
-
+        <br>
+        <br>
         <app-title-bar titleText="Removed Suggestions" [includeButton]="false"></app-title-bar>
         <!-- If Removed Suggestions Data present -->
         <div *ngIf="removedSuggestionInfo?.length">
@@ -301,7 +302,7 @@
         </div>
         <!-- If No Removed Suggestion Data present -->
         <div *ngIf="removedSuggestionInfo?.length === 0">
-            <nz-empty nzNotFoundImage="simple"></nz-empty>
+            <nz-card><nz-empty nzNotFoundImage="simple"></nz-empty></nz-card>
         </div>
     </div>
 </div>
