@@ -11,6 +11,14 @@ import { SpotMonthlyListening } from 'src/app/models/Spotify/ListeningHistory/Sp
 import { SpotHourlyListening } from 'src/app/models/Spotify/ListeningHistory/SpotHourlyListening';
 import { SpotDailyListening } from 'src/app/models/Spotify/ListeningHistory/SpotDailyListening';
 import { SequenceComponentInit } from '../../sequence-component-init.abstract';
+import { filter } from 'jszip';
+
+interface ListeningtimeFilterHistoryEntry {
+  granularity: GranularityEnum;
+  filterFromDate: Date|null;
+  filterToDate: Date|null;
+  filterSingleDate: Date|null;
+}
 
 /**
   * This component visualizes the total listening time in relation to configurable time periods
@@ -48,6 +56,15 @@ export class ListeningTimeComponent extends SequenceComponentInit {
   filterFromDate: Date | null;
   filterToDate: Date | null;
   filterSingleDate: Date | null;
+
+  /**
+   * A list of previously used filters, so users can easily go back to their previous views on the data
+   */
+  filterHistory: ListeningtimeFilterHistoryEntry[] = []
+  /**
+   * A copy of the current filter values. This is needed, so when the actual filters change, their previous values can be inserted into the history.
+   */
+  currentFilterHistoryEntry: ListeningtimeFilterHistoryEntry;
 
   //Barchart visual elements
   showDataTextAboveBars: boolean = false;
@@ -89,6 +106,14 @@ export class ListeningTimeComponent extends SequenceComponentInit {
     //Shows the single day view first because it takes less time to build than year/month/day views,
     //this gives us time to parse and compile the data needed for the year, month and day views
     this.selectedGranularity = GranularityEnum.Year;
+    
+    this.filterHistory = [];
+    this.currentFilterHistoryEntry = { 
+      granularity: this.selectedGranularity, 
+      filterFromDate: null, 
+      filterToDate: null, 
+      filterSingleDate: null
+    };
 
     let dataMap = await this.createYearData();
     this.yearDataMap = dataMap;
@@ -100,13 +125,76 @@ export class ListeningTimeComponent extends SequenceComponentInit {
     this.monthDataMap = dataMap;
   }
 
+
 /**
   * Callback that handles updating the visualization after the user changed the date filters of the chart
   *
   * @author: Simon (scg@mail.upb.de)
   */
   onDateFilterChanged() {
+
     this.recreateVisualization();
+  }
+
+  /**
+   * Called when the filter values change. Takes the current filter history entry and saves it in the filter history list.
+   * 
+   * @author: Simon (scg@mail.upb.de)
+   */
+  updateFilterHistory() {
+
+    let lastFilters = this.currentFilterHistoryEntry;//this.filterHistory[this.filterHistory.length-1];
+
+    if(lastFilters.granularity != this.selectedGranularity ||
+       lastFilters.filterFromDate != this.filterFromDate ||
+       lastFilters.filterToDate != this.filterToDate ||
+       lastFilters.filterSingleDate != this.filterSingleDate) {
+
+      this.filterHistory.push(lastFilters);
+      this.currentFilterHistoryEntry = { 
+        granularity: this.selectedGranularity, 
+        filterFromDate: this.filterFromDate, 
+        filterToDate: this.filterToDate, 
+        filterSingleDate: this.filterSingleDate
+      };
+    }
+  }
+
+  /**
+   * Callback for going back to the previous filter in the filter history list.
+   * 
+   * @author: Simon (scg@mail.upb.de)
+   */
+  onClickedRevertFilters() {
+    let filters = this.filterHistory.pop();
+
+    if(filters)
+    {
+      this.selectedGranularity = filters.granularity;
+      this.filterFromDate = filters.filterFromDate;
+      this.filterToDate = filters.filterToDate;
+      this.filterSingleDate = filters.filterSingleDate;
+      this.currentFilterHistoryEntry = filters;
+
+      this.recreateVisualization(false);
+    }
+    else
+    {
+      //reset to defaults
+      this.selectedGranularity = GranularityEnum.Year;
+      this.filterFromDate = null;
+      this.filterToDate = null;
+      this.filterSingleDate = null;
+
+      this.currentFilterHistoryEntry = { 
+        granularity: this.selectedGranularity, 
+        filterFromDate: this.filterFromDate, 
+        filterToDate: this.filterToDate, 
+        filterSingleDate: this.filterSingleDate
+      };
+
+      this.recreateVisualization(false);
+    }
   }
 
 /**
@@ -136,8 +224,12 @@ export class ListeningTimeComponent extends SequenceComponentInit {
     *
     * @author: Simon (scg@mail.upb.de)
     */
-  async recreateVisualization() {
+  async recreateVisualization(updateFilterHistory: boolean = true) {
     let data: { name: string, value: number, color: string }[] | null = [];
+
+    if(updateFilterHistory) {
+      this.updateFilterHistory();
+    }
 
     //compile the data based on the history in the selected granularity (e.g. by year / by month, etc.)
     switch (this.selectedGranularity) {
@@ -161,8 +253,6 @@ export class ListeningTimeComponent extends SequenceComponentInit {
     //make new barchart according to data
     this.makeBarChart(data);
   }
-
-
 
   /**
     * Parses the listening history into a data map usable for creating a bar chart with year-granularity
@@ -440,7 +530,8 @@ export class ListeningTimeComponent extends SequenceComponentInit {
         .style("font-size", titleSize)
         .style("text-decoration", "underline")
         .text("Total listening time in the given time-period");
-      */
+      */ 
+
     // Drawing X-axis on the DOM
     svg
       .append("g")
@@ -470,7 +561,7 @@ export class ListeningTimeComponent extends SequenceComponentInit {
     let y = d3
       .scaleLinear()
       .domain([0, yAxisValueheight])
-      .range([yAxisHeight, 0]);
+      .range([yAxisHeight,0]);//[yAxisHeight,0]
 
     // Draw the Y-axis on the DOM
     svg
@@ -498,6 +589,9 @@ export class ListeningTimeComponent extends SequenceComponentInit {
     let hoveringBarName: string = "";
     let currentGranularity: GranularityEnum = this.selectedGranularity;
 
+
+    let calcBarHeight = (d: any) => yAxisHeight - y(d.value)
+
     // Create and fill the bars
     svg
       .selectAll("bars")
@@ -505,10 +599,10 @@ export class ListeningTimeComponent extends SequenceComponentInit {
       .enter()
       .append("rect")
       .attr("x", (d: any) => x(d.name))
-      .attr("y", (d: any) => y(d.value))
+      .attr("y", (d: any) => yAxisHeight)
       //.attr("y", (d: any) => height - y(d.value) * height / 100)
       .attr("width", x.bandwidth())
-      .attr("height", (d: any) => yAxisHeight - y(d.value))
+      .attr("height", 0)//calcBarHeight)
       //.attr("height", (d: any) => y(d.value) * height / 100)// this.height
       .attr("fill", (d: any) => d.color)
       .on("click", () => {
@@ -534,7 +628,13 @@ export class ListeningTimeComponent extends SequenceComponentInit {
         hoveringBarName = "";
         //d3.select(this).style("boxshadow", "none");
         //d3.select(this).style("cursor", "auto");
-      });
+      })
+      //Add bar rising transition
+      .transition()
+            .duration(1000)
+            .attr("y", (d: any) => y(d.value))
+            .attr("height", calcBarHeight)
+            .style("fill", (d: any) => d.color);
 
     //add texts above bars
     if (this.showDataTextAboveBars) {
