@@ -42,6 +42,7 @@ import { FacebookFriendsRepository } from '../db/data-repositories/facebook/fb-f
 import { InstaUserSearchesRepository } from '../db/data-repositories/instagram/insta-searches/insta-user-searches.repository';
 import { InstaKeywordSearchesRepository } from '../db/data-repositories/instagram/insta-searches/insta-keyword-searches.repository';
 import { InstaTagSearchesRepository } from '../db/data-repositories/instagram/insta-searches/insta-tag-searches.repository';
+import { InstaShoppingRepository } from '../db/data-repositories/instagram/insta-shopping/insta-shopping.repository';
 
 
 
@@ -116,6 +117,7 @@ export class ServiceSelectionComponent {
               private instaContactsRepo: InstaContactsRepository,
               private instaFollowerRepo: InstaFollowerRepository,
               private instaBlockedRepo: InstaBlockedRepository,
+              private instaShoppingRepo: InstaShoppingRepository,
               private instaFollowingRepo: InstaFollowingRepository,
               private instaUserSearchesRepo: InstaUserSearchesRepository,
               private instaKeywordSearchesRepo: InstaKeywordSearchesRepository,
@@ -1012,16 +1014,18 @@ export class ServiceSelectionComponent {
       //add follower information
       else if (filename.startsWith("followers_1")) {
         let jsonData = JSON.parse(content);
-        await this.instaFollowerRepo.startFollowerBulkAdd(jsonData[0].string_list_data[0].href,
+        await this.instaFollowerRepo.startFollowerBulkAdd(
+          jsonData[0].string_list_data[0].href,
           utilities.convertTimestamp(jsonData[0].string_list_data[0].timestamp),
-                                                          jsonData[0].string_list_data[0].value,
-                                                          jsonData.length);
+          jsonData[0].string_list_data[0].value,
+          jsonData.length);
+
         for(let i = 1; i < jsonData.length; i++){
           var accountURL = jsonData[i].string_list_data[0].href;
           var timestamp = utilities.convertTimestamp(jsonData[i].string_list_data[0].timestamp);
           var accountName = jsonData[i].string_list_data[0].value;
           await this.instaFollowerRepo.addFollowerBulkEntry(accountURL, timestamp, accountName);
-        }    
+        }
       }
       //add following information
       else if (filename.startsWith("following")) {
@@ -1053,6 +1057,23 @@ export class ServiceSelectionComponent {
           
           await this.instaBlockedRepo.addBlockedBulkEntry(accountName, accountURL, timestamp);
         }    
+      }
+      //Shopping related information
+      else if(filename.startsWith("recently_viewed_items")) {
+        let jsonData = JSON.parse(content);
+        let shoppingData = jsonData.checkout_saved_recently_viewed_products;
+        
+        await this.instaShoppingRepo.startShoppingBulkAdd(
+          utilities.getValueIgnoreCase(shoppingData[0].string_map_data,"Merchant Name",false), 
+          utilities.getValueIgnoreCase(shoppingData[0].string_map_data,"Product Name",false), 
+          shoppingData.length);
+        
+        for (let i = 1; i < shoppingData.length; i++) {
+          await this.instaShoppingRepo.addShoppingBulkEntry(
+            utilities.getValueIgnoreCase(shoppingData[i].string_map_data,"Merchant Name",false), 
+            utilities.getValueIgnoreCase(shoppingData[i].string_map_data,"Product Name",false)
+          );
+        }
       }
     }
 
