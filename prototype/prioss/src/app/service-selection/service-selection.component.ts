@@ -39,12 +39,6 @@ import { FacebookAdsInteractedRepository } from '../db/data-repositories/faceboo
 import { FacebookAppsWebsitesRepository } from '../db/data-repositories/facebook/fb_ads_data/face_apps_websites.repo';
 import { FacebookOffFacebookActivityRepository } from '../db/data-repositories/facebook/fb_ads_data/face_off_facebook_activity.repo';
 import { FacebookFriendsRepository } from '../db/data-repositories/facebook/fb-friends-data/face_friends.repo';
-import { InstaUserSearchesRepository } from '../db/data-repositories/instagram/insta-searches/insta-user-searches.repository';
-import { InstaKeywordSearchesRepository } from '../db/data-repositories/instagram/insta-searches/insta-keyword-searches.repository';
-import { InstaTagSearchesRepository } from '../db/data-repositories/instagram/insta-searches/insta-tag-searches.repository';
-
-
-
 //service identifier filenames
 const instaIDFilename = "TODO";
 const spotIDFilename = "MyData/Read_Me_First.pdf";
@@ -117,9 +111,6 @@ export class ServiceSelectionComponent {
               private instaFollowerRepo: InstaFollowerRepository,
               private instaBlockedRepo: InstaBlockedRepository,
               private instaFollowingRepo: InstaFollowingRepository,
-              private instaUserSearchesRepo: InstaUserSearchesRepository,
-              private instaKeywordSearchesRepo: InstaKeywordSearchesRepository,
-              private instaTagSearchesRepo: InstaTagSearchesRepository,
               private sqlDBService: DBService, 
               private http: HttpClient,
               private inferredTopicsDataRepo: InferredTopicsRepository,
@@ -974,43 +965,9 @@ export class ServiceSelectionComponent {
                 contactsData[i].string_map_data["Contact information"].value);
         }
       }
-       //searches related data
-       else if (filename.startsWith('account_searches')) {
-        let jsonData = JSON.parse(content);
-        let searchData = jsonData.searches_user;
-        let mapData = searchData[0].string_map_data;
 
-        await this.instaUserSearchesRepo.startUserSearchBulkAdd(mapData.Search.value, mapData.Time.timestamp, searchData.length);
-        for (let i = 1; i < searchData.length; i++) {
-          mapData = searchData[i].string_map_data;
-          await this.instaUserSearchesRepo.addUserSearchBulkEntry(mapData.Search.value, mapData.Time.timestamp);
-        }
-      }
-      else if (filename.startsWith('word_or_phrase_searches')) {
-        let jsonData = JSON.parse(content);
-        let searchData = jsonData.searches_keyword;
-        let mapData = searchData[0].string_map_data;
-
-        await this.instaKeywordSearchesRepo.startKeywordSearchBulkAdd(mapData.Search.value, mapData.Time.timestamp, searchData.length);
-        for (let i = 1; i < searchData.length; i++) {
-          mapData = searchData[i].string_map_data;
-          await this.instaKeywordSearchesRepo.addKeywordSearchBulkEntry(mapData.Search.value, mapData.Time.timestamp);
-        }
-      }
-      else if (filename.startsWith('tag_searches')) {
-        let jsonData = JSON.parse(content);
-        let searchData = jsonData.searches_hashtag;
-        let mapData = searchData[0].string_map_data;
-        console.log('tag: ' + mapData.Search.value);
-
-        await this.instaTagSearchesRepo.startTagSearchBulkAdd(mapData.Search.value, mapData.Time.timestamp, searchData.length);
-        for (let i = 1; i < searchData.length; i++) {
-          mapData = searchData[i].string_map_data;
-          await this.instaTagSearchesRepo.addTagSearchBulkEntry(mapData.Search.value, mapData.Time.timestamp);
-        }
-      }
       //add follower information
-      else if (filename.startsWith("followers_1")) {
+      if (filename.startsWith("followers_1")) {
         let jsonData = JSON.parse(content);
         await this.instaFollowerRepo.startFollowerBulkAdd(jsonData[0].string_list_data[0].href,
           utilities.convertTimestamp(jsonData[0].string_list_data[0].timestamp),
@@ -1024,7 +981,7 @@ export class ServiceSelectionComponent {
         }    
       }
       //add following information
-      else if (filename.startsWith("following")) {
+      if (filename.startsWith("following")) {
         let jsonData = JSON.parse(content);
         let followingData = jsonData.relationships_following;
         await this.instaFollowingRepo.startFollowingBulkAdd(followingData[0].string_list_data[0].href,
@@ -1039,7 +996,7 @@ export class ServiceSelectionComponent {
         }    
       }
       //add blocked information
-      else if (filename.startsWith("blocked_accounts")) {
+      if (filename.startsWith("blocked_accounts")) {
         let jsonData = JSON.parse(content);
         let blockedData = jsonData.relationships_blocked_users;
         await this.instaBlockedRepo.startBlockedBulkAdd(blockedData[0].title,

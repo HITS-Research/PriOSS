@@ -57,8 +57,6 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { HelpButtonComponent } from './help-button/help-button/help-button.component';
 import { IntrojsService } from './introjs/introjs.service';
 import { OffFacebookActivityComponent } from './rectification/facebook/off-facebook-activity/off-facebook-activity.component';
-import { InstaSearchesComponent } from './visualizations/instagram/insta-searches/insta-searches.component';
-
 import { DBService } from './services/db/db.service';
 import { SpotHistoryRepository } from './db/data-repositories/spotify/spot-history/spot-history.repository';
 import { UserdataRepository } from './db/data-repositories/general/userdata/userdata.repository';
@@ -70,9 +68,6 @@ import { InstaAdsActivityRepository } from './db/data-repositories/instagram/ins
 import { InstaAdsInterestRepository } from './db/data-repositories/instagram/insta-ads/insta-ads-interest.repository';
 import { InstaAdsClickedRepository } from './db/data-repositories/instagram/insta-ads/insta-ads-clicked.repository';
 import { InstaAdsViewedRepository } from './db/data-repositories/instagram/insta-ads/insta-ads-viewed.repository';
-import { InstaUserSearchesRepository } from './db/data-repositories/instagram/insta-searches/insta-user-searches.repository';
-import { InstaKeywordSearchesRepository } from './db/data-repositories/instagram/insta-searches/insta-keyword-searches.repository';
-import { InstaTagSearchesRepository } from './db/data-repositories/instagram/insta-searches/insta-tag-searches.repository';
 import { InstaSignUpRepository } from './db/data-repositories/instagram/insta-accountcreation-login/insta-signup.repository';
 import { InstaLikedCommentsRepository } from './db/data-repositories/instagram/insta-liked-content/insta-likedcomments.repository';
 import { InstaLikedPostsRepository } from './db/data-repositories/instagram/insta-liked-content/insta-likedposts.repository';
@@ -343,7 +338,6 @@ const dbConfig: DBConfig  =
     SettingsFormComponent,
     HelpButtonComponent,
     OffFacebookActivityComponent,
-    InstaSearchesComponent,
     OfflineIndicatorComponent,
     TitleBarComponent,
     KnownIssuesComponent,
@@ -400,9 +394,6 @@ const dbConfig: DBConfig  =
     InstaBlockedRepository,
     InferencesRepository,
     UserdataRepository,
-    InstaUserSearchesRepository,
-    InstaKeywordSearchesRepository,
-    InstaTagSearchesRepository,
     InferredTopicsRepository,
     FacebookAdsInteractedRepository,
     FacebookAppsWebsitesRepository,
