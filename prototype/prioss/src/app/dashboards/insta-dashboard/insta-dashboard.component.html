@@ -1,80 +1,82 @@
-<h1 nz-typography id="">PriOSS - Instagram</h1>
-<div id="introduction">
-  <p nz-typography>
-    Welcome to the dashboard for the Instagram specific data. This page will offer you all the information you need, to fully understand the data that
-    is collected about you and what steps you can take to increase your personal privacy.<br>
-    In the first section you will be presented with different visualizations of your personal data.<br>
-    All the following sections will help you to understand the purpose of this application as well as the legal basis of the data collection and your rights
-    regarding your data.
-  </p>
-</div>
-<div id="visualization">
-  <h2 nz-typography>Visualization</h2>
-  <p nz-typography>
-    In this section you will be presented with different visualizations of the data you put in before. Every card shows a preview of the data from a specific 
-    topic. By clicking on 'More' you will be redirected to a page with a more precise visualization and description of the specific topic.
-  </p>
+<div class="dashboard-page dashboard-container">
+  <h1 nz-typography id="">PriOSS - Instagram</h1>
+  <div id="introduction">
+    <p nz-typography>
+      Welcome to the dashboard for the Instagram specific data. This page will offer you all the information you need, to fully understand the data that
+      is collected about you and what steps you can take to increase your personal privacy.<br>
+      In the first section you will be presented with different visualizations of your personal data.<br>
+      All the following sections will help you to understand the purpose of this application as well as the legal basis of the data collection and your rights
+      regarding your data.
+    </p>
+  </div>
 
-  <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
-    <div nz-col nzXs="24" nzXl="8">
-      <!--card for visualizing the personal information-->
-      <nz-card id="personalInformation" nzTitle="Personal Information" nzHoverable [nzExtra]="extraPersonal">
-        <app-personal-info [previewMode]="true"></app-personal-info>
-      </nz-card>
-      <ng-template #extraPersonal>
-        <a routerLink="/insta/personal-info">More</a>
-      </ng-template>
+  <details open id="visualization">
+    <summary class="collapsible-dashboard-section-title">Visualization</summary>
+    <p nz-typography>
+      In this section you will be presented with different visualizations of the data you put in before. Every card shows a preview of the data from a specific 
+      topic. By clicking on 'More' you will be redirected to a page with a more precise visualization and description of the specific topic.
+    </p>
+
+    <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
+      <div nz-col nzXs="24" nzXl="8">
+        <!--card for visualizing the personal information-->
+        <nz-card id="personalInformation" nzTitle="Personal Information" nzHoverable [nzExtra]="extraPersonal">
+          <app-personal-info [previewMode]="true"></app-personal-info>
+        </nz-card>
+        <ng-template #extraPersonal>
+          <a routerLink="/insta/personal-info">More</a>
+        </ng-template>
+      </div>
+      <div nz-col nzXs="24" nzXl="8">
+        <!--card for visualizing all about advertisements-->
+        <nz-card id ="advertisement" nzTitle="Advertisement" nzHoverable [nzExtra]="extraAds">
+            <app-insta-ads [previewMode]="true"></app-insta-ads>
+        </nz-card>
+        <ng-template #extraAds>
+          <a routerLink="/insta/ads">More</a>
+        </ng-template>
+      </div>
+      <div nz-col nzXs="24" nzXl="8">
+        <!--card for visualizing the login and account creation-->
+        <nz-card nzTitle="Account Creation and Login" nzHoverable [nzExtra]="extraAccount">
+          <app-insta-account-creation-login [previewMode]="true"></app-insta-account-creation-login>
+        </nz-card>
+        <ng-template #extraAccount>
+          <a routerLink="/insta/account">More</a>
+        </ng-template>
+      </div>
     </div>
-    <div nz-col nzXs="24" nzXl="8">
-      <!--card for visualizing all about advertisements-->
-      <nz-card id ="advertisement" nzTitle="Advertisement" nzHoverable [nzExtra]="extraAds">
-          <app-insta-ads [previewMode]="true"></app-insta-ads>
-      </nz-card>
-      <ng-template #extraAds>
-        <a routerLink="/insta/ads">More</a>
-      </ng-template>
+    <br>
+    <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
+      <div nz-col nzXs="24" nzXl="8">
+        <!--card for visualizing for friends and followers-->
+        <nz-card nzTitle="Followers and Following" nzHoverable [nzExtra]="extraFollowers">
+          <app-insta-followers [previewMode]="true"></app-insta-followers>
+        </nz-card>
+        <ng-template #extraFollowers>
+          <a routerLink="/insta/followers">More</a>
+        </ng-template>
+      </div>
+      <div nz-col nzXs="24" nzXl="8">
+        <!--card for visualizing the contacts-->
+        <nz-card nzTitle="Contacts" nzHoverable [nzExtra]="extraContacts">
+          <app-insta-contact [previewMode]="true"></app-insta-contact>
+        </nz-card>
+        <ng-template #extraContacts>
+          <a routerLink="/insta/contacts">More</a>
+        </ng-template>
+      </div>
+      <div nz-col nzXs="24" nzXl="8">
+        <!--card for visualizing the liked comments and posts-->
+        <nz-card nzTitle="Liked Comments and Posts" nzHoverable [nzExtra]="extraLikedContent">
+          <app-insta-liked-content [previewMode]="true"></app-insta-liked-content>
+        </nz-card>
+        <ng-template #extraLikedContent>
+          <a routerLink="/insta/likedcontent">More</a>
+        </ng-template>
+      </div>
     </div>
-    <div nz-col nzXs="24" nzXl="8">
-      <!--card for visualizing the login and account creation-->
-      <nz-card nzTitle="Account Creation and Login" nzHoverable [nzExtra]="extraAccount">
-        <app-insta-account-creation-login [previewMode]="true"></app-insta-account-creation-login>
-      </nz-card>
-      <ng-template #extraAccount>
-        <a routerLink="/insta/account">More</a>
-      </ng-template>
-    </div>
-  </div>
-  <br>
-  <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
-    <div nz-col nzXs="24" nzXl="8">
-      <!--card for visualizing for friends and followers-->
-      <nz-card nzTitle="Followers and Following" nzHoverable [nzExtra]="extraFollowers">
-        <app-insta-followers [previewMode]="true"></app-insta-followers>
-      </nz-card>
-      <ng-template #extraFollowers>
-        <a routerLink="/insta/followers">More</a>
-      </ng-template>
-    </div>
-    <div nz-col nzXs="24" nzXl="8">
-      <!--card for visualizing the contacts-->
-      <nz-card nzTitle="Contacts" nzHoverable [nzExtra]="extraContacts">
-        <app-insta-contact [previewMode]="true"></app-insta-contact>
-      </nz-card>
-      <ng-template #extraContacts>
-        <a routerLink="/insta/contacts">More</a>
-      </ng-template>
-    </div>
-    <div nz-col nzXs="24" nzXl="8">
-      <!--card for visualizing the liked comments and posts-->
-      <nz-card nzTitle="Liked Comments and Posts" nzHoverable [nzExtra]="extraLikedContent">
-        <app-insta-liked-content [previewMode]="true"></app-insta-liked-content>
-      </nz-card>
-      <ng-template #extraLikedContent>
-        <a routerLink="/insta/likedcontent">More</a>
-      </ng-template>
-    </div>
-  </div>
-  <br>
+    <br>
   <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
     <div nz-col nzXs="24" nzXl="8">
       <!--card for visualizing for searches-->
@@ -87,85 +89,89 @@
     </div>
   </div>
   <br>
-</div>
-<div id="rectification">
-  <h2 nz-typography>Rectification</h2>
-  <p nz-typography>
-    This section of the application describes how a user can rectify if something is missing/wrong in the data download.
-  </p>
-  <h4 nz-typography>Go into the settings of Instagram and report a problem.</h4>
-  <p nz-typography>The first step is to visit the following webpage: <span nz-icon nzType="link"><a target="_blank" href='https://help.instagram.com/contact/117037592428568?no_redirect'>Instagram Help Center</a></span>.</p>
-  <nz-steps [nzCurrent]="current">
-    <nz-step nzTitle="Step 1"></nz-step>
-    <nz-step nzTitle="Step 2"></nz-step>
-    <nz-step nzTitle="Step 3"></nz-step>
-    <nz-step nzTitle="Step 4"></nz-step>
-    <nz-step nzTitle="Step 5"></nz-step>
-  </nz-steps>
+  </details>
 
-  <div class="steps-content">
-    <img
-      nz-image
-      height="300px"
-      nzSrc={{rectificationInstructionPicture}}
-      alt=""
-    />
-    <nz-divider></nz-divider>
-    <p nz-typography>{{ rectificationInstructionText }}</p>  
-  </div>
-  <div class="steps-action">
-    <button nz-button nzType="default" (click)="pre()" [disabled]="current <= 0">
-      <span>Previous</span>
-    </button>
-    <button nz-button nzType="default" (click)="next()" [disabled]="current >= 4">
-      <span>Next</span>
-    </button>
-  </div>
+  <details open id="rectification">
+    <summary class="collapsible-dashboard-section-title">Rectification</summary>
+    <p nz-typography>
+      This section of the application describes how a user can rectify if something is missing/wrong in the data download.
+    </p>
+    <h4 nz-typography>Go into the settings of Instagram and report a problem.</h4>
+    <p nz-typography>The first step is to visit the following webpage: <span nz-icon nzType="link"><a target="_blank" href='https://help.instagram.com/contact/117037592428568?no_redirect'>Instagram Help Center</a></span>.</p>
+    <nz-steps [nzCurrent]="current">
+      <nz-step nzTitle="Step 1"></nz-step>
+      <nz-step nzTitle="Step 2"></nz-step>
+      <nz-step nzTitle="Step 3"></nz-step>
+      <nz-step nzTitle="Step 4"></nz-step>
+      <nz-step nzTitle="Step 5"></nz-step>
+    </nz-steps>
+
+    <div class="steps-content">
+      <img
+        nz-image
+        height="300px"
+        nzSrc={{rectificationInstructionPicture}}
+        alt=""
+      />
+      <nz-divider></nz-divider>
+      <p nz-typography>{{ rectificationInstructionText }}</p>  
+    </div>
+    <div class="steps-action">
+      <button nz-button nzType="default" (click)="pre()" [disabled]="current <= 0">
+        <span>Previous</span>
+      </button>
+      <button nz-button nzType="default" (click)="next()" [disabled]="current >= 4">
+        <span>Next</span>
+      </button>
+    </div>
+    <br>
+    <h4 nz-typography>Send an email to support@instagram.com. Generally, Instagram team responds within a week.</h4>
+    <h4 nz-typography>Contact the privacy center for Meta. It covers Facebook, Instagram, Messenger, and other Meta products.</h4>
+  </details>
   <br>
-  <h4 nz-typography>Send an email to support@instagram.com. Generally, Instagram team responds within a week.</h4>
-  <h4 nz-typography>Contact the privacy center for Meta. It covers Facebook, Instagram, Messenger, and other Meta products.</h4>
-</div>
-<br>
 
-<app-gdpr></app-gdpr>
+  <app-gdpr></app-gdpr>
 
-<div id="purpose">
-  <h2 nz-typography>Purpose</h2>
-  <p nz-typography>
-    The following purposes should give an example of Instagram's reasoning in regards to data collection. To Get a full list of their reasons you can check out Instagram's privacy policy <span nz-icon nzType="link"><a target="_blank" href="https://privacycenter.instagram.com/policy/?section_id=0-WhatIsThePrivacy">privacy policy</a></span>
-    <nz-table nzTemplateMode>
-      <thead>
-        <tr>
-          <th>Purpose</th>
-          <th>Data Collected</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>To personalize and improve their products and to undertake analytics</td>
-          <td>Activity information and information you provide like posts or comments. For more information see <span nz-icon nzType="link"><a target="_blank" href="https://privacycenter.instagram.com/policy/?subpage=1.subpage.1-YourActivityAndInformation">here</a></span>.</td>
-        </tr>
-        <tr>
-          <td>Tailor the ads you see</td>
-          <td>Information from third parties or vendors. That could for example be device information or apps you use. For more information see <span nz-icon nzType="link"><a target="_blank" href="https://privacycenter.instagram.com/policy/?subpage=1.subpage.4-InformationFromPartnersVendors">here</a></span>.</td>
-        </tr>
-        <tr>
-          <td>Sharing your contact, profile or other information with third parties upon your request</td>
-          <td>Content you create, like your contact, profile or other information, like posts or comments. For more information see <span nz-icon nzType="link"><a target="_blank" href="https://privacycenter.instagram.com/policy/?subpage=1.subpage.1-YourActivityAndInformation">here</a></span>.</td>
-        </tr>
-        <tr>
-          <td>Provide the features or services through collecting information you allow them to receive</td>
-          <td>Information from device settings. For more information see <span nz-icon nzType="link"><a target="_blank" href="https://privacycenter.instagram.com/policy/?subpage=1.subpage.3-AppBrowserAndDevice">here</a></span>.</td>
-        </tr>
-      </tbody>
-    </nz-table>
+  <details open id="purpose">
+    <summary class="collapsible-dashboard-section-title">Purpose</summary>
+    <p nz-typography>
+      The following purposes should give an example of Instagram's reasoning in regards to data collection. To Get a full list of their reasons you can check out Instagram's privacy policy <span nz-icon nzType="link"><a target="_blank" href="https://privacycenter.instagram.com/policy/?section_id=0-WhatIsThePrivacy">privacy policy</a></span>
+      <nz-table nzTemplateMode>
+        <thead>
+          <tr>
+            <th>Purpose</th>
+            <th>Data Collected</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>To personalize and improve their products and to undertake analytics</td>
+            <td>Activity information and information you provide like posts or comments. For more information see <span nz-icon nzType="link"><a target="_blank" href="https://privacycenter.instagram.com/policy/?subpage=1.subpage.1-YourActivityAndInformation">here</a></span>.</td>
+          </tr>
+          <tr>
+            <td>Tailor the ads you see</td>
+            <td>Information from third parties or vendors. That could for example be device information or apps you use. For more information see <span nz-icon nzType="link"><a target="_blank" href="https://privacycenter.instagram.com/policy/?subpage=1.subpage.4-InformationFromPartnersVendors">here</a></span>.</td>
+          </tr>
+          <tr>
+            <td>Sharing your contact, profile or other information with third parties upon your request</td>
+            <td>Content you create, like your contact, profile or other information, like posts or comments. For more information see <span nz-icon nzType="link"><a target="_blank" href="https://privacycenter.instagram.com/policy/?subpage=1.subpage.1-YourActivityAndInformation">here</a></span>.</td>
+          </tr>
+          <tr>
+            <td>Provide the features or services through collecting information you allow them to receive</td>
+            <td>Information from device settings. For more information see <span nz-icon nzType="link"><a target="_blank" href="https://privacycenter.instagram.com/policy/?subpage=1.subpage.3-AppBrowserAndDevice">here</a></span>.</td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </details>
+  <app-faq serviceName="insta"></app-faq>
+  <app-help-button (startTourClick)="startTour()">
+    <h2 nz-typography id="introduction">Introduction</h2>
+    <h2 nz-typography id="rectification">Rectification</h2>
+    <h2 nz-typography id="gdpr">GDPR Rights</h2>
+    <h2 nz-typography id="purpose">Purposes</h2>
+    <h2 nz-typography id="faq">FAQ</h2>
+  </app-help-button>
+  <app-offline-indicator [bottom]="'32px'" [right]="'76px'"></app-offline-indicator>
+
 </div>
-<app-faq serviceName="insta"></app-faq>
-<app-help-button (startTourClick)="startTour()">
-  <h2 nz-typography id="introduction">Introduction</h2>
-  <h2 nz-typography id="rectification">Rectification</h2>
-  <h2 nz-typography id="gdpr">GDPR Rights</h2>
-  <h2 nz-typography id="purpose">Purposes</h2>
-  <h2 nz-typography id="faq">FAQ</h2>
-</app-help-button>
-<app-offline-indicator [bottom]="'32px'" [right]="'76px'"></app-offline-indicator>
+
