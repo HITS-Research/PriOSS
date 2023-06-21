@@ -1,13 +1,23 @@
 import { Component, Input } from '@angular/core';
 import cytoscape from 'cytoscape';
-import * as utilities from 'src/app/utilities/generalUtilities.functions';
 import { SequenceComponentInit } from '../../sequence-component-init.abstract';
+
 import { InstaFollowerInfo } from 'src/app/models/Instagram/FollowerInfo/FollowerInfo';
 import { InstaFollowingInfo } from 'src/app/models/Instagram/FollowerInfo/FollowingInfo';
 import { InstaBlockedInfo } from 'src/app/models/Instagram/FollowerInfo/BlockedInfo';
 import { InstaFollowerRepository } from 'src/app/db/data-repositories/instagram/insta-follower-info/insta-follower.repository';
 import { InstaFollowingRepository } from 'src/app/db/data-repositories/instagram/insta-follower-info/insta-following.repository';
 import { InstaBlockedRepository } from 'src/app/db/data-repositories/instagram/insta-follower-info/insta-blocked.repository';
+import { InstaRecentFollowRepository } from 'src/app/db/data-repositories/instagram/insta-follower-info/insta-recent-follow.repository';
+import { InstaRecentFollowInfo } from 'src/app/models/Instagram/FollowerInfo/RecentFollow';
+import { InstaPendingFollowRequestInfo } from 'src/app/models/Instagram/FollowerInfo/PendingFollowRequestInfo';
+import { InstaPendingFollowRequestRepository } from 'src/app/db/data-repositories/instagram/insta-follower-info/insta-pending-follow-request.repository';
+import { InstaRecentlyUnfollowedInfo } from 'src/app/models/Instagram/FollowerInfo/RecentlyUnfollowedAccounts';
+import { InstaRecentlyUnfollowedAccountsRepository } from 'src/app/db/data-repositories/instagram/insta-follower-info/insta-recently-unfollowed-accounts.repository';
+import { InstaRemovedSuggestionRepository } from 'src/app/db/data-repositories/instagram/insta-follower-info/insta-removed-suggestion.repository';
+import { InstaRemovedSuggestionInfo } from 'src/app/models/Instagram/FollowerInfo/RemovedSuggestion';
+import { InstaReceivedFollowRequestRepository } from 'src/app/db/data-repositories/instagram/insta-follower-info/insta-received-follow-request.repository';
+import { InstaReceivedFollowRequestInfo } from 'src/app/models/Instagram/FollowerInfo/ReceivedFollowRequest';
 
 /**
   * This component is the visualization component on instagram's dashboard page.
@@ -18,13 +28,9 @@ import { InstaBlockedRepository } from 'src/app/db/data-repositories/instagram/i
 @Component({
   selector: 'app-insta-followers',
   templateUrl: './insta-followers.component.html',
-  styleUrls: ['./insta-followers.component.less'],
-  providers: [
-    InstaFollowerRepository,
-    InstaFollowingRepository,
-    InstaBlockedRepository,
-  ],
+  styleUrls: ['./insta-followers.component.less']
 })
+
 export class InstaFollowersComponent extends SequenceComponentInit{
   @Input()
   previewMode: boolean = false;
@@ -32,14 +38,14 @@ export class InstaFollowersComponent extends SequenceComponentInit{
   followerInfo: InstaFollowerInfo[] = [];
   followingInfo: InstaFollowingInfo[] = [];
   blockedInfo: InstaBlockedInfo[] = [];
+  recentFollowInfo: InstaRecentFollowInfo[] = [];
+  pendingFollowRequestInfo: InstaPendingFollowRequestInfo[] = [];
+  recentlyUnfollowedAccountInfo: InstaRecentlyUnfollowedInfo[] = [];
+  removedSuggestionInfo : InstaRemovedSuggestionInfo[] = [];
+  receivedFollowRequestInfo : InstaReceivedFollowRequestInfo[] = [];
   graphElements: {
     data: { id?: string; source?: string; target?: string };
   }[] = [];
-
-  getObjectPairs: (obj: object) => [string, any][] = utilities.getObjectPairs;
-  convertTimestamp: (str: string) => any = utilities.convertTimestamp;
-  capitalizeAndPrettify: (str: string) => string =
-    utilities.capitalizeAndPrettify;
 
   graphOptions = ['Followers', 'Following'];
   selectedTags: string[] = ['Followers', 'Following'];
@@ -48,6 +54,11 @@ export class InstaFollowersComponent extends SequenceComponentInit{
   currentFollowerPage = 1;
   currentFollowingPage = 1;
   currentBlockedPage = 1;
+  currentRecentFollowPage = 1;
+  currentPendingFollowRequestPage = 1;
+  currentRecentlyUnfollowedAccountsPage = 1;
+  currentRemovedSuggestionPage = 1;
+  currentReceivedFollowRequestPage = 1;
   pageSize = 10;
 
   cy: cytoscape.Core;
@@ -55,7 +66,12 @@ export class InstaFollowersComponent extends SequenceComponentInit{
   constructor(
     private instaFollowerRepo: InstaFollowerRepository,
     private instaFollowingRepo: InstaFollowingRepository,
-    private instaBlockedRepo: InstaBlockedRepository
+    private instaBlockedRepo: InstaBlockedRepository,
+    private instaRecentFollowRepo: InstaRecentFollowRepository,
+    private instaPendingFollowRequestRepo: InstaPendingFollowRequestRepository,
+    private instaRecentlyUnfollowedAccountsRepo: InstaRecentlyUnfollowedAccountsRepository,
+    private instaRemovedSuggestionRepo: InstaRemovedSuggestionRepository,
+    private instaReceivedFollowRequestRepo: InstaReceivedFollowRequestRepository
   ) {
     super();
   }
@@ -77,6 +93,26 @@ export class InstaFollowersComponent extends SequenceComponentInit{
     this.blockedInfo = await this.instaBlockedRepo.getBlockedInfo();
     await this.instaBlockedRepo.getBlockedInfo().then((blockedInfo) => {
       this.blockedInfo = blockedInfo;
+    });
+    this.recentFollowInfo = await this.instaRecentFollowRepo.getRecentFollowInfo();
+    await this.instaRecentFollowRepo.getRecentFollowInfo().then((recentFollowInfo) => {
+      this.recentFollowInfo = recentFollowInfo;
+    });
+    this.pendingFollowRequestInfo = await this.instaPendingFollowRequestRepo.getPendingFollowRequestInfo();
+    await this.instaPendingFollowRequestRepo.getPendingFollowRequestInfo().then((pendingFollowRequestInfo) => {
+      this.pendingFollowRequestInfo = pendingFollowRequestInfo;
+    });
+    this.recentlyUnfollowedAccountInfo = await this.instaRecentlyUnfollowedAccountsRepo.getRecentlyUnfollowedAccountInfo();
+    await this.instaRecentlyUnfollowedAccountsRepo.getRecentlyUnfollowedAccountInfo().then((recentlyUnfollowedAccountInfo) => {
+      this.recentlyUnfollowedAccountInfo = recentlyUnfollowedAccountInfo;
+    });
+    this.removedSuggestionInfo = await this.instaRemovedSuggestionRepo.getRemovedSuggestionInfo();
+    await this.instaRemovedSuggestionRepo.getRemovedSuggestionInfo().then((removedSuggestionInfo) => {
+      this.removedSuggestionInfo = removedSuggestionInfo;
+    });
+    this.receivedFollowRequestInfo = await this.instaReceivedFollowRequestRepo.getReceivedFollowRequestInfo();
+    await this.instaReceivedFollowRequestRepo.getReceivedFollowRequestInfo().then((receivedFollowRequestInfo) => {
+      this.receivedFollowRequestInfo = receivedFollowRequestInfo;
     });
   }
 
@@ -148,23 +184,10 @@ export class InstaFollowersComponent extends SequenceComponentInit{
     this.cy.layout(({name:'circle', padding:30, fit:true})).run();
   }
 
-  /**
-   * Builds the graph for the followers and following accounts.
-   *
-   * @author: Melina (kleber@mail.uni-paderborn.de)
-   */
-  async ngAfterViewInit() {
-    if(!this.previewMode) {
-      await this.initComponent();
-    }
-  }
-
-  override async initComponent(): Promise<void> {
-    console.log("--- Initializing Component 4: FollowerInfo");
-    await this.collectData();
-    this.prepareGraphData();
+  initGraph(){
+    var container = document.getElementById('cy'); // container to render in
     this.cy = cytoscape({
-      container: document.getElementById('cy'), // container to render in
+      container, 
       elements: this.graphElements,
       style: [
         // the stylesheet for the graph
@@ -192,6 +215,24 @@ export class InstaFollowersComponent extends SequenceComponentInit{
         fit: true
       },
     });
+  }
+
+  /**
+   * Builds the graph for the followers and following accounts.
+   *
+   * @author: Melina (kleber@mail.uni-paderborn.de)
+   */
+  async ngAfterViewInit() {
+    if(!this.previewMode) {
+      await this.initComponent();
+    }
+  }
+
+  override async initComponent(): Promise<void> {
+    console.log("--- Initializing Component 4: FollowerInfo");
+    await this.collectData();
+    this.prepareGraphData();
+    this.initGraph();
   }
 
   //Getter
@@ -222,6 +263,26 @@ export class InstaFollowersComponent extends SequenceComponentInit{
     return this.getSlicedData(this.blockedInfo, this.currentBlockedPage);
   }
 
+  get sliced_recent_follow_data() {
+    return this.getSlicedData(this.recentFollowInfo, this.currentRecentFollowPage);
+  }
+
+  get sliced_pending_follow_request_data() {
+    return this.getSlicedData(this.pendingFollowRequestInfo, this.currentPendingFollowRequestPage);
+  }
+
+  get sliced_recently_unfollowed_account_data() {
+    return this.getSlicedData(this.recentlyUnfollowedAccountInfo, this.currentRecentlyUnfollowedAccountsPage);
+  }
+
+  get sliced_removed_suggestion_data() {
+    return this.getSlicedData(this.removedSuggestionInfo, this.currentRemovedSuggestionPage);
+  }
+
+  get sliced_received_follow_request_data() {
+    return this.getSlicedData(this.receivedFollowRequestInfo, this.currentReceivedFollowRequestPage);
+  }
+
   //Event Handler
 
   // Changing the page number based on user selection
@@ -237,6 +298,44 @@ export class InstaFollowersComponent extends SequenceComponentInit{
   // Changing the page number based on user selection
   on_blocked_page_change(event: any) {
     this.currentBlockedPage = event;
+  }
+
+  // Changing the page number based on user selection
+  on_recent_follow_page_change(event: any) {
+    this.currentRecentFollowPage = event;
+  }
+
+  // Changing the page number based on user selection
+  on_pending_follow_request_page_change(event: any) {
+    this.currentPendingFollowRequestPage = event;
+  }
+
+   // Changing the page number based on user selection
+   on_recently_unfollowed_account_page_change(event: any) {
+    this.currentRecentlyUnfollowedAccountsPage = event;
+  }
+
+   // Changing the page number based on user selection
+   on_removed_suggestion_page_change(event: any) {
+    this.currentRemovedSuggestionPage = event;
+  }
+  
+  // Changing the page number based on user selection
+  on_received_follow_request_page_change(event: any) {
+    this.currentReceivedFollowRequestPage = event;
+  }
+
+
+  /**
+   * This function adds a small delay in loading the graph when enter the tab again.
+   * 
+   * @author: Melina (kleber@mail.uni-paderborn.de)
+   */
+  async on_graph_page_enter(){
+    while(!document.getElementById("cy")) {
+      await new Promise(r => setTimeout(r, 100));
+    }
+    this.initGraph();
   }
 
   /**
