@@ -147,7 +147,7 @@
                             <tbody>
                                 <tr *ngFor="let recent_info of sliced_recent_follow_data">
                                     <td>{{ recent_info.instaAccountName }}</td>
-                                    <td>{{ recent_info.timestamp }}</td>
+                                    <td>{{ recent_info.timestamp + '000' | date: 'd MMM y, h:mm a' }}</td>
                                     <td><span nz-icon nzType="link"><a target="_blank"
                                                 href={{recent_info.instaProfileURL}}>{{recent_info.instaAccountName}}</a></span>
                                     </td>
@@ -175,7 +175,7 @@
                             <tbody>
                                 <tr *ngFor="let pending_info of sliced_pending_follow_request_data">
                                     <td>{{ pending_info.instaAccountName }}</td>
-                                    <td>{{ pending_info.timestamp }}</td>
+                                    <td>{{ pending_info.timestamp + '000' | date: 'd MMM y, h:mm a' }}</td>
                                     <td><span nz-icon nzType="link"><a target="_blank"
                                                 href={{pending_info.instaProfileURL}}>{{pending_info.instaAccountName}}</a></span>
                                     </td>
@@ -203,7 +203,7 @@
                             <tbody>
                                 <tr *ngFor="let request_info of sliced_received_follow_request_data">
                                     <td>{{ request_info.instaAccountName }}</td>
-                                    <td>{{ request_info.timestamp }}</td>
+                                    <td>{{ request_info.timestamp + '000' | date: 'd MMM y, h:mm a' }}</td>
                                     <td><span nz-icon nzType="link"><a target="_blank"
                                                 href={{request_info.instaProfileURL}}>{{request_info.instaAccountName}}</a></span>
                                     </td>
@@ -263,7 +263,7 @@
                 <tbody>
                     <tr *ngFor="let unfollow_info of sliced_recently_unfollowed_account_data">
                         <td>{{ unfollow_info.instaAccountName }}</td>
-                        <td>{{ unfollow_info.timestamp }}</td>
+                        <td>{{ unfollow_info.timestamp + '000' | date: 'd MMM y, h:mm a' }}</td>
                         <td><span nz-icon nzType="link"><a target="_blank"
                                     href={{unfollow_info.instaProfileURL}}>{{unfollow_info.instaAccountName}}</a></span>
                         </td>
@@ -292,7 +292,7 @@
                 <tbody>
                     <tr *ngFor="let removed_info of sliced_removed_suggestion_data">
                         <td>{{ removed_info.instaAccountName }}</td>
-                        <td>{{ removed_info.timestamp }}</td>
+                        <td>{{ removed_info.timestamp + '000' | date: 'd MMM y, h:mm a'}}</td>
                         <td><span nz-icon nzType="link"><a target="_blank"
                                     href={{removed_info.instaProfileURL}}>{{removed_info.instaAccountName}}</a></span>
                         </td>
