@@ -50,7 +50,7 @@
                         <tbody>
                             <tr *ngFor="let like_comment of likedCommentsTable.data">
                                 <td>{{ like_comment.user }}</td>
-                                <td>{{ like_comment.timestamp }}</td>
+                                <td>{{ like_comment.timestamp + '000' | date: 'd MMM y, h:mm a' }}</td>
                                 <td>
                                   <span nz-icon nzType="link">
                                     <a target="_blank" href={{like_comment.href_link}}>
@@ -85,7 +85,7 @@
                         <tbody>
                             <tr *ngFor="let liked_post of likedPostsTable.data">
                                 <td>{{ liked_post.user }}</td>
-                                <td>{{ liked_post.timestamp }}</td>
+                                <td>{{ liked_post.timestamp + '000' | date: 'd MMM y, h:mm a' }}</td>
                                 <td>
                                   <span nz-icon nzType="link">
                                     <a target="_blank" href={{liked_post.href_link}}>

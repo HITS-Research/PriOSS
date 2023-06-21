@@ -93,7 +93,7 @@
                             <tbody>
                                 <tr *ngFor="let data of searchTable.data">
                                     <td>{{ data.search }}</td>
-                                    <td>{{ convertTimestamp(data.timestamp) }}</td>
+                                    <td>{{ data.timestamp + '000' | date: 'd MMM y, h:mm a' }}</td>
                                 </tr>
                             </tbody>
                         </nz-table>
@@ -132,7 +132,7 @@
                             <tbody>
                                 <tr *ngFor="let data of searchTable.data">
                                     <td>{{ data.search }}</td>
-                                    <td>{{ convertTimestamp(data.timestamp) }}</td>
+                                    <td>{{ data.timestamp + '000' | date: 'd MMM y, h:mm a' }}</td>
                                 </tr>
                             </tbody>
                         </nz-table>
