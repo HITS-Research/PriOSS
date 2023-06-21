@@ -229,7 +229,7 @@ export class InstaFollowersComponent extends SequenceComponentInit{
   }
 
   override async initComponent(): Promise<void> {
-    console.log("--- Initializing Component 4: FollowerInfo");
+    console.log("--- Initializing Component 3: FollowerInfo");
     await this.collectData();
     this.prepareGraphData();
     this.initGraph();

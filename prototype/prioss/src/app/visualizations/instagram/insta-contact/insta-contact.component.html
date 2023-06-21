@@ -15,8 +15,18 @@
     <nz-table #contactsTable [nzData]="contacts">
       <thead>
         <tr>
-          <th>First name</th>
-          <th>Last name</th>
+          <th nzCustomFilter>
+            Firstname
+            <nz-filter-trigger [(nzVisible)]="firstVisible" [nzActive]="firstnameSearchValue.length > 0" [nzDropdownMenu]="firstmenu">
+              <span nz-icon nzType="search"></span>
+            </nz-filter-trigger>
+        </th>
+        <th nzCustomFilter>
+            Surname
+          <nz-filter-trigger [(nzVisible)]="surVisible" [nzActive]="surnameSearchValue.length > 0" [nzDropdownMenu]="surmenu">
+            <span nz-icon nzType="search"></span>
+          </nz-filter-trigger>
+      </th>
           <th>Contact information</th>
         </tr>
       </thead>
@@ -28,5 +38,23 @@
         </tr>
       </tbody>
     </nz-table>
+    <nz-dropdown-menu #firstmenu="nzDropdownMenu">
+      <div class="ant-table-filter-dropdown">
+        <div class="search-box">
+          <input type="text" nz-input placeholder="Search name" [(ngModel)]="firstnameSearchValue" />
+          <button nz-button nzSize="small" nzType="primary" (click)="search('first')" class="search-button">Search</button>
+          <button nz-button nzSize="small" (click)="reset('first')">Reset</button>
+        </div>
+      </div>
+    </nz-dropdown-menu>
+    <nz-dropdown-menu #surmenu="nzDropdownMenu">
+      <div class="ant-table-filter-dropdown">
+        <div class="search-box">
+          <input type="text" nz-input placeholder="Search name" [(ngModel)]="surnameSearchValue" />
+          <button nz-button nzSize="small" nzType="primary" (click)="search('sur')" class="search-button">Search</button>
+          <button nz-button nzSize="small" (click)="reset('sur')">Reset</button>
+        </div>
+      </div>
+    </nz-dropdown-menu>
   </div>
 </div>

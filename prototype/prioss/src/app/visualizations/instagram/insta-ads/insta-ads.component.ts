@@ -29,6 +29,14 @@ export class InstaAdsComponent extends SequenceComponentInit{
 
   @Input()
   previewMode: boolean = false;
+  activitySearchValue = '';
+  clickedSearchValue = '';
+  viewedSearchValue = '';
+  interestSearchValue = '';
+  visible = false;
+
+  sortClickedDate = (a: InstaAdsClickedInfo, b: InstaAdsClickedInfo): number => +a.timestamp - +b.timestamp;
+  sortViewedDate = (a: InstaAdsViewedInfo, b: InstaAdsViewedInfo): number => +a.timestamp - +b.timestamp;
 
   ads_activity: InstaAdsActivityInfo[] = [];
   listOfAdsActivity: InstaAdsActivityInfo[] = [];
@@ -64,7 +72,7 @@ export class InstaAdsComponent extends SequenceComponentInit{
   * @author: Paul (pasch@mail.upb.de)
   */
   override async initComponent(): Promise<void> {
-    console.log("--- Initializing Component 2: Advertisement");
+    console.log("--- Initializing Component 1: Advertisement");
 
     // Ads Data fetched from SQlite
     
@@ -90,6 +98,63 @@ export class InstaAdsComponent extends SequenceComponentInit{
     if(ads_viewed.length > 0) {
       this.ads_viewed = ads_viewed;
       this.listOfAdsViewed = [...this.ads_viewed];
+    }
+  }
+
+  /**
+   * Resets the given searchvalue.
+   * 
+   * @param searchList the list that should be resetted.
+   * 
+   * @author: Paul (pasch@mail.upb.de)
+   */
+  reset(searchList: string): void {
+    switch (searchList) {
+      case 'activity':
+        this.activitySearchValue = '';
+        break;
+      case 'clicked':
+        this.clickedSearchValue = '';
+        break;
+      case 'viewed':
+        this.viewedSearchValue = '';
+        break;
+      case 'interest':
+        this.interestSearchValue = '';
+        break;
+      default:
+        break;
+    }
+
+    this.search(searchList);
+  }
+
+
+  /**
+   * Searches the given list for the current searchvalue.
+   * 
+   * @param searchList the list that should be searched.
+   * 
+   * @author: Paul (pasch@mail.upb.de)
+   */
+  search(searchList: string): void {
+    this.visible = false;
+
+    switch (searchList) {
+      case 'activity':
+        this.listOfAdsActivity = this.ads_activity.filter((item: InstaAdsActivityInfo) => item.advertiserName.indexOf(this.activitySearchValue) !== -1);
+        break;
+      case 'clicked':
+        this.listOfAdsClicked = this.ads_clicked.filter((item: InstaAdsClickedInfo) => item.title.indexOf(this.clickedSearchValue) !== -1);
+        break;
+      case 'viewed':
+        this.listOfAdsViewed = this.ads_viewed.filter((item: InstaAdsViewedInfo) => item.title.indexOf(this.viewedSearchValue) !== -1);
+        break;
+      case 'interest':
+        this.listOfAdsInterests = this.ads_interests.filter((item: InstaAdsInterestInfo) => item.interest.indexOf(this.interestSearchValue) !== -1);
+        break;
+      default:
+        break;
     }
   }
 }

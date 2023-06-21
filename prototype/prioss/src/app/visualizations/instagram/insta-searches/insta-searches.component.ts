@@ -66,7 +66,7 @@ export class InstaSearchesComponent extends SequenceComponentInit{
   * @author: Paul (pasch@mail.upb.de)
   */
   override async initComponent(): Promise<void> {
-    console.log("--- Initializing Component 7: Searches");
+    console.log("--- Initializing Component 6: Searches");
 
     await this.instaUserSearchRepo.getUserSearches().then((userSearches) => {
       this.userSearches = userSearches;
