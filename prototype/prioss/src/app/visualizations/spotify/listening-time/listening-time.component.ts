@@ -606,10 +606,13 @@ export class ListeningTimeComponent extends SequenceComponentInit {
       //.attr("height", (d: any) => y(d.value) * height / 100)// this.height
       .attr("fill", (d: any) => d.color)
       .on("click", () => {
-        if (this.selectedGranularity != GranularityEnum.Hour)
-          tooltip.html(``).style("visibility", "hidden");
-
-        this.onBarClicked(hoveringBarName);
+        tooltip.html(``).style("visibility", "hidden");
+        if (this.selectedGranularity != GranularityEnum.Hour) {
+          this.onBarClicked(hoveringBarName);
+        }
+        else if (this.filterSingleDate) {
+          this.onBarClicked(dateUtils.getDisplayDateString(this.filterSingleDate) + " " + hoveringBarName)
+        }
       })
       //Mouse Hover
       .on("mouseover", function (event, data) {
@@ -669,7 +672,21 @@ export class ListeningTimeComponent extends SequenceComponentInit {
       this.recreateVisualization();
     }
     else {
-      this.notifyService.showNotification("Hour-wise visualization over a single day is the most detailed visualization available. You can't step into a single hour.");
+      //Switch out listeningtime visualization for songtimeline visualization
+      let listeningTimePage = document.getElementById('listeningtime-page');
+      let songtimelinePage = document.getElementById('songtimeline-page');
+
+      if(songtimelinePage && listeningTimePage) {
+        listeningTimePage.style.display='none';
+        songtimelinePage.style.display='block';
+        //set the correct input time in the visualization
+        let dateTimePicker = document.getElementById('songtimeline-dateTimePicker') as HTMLInputElement | null;
+        if(dateTimePicker) {
+          dateTimePicker.value = clickedBarDateString;
+        }
+      }
+
+      //this.notifyService.showNotification("Hour-wise visualization over a single day is the most detailed visualization available. You can't step into a single hour.");
     }
   }
 
@@ -719,7 +736,8 @@ export class ListeningTimeComponent extends SequenceComponentInit {
 function onMouseOver(selectedGranularity: GranularityEnum, tooltip: d3.Selection<HTMLDivElement, unknown, HTMLElement, any>, currRect: SVGRectElement, data: { name: string, value: number, color: string }) {
   let html;
   if (selectedGranularity == GranularityEnum.Hour) {
-    html = tooltip.html(`${formatDisplayTime(data.value)}<br>`)
+    html = tooltip.html(`${formatDisplayTime(data.value)}<br><i>Click to see played songs.</i>`)
+    d3.select(currRect).style("cursor", "pointer");
   }
   else {
     html = tooltip.html(`${formatDisplayTime(data.value)}<br><i>Click to inspect.</i>`)
