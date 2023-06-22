@@ -7,53 +7,47 @@
 
   <details open id="visualization">
     <summary class="collapsible-dashboard-section-title">Your Data</summary>
-    <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
+    <div nz-row [nzGutter]="[{ xs: 8, xl: 20}, {xs: 8, xl: 40}]">
       <div id="step1" nz-col nzXs="24" nzXl="8">
-        <app-dash-card style=" height: 100%" cardLink="/spot/general-data" titleText="User Data" 
+        <app-dash-card cardLink="/spot/general-data" titleText="User Data" 
             tooltipText="This card shows your general user data like your email, gender, postal address etc. Click to find out more.">
           <app-general-data [previewMode]="true"></app-general-data>
         </app-dash-card>
       </div>
 
-
       <div id="step3" nz-col nzXs="24" nzXl="16">
-        <a routerLink="/spot/listening-time">
-          <nz-card nzTitle="Listening Time" nzHoverable [nzExtra]="extraTemplate">
-            <spot-listening-time [previewMode]="true"></spot-listening-time>
-          </nz-card>
-        </a>
-        <ng-template #extraTemplate>
-          <a>More</a>
-        </ng-template>
-      </div>
-
-      <div id="step2" nz-col nzXs="24" nzXl="8">
-        <a routerLink="/spot/inference">
-          <nz-card nzTitle="Inferences" nzHoverable [nzExtra]="extraTemplate">
-            <spot-inferences [previewMode]="true"></spot-inferences>
-          </nz-card>
-        </a>
-        <ng-template #extraTemplate>
-          <a>More</a>
-        </ng-template>
+        <app-dash-card cardLink="/spot/listening-time" titleText="Listening Time" 
+            tooltipText="This card shows for how long you have listened to spotify at what times. You can customize the shown timeframe as you wish. Click to find out more.">
+          <spot-listening-time [previewMode]="true"></spot-listening-time>
+        </app-dash-card>
       </div>
     </div>
 
+    <div nz-row [nzGutter]="[{ xs: 8, xl: 20}, {xs: 8, xl: 40}]">
+      <div id="step2" nz-col nzXs="24" nzXl="8">
+        <app-dash-card cardLink="/spot/inference" titleText="Inferences" 
+          tooltipText="This card shows the interests you have and groups you belong to according to Spotify. You can let Spotify delete them, if you think they are incorrect. Click to find out more.">
+          <spot-inferences [previewMode]="true"></spot-inferences>
+        </app-dash-card>
+      </div>
+    <!-- 
+    </div>
     <h3 nz-typography>Songs and Artists</h3>
     <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
+    -->
+
       <div id="step4" nz-col nzXs="24" nzXl="8">
-        <a routerLink="/spot/top-artists">
-          <nz-card nzTitle="Top Artists" nzHoverable [nzExtra]="extraTemplate">
-            <spot-top-artists [previewMode]="true"></spot-top-artists>
-          </nz-card>
-        </a>
+        <app-dash-card cardLink="/spot/top-artists" titleText="Top Artists" 
+          tooltipText="This card shows your most played artists. You can customize the timeframe over which this is calculated. Click to find out more.">
+          <spot-top-artists [previewMode]="true"></spot-top-artists>
+        </app-dash-card>
       </div>
+
       <div nz-col nzXs="24" nzXl="8">
-        <a routerLink="/spot/top-songs">
-          <nz-card nzTitle="Top Songs" nzHoverable [nzExtra]="extraTemplate">
-            <spot-top-songs [previewMode]="true"></spot-top-songs>
-          </nz-card>
-        </a>
+        <app-dash-card cardLink="/spot/top-songs" titleText="Top Songs" 
+          tooltipText="This card shows your most played songs. You can customize the timeframe over which this is calculated. Click to find out more.">
+          <spot-top-songs [previewMode]="true"></spot-top-songs>
+        </app-dash-card>
       </div>
     </div>
 <!--      <div nz-col nzXs="24" nzXl="8">-->
