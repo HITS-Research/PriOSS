@@ -28,6 +28,9 @@ import { InstaContactComponent } from './visualizations/instagram/insta-contact/
 import { InstaShoppingComponent } from './visualizations/instagram/insta-shopping/insta-shopping.component';
 import { KnownIssuesComponent } from './info-pages/known-issues/known-issues.component';
 import { AdsSettingsComponent } from './manage-privacy/facebook/guidlines-for-ads-settings/ads-settings/ads-settings.component';
+import {
+  SpotPrivacyInstructionsComponent
+} from "./visualizations/spotify/privacy-instructions/spot-privacy-instructions.component";
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -42,6 +45,7 @@ const routes: Routes = [
   { path: 'spot/general-data', component: GeneralDataComponent },
   { path: 'spot/dashboard', component: SpotDashboardComponent },
   { path: 'spot/top-artists', component: TopArtistsComponent },
+  { path: 'spot/privacy-instructions', component: SpotPrivacyInstructionsComponent },
   { path: 'spot/top-songs', component: TopSongsComponent },
   { path: 'insta/dashboard', component: InstaDashboardComponent },
   { path: 'insta/personal-info', component:Insta_PersonalInfoComponent },
