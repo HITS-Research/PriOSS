@@ -1,4 +1,4 @@
-<a routerLink="{{cardLink}}">
+<a [routerLink]="cardLink.length > 0 ? cardLink : null">
   <nz-card nzTitle="{{titleText}}" nzHoverable [nzExtra]="extraTemplate">
     <ng-content></ng-content>
   </nz-card>  
