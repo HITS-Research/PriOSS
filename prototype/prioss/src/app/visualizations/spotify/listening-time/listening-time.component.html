@@ -34,9 +34,17 @@
 
             <div class="t-inline-spacer-small"></div>
 
+            <button nz-button block="false" class="icon-button" (click)="onClickedRevertFilters()">
+                <span nz-icon nzType="rollback"></span>
+                Back to Previous
+            </button>
+
+            <div class="t-inline-spacer-small"></div>
+
             <div>
             Show time above bars: <nz-switch [(ngModel)]="showDataTextAboveBars" (ngModelChange)="onChartParametersChanged()"></nz-switch>
             </div>
+
         </div>
 
         <br>

@@ -76,9 +76,7 @@ export function convertTimestamp(str: string): any {
   let date: Date = new Date(number);
 
   //returns a date in the format YYYY-MM-DD.
-  return date.getFullYear() + '-' 
-         + ('0' + date.getMonth()).slice(-2) + '-' 
-         + ('0' + date.getDay()).slice(-2);
+  return date.getFullYear() + "-" + (date.getMonth() + 1).toString().padStart(2, '0') + "-" + date.getDate().toString().padStart(2, '0');
 }
 
 /**
