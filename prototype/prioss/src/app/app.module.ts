@@ -129,7 +129,7 @@ export function migrationFactory()
 const dbConfig: DBConfig  =
 {
   name: 'priossDB',
-  version: 12,
+  version: 14,
   objectStoresMeta:
   [
     //Data relevant to all services

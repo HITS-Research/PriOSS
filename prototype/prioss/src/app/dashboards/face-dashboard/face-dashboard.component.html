@@ -52,6 +52,14 @@
             <a routerLink="/face/connections">More</a>
           </ng-template>
         </div>
+        <div id="fStep25" nz-col nzXs="24" nzXl="8">
+          <nz-card nzTitle="Other Personal Information" nzHoverable  [nzExtra]="adssettings">
+          <p>This section provides information about the address book details and the search history.</p>
+          </nz-card>
+          <ng-template #adssettings>
+            <a routerLink="/face/other-personal-info">More</a>
+          </ng-template>
+        </div>
     </div>
   </div>
 </details>

@@ -28,6 +28,7 @@ import { InstaContactComponent } from './visualizations/instagram/insta-contact/
 import { FaqComponent } from './info-pages/faq/faq.component';
 import { KnownIssuesComponent } from './info-pages/known-issues/known-issues.component';
 import { AdsSettingsComponent } from './manage-privacy/facebook/guidlines-for-ads-settings/ads-settings/ads-settings.component';
+import { OtherPersonalInfoComponent } from './visualizations/facebook/other-personal-info/other-personal-info.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -57,7 +58,8 @@ const routes: Routes = [
   { path: 'face/connections', component: FriendAndFollowersComponent },
   { path: 'face/configure-off-facebook-activity', component: OffFacebookActivityComponent },
   { path: 'face/guidelines-for-ads-settings', component: AdsSettingsComponent },
-  { path: 'insta/searches', component: InstaSearchesComponent}
+  { path: 'insta/searches', component: InstaSearchesComponent},
+  { path: 'face/other-personal-info' ,component:OtherPersonalInfoComponent}
 ];
 
 @NgModule({
