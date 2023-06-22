@@ -87,6 +87,24 @@ CREATE TABLE IF NOT EXISTS insta_ads_viewed (
     timestamp TEXT NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS insta_user_searches (
+    id INTEGER PRIMARY KEY,
+    search TEXT NOT NULL,
+    timestamp TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS insta_keyword_searches (
+    id INTEGER PRIMARY KEY,
+    search TEXT NOT NULL,
+    timestamp TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS insta_tag_searches (
+    id INTEGER PRIMARY KEY,
+    search TEXT NOT NULL,
+    timestamp TEXT NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS insta_signup_information (
     id INTEGER PRIMARY KEY,
     username TEXT NOT NULL,
@@ -157,6 +175,41 @@ CREATE TABLE IF NOT EXISTS insta_blocked_info (
     id INTEGER PRIMARY KEY,
     instaAccountName TEXT NOT NULL,
     instaProfileURL TEXT NOT NULL,
+    timestamp INTEGER NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS insta_recent_follow_info (
+    id INTEGER PRIMARY KEY,
+    instaProfileURL TEXT NOT NULL,
+    instaAccountName TEXT NOT NULL,
+    timestamp INTEGER NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS insta_pending_follow_request_info (
+    id INTEGER PRIMARY KEY,
+    instaProfileURL TEXT NOT NULL,
+    instaAccountName TEXT NOT NULL,
+    timestamp INTEGER NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS insta_recently_unfollowed_accounts_info (
+    id INTEGER PRIMARY KEY,
+    instaProfileURL TEXT NOT NULL,
+    instaAccountName TEXT NOT NULL,
+    timestamp INTEGER NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS insta_removed_suggestion_info (
+    id INTEGER PRIMARY KEY,
+    instaProfileURL TEXT NOT NULL,
+    instaAccountName TEXT NOT NULL,
+    timestamp INTEGER NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS insta_received_follow_request_info (
+    id INTEGER PRIMARY KEY,
+    instaProfileURL TEXT NOT NULL,
+    instaAccountName TEXT NOT NULL,
     timestamp INTEGER NOT NULL
 );
 
@@ -244,6 +297,9 @@ DROP TABLE IF EXISTS insta_ads_activity;
 DROP TABLE IF EXISTS insta_ads_interests;
 DROP TABLE IF EXISTS insta_ads_clicked;
 DROP TABLE IF EXISTS insta_ads_viewed;
+DROP TABLE IF EXISTS insta_user_searches;
+DROP TABLE IF EXISTS insta_keyword_searches;
+DROP TABLE IF EXISTS insta_tag_searches;
 DROP TABLE IF EXISTS insta_signup_information;
 DROP TABLE IF EXISTS insta_login_information;
 DROP TABLE IF EXISTS insta_logout_information;
@@ -254,6 +310,11 @@ DROP TABLE IF EXISTS userdata;
 DROP TABLE IF EXISTS insta_follower_info;
 DROP TABLE IF EXISTS insta_following_info;
 DROP TABLE IF EXISTS insta_blocked_info;
+DROP TABLE IF EXISTS insta_recent_follow_info;
+DROP TABLE IF EXISTS insta_pending_follow_request_info;
+DROP TABLE IF EXISTS insta_recently_unfollowed_accounts_info;
+DROP TABLE IF EXISTS insta_removed_suggestion_info;
+DROP TABLE IF EXISTS insta_received_follow_request_info;
 DROP TABLE IF EXISTS face_ads_interacted;
 DROP TABLE IF EXISTS face_apps_websites;
 DROP TABLE IF EXISTS face_off_facebook_activity;

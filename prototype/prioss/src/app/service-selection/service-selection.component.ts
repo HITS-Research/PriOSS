@@ -27,6 +27,11 @@ import { InstaSignUpRepository } from '../db/data-repositories/instagram/insta-a
 import { InstaFollowerRepository } from '../db/data-repositories/instagram/insta-follower-info/insta-follower.repository';
 import { InstaFollowingRepository } from '../db/data-repositories/instagram/insta-follower-info/insta-following.repository';
 import { InstaBlockedRepository } from '../db/data-repositories/instagram/insta-follower-info/insta-blocked.repository';
+import { InstaRecentFollowRepository } from '../db/data-repositories/instagram/insta-follower-info/insta-recent-follow.repository';
+import { InstaPendingFollowRequestRepository } from '../db/data-repositories/instagram/insta-follower-info/insta-pending-follow-request.repository';
+import { InstaRecentlyUnfollowedAccountsRepository } from '../db/data-repositories/instagram/insta-follower-info/insta-recently-unfollowed-accounts.repository';
+import { InstaRemovedSuggestionRepository } from '../db/data-repositories/instagram/insta-follower-info/insta-removed-suggestion.repository';
+import { InstaReceivedFollowRequestRepository } from '../db/data-repositories/instagram/insta-follower-info/insta-received-follow-request.repository';
 
 import { UserdataRepository } from '../db/data-repositories/general/userdata/userdata.repository';
 import { InstaLikedCommentsRepository } from '../db/data-repositories/instagram/insta-liked-content/insta-likedcomments.repository';
@@ -39,6 +44,12 @@ import { FacebookAdsInteractedRepository } from '../db/data-repositories/faceboo
 import { FacebookAppsWebsitesRepository } from '../db/data-repositories/facebook/fb_ads_data/face_apps_websites.repo';
 import { FacebookOffFacebookActivityRepository } from '../db/data-repositories/facebook/fb_ads_data/face_off_facebook_activity.repo';
 import { FacebookFriendsRepository } from '../db/data-repositories/facebook/fb-friends-data/face_friends.repo';
+import { InstaUserSearchesRepository } from '../db/data-repositories/instagram/insta-searches/insta-user-searches.repository';
+import { InstaKeywordSearchesRepository } from '../db/data-repositories/instagram/insta-searches/insta-keyword-searches.repository';
+import { InstaTagSearchesRepository } from '../db/data-repositories/instagram/insta-searches/insta-tag-searches.repository';
+
+
+
 //service identifier filenames
 const instaIDFilename = "TODO";
 const spotIDFilename = "MyData/Read_Me_First.pdf";
@@ -111,6 +122,14 @@ export class ServiceSelectionComponent {
               private instaFollowerRepo: InstaFollowerRepository,
               private instaBlockedRepo: InstaBlockedRepository,
               private instaFollowingRepo: InstaFollowingRepository,
+              private instaRecentFollowRepo: InstaRecentFollowRepository,
+              private instaPendingFollowRequestRepo: InstaPendingFollowRequestRepository,
+              private instaRecentlyUnfollowedAccountsRepo: InstaRecentlyUnfollowedAccountsRepository,
+              private instaRemovedSuggestionRepo: InstaRemovedSuggestionRepository,
+              private instaReceivedFollowRequestRepo: InstaReceivedFollowRequestRepository,
+              private instaUserSearchesRepo: InstaUserSearchesRepository,
+              private instaKeywordSearchesRepo: InstaKeywordSearchesRepository,
+              private instaTagSearchesRepo: InstaTagSearchesRepository,
               private sqlDBService: DBService, 
               private http: HttpClient,
               private inferredTopicsDataRepo: InferredTopicsRepository,
@@ -965,9 +984,43 @@ export class ServiceSelectionComponent {
                 contactsData[i].string_map_data["Contact information"].value);
         }
       }
+       //searches related data
+       else if (filename.startsWith('account_searches')) {
+        let jsonData = JSON.parse(content);
+        let searchData = jsonData.searches_user;
+        let mapData = searchData[0].string_map_data;
 
+        await this.instaUserSearchesRepo.startUserSearchBulkAdd(mapData.Search.value, mapData.Time.timestamp, searchData.length);
+        for (let i = 1; i < searchData.length; i++) {
+          mapData = searchData[i].string_map_data;
+          await this.instaUserSearchesRepo.addUserSearchBulkEntry(mapData.Search.value, mapData.Time.timestamp);
+        }
+      }
+      else if (filename.startsWith('word_or_phrase_searches')) {
+        let jsonData = JSON.parse(content);
+        let searchData = jsonData.searches_keyword;
+        let mapData = searchData[0].string_map_data;
+
+        await this.instaKeywordSearchesRepo.startKeywordSearchBulkAdd(mapData.Search.value, mapData.Time.timestamp, searchData.length);
+        for (let i = 1; i < searchData.length; i++) {
+          mapData = searchData[i].string_map_data;
+          await this.instaKeywordSearchesRepo.addKeywordSearchBulkEntry(mapData.Search.value, mapData.Time.timestamp);
+        }
+      }
+      else if (filename.startsWith('tag_searches')) {
+        let jsonData = JSON.parse(content);
+        let searchData = jsonData.searches_hashtag;
+        let mapData = searchData[0].string_map_data;
+        console.log('tag: ' + mapData.Search.value);
+
+        await this.instaTagSearchesRepo.startTagSearchBulkAdd(mapData.Search.value, mapData.Time.timestamp, searchData.length);
+        for (let i = 1; i < searchData.length; i++) {
+          mapData = searchData[i].string_map_data;
+          await this.instaTagSearchesRepo.addTagSearchBulkEntry(mapData.Search.value, mapData.Time.timestamp);
+        }
+      }
       //add follower information
-      if (filename.startsWith("followers_1")) {
+      else if (filename.startsWith("followers_1")) {
         let jsonData = JSON.parse(content);
         await this.instaFollowerRepo.startFollowerBulkAdd(jsonData[0].string_list_data[0].href,
           utilities.convertTimestamp(jsonData[0].string_list_data[0].timestamp),
@@ -981,7 +1034,7 @@ export class ServiceSelectionComponent {
         }    
       }
       //add following information
-      if (filename.startsWith("following")) {
+      else if (filename.startsWith("following")) {
         let jsonData = JSON.parse(content);
         let followingData = jsonData.relationships_following;
         await this.instaFollowingRepo.startFollowingBulkAdd(followingData[0].string_list_data[0].href,
@@ -996,7 +1049,7 @@ export class ServiceSelectionComponent {
         }    
       }
       //add blocked information
-      if (filename.startsWith("blocked_accounts")) {
+      else if (filename.startsWith("blocked_accounts")) {
         let jsonData = JSON.parse(content);
         let blockedData = jsonData.relationships_blocked_users;
         await this.instaBlockedRepo.startBlockedBulkAdd(blockedData[0].title,
@@ -1009,6 +1062,84 @@ export class ServiceSelectionComponent {
           var timestamp = utilities.convertTimestamp(blockedData[i].string_list_data[0].timestamp);
           
           await this.instaBlockedRepo.addBlockedBulkEntry(accountName, accountURL, timestamp);
+        }    
+      }
+      //add recent follow information
+      if (filename.startsWith("recent_follow_requests")) {
+        let jsonData = JSON.parse(content);
+        let recentFollowData = jsonData.relationships_permanent_follow_requests;
+        await this.instaRecentFollowRepo.startRecentFollowBulkAdd(recentFollowData[0].string_list_data[0].href,
+          recentFollowData[0].string_list_data[0].value,
+          utilities.convertTimestamp(recentFollowData[0].string_list_data[0].timestamp),
+          recentFollowData.length);
+        for(let i = 1; i < recentFollowData.length; i++){
+          var accountURL = recentFollowData[i].string_list_data[0].href;
+          var accountName = recentFollowData[i].string_list_data[0].value;
+          var timestamp = utilities.convertTimestamp(recentFollowData[i].string_list_data[0].timestamp);
+          
+          await this.instaRecentFollowRepo.addRecentFollowBulkEntry(accountURL, accountName, timestamp);
+        }    
+      }
+      //add pending follow request information
+      if (filename.startsWith("pending_follow_requests")) {
+        let jsonData = JSON.parse(content);
+        let pendingFollowData = jsonData.relationships_follow_requests_sent;
+        await this.instaPendingFollowRequestRepo.startPendingFollowRequestBulkAdd(pendingFollowData[0].string_list_data[0].href,
+          pendingFollowData[0].string_list_data[0].value,
+          utilities.convertTimestamp(pendingFollowData[0].string_list_data[0].timestamp),
+          pendingFollowData.length);
+        for(let i = 1; i < pendingFollowData.length; i++){
+          var accountURL = pendingFollowData[i].string_list_data[0].href;
+          var accountName = pendingFollowData[i].string_list_data[0].value;
+          var timestamp = utilities.convertTimestamp(pendingFollowData[i].string_list_data[0].timestamp);
+          await this.instaPendingFollowRequestRepo.addPendingFollowRequestBulkEntry(accountURL, accountName, timestamp);
+        }    
+      }
+      //add recently unfollowed accounts information
+      if (filename.startsWith("recently_unfollowed_accounts")) {
+        let jsonData = JSON.parse(content);
+        let recentlyUnfollowData = jsonData.relationships_unfollowed_users;
+        await this.instaRecentlyUnfollowedAccountsRepo.startRecentlyUnfollowedAccountsBulkAdd(recentlyUnfollowData[0].string_list_data[0].href,
+          recentlyUnfollowData[0].string_list_data[0].value,
+          utilities.convertTimestamp(recentlyUnfollowData[0].string_list_data[0].timestamp),
+          recentlyUnfollowData.length);
+        for(let i = 1; i < recentlyUnfollowData.length; i++){
+          var accountURL = recentlyUnfollowData[i].string_list_data[0].href;
+          var accountName = recentlyUnfollowData[i].string_list_data[0].value;
+          var timestamp = utilities.convertTimestamp(recentlyUnfollowData[i].string_list_data[0].timestamp);
+          await this.instaRecentlyUnfollowedAccountsRepo.addRecentlyUnfollowedAccountsBulkEntry(accountURL, accountName, timestamp);
+        }    
+      }
+
+      //add removed suggestion information
+      if (filename.startsWith("removed_suggestions")) {
+        let jsonData = JSON.parse(content);
+        let removedSuggestionData = jsonData.relationships_dismissed_suggested_users;
+        await this.instaRemovedSuggestionRepo.startRemovedSuggestionBulkAdd(removedSuggestionData[0].string_list_data[0].href,
+          removedSuggestionData[0].string_list_data[0].value,
+          utilities.convertTimestamp(removedSuggestionData[0].string_list_data[0].timestamp),
+          removedSuggestionData.length);
+        for(let i = 1; i < removedSuggestionData.length; i++){
+          var accountURL = removedSuggestionData[i].string_list_data[0].href;
+          var accountName = removedSuggestionData[i].string_list_data[0].value;
+          var timestamp = utilities.convertTimestamp(removedSuggestionData[i].string_list_data[0].timestamp);
+          await this.instaRemovedSuggestionRepo.addRemovedSuggestionBulkEntry(accountURL, accountName, timestamp);
+        }    
+      }
+
+      //add received follow request information
+      if (filename.startsWith("follow_requests_you've_received")) {
+        let jsonData = JSON.parse(content);
+        let receivedRequestData = jsonData.relationships_follow_requests_received;
+        await this.instaReceivedFollowRequestRepo.startReceivedFollowRequestBulkAdd(receivedRequestData[0].string_list_data[0].href,
+          receivedRequestData[0].string_list_data[0].value,
+          utilities.convertTimestamp(receivedRequestData[0].string_list_data[0].timestamp),
+          receivedRequestData.length);
+        for(let i = 1; i < receivedRequestData.length; i++){
+          var accountURL = receivedRequestData[i].string_list_data[0].href;
+          var accountName = receivedRequestData[i].string_list_data[0].value;
+          var timestamp = utilities.convertTimestamp(receivedRequestData[i].string_list_data[0].timestamp);
+          await this.instaReceivedFollowRequestRepo.addReceivedFollowRequestBulkEntry(accountURL, accountName, timestamp);
         }    
       }
     }
