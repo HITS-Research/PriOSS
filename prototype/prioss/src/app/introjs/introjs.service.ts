@@ -132,6 +132,10 @@ export class IntrojsService {
           intro: 'This tile gives information about guidelines to hide ads.'
         },
         {
+          element: '#fStep25',
+          intro: 'This tile gives information about the address book and the search history.'
+        },
+        {
           element: '#fStep70',
           intro: 'This tile illustrates the steps to object the use of your personal information to show personalized ads.'
         },
