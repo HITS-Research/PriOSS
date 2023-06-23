@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-faq',
@@ -6,6 +6,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./faq.component.less']
 })
 export class FaqComponent {
+
+  @Input()
+  serviceName: string = "";
+
+  // General FAQs for all services
   faqs = [
     {
       active: false,
@@ -55,18 +60,84 @@ export class FaqComponent {
       active: false,
       name: 'What are my privacy rights?',
       content: 'We reccommend you to read your rights as explained in \'GDPR Rights\' section of the respective social media platform.'
-    },
-    {
-      active: false,
-      name: 'What is an inference?',
-      content: 'An inference is a category in which you are placed. Those categories should indicate your interests and preferences. To assign you to a category, Spotify analyses your usage behavior and collects data from advertising partners such as Facebook. Inferences are used for tailored advertising. If you opt out of tailored advertising, Spotify will not serve ads based on your inferences. Spotify also uses inferences to evaluate the use of their service, for example, the popularity of a feature like the Discover Weekly playlist. The exact meaning of the inferences Spotify draws about you cannot be determined, as Spotify does not provide any information on this.',
-    },
+    }
+  ];
+
+  // Service Specific FAQs
+  instagram_faqs = [
     {
       active: false,
       name: 'How can I improve my Instagram privacy?',
       content: 'Instagram provides some information and security tips at their help center (linked below). This can help you to improve the security for your Instagram account.',
       link: 'https://help.instagram.com/369001149843369/?helpref=hc_fnav',
       linkLabel: 'Instagram help center'
+    }
+  ];
+  spotify_faqs = [
+    {
+      active: false,
+      name: 'What is an inference?',
+      content: 'An inference is a category in which you are placed. Those categories should indicate your interests and preferences. To assign you to a category, Spotify analyses your usage behavior and collects data from advertising partners such as Facebook. Inferences are used for tailored advertising. If you opt out of tailored advertising, Spotify will not serve ads based on your inferences. Spotify also uses inferences to evaluate the use of their service, for example, the popularity of a feature like the Discover Weekly playlist. The exact meaning of the inferences Spotify draws about you cannot be determined, as Spotify does not provide any information on this.',
+      link: undefined,
+      linkLabel: undefined
+    }
+  ];
+  facebook_faqs = [
+    {
+      active: false,
+      name: 'What is the purpose of Facebook dashboard?',
+      content: 'The Facebook dashboard presents your personal data in an easily understandable way. This helps you understand what personal data Facebook has been collecting, and how that data is being used. The dashboard also intends to help you excercise your privacy rights by making you more aware of your rights and by guiding you how to excercise your rights.',
+      link: undefined,
+      linkLabel: undefined
+    },
+    {
+      active: false,
+      name: 'How does this dashboard help me improve my privacy on Facebook?',
+      content: 'You can go to each visualization tile and inspect your data for its correctness. You can also see how your activities are being tracked. If you do not intend Facebook to know any of your particular personal data, you can follow the instructions mentioned in \'Manage Privacy\' section to manage your permissions and/or privacy.',
+      link: undefined,
+      linkLabel: undefined
+    },
+    {
+      active: false,
+      name: 'Can I excercise my privacy rights on this platform?',
+      content: 'This platform helps you excercise your privacy instructions through appropriate instructions. You have to go to your logged-in Facebook account and follow the instructions. Since this platform works offline, without internet, you can not click something here to make changes in your Facebook account!',
+      link: undefined,
+      linkLabel: undefined
+    },
+    {
+      active: false,
+      name: 'Is downloading my data compulsory to use the platform?',
+      content: 'No. This platform offers sample data for Facebook. You can explore how your data might look, by using the sample data.',
+      link: undefined,
+      linkLabel: undefined
+    },
+    {
+      active: false,
+      name: 'Is my data safe after I upload my data on this platform?',
+      content: 'Yes. This platform can completely run offline, without internet. Make sure to upload your data after you are disconnected from internet. Your data will not leave your computer then!',
+      link: undefined,
+      linkLabel: undefined
+    },
+    {
+      active: false,
+      name: 'What are my privacy rights?',
+      content: 'We reccommend you to read your rights as explained in \'GDPR and Your Rights\' section.',
+      link: undefined,
+      linkLabel: undefined
+    },
+    {
+      active: false,
+      name: 'How do I excercise my privacy rights?',
+      content: 'By following the instructions mentioned in the \'Manage Privacy\' Section.',
+      link: undefined,
+      linkLabel: undefined
+    },
+    {
+      active: false,
+      name: 'Does this platform has any privacy recommedations for my personal Facebook account?',
+      content: 'Yes. Please refer to Privacy Recommendations section.',
+      link: undefined,
+      linkLabel: undefined
     }
   ];
 }

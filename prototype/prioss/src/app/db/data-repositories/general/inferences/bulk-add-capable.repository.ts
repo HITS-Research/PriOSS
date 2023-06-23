@@ -50,6 +50,19 @@ export class BulkAddCapableRepository {
     this.totalRemainingBulkAddRowCount = totalRowCount - 1;
     this.currBulkSize += 1;
     this.targetBulkSize = targetBulkSize;
+
+    //executes the query because there is only one entry
+    if (totalRowCount <= 1) {
+      await this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
+        let ret: capSQLiteChanges = await db.run(this.bulkAddSQL, this.bulkAddValues);
+      });
+
+      //Reset the bulk add variables,
+      this.totalRemainingBulkAddRowCount = 0;
+      this.currBulkSize = 0;
+      this.bulkAddSQL = "";
+      this.bulkAddValues = [];
+    }
   }
 
 /**

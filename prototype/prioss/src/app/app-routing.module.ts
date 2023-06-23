@@ -22,31 +22,30 @@ import { InferredTopicsComponent } from './visualizations/facebook/inferred-topi
 import { AdsRelatedDataComponent } from './visualizations/facebook/ads-related-data/ads-related-data.component';
 import { FriendAndFollowersComponent } from './visualizations/facebook/friend-and-followers/friend-and-followers.component';
 import { OffFacebookActivityComponent } from './rectification/facebook/off-facebook-activity/off-facebook-activity.component';
+import { InstaSearchesComponent } from './visualizations/instagram/insta-searches/insta-searches.component';
 import { InstaFollowersComponent } from './visualizations/instagram/insta-followers/insta-followers.component';
 import { InstaContactComponent } from './visualizations/instagram/insta-contact/insta-contact.component';
 import { FaqComponent } from './info-pages/faq/faq.component';
 import { KnownIssuesComponent } from './info-pages/known-issues/known-issues.component';
 import { AdsSettingsComponent } from './manage-privacy/facebook/guidlines-for-ads-settings/ads-settings/ads-settings.component';
-import { InstaBlockFollowersComponent } from './rectification/instagram/insta-block-followers/insta-block-followers.component';
-import { InstaAccountPrivateComponent } from './rectification/instagram/insta-account-private/insta-account-private.component';
-import { InstaTwoFactorAuthenticationComponent } from './rectification/instagram/insta-two-factor-authentication/insta-two-factor-authentication.component';
-import { InstaHideStoriesComponent } from './rectification/instagram/insta-hide-stories/insta-hide-stories.component';
-import { InstaProfileInfoPrivateComponent } from './rectification/instagram/insta-profile-info-private/insta-profile-info-private.component';
-import { InstaAddManagerComponent } from './rectification/instagram/insta-add-manager/insta-add-manager.component';
-import { RevokeAccessComponent } from './rectification/instagram/revoke-access/revoke-access.component';
+import {
+  SpotPrivacyInstructionsComponent
+} from "./visualizations/spotify/privacy-instructions/spot-privacy-instructions.component";
+
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: LandingComponent },
   { path: 'known-issues', component: KnownIssuesComponent },
   { path: 'about', component: AboutComponent },
   { path: 'contact', component: ContactComponent },
-  { path: 'faq', component: FaqComponent },
+ // { path: 'faq', component: FaqComponent },
   { path: 'spot/inference', component: InferencesComponent },
   { path: 'spot/mood', component: MoodComponent },
   { path: 'spot/listening-time', component: ListeningTimeComponent },
   { path: 'spot/general-data', component: GeneralDataComponent },
   { path: 'spot/dashboard', component: SpotDashboardComponent },
   { path: 'spot/top-artists', component: TopArtistsComponent },
+  { path: 'spot/privacy-instructions', component: SpotPrivacyInstructionsComponent },
   { path: 'spot/top-songs', component: TopSongsComponent },
   { path: 'insta/dashboard', component: InstaDashboardComponent },
   { path: 'insta/personal-info', component:Insta_PersonalInfoComponent },

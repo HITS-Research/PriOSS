@@ -57,6 +57,8 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { HelpButtonComponent } from './help-button/help-button/help-button.component';
 import { IntrojsService } from './introjs/introjs.service';
 import { OffFacebookActivityComponent } from './rectification/facebook/off-facebook-activity/off-facebook-activity.component';
+import { InstaSearchesComponent } from './visualizations/instagram/insta-searches/insta-searches.component';
+
 import { DBService } from './services/db/db.service';
 import { SpotHistoryRepository } from './db/data-repositories/spotify/spot-history/spot-history.repository';
 import { UserdataRepository } from './db/data-repositories/general/userdata/userdata.repository';
@@ -68,6 +70,9 @@ import { InstaAdsActivityRepository } from './db/data-repositories/instagram/ins
 import { InstaAdsInterestRepository } from './db/data-repositories/instagram/insta-ads/insta-ads-interest.repository';
 import { InstaAdsClickedRepository } from './db/data-repositories/instagram/insta-ads/insta-ads-clicked.repository';
 import { InstaAdsViewedRepository } from './db/data-repositories/instagram/insta-ads/insta-ads-viewed.repository';
+import { InstaUserSearchesRepository } from './db/data-repositories/instagram/insta-searches/insta-user-searches.repository';
+import { InstaKeywordSearchesRepository } from './db/data-repositories/instagram/insta-searches/insta-keyword-searches.repository';
+import { InstaTagSearchesRepository } from './db/data-repositories/instagram/insta-searches/insta-tag-searches.repository';
 import { InstaSignUpRepository } from './db/data-repositories/instagram/insta-accountcreation-login/insta-signup.repository';
 import { InstaLikedCommentsRepository } from './db/data-repositories/instagram/insta-liked-content/insta-likedcomments.repository';
 import { InstaLikedPostsRepository } from './db/data-repositories/instagram/insta-liked-content/insta-likedposts.repository';
@@ -81,6 +86,11 @@ import { InstaContactsRepository } from './db/data-repositories/instagram/insta-
 import { InstaFollowerRepository } from './db/data-repositories/instagram/insta-follower-info/insta-follower.repository';
 import { InstaFollowingRepository } from './db/data-repositories/instagram/insta-follower-info/insta-following.repository';
 import { InstaBlockedRepository } from './db/data-repositories/instagram/insta-follower-info/insta-blocked.repository';
+import { InstaRecentFollowRepository } from './db/data-repositories/instagram/insta-follower-info/insta-recent-follow.repository';
+import { InstaPendingFollowRequestRepository } from './db/data-repositories/instagram/insta-follower-info/insta-pending-follow-request.repository';
+import { InstaRecentlyUnfollowedAccountsRepository } from './db/data-repositories/instagram/insta-follower-info/insta-recently-unfollowed-accounts.repository';
+import { InstaRemovedSuggestionRepository } from './db/data-repositories/instagram/insta-follower-info/insta-removed-suggestion.repository';
+import { InstaReceivedFollowRequestRepository } from './db/data-repositories/instagram/insta-follower-info/insta-received-follow-request.repository';
 import { FaqComponent } from './info-pages/faq/faq.component';
 import { FacebookAdsInteractedRepository } from './db/data-repositories/facebook/fb_ads_data/face_ads_interacted.repo';
 import { FacebookAppsWebsitesRepository } from './db/data-repositories/facebook/fb_ads_data/face_apps_websites.repo';
@@ -252,11 +262,11 @@ const dbConfig: DBConfig  =
         { name: 'timestamp', keypath: 'timestamp', options: { unique: false } },
       ]
     },
-    //facebook data friends and followers 
+    //facebook data friends and followers
     {
       store: 'face/friend_requests_received',
       storeConfig: { keyPath: '$id', autoIncrement: true },
-      storeSchema: 
+      storeSchema:
       [
         { name: 'name', keypath: 'title', options: { unique: false } },
         { name: 'timestamp', keypath: 'timestamp', options: { unique: false } },
@@ -265,7 +275,7 @@ const dbConfig: DBConfig  =
     {
       store: 'face/friend_requests_sent',
       storeConfig: { keyPath: '$id', autoIncrement: true },
-      storeSchema: 
+      storeSchema:
       [
         { name: 'name', keypath: 'title', options: { unique: false } },
         { name: 'timestamp', keypath: 'timestamp', options: { unique: false } },
@@ -274,7 +284,7 @@ const dbConfig: DBConfig  =
     {
       store: 'face/friends',
       storeConfig: { keyPath: '$id', autoIncrement: true },
-      storeSchema: 
+      storeSchema:
       [
         { name: 'name', keypath: 'title', options: { unique: false } },
         { name: 'timestamp', keypath: 'timestamp', options: { unique: false } },
@@ -283,7 +293,7 @@ const dbConfig: DBConfig  =
     {
       store: 'face/rejected_friend_requests',
       storeConfig: { keyPath: '$id', autoIncrement: true },
-      storeSchema: 
+      storeSchema:
       [
         { name: 'name', keypath: 'title', options: { unique: false } },
         { name: 'timestamp', keypath: 'timestamp', options: { unique: false } },
@@ -292,7 +302,7 @@ const dbConfig: DBConfig  =
     {
       store: 'face/removed_friends',
       storeConfig: { keyPath: '$id', autoIncrement: true },
-      storeSchema: 
+      storeSchema:
       [
         { name: 'name', keypath: 'title', options: { unique: false } },
         { name: 'timestamp', keypath: 'timestamp', options: { unique: false } },
@@ -301,7 +311,7 @@ const dbConfig: DBConfig  =
     {
       store: 'face/who_you_follow',
       storeConfig: { keyPath: '$id', autoIncrement: true },
-      storeSchema: 
+      storeSchema:
       [
         { name: 'name', keypath: 'title', options: { unique: false } },
         { name: 'timestamp', keypath: 'timestamp', options: { unique: false } },
@@ -343,6 +353,7 @@ const dbConfig: DBConfig  =
     SettingsFormComponent,
     HelpButtonComponent,
     OffFacebookActivityComponent,
+    InstaSearchesComponent,
     OfflineIndicatorComponent,
     TitleBarComponent,
     KnownIssuesComponent,
@@ -403,8 +414,16 @@ const dbConfig: DBConfig  =
     InstaFollowerRepository,
     InstaFollowingRepository,
     InstaBlockedRepository,
+    InstaRecentFollowRepository,
+    InstaPendingFollowRequestRepository,
+    InstaRecentlyUnfollowedAccountsRepository,
+    InstaRemovedSuggestionRepository,
+    InstaReceivedFollowRequestRepository,
     InferencesRepository,
     UserdataRepository,
+    InstaUserSearchesRepository,
+    InstaKeywordSearchesRepository,
+    InstaTagSearchesRepository,
     InferredTopicsRepository,
     FacebookAdsInteractedRepository,
     FacebookAppsWebsitesRepository,
