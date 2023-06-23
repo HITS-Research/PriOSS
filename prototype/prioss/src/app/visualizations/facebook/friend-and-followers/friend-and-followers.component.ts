@@ -58,30 +58,6 @@ export class FriendAndFollowersComponent {
         this.whoYouFollow = friends.filter(x=>x.type === "#following")
         this.createData(this.whoYouFollow,"#following", "#00BCD4");
     });
-    // this.dbService.getAll('face/friends').subscribe((friends) => {
-    //   this.friends= friends;
-    //   this.createData(friends, "#myFriends", "#1877F2");
-    // });
-    // this.dbService.getAll('face/removed_friends').subscribe((friends) => {
-    //   this.removedFriends = friends;
-    //   this.createData(friends,"#removedFriends", "#808080"); 
-    // });
-    // this.dbService.getAll('face/friend_requests_received').subscribe((friends) => {
-    //   this.friendRequestReceived = friends;    
-    //   this.createData(friends,"#friendRequestReceived", "#FF9800"); 
-    // });
-    // this.dbService.getAll('face/friend_requests_sent').subscribe((friends) => {
-    //   this.friendRequestSent= friends;
-    //   this.createData(friends,"#friendRequestSent", "#00C853");
-    // });
-    // this.dbService.getAll('face/rejected_friend_requests').subscribe((friends) => {
-    //   this.rejectedFriendRequests= friends;
-    //   this.createData(friends,"#rejectedFriends", "#FF0000");
-    // });
-    // this.dbService.getAll('face/who_you_follow').subscribe((friends) => {
-    //   this.whoYouFollow= friends;
-    //   this.createData(friends,"#following", "#00BCD4");
-    // });
   }
 
   /**
