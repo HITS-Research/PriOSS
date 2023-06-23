@@ -171,6 +171,20 @@ with hours as (select 0 hour
   order by hour asc;
 `;
 
+export const spotHistoryForSingleHourSQL: string = `
+ select trackName,
+        artistName,
+        trackName || ' - ' || artistName label, 
+        strftime('%s', endTime)*1000 - ifnull(msPlayed, 0)  startTimeMs,
+        ifnull(msPlayed, 0) msPlayed,
+        strftime('%s', endTime)*1000 endTimeMs
+            --strftime('%Y-%m-%d %H:%M:%f', endTime) endTimeDate,
+            --strftime('%s', endTime) endTimeSeconds,
+   from spot_history
+  where endTimeMs > ? and startTimeMs < ?
+  order by startTimeMs asc;
+`;
+
 export const spotHistoryMostRecentDaySQL: string = `
 select max(strftime('%Y-%m-%d', endTime)) date
   from spot_history

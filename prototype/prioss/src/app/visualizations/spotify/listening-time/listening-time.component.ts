@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { NgxIndexedDBService } from 'ngx-indexed-db';
 import * as d3 from 'd3';
 import { GranularityEnum, Granularity2LabelMapping, getSmallerGranularity } from './granularity.enum';
@@ -12,6 +12,7 @@ import { SpotHourlyListening } from 'src/app/models/Spotify/ListeningHistory/Spo
 import { SpotDailyListening } from 'src/app/models/Spotify/ListeningHistory/SpotDailyListening';
 import { SequenceComponentInit } from '../../sequence-component-init.abstract';
 import { filter } from 'jszip';
+import { SongtimelineComponent } from '../songtimeline/songtimeline.component';
 
 interface ListeningtimeFilterHistoryEntry {
   granularity: GranularityEnum;
@@ -35,6 +36,8 @@ export class ListeningTimeComponent extends SequenceComponentInit {
 
   @Input()
   previewMode: boolean = false;
+  @ViewChild('SongtimelineComponent') 
+  songtimelineComponent : SongtimelineComponent;
 
   readonly spotifyGreen: string = "#1DB954";
 
@@ -680,10 +683,9 @@ export class ListeningTimeComponent extends SequenceComponentInit {
         listeningTimePage.style.display='none';
         songtimelinePage.style.display='block';
         //set the correct input time in the visualization
-        let dateTimePicker = document.getElementById('songtimeline-dateTimePicker') as HTMLInputElement | null;
-        if(dateTimePicker) {
-          dateTimePicker.value = clickedBarDateString;
-        }
+        this.songtimelineComponent.filterDateTime = dateUtils.parseDate(clickedBarDateString);
+        this.songtimelineComponent.onDateFilterChanged();
+
       }
 
       //this.notifyService.showNotification("Hour-wise visualization over a single day is the most detailed visualization available. You can't step into a single hour.");

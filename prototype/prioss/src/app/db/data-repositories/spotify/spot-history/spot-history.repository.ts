@@ -13,6 +13,8 @@ import * as sql from "./spot-history.sql";
 import { BulkAddCapableRepository } from "../../general/inferences/bulk-add-capable.repository";
 import {SpotMinListenedToSong} from "../../../../models/Spotify/TopSong/SpotMinListenedToSong";
 import {SpotListeningHistoryOfSong} from "../../../../models/Spotify/TopSong/SpotListeningHistoryOfSong";
+import { SpotHistoryBySong } from "src/app/models/Spotify/ListeningHistory/SpotHistoryBySong";
+import { GranularityEnum } from "src/app/visualizations/spotify/listening-time/granularity.enum";
 
 /**
   * This repository component is responsible for providing functions to insert and request data from the spot_history table
@@ -220,6 +222,23 @@ export class SpotHistoryRepository extends BulkAddCapableRepository{
       let dateString: string = dateUtils.getDisplayDateString(day);
       let result = await db.query(sql.spotHistoryByHourSQL, [dateString]);
       return result.values as SpotHourlyListening[];
+    });
+  }
+
+  async getHistoryForSingleHour(startHour: Date): Promise<SpotHistoryBySong[]>
+  {
+    return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
+
+      startHour = dateUtils.trimDate(startHour, GranularityEnum.Hour);
+      let endHour = dateUtils.trimDate(startHour, GranularityEnum.Hour);
+      endHour.setHours(endHour.getHours()+1);
+
+      console.log(startHour);
+      console.log(endHour);
+      
+      let values = [startHour.getTime(), endHour.getTime()];
+      let result = await db.query(sql.spotHistoryForSingleHourSQL, values);
+      return result.values as SpotHistoryBySong[];
     });
   }
 
