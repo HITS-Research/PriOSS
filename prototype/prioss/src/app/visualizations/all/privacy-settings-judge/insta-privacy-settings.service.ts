@@ -15,7 +15,7 @@ export class InstaPrivacySettingsService {
 
   settings = [
     {
-      question : "How to make Instagram account private?",
+      question : "Is your Instagram account private?",
       howToCheck :"<a href=/insta/account-private> <strong> Here is the picture guide to make Instagram account private.</a> </strong>",
         options : [
         { label: "Account is Private", value: "Yes", advice: "Great! Your account is set to private." },
@@ -23,7 +23,7 @@ export class InstaPrivacySettingsService {
                 ]
     },
     {
-      question : "How to keep your Instagram account's profile information private?",
+      question : "Is your Instagram account's profile information private?",
       howToCheck : "<a href=/insta/profile-info-private> <strong> Here is the picture guide to make Instagram profile information private. </a> </strong>",
       options : [
         { label: "Profile information is private", value: "Yes", advice: "Great! You did well." },
@@ -34,8 +34,32 @@ export class InstaPrivacySettingsService {
       question : "How to turn ON two-factor authentication for Instagram?",
       howToCheck : "<a href=/insta/two-factor-authentication> <strong> Here is the picture guide to turn ON two-factor authentication for Instagram. </a></strong> ",
       options : [
-        { label: "Two-factor authentication is on", value: "Yes", advice: "Nice! It protects your privacy."},
-        { label: "Two-factor authentication is off", value: "No", advice: "Enabling two-factor authentication provides an additional security layer, making it harder for unauthorized individuals to access online accounts and safeguarding sensitive information from potential breaches."}
+        { label: "Two-factor authentication is ON", value: "Yes", advice: "Nice! It protects your privacy."},
+        { label: "Two-factor authentication is OFF", value: "No", advice: "Enabling two-factor authentication provides an additional security layer, making it harder for unauthorized individuals to access online accounts and safeguarding sensitive information from potential breaches."}
       ]
-    } ] 
+    },
+    {
+      question : "Do you get tailored adevertisements for your Instagram account ?",
+      howToCheck : "<a href=/insta/add-manager> <strong> Here is the picture guide to manage advertisements for your Instagram account. </a></strong> ",
+      options : [
+        { label: "Yes", value: "Yes", advice: "Great! You get the advertisements according to your interest."},
+        { label: "No", value: "No", advice: "Managing advertisements for users on Instagram is important to ensure a relevant and engaging user experience while maximizing the effectiveness of ad campaigns."}
+      ]
+    },
+    {
+      question : "Have you revoked access to third-party apps for your Instagram account?",
+      howToCheck : "<a href=/insta/revoke-access> <strong> Here is the picture guide to revoke access to third-party apps for your Instagram account. </a></strong> ",
+      options : [
+        { label: "Yes, I have revoked the access", value: "Yes", advice: "Well Done! You have already moved one step ahead to protect the privacy for your Instagram account."},
+        { label: "No, I have revoked the access", value: "No", advice: "Revoking third-party app access for Instagram users is important to protect their privacy and data security."}
+      ]
+    },
+    {
+      question : "Do you know which devices are logged into your Instagram?",
+      howToCheck : "<strong>Text Guide:</strong> Go to Settings> Security> Login> Activity, you will see what devices from which geographical areas and when your account was logged in.",
+      options : [
+        { label: "Yes, I know the logged IN devices", value: "Yes", advice: "Well Done! You are quite aware about your account's details."},
+        { label: "No, I don't know the logged IN devices", value: "No", advice: "Revoking third-party app access for Instagram users is important to protect their privacy and data security."}
+      ]
+    }] 
 }

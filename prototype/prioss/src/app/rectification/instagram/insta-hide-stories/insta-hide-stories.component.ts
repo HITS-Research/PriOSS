@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 /**
-  * This component is responsible for providing guidelines to make instagram account private.
+  * This component is responsible for providing guidelines to hide stories and videos from specific people.
   * @author: Aayushma (aayushma@mail.uni-paderborn.de)
   *
   */

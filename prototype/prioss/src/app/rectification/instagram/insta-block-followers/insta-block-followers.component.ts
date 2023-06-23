@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 
 /**
-  * This component is responsible for providing guidelines to make instagram account private.
+  * This component is responsible for providing guidelines to block followers.
   * @author: Aayushma (aayushma@mail.uni-paderborn.de)
   *
   */

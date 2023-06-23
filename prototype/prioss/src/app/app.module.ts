@@ -93,6 +93,8 @@ import { InstaAccountPrivateComponent } from './rectification/instagram/insta-ac
 import { InstaTwoFactorAuthenticationComponent } from './rectification/instagram/insta-two-factor-authentication/insta-two-factor-authentication.component';
 import { InstaHideStoriesComponent } from './rectification/instagram/insta-hide-stories/insta-hide-stories.component';
 import { InstaProfileInfoPrivateComponent } from './rectification/instagram/insta-profile-info-private/insta-profile-info-private.component';
+import { InstaAddManagerComponent } from './rectification/instagram/insta-add-manager/insta-add-manager.component';
+import { RevokeAccessComponent } from './rectification/instagram/revoke-access/revoke-access.component';
 registerLocaleData(de);
 
 // Ahead of time compiles requires an exported function for factories
@@ -350,6 +352,8 @@ const dbConfig: DBConfig  =
     InstaTwoFactorAuthenticationComponent,
     InstaHideStoriesComponent,
     InstaProfileInfoPrivateComponent,
+    InstaAddManagerComponent,
+    RevokeAccessComponent,
   ],
   imports: [
     BrowserModule,

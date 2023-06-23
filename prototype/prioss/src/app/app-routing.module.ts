@@ -32,6 +32,8 @@ import { InstaAccountPrivateComponent } from './rectification/instagram/insta-ac
 import { InstaTwoFactorAuthenticationComponent } from './rectification/instagram/insta-two-factor-authentication/insta-two-factor-authentication.component';
 import { InstaHideStoriesComponent } from './rectification/instagram/insta-hide-stories/insta-hide-stories.component';
 import { InstaProfileInfoPrivateComponent } from './rectification/instagram/insta-profile-info-private/insta-profile-info-private.component';
+import { InstaAddManagerComponent } from './rectification/instagram/insta-add-manager/insta-add-manager.component';
+import { RevokeAccessComponent } from './rectification/instagram/revoke-access/revoke-access.component';
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: LandingComponent },
@@ -65,6 +67,8 @@ const routes: Routes = [
   { path: 'insta/two-factor-authentication' , component: InstaTwoFactorAuthenticationComponent},
   { path: 'insta/hide-stories' , component:InstaHideStoriesComponent},
   { path: 'insta/profile-info-private' , component:InstaProfileInfoPrivateComponent},
+  { path: 'insta/add-manager' , component:InstaAddManagerComponent},
+  { path: 'insta/revoke-access' , component: RevokeAccessComponent},
 ];
 
 @NgModule({
