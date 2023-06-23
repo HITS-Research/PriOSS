@@ -23,7 +23,7 @@
         <nz-option *ngFor="let option of optionList" [nzValue]="option" [nzLabel]="option.label"></nz-option>
       </nz-select>
     </nz-form-control>
-  <div *ngIf="!selectedValue.advice" class="talk-bubble tri-right round left-in">
+  <div *ngIf="!selectedValue.advice" class="talk-bubble-hidden">
     <div class="bubbletext">
       <p></p>
     </div>

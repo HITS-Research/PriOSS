@@ -4,7 +4,15 @@ import { SpotPrivacySettingsService } from '../spot-privacy-settings.service';
 import { InstaPrivacySettingsService } from '../insta-privacy-settings.service';
 import { FacePrivacySettingsService } from '../face-privacy-settings.service';
 
-
+/**
+ * This component displayes the currently named "privacy judge" in a tile on the dashbooard. This tile first displays a question to the user.
+ * Based on these questions a "How to Check" Tutorial is displayed so the user can answer the question. 
+ * Below that, a user can choose an answer and receive advice that corresponds to the initial question and the user's answer. 
+ * The Data for this component is loaded thorugh the face/insta/spot-privacy-settings.service.ts files in the parent directory.
+ * 
+ * @author: Maximilian (maxy@mail.upb.de)
+ *
+ */
 @Component({
   selector: 'app-settings-form',
   templateUrl: './settings-form.component.html',
