@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { InferredTopicsRepository } from 'src/app/db/data-repositories/facebook/fb-inferred-data/face_inferred_topics.repo';
 import { InferredTopicsModel } from 'src/app/models/Facebook/inferredTopics';
 

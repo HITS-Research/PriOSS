@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { NgxIndexedDBService } from 'ngx-indexed-db';
 import * as d3 from 'd3';
 import { GranularityEnum, Granularity2LabelMapping, getSmallerGranularity } from './granularity.enum';
 import { formatDisplayTime } from './formatDisplayTime.function';
@@ -75,7 +74,7 @@ export class ListeningTimeComponent extends SequenceComponentInit {
     */
   history: any;
 
-  constructor(private spotHistoryRepo: SpotHistoryRepository, private dbService: NgxIndexedDBService, private notifyService: NotificationService) {
+  constructor(private spotHistoryRepo: SpotHistoryRepository, private notifyService: NotificationService) {
     super();
   }
 

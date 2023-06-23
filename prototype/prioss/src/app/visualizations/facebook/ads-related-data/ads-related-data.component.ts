@@ -1,5 +1,4 @@
 import { Component, Input, OnInit} from '@angular/core';
-import { NgxIndexedDBService } from 'ngx-indexed-db';
 import * as d3 from 'd3';
 import { Router } from '@angular/router';
 import { FacebookAdsInteractedRepository } from 'src/app/db/data-repositories/facebook/fb_ads_data/face_ads_interacted.repo';

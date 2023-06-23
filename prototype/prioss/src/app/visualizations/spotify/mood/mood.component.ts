@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { environment } from '../../../../environments/environment.prod';
 import * as d3 from 'd3';
 
@@ -23,37 +22,37 @@ export class MoodComponent {
   files: any[] = [];
   
 
-  constructor(private dbService: NgxIndexedDBService) {
-        this.dbService.getAll('spot/history').subscribe(async (history) => 
-    {
-      console.log("history: ");
-      console.log(history);
-      let ids: string[] = [];
-              let names: string[] = [];
+  constructor() {
+    //     this.dbService.getAll('spot/history').subscribe(async (history) => 
+    // {
+    //   console.log("history: ");
+    //   console.log(history);
+    //   let ids: string[] = [];
+    //           let names: string[] = [];
              
-                await this.setToken();
+    //             await this.setToken();
 
-                const trackNames = history.map((track: any) => track.trackName);
-                console.log(trackNames);
-                const lastSongName = trackNames[trackNames.length - 1];
-                let lastStringId = await this.getTrackId(lastSongName);
-                trackNames.forEach(async (key: any) => {
-                  let stringid = await this.getTrackId(key);
-                  ids.push(stringid);
-                  names.push(key);
-                  if (stringid === lastStringId) {  //for some unknown reason the ids behaves weird. Normally you would except to have after the for loop all ids added and then make the calls 
-                                                    //that are inside this if clause. However, somehow the values are undefined if you try to access them after the loop. What is weird. console.log(ids).
-                                                    //This somehow circumvents this. It is probably realted to await and async but it does not make sense to me why it is not working.
-                    let audiofeatures: any = await this.getAudioFeaturesInBulk(ids);
-                    let flattend = makeOneArray(audiofeatures);
-                    withdate = addListeningDateToAudiofeatures(flattend, names, history);
-                    makeBarChart(flattend);
+    //             const trackNames = history.map((track: any) => track.trackName);
+    //             console.log(trackNames);
+    //             const lastSongName = trackNames[trackNames.length - 1];
+    //             let lastStringId = await this.getTrackId(lastSongName);
+    //             trackNames.forEach(async (key: any) => {
+    //               let stringid = await this.getTrackId(key);
+    //               ids.push(stringid);
+    //               names.push(key);
+    //               if (stringid === lastStringId) {  //for some unknown reason the ids behaves weird. Normally you would except to have after the for loop all ids added and then make the calls 
+    //                                                 //that are inside this if clause. However, somehow the values are undefined if you try to access them after the loop. What is weird. console.log(ids).
+    //                                                 //This somehow circumvents this. It is probably realted to await and async but it does not make sense to me why it is not working.
+    //                 let audiofeatures: any = await this.getAudioFeaturesInBulk(ids);
+    //                 let flattend = makeOneArray(audiofeatures);
+    //                 withdate = addListeningDateToAudiofeatures(flattend, names, history);
+    //                 makeBarChart(flattend);
                     
-                  }
-                })
+    //               }
+    //             })
          
               
-    });
+    // });
   }
 
   /**
