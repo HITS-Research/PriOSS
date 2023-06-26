@@ -130,10 +130,43 @@
   </details>
   <br>
 
-  <app-gdpr></app-gdpr>
+  <details open id="Manage-Privacy">
+    <summary class="collapsible-dashboard-section-title">Privacy Recommendations</summary>
+    <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
+      <div nz-col nzXs="24" nzXl="8">
+        <!--card for Privacy settings judge-->
+        <nz-card  nzTitle="Privacy Settings Judge" nzHoverable>
+          <app-personal-info [previewMode]="true"></app-personal-info>
+          <app-settings-form [service]="'Instagram'"></app-settings-form>
+        </nz-card>
+      </div>
+ 
+  
+    <div nz-col nzXs="24" nzXl="8">
+      <!--card for privacy recommendation - How to block folllowers-->
+      <nz-card id ="block_followers" nzTitle="How to Block Folllowers" nzHoverable [nzExtra]="extraBlockFollowers">
+      <p>This section provides you guidelines to block followers for Instagram.</p>
+      </nz-card>
+      <ng-template #extraBlockFollowers>
+        <a routerLink="/insta/block-followers">More</a>
+      </ng-template>
+    </div>
+  
+    <div nz-col nzXs="24" nzXl="8">
+      <!--card for privacy recommendation- How to hide Instagram Stories and live videos from specific people -->
+      <nz-card nzTitle="How to Hide Instagram Stories" nzHoverable [nzExtra]="extraHideStories">
+      <p>This section provides you guidelines to hide Instagram Stories and live videos from specific people.</p>
+      </nz-card>
+      <ng-template #extraHideStories>
+        <a routerLink="/insta/hide-stories">More</a>
+      </ng-template>
+    </div>
+  
+    <br>
+ 
 
   <details open id="purpose">
-    <summary class="collapsible-dashboard-section-title">Purpose</summary>
+    <summary class="collapsible-dashboard-section-title">Purposes - Why Instagram collects your data? </summary>
     <p nz-typography>
       The following purposes should give an example of Instagram's reasoning in regards to data collection. To Get a full list of their reasons you can check out Instagram's privacy policy <span nz-icon nzType="link"><a target="_blank" href="https://privacycenter.instagram.com/policy/?section_id=0-WhatIsThePrivacy">privacy policy</a></span>
       <nz-table nzTemplateMode>
@@ -163,6 +196,28 @@
         </tbody>
       </nz-table>
     </details>
+    
+    <details open id="gdpr">
+      <summary class="collapsible-dashboard-section-title">GDPR Rights</summary>
+    <div>
+      <p nz-typography>
+        The General Data Protection Regulation (GDPR) is a data privacy regulation that came into effect in May 2018. It was created by the European Union (EU) to regulate the collection, processing, and storage of personal data of individuals residing in the EU.
+        The most important points of the GDPR are:
+      </p>
+      <ol nz-typography>
+        <li><b>Consent:</b> Companies must obtain explicit and informed consent from individuals to collect, process, and store their personal data.</li>
+        <li><b>Right to Access:</b> Individuals have the right to access their personal data that has been collected and stored by companies.</li>
+        <li><b>Right to be Forgotten:</b> Individuals have the right to request the deletion of their personal data.</li>
+        <li><b>Data Portability:</b> Individuals have the right to receive their personal data in a format that is easily transferable to another organization.</li>
+        <li><b>Data Protection Officers (DPOs):</b> Companies that process large amounts of personal data or sensitive personal data must appoint a DPO.</li>
+        <li><b>Data Breach Notification:</b> Companies must notify individuals and the relevant authorities within 72 hours of a data breach.</li>
+        <li><b>Penalties:</b> Non-compliance with the GDPR can result in fines of up to 4% of a company's annual global revenue or €20 million (whichever is greater).</li>
+      </ol>
+      <p nz-typography>
+        The GDPR aims to protect the privacy and personal data of individuals within the EU, and has had a significant impact on the way that companies handle and store personal data. More information can be found under <span nz-icon nzType="link"><a target="_blank" href="https://gdpr.eu/">GDPR</a></span>.
+      </p>
+    </div>
+<app-gdpr></app-gdpr>
   <app-faq serviceName="insta"></app-faq>
   <app-help-button (startTourClick)="startTour()">
     <h2 nz-typography id="introduction">Introduction</h2>
@@ -173,107 +228,7 @@
   </app-help-button>
   <app-offline-indicator [bottom]="'32px'" [right]="'76px'"></app-offline-indicator>
 
-  <div class="steps-content">
-    <img
-      nz-image
-      height="300px"
-      nzSrc={{rectificationInstructionPicture}}
-      alt=""
-    />
-    <nz-divider></nz-divider>
-    <p nz-typography>{{ rectificationInstructionText }}</p>  
-  </div>
-  <div class="steps-action">
-    <button nz-button nzType="default" (click)="pre()" [disabled]="current <= 0">
-      <span>Previous</span>
-    </button>
-    <button nz-button nzType="default" (click)="next()" [disabled]="current >= 4">
-      <span>Next</span>
-    </button>
-  </div>
-  <br>
-  <h4 nz-typography>Send an email to support@instagram.com. Generally, Instagram team responds within a week.</h4>
-  <h4 nz-typography>Contact the privacy center for Meta. It covers Facebook, Instagram, Messenger, and other Meta products.</h4>
-</div>
-<br>
+  
 
-<div id="privacy">
-  <h2 nz-typography id="Manage-Privacy">Privacy Recommendations</h2>
-  <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
-    <div nz-col nzXs="24" nzXl="8">
-      <nz-card nzTitle="Privacy Settings Judge" nzHoverable>
-        <app-settings-form [service]="'Instagram'"></app-settings-form>
-      </nz-card>
-    </div> 
 
-  <div nz-col nzXs="24" nzXl="8">
-    <!--card for privacy recommendation - How to block folllowers-->
-    <nz-card id ="block_followers" nzTitle="How to Block Folllowers" nzHoverable [nzExtra]="extraBlockFollowers">
-    <p>This section provides you guidelines to block followers for Instagram.</p>
-    </nz-card>
-    <ng-template #extraBlockFollowers>
-      <a routerLink="/insta/block-followers">More</a>
-    </ng-template>
-  </div>
 
-  <div nz-col nzXs="24" nzXl="8">
-    <!--card for privacy recommendation- How to hide Instagram Stories and live videos from specific people -->
-    <nz-card nzTitle="How to Hide Instagram Stories" nzHoverable [nzExtra]="extraHideStories">
-    <p>This section provides you guidelines to hide Instagram Stories and live videos from specific people.</p>
-    </nz-card>
-    <ng-template #extraHideStories>
-      <a routerLink="/insta/hide-stories">More</a>
-    </ng-template>
-  </div>
-  <br>
-
-<div id="gdpr">
-  <h2 nz-typography>GDPR Rights</h2>
-  <p nz-typography>
-    The General Data Protection Regulation (GDPR) is a data privacy regulation that came into effect in May 2018. It was created by the European Union (EU) to regulate the collection, processing, and storage of personal data of individuals residing in the EU.
-    The most important points of the GDPR are:
-  </p>
-  <ol nz-typography>
-    <li><b>Consent:</b> Companies must obtain explicit and informed consent from individuals to collect, process, and store their personal data.</li>
-    <li><b>Right to Access:</b> Individuals have the right to access their personal data that has been collected and stored by companies.</li>
-    <li><b>Right to be Forgotten:</b> Individuals have the right to request the deletion of their personal data.</li>
-    <li><b>Data Portability:</b> Individuals have the right to receive their personal data in a format that is easily transferable to another organization.</li>
-    <li><b>Data Protection Officers (DPOs):</b> Companies that process large amounts of personal data or sensitive personal data must appoint a DPO.</li>
-    <li><b>Data Breach Notification:</b> Companies must notify individuals and the relevant authorities within 72 hours of a data breach.</li>
-    <li><b>Penalties:</b> Non-compliance with the GDPR can result in fines of up to 4% of a company's annual global revenue or €20 million (whichever is greater).</li>
-  </ol>
-  <p nz-typography>
-    The GDPR aims to protect the privacy and personal data of individuals within the EU, and has had a significant impact on the way that companies handle and store personal data. More information can be found under <span nz-icon nzType="link"><a target="_blank" href="https://gdpr.eu/">GDPR</a></span>.
-  </p>
-</div>
-<div id="purpose">
-  <h2 nz-typography>Purposes - Why does Instagram collect your data ?</h2>
-  <p nz-typography>
-    The following purposes should give an example of Instagram's reasoning in regards to data collection. To Get a full list of their reasons you can check out Instagram's privacy policy <span nz-icon nzType="link"><a target="_blank" href="https://privacycenter.instagram.com/policy/?section_id=0-WhatIsThePrivacy">privacy policy</a></span>
-    <nz-table nzTemplateMode>
-      <thead>
-        <tr>
-          <th>Purpose</th>
-          <th>Data Collected</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>To personalize and improve their products and to undertake analytics</td>
-          <td>Activity information and information you provide like posts or comments. For more information see <span nz-icon nzType="link"><a target="_blank" href="https://privacycenter.instagram.com/policy/?subpage=1.subpage.1-YourActivityAndInformation">here</a></span>.</td>
-        </tr>
-        <tr>
-          <td>Tailor the ads you see</td>
-          <td>Information from third parties or vendors. That could for example be device information or apps you use. For more information see <span nz-icon nzType="link"><a target="_blank" href="https://privacycenter.instagram.com/policy/?subpage=1.subpage.4-InformationFromPartnersVendors">here</a></span>.</td>
-        </tr>
-        <tr>
-          <td>Sharing your contact, profile or other information with third parties upon your request</td>
-          <td>Content you create, like your contact, profile or other information, like posts or comments. For more information see <span nz-icon nzType="link"><a target="_blank" href="https://privacycenter.instagram.com/policy/?subpage=1.subpage.1-YourActivityAndInformation">here</a></span>.</td>
-        </tr>
-        <tr>
-          <td>Provide the features or services through collecting information you allow them to receive</td>
-          <td>Information from device settings. For more information see <span nz-icon nzType="link"><a target="_blank" href="https://privacycenter.instagram.com/policy/?subpage=1.subpage.3-AppBrowserAndDevice">here</a></span>.</td>
-        </tr>
-      </tbody>
-    </nz-table>
-</div>

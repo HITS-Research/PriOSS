@@ -7,7 +7,6 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from 'src/environments/environment';
 
 import { SQLiteService } from './services/sqlite/sqlite.service';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LandingComponent } from './landing/landing.component';
@@ -105,6 +104,7 @@ import { InstaHideStoriesComponent } from './rectification/instagram/insta-hide-
 import { InstaProfileInfoPrivateComponent } from './rectification/instagram/insta-profile-info-private/insta-profile-info-private.component';
 import { InstaAddManagerComponent } from './rectification/instagram/insta-add-manager/insta-add-manager.component';
 import { RevokeAccessComponent } from './rectification/instagram/revoke-access/revoke-access.component';
+import { SpotPrivacyInstructionsComponent } from './visualizations/spotify/privacy-instructions/spot-privacy-instructions.component';
 registerLocaleData(de);
 
 // Ahead of time compiles requires an exported function for factories
@@ -365,6 +365,8 @@ const dbConfig: DBConfig  =
     InstaProfileInfoPrivateComponent,
     InstaAddManagerComponent,
     RevokeAccessComponent,
+    SpotPrivacyInstructionsComponent,
+
   ],
   imports: [
     BrowserModule,
