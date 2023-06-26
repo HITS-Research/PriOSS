@@ -98,6 +98,7 @@ import { FacebookOffFacebookActivityRepository } from './db/data-repositories/fa
 import { KnownIssuesComponent } from './info-pages/known-issues/known-issues.component';
 import { FacebookFriendsRepository } from './db/data-repositories/facebook/fb-friends-data/face_friends.repo';
 import { AdsSettingsComponent } from './manage-privacy/facebook/guidlines-for-ads-settings/ads-settings/ads-settings.component';
+import { DashCardComponent } from './page-sub-components/dash-card/dash-card.component';
 import { GdprComponent } from './info-pages/gdpr/gdpr.component';
 import { SpotPrivacyInstructionsComponent } from './visualizations/spotify/privacy-instructions/spot-privacy-instructions.component';
 
@@ -354,6 +355,7 @@ const dbConfig: DBConfig  =
     TitleBarComponent,
     KnownIssuesComponent,
     AdsSettingsComponent,
+    DashCardComponent,
     GdprComponent,
     SpotPrivacyInstructionsComponent
   ],
