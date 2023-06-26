@@ -37,7 +37,7 @@
             <nz-tabset nzType="card">
                 <nz-tab nzTitle="User Searches"><ng-template nz-tab><nz-demo-tab-content-lazy>
                     <!-- If user search data present -->
-                    <div *ngIf="listOfUserSearches?.length">
+                    <div *ngIf="userSearches?.length">
                         <p>The table below displays the user searches that were performed by your instagram account.</p>
                         <nz-table #searchTable [nzData]="listOfUserSearches">
                             <thead>
@@ -52,7 +52,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-controller="TimeCtrl" *ngFor="let data of searchTable.data">
+                                <tr *ngFor="let data of searchTable.data">
                                     <td>{{ data.search }}</td>
                                     <td>{{ data.timestamp + '000' | date: 'd MMM y, h:mm a'}}</td>
                                 </tr>
@@ -76,7 +76,7 @@
 
                 <nz-tab nzTitle="Keyword Searches"><ng-template nz-tab><nz-demo-tab-content-lazy>
                     <!-- If keyword search data present -->
-                    <div *ngIf="listOfKeywordSearches?.length">
+                    <div *ngIf="keywordSearches?.length">
                         <p>The table below displays the keyword/sentence searches that were performed by your instagram account.</p>
                         <nz-table #searchTable [nzData]="listOfKeywordSearches">
                             <thead>
@@ -115,7 +115,7 @@
                 
                 <nz-tab nzTitle="Tag Searches"><ng-template nz-tab><nz-demo-tab-content-lazy>
                     <!-- If keyword search data present -->
-                    <div *ngIf="listOfTagSearches?.length">
+                    <div *ngIf="tagSearches?.length">
                         <p>The table below displays the #tag searches that were performed by your instagram account.</p>
                         <nz-table #searchTable [nzData]="listOfTagSearches">
                             <thead>

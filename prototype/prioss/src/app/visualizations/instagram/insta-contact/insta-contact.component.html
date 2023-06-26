@@ -12,7 +12,7 @@
   <div *ngIf="!previewMode">
     <!--Titlebar component -->
     <app-title-bar titleText="Contacts" tooltipText="The following table shows all the details about contact synced from user's mobile."></app-title-bar>
-    <nz-table #contactsTable [nzData]="contacts">
+    <nz-table #contactsTable [nzData]="listOfContacts">
       <thead>
         <tr>
           <th nzCustomFilter>
@@ -20,14 +20,19 @@
             <nz-filter-trigger [(nzVisible)]="firstVisible" [nzActive]="firstnameSearchValue.length > 0" [nzDropdownMenu]="firstmenu">
               <span nz-icon nzType="search"></span>
             </nz-filter-trigger>
-        </th>
-        <th nzCustomFilter>
+          </th>
+          <th nzCustomFilter>
             Surname
-          <nz-filter-trigger [(nzVisible)]="surVisible" [nzActive]="surnameSearchValue.length > 0" [nzDropdownMenu]="surmenu">
-            <span nz-icon nzType="search"></span>
-          </nz-filter-trigger>
-      </th>
-          <th>Contact information</th>
+            <nz-filter-trigger [(nzVisible)]="surVisible" [nzActive]="surnameSearchValue.length > 0" [nzDropdownMenu]="surmenu">
+              <span nz-icon nzType="search"></span>
+            </nz-filter-trigger>
+          </th>
+          <th nzCustomFilter>
+            Contact Information
+            <nz-filter-trigger [(nzVisible)]="numberVisible" [nzActive]="numberSearchValue.length > 0" [nzDropdownMenu]="numbermenu">
+              <span nz-icon nzType="search"></span>
+            </nz-filter-trigger>
+          </th>
         </tr>
       </thead>
       <tbody>
@@ -41,7 +46,7 @@
     <nz-dropdown-menu #firstmenu="nzDropdownMenu">
       <div class="ant-table-filter-dropdown">
         <div class="search-box">
-          <input type="text" nz-input placeholder="Search name" [(ngModel)]="firstnameSearchValue" />
+          <input type="text" nz-input placeholder="Search firstname" [(ngModel)]="firstnameSearchValue" />
           <button nz-button nzSize="small" nzType="primary" (click)="search('first')" class="search-button">Search</button>
           <button nz-button nzSize="small" (click)="reset('first')">Reset</button>
         </div>
@@ -50,9 +55,18 @@
     <nz-dropdown-menu #surmenu="nzDropdownMenu">
       <div class="ant-table-filter-dropdown">
         <div class="search-box">
-          <input type="text" nz-input placeholder="Search name" [(ngModel)]="surnameSearchValue" />
+          <input type="text" nz-input placeholder="Search surname" [(ngModel)]="surnameSearchValue" />
           <button nz-button nzSize="small" nzType="primary" (click)="search('sur')" class="search-button">Search</button>
           <button nz-button nzSize="small" (click)="reset('sur')">Reset</button>
+        </div>
+      </div>
+    </nz-dropdown-menu>
+    <nz-dropdown-menu #numbermenu="nzDropdownMenu">
+      <div class="ant-table-filter-dropdown">
+        <div class="search-box">
+          <input type="text" nz-input placeholder="Search number" [(ngModel)]="numberSearchValue" />
+          <button nz-button nzSize="small" nzType="primary" (click)="search('number')" class="search-button">Search</button>
+          <button nz-button nzSize="small" (click)="reset('number')">Reset</button>
         </div>
       </div>
     </nz-dropdown-menu>

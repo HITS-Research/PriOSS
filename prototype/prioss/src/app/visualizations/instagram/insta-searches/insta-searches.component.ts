@@ -6,7 +6,6 @@ import { InstaTagSearchesRepository } from 'src/app/db/data-repositories/instagr
 import { InstaUserSearch } from 'src/app/models/Instagram/Searches/InstaUserSearch';
 import { InstaKeywordSearch } from 'src/app/models/Instagram/Searches/InstaKeywordSearch';
 import { InstaTagSearch } from 'src/app/models/Instagram/Searches/InstaTagSearches';
-import * as utilities from 'src/app/utilities/generalUtilities.functions';
 
 
 /**
@@ -33,7 +32,6 @@ export class InstaSearchesComponent extends SequenceComponentInit{
   sortUserDate = (a: InstaUserSearch, b: InstaUserSearch): number => +a.timestamp - +b.timestamp;
   sortKeywordDate = (a: InstaKeywordSearch, b: InstaKeywordSearch): number => +a.timestamp - +b.timestamp;
   sortTagDate = (a: InstaTagSearch, b: InstaTagSearch): number => +a.timestamp - +b.timestamp;
-  convertTimestamp: (str: string) => any = utilities.convertTimestamp;
 
   userSearches: InstaUserSearch[] = [];
   listOfUserSearches: InstaUserSearch[] = [];

@@ -14,8 +14,10 @@ export class InstaContactComponent extends SequenceComponentInit{
   previewMode: boolean = false;
   firstnameSearchValue = '';
   surnameSearchValue = '';
+  numberSearchValue = '';
   firstVisible = false;
   surVisible = false;
+  numberVisible = false;
 
   contacts: InstaContactInfo[] = [];
   listOfContacts: InstaContactInfo[] = [];
@@ -64,6 +66,9 @@ export class InstaContactComponent extends SequenceComponentInit{
       case 'sur':
         this.surnameSearchValue = '';
         break;
+      case 'number':
+        this.numberSearchValue = '';
+        break;
       default:
         break;
     }
@@ -82,6 +87,7 @@ export class InstaContactComponent extends SequenceComponentInit{
   search(searchList: string): void {
     this.firstVisible = false;
     this.surVisible = false;
+    this.numberVisible = false;
 
     switch (searchList) {
       case 'first':
@@ -89,6 +95,9 @@ export class InstaContactComponent extends SequenceComponentInit{
         break;
       case 'sur':
         this.listOfContacts = this.contacts.filter((item: InstaContactInfo) => item.surname.indexOf(this.surnameSearchValue) !== -1);
+        break;
+      case 'number':
+        this.listOfContacts = this.contacts.filter((item: InstaContactInfo) => item.contactInformation.indexOf(this.numberSearchValue) !== -1);
         break;
       default:
         break;
