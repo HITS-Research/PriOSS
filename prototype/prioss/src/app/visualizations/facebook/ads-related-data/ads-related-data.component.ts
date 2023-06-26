@@ -339,6 +339,17 @@ import { OffFacebookActivityModel } from 'src/app/models/Facebook/offfacebookact
   navigateToRectification(){
     this.router.navigate(['face/configure-off-facebook-activity']);
   }
+
+   /**
+  * This method is responsible to navigate to guidelines to hide ads 
+  *
+  * @author: Mukul (mukuls@mail.uni-paderborn.de)
+  *
+  */
+   navigateToAdsSettings(){
+    this.router.navigate(['face/guidelines-for-ads-settings']);
+  }
+
 /**
   * This method is responsible to navigate to apps and websites page.  
   *
