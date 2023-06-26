@@ -7,12 +7,23 @@ import * as dateUtils from '../../../utilities/dateUtils.functions';
 import { SpotHistoryRepository } from 'src/app/db/data-repositories/spotify/spot-history/spot-history.repository';
 import { GranularityEnum } from '../listening-time/granularity.enum';
 
-
+/**
+ * The internally used interface that represents the structure of the data that is needed for the visualization
+ * 
+ * @author: Simon (scg@mail.upb.de)
+ */
 interface TimelineData{
   label: string, 
   times: {"starting_time": number, "ending_time": number, label: string}[]
 }
 
+/**
+  * This component visualizes what songs have been listened to during a specific hour of one day.
+  * It is a subvisualization reachable from the listening time visualization's hour view
+  *
+  * @author: Simon (scg@mail.upb.de)
+  *
+  */
 @Component({
   selector: 'app-songtimeline',
   templateUrl: './songtimeline.component.html',
@@ -26,22 +37,20 @@ export class SongtimelineComponent {
     
   }
 
+/**
+  * Callback that handles updating the visualization after the user changed the date filter
+  *
+  * @author: Simon (scg@mail.upb.de)
+  */
   onDateFilterChanged() {
-    //let data: { label: string, times: {"starting_time": number, "ending_time": number}[]}[] | null= [];
-    //initial testdata
-    /*let data : TimelineData[] | null= [
-      {label: "", times: [
-        {"starting_time": 1355752800000, "ending_time": 1355759900000, "label": "Wee1\ntest"},
-        {"starting_time": 1355767900000, "ending_time": 1355774400000, "label": "Weee2"}]},
-      {label: "", times: [
-        {"starting_time": 1355759910000, "ending_time": 1355761900000, "label": "Weee3"}]},
-      {label: "", times: [
-        {"starting_time": 1355761910000, "ending_time": 1355763910000, "label": "Weee4"}]}
-      ];
-    */
     this.recreateVisualization();
   }
-
+  
+/**
+  * Starts the updating process for the visualization after filter have changed.
+  *
+  * @author: Simon (scg@mail.upb.de)
+  */
   async recreateVisualization() {
     let data = await this.createData();
 
@@ -53,6 +62,13 @@ export class SongtimelineComponent {
     this.makeTimeline(data, startHour, endHour);
   }
 
+/**
+  * Gets the necessary data from the spotify listeningtime history SQL repository based on the selected date & hour filter
+  * 
+  * @returns a data array as the basis of the visualization that can be passed to the makeTimeline method 
+  * 
+  * @author: Simon (scg@mail.upb.de)
+  */
   async createData() {
     let dataArray : TimelineData[] | null = [];
 
@@ -78,7 +94,16 @@ export class SongtimelineComponent {
     return dataArray;
   }
 
-  async makeTimeline(data: { label: string, times: {"starting_time": number, "ending_time": number}[]}[] | null, startHour: Date, endHour: Date) {
+  /**
+   * This functions redraws the timeline visualization based on the passed data.
+   * 
+   * @param data the data that should be shown in the chart as a TimelineData-Array
+   * @param startHour the hour at which the scale of the timeline data should start
+   * @param endHour the hour at which the scale of the timeline data should end
+   * 
+   * @author: Simon (scg@mail.upb.de)
+   */
+  async makeTimeline(data: TimelineData[] | null, startHour: Date, endHour: Date) {
 
     //remove old barchart
     d3.select("#songtimeline-chart").selectAll("*").remove();
@@ -113,6 +138,13 @@ export class SongtimelineComponent {
       .call(chart);
   }
 
+  /**
+   * A callback function that hides this visualization and replaces it with the listeningtime visualization.
+   * by doing the replacement this way, instead of displaying this component on a seperate page apart from the listening time, 
+   * the listeningtime visualization's filter history is preserved when navigating back to it.
+   * 
+   * @author: Simon (scg@mail.upb.de)
+   */
   returnToListeningTime() {
     let listeningTimePage = document.getElementById('listeningtime-page');
     let songtimelinePage = document.getElementById('songtimeline-page');

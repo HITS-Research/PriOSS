@@ -675,7 +675,10 @@ export class ListeningTimeComponent extends SequenceComponentInit {
       this.recreateVisualization();
     }
     else {
-      //Switch out listeningtime visualization for songtimeline visualization
+      /* Switch out listeningtime visualization for songtimeline visualization
+         this is done to make sure that, when the user navigates back from the songtimeline to the listeningtime, 
+         the listening time's filter history is still available
+      */
       let listeningTimePage = document.getElementById('listeningtime-page');
       let songtimelinePage = document.getElementById('songtimeline-page');
 
