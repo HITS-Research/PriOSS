@@ -47,7 +47,8 @@ export class SongtimelineComponent {
 
     let startHour = dateUtils.trimDate(this.filterDateTime, GranularityEnum.Hour);
     let endHour = dateUtils.trimDate(startHour, GranularityEnum.Hour);
-    endHour.setHours(endHour.getHours()+1);
+    startHour.setUTCHours(startHour.getHours());
+    endHour.setUTCHours(endHour.getHours()+1);
 
     this.makeTimeline(data, startHour, endHour);
   }
@@ -63,6 +64,7 @@ export class SongtimelineComponent {
     console.log(this.filterDateTime);
 
     let spotSongs = await this.spotHistoryRepo.getHistoryForSingleHour(this.filterDateTime);
+    console.log(spotSongs);
     for(let i = 0; i < spotSongs.length; i++) {
       dataArray.push(
         {label: "", times: [
@@ -86,7 +88,7 @@ export class SongtimelineComponent {
       .ending(endHour)
       .stack()
       .tickFormat({
-          format: d3Timeformat.timeFormat("%H:%M"),
+          format: d3Timeformat.utcFormat("%H:%M"),
           tickTime: d3Time.timeMinutes,
           tickInterval: 1,
           tickSize: 6

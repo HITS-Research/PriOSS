@@ -174,14 +174,18 @@ with hours as (select 0 hour
 export const spotHistoryForSingleHourSQL: string = `
  select trackName,
         artistName,
+        --strftime('%Y-%m-%d %H:%M:%f', endTime) endTime,
         trackName || ' - ' || artistName label, 
-        strftime('%s', endTime)*1000 - ifnull(msPlayed, 0)  startTimeMs,
+        (strftime('%s', endTime)*1000 - ifnull(msPlayed, 0))  startTimeMs,
         ifnull(msPlayed, 0) msPlayed,
         strftime('%s', endTime)*1000 endTimeMs
+        --? inputStartTime,
+        --? inputEndTime
             --strftime('%Y-%m-%d %H:%M:%f', endTime) endTimeDate,
             --strftime('%s', endTime) endTimeSeconds,
    from spot_history
-  where endTimeMs > ? and startTimeMs < ?
+  --where artistName = 'DJ Antoine'
+  where endTimeMs >= ? and startTimeMs <= ?
   order by startTimeMs asc;
 `;
 

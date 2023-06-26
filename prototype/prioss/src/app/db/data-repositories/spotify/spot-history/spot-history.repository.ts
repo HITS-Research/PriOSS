@@ -231,7 +231,8 @@ export class SpotHistoryRepository extends BulkAddCapableRepository{
 
       startHour = dateUtils.trimDate(startHour, GranularityEnum.Hour);
       let endHour = dateUtils.trimDate(startHour, GranularityEnum.Hour);
-      endHour.setHours(endHour.getHours()+1);
+      startHour.setUTCHours(startHour.getHours());//ignore timezone
+      endHour.setUTCHours(endHour.getHours()+1);
 
       console.log(startHour);
       console.log(endHour);
