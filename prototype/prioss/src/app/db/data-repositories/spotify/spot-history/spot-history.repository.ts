@@ -225,6 +225,12 @@ export class SpotHistoryRepository extends BulkAddCapableRepository{
     });
   }
 
+  /**
+   * Queries the spotify listening history for the information of songs listened to within on specific hour
+   * @returns An array of SpotHistoryBySong
+   *
+   * @author: Simon (scg@mail.upb.de)
+   */
   async getHistoryForSingleHour(startHour: Date): Promise<SpotHistoryBySong[]>
   {
     return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
