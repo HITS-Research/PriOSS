@@ -182,6 +182,8 @@ CREATE TABLE IF NOT EXISTS insta_shopping (
     id INTEGER PRIMARY KEY,
     merchantName TEXT NOT NULL,
     productName TEXT NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS insta_recent_follow_info (
     id INTEGER PRIMARY KEY,
     instaProfileURL TEXT NOT NULL,
