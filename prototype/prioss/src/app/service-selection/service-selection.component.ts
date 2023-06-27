@@ -1084,6 +1084,7 @@ export class ServiceSelectionComponent {
             utilities.getValueIgnoreCase(shoppingData[i].string_map_data,"Product Name",false)
           );
         }
+      }
       //add recent follow information
       if (filename.startsWith("recent_follow_requests")) {
         let jsonData = JSON.parse(content);
