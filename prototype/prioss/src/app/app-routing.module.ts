@@ -31,6 +31,7 @@ import { AdsSettingsComponent } from './manage-privacy/facebook/guidlines-for-ad
 import {
   SpotPrivacyInstructionsComponent
 } from "./visualizations/spotify/privacy-instructions/spot-privacy-instructions.component";
+import { SongtimelineComponent } from './visualizations/spotify/songtimeline/songtimeline.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -42,6 +43,7 @@ const routes: Routes = [
   { path: 'spot/inference', component: InferencesComponent },
   { path: 'spot/mood', component: MoodComponent },
   { path: 'spot/listening-time', component: ListeningTimeComponent },
+  { path: 'spot/listening-time/songtimeline', component: SongtimelineComponent },
   { path: 'spot/general-data', component: GeneralDataComponent },
   { path: 'spot/dashboard', component: SpotDashboardComponent },
   { path: 'spot/top-artists', component: TopArtistsComponent },

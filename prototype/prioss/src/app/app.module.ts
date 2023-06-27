@@ -101,6 +101,7 @@ import { AdsSettingsComponent } from './manage-privacy/facebook/guidlines-for-ad
 import { DashCardComponent } from './page-sub-components/dash-card/dash-card.component';
 import { GdprComponent } from './info-pages/gdpr/gdpr.component';
 import { SpotPrivacyInstructionsComponent } from './visualizations/spotify/privacy-instructions/spot-privacy-instructions.component';
+import { SongtimelineComponent } from './visualizations/spotify/songtimeline/songtimeline.component';
 
 registerLocaleData(de);
 
@@ -357,7 +358,8 @@ const dbConfig: DBConfig  =
     AdsSettingsComponent,
     DashCardComponent,
     GdprComponent,
-    SpotPrivacyInstructionsComponent
+    SpotPrivacyInstructionsComponent,
+    SongtimelineComponent
   ],
   imports: [
     BrowserModule,
