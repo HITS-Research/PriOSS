@@ -32,7 +32,7 @@
       <tbody *ngIf="personalInfo !== undefined && accountInfo !== undefined && professionalInfo !== undefined">
         <tr *ngFor="let pair of getObjectPairs(personalInfo)">
           <td>{{ capitalizeAndPrettify(pair[0]) }}</td>
-          <td>{{ pair[1] }}</td>
+          <td>{{ convertTimestamp(pair[1]) }}</td>
         </tr>
         <tr *ngFor="let pair of getObjectPairs(accountInfo)">
           <td>{{ capitalizeAndPrettify(pair[0]) }}</td>

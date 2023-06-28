@@ -76,7 +76,8 @@ export function convertTimestamp(str: string): any {
   let date: Date = new Date(number);
 
   //returns a date in the format YYYY-MM-DD.
-  return date.getFullYear() + "-" + (date.getMonth() + 1).toString().padStart(2, '0') + "-" + date.getDate().toString().padStart(2, '0');
+  //return date.getFullYear() + "-" + (date.getMonth() + 1).toString().padStart(2, '0') + "-" + date.getDate().toString().padStart(2, '0');
+  return date.getDate() + ' ' + date.toLocaleString('en-US', { month: 'long' }).substring(0,3) + ' ' + date.getFullYear() + ', ' + date.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
 }
 
 /**
