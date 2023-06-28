@@ -827,62 +827,80 @@ export class ServiceSelectionComponent {
       //add ads related data
       else if (filename.startsWith('ads_interests')) {
         let jsonData = JSON.parse(content);
-        let adsData = jsonData.inferred_data_ig_interest;
-        let startData = adsData[0].string_map_data;
+        let adsInterestData = jsonData.inferred_data_ig_interest;
 
-        await this.instaAdsInterestRepo.startAdInterestBulkAdd(startData.Interest.value, adsData.length);
-        for (let i = 1; i < adsData.length; i++) {
-          let entry = adsData[i].string_map_data;
-          await this.instaAdsInterestRepo.addAdInterestBulkEntry(entry.Interest.value);
+        let interest = utilities.getValueIgnoreCase(adsInterestData[0].string_map_data,"Interest", false);
+
+        if(adsInterestData.length == 1) {
+          await this.instaAdsInterestRepo.addSingleAdInterestData(interest);
+        } else {
+          await this.instaAdsInterestRepo.startAdInterestBulkAdd(interest, adsInterestData.length);
+          for (let i = 1; i < adsInterestData.length; i++) {
+            let interest = utilities.getValueIgnoreCase(adsInterestData[i].string_map_data,"Interest", false);
+            await this.instaAdsInterestRepo.addAdInterestBulkEntry(interest);
+          }
         }
       }
       else if (filename.startsWith('advertisers_using_your_activity')) {
         let jsonData = JSON.parse(content);
         let adsData = jsonData.ig_custom_audiences_all_types;
 
-        await this.instaAdsActivityRepo.startAdActivityBulkAdd(adsData[0].advertiser_name, adsData[0].has_data_file_custom_audience, 
-                                                       adsData[0].has_remarketing_custom_audience, adsData[0].has_in_person_store_visit, adsData.length);          
-        for (let i = 1; i < adsData.length; i++) {
-          await this.instaAdsActivityRepo.addAdActivityBulkEntry(adsData[i].advertiser_name, adsData[i].has_data_file_custom_audience, 
-                                                   adsData[i].has_remarketing_custom_audience, adsData[i].has_in_person_store_visit);
-        }
+        if(adsData.length == 1) {
+          await this.instaAdsActivityRepo.addSingleAdActivityData(adsData[0].advertiser_name, 
+            adsData[0].has_data_file_custom_audience, 
+            adsData[0].has_remarketing_custom_audience, 
+            adsData[0].has_in_person_store_visit);          
+        } else {
+          await this.instaAdsActivityRepo.startAdActivityBulkAdd(adsData[0].advertiser_name, 
+            adsData[0].has_data_file_custom_audience, 
+            adsData[0].has_remarketing_custom_audience, 
+            adsData[0].has_in_person_store_visit, 
+            adsData.length);          
+          for (let i = 1; i < adsData.length; i++) {
+            await this.instaAdsActivityRepo.addAdActivityBulkEntry(adsData[i].advertiser_name, 
+              adsData[i].has_data_file_custom_audience, 
+              adsData[i].has_remarketing_custom_audience, 
+              adsData[i].has_in_person_store_visit);
+          }
+        }        
       }
       else if (filename.startsWith('ads_clicked')) {
         let jsonData = JSON.parse(content);
-        let adsData = jsonData.impressions_history_ads_clicked;
+        let adsClickedData = jsonData.impressions_history_ads_clicked;
 
-        await this.instaAdsClickedRepo.startAdsClickedBulkAdd(adsData[0].title, adsData[0].string_list_data[0].timestamp, adsData.length);
-        for (let i = 1; i < adsData.length; i++) {
-          await this.instaAdsClickedRepo.addAdsClickedBulkEntry(adsData[i].title, adsData[i].string_list_data[0].timestamp);
+        if(adsClickedData.length == 1) {
+          await this.instaAdsClickedRepo.addSingleAdClickedData(
+            adsClickedData[0].title, 
+            adsClickedData[0].string_list_data[0].timestamp);
+        } else {
+          await this.instaAdsClickedRepo.startAdsClickedBulkAdd(
+            adsClickedData[0].title, 
+            adsClickedData[0].string_list_data[0].timestamp, 
+            adsClickedData.length);
+          for (let i = 1; i < adsClickedData.length; i++) {
+            await this.instaAdsClickedRepo.addAdsClickedBulkEntry(
+              adsClickedData[i].title, 
+              adsClickedData[i].string_list_data[0].timestamp);
+          }
         }
       }
       else if (filename.startsWith('ads_viewed')) {
         let jsonData = JSON.parse(content);
-        let adsData = jsonData.impressions_history_ads_seen;
-        let startData = adsData[0].string_map_data;
+        let adsViewedData = jsonData.impressions_history_ads_seen;
 
-        var startDate_time = ""
-        if (startData.Time.timestamp !== undefined) { 
-          startDate_time = startData.Time.timestamp
-        } else if (startData.Time.value !== undefined) {
-          startDate_time = startData.Time.value
-        }
+        let author = utilities.getValueIgnoreCase(adsViewedData[0].string_map_data, "Author", false);
+        let timestamp = utilities.getValueIgnoreCase(adsViewedData[0].string_map_data, "Time", true);
 
-        await this.instaAdsViewedRepo.startAdsViewedBulkAdd(startData.Author.value, startDate_time, adsData.length);
-        for (let i = 1; i < adsData.length; i++) {
-          let entry = adsData[i].string_map_data;
-          // Some data is incomplete so it is filtered out here
-          if (entry.Author === undefined || entry.Time === undefined) {
-            continue;
+        if(adsViewedData.length == 1) {
+          await this.instaAdsViewedRepo.addSinlgeAdViewedData(author, timestamp);
+        } else {
+          await this.instaAdsViewedRepo.startAdViewedBulkAdd(author, timestamp, 
+            adsViewedData.length);
+          for (let i = 1; i < adsViewedData.length; i++) {
+            let author = utilities.getValueIgnoreCase(adsViewedData[0].string_map_data, "Author", false);
+            let timestamp = utilities.getValueIgnoreCase(adsViewedData[0].string_map_data, "Time", true);
+            await this.instaAdsViewedRepo.addAdViewedBulkEntry(author, timestamp);
           }
-          var time = ""
-          if (entry.Time.timestamp !== undefined) { 
-            time = entry.Time.timestamp
-          } else if (entry.Time.value !== undefined) {
-            time = entry.Time.value
-          }
-
-          await this.instaAdsViewedRepo.addAdsViewedBulkEntry(entry.Author.value, time);
         }
       }
       else if (filename.startsWith("signup_information.json")) {
@@ -1065,7 +1083,7 @@ export class ServiceSelectionComponent {
         }    
       }
       //add recent follow information
-      if (filename.startsWith("recent_follow_requests")) {
+      else if (filename.startsWith("recent_follow_requests")) {
         let jsonData = JSON.parse(content);
         let recentFollowData = jsonData.relationships_permanent_follow_requests;
         await this.instaRecentFollowRepo.startRecentFollowBulkAdd(recentFollowData[0].string_list_data[0].href,
@@ -1081,7 +1099,7 @@ export class ServiceSelectionComponent {
         }    
       }
       //add pending follow request information
-      if (filename.startsWith("pending_follow_requests")) {
+      else if (filename.startsWith("pending_follow_requests")) {
         let jsonData = JSON.parse(content);
         let pendingFollowData = jsonData.relationships_follow_requests_sent;
         await this.instaPendingFollowRequestRepo.startPendingFollowRequestBulkAdd(pendingFollowData[0].string_list_data[0].href,
@@ -1096,7 +1114,7 @@ export class ServiceSelectionComponent {
         }    
       }
       //add recently unfollowed accounts information
-      if (filename.startsWith("recently_unfollowed_accounts")) {
+      else if (filename.startsWith("recently_unfollowed_accounts")) {
         let jsonData = JSON.parse(content);
         let recentlyUnfollowData = jsonData.relationships_unfollowed_users;
         await this.instaRecentlyUnfollowedAccountsRepo.startRecentlyUnfollowedAccountsBulkAdd(recentlyUnfollowData[0].string_list_data[0].href,
@@ -1112,7 +1130,7 @@ export class ServiceSelectionComponent {
       }
 
       //add removed suggestion information
-      if (filename.startsWith("removed_suggestions")) {
+      else if (filename.startsWith("removed_suggestions")) {
         let jsonData = JSON.parse(content);
         let removedSuggestionData = jsonData.relationships_dismissed_suggested_users;
         await this.instaRemovedSuggestionRepo.startRemovedSuggestionBulkAdd(removedSuggestionData[0].string_list_data[0].href,
@@ -1128,7 +1146,7 @@ export class ServiceSelectionComponent {
       }
 
       //add received follow request information
-      if (filename.startsWith("follow_requests_you've_received")) {
+      else if (filename.startsWith("follow_requests_you've_received")) {
         let jsonData = JSON.parse(content);
         let receivedRequestData = jsonData.relationships_follow_requests_received;
         await this.instaReceivedFollowRequestRepo.startReceivedFollowRequestBulkAdd(receivedRequestData[0].string_list_data[0].href,

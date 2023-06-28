@@ -95,7 +95,10 @@ export function getValueIgnoreCase(jsonObj: any, key: string, time_value : boole
   for (const i in keys) {
     if (keys[i].toLowerCase() === key.toLowerCase()) {
       if(time_value) {
-        return jsonObj[keys[i]].timestamp;
+        if(jsonObj[keys[i]].timestamp != undefined) {
+          return jsonObj[keys[i]].timestamp;
+        } else if (jsonObj[keys[i]].value != undefined)
+        return jsonObj[keys[i]].value;
       } else {
         return jsonObj[keys[i]].value;
       }
