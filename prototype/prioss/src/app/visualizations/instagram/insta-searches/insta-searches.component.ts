@@ -6,7 +6,6 @@ import { InstaTagSearchesRepository } from 'src/app/db/data-repositories/instagr
 import { InstaUserSearch } from 'src/app/models/Instagram/Searches/InstaUserSearch';
 import { InstaKeywordSearch } from 'src/app/models/Instagram/Searches/InstaKeywordSearch';
 import { InstaTagSearch } from 'src/app/models/Instagram/Searches/InstaTagSearches';
-import * as utilities from 'src/app/utilities/generalUtilities.functions';
 
 
 /**
@@ -33,7 +32,6 @@ export class InstaSearchesComponent extends SequenceComponentInit{
   sortUserDate = (a: InstaUserSearch, b: InstaUserSearch): number => +a.timestamp - +b.timestamp;
   sortKeywordDate = (a: InstaKeywordSearch, b: InstaKeywordSearch): number => +a.timestamp - +b.timestamp;
   sortTagDate = (a: InstaTagSearch, b: InstaTagSearch): number => +a.timestamp - +b.timestamp;
-  convertTimestamp: (str: string) => any = utilities.convertTimestamp;
 
   userSearches: InstaUserSearch[] = [];
   listOfUserSearches: InstaUserSearch[] = [];
@@ -66,7 +64,7 @@ export class InstaSearchesComponent extends SequenceComponentInit{
   * @author: Paul (pasch@mail.upb.de)
   */
   override async initComponent(): Promise<void> {
-    console.log("--- Initializing Component 7: Searches");
+    console.log("--- Initializing Component 6: Searches");
 
     await this.instaUserSearchRepo.getUserSearches().then((userSearches) => {
       this.userSearches = userSearches;

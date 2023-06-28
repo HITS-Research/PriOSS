@@ -34,32 +34,56 @@ import { InstaReceivedFollowRequestInfo } from 'src/app/models/Instagram/Followe
 export class InstaFollowersComponent extends SequenceComponentInit{
   @Input()
   previewMode: boolean = false;
+  followVisible: boolean = false;
+  pendingFollowVisible: boolean = false;
+  receivedVisible: boolean = false;
+  requestVisible: boolean = false;
+  blockedVisible: boolean = false;
+  recentUnfollowVisible: boolean = false;
+  removedVisible: boolean = false;
+
+  followerSearchValue: string = '';
+  followingSearchValue: string = '';
+  blockedSearchValue: string = '';
+  recentFollowSearchValue: string = '';
+  pendingSearchValue: string = '';
+  recentUnfollowSearchValue: string = '';
+  removedSearchValue: string = '';
+  receivedSearchValue: string = '';
+
+  sortFollowerDate = (a: InstaFollowerInfo, b: InstaFollowerInfo): number => +a.timestamp - +b.timestamp;
+  sortFollowingDate = (a: InstaFollowingInfo, b: InstaFollowingInfo): number => +a.timestamp - +b.timestamp;
+  sortBlockedDate = (a: InstaBlockedInfo, b: InstaBlockedInfo): number => +a.timestamp - +b.timestamp;
+  sortRecentFollowDate = (a: InstaRecentFollowInfo, b: InstaRecentFollowInfo): number => +a.timestamp - +b.timestamp;
+  sortPendingDate = (a: InstaPendingFollowRequestInfo, b: InstaPendingFollowRequestInfo): number => +a.timestamp - +b.timestamp;
+  sortRecentUnfollowDate = (a: InstaRecentlyUnfollowedInfo, b: InstaRecentlyUnfollowedInfo): number => +a.timestamp - +b.timestamp;
+  sortRemovedDate = (a: InstaRemovedSuggestionInfo, b: InstaRemovedSuggestionInfo): number => +a.timestamp - +b.timestamp;
+  sortReceivedDate = (a: InstaReceivedFollowRequestInfo, b: InstaReceivedFollowRequestInfo): number => +a.timestamp - +b.timestamp;
+  
 
   followerInfo: InstaFollowerInfo[] = [];
+  listOfFollowers: InstaFollowerInfo[] = [];
   followingInfo: InstaFollowingInfo[] = [];
+  listOfFollowing: InstaFollowingInfo[] = [];
   blockedInfo: InstaBlockedInfo[] = [];
+  listOfBlocked: InstaBlockedInfo[] = [];
   recentFollowInfo: InstaRecentFollowInfo[] = [];
+  listOfRecentFollow: InstaRecentFollowInfo[] = [];
   pendingFollowRequestInfo: InstaPendingFollowRequestInfo[] = [];
+  listOfPending: InstaPendingFollowRequestInfo[] = [];
   recentlyUnfollowedAccountInfo: InstaRecentlyUnfollowedInfo[] = [];
+  listOfRecentUnfollow: InstaRecentlyUnfollowedInfo[] = [];
   removedSuggestionInfo : InstaRemovedSuggestionInfo[] = [];
+  listOfRemoved: InstaRemovedSuggestionInfo[] = [];
   receivedFollowRequestInfo : InstaReceivedFollowRequestInfo[] = [];
+  listOfReceived: InstaReceivedFollowRequestInfo[] = [];
+
   graphElements: {
     data: { id?: string; source?: string; target?: string };
   }[] = [];
 
   graphOptions = ['Followers', 'Following'];
   selectedTags: string[] = ['Followers', 'Following'];
-
-  // Default page configuration for Follower / Following
-  currentFollowerPage = 1;
-  currentFollowingPage = 1;
-  currentBlockedPage = 1;
-  currentRecentFollowPage = 1;
-  currentPendingFollowRequestPage = 1;
-  currentRecentlyUnfollowedAccountsPage = 1;
-  currentRemovedSuggestionPage = 1;
-  currentReceivedFollowRequestPage = 1;
-  pageSize = 10;
 
   cy: cytoscape.Core;
 
@@ -85,34 +109,42 @@ export class InstaFollowersComponent extends SequenceComponentInit{
     this.followerInfo = await this.instaFollowerRepo.getFollowerInfo();
     await this.instaFollowerRepo.getFollowerInfo().then((followerInfo) => {
       this.followerInfo = followerInfo;
+      this.listOfFollowers = [...this.followerInfo];
     });
     this.followingInfo = await this.instaFollowingRepo.getFollowingInfo();
     await this.instaFollowingRepo.getFollowingInfo().then((followingInfo) => {
       this.followingInfo = followingInfo;
+      this.listOfFollowing = [...this.followerInfo];
     });
     this.blockedInfo = await this.instaBlockedRepo.getBlockedInfo();
     await this.instaBlockedRepo.getBlockedInfo().then((blockedInfo) => {
       this.blockedInfo = blockedInfo;
+      this.listOfBlocked = [...this.blockedInfo];
     });
     this.recentFollowInfo = await this.instaRecentFollowRepo.getRecentFollowInfo();
     await this.instaRecentFollowRepo.getRecentFollowInfo().then((recentFollowInfo) => {
       this.recentFollowInfo = recentFollowInfo;
+      this.listOfRecentFollow = [...this.recentFollowInfo];
     });
     this.pendingFollowRequestInfo = await this.instaPendingFollowRequestRepo.getPendingFollowRequestInfo();
     await this.instaPendingFollowRequestRepo.getPendingFollowRequestInfo().then((pendingFollowRequestInfo) => {
       this.pendingFollowRequestInfo = pendingFollowRequestInfo;
+      this.listOfPending = [...this.pendingFollowRequestInfo];
     });
     this.recentlyUnfollowedAccountInfo = await this.instaRecentlyUnfollowedAccountsRepo.getRecentlyUnfollowedAccountInfo();
     await this.instaRecentlyUnfollowedAccountsRepo.getRecentlyUnfollowedAccountInfo().then((recentlyUnfollowedAccountInfo) => {
       this.recentlyUnfollowedAccountInfo = recentlyUnfollowedAccountInfo;
+      this.listOfRecentUnfollow = [...this.recentlyUnfollowedAccountInfo];
     });
     this.removedSuggestionInfo = await this.instaRemovedSuggestionRepo.getRemovedSuggestionInfo();
     await this.instaRemovedSuggestionRepo.getRemovedSuggestionInfo().then((removedSuggestionInfo) => {
       this.removedSuggestionInfo = removedSuggestionInfo;
+      this.listOfRemoved = [...this.removedSuggestionInfo];
     });
     this.receivedFollowRequestInfo = await this.instaReceivedFollowRequestRepo.getReceivedFollowRequestInfo();
     await this.instaReceivedFollowRequestRepo.getReceivedFollowRequestInfo().then((receivedFollowRequestInfo) => {
       this.receivedFollowRequestInfo = receivedFollowRequestInfo;
+      this.listOfReceived = [...this.receivedFollowRequestInfo];
     });
   }
 
@@ -229,102 +261,11 @@ export class InstaFollowersComponent extends SequenceComponentInit{
   }
 
   override async initComponent(): Promise<void> {
-    console.log("--- Initializing Component 4: FollowerInfo");
+    console.log("--- Initializing Component 3: FollowerInfo");
     await this.collectData();
     this.prepareGraphData();
     this.initGraph();
   }
-
-  //Getter
-
-  /**
-   * This method slice a dataset for the tables in 10 entrys per page
-   *
-   * @param data the dataset that sould be sliced
-   * @param currentPage the current page of the dataset
-   * @returns the sliced data
-   * @author: Melina (kleber@mail.uni-paderborn.de)
-   */
-  getSlicedData(data: Array<any>, currentPage: number) {
-    const start = (currentPage - 1) * this.pageSize;
-    const end = start + this.pageSize;
-    return data.slice(start, end);
-  }
-
-  get sliced_follower_data() {
-    return this.getSlicedData(this.followerInfo, this.currentFollowerPage);
-  }
-
-  get sliced_following_data() {
-    return this.getSlicedData(this.followingInfo, this.currentFollowingPage);
-  }
-
-  get sliced_blocked_data() {
-    return this.getSlicedData(this.blockedInfo, this.currentBlockedPage);
-  }
-
-  get sliced_recent_follow_data() {
-    return this.getSlicedData(this.recentFollowInfo, this.currentRecentFollowPage);
-  }
-
-  get sliced_pending_follow_request_data() {
-    return this.getSlicedData(this.pendingFollowRequestInfo, this.currentPendingFollowRequestPage);
-  }
-
-  get sliced_recently_unfollowed_account_data() {
-    return this.getSlicedData(this.recentlyUnfollowedAccountInfo, this.currentRecentlyUnfollowedAccountsPage);
-  }
-
-  get sliced_removed_suggestion_data() {
-    return this.getSlicedData(this.removedSuggestionInfo, this.currentRemovedSuggestionPage);
-  }
-
-  get sliced_received_follow_request_data() {
-    return this.getSlicedData(this.receivedFollowRequestInfo, this.currentReceivedFollowRequestPage);
-  }
-
-  //Event Handler
-
-  // Changing the page number based on user selection
-  on_follower_page_change(event: any) {
-    this.currentFollowerPage = event;
-  }
-
-  // Changing the page number based on user selection
-  on_following_page_change(event: any) {
-    this.currentFollowingPage = event;
-  }
-
-  // Changing the page number based on user selection
-  on_blocked_page_change(event: any) {
-    this.currentBlockedPage = event;
-  }
-
-  // Changing the page number based on user selection
-  on_recent_follow_page_change(event: any) {
-    this.currentRecentFollowPage = event;
-  }
-
-  // Changing the page number based on user selection
-  on_pending_follow_request_page_change(event: any) {
-    this.currentPendingFollowRequestPage = event;
-  }
-
-   // Changing the page number based on user selection
-   on_recently_unfollowed_account_page_change(event: any) {
-    this.currentRecentlyUnfollowedAccountsPage = event;
-  }
-
-   // Changing the page number based on user selection
-   on_removed_suggestion_page_change(event: any) {
-    this.currentRemovedSuggestionPage = event;
-  }
-  
-  // Changing the page number based on user selection
-  on_received_follow_request_page_change(event: any) {
-    this.currentReceivedFollowRequestPage = event;
-  }
-
 
   /**
    * This function adds a small delay in loading the graph when enter the tab again.
@@ -349,5 +290,92 @@ export class InstaFollowersComponent extends SequenceComponentInit{
       this.selectedTags = this.selectedTags.filter((t) => t !== tag);
     }
     this.updateGraph();
+  }
+
+  /**
+   * Resets the given searchvalue.
+   * 
+   * @param searchList the list that should be resetted.
+   * 
+   * @author: Paul (pasch@mail.upb.de)
+   */
+  reset(searchList: string): void {
+    switch (searchList) {
+      case 'follower':
+        this.followerSearchValue = '';
+        break;
+      case 'following':
+        this.followingSearchValue = '';
+        break;
+      case 'blocked':
+        this.blockedSearchValue = '';
+        break;
+      case 'recentFollow':
+        this.recentFollowSearchValue = '';
+        break;
+      case 'pending':
+        this.pendingSearchValue = '';
+        break;
+      case 'recentUnfollow':
+        this.recentUnfollowSearchValue = '';
+        break;
+      case 'removed':
+        this.removedSearchValue = '';
+        break;
+      case 'received':
+        this.receivedSearchValue = '';
+        break;
+      default:
+        break;
+    }
+
+    this.search(searchList);
+  }
+
+
+  /**
+   * Searches the given list for the current searchvalue.
+   * 
+   * @param searchList the list that should be searched.
+   * 
+   * @author: Paul (pasch@mail.upb.de)
+   */
+  search(searchList: string): void {
+    this.followVisible = false;
+    this.requestVisible = false;
+    this.blockedVisible = false;
+    this.recentUnfollowVisible = false;
+    this.removedVisible = false;
+    this.pendingFollowVisible = false;
+    this.receivedVisible = false;
+
+    switch (searchList) {
+      case 'follower':
+        this.listOfFollowers = this.followerInfo.filter((item: InstaFollowerInfo) => item.instaAccountName.indexOf(this.followerSearchValue) !== -1)
+        break;
+      case 'following':
+        this.listOfFollowing = this.followingInfo.filter((item: InstaFollowingInfo) => item.instaAccountName.indexOf(this.followingSearchValue) !== -1)
+        break;
+      case 'blocked':
+        this.listOfBlocked = this.blockedInfo.filter((item: InstaBlockedInfo) => item.instaAccountName.indexOf(this.blockedSearchValue) !== -1)
+        break;
+      case 'recentFollow':
+        this.listOfRecentFollow = this.recentFollowInfo.filter((item: InstaRecentFollowInfo) => item.instaAccountName.indexOf(this.recentFollowSearchValue) !== -1)
+        break;
+      case 'pending':
+        this.listOfPending = this.pendingFollowRequestInfo.filter((item: InstaPendingFollowRequestInfo) => item.instaAccountName.indexOf(this.pendingSearchValue) !== -1)
+        break;
+      case 'recentUnfollow':
+        this.listOfRecentUnfollow = this.recentlyUnfollowedAccountInfo.filter((item: InstaRecentlyUnfollowedInfo) => item.instaAccountName.indexOf(this.recentUnfollowSearchValue) !== -1)
+        break;
+      case 'removed':
+        this.listOfRemoved = this.removedSuggestionInfo.filter((item: InstaRemovedSuggestionInfo) => item.instaAccountName.indexOf(this.removedSearchValue) !== -1)
+        break;
+      case 'received':
+        this.listOfReceived = this.receivedFollowRequestInfo.filter((item: InstaReceivedFollowRequestInfo) => item.instaAccountName.indexOf(this.receivedSearchValue) !== -1)
+        break;
+      default:
+        break;
+    }
   }
 }

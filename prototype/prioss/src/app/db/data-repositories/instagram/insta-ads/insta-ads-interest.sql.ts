@@ -23,7 +23,7 @@ union all
 // SELECT Queries
 
 export const selectInstaAdsInterestSQL: string = `
-    select 
-    interest
-    from insta_ads_interests;
+select interest
+  from insta_ads_interests
+ order by interest asc;
 `;
