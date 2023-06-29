@@ -127,43 +127,43 @@
     <br>
     <h4 nz-typography>Send an email to support@instagram.com. Generally, Instagram team responds within a week.</h4>
     <h4 nz-typography>Contact the privacy center for Meta. It covers Facebook, Instagram, Messenger, and other Meta products.</h4>
+   
   </details>
   <br>
 
-  <details open id="Manage-Privacy">
-    <summary class="collapsible-dashboard-section-title">Privacy Recommendations</summary>
-    <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
-      <div nz-col nzXs="24" nzXl="8">
-        <!--card for Privacy settings judge-->
-        <nz-card  nzTitle="Privacy Settings Judge" nzHoverable>
-          <app-personal-info [previewMode]="true"></app-personal-info>
-          <app-settings-form [service]="'Instagram'"></app-settings-form>
-        </nz-card>
-      </div>
- 
-  
+ <details open id="Manage-Privacy">
+  <summary class="collapsible-dashboard-section-title">
+    Privacy Recommendations
+  </summary>
+  <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
     <div nz-col nzXs="24" nzXl="8">
-      <!--card for privacy recommendation - How to block folllowers-->
-      <nz-card id ="block_followers" nzTitle="How to Block Folllowers" nzHoverable [nzExtra]="extraBlockFollowers">
-      <p>This section provides you guidelines to block followers for Instagram.</p>
+      <!--card for Privacy settings judge-->
+      <nz-card  nzTitle="Privacy Settings Judge" nzHoverable>
+        <app-personal-info [previewMode]="true"></app-personal-info>
+        <app-settings-form [service]="'Instagram'"></app-settings-form>
+      </nz-card>
+    </div>
+
+    <div nz-col nzXs="24" nzXl="8"><!--card for privacy recommendation - How to block folllowers-->
+      <nz-card id ="block_followers" nzTitle="How to Block Followers" nzHoverable [nzExtra]="extraBlockFollowers">
+      <p nz-typography>This section provides you guidelines to block followers for Instagram.</p>
       </nz-card>
       <ng-template #extraBlockFollowers>
         <a routerLink="/insta/block-followers">More</a>
       </ng-template>
     </div>
-  
-    <div nz-col nzXs="24" nzXl="8">
-      <!--card for privacy recommendation- How to hide Instagram Stories and live videos from specific people -->
+
+    <div nz-col nzXs="24" nzXl="8"><!--card for privacy recommendation- How to hide Instagram Stories and live videos from specific people -->
       <nz-card nzTitle="How to Hide Instagram Stories" nzHoverable [nzExtra]="extraHideStories">
-      <p>This section provides you guidelines to hide Instagram Stories and live videos from specific people.</p>
+      <p nz-typography>This section provides you guidelines to hide Instagram Stories and live videos from specific people.</p>
       </nz-card>
       <ng-template #extraHideStories>
         <a routerLink="/insta/hide-stories">More</a>
       </ng-template>
     </div>
-  
-    <br>
- 
+  </div>
+ </details>
+ <br>
 
   <details open id="purpose">
     <summary class="collapsible-dashboard-section-title">Purposes - Why Instagram collects your data? </summary>
@@ -195,16 +195,15 @@
           </tr>
         </tbody>
       </nz-table>
-    </details>
+  </details>
     
     <details open id="gdpr">
       <summary class="collapsible-dashboard-section-title">GDPR Rights</summary>
-    <div>
-      <p nz-typography>
+      <div>
+        <p nz-typography>
         The General Data Protection Regulation (GDPR) is a data privacy regulation that came into effect in May 2018. It was created by the European Union (EU) to regulate the collection, processing, and storage of personal data of individuals residing in the EU.
-        The most important points of the GDPR are:
-      </p>
-      <ol nz-typography>
+        The most important points of the GDPR are: </p>
+       <ol nz-typography>
         <li><b>Consent:</b> Companies must obtain explicit and informed consent from individuals to collect, process, and store their personal data.</li>
         <li><b>Right to Access:</b> Individuals have the right to access their personal data that has been collected and stored by companies.</li>
         <li><b>Right to be Forgotten:</b> Individuals have the right to request the deletion of their personal data.</li>
@@ -212,11 +211,13 @@
         <li><b>Data Protection Officers (DPOs):</b> Companies that process large amounts of personal data or sensitive personal data must appoint a DPO.</li>
         <li><b>Data Breach Notification:</b> Companies must notify individuals and the relevant authorities within 72 hours of a data breach.</li>
         <li><b>Penalties:</b> Non-compliance with the GDPR can result in fines of up to 4% of a company's annual global revenue or €20 million (whichever is greater).</li>
-      </ol>
-      <p nz-typography>
+       </ol>
+       <p nz-typography>
         The GDPR aims to protect the privacy and personal data of individuals within the EU, and has had a significant impact on the way that companies handle and store personal data. More information can be found under <span nz-icon nzType="link"><a target="_blank" href="https://gdpr.eu/">GDPR</a></span>.
-      </p>
-    </div>
+       </p>
+      </div>
+    </details>
+
 <app-gdpr></app-gdpr>
   <app-faq serviceName="insta"></app-faq>
   <app-help-button (startTourClick)="startTour()">
