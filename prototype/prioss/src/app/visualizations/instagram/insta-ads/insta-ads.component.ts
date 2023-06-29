@@ -142,16 +142,16 @@ export class InstaAdsComponent extends SequenceComponentInit{
 
     switch (searchList) {
       case 'activity':
-        this.listOfAdsActivity = this.ads_activity.filter((item: InstaAdsActivityInfo) => item.advertiserName.indexOf(this.activitySearchValue) !== -1);
+        this.listOfAdsActivity = this.ads_activity.filter((item: InstaAdsActivityInfo) => item.advertiserName.toLowerCase().indexOf(this.activitySearchValue.toLowerCase()) !== -1);
         break;
       case 'clicked':
-        this.listOfAdsClicked = this.ads_clicked.filter((item: InstaAdsClickedInfo) => item.title.indexOf(this.clickedSearchValue) !== -1);
+        this.listOfAdsClicked = this.ads_clicked.filter((item: InstaAdsClickedInfo) => item.title.toLowerCase().indexOf(this.clickedSearchValue.toLowerCase()) !== -1);
         break;
       case 'viewed':
-        this.listOfAdsViewed = this.ads_viewed.filter((item: InstaAdsViewedInfo) => item.title.indexOf(this.viewedSearchValue) !== -1);
+        this.listOfAdsViewed = this.ads_viewed.filter((item: InstaAdsViewedInfo) => item.title.toLowerCase().indexOf(this.viewedSearchValue.toLowerCase()) !== -1);
         break;
       case 'interest':
-        this.listOfAdsInterests = this.ads_interests.filter((item: InstaAdsInterestInfo) => item.interest.indexOf(this.interestSearchValue) !== -1);
+        this.listOfAdsInterests = this.ads_interests.filter((item: InstaAdsInterestInfo) => item.interest.toLowerCase().indexOf(this.interestSearchValue.toLowerCase()) !== -1);
         break;
       default:
         break;
