@@ -20,7 +20,10 @@
           "/assets/images/facebook.png",
           "/assets/images/instagram.png",
           "/assets/images/spotify.png",
-          "/assets/sample-data/spot_sampledata.zip"
+          "/assets/sample-data/spot_sampledata.zip",
+          "/assets/sample-data/insta_sampledata.zip",
+          "/assets/sample-data/face_sampledata.zip",
+          "/assets/sql-wasm.wasm"
         ]
       }
     },
