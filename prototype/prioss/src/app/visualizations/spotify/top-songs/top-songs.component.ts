@@ -4,6 +4,8 @@ import {SpotHistoryRepository} from "../../../db/data-repositories/spotify/spot-
 import {NotificationService} from "../../../notification/notification.component";
 import { SpotMinListenedToSong } from 'src/app/models/Spotify/TopSong/SpotMinListenedToSong';
 import { SequenceComponentInit } from '../../sequence-component-init.abstract';
+import { ActivatedRoute } from '@angular/router';
+import * as dateUtils from '../../../utilities/dateUtils.functions'
 
 /**
  * This component visualizes which songs have been listened the most to
@@ -31,7 +33,7 @@ export class TopSongsComponent extends SequenceComponentInit {
   selectedSong : string[] = [];
   selectedSongHistory: any[];
 
-  constructor(private spotHistoryRepo: SpotHistoryRepository, private notifyService: NotificationService) {
+  constructor(private spotHistoryRepo: SpotHistoryRepository, private notifyService: NotificationService, private route: ActivatedRoute) {
     super();
   }
 
@@ -56,8 +58,23 @@ export class TopSongsComponent extends SequenceComponentInit {
   override async initComponent() {
     //await new Promise(f => setTimeout(f, 1000));  // TODO: fix
     console.log("--- Initializing Component 4: TopSongs");
-    this.filterFromDate = await this.spotHistoryRepo.getFirstDay();
-    this.filterToDate = await this.spotHistoryRepo.getMostRecentDay();
+
+    this.route.params.subscribe(params => {
+      console.log('Params: start: ' + params['start'] + ', end: ' + params['end']);
+      if(params['start']) {
+        this.filterFromDate = dateUtils.parseDate(params['start']);
+      }
+      if(params['end']) {
+        this.filterToDate = dateUtils.parseDate(params['end']);
+      }
+    });
+
+    if(!this.filterFromDate) {
+      this.filterFromDate = await this.spotHistoryRepo.getFirstDay();
+    }
+    if(!this.filterToDate) {
+      this.filterToDate = await this.spotHistoryRepo.getMostRecentDay();
+    }
 
     let result: SpotMinListenedToSong[] = await this.spotHistoryRepo.getMinListenedToSongs(this.filterFromDate, this.filterToDate);
     this.minListenedToSong = result;

@@ -4,6 +4,8 @@ import {SpotHistoryRepository} from "../../../db/data-repositories/spotify/spot-
 import {NotificationService} from "../../../notification/notification.component";
 import { SpotMinListenedToArtist } from 'src/app/models/Spotify/TopArtist/SpotMinListenedToArtist';
 import { SequenceComponentInit } from '../../sequence-component-init.abstract';
+import { ActivatedRoute } from '@angular/router';
+import * as dateUtils from '../../../utilities/dateUtils.functions'
 
 /**
  * This component visualizes how many songs from an artist were listened to
@@ -32,7 +34,7 @@ export class TopArtistsComponent extends SequenceComponentInit {
   selectedArtistName : string = "";
   selectedArtistHistory : any[];
 
-  constructor(private spothistoryRepo: SpotHistoryRepository, private notifyService: NotificationService) {
+  constructor(private spothistoryRepo: SpotHistoryRepository, private notifyService: NotificationService, private route: ActivatedRoute) {
     super();
     console.log('>> constructor artists visualization');
   }
@@ -59,8 +61,23 @@ export class TopArtistsComponent extends SequenceComponentInit {
     //await new Promise(f => setTimeout(f, 500));  // TODO: fix
     console.log("--- Initializing Component 3: TopArtists");
     
-    this.filterFromDate = await this.spothistoryRepo.getFirstDay();
-    this.filterToDate = await this.spothistoryRepo.getMostRecentDay();
+    this.route.params.subscribe(params => {
+      console.log('Params: start: ' + params['start'] + ', end: ' + params['end']);
+      if(params['start']) {
+        this.filterFromDate = dateUtils.parseDate(params['start']);
+      }
+      if(params['end']) {
+        this.filterToDate = dateUtils.parseDate(params['end']);
+      }
+    });
+
+    if(!this.filterFromDate) {
+      this.filterFromDate = await this.spothistoryRepo.getFirstDay();
+    }
+    if(!this.filterToDate) {
+      this.filterToDate = await this.spothistoryRepo.getMostRecentDay();
+    }
+
 
     let result: SpotMinListenedToArtist[] = await this.spothistoryRepo.getMinListenedToArtists(this.filterFromDate, this.filterToDate)
     this.minListenedToArtist = result;

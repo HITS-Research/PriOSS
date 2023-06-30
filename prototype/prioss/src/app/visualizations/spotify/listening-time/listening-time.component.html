@@ -50,4 +50,14 @@
     <div id="listeningtime-bar-chart" class="visualization-card"></div>
 </div>
 
+<div id="contextmenu" class="contextmenu">
+    <button (click)="goToTopSongs()">
+        View played songs
+    </button>
+    <br>
+    <button (click)="goToTopArtists()">
+        View played artists
+    </button>
+</div>
+
 <app-songtimeline #SongtimelineComponent style="display:none" id="songtimeline-page"></app-songtimeline>

@@ -13,6 +13,8 @@ import { SpotDailyListening } from 'src/app/models/Spotify/ListeningHistory/Spot
 import { SequenceComponentInit } from '../../sequence-component-init.abstract';
 import { filter } from 'jszip';
 import { SongtimelineComponent } from '../songtimeline/songtimeline.component';
+import { Router } from '@angular/router';
+import { Observable, Subscription, fromEvent } from 'rxjs';
 
 interface ListeningtimeFilterHistoryEntry {
   granularity: GranularityEnum;
@@ -73,12 +75,19 @@ export class ListeningTimeComponent extends SequenceComponentInit {
   showDataTextAboveBars: boolean = false;
 
   /**
+   * The name of the bar that the user right clicked on last. 
+   * This is used to determine what date the bar represents when switching to Top Songs / Top Artists Visualization
+   */
+  rightClickedBarName: string = "";
+  contextMenuEventSubscription: Subscription;
+
+  /**
     * the listening history to be visualized, this is fetched in the constructor and saved here so the recreateVisualization method can access this info whenever it needs to update
     * the displayed chart
     */
   history: any;
 
-  constructor(private spotHistoryRepo: SpotHistoryRepository, private dbService: NgxIndexedDBService, private notifyService: NotificationService) {
+  constructor(private spotHistoryRepo: SpotHistoryRepository, private dbService: NgxIndexedDBService, private notifyService: NotificationService, private router: Router) {
     super();
   }
 
@@ -91,10 +100,21 @@ export class ListeningTimeComponent extends SequenceComponentInit {
   ngAfterViewInit()
   {
     console.log("--- Preview Mode: " + this.previewMode);
+
+    this.contextMenuEventSubscription = fromEvent(document,'contextmenu-open').subscribe((res:any)=>{
+      console.log('Received Context Menu Event:');
+      console.log(res.detail)
+      this.rightClickedBarName = res.detail;
+    });
+
     if (!this.previewMode)
     {
       this.initComponent();
     }
+  }
+
+  ngOnDestroy() {
+    this.contextMenuEventSubscription.unsubscribe();
   }
 
 /**
@@ -524,16 +544,6 @@ export class ListeningTimeComponent extends SequenceComponentInit {
       .range([0, xAxisWidth])
       .domain(data.map((d: any) => d.name))
       .padding(0.2);
-    /* Title
-      svg
-        .append("text")
-        .attr("x", width / 2)
-        .attr("y", 0 - margin / 2)
-        .attr("text-anchor", "middle")
-        .style("font-size", titleSize)
-        .style("text-decoration", "underline")
-        .text("Total listening time in the given time-period");
-      */ 
 
     // Drawing X-axis on the DOM
     svg
@@ -589,6 +599,9 @@ export class ListeningTimeComponent extends SequenceComponentInit {
       .style("color", "#fff")
       .text("a simple tooltip");
 
+    //find the custom contextmenu  
+    const contextMenu = d3.select("#contextmenu");
+
     let hoveringBarName: string = "";
     let currentGranularity: GranularityEnum = this.selectedGranularity;
 
@@ -608,6 +621,7 @@ export class ListeningTimeComponent extends SequenceComponentInit {
       .attr("height", 0)//calcBarHeight)
       //.attr("height", (d: any) => y(d.value) * height / 100)// this.height
       .attr("fill", (d: any) => d.color)
+      //Left CLick
       .on("click", () => {
         tooltip.html(``).style("visibility", "hidden");
         if (this.selectedGranularity != GranularityEnum.Hour) {
@@ -617,8 +631,23 @@ export class ListeningTimeComponent extends SequenceComponentInit {
           this.onBarClicked(dateUtils.getDisplayDateString(this.filterSingleDate) + " " + hoveringBarName)
         }
       })
+      //Right Click
+      .on("contextmenu", function (event, d) {
+        //prevent the normal brwoser context menu from appearing
+        event.preventDefault();
+        //save the name of the bar that was rightcliced, so we can determine the date it represents later
+        document.dispatchEvent(new CustomEvent('contextmenu-open',{detail: d.name}));
+        //remove the tooltip, so it doesn't interfere with the new contextmenu
+        tooltip.html(``).style("visibility", "hidden");
+        //show the new context menu
+        contextMenu.style("visibility", "visible")
+          .style("top", (event.pageY - 10) + "px")
+          .style("left", (event.pageX + 10) + "px");
+
+      })
       //Mouse Hover
       .on("mouseover", function (event, data) {
+        contextMenu.style("visibility", "hidden");
         onMouseOver(currentGranularity, tooltip, this, data);
         hoveringBarName = data.name;
       })
@@ -692,6 +721,82 @@ export class ListeningTimeComponent extends SequenceComponentInit {
       }
 
       //this.notifyService.showNotification("Hour-wise visualization over a single day is the most detailed visualization available. You can't step into a single hour.");
+    }
+  }
+
+  goToTopSongs() {
+    /*//Debug Info
+    console.log("Going to TopSongs");
+    console.log(this.getStartDateFromLabel(this.rightClickedBarName));
+    console.log(this.getEndDateFromLabel(this.rightClickedBarName));
+    */
+    this.router.navigate(['spot/top-songs/', this.getStartDateFromLabel(this.rightClickedBarName), this.getEndDateFromLabel(this.rightClickedBarName)]);
+  }
+
+  goToTopArtists() {
+    /*//Debug Info
+    console.log("Going to TopArtists");
+    console.log(this.getStartDateFromLabel(this.rightClickedBarName));
+    console.log(this.getEndDateFromLabel(this.rightClickedBarName));
+    */
+    this.router.navigate(['spot/top-artists/', this.getStartDateFromLabel(this.rightClickedBarName), this.getEndDateFromLabel(this.rightClickedBarName)]);
+  }
+
+  getStartDateFromLabel(dateLabel: string): string {
+
+    switch(this.selectedGranularity) {
+      case GranularityEnum.Hour:
+        let date: Date|null= this.filterSingleDate;
+        if(date) {
+          return date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + dateLabel;
+        }
+        else {
+          return "";
+        }
+      case GranularityEnum.Day:
+        return dateLabel;
+      case GranularityEnum.Month:
+        return dateLabel + "-01";
+      case GranularityEnum.Year:
+        return dateLabel + "-01-01";
+    }
+  }
+
+  getEndDateFromLabel(dateLabel: string): string {
+
+    let date: Date|null;
+    let startDate: Date;
+    let endDate: Date;
+
+    switch(this.selectedGranularity) {
+      case GranularityEnum.Hour:
+        date = this.filterSingleDate;
+        if(date) {
+          //change dateLabel to be the next hour
+          let dateParts = dateLabel.split(":");
+          if(dateParts[0]) {
+            return date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + (parseInt(dateParts[0]) + 1) + ':' + dateParts[1];
+          }
+          else {
+            return "";
+          }
+        }
+        else {
+          return "";
+        }
+
+      case GranularityEnum.Day:
+        startDate = dateUtils.parseDate(dateLabel);
+        endDate = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate()+1);
+        return endDate.getFullYear() + "-" + (endDate.getMonth() + 1) + "-" + endDate.getDate();
+
+      case GranularityEnum.Month:
+        startDate = dateUtils.parseDate(dateLabel);
+        endDate = new Date(startDate.getFullYear(), startDate.getMonth() + 1, 0);
+        return endDate.getFullYear() + "-" + (endDate.getMonth() + 1) + "-" + endDate.getDate();
+
+      case GranularityEnum.Year:
+        return dateLabel + "-12-31";
     }
   }
 
