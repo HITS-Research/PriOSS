@@ -11,7 +11,16 @@
           "/index.html",
           "/manifest.webmanifest",
           "/*.css",
-          "/*.js",
+          "/*.js"
+        ]
+      }
+    },
+    {
+      "name": "assets",
+      "installMode": "prefetch",
+      "updateMode": "prefetch",
+      "resources": {
+        "files": [
           "/assets/images/fb-instructions/*",
           "/assets/images/insta-instructions/*",
           "/assets/images/spot-instructions/*",
@@ -23,18 +32,11 @@
           "/assets/sample-data/spot_sampledata.zip",
           "/assets/sample-data/insta_sampledata.zip",
           "/assets/sample-data/face_sampledata.zip",
-          "/assets/sql-wasm.wasm"
-        ]
-      }
-    },
-    {
-      "name": "assets",
-      "installMode": "lazy",
-      "updateMode": "prefetch",
-      "resources": {
-        "files": [
-          "/assets/**",
-          "/*.(svg|cur|jpg|jpeg|png|apng|webp|avif|gif|otf|ttf|woff|woff2)"
+          "/assets/sql-wasm.wasm",
+          "/assets/outline/wifi.svg",
+          "/assets/outline/arrow-right.svg",
+          "/assets/outline/link.svg",
+          "/assets/outline/arrow-left.svg"
         ]
       }
     }
