@@ -95,6 +95,15 @@
 
 <details open>
   <summary id="privacyRecommendations" class="collapsible-dashboard-section-title">Privacy Recommendations</summary>
+  <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
+    <div nz-col nzXs="24" nzXl="8">
+      <app-dash-card cardLink="" titleText="Privacy Settings Judge" 
+      tooltipText="In this card, you can check if your Facebook settings are setup to protect your privacy. Just answer the questions below to learn how you can improve your privacy through your Facebook account settings.">
+        <app-settings-form [service]="'Facebook'"></app-settings-form>
+      </app-dash-card>
+    </div> 
+  </div>
+  <br>
     <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
       <div nz-col nzXs="24" nzXl="8">
         <nz-card nzTitle="Configure Off-Facebook Activity" nzHoverable  [nzExtra]="extraPrivacy">
