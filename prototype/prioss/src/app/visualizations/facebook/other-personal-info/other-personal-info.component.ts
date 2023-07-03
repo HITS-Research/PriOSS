@@ -1,111 +1,128 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AddressBookModel } from 'src/app/models/Facebook/addressBook';
 import { FacebookAddressBookRepository } from 'src/app/db/data-repositories/facebook/fb-other-personal-info/face_address_book.repo';
-import * as d3 from 'd3';
+import { FacebookSearchHistoryRepository } from 'src/app/db/data-repositories/facebook/fb-other-personal-info/face_search_history.repo';
+import { SearchHistoryModel } from 'src/app/models/Facebook/searchHistory';
+
 @Component({
   selector: 'app-other-personal-info',
   templateUrl: './other-personal-info.component.html',
   styleUrls: ['./other-personal-info.component.less']
 })
-export class OtherPersonalInfoComponent implements OnInit{
+export class OtherPersonalInfoComponent implements OnInit {
   addressBookData: AddressBookModel[] = [];
-  constructor(private faceAdressBookRepo: FacebookAddressBookRepository){}
+  searchHistoryData: SearchHistoryModel[] = [];
+  filteredSearchHistoryData: SearchHistoryModel[] = [];
+  cellSize: number;
+  pageSize = 10;
+  currentPage = 1;
+  totalPages = 1;
+  searchText = '';
+
+  constructor(
+    private faceAddressBookRepo: FacebookAddressBookRepository,
+    private faceSearchHistoryRepo: FacebookSearchHistoryRepository
+  ) { }
+
   ngOnInit(): void {
-   this.getData();
+    this.getData();
   }
+ /**
+      * This method is responsible to activate the get the required data for address book and search history.
+      * @author: Rishma (rishmamn@mail.uni-paderborn.de))
+      *
+      */
   async getData() {
-    this.faceAdressBookRepo.getAllFaceAddressBook().then((addressBookData) => {
-      const filteredData = addressBookData.filter(entry => entry.name && entry.contact_point && entry.created_timestamp);
-      const groupedData = filteredData.reduce((acc: { [key: string]: AddressBookModel }, entry) => {
-        if (!acc[entry.name]) {
-          acc[entry.name] = entry;
-        }
-        return acc;
-      }, {});
-      const nonAmbiguousData = Object.values(groupedData);
-      console.log("non", nonAmbiguousData);
-      this.generateTreeMap(nonAmbiguousData);
+    this.faceAddressBookRepo.getAllFaceAddressBook().then((addressBookData) => {
+      this.addressBookData = addressBookData;
+      this.gridLayout();
+    });
+
+    await this.faceSearchHistoryRepo.getAllFaceSearchHistory().then((searchHistoryData) => {
+      this.searchHistoryData = searchHistoryData;
+      this.totalPages = Math.ceil(this.searchHistoryData.length / this.pageSize);
+      this.filterItems(this.searchText);
     });
   }
-  
-  generateTreeMap(data: AddressBookModel[]) {
-    try{
-    let margin = 10;
-    let leftmargin = 330;
-    let rightMargin = 80; // Adjust the right margin value
-    let bottomMargin = 125;
-    let xAxisWidth = window.innerWidth - leftmargin - rightMargin;
-    let yAxisHeight = window.innerHeight - margin - bottomMargin;
-  
-    let svg = d3
-      .select("#treemap")
-      .append("svg")
-      .attr("viewBox", `0 0 ${xAxisWidth + leftmargin + rightMargin} ${yAxisHeight + margin + bottomMargin}`)
-      .append("g")
-      .attr("transform", "translate(" + leftmargin + "," + margin + ")");
-  
-    // Filter out entries with null values
-    const filteredData = data.filter(entry => entry.name && entry.contact_point && entry.created_timestamp);
-  
-    // Create a mapping of name to entry for efficient parent lookup
-    const entryMap = new Map(filteredData.map(entry => [entry.name, entry]));
-  
-// Transform data using stratify
-// Transform data using stratify
-// Transform data using stratify
-const root = d3.stratify<AddressBookModel>()
-  .id(function(d) { return d.name; })
-  .parentId(function(d) {
-    // Find parent based on name
-    const parentName = d.name === 'root' ? null : d.name; // Set the root node's parent as null
-    if (parentName && entryMap.has(parentName)) {
-      return parentName;
+      /**
+      * This method is responsible to show the data in that page(1-10).
+      * @author: Rishma (rishmamn@mail.uni-paderborn.de))
+      *
+      */
+  getVisibleData(): SearchHistoryModel[] {
+    const startIndex = (this.currentPage - 1) * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+    return this.filteredSearchHistoryData.slice(startIndex, endIndex);
+  }
+     /**
+      * This method is responsible to show go to the required page of the respective buttons(previos and next).
+      * @author: Rishma (rishmamn@mail.uni-paderborn.de))
+      *
+      */
+  goToPage(page: number): void {
+    if (page >= 1 && page <= this.totalPages) {
+      this.currentPage = page;
     }
-    return ''; // Use empty string as default parent if null or not found in the entryMap
-  })
-  (filteredData);
-  console.log("root",root)
+  }
+      /**
+      * This method is responsible to show the address data in a grid manner with anme and contact number.
+      * @author: Rishma (rishmamn@mail.uni-paderborn.de))
+      *
+      */
+      gridLayout() {
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+    const padding = 10;
+    const numCols = 10;
 
-    // Compute the numeric value for each entity
-    root.sum(function(d) { return 1; });
-  
-    // Compute the treemap layout
-    const treemap = d3.treemap<AddressBookModel>()
-      .size([xAxisWidth, yAxisHeight])
-      .padding(4);
-  
-    treemap(root);
-  
-    // Output the leaves (terminal nodes)
-    console.log(root.leaves());
-    // Use the information to add rectangles
-    svg.selectAll("rect")
-      .data(root.leaves() as d3.HierarchyRectangularNode<AddressBookModel>[])
-      .enter()
-      .append("rect")
-      .attr('x', function(d) { return (d.x0 || 0); })
-      .attr('y', function(d) { return (d.y0 || 0); })
-      .attr('width', function(d) { return (d.x1 || 0) - (d.x0 || 0); })
-      .attr('height', function(d) { return (d.y1 || 0) - (d.y0 || 0); })
-      .style("stroke", "black")
-      .style("fill", "#69b3a2");
-  
-    // Add text labels
-    svg.selectAll("text")
-      .data(root.leaves() as d3.HierarchyRectangularNode<AddressBookModel>[])
-      .enter()
-      .append("text")
-      .attr("x", function(d) { return (d.x0 || 0) + 10; }) // +10 to adjust position (more right)
-      .attr("y", function(d) { return (d.y0 || 0) + 20; }) // +20 to adjust position (lower)
-      .text(function(d) { return d.data.name; })
-      .attr("font-size", "15px")
-      .attr("fill", "black");
-  }catch (error) {
-    console.error(error);
+    // Filter out entries without both name and contact_point
+    const filteredData = this.addressBookData.filter(item => item.name && item.contact_point);
+
+    if (filteredData.length === 0) {
+      // Handle the case when there are no valid entries
+      this.cellSize = 0;
+      return;
+    }
+
+    const numRows = Math.ceil(filteredData.length / numCols);
+
+    const maxTextLength = Math.max(
+      ...filteredData.map(item => item.name.length + item.contact_point.length)
+    );
+
+    this.cellSize = Math.min(
+      (width - padding * 2) / numCols,
+      (height - padding * 2) / numRows,
+      maxTextLength * 10
+    );
+  }
+      /**
+      * This method is responsible to filter the searched text.
+      * @author: Rishma (rishmamn@mail.uni-paderborn.de))
+      *
+      */
+  filterItems(searchText: string): void {
+    // Reset current page to 1 when filtering
+    this.currentPage = 1;
+
+    // Get a fresh copy of the search history data
+    const freshData = this.searchHistoryData.slice();
+
+    // Perform filtering based on the search text
+    this.filteredSearchHistoryData = freshData.filter(item =>
+      item.text.toLowerCase().includes(searchText.toLowerCase())
+    );
+
+    // Update the total pages based on the filtered data
+    this.totalPages = Math.ceil(this.filteredSearchHistoryData.length / this.pageSize);
+  }
+     /**
+      * This method is responsible to clear the searched text.
+      * @author: Rishma (rishmamn@mail.uni-paderborn.de))
+      *
+      */
+  clearSearch(): void {
+    this.searchText = '';
+    this.filterItems('');
   }
 }
-}
-
-
-
-
