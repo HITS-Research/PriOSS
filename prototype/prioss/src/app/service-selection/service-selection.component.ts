@@ -873,62 +873,80 @@ export class ServiceSelectionComponent {
       //add ads related data
       else if (filename.startsWith('ads_interests')) {
         let jsonData = JSON.parse(content);
-        let adsData = jsonData.inferred_data_ig_interest;
-        let startData = adsData[0].string_map_data;
+        let adsInterestData = jsonData.inferred_data_ig_interest;
 
-        await this.instaAdsInterestRepo.startAdInterestBulkAdd(startData.Interest.value, adsData.length);
-        for (let i = 1; i < adsData.length; i++) {
-          let entry = adsData[i].string_map_data;
-          await this.instaAdsInterestRepo.addAdInterestBulkEntry(entry.Interest.value);
+        let interest = utilities.getValueIgnoreCase(adsInterestData[0].string_map_data,"Interest", false);
+
+        if(adsInterestData.length == 1) {
+          await this.instaAdsInterestRepo.addSingleAdInterestData(interest);
+        } else {
+          await this.instaAdsInterestRepo.startAdInterestBulkAdd(interest, adsInterestData.length);
+          for (let i = 1; i < adsInterestData.length; i++) {
+            let interest = utilities.getValueIgnoreCase(adsInterestData[i].string_map_data,"Interest", false);
+            await this.instaAdsInterestRepo.addAdInterestBulkEntry(interest);
+          }
         }
       }
       else if (filename.startsWith('advertisers_using_your_activity')) {
         let jsonData = JSON.parse(content);
         let adsData = jsonData.ig_custom_audiences_all_types;
 
-        await this.instaAdsActivityRepo.startAdActivityBulkAdd(adsData[0].advertiser_name, adsData[0].has_data_file_custom_audience, 
-                                                       adsData[0].has_remarketing_custom_audience, adsData[0].has_in_person_store_visit, adsData.length);          
-        for (let i = 1; i < adsData.length; i++) {
-          await this.instaAdsActivityRepo.addAdActivityBulkEntry(adsData[i].advertiser_name, adsData[i].has_data_file_custom_audience, 
-                                                   adsData[i].has_remarketing_custom_audience, adsData[i].has_in_person_store_visit);
-        }
+        if(adsData.length == 1) {
+          await this.instaAdsActivityRepo.addSingleAdActivityData(adsData[0].advertiser_name, 
+            adsData[0].has_data_file_custom_audience, 
+            adsData[0].has_remarketing_custom_audience, 
+            adsData[0].has_in_person_store_visit);          
+        } else {
+          await this.instaAdsActivityRepo.startAdActivityBulkAdd(adsData[0].advertiser_name, 
+            adsData[0].has_data_file_custom_audience, 
+            adsData[0].has_remarketing_custom_audience, 
+            adsData[0].has_in_person_store_visit, 
+            adsData.length);          
+          for (let i = 1; i < adsData.length; i++) {
+            await this.instaAdsActivityRepo.addAdActivityBulkEntry(adsData[i].advertiser_name, 
+              adsData[i].has_data_file_custom_audience, 
+              adsData[i].has_remarketing_custom_audience, 
+              adsData[i].has_in_person_store_visit);
+          }
+        }        
       }
       else if (filename.startsWith('ads_clicked')) {
         let jsonData = JSON.parse(content);
-        let adsData = jsonData.impressions_history_ads_clicked;
+        let adsClickedData = jsonData.impressions_history_ads_clicked;
 
-        await this.instaAdsClickedRepo.startAdsClickedBulkAdd(adsData[0].title, adsData[0].string_list_data[0].timestamp, adsData.length);
-        for (let i = 1; i < adsData.length; i++) {
-          await this.instaAdsClickedRepo.addAdsClickedBulkEntry(adsData[i].title, adsData[i].string_list_data[0].timestamp);
+        if(adsClickedData.length == 1) {
+          await this.instaAdsClickedRepo.addSingleAdClickedData(
+            adsClickedData[0].title, 
+            adsClickedData[0].string_list_data[0].timestamp);
+        } else {
+          await this.instaAdsClickedRepo.startAdsClickedBulkAdd(
+            adsClickedData[0].title, 
+            adsClickedData[0].string_list_data[0].timestamp, 
+            adsClickedData.length);
+          for (let i = 1; i < adsClickedData.length; i++) {
+            await this.instaAdsClickedRepo.addAdsClickedBulkEntry(
+              adsClickedData[i].title, 
+              adsClickedData[i].string_list_data[0].timestamp);
+          }
         }
       }
       else if (filename.startsWith('ads_viewed')) {
         let jsonData = JSON.parse(content);
-        let adsData = jsonData.impressions_history_ads_seen;
-        let startData = adsData[0].string_map_data;
+        let adsViewedData = jsonData.impressions_history_ads_seen;
 
-        var startDate_time = ""
-        if (startData.Time.timestamp !== undefined) { 
-          startDate_time = startData.Time.timestamp
-        } else if (startData.Time.value !== undefined) {
-          startDate_time = startData.Time.value
-        }
+        let author = utilities.getValueIgnoreCase(adsViewedData[0].string_map_data, "Author", false);
+        let timestamp = utilities.getValueIgnoreCase(adsViewedData[0].string_map_data, "Time", true);
 
-        await this.instaAdsViewedRepo.startAdsViewedBulkAdd(startData.Author.value, startDate_time, adsData.length);
-        for (let i = 1; i < adsData.length; i++) {
-          let entry = adsData[i].string_map_data;
-          // Some data is incomplete so it is filtered out here
-          if (entry.Author === undefined || entry.Time === undefined) {
-            continue;
+        if(adsViewedData.length == 1) {
+          await this.instaAdsViewedRepo.addSinlgeAdViewedData(author, timestamp);
+        } else {
+          await this.instaAdsViewedRepo.startAdViewedBulkAdd(author, timestamp, 
+            adsViewedData.length);
+          for (let i = 1; i < adsViewedData.length; i++) {
+            let author = utilities.getValueIgnoreCase(adsViewedData[0].string_map_data, "Author", false);
+            let timestamp = utilities.getValueIgnoreCase(adsViewedData[0].string_map_data, "Time", true);
+            await this.instaAdsViewedRepo.addAdViewedBulkEntry(author, timestamp);
           }
-          var time = ""
-          if (entry.Time.timestamp !== undefined) { 
-            time = entry.Time.timestamp
-          } else if (entry.Time.value !== undefined) {
-            time = entry.Time.value
-          }
-
-          await this.instaAdsViewedRepo.addAdsViewedBulkEntry(entry.Author.value, time);
         }
       }
       else if (filename.startsWith("signup_information.json")) {
@@ -989,14 +1007,14 @@ export class ServiceSelectionComponent {
         await this.instaLikedCommentsRepo.startLikedCommentsBulkAdd(
           likedComments[0].title, 
           likedComments[0].string_list_data[0].href, 
-          utilities.convertTimestamp(likedComments[0].string_list_data[0].timestamp), 
+          likedComments[0].string_list_data[0].timestamp, 
           likedComments.length);
         
         for (let i = 1; i < likedComments.length; i++) {
           await this.instaLikedCommentsRepo.addLikedCommentsBulkEntry(
             likedComments[i].title,
             likedComments[i].string_list_data[0].href,
-            utilities.convertTimestamp(likedComments[i].string_list_data[0].timestamp));
+            likedComments[i].string_list_data[0].timestamp);
         }
       }
       else if (filename.startsWith("liked_posts")) {
@@ -1006,14 +1024,14 @@ export class ServiceSelectionComponent {
         await this.instaLikedPostsRepo.startLikedPostsBulkAdd(
           likedPosts[0].title, 
           likedPosts[0].string_list_data[0].href, 
-          utilities.convertTimestamp(likedPosts[0].string_list_data[0].timestamp), 
+          likedPosts[0].string_list_data[0].timestamp, 
           likedPosts.length);
         
         for (let i = 1; i < likedPosts.length; i++) {
           await this.instaLikedPostsRepo.addLikedPostsBulkEntry(
             likedPosts[i].title,
             likedPosts[i].string_list_data[0].href,
-            utilities.convertTimestamp(likedPosts[i].string_list_data[0].timestamp));
+            likedPosts[i].string_list_data[0].timestamp);
         }
       }
       else if (filename.startsWith('synced_contacts')) {
@@ -1069,12 +1087,12 @@ export class ServiceSelectionComponent {
       else if (filename.startsWith("followers_1")) {
         let jsonData = JSON.parse(content);
         await this.instaFollowerRepo.startFollowerBulkAdd(jsonData[0].string_list_data[0].href,
-          utilities.convertTimestamp(jsonData[0].string_list_data[0].timestamp),
+                                                          jsonData[0].string_list_data[0].timestamp,
                                                           jsonData[0].string_list_data[0].value,
                                                           jsonData.length);
         for(let i = 1; i < jsonData.length; i++){
           var accountURL = jsonData[i].string_list_data[0].href;
-          var timestamp = utilities.convertTimestamp(jsonData[i].string_list_data[0].timestamp);
+          var timestamp = jsonData[i].string_list_data[0].timestamp;
           var accountName = jsonData[i].string_list_data[0].value;
           await this.instaFollowerRepo.addFollowerBulkEntry(accountURL, timestamp, accountName);
         }    
@@ -1084,12 +1102,12 @@ export class ServiceSelectionComponent {
         let jsonData = JSON.parse(content);
         let followingData = jsonData.relationships_following;
         await this.instaFollowingRepo.startFollowingBulkAdd(followingData[0].string_list_data[0].href,
-          utilities.convertTimestamp(followingData[0].string_list_data[0].timestamp),
+          followingData[0].string_list_data[0].timestamp,
           followingData[0].string_list_data[0].value,
           followingData.length);
         for(let i = 1; i < followingData.length; i++){
           var accountURL = followingData[i].string_list_data[0].href;
-          var timestamp = utilities.convertTimestamp(followingData[i].string_list_data[0].timestamp);
+          var timestamp = followingData[i].string_list_data[0].timestamp;
           var accountName = followingData[i].string_list_data[0].value;
           await this.instaFollowingRepo.addFollowingBulkEntry(accountURL, timestamp, accountName);
         }    
@@ -1100,91 +1118,91 @@ export class ServiceSelectionComponent {
         let blockedData = jsonData.relationships_blocked_users;
         await this.instaBlockedRepo.startBlockedBulkAdd(blockedData[0].title,
           blockedData[0].string_list_data[0].href,
-          utilities.convertTimestamp(blockedData[0].string_list_data[0].timestamp),
+          blockedData[0].string_list_data[0].timestamp,
           blockedData.length);
         for(let i = 1; i < blockedData.length; i++){
           var accountName = blockedData[i].title;
           var accountURL = blockedData[i].string_list_data[0].href;
-          var timestamp = utilities.convertTimestamp(blockedData[i].string_list_data[0].timestamp);
+          var timestamp = blockedData[i].string_list_data[0].timestamp;
           
           await this.instaBlockedRepo.addBlockedBulkEntry(accountName, accountURL, timestamp);
         }    
       }
       //add recent follow information
-      if (filename.startsWith("recent_follow_requests")) {
+      else if (filename.startsWith("recent_follow_requests")) {
         let jsonData = JSON.parse(content);
         let recentFollowData = jsonData.relationships_permanent_follow_requests;
         await this.instaRecentFollowRepo.startRecentFollowBulkAdd(recentFollowData[0].string_list_data[0].href,
           recentFollowData[0].string_list_data[0].value,
-          utilities.convertTimestamp(recentFollowData[0].string_list_data[0].timestamp),
+          recentFollowData[0].string_list_data[0].timestamp,
           recentFollowData.length);
         for(let i = 1; i < recentFollowData.length; i++){
           var accountURL = recentFollowData[i].string_list_data[0].href;
           var accountName = recentFollowData[i].string_list_data[0].value;
-          var timestamp = utilities.convertTimestamp(recentFollowData[i].string_list_data[0].timestamp);
+          var timestamp = recentFollowData[i].string_list_data[0].timestamp;
           
           await this.instaRecentFollowRepo.addRecentFollowBulkEntry(accountURL, accountName, timestamp);
         }    
       }
       //add pending follow request information
-      if (filename.startsWith("pending_follow_requests")) {
+      else if (filename.startsWith("pending_follow_requests")) {
         let jsonData = JSON.parse(content);
         let pendingFollowData = jsonData.relationships_follow_requests_sent;
         await this.instaPendingFollowRequestRepo.startPendingFollowRequestBulkAdd(pendingFollowData[0].string_list_data[0].href,
           pendingFollowData[0].string_list_data[0].value,
-          utilities.convertTimestamp(pendingFollowData[0].string_list_data[0].timestamp),
+          pendingFollowData[0].string_list_data[0].timestamp,
           pendingFollowData.length);
         for(let i = 1; i < pendingFollowData.length; i++){
           var accountURL = pendingFollowData[i].string_list_data[0].href;
           var accountName = pendingFollowData[i].string_list_data[0].value;
-          var timestamp = utilities.convertTimestamp(pendingFollowData[i].string_list_data[0].timestamp);
+          var timestamp = pendingFollowData[i].string_list_data[0].timestamp;
           await this.instaPendingFollowRequestRepo.addPendingFollowRequestBulkEntry(accountURL, accountName, timestamp);
         }    
       }
       //add recently unfollowed accounts information
-      if (filename.startsWith("recently_unfollowed_accounts")) {
+      else if (filename.startsWith("recently_unfollowed_accounts")) {
         let jsonData = JSON.parse(content);
         let recentlyUnfollowData = jsonData.relationships_unfollowed_users;
         await this.instaRecentlyUnfollowedAccountsRepo.startRecentlyUnfollowedAccountsBulkAdd(recentlyUnfollowData[0].string_list_data[0].href,
           recentlyUnfollowData[0].string_list_data[0].value,
-          utilities.convertTimestamp(recentlyUnfollowData[0].string_list_data[0].timestamp),
+          recentlyUnfollowData[0].string_list_data[0].timestamp,
           recentlyUnfollowData.length);
         for(let i = 1; i < recentlyUnfollowData.length; i++){
           var accountURL = recentlyUnfollowData[i].string_list_data[0].href;
           var accountName = recentlyUnfollowData[i].string_list_data[0].value;
-          var timestamp = utilities.convertTimestamp(recentlyUnfollowData[i].string_list_data[0].timestamp);
+          var timestamp = recentlyUnfollowData[i].string_list_data[0].timestamp;
           await this.instaRecentlyUnfollowedAccountsRepo.addRecentlyUnfollowedAccountsBulkEntry(accountURL, accountName, timestamp);
         }    
       }
 
       //add removed suggestion information
-      if (filename.startsWith("removed_suggestions")) {
+      else if (filename.startsWith("removed_suggestions")) {
         let jsonData = JSON.parse(content);
         let removedSuggestionData = jsonData.relationships_dismissed_suggested_users;
         await this.instaRemovedSuggestionRepo.startRemovedSuggestionBulkAdd(removedSuggestionData[0].string_list_data[0].href,
           removedSuggestionData[0].string_list_data[0].value,
-          utilities.convertTimestamp(removedSuggestionData[0].string_list_data[0].timestamp),
+          removedSuggestionData[0].string_list_data[0].timestamp,
           removedSuggestionData.length);
         for(let i = 1; i < removedSuggestionData.length; i++){
           var accountURL = removedSuggestionData[i].string_list_data[0].href;
           var accountName = removedSuggestionData[i].string_list_data[0].value;
-          var timestamp = utilities.convertTimestamp(removedSuggestionData[i].string_list_data[0].timestamp);
+          var timestamp = removedSuggestionData[i].string_list_data[0].timestamp;
           await this.instaRemovedSuggestionRepo.addRemovedSuggestionBulkEntry(accountURL, accountName, timestamp);
         }    
       }
 
       //add received follow request information
-      if (filename.startsWith("follow_requests_you've_received")) {
+      else if (filename.startsWith("follow_requests_you've_received")) {
         let jsonData = JSON.parse(content);
         let receivedRequestData = jsonData.relationships_follow_requests_received;
         await this.instaReceivedFollowRequestRepo.startReceivedFollowRequestBulkAdd(receivedRequestData[0].string_list_data[0].href,
           receivedRequestData[0].string_list_data[0].value,
-          utilities.convertTimestamp(receivedRequestData[0].string_list_data[0].timestamp),
+          receivedRequestData[0].string_list_data[0].timestamp,
           receivedRequestData.length);
         for(let i = 1; i < receivedRequestData.length; i++){
           var accountURL = receivedRequestData[i].string_list_data[0].href;
           var accountName = receivedRequestData[i].string_list_data[0].value;
-          var timestamp = utilities.convertTimestamp(receivedRequestData[i].string_list_data[0].timestamp);
+          var timestamp = receivedRequestData[i].string_list_data[0].timestamp;
           await this.instaReceivedFollowRequestRepo.addReceivedFollowRequestBulkEntry(accountURL, accountName, timestamp);
         }    
       }

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { NgxIndexedDBService } from 'ngx-indexed-db';
 import * as d3 from 'd3';
 import { GranularityEnum, Granularity2LabelMapping, getSmallerGranularity } from './granularity.enum';
@@ -12,6 +12,7 @@ import { SpotHourlyListening } from 'src/app/models/Spotify/ListeningHistory/Spo
 import { SpotDailyListening } from 'src/app/models/Spotify/ListeningHistory/SpotDailyListening';
 import { SequenceComponentInit } from '../../sequence-component-init.abstract';
 import { filter } from 'jszip';
+import { SongtimelineComponent } from '../songtimeline/songtimeline.component';
 
 interface ListeningtimeFilterHistoryEntry {
   granularity: GranularityEnum;
@@ -35,6 +36,8 @@ export class ListeningTimeComponent extends SequenceComponentInit {
 
   @Input()
   previewMode: boolean = false;
+  @ViewChild('SongtimelineComponent') 
+  songtimelineComponent : SongtimelineComponent;
 
   readonly spotifyGreen: string = "#1DB954";
 
@@ -606,10 +609,13 @@ export class ListeningTimeComponent extends SequenceComponentInit {
       //.attr("height", (d: any) => y(d.value) * height / 100)// this.height
       .attr("fill", (d: any) => d.color)
       .on("click", () => {
-        if (this.selectedGranularity != GranularityEnum.Hour)
-          tooltip.html(``).style("visibility", "hidden");
-
-        this.onBarClicked(hoveringBarName);
+        tooltip.html(``).style("visibility", "hidden");
+        if (this.selectedGranularity != GranularityEnum.Hour) {
+          this.onBarClicked(hoveringBarName);
+        }
+        else if (this.filterSingleDate) {
+          this.onBarClicked(dateUtils.getDisplayDateString(this.filterSingleDate) + " " + hoveringBarName)
+        }
       })
       //Mouse Hover
       .on("mouseover", function (event, data) {
@@ -669,7 +675,23 @@ export class ListeningTimeComponent extends SequenceComponentInit {
       this.recreateVisualization();
     }
     else {
-      this.notifyService.showNotification("Hour-wise visualization over a single day is the most detailed visualization available. You can't step into a single hour.");
+      /* Switch out listeningtime visualization for songtimeline visualization
+         this is done to make sure that, when the user navigates back from the songtimeline to the listeningtime, 
+         the listening time's filter history is still available
+      */
+      let listeningTimePage = document.getElementById('listeningtime-page');
+      let songtimelinePage = document.getElementById('songtimeline-page');
+
+      if(songtimelinePage && listeningTimePage) {
+        listeningTimePage.style.display='none';
+        songtimelinePage.style.display='block';
+        //set the correct input time in the visualization
+        this.songtimelineComponent.filterDateTime = dateUtils.parseDate(clickedBarDateString);
+        this.songtimelineComponent.onDateFilterChanged();
+
+      }
+
+      //this.notifyService.showNotification("Hour-wise visualization over a single day is the most detailed visualization available. You can't step into a single hour.");
     }
   }
 
@@ -719,7 +741,8 @@ export class ListeningTimeComponent extends SequenceComponentInit {
 function onMouseOver(selectedGranularity: GranularityEnum, tooltip: d3.Selection<HTMLDivElement, unknown, HTMLElement, any>, currRect: SVGRectElement, data: { name: string, value: number, color: string }) {
   let html;
   if (selectedGranularity == GranularityEnum.Hour) {
-    html = tooltip.html(`${formatDisplayTime(data.value)}<br>`)
+    html = tooltip.html(`${formatDisplayTime(data.value)}<br><i>Click to see played songs.</i>`)
+    d3.select(currRect).style("cursor", "pointer");
   }
   else {
     html = tooltip.html(`${formatDisplayTime(data.value)}<br><i>Click to inspect.</i>`)

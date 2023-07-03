@@ -1,6 +1,6 @@
-# Angular CLI
+# Angular
 
-## Startup Guidelines :-
+## Startup Guidelines
 - It is recommended to use Visual studio code for development with angular. You can download it from here https://code.visualstudio.com/download.
 - Install nodejs before installing Angular. Download from https://nodejs.org/en/download/ and recommend version for node is 18.14.0
 - To install angular please follow this link  https://code.visualstudio.com/docs/nodejs/angular-tutorial. Recommend version for angular is 15.1.0
@@ -14,29 +14,28 @@ The Angular CLI is a command-line interface tool that is used to initialize, dev
 
 ## Coding guidelines
 
-This document contains the coding guidelines for project PriOss. It is divides into four sections
+This document contains the coding guidelines for project PriOSS. It is divides into four sections
 
-1) File and Folder structure Guidelines
-2) CSS guidelines
+1) File and Folder Structure Guidelines
+2) CSS Guidelines
 3) Typescript Guidelines
 4) Best Practices
 
-### File and Folder structure guidelines
+### File and Folder Structure Guidelines
 
 Naming conventions are hugely important to maintainability and readability and helps to provide a consistent way to find the content at a glance. Consistency within the project is vital which helps in tremendous efficiency.
 
 1) File Naming  
-- Names of the folder and files should clearly convey their intent e.g:-  app/country/country-list.component.ts may contain component that manages list of country.
-- Names should be consistent with the same pattern in which we mention the file’s feature first and then the type, dot separated e.g:- consultation.component.ts or home.component.html or auth.service.ts
+- Names of the folder and files should clearly convey their intent e.g.:  app/country/country-list.component.ts may contain a component that manages a list of a country.
+- Names should be consistent with the same pattern in which we mention the file’s feature first and then the type, dot separated e.g.: consultation.component.ts or home.component.html or auth.service.ts
 - For adding more descriptive text to the file name use a dash(-) to seperate the words e.g country-list.component.ts
 - Use lowercase for file and folder names.
 
 2) Class Name:
-- When we add name to the class we should use upper camel case style with the added suffix represents the type of our file e.g: DatePickerDirective, HomeComponent, AuthService.
+- The nam of a class should use upper camel case style with an added suffix representing the type of our file e.g: DatePickerDirective, HomeComponent, AuthService.
 
 3) Folder structure
-- Our top-level folder is prototype/prioss and it will contain all of our application's code and resources.
-- Use a subfolder for each module: Divide your application into modules, and create a separate subfolder for each module. 
+- Our top-level folder of the angular project is ```prototype/prioss``` and it contains all of our application's code and resources.
 - Use a subfolder for each component: Divide each module into components, and create a separate subfolder for each component. 
 - Store component-related files in the component folder: Store each component's template file, style file, and component class file in the component folder. 
 - Store shared resources in a shared folder: Store shared resources, such as images, fonts, and other assets, in a shared folder.
@@ -182,7 +181,6 @@ Typescript guidelines
 - RXJS official documentation: https://rxjs.dev/api
 - Angular CLI official documentation: https://cli.angular.io/
 - Angular Material official documentation: https://material.angular.io/
-
 
 
 

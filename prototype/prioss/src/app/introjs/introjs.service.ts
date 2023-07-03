@@ -154,7 +154,7 @@ export class IntrojsService {
         {
           element: '#faq',
           intro: 'You have more questions about this application? Click to see answers.'
-        },
+        }
         // more steps here...
       ]
     }).start();
@@ -220,15 +220,7 @@ export class IntrojsService {
         {
           element: '#faq',
           intro: 'You have more questions about this application? Click to see answers.'
-        },
-        {
-          element: '#extraprivacy',
-          intro: 'This section gives guidelines to turn OFF Off-Site Interactions(Off-Facebook Activity)'
-        },
-        {
-          element: '#adssettings',
-          intro: 'This sections provides guidelines to hide ads you do not want to see anymore'
-        },
+        }
         // more steps here...
       ]
     }).start();

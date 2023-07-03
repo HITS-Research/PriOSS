@@ -29,6 +29,10 @@ import { FaqComponent } from './info-pages/faq/faq.component';
 import { KnownIssuesComponent } from './info-pages/known-issues/known-issues.component';
 import { AdsSettingsComponent } from './manage-privacy/facebook/guidlines-for-ads-settings/ads-settings/ads-settings.component';
 import { OtherPersonalInfoComponent } from './visualizations/facebook/other-personal-info/other-personal-info.component';
+import {
+SpotPrivacyInstructionsComponent
+} from "./visualizations/spotify/privacy-instructions/spot-privacy-instructions.component";
+import { SongtimelineComponent } from './visualizations/spotify/songtimeline/songtimeline.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -40,9 +44,11 @@ const routes: Routes = [
   { path: 'spot/inference', component: InferencesComponent },
   { path: 'spot/mood', component: MoodComponent },
   { path: 'spot/listening-time', component: ListeningTimeComponent },
+  { path: 'spot/listening-time/songtimeline', component: SongtimelineComponent },
   { path: 'spot/general-data', component: GeneralDataComponent },
   { path: 'spot/dashboard', component: SpotDashboardComponent },
   { path: 'spot/top-artists', component: TopArtistsComponent },
+  { path: 'spot/privacy-instructions', component: SpotPrivacyInstructionsComponent },
   { path: 'spot/top-songs', component: TopSongsComponent },
   { path: 'insta/dashboard', component: InstaDashboardComponent },
   { path: 'insta/personal-info', component:Insta_PersonalInfoComponent },
