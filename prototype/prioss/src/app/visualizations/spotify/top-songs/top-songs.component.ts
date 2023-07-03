@@ -23,6 +23,9 @@ export class TopSongsComponent extends SequenceComponentInit {
   readonly spotifyGreen: string = "#1DB954";
   @Input()
   previewMode: boolean = false;
+  @Input()
+  calledFromListeningtime: boolean = false;
+
   showSongHistoy : boolean = false;
 
   filterFromDate: Date | null;
@@ -249,4 +252,20 @@ export class TopSongsComponent extends SequenceComponentInit {
     this.showSongHistoy = false;
   }
 
+  /**
+   * A callback function that hides this visualization and replaces it with the listeningtime visualization.
+   * by doing the replacement this way, instead of displaying this component on a seperate page apart from the listening time, 
+   * the listeningtime visualization's filter history is preserved when navigating back to it.
+   * 
+   * @author: Simon (scg@mail.upb.de)
+   */
+  returnToListeningTime() {
+    let listeningTimePage = document.getElementById('listeningtime-page');
+    let topSongsPage = document.getElementById('topsongs-page');
+  
+    if(topSongsPage && listeningTimePage) {
+      listeningTimePage.style.display='block';
+      topSongsPage.style.display='none';
+    }
+  }  
 }

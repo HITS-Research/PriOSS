@@ -5,8 +5,14 @@
     </div>
 
     <div *ngIf="!previewMode">
-      <app-title-bar titleText="Top Artists" tooltipText="This bar chart shows your top 10 artists in a given time period. You can also switch to a tabular view.">
+      <app-title-bar *ngIf="!calledFromListeningtime" titleText="Top Artists" tooltipText="This bar chart shows your top 10 artists in a given time period. You can also switch to a tabular view.">
       </app-title-bar>
+
+      <app-title-bar *ngIf="calledFromListeningtime" titleText="Top Artists" tooltipText="This bar chart shows your top 10 artists in a given time period. You can also switch to a tabular view."
+        [overrideBackButtonFunction]="true" (onButtonClickedEventOverride)="returnToListeningTime()" 
+        backButtonTextOverride="Back to Listeningtime">
+      </app-title-bar>
+
       <nz-tabset (nzSelectedIndexChange)="onTabSwitch($event)">
         <nz-tab nzTitle="Bar chart">
           From:

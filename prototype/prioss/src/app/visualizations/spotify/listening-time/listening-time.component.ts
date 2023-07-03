@@ -15,6 +15,8 @@ import { filter } from 'jszip';
 import { SongtimelineComponent } from '../songtimeline/songtimeline.component';
 import { Router } from '@angular/router';
 import { Observable, Subscription, fromEvent } from 'rxjs';
+import { TopSongsComponent } from '../top-songs/top-songs.component';
+import { TopArtistsComponent } from '../top-artists/top-artists.component';
 
 interface ListeningtimeFilterHistoryEntry {
   granularity: GranularityEnum;
@@ -40,6 +42,10 @@ export class ListeningTimeComponent extends SequenceComponentInit {
   previewMode: boolean = false;
   @ViewChild('SongtimelineComponent') 
   songtimelineComponent : SongtimelineComponent;
+  @ViewChild('TopSongsComponent') 
+  topSongsComponent : TopSongsComponent;
+  @ViewChild('TopArtistsComponent') 
+  topArtistsComponent : TopArtistsComponent;
 
   readonly spotifyGreen: string = "#1DB954";
 
@@ -736,12 +742,26 @@ export class ListeningTimeComponent extends SequenceComponentInit {
   * @author: Simon (scg@mail.upb.de)
   */
   goToTopSongs() {
-    /*//Debug Info
-    console.log("Going to TopSongs");
-    console.log(this.getStartDateFromLabel(this.rightClickedBarName));
-    console.log(this.getEndDateFromLabel(this.rightClickedBarName));
-    */
-    this.router.navigate(['spot/top-songs/', this.getStartDateFromLabel(this.rightClickedBarName), this.getEndDateFromLabel(this.rightClickedBarName)]);
+    /* Switch out listeningtime visualization for Top Songs visualization
+         this is done to make sure that, when the user navigates back to the listeningtime, 
+         the listening time's filter history is still available
+      */
+    let listeningTimePage = document.getElementById('listeningtime-page');
+    let topsongsPage = document.getElementById('topsongs-page');
+
+    if(topsongsPage && listeningTimePage) {
+      listeningTimePage.style.display='none';
+      topsongsPage.style.display='block';
+      d3.select("#contextmenu").style("visibility", "hidden");
+
+      //set the correct input time in the visualization
+      this.topSongsComponent.filterFromDate = dateUtils.parseDate(this.getStartDateFromLabel(this.rightClickedBarName));
+      this.topSongsComponent.filterToDate = dateUtils.parseDate( this.getEndDateFromLabel(this.rightClickedBarName));
+      this.topSongsComponent.calledFromListeningtime = true;
+      this.topSongsComponent.onDateFilterChanged();
+    }
+
+    //this.router.navigate(['spot/top-songs/', this.getStartDateFromLabel(this.rightClickedBarName), this.getEndDateFromLabel(this.rightClickedBarName)]);
   }
 
 /**
@@ -750,12 +770,26 @@ export class ListeningTimeComponent extends SequenceComponentInit {
   * @author: Simon (scg@mail.upb.de)
   */
   goToTopArtists() {
-    /*//Debug Info
-    console.log("Going to TopArtists");
-    console.log(this.getStartDateFromLabel(this.rightClickedBarName));
-    console.log(this.getEndDateFromLabel(this.rightClickedBarName));
-    */
-    this.router.navigate(['spot/top-artists/', this.getStartDateFromLabel(this.rightClickedBarName), this.getEndDateFromLabel(this.rightClickedBarName)]);
+    /* Switch out listeningtime visualization for Top Artists visualization
+         this is done to make sure that, when the user navigates back to the listeningtime, 
+         the listening time's filter history is still available
+      */
+    let listeningTimePage = document.getElementById('listeningtime-page');
+    let topArtistsPage = document.getElementById('topartists-page');
+
+    if(topArtistsPage && listeningTimePage) {
+      listeningTimePage.style.display='none';
+      topArtistsPage.style.display='block';
+      d3.select("#contextmenu").style("visibility", "hidden");
+
+      //set the correct input time in the visualization
+      this.topArtistsComponent.filterFromDate = dateUtils.parseDate(this.getStartDateFromLabel(this.rightClickedBarName));
+      this.topArtistsComponent.filterToDate = dateUtils.parseDate( this.getEndDateFromLabel(this.rightClickedBarName));
+      this.topArtistsComponent.calledFromListeningtime = true;
+      this.topArtistsComponent.onDateFilterChanged();
+    }
+   
+    //this.router.navigate(['spot/top-artists/', this.getStartDateFromLabel(this.rightClickedBarName), this.getEndDateFromLabel(this.rightClickedBarName)]);
   }
 
 /**
