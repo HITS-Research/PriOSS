@@ -58,14 +58,14 @@ export class TopArtistsComponent extends SequenceComponentInit {
   override async initComponent() {
     //await new Promise(f => setTimeout(f, 500));  // TODO: fix
     console.log("--- Initializing Component 3: TopArtists");
-    
+
     this.filterFromDate = await this.spothistoryRepo.getFirstDay();
     this.filterToDate = await this.spothistoryRepo.getMostRecentDay();
 
     let result: SpotMinListenedToArtist[] = await this.spothistoryRepo.getMinListenedToArtists(this.filterFromDate, this.filterToDate)
     this.minListenedToArtist = result;
     this.makeBarChart(result.slice(0, 10));
-    
+
   }
 
   /**
@@ -196,7 +196,12 @@ export class TopArtistsComponent extends SequenceComponentInit {
       .on("mouseout", function () {
         hoveringBarName = "";
         tooltip.html(``).style("visibility", "hidden");
-      });
+      })
+      //Add bar rising transition
+      .attr("width", 0)
+      .transition()
+      .duration(1000)
+      .attr("width", (d) => xScale(d.minPlayed));
 
     svg.append("text")
       .attr("text-anchor", "end")

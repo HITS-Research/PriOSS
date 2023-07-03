@@ -194,7 +194,12 @@ export class TopSongsComponent extends SequenceComponentInit {
         hoveringArtistName = "";
         hoveringTrackName = "";
         tooltip.html(``).style("visibility", "hidden");
-      });
+      })
+      //Add bar rising transition
+      .attr("width", 0)
+      .transition()
+      .duration(1000)
+      .attr("width", (d) => xScale(d.minPlayed));
 
     svg.append("text")
       .attr("text-anchor", "end")
