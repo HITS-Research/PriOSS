@@ -10,16 +10,16 @@
       <nz-tabset (nzSelectedIndexChange)="onTabSwitch($event)">
         <nz-tab nzTitle="Bar chart">
           From:
-          <nz-date-picker [(ngModel)]="filterFromDate" (ngModelChange)="onDateFilterChanged()"></nz-date-picker>
+          <nz-date-picker [(ngModel)]="filterFromDate" nzShowTime nzFormat="yyyy-MM-dd HH:00" (ngModelChange)="onDateFilterChanged()"></nz-date-picker>
           To:
-          <nz-date-picker [(ngModel)]="filterToDate" (ngModelChange)="onDateFilterChanged()"></nz-date-picker>
+          <nz-date-picker [(ngModel)]="filterToDate" nzShowTime nzFormat="yyyy-MM-dd HH:00" (ngModelChange)="onDateFilterChanged()"></nz-date-picker>
           <div class="bar_chart_top_artists"></div>
         </nz-tab>
         <nz-tab nzTitle="Table">
           From:
-          <nz-date-picker [(ngModel)]="filterFromDate" (ngModelChange)="onDateFilterChanged()"></nz-date-picker>
+          <nz-date-picker [(ngModel)]="filterFromDate" nzShowTime nzFormat="yyyy-MM-dd HH:00" (ngModelChange)="onDateFilterChanged()"></nz-date-picker>
           To:
-          <nz-date-picker [(ngModel)]="filterToDate" (ngModelChange)="onDateFilterChanged()"></nz-date-picker>
+          <nz-date-picker [(ngModel)]="filterToDate" nzShowTime nzFormat="yyyy-MM-dd HH:00" (ngModelChange)="onDateFilterChanged()"></nz-date-picker>
           <nz-table #basicTable [nzData]="this.minListenedToArtist">
             <thead>
             <tr>

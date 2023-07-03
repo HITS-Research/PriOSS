@@ -113,6 +113,12 @@ export class ListeningTimeComponent extends SequenceComponentInit {
     }
   }
 
+  /**
+  * A Callback called by angular when the component is destroyed
+  * It handles the cleanup necessary.
+  *
+  * @author: Simon (scg@mail.upb.de)
+  */
   ngOnDestroy() {
     this.contextMenuEventSubscription.unsubscribe();
   }
@@ -724,6 +730,11 @@ export class ListeningTimeComponent extends SequenceComponentInit {
     }
   }
 
+/**
+  * Callback for the context menu buttons: Displays the TopSongs Visualization with the date filtered to the bar that was right clicked last.
+  *
+  * @author: Simon (scg@mail.upb.de)
+  */
   goToTopSongs() {
     /*//Debug Info
     console.log("Going to TopSongs");
@@ -733,6 +744,11 @@ export class ListeningTimeComponent extends SequenceComponentInit {
     this.router.navigate(['spot/top-songs/', this.getStartDateFromLabel(this.rightClickedBarName), this.getEndDateFromLabel(this.rightClickedBarName)]);
   }
 
+/**
+  * Callback for the context menu buttons: Displays the TopArtists Visualization with the date filtered to the bar that was right clicked last.
+  *
+  * @author: Simon (scg@mail.upb.de)
+  */
   goToTopArtists() {
     /*//Debug Info
     console.log("Going to TopArtists");
@@ -742,6 +758,13 @@ export class ListeningTimeComponent extends SequenceComponentInit {
     this.router.navigate(['spot/top-artists/', this.getStartDateFromLabel(this.rightClickedBarName), this.getEndDateFromLabel(this.rightClickedBarName)]);
   }
 
+/**
+  * Based on the given label of a bar in the chart, it calculates the start date of the timeframe that the bar represents.
+  * 
+  * @returns: the calculated date as a date-string in the format YYYY-MM-DD HH24-00. Hours and Minutes are left out when not needed
+  *
+  * @author: Simon (scg@mail.upb.de)
+  */
   getStartDateFromLabel(dateLabel: string): string {
 
     switch(this.selectedGranularity) {
@@ -762,6 +785,13 @@ export class ListeningTimeComponent extends SequenceComponentInit {
     }
   }
 
+/**
+  * Based on the given label of a bar in the chart, it calculates the end date of the timeframe that the bar represents.
+  * 
+  * @returns: the calculated date as a date-string in the format YYYY-MM-DD HH24-00. Hours and Minutes are left out when not needed
+  *
+  * @author: Simon (scg@mail.upb.de)
+  */
   getEndDateFromLabel(dateLabel: string): string {
 
     let date: Date|null;
