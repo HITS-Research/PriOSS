@@ -26,7 +26,7 @@ export class TopArtistsComponent extends SequenceComponentInit {
   previewMode: boolean = false;
   @Input()
   calledFromListeningtime: boolean = false;
-  
+
   showArtistHistoy : boolean  = false;
 
   filterFromDate: Date | null;
@@ -63,16 +63,6 @@ export class TopArtistsComponent extends SequenceComponentInit {
   override async initComponent() {
     //await new Promise(f => setTimeout(f, 500));  // TODO: fix
     console.log("--- Initializing Component 3: TopArtists");
-    
-    this.route.params.subscribe(params => {
-      console.log('Params: start: ' + params['start'] + ', end: ' + params['end']);
-      if(params['start']) {
-        this.filterFromDate = dateUtils.parseDate(params['start']);
-      }
-      if(params['end']) {
-        this.filterToDate = dateUtils.parseDate(params['end']);
-      }
-    });
 
     if(!this.filterFromDate) {
       this.filterFromDate = await this.spothistoryRepo.getFirstDay();
@@ -80,8 +70,7 @@ export class TopArtistsComponent extends SequenceComponentInit {
     if(!this.filterToDate) {
       this.filterToDate = await this.spothistoryRepo.getMostRecentDay();
     }
-
-
+    
     let result: SpotMinListenedToArtist[] = await this.spothistoryRepo.getMinListenedToArtists(this.filterFromDate, this.filterToDate)
     this.minListenedToArtist = result;
     this.makeBarChart(result.slice(0, 10));

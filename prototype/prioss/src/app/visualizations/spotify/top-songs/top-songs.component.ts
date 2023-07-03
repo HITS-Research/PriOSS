@@ -62,16 +62,6 @@ export class TopSongsComponent extends SequenceComponentInit {
     //await new Promise(f => setTimeout(f, 1000));  // TODO: fix
     console.log("--- Initializing Component 4: TopSongs");
 
-    this.route.params.subscribe(params => {
-      console.log('Params: start: ' + params['start'] + ', end: ' + params['end']);
-      if(params['start']) {
-        this.filterFromDate = dateUtils.parseDate(params['start']);
-      }
-      if(params['end']) {
-        this.filterToDate = dateUtils.parseDate(params['end']);
-      }
-    });
-
     if(!this.filterFromDate) {
       this.filterFromDate = await this.spotHistoryRepo.getFirstDay();
     }
