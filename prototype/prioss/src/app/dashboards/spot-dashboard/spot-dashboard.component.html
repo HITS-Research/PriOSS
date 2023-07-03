@@ -50,22 +50,22 @@
         </app-dash-card>
       </div>
     </div>
-<!--      <div nz-col nzXs="24" nzXl="8">-->
-<!--        <nz-card nzTitle="Average Audio Feature Value" nzHoverable [nzExtra]="switchTemplate">-->
-<!--          <div *ngIf="thirdPartyConnection; then spotifyMood else requiresConnectionText"></div>-->
-<!--          <ng-template #spotifyMood>-->
-<!--            <spot-mood></spot-mood>-->
-<!--          </ng-template>-->
-<!--          <ng-template #requiresConnectionText>-->
-<!--            <nz-typography>This visualization requires a connection to Spotify. The connection to Spotify is only-->
-<!--              established when the switch is toggled. (What does the visualization show? Which data is sent to Spotify and-->
-<!--              why?)</nz-typography>-->
-<!--          </ng-template>-->
-<!--        </nz-card>-->
-<!--        <ng-template #switchTemplate>-->
-<!--          <nz-switch [(ngModel)]="thirdPartyConnection"></nz-switch>-->
-<!--        </ng-template>-->
-<!--      </div>-->
+    <div nz-col nzXs="24" nzXl="8">
+      <nz-card nzTitle="Average Audio Feature Value" nzHoverable [nzExtra]="switchTemplate">
+        <div *ngIf="thirdPartyConnection; then spotifyMood else requiresConnectionText"></div>
+        <ng-template #spotifyMood>
+          <spot-mood></spot-mood>
+        </ng-template>
+        <ng-template #requiresConnectionText>
+          <nz-typography>This visualization requires a connection to Spotify. The connection to Spotify is only
+            established when the switch is toggled. (What does the visualization show? Which data is sent to Spotify and
+            why?)</nz-typography>
+        </ng-template>
+      </nz-card>
+      <ng-template #switchTemplate>
+        <nz-switch [(ngModel)]="thirdPartyConnection"></nz-switch>
+      </ng-template>
+    </div>    
   </details>
 
   <br>

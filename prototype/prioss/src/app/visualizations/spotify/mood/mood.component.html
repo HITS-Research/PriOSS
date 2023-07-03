@@ -1,8 +1,9 @@
 <div class="component-page">
-
+    <p>QueriedSongs: {{ queriedSongs }} / {{ allSongsNumber }}</p>
     <input type="date" id="start-date">
     <input type="date" id="end-date">
-    <button type="submit" (click)="updateBarChart()">Submit</button>
+    <button id="startButton"type="submit" (click)="getSongIds()">Submit</button>
+
     <div id="bar-chart"></div>
 
 </div>

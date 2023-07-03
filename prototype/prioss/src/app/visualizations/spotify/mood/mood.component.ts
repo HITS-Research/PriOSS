@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
-import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { environment } from '../../../../environments/environment.prod';
 import * as d3 from 'd3';
+import { SpotHistoryRepository } from 'src/app/db/data-repositories/spotify/spot-history/spot-history.repository';
 
 const CLIENT_ID = environment.CLIENT_ID;
 const CLIENT_SECRET = environment.CLIENT_SECRET;
 let token: string;
-let withdate:any;
+let withdate: any;
+
 
 /**
   * This component visualizes the mood of songs in the datadownload based on the information fetched from a Spotify API
@@ -21,10 +22,41 @@ let withdate:any;
 })
 export class MoodComponent {
   files: any[] = [];
-  
+  queriedSongs = 0;
+  allSongsNumber = 0;
 
-  constructor(private dbService: NgxIndexedDBService) {
-        this.dbService.getAll('spot/history').subscribe(async (history) => 
+
+  constructor(private spotHistoryRepo: SpotHistoryRepository) {
+    this.setToken();
+    console.log(token);
+  }
+
+  async getSongIds() {
+    let spotHistory = await this.spotHistoryRepo.getSpotHistory();
+    this.allSongsNumber = spotHistory.length;
+    const trackIds: string[] = [];
+    const names: string[] = [];
+    const limit = 10000;
+    
+    for (const entry of spotHistory) {
+
+      if (this.queriedSongs >= limit) {
+        break;
+      }
+      names.push(entry.trackName);
+      const trackId = await this.getTrackId(entry.trackName);
+      trackIds.push(trackId);
+      this.queriedSongs++;
+    }
+    let audiofeatures: any = await this.getAudioFeaturesInBulk(trackIds);
+    console.log("----" + audiofeatures + "------")
+    let flattend = makeOneArray(audiofeatures);
+    console.log("before addd ListenDate");
+    withdate = addListeningDateToAudiofeatures(flattend, names, spotHistory)
+    makeBarChart(flattend);
+  }
+
+  /*
     {
       console.log("history: ");
       console.log(history);
@@ -54,7 +86,7 @@ export class MoodComponent {
          
               
     });
-  }
+  }*/
 
   /**
   * Updates the displayed bar chart using an start and end date that the user can select.
@@ -63,14 +95,14 @@ export class MoodComponent {
   *
   */
   updateBarChart() {
-    let startDateInput:any = (document.getElementById("start-date") as HTMLInputElement).value;
-    let endDateInput:any = (document.getElementById("end-date") as HTMLInputElement).value;
-    let timed:any  = withdate.filter((d:any) => {
+    let startDateInput: any = (document.getElementById("start-date") as HTMLInputElement).value;
+    let endDateInput: any = (document.getElementById("end-date") as HTMLInputElement).value;
+    let timed: any = withdate.filter((d: any) => {
       let timestamp = new Date(d.time);
       return timestamp >= new Date(startDateInput) && timestamp <= new Date(endDateInput);
     });
     console.log(timed);
-  
+
     d3.select("#bar-chart").selectAll("*").remove();
     makeBarChart(timed);
   }
@@ -84,17 +116,17 @@ export class MoodComponent {
   * @author: Sven (svenf@mail.uni-paderborn.de)
   *
   */
-  
-  async setToken() {;
+
+  async setToken() {
     const response = await fetch(`https://accounts.spotify.com/api/token`, {
       method: 'POST',
       headers: {
         'Authorization': 'Basic ' + btoa(CLIENT_ID + ':' + CLIENT_SECRET),
         'Content-Type': 'application/x-www-form-urlencoded',
       },
-    body: 'grant_type=client_credentials',
-    }) 
-    const json = await response.json(); 
+      body: 'grant_type=client_credentials',
+    })
+    const json = await response.json();
     token = json.access_token;
   };
 
@@ -105,14 +137,33 @@ export class MoodComponent {
   *
   */
   async getTrackId(trackName: string): Promise<string> {
-    const response = await fetch(`https://api.spotify.com/v1/search?q=${trackName}&type=track&limit=1`, {
-      headers: {
-        'Authorization': `Bearer ${token}`
+    if (trackName.length === 0) {
+      throw new Error('Track name is empty');
+    }
+  
+    try {
+      const response = await fetch(`https://api.spotify.com/v1/search?q=${trackName}&type=track&limit=1`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+  
+      if (!response.ok) {
+        throw new Error('Error retrieving track ID');
       }
-    });
-    const json = await response.json();
-    return json.tracks.items[0].id
-  };
+  
+      const json = await response.json();
+      if (!json.tracks.items.length) {
+        throw new Error('No track found');
+      }
+  
+      return json.tracks.items[0].id;
+    } catch (error) {
+      console.error('An error occurred:', error);
+      throw error;
+    }
+  }
+  
 
 
 
@@ -123,26 +174,26 @@ export class MoodComponent {
   *
   */
   async getAudioFeaturesInBulk(ids: string[]): Promise<string[]> {
-    const spotifyUrl = 'https://api.spotify.com/v1/audio-features?ids='
-    let start = 0;
-    let end = 100;
-    let valenceArray = []
-    
-    while (start < ids.length) {
-      let songsBatch = ids.slice(start, end);
-      let bulkUrl = makeBulkRequestUrl(songsBatch, spotifyUrl);
-      start += 100;
-      end += 100;
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      let response = await fetch(bulkUrl, {
+    const spotifyUrl = 'https://api.spotify.com/v1/audio-features?ids=';
+    const batchSize = 100;
+    let valenceArray = [];
+
+    for (let start = 0; start < ids.length; start += batchSize) {
+      const end = Math.min(start + batchSize, ids.length);
+      const songsBatch = ids.slice(start, end);
+      const bulkUrl = makeBulkRequestUrl(songsBatch, spotifyUrl);
+      const response = await fetch(bulkUrl, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
       });
-      let json = await response.json();
+
+      const json = await response.json();
       valenceArray.push(json);
     }
+
     return valenceArray;
+
   }
 }
 
@@ -173,17 +224,22 @@ function makeBulkRequestUrl(trackIds: string[], spotifyUrl: string): string {
 *
 */
 
-function addListeningDateToAudiofeatures(audiofeatures: any, names:string[], original:any):any {
+function addListeningDateToAudiofeatures(audiofeatures: any, names: string[], original: any): any {
   let counter = 0;
-  for (let i = 0; i < original.length; i++) { 
+  console.log("-----isnide addlistenddate -----")
+  console.log("---- names----" + names.length);
+  console.log("---- original----" + original.length);
+  console.log("---- audiofeatures----" + audiofeatures.length);
+  for (let i = 0; i < original.length; i++) {
     let key = original[i];
     if (names.includes(key.trackName)) {
       audiofeatures[counter].time = key.endTime;
       counter++;
-    if (counter === audiofeatures.length) break;
-   }
+      if (counter === audiofeatures.length) {
+        break;
+      }
+    }
   }
-  console.log(audiofeatures);
   return audiofeatures;
 }
 
@@ -202,7 +258,8 @@ function makeBarChart(audiofeatures: any) {
   let tempoSum = 0;
   let count = audiofeatures.length;
 
-  audiofeatures.forEach((key: any) => {;
+  audiofeatures.forEach((key: any) => {
+    ;
     danceabilitySum += key.danceability;
     energySum += key.energy;
     loudnessSum += key.loudness;
@@ -222,7 +279,7 @@ function makeBarChart(audiofeatures: any) {
     { name: "Energy", value: avgEnergy, color: "#63adfeb3" },
     //{ name: "Loudness", value: avgLoudness, color: "#533a84" },
     { name: "Dancebility", value: avgDance, color: "#dd8050c4" },
-   // { name: "Tempo", value: avgTempo, color: "#296E01" }
+    // { name: "Tempo", value: avgTempo, color: "#296E01" }
   ];
 
   let margin = 100;
