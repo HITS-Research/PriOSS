@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit} from '@angular/core';
 import { AddressBookModel } from 'src/app/models/Facebook/addressBook';
 import { FacebookAddressBookRepository } from 'src/app/db/data-repositories/facebook/fb-other-personal-info/face_address_book.repo';
 import { FacebookSearchHistoryRepository } from 'src/app/db/data-repositories/facebook/fb-other-personal-info/face_search_history.repo';
@@ -18,6 +18,11 @@ export class OtherPersonalInfoComponent implements OnInit {
   currentPage = 1;
   totalPages = 1;
   searchText = '';
+   totalContactNumbers = 0;
+   contactNumbers:any = [];
+   totalSearchedText = 0;
+   @Input()
+   previewMode: boolean = false;
 
   constructor(
     private faceAddressBookRepo: FacebookAddressBookRepository,
@@ -40,6 +45,7 @@ export class OtherPersonalInfoComponent implements OnInit {
 
     await this.faceSearchHistoryRepo.getAllFaceSearchHistory().then((searchHistoryData) => {
       this.searchHistoryData = searchHistoryData;
+       this.totalSearchedText = this.searchHistoryData.length;
       this.totalPages = Math.ceil(this.searchHistoryData.length / this.pageSize);
       this.filterItems(this.searchText);
     });
@@ -70,32 +76,42 @@ export class OtherPersonalInfoComponent implements OnInit {
       *
       */
       gridLayout() {
-    const width = window.innerWidth;
-    const height = window.innerHeight;
-    const padding = 10;
-    const numCols = 10;
-
-    // Filter out entries without both name and contact_point
-    const filteredData = this.addressBookData.filter(item => item.name && item.contact_point);
-
-    if (filteredData.length === 0) {
-      // Handle the case when there are no valid entries
-      this.cellSize = 0;
-      return;
-    }
-
-    const numRows = Math.ceil(filteredData.length / numCols);
-
-    const maxTextLength = Math.max(
-      ...filteredData.map(item => item.name.length + item.contact_point.length)
-    );
-
-    this.cellSize = Math.min(
-      (width - padding * 2) / numCols,
-      (height - padding * 2) / numRows,
-      maxTextLength * 10
-    );
-  }
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+        const padding = 10;
+        const numCols = 10;
+      
+        // Filter out entries without both name and contact_point
+        const filteredData = this.addressBookData.filter(item => item.name && item.contact_point);
+      
+        if (filteredData.length === 0) {
+          // Handle the case when there are no valid entries
+          this.cellSize = 0;
+          return;
+        }
+      
+        const numRows = Math.ceil(filteredData.length / numCols);
+      
+        const maxTextLength = Math.max(
+          ...filteredData.map(item => item.name.length + item.contact_point.length)
+        );
+      
+        this.cellSize = Math.min(
+          (width - padding * 2) / numCols,
+          (height - padding * 2) / numRows,
+          maxTextLength * 10
+        );
+        
+        filteredData.forEach(item => {
+          const numbers = item.contact_point.split(",");
+          this.contactNumbers.push(...numbers);
+          this.totalContactNumbers += numbers.length;
+        });
+        
+        
+      }
+      
+      
       /**
       * This method is responsible to filter the searched text.
       * @author: Rishma (rishmamn@mail.uni-paderborn.de))

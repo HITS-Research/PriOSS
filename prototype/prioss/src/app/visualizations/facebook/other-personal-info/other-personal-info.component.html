@@ -1,3 +1,16 @@
+<div [ngClass]="{'component-page': !previewMode}">
+  <div *ngIf="previewMode">
+    <nz-row [nzGutter]="16">
+      <nz-col [nzSpan]="16">
+        <nz-statistic [nzTitle]="'Total Contact Numbers'"  [nzValue]="totalContactNumbers"></nz-statistic>
+      </nz-col>
+      <nz-col [nzSpan]="16">
+        <nz-statistic [nzTitle]="'Total Searched text'"  [nzValue]="totalSearchedText"></nz-statistic>
+      </nz-col>
+      </nz-row>
+    </div>
+    </div>
+    <div *ngIf="!previewMode">
 <nz-tabset class="margin-top-20">
       <nz-tab nzTitle="Address Book">
       <div class="grid-container">
@@ -31,3 +44,4 @@
             </div>
             </nz-tab>
         </nz-tabset>
+      </div>
