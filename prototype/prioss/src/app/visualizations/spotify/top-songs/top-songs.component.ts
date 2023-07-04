@@ -4,6 +4,8 @@ import {SpotHistoryRepository} from "../../../db/data-repositories/spotify/spot-
 import {NotificationService} from "../../../notification/notification.component";
 import { SpotMinListenedToSong } from 'src/app/models/Spotify/TopSong/SpotMinListenedToSong';
 import { SequenceComponentInit } from '../../sequence-component-init.abstract';
+import { ActivatedRoute } from '@angular/router';
+import * as dateUtils from '../../../utilities/dateUtils.functions'
 
 /**
  * This component visualizes which songs have been listened the most to
@@ -21,6 +23,9 @@ export class TopSongsComponent extends SequenceComponentInit {
   readonly spotifyGreen: string = "#1DB954";
   @Input()
   previewMode: boolean = false;
+  @Input()
+  calledFromListeningtime: boolean = false;
+
   showSongHistoy : boolean = false;
 
   filterFromDate: Date | null;
@@ -31,7 +36,7 @@ export class TopSongsComponent extends SequenceComponentInit {
   selectedSong : string[] = [];
   selectedSongHistory: any[];
 
-  constructor(private spotHistoryRepo: SpotHistoryRepository, private notifyService: NotificationService) {
+  constructor(private spotHistoryRepo: SpotHistoryRepository, private notifyService: NotificationService, private route: ActivatedRoute) {
     super();
   }
 
@@ -56,8 +61,13 @@ export class TopSongsComponent extends SequenceComponentInit {
   override async initComponent() {
     //await new Promise(f => setTimeout(f, 1000));  // TODO: fix
     console.log("--- Initializing Component 4: TopSongs");
-    this.filterFromDate = await this.spotHistoryRepo.getFirstDay();
-    this.filterToDate = await this.spotHistoryRepo.getMostRecentDay();
+
+    if(!this.filterFromDate) {
+      this.filterFromDate = await this.spotHistoryRepo.getFirstDay();
+    }
+    if(!this.filterToDate) {
+      this.filterToDate = await this.spotHistoryRepo.getMostRecentDay();
+    }
 
     let result: SpotMinListenedToSong[] = await this.spotHistoryRepo.getMinListenedToSongs(this.filterFromDate, this.filterToDate);
     this.minListenedToSong = result;
@@ -232,4 +242,20 @@ export class TopSongsComponent extends SequenceComponentInit {
     this.showSongHistoy = false;
   }
 
+  /**
+   * A callback function that hides this visualization and replaces it with the listeningtime visualization.
+   * by doing the replacement this way, instead of displaying this component on a seperate page apart from the listening time, 
+   * the listeningtime visualization's filter history is preserved when navigating back to it.
+   * 
+   * @author: Simon (scg@mail.upb.de)
+   */
+  returnToListeningTime() {
+    let listeningTimePage = document.getElementById('listeningtime-page');
+    let topSongsPage = document.getElementById('topsongs-page');
+  
+    if(topSongsPage && listeningTimePage) {
+      listeningTimePage.style.display='block';
+      topSongsPage.style.display='none';
+    }
+  }  
 }
