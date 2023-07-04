@@ -20,6 +20,7 @@ import { SequenceComponentInit } from '../../sequence-component-init.abstract';
 export class TopArtistsComponent extends SequenceComponentInit {
 
   readonly spotifyGreen: string = "#1DB954";
+  readonly textSize = "20px";
   @Input()
   previewMode: boolean = false;
   showArtistHistoy : boolean  = false;
@@ -125,17 +126,21 @@ export class TopArtistsComponent extends SequenceComponentInit {
     let hoveringBarName: string = "";
 
     // set the dimensions and margins of the graph
-    const margin = {top: 20, right: 30, bottom: 50, left: 100},
-      width = 460 - margin.left - margin.right,
-      height = 400 - margin.top - margin.bottom;
+    let margin = 100;
+    let leftmargin = 200;
+    let bottomMargin = 125;
+    let xAxisWidth = window.innerWidth - margin * 2;
+    let yAxisHeight = window.innerHeight*0.90 - margin * 2;
 
     // append the svg object to the body of the page
     const svg = d3.select(".bar_chart_top_artists")
       .append("svg")
-      .attr("width", width + margin.left + margin.right)
-      .attr("height", height + margin.top + margin.bottom)
+      .attr(
+        "viewBox",
+        `0 0 ${xAxisWidth + margin * 2} ${yAxisHeight + bottomMargin}`
+      )
       .append("g")
-      .attr("transform", `translate(${margin.left}, ${margin.top})`);
+      .attr("transform", "translate(" + leftmargin + "," + 0 + ")");
 
     // create tooltip
     const tooltip = d3.select(".bar_chart_top_artists")
@@ -153,21 +158,24 @@ export class TopArtistsComponent extends SequenceComponentInit {
     // add X axis
     const xScale = d3.scaleLinear()
       .domain([0, data[0].minPlayed]) // maximum
-      .range([0, width]);
+      .range([0, xAxisWidth]);
     svg.append("g")
-      .attr("transform", `translate(0, ${height})`)
+      .attr("transform", `translate(0, ${yAxisHeight})`)
       .call(d3.axisBottom(xScale).tickSizeOuter(0))
       .selectAll("text")
       .attr("transform", "translate(-10,0)rotate(-45)")
-      .style("text-anchor", "end");
+      .style("text-anchor", "end")
+      .style("font-size", this.textSize);
 
     // Y axis
     var yScale: any = d3.scaleBand()
-      .range([0, height])
+      .range([0, yAxisHeight])
       .domain(data.map(d => d.artistName))
       .padding(.1);
     svg.append("g")
-      .call(d3.axisLeft(yScale).tickSize(0));
+      .call(d3.axisLeft(yScale).tickSize(0))
+      .selectAll("text")
+      .style("font-size", this.textSize);
 
     // bars
     svg.selectAll("myRect")
@@ -205,9 +213,10 @@ export class TopArtistsComponent extends SequenceComponentInit {
 
     svg.append("text")
       .attr("text-anchor", "end")
-      .attr("x", width)
-      .attr("y", height + margin.top + 20)
-      .text("Minutes listened");
+      .attr("x", xAxisWidth - 20)
+      .attr("y", yAxisHeight + margin)
+      .text("Minutes listened")
+      .style("font-size", "25px");
   }
 
   /**
