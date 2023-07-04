@@ -97,6 +97,7 @@ import { FacebookOffFacebookActivityRepository } from './db/data-repositories/fa
 import { KnownIssuesComponent } from './info-pages/known-issues/known-issues.component';
 import { FacebookFriendsRepository } from './db/data-repositories/facebook/fb-friends-data/face_friends.repo';
 import { AdsSettingsComponent } from './manage-privacy/facebook/guidlines-for-ads-settings/ads-settings/ads-settings.component';
+import { DashCardComponent } from './page-sub-components/dash-card/dash-card.component';
 import { InstaBlockFollowersComponent } from './rectification/instagram/insta-block-followers/insta-block-followers.component';
 import { InstaAccountPrivateComponent } from './rectification/instagram/insta-account-private/insta-account-private.component';
 import { InstaTwoFactorAuthenticationComponent } from './rectification/instagram/insta-two-factor-authentication/insta-two-factor-authentication.component';
@@ -105,6 +106,7 @@ import { InstaProfileInfoPrivateComponent } from './rectification/instagram/inst
 import { InstaAddManagerComponent } from './rectification/instagram/insta-add-manager/insta-add-manager.component';
 import { RevokeAccessComponent } from './rectification/instagram/revoke-access/revoke-access.component';
 import { SpotPrivacyInstructionsComponent } from './visualizations/spotify/privacy-instructions/spot-privacy-instructions.component';
+import { SongtimelineComponent } from './visualizations/spotify/songtimeline/songtimeline.component';
 registerLocaleData(de);
 
 // Ahead of time compiles requires an exported function for factories
@@ -358,6 +360,7 @@ const dbConfig: DBConfig  =
     TitleBarComponent,
     KnownIssuesComponent,
     AdsSettingsComponent,
+    DashCardComponent,
     InstaBlockFollowersComponent,
     InstaAccountPrivateComponent,
     InstaTwoFactorAuthenticationComponent,
@@ -366,6 +369,7 @@ const dbConfig: DBConfig  =
     InstaAddManagerComponent,
     RevokeAccessComponent,
     SpotPrivacyInstructionsComponent,
+    SongtimelineComponent,
 
   ],
   imports: [

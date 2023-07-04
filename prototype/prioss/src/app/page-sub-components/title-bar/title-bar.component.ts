@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { AppComponentMsg } from 'src/app/enum/app-component-msg.enum';
 import { AppComponentMsgService } from 'src/app/services/app-component-msg/app-component-msg.service';
 
@@ -21,9 +21,41 @@ export class TitleBarComponent {
   tooltipText: string = "";
   @Input()
   includeButton: boolean = true;
+  /**
+   * Hook a function up to this Event Emitter and set overrideBackButtonFunction to true via html attributes 
+   * to change the functionality of the back button above the title
+   */
+  @Output() 
+  onButtonClickedEventOverride: EventEmitter<any> = new EventEmitter()
+  /**
+   * If this is set to true, the onButtonClickedEventOverride event emitter emits an event when the back button is clicked 
+   * and the component does not navigate back to the dashboard
+   */
+  @Input()
+  overrideBackButtonFunction: boolean = false;
+  /**
+   * Pass a text to this variable via a html attribute to change the text that is displayed in the back button above the title
+   */
+  @Input()
+  backButtonTextOverride: string = "";
 
   constructor(private appMsgService: AppComponentMsgService) {
 
+  }
+
+  /**
+   * Checks if there was an override function given for the functionality of the back button.
+   * If so, that function is called. If not, the routeToDashboard member is called.
+   * 
+   * @author Simon (scg@mail.upb.de)
+   */
+  onClickedBackButton() {
+    if(this.overrideBackButtonFunction) {
+      this.onButtonClickedEventOverride.emit();
+    }
+    else {
+      this.routeToDashboard();
+    }
   }
 
   /**

@@ -29,6 +29,7 @@ import { FaqComponent } from './info-pages/faq/faq.component';
 import { KnownIssuesComponent } from './info-pages/known-issues/known-issues.component';
 import { AdsSettingsComponent } from './manage-privacy/facebook/guidlines-for-ads-settings/ads-settings/ads-settings.component';
 import {SpotPrivacyInstructionsComponent} from "./visualizations/spotify/privacy-instructions/spot-privacy-instructions.component";
+import { SongtimelineComponent } from './visualizations/spotify/songtimeline/songtimeline.component';
 import { InstaBlockFollowersComponent } from './rectification/instagram/insta-block-followers/insta-block-followers.component';
 import { InstaAccountPrivateComponent } from './rectification/instagram/insta-account-private/insta-account-private.component';
 import { InstaTwoFactorAuthenticationComponent } from './rectification/instagram/insta-two-factor-authentication/insta-two-factor-authentication.component';
@@ -46,11 +47,14 @@ const routes: Routes = [
   { path: 'spot/inference', component: InferencesComponent },
   { path: 'spot/mood', component: MoodComponent },
   { path: 'spot/listening-time', component: ListeningTimeComponent },
+  { path: 'spot/listening-time/songtimeline', component: SongtimelineComponent },
   { path: 'spot/general-data', component: GeneralDataComponent },
   { path: 'spot/dashboard', component: SpotDashboardComponent },
   { path: 'spot/top-artists', component: TopArtistsComponent },
+  { path: 'spot/top-artists/:start/:end', component: TopArtistsComponent },
   { path: 'spot/privacy-instructions', component: SpotPrivacyInstructionsComponent },
   { path: 'spot/top-songs', component: TopSongsComponent },
+  { path: 'spot/top-songs/:start/:end', component: TopSongsComponent },
   { path: 'insta/dashboard', component: InstaDashboardComponent },
   { path: 'insta/personal-info', component:Insta_PersonalInfoComponent },
   { path: 'insta/account', component:InstaAccountCreationLoginComponent },

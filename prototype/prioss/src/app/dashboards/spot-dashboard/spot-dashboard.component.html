@@ -1,60 +1,53 @@
 <div class="dashboard-page dashboard-container">
   <h1 nz-typography>PriOSS - Spotify</h1>
 
+  <ng-template #extraTemplate>
+    <a>More</a>
+  </ng-template>
+
   <details open id="visualization">
     <summary class="collapsible-dashboard-section-title">Your Data</summary>
-    <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
+    <div nz-row [nzGutter]="[{ xs: 8, xl: 20}, {xs: 8, xl: 40}]">
       <div id="step1" nz-col nzXs="24" nzXl="8">
-        <a routerLink="/spot/general-data">
-          <nz-card nzTitle="User Data" nzHoverable [nzExtra]="extraTemplate">
-            <app-general-data [previewMode]="true"></app-general-data>
-          </nz-card>
-        </a>
-        <ng-template #extraTemplate>
-          <a>More</a>
-        </ng-template>
+        <app-dash-card cardLink="/spot/general-data" titleText="User Data" 
+            tooltipText="This card shows your general user data like your email, gender, postal address etc. Click to find out more.">
+          <app-general-data [previewMode]="true"></app-general-data>
+        </app-dash-card>
       </div>
 
-      <div id="step2" nz-col nzXs="24" nzXl="8">
-        <a routerLink="/spot/inference">
-          <nz-card nzTitle="Inferences" nzHoverable [nzExtra]="extraTemplate">
-            <spot-inferences [previewMode]="true"></spot-inferences>
-          </nz-card>
-        </a>
-        <ng-template #extraTemplate>
-          <a>More</a>
-        </ng-template>
-      </div>
-
-      <div id="step3" nz-col nzXs="24" nzXl="8">
-        <a routerLink="/spot/listening-time">
-          <nz-card nzTitle="Listening Time" nzHoverable [nzExtra]="extraTemplate">
-            <spot-listening-time [previewMode]="true"></spot-listening-time>
-          </nz-card>
-        </a>
-        <ng-template #extraTemplate>
-          <a>More</a>
-        </ng-template>
+      <div id="step3" nz-col nzXs="24" nzXl="16">
+        <app-dash-card cardLink="/spot/listening-time" titleText="Listening Time" 
+            tooltipText="This card shows for how long you have listened to spotify at what times. You can customize the shown timeframe as you wish. Click to find out more.">
+          <spot-listening-time [previewMode]="true"></spot-listening-time>
+        </app-dash-card>
       </div>
     </div>
 
-    <br>
-
-   <!-- <h3 nz-typography>Songs and Artists</h3>-->
-    <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
-      <div id="step4" nz-col nzXs="24" nzXl="8">
-        <a routerLink="/spot/top-artists">
-          <nz-card nzTitle="Top Artists" nzHoverable [nzExtra]="extraTemplate">
-            <spot-top-artists [previewMode]="true"></spot-top-artists>
-          </nz-card>
-        </a>
+    <div nz-row [nzGutter]="[{ xs: 8, xl: 20}, {xs: 8, xl: 40}]">
+      <div id="step2" nz-col nzXs="24" nzXl="8">
+        <app-dash-card cardLink="/spot/inference" titleText="Inferences" 
+          tooltipText="This card shows the interests you have and groups you belong to according to Spotify. You can let Spotify delete them, if you think they are incorrect. Click to find out more.">
+          <spot-inferences [previewMode]="true"></spot-inferences>
+        </app-dash-card>
       </div>
+    <!-- 
+    </div>
+    <h3 nz-typography>Songs and Artists</h3>
+    <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
+    -->
+
+      <div id="step4" nz-col nzXs="24" nzXl="8">
+        <app-dash-card cardLink="/spot/top-artists" titleText="Top Artists" 
+          tooltipText="This card shows your most played artists. You can customize the timeframe over which this is calculated. Click to find out more.">
+          <spot-top-artists [previewMode]="true"></spot-top-artists>
+        </app-dash-card>
+      </div>
+
       <div nz-col nzXs="24" nzXl="8">
-        <a routerLink="/spot/top-songs">
-          <nz-card nzTitle="Top Songs" nzHoverable [nzExtra]="extraTemplate">
-            <spot-top-songs [previewMode]="true"></spot-top-songs>
-          </nz-card>
-        </a>
+        <app-dash-card cardLink="/spot/top-songs" titleText="Top Songs" 
+          tooltipText="This card shows your most played songs. You can customize the timeframe over which this is calculated. Click to find out more.">
+          <spot-top-songs [previewMode]="true"></spot-top-songs>
+        </app-dash-card>
       </div>
     </div>
 <!--      <div nz-col nzXs="24" nzXl="8">-->
@@ -76,39 +69,21 @@
   </details>
 
   <br>
-  <div id="stepX">
-    <h2 nz-typography id="Manage-Privacy">Privacy Recommendations</h2>
-    <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
-      <br>
-      <div nz-col nzXs="24" nzXl="8">
-        <nz-card nzTitle="Privacy Settings Judge" nzHoverable>
-          <app-settings-form [service]="'Spotify'"></app-settings-form>
-        </nz-card>
-      </div> 
-    </div>
-  </div>
-  <!--<h2 nz-typography id="rectification">Rectification</h2>-->
-  <br>
-  <div id="step5">
-    <h2 nz-typography id="gdpr">Your Rights</h2>
-
-    <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
-      <div nz-col nzXs="24" nzXl="16">
-        <nz-card nzTitle="GDPR Rights" nzHoverable>
-          <p>
-          In response to privacy concerns about online data, the General Data Protection Regulation (GDPR) came into effect in the European Union in May 2018.<br>
-          The GDPR grants users different rights in regards to the personal data online services collect about them.<br>
-          For example, it grants the right for you to access your personal data that the company has collected.
-          We have compiled instructions on how you can obtain such a data-download for some examplary service on our <a routerLink="/serviceSelection">Services Page</a> that you have already visited.<br>
-          It also grants the right to data portability. This means that you should be able to take your data and upload it to a competing service or company.
-          Additionally, you have the right to erase your data if the legal basis on which the data was collected - for example your consent to the collection - is not given anymore,
-          and you also have the right to rectify your data, meaning to correct false information that a company has about yourself.
-          </p>
-        </nz-card>
+  <details open id="recommendation">
+    <summary class="collapsible-dashboard-section-title">Manage-Privacy</summary>
+    <div id="stepX">
+      <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
+        <div nz-col nzXs="24" nzXl="8">
+          <app-dash-card cardLink="" titleText="Privacy Settings Judge" 
+          tooltipText="In this card, you can check if your Spotify settings are setup to protect your privacy. Just answer the questions below to learn how you can improve your privacy through your Spotifyaccount's settings.">
+            <app-settings-form [service]="'Spotify'"></app-settings-form>
+          </app-dash-card>
+        </div> 
       </div>
     </div>
+  </details>
   
-  
+  <br>
   <app-gdpr></app-gdpr>
 
   <br>
@@ -117,7 +92,7 @@
     <div id="step6">
       <nz-card nzTitle="Exemplary Purposes" nzHoverable>
         <p>
-          The following purposes should give an example of Spotify's reasoning in regards to data collection. To Get a full list of their reasons you can check out Spotify's <span nz-icon nzType="link"><a target="_blank" href="https://www.spotify.com/us/legal/privacy-policy/">privacy policy</a></span>
+          The following purposes should give an example of Spotify's reasoning in regards to why they collect your data. To get a full list of their reasons you can check out Spotify's <a target="_blank" href="https://www.spotify.com/us/legal/privacy-policy/">privacy policy</a><span nz-icon nzType="link"></span>
         </p>
         <br>
         <nz-table nzTemplateMode>

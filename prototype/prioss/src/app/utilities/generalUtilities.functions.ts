@@ -76,7 +76,8 @@ export function convertTimestamp(str: string): any {
   let date: Date = new Date(number);
 
   //returns a date in the format YYYY-MM-DD.
-  return date.getFullYear() + "-" + (date.getMonth() + 1).toString().padStart(2, '0') + "-" + date.getDate().toString().padStart(2, '0');
+  //return date.getFullYear() + "-" + (date.getMonth() + 1).toString().padStart(2, '0') + "-" + date.getDate().toString().padStart(2, '0');
+  return date.getDate() + ' ' + date.toLocaleString('en-US', { month: 'long' }).substring(0,3) + ' ' + date.getFullYear() + ', ' + date.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
 }
 
 /**
@@ -95,7 +96,10 @@ export function getValueIgnoreCase(jsonObj: any, key: string, time_value : boole
   for (const i in keys) {
     if (keys[i].toLowerCase() === key.toLowerCase()) {
       if(time_value) {
-        return jsonObj[keys[i]].timestamp;
+        if(jsonObj[keys[i]].timestamp != undefined) {
+          return jsonObj[keys[i]].timestamp;
+        } else if (jsonObj[keys[i]].value != undefined)
+        return jsonObj[keys[i]].value;
       } else {
         return jsonObj[keys[i]].value;
       }
