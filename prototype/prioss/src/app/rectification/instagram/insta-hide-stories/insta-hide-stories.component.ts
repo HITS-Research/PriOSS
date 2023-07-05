@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { scrollToTop } from 'src/app/utilities/generalUtilities.functions';
 
 /**
   * This component is responsible for providing guidelines to hide stories and videos from specific people.
@@ -12,5 +13,8 @@ import { Component } from '@angular/core';
   styleUrls: ['./insta-hide-stories.component.less']
 })
 export class InstaHideStoriesComponent {
+  async ngAfterViewInit(){
+    scrollToTop();
+  }
 
 }
