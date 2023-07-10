@@ -278,6 +278,12 @@ CREATE TABLE IF NOT EXISTS face_inferred_topics (
     topic TEXT NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS face_login_locations (
+    id INTEGER PRIMARY KEY,
+    location TEXT NOT NULL,
+    device TEXT NOT NULL,
+    timestamp TEXT NOT NULL
+);
 `;
 //PRAGMA user_version = 1;
 
@@ -325,4 +331,5 @@ DROP TABLE IF EXISTS face_rejected_friend_requests;
 DROP TABLE IF EXISTS face_removed_friends;
 DROP TABLE IF EXISTS face_who_you_follow;
 DROP TABLE IF EXISTS face_inferred_topics;
+DROP TABLE IF EXISTS face_login_locations;
 `;
