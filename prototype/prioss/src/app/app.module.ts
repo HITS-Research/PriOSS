@@ -102,6 +102,8 @@ import { DashCardComponent } from './page-sub-components/dash-card/dash-card.com
 import { GdprComponent } from './info-pages/gdpr/gdpr.component';
 import { SpotPrivacyInstructionsComponent } from './visualizations/spotify/privacy-instructions/spot-privacy-instructions.component';
 import { SongtimelineComponent } from './visualizations/spotify/songtimeline/songtimeline.component';
+import { FacebookLoginLocationsRepository } from './db/data-repositories/facebook/fb-security-login-data/face_login_locations.repo';
+import { SecurityLoginDataComponent } from './visualizations/facebook/security-login-data/security-login-data.component';
 
 registerLocaleData(de);
 
@@ -359,7 +361,8 @@ const dbConfig: DBConfig  =
     DashCardComponent,
     GdprComponent,
     SpotPrivacyInstructionsComponent,
-    SongtimelineComponent
+    SongtimelineComponent,
+    SecurityLoginDataComponent
   ],
   imports: [
     BrowserModule,
@@ -424,6 +427,7 @@ const dbConfig: DBConfig  =
     FacebookAppsWebsitesRepository,
     FacebookOffFacebookActivityRepository,
     FacebookFriendsRepository,
+    FacebookLoginLocationsRepository,
     { provide: NZ_I18N, useValue: de_DE }
   ],
   bootstrap: [AppComponent],

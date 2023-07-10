@@ -32,6 +32,7 @@ import {
   SpotPrivacyInstructionsComponent
 } from "./visualizations/spotify/privacy-instructions/spot-privacy-instructions.component";
 import { SongtimelineComponent } from './visualizations/spotify/songtimeline/songtimeline.component';
+import { SecurityLoginDataComponent } from './visualizations/facebook/security-login-data/security-login-data.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -65,6 +66,7 @@ const routes: Routes = [
   { path: 'face/connections', component: FriendAndFollowersComponent },
   { path: 'face/configure-off-facebook-activity', component: OffFacebookActivityComponent },
   { path: 'face/guidelines-for-ads-settings', component: AdsSettingsComponent },
+  { path: 'face/security-login', component: SecurityLoginDataComponent },
   { path: 'insta/searches', component: InstaSearchesComponent}
 ];
 
