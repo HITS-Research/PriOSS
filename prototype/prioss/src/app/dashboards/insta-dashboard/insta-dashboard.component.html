@@ -124,28 +124,24 @@
   <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
     <div nz-col nzXs="24" nzXl="8">
       <!--card for Privacy settings judge-->
-      <nz-card  nzTitle="Privacy Settings Judge" nzHoverable>
-        <app-personal-info [previewMode]="true"></app-personal-info>
-        <app-settings-form [service]="'Instagram'"></app-settings-form>
-      </nz-card>
+      <app-dash-card cardLink="" titleText="Privacy Settings Judge" 
+          tooltipText="In this card, you can check if your Instagram settings are setup to protect your privacy. Just answer the questions below to learn how you can improve your privacy through your Instagram account's settings.">
+            <app-settings-form [service]="'Instagram'"></app-settings-form>
+          </app-dash-card>
     </div>
 
     <div nz-col nzXs="24" nzXl="8"><!--card for privacy recommendation - How to block folllowers-->
-      <nz-card id ="block_followers" nzTitle="How to Block Followers" nzHoverable [nzExtra]="extraBlockFollowers">
-      <p nz-typography>This section provides you guidelines to block followers for Instagram.</p>
-      </nz-card>
-      <ng-template #extraBlockFollowers>
-        <a routerLink="/insta/block-followers">More</a>
-      </ng-template>
+       <app-dash-card cardLink="/insta/block-followers" titleText="How to Block Followers"
+            tooltipText="This card provides guidelines that helps you to block followers for your Instagram account. The guidelines are provided for Web Browser user as well as Mobile Application user. Click to find out more.">
+            <p nz-typography>This section provides you guidelines to block followers for Instagram.</p>
+        </app-dash-card>
     </div>
 
     <div nz-col nzXs="24" nzXl="8"><!--card for privacy recommendation- How to hide Instagram Stories and live videos from specific people -->
-      <nz-card nzTitle="How to Hide Instagram Stories" nzHoverable [nzExtra]="extraHideStories">
-      <p nz-typography>This section provides you guidelines to hide Instagram Stories and live videos from specific people.</p>
-      </nz-card>
-      <ng-template #extraHideStories>
-        <a routerLink="/insta/hide-stories">More</a>
-      </ng-template>
+      <app-dash-card cardLink="/insta/hide-stories" titleText="How to Hide Instagram Stories"
+            tooltipText="This card provides guidelines that helps you to hide Instagram stories and live videos from specific people. The guidelines are provided for Mobile Application user. Click to find out more.">
+            <p nz-typography>This section provides you guidelines to hide Instagram Stories and live videos from specific people.</p>
+        </app-dash-card>
     </div>
   </div>
  </details>
