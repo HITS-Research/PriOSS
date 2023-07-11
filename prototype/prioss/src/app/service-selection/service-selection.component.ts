@@ -47,7 +47,7 @@ import { FacebookFriendsRepository } from '../db/data-repositories/facebook/fb-f
 import { InstaUserSearchesRepository } from '../db/data-repositories/instagram/insta-searches/insta-user-searches.repository';
 import { InstaKeywordSearchesRepository } from '../db/data-repositories/instagram/insta-searches/insta-keyword-searches.repository';
 import { InstaTagSearchesRepository } from '../db/data-repositories/instagram/insta-searches/insta-tag-searches.repository';
-
+import { FacebookLoginLocationsRepository } from '../db/data-repositories/facebook/fb-security-login-data/face_login_locations.repo';
 
 
 //service identifier filenames
@@ -137,7 +137,8 @@ export class ServiceSelectionComponent {
               private faceAppsAndWebsitesRepo: FacebookAppsWebsitesRepository,
               private faceOffFacebookActivityRepo: FacebookOffFacebookActivityRepository,
               private scroll: ViewportScroller,
-              private faceFriendsRepo: FacebookFriendsRepository
+              private faceFriendsRepo: FacebookFriendsRepository,
+              private faceLoginLocationsRepo: FacebookLoginLocationsRepository
              )  {
     
     //clear the database when this component gets created
@@ -556,6 +557,19 @@ export class ServiceSelectionComponent {
         const formattedBirthdate = `${birthdate.day.toString().padStart(2, '0')}-${birthdate.month.toString().padStart(2, '0')}-${birthdate.year}`;
         await this.UserdataRepo.addUserdata(personal_data.name.full_name, personal_data.emails.emails[0], personal_data.current_city ?  personal_data.current_city.name : "", formattedBirthdate, personal_data.gender.gender_option, 0,0,"","","");
       }
+      else if(filename === "where_you_re_logged_in.json") {
+        let jsonData = JSON.parse(content);
+        let login_locations = jsonData.active_sessions_v2;
+        console.log("Parsing ****************:", filename);
+        console.log("Parsing name to data ****************:", login_locations);
+        console.log(login_locations);
+
+        await this.faceLoginLocationsRepo.startAdActivityBulkAdd(login_locations[0].location, login_locations[0].device, login_locations[0].created_timestamp, login_locations.length);
+        for (let i = 1; i < login_locations.length; i++) {
+          await this.faceLoginLocationsRepo.addAdActivityBulkEntry(login_locations[i].location, login_locations[i].device, login_locations[i].created_timestamp);
+        }
+
+      }
       
     }
     console.log("Start topics Fetching");
@@ -586,6 +600,12 @@ export class ServiceSelectionComponent {
     this.faceFriendsRepo.getAllFacebookFriends().then((friends) => {
       console.log("Read friends:");
       console.log(friends);
+    });
+
+    console.log("Start Login Locations Fetching");
+    this.faceLoginLocationsRepo.getAllLoginLocations().then((topics) => {
+      console.log("Read Login Info:");
+      console.log(topics);
     });
     this.progressBarPercent = 100;
     await delay(500);

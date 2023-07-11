@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { SQLiteDBConnection } from "@capacitor-community/sqlite";
-import { LoginLocationsModel } from "src/app/models/Facebook/loginLocations";
+import { LoginLocationsModel } from "../../../../models/Facebook/loginLocations";
 import { DBService } from "../../../../services/db/db.service";
 import { BulkAddCapableRepository } from "../../general/inferences/bulk-add-capable.repository";
 import * as sql from "./face_login_locations.sql";

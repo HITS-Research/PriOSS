@@ -1,1 +1,115 @@
-<p>security-login-data works!</p>
+<div [ngClass]="{'component-page': !previewMode}">
+  <div *ngIf="previewMode">
+    <nz-row [nzGutter]="16">
+      <nz-col [nzSpan]="18">
+        <nz-statistic [nzTitle]="'Location'"  [nzValue]="(loginLocationsData.length | number)!"></nz-statistic>
+      </nz-col>
+      <nz-col [nzSpan]="12">
+        <nz-statistic [nzTitle]="'Device'"  [nzValue]="'8'"></nz-statistic>
+      </nz-col>
+      <nz-col [nzSpan]="12">
+        <nz-statistic  [nzTitle]="'Timestamp'" [nzValue]="'7'"></nz-statistic>
+      </nz-col>
+    </nz-row>
+  </div>
+
+  <div *ngIf="!previewMode">
+    <app-title-bar titleText="Security and Login Data" tooltipText="Your login related data"></app-title-bar>
+    <nz-tabset class="margin-top-20">
+      <nz-tab nzTitle="Login Locations">
+        <h4> Content of Login locations and the visualization map here</h4>
+        <br>
+        <nz-table>
+          <thead>
+            <tr>
+              <th nzCustomFilter class="tableCol">Location</th>
+              <th nzCustomFilter class="tableCol">Device</th>
+              <th nzCustomFilter class="tableCol">Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let eachRow of loginLocationsData">
+              <td> {{ eachRow.location }} </td>
+              <td> {{ eachRow.device}} </td>
+              <td> {{ eachRow.timestamp}} </td>
+            </tr>
+          </tbody>
+        </nz-table>
+        <br>
+        <button nz-button nzType="primary"> To Privacy Recommendations</button>
+      </nz-tab>
+
+      <nz-tab nzTitle="Login and Logouts">
+        <h4> Content of Login and Logout visualizations will be here</h4>
+        <br>
+        <nz-table>
+          <thead>
+            <tr>
+              <th nzCustomFilter class="tableCol">Location</th>
+              <th nzCustomFilter class="tableCol">Device</th>
+              <th nzCustomFilter class="tableCol">Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let eachRow of loginLocationsData">
+              <td> {{ eachRow.location }} </td>
+              <td> {{ eachRow.device}} </td>
+              <td> {{ eachRow.timestamp}} </td>
+            </tr>
+          </tbody>
+        </nz-table>
+        <br>
+        <button nz-button nzType="primary">To Privacy Recommendations</button>
+      </nz-tab>
+
+      <nz-tab nzTitle="Status Changes">
+        <h4> Status change data visualizations will be here</h4>
+        <br>
+        <nz-table>
+          <thead>
+            <tr>
+              <th nzCustomFilter class="tableCol">Location</th>
+              <th nzCustomFilter class="tableCol">Device</th>
+              <th nzCustomFilter class="tableCol">Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let eachRow of loginLocationsData">
+              <td> {{ eachRow.location }} </td>
+              <td> {{ eachRow.device}} </td>
+              <td> {{ eachRow.timestamp}} </td>
+            </tr>
+          </tbody>
+        </nz-table>
+        <br>
+        <button nz-button nzType="primary">To Privacy Recommendations</button>
+      </nz-tab>
+
+      <nz-tab nzTitle="Activity Locations">
+        <h4> Activity locations data visualizations will be here</h4>
+        <br>
+        <nz-table>
+          <thead>
+            <tr>
+              <th nzCustomFilter class="tableCol">Location</th>
+              <th nzCustomFilter class="tableCol">Device</th>
+              <th nzCustomFilter class="tableCol">Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let eachRow of loginLocationsData">
+              <td> {{ eachRow.location }} </td>
+              <td> {{ eachRow.device}} </td>
+              <td> {{ eachRow.timestamp}} </td>
+            </tr>
+          </tbody>
+        </nz-table>
+        <br>
+        <button nz-button nzType="primary">To Privacy Recommendations</button>
+      </nz-tab>
+
+    </nz-tabset>
+
+  </div>
+
+</div>
