@@ -100,8 +100,11 @@ import { FacebookFriendsRepository } from './db/data-repositories/facebook/fb-fr
 import { AdsSettingsComponent } from './manage-privacy/facebook/guidlines-for-ads-settings/ads-settings/ads-settings.component';
 import { DashCardComponent } from './page-sub-components/dash-card/dash-card.component';
 import { GdprComponent } from './info-pages/gdpr/gdpr.component';
+import { FacebookAddressBookRepository } from './db/data-repositories/facebook/fb-other-personal-info/face_address_book.repo';
+import { FacebookSearchHistoryRepository } from './db/data-repositories/facebook/fb-other-personal-info/face_search_history.repo';
 import { SpotPrivacyInstructionsComponent } from './visualizations/spotify/privacy-instructions/spot-privacy-instructions.component';
 import { SongtimelineComponent } from './visualizations/spotify/songtimeline/songtimeline.component';
+import { OtherPersonalInfoComponent } from './visualizations/facebook/other-personal-info/other-personal-info.component';
 
 registerLocaleData(de);
 
@@ -130,7 +133,7 @@ export function migrationFactory()
 const dbConfig: DBConfig  =
 {
   name: 'priossDB',
-  version: 12,
+  version: 14,
   objectStoresMeta:
   [
     //Data relevant to all services
@@ -359,7 +362,8 @@ const dbConfig: DBConfig  =
     DashCardComponent,
     GdprComponent,
     SpotPrivacyInstructionsComponent,
-    SongtimelineComponent
+    SongtimelineComponent,
+    OtherPersonalInfoComponent
   ],
   imports: [
     BrowserModule,
@@ -424,6 +428,8 @@ const dbConfig: DBConfig  =
     FacebookAppsWebsitesRepository,
     FacebookOffFacebookActivityRepository,
     FacebookFriendsRepository,
+    FacebookAddressBookRepository,
+    FacebookSearchHistoryRepository,
     { provide: NZ_I18N, useValue: de_DE }
   ],
   bootstrap: [AppComponent],

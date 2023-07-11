@@ -1,0 +1,47 @@
+<div [ngClass]="{'component-page': !previewMode}">
+  <div *ngIf="previewMode">
+    <nz-row [nzGutter]="16">
+      <nz-col [nzSpan]="16">
+        <nz-statistic [nzTitle]="'Total Contact Numbers'"  [nzValue]="totalContactNumbers"></nz-statistic>
+      </nz-col>
+      <nz-col [nzSpan]="16">
+        <nz-statistic [nzTitle]="'Total Searched text'"  [nzValue]="totalSearchedText"></nz-statistic>
+      </nz-col>
+      </nz-row>
+    </div>
+    </div>
+    <div *ngIf="!previewMode">
+<nz-tabset class="margin-top-20">
+      <nz-tab nzTitle="Address Book">
+      <div class="grid-container">
+          <ng-container *ngFor="let entry of addressBookData">
+            <div class="cell">
+              <div class="text">
+                <p>{{ entry.name }}</p>
+                <p>{{ entry.contact_point }}</p>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+        </nz-tab>
+        <nz-tab nzTitle="Search History">
+          <div class="search-history-list">
+              <h2>Searched History</h2>
+            
+              <div class="search-bar">
+                <input type="text" [(ngModel)]="searchText" placeholder="Search..." (input)="filterItems(searchText)">
+                <button class="clear-button" (click)="clearSearch()">Clear</button>
+              </div>
+              <ul>
+                <li class="list-item" *ngFor="let item of getVisibleData()">{{ item.text }}</li>
+              </ul>
+            
+              <div class="pagination">
+                <button class="page-btn" [disabled]="currentPage === 1" (click)="goToPage(currentPage - 1)">Previous</button>
+                <span class="page-info">{{ currentPage }} / {{ totalPages }}</span>
+                <button class="page-btn" [disabled]="currentPage === totalPages" (click)="goToPage(currentPage + 1)">Next</button>
+              </div>
+            </div>
+            </nz-tab>
+        </nz-tabset>
+      </div>
