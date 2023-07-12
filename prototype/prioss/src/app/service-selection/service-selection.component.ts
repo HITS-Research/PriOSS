@@ -48,7 +48,8 @@ import { InstaUserSearchesRepository } from '../db/data-repositories/instagram/i
 import { InstaKeywordSearchesRepository } from '../db/data-repositories/instagram/insta-searches/insta-keyword-searches.repository';
 import { InstaTagSearchesRepository } from '../db/data-repositories/instagram/insta-searches/insta-tag-searches.repository';
 import { FacebookLoginLocationsRepository } from '../db/data-repositories/facebook/fb-security-login-data/face_login_locations.repo';
-
+import { FacebookLoginLogoutsRepository } from '../db/data-repositories/facebook/fb-security-login-data/face_login_logouts.repo';
+import { FacebookAccountStatusChangesRepository } from '../db/data-repositories/facebook/fb-security-login-data/face_account_status_changes.repo';
 
 //service identifier filenames
 const instaIDFilename = "TODO";
@@ -138,7 +139,9 @@ export class ServiceSelectionComponent {
               private faceOffFacebookActivityRepo: FacebookOffFacebookActivityRepository,
               private scroll: ViewportScroller,
               private faceFriendsRepo: FacebookFriendsRepository,
-              private faceLoginLocationsRepo: FacebookLoginLocationsRepository
+              private faceLoginLocationsRepo: FacebookLoginLocationsRepository,
+              private faceLoginLogoutsRepo: FacebookLoginLogoutsRepository,
+              private faceAccStatusChangesRepo: FacebookAccountStatusChangesRepository,
              )  {
     
     //clear the database when this component gets created
@@ -186,6 +189,9 @@ export class ServiceSelectionComponent {
     });
     this.dbService.clear("face/who_you_follow").subscribe((deleted) => {
       console.log("Cleared face/who_you_follow: " + deleted);
+    });
+    this.dbService.clear("face/security-login").subscribe((deleted) => {
+      console.log("Cleared face/security-login: " + deleted);
     });
   }
 
@@ -568,7 +574,24 @@ export class ServiceSelectionComponent {
         for (let i = 1; i < login_locations.length; i++) {
           await this.faceLoginLocationsRepo.addAdActivityBulkEntry(login_locations[i].location, login_locations[i].device, login_locations[i].created_timestamp);
         }
+      }
+      else if(filename === "logins_and_logouts.json") {
+        let jsonData = JSON.parse(content);
+        let logins_logouts = jsonData.account_accesses_v2;
 
+        await this.faceLoginLogoutsRepo.startAdActivityBulkAdd(logins_logouts[0].action, logins_logouts[0].timestamp, logins_logouts.length);
+        for (let i = 1; i < logins_logouts.length; i++) {
+          await this.faceLoginLogoutsRepo.addAdActivityBulkEntry(logins_logouts[i].action, logins_logouts[i].timestamp);
+        }
+      }
+      else if(filename === "account_status_changes.json") {
+        let jsonData = JSON.parse(content);
+        let acc_status_changes = jsonData.account_status_changes_v2;
+
+        await this.faceAccStatusChangesRepo.startAdActivityBulkAdd(acc_status_changes[0].status, acc_status_changes[0].timestamp, acc_status_changes.length);
+        for (let i = 1; i < acc_status_changes.length; i++) {
+          await this.faceAccStatusChangesRepo.addAdActivityBulkEntry(acc_status_changes[i].status, acc_status_changes[i].timestamp);
+        }
       }
       
     }
@@ -603,10 +626,17 @@ export class ServiceSelectionComponent {
     });
 
     console.log("Start Login Locations Fetching");
-    this.faceLoginLocationsRepo.getAllLoginLocations().then((topics) => {
+    this.faceLoginLocationsRepo.getAllLoginLocations().then((locs) => {
       console.log("Read Login Info:");
-      console.log(topics);
+      console.log(locs);
     });
+
+    console.log("Start Login Logouts Fetching");
+    this.faceLoginLogoutsRepo.getAllLoginLogouts().then((loginouts) => {
+      console.log("Read Login Logout Info:");
+      console.log(loginouts);
+    });
+
     this.progressBarPercent = 100;
     await delay(500);
 

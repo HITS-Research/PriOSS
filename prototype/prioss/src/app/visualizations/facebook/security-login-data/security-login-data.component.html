@@ -17,9 +17,8 @@
     <app-title-bar titleText="Security and Login Data" tooltipText="Your login related data"></app-title-bar>
     <nz-tabset class="margin-top-20">
       <nz-tab nzTitle="Login Locations">
-        <h4> Content of Login locations and the visualization map here</h4>
         <br>
-        <nz-table>
+        <nz-table [nzData]="loginLocationsData" #loginLocations>
           <thead>
             <tr>
               <th nzCustomFilter class="tableCol">Location</th>
@@ -28,7 +27,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let eachRow of loginLocationsData">
+            <tr *ngFor="let eachRow of loginLocations.data">
               <td> {{ eachRow.location }} </td>
               <td> {{ eachRow.device}} </td>
               <td> {{ eachRow.timestamp}} </td>
@@ -40,20 +39,25 @@
       </nz-tab>
 
       <nz-tab nzTitle="Login and Logouts">
-        <h4> Content of Login and Logout visualizations will be here</h4>
+        <nz-row [nzGutter]="16">
+          <nz-col [nzSpan]="12">
+            <nz-statistic [nzValue]="(login_count | number)!" [nzTitle]="'Number of times you have logged in '"></nz-statistic>
+          </nz-col>
+          <nz-col [nzSpan]="12">
+            <nz-statistic [nzValue]="(logout_count | number)!" [nzTitle]="'Number of times you have logged out '"></nz-statistic>
+          </nz-col>
+        </nz-row>
         <br>
-        <nz-table>
+        <nz-table [nzData]="loginlogoutData" #loginLogouts>
           <thead>
             <tr>
-              <th nzCustomFilter class="tableCol">Location</th>
-              <th nzCustomFilter class="tableCol">Device</th>
+              <th nzCustomFilter class="tableCol">Action</th>
               <th nzCustomFilter class="tableCol">Time</th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let eachRow of loginLocationsData">
-              <td> {{ eachRow.location }} </td>
-              <td> {{ eachRow.device}} </td>
+            <tr *ngFor="let eachRow of loginLogouts.data">
+              <td> {{ eachRow.action }} </td>
               <td> {{ eachRow.timestamp}} </td>
             </tr>
           </tbody>
@@ -62,21 +66,26 @@
         <button nz-button nzType="primary">To Privacy Recommendations</button>
       </nz-tab>
 
-      <nz-tab nzTitle="Status Changes">
-        <h4> Status change data visualizations will be here</h4>
+      <nz-tab nzTitle="Account Status Changes">
+        <nz-row [nzGutter]="16">
+          <nz-col [nzSpan]="12">
+            <nz-statistic [nzValue]="(account_deactivated | number)!" [nzTitle]="'Number of times you have deactivated your account in '"></nz-statistic>
+          </nz-col>
+          <nz-col [nzSpan]="12">
+            <nz-statistic [nzValue]="(account_reactivated | number)!" [nzTitle]="'Number of times you have reactivated your account '"></nz-statistic>
+          </nz-col>
+        </nz-row>
         <br>
-        <nz-table>
+        <nz-table [nzData]="accStatusChangeData" #accStatusChange>
           <thead>
             <tr>
-              <th nzCustomFilter class="tableCol">Location</th>
-              <th nzCustomFilter class="tableCol">Device</th>
+              <th nzCustomFilter class="tableCol">Status</th>
               <th nzCustomFilter class="tableCol">Time</th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let eachRow of loginLocationsData">
-              <td> {{ eachRow.location }} </td>
-              <td> {{ eachRow.device}} </td>
+            <tr *ngFor="let eachRow of accStatusChange.data">
+              <td> {{ eachRow.status }} </td>
               <td> {{ eachRow.timestamp}} </td>
             </tr>
           </tbody>

@@ -31,4 +31,4 @@ union all
 
 export const selectAllLoginLocations: string = `
 select id, location, device, timestamp from face_login_locations
-`
+`;

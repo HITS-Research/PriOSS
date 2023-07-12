@@ -284,6 +284,18 @@ CREATE TABLE IF NOT EXISTS face_login_locations (
     device TEXT NOT NULL,
     timestamp TEXT NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS face_login_logouts (
+    id INTEGER PRIMARY KEY,
+    action TEXT NOT NULL,
+    timestamp TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS face_account_status_changes (
+    id INTEGER PRIMARY KEY,
+    status TEXT NOT NULL,
+    timestamp TEXT NOT NULL
+);
 `;
 //PRAGMA user_version = 1;
 
@@ -332,4 +344,6 @@ DROP TABLE IF EXISTS face_removed_friends;
 DROP TABLE IF EXISTS face_who_you_follow;
 DROP TABLE IF EXISTS face_inferred_topics;
 DROP TABLE IF EXISTS face_login_locations;
+DROP TABLE IF EXISTS face_login_logouts;
+DROP TABLE IF EXISTS face_account_status_changes;
 `;

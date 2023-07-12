@@ -4,6 +4,10 @@ import * as d3 from 'd3';
 import { Router } from '@angular/router';
 import { FacebookLoginLocationsRepository } from '../../../db/data-repositories/facebook/fb-security-login-data/face_login_locations.repo';
 import { LoginLocationsModel } from "../../../models/Facebook/loginLocations";
+import { FacebookLoginLogoutsRepository } from '../../../db/data-repositories/facebook/fb-security-login-data/face_login_logouts.repo';
+import { LoginLogoutsModel } from '../../../models/Facebook/loginlogouts';
+import { FacebookAccountStatusChangesRepository } from '../../../db/data-repositories/facebook/fb-security-login-data/face_account_status_changes.repo';
+import { AccountStatusChangesModel } from '../../../models/Facebook/accountStatusChanges';
 
 @Component({
   selector: 'app-security-login-data',
@@ -15,19 +19,25 @@ export class SecurityLoginDataComponent {
 
   @Input()
   previewMode: boolean = false;
+
   loginLocationsData: LoginLocationsModel[] = [];
   locations: string[] = [];
   devices: any[] = [];
   timestamps: any [] = [];
 
-  // vars for test purpose
+  loginlogoutData: LoginLogoutsModel[] = [];
+  login_count: number = 0;
+  logout_count: number = 0;
 
-  first_loc: string;
-  first_device: string;
-  first_timestamp: string;
+  accStatusChangeData: AccountStatusChangesModel[] = [];
+  account_deactivated: number = 0;
+  account_reactivated: number = 0;
 
   constructor(private dbService: NgxIndexedDBService,
-              private faceLoginLocationsRepo: FacebookLoginLocationsRepository){}
+              private faceLoginLocationsRepo: FacebookLoginLocationsRepository,
+              private faceLoginLogoutsRepo: FacebookLoginLogoutsRepository,
+              private faceAccStatusChangesRepo: FacebookAccountStatusChangesRepository,
+              ){}
 
   ngOnInit() {
     this.prepareData();
@@ -45,35 +55,46 @@ export class SecurityLoginDataComponent {
       this.loginLocationsData = allLoginLocations;
       console.log("this.loginLocationsData", this.loginLocationsData);
       console.log("type of this.loginLocationsData", typeof(this.loginLocationsData));
+
       for(let i = 0; i < this.loginLocationsData.length; i++) {
         const loc = this.loginLocationsData[i].location;
         const device = this.loginLocationsData[i].device;
         const time = this.loginLocationsData[i].timestamp;
 
-        this.locations.push(loc);
-        this.devices.push(device);
-        this.timestamps.push(time);
-
         const unixTime: number  = +this.loginLocationsData[i].timestamp;
         this.loginLocationsData[i].timestamp = new Date(unixTime * 1000).toDateString();
-
-      }
-
-      this.visualizeData(this.locations, this.devices, this.timestamps);  
+      } 
     });
 
-    // console.log("locations:", this.locations);
-    // console.log("devices:", this.devices);
-    // console.log("timestamps:", this.timestamps);
+    this.faceLoginLogoutsRepo.getAllLoginLogouts().then((allLoginLogouts) => {
+      this.loginlogoutData = allLoginLogouts;
+      for(let i = 0; i < this.loginlogoutData.length; i++) {
+        const unixTime: number  = +this.loginlogoutData[i].timestamp;
+        this.loginlogoutData[i].timestamp = new Date(unixTime * 1000).toDateString();
 
-    // this.first_loc = this.locations[0];
-    // this.first_device = this.devices[0];
-    // this.first_timestamp = this.timestamps[0];
+        if(this.loginlogoutData[i].action === 'Login') {
+          this.login_count++;
+        }
+        else if(this.loginlogoutData[i].action === 'Log out') {
+          this.logout_count++;
+        }
+      }  
+    });
 
-    // console.log("this.first_loc:", this.first_loc);
-    // console.log("this.first_device:", this.first_device);
-    // console.log("this.first_timestamp:", this.first_timestamp);
+    this.faceAccStatusChangesRepo.getAllAccStatusChanges().then((allAccStatusChanges) => {
+      this.accStatusChangeData = allAccStatusChanges;
+      for(let i = 0; i< this.accStatusChangeData.length; i++) {
+        const unixTime: number  = +this.accStatusChangeData[i].timestamp;
+        this.accStatusChangeData[i].timestamp = new Date(unixTime * 1000).toDateString();
 
+        if (this.accStatusChangeData[i].status === 'Account deactivated') {
+          this.account_deactivated++;
+        }
+        else {
+          this.account_reactivated++;
+        }
+      }
+    });
   }
 
   async visualizeData(locations: string[], devices: string[], timestamps: string[]) {
