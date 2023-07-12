@@ -54,7 +54,6 @@ export class SecurityLoginDataComponent {
         this.devices.push(device);
         this.timestamps.push(time);
 
-
         const unixTime: number  = +this.loginLocationsData[i].timestamp;
         this.loginLocationsData[i].timestamp = new Date(unixTime * 1000).toDateString();
 
@@ -63,17 +62,17 @@ export class SecurityLoginDataComponent {
       this.visualizeData(this.locations, this.devices, this.timestamps);  
     });
 
-    console.log("locations:", this.locations);
-    console.log("devices:", this.devices);
-    console.log("timestamps:", this.timestamps);
+    // console.log("locations:", this.locations);
+    // console.log("devices:", this.devices);
+    // console.log("timestamps:", this.timestamps);
 
-    this.first_loc = this.locations[0];
-    this.first_device = this.devices[0];
-    this.first_timestamp = this.timestamps[0];
+    // this.first_loc = this.locations[0];
+    // this.first_device = this.devices[0];
+    // this.first_timestamp = this.timestamps[0];
 
-    console.log("this.first_loc:", this.first_loc);
-    console.log("this.first_device:", this.first_device);
-    console.log("this.first_timestamp:", this.first_timestamp);
+    // console.log("this.first_loc:", this.first_loc);
+    // console.log("this.first_device:", this.first_device);
+    // console.log("this.first_timestamp:", this.first_timestamp);
 
   }
 
