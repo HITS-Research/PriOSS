@@ -1,0 +1,50 @@
+<div [ngClass]="{'component-page': !previewMode}">
+    <div *ngIf="previewMode">
+        <nz-row [nzGutter]="16">
+            <nz-col [nzSpan]="16">
+              <nz-statistic [nzTitle]="'Friends and Other People Interactions'"  [nzValue]="totalPeopleMessages"></nz-statistic>
+            </nz-col>
+            <nz-col [nzSpan]="16">
+              <nz-statistic  [nzTitle]="'Groups Interactions'" [nzValue]="totalGroupMessages"></nz-statistic>
+            </nz-col>
+          </nz-row>
+        </div>
+        </div>
+
+<div *ngIf="!previewMode">
+    <app-title-bar titleText="Messages" tooltipText="This visualization presents an overview of data pertaining to interactions with friends and group interactions."></app-title-bar>
+    <nz-tabset class="margin-top-20">
+    <nz-tab nzTitle="Friends and Other People Interactions">
+    <nz-table #basicTable>
+    <thead>
+      <tr>  
+        <th>Name</th>
+        <th>Date(When interacted)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of this.messagesData">
+        <td>{{ data.name }}</td>
+        <td>{{ convertTimestamp(data.timestamp) }}</td>
+      </tr>
+    </tbody>
+  </nz-table>
+  </nz-tab>
+  <nz-tab nzTitle="Group Interactions">
+    <nz-table #basicTable>
+        <thead>
+          <tr>  
+            <th>Name</th>
+            <th>Number of times Interacted</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of this.groupMessagesData">
+            <td>{{ data.name }}</td>
+            <td>{{ data.value }}</td>
+          </tr>
+        </tbody>
+      </nz-table>
+  </nz-tab>
+  </nz-tabset>
+</div>

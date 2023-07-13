@@ -40,17 +40,17 @@ import { InstaLoginRepository } from '../db/data-repositories/instagram/insta-ac
 import { InstaLogoutRepository } from '../db/data-repositories/instagram/insta-accountcreation-login/insta-logout.repository';
 import { InstaContactsRepository } from '../db/data-repositories/instagram/insta-contacts/insta-contacts.repository';
 import { InferredTopicsRepository } from '../db/data-repositories/facebook/fb-inferred-data/face_inferred_topics.repo';
-import { FacebookAdsInteractedRepository } from '../db/data-repositories/facebook/fb_ads_data/face_ads_interacted.repo';
-import { FacebookAppsWebsitesRepository } from '../db/data-repositories/facebook/fb_ads_data/face_apps_websites.repo';
-import { FacebookOffFacebookActivityRepository } from '../db/data-repositories/facebook/fb_ads_data/face_off_facebook_activity.repo';
+import { FacebookAdsInteractedRepository } from '../db/data-repositories/facebook/fb-ads-data/face-ads-interacted.repo';
+import { FacebookAppsWebsitesRepository } from '../db/data-repositories/facebook/fb-ads-data/face-apps-websites.repo';
+import { FacebookOffFacebookActivityRepository } from '../db/data-repositories/facebook/fb-ads-data/face-off-facebook-activity.repo';
 import { FacebookFriendsRepository } from '../db/data-repositories/facebook/fb-friends-data/face_friends.repo';
 import { InstaUserSearchesRepository } from '../db/data-repositories/instagram/insta-searches/insta-user-searches.repository';
 import { InstaKeywordSearchesRepository } from '../db/data-repositories/instagram/insta-searches/insta-keyword-searches.repository';
 import { InstaTagSearchesRepository } from '../db/data-repositories/instagram/insta-searches/insta-tag-searches.repository';
-import { FacebookAddressBookRepository } from '../db/data-repositories/facebook/fb-other-personal-info/face_address_book.repo';
-import { FacebookSearchHistoryRepository } from '../db/data-repositories/facebook/fb-other-personal-info/face_search_history.repo';
-
-
+import { FacebookAddressBookRepository } from '../db/data-repositories/facebook/fb-other-personal-info/face-address-book.repo';
+import { FacebookSearchHistoryRepository } from '../db/data-repositories/facebook/fb-other-personal-info/face-search-history.repo';
+import { FaceBookMessagesInfoRepository } from '../db/data-repositories/facebook/fb-messages-data/fb-messages-friends.repo';
+import { FaceBookGroupMessagesInfoRepository } from '../db/data-repositories/facebook/fb-messages-data/fb-messages-groups.repo';
 
 //service identifier filenames
 const instaIDFilename = "TODO";
@@ -141,7 +141,9 @@ export class ServiceSelectionComponent {
               private scroll: ViewportScroller,
               private faceFriendsRepo: FacebookFriendsRepository,
               private faceAddressRepo: FacebookAddressBookRepository,
-              private faceSearchhistoryRepo: FacebookSearchHistoryRepository
+              private faceSearchhistoryRepo: FacebookSearchHistoryRepository,
+              private faceMessagesRepo: FaceBookMessagesInfoRepository,
+              private faceGroupMessagesRepo: FaceBookGroupMessagesInfoRepository
              )  {
     
     //clear the database when this component gets created
@@ -582,15 +584,46 @@ export class ServiceSelectionComponent {
 
         let text = search_history[0].data[0].text;
         let timestamp = search_history[0].timestamp;
-        await this.faceSearchhistoryRepo.startAdsClickedBulkAdd(text, timestamp, search_history.length);
+        await this.faceSearchhistoryRepo.startSearchHistoryBulkAdd(text, timestamp, search_history.length);
 
         for(let i = 1; i < search_history.length; i++){
           let text = search_history[i].data[0].text;
           let timestamp = search_history[i].timestamp;
-          await this.faceSearchhistoryRepo.addAdsClickedBulkEntry(text, timestamp);
+          await this.faceSearchhistoryRepo.addSearchHistoryBulkEntry(text, timestamp);
         }
       }
+      if (filename === "people_and_friends.json") {
+        let jsonData = JSON.parse(content);
+        let people_friends_messages_data = jsonData.people_interactions_v2;
       
+        if (people_friends_messages_data.length > 0) {
+          let entries = people_friends_messages_data[0].entries;
+          await this.faceMessagesRepo.startMessagesBulkAdd(entries[0].data.name, entries[0].timestamp, entries.length);
+      
+          for (let i = 1; i < entries.length; i++) {
+            let entry = entries[i];
+            let name = entry.data.name;
+            let timestamp = entry.timestamp;
+            await this.faceMessagesRepo.addMessagesBulkEntry(name, timestamp);
+          }
+        }
+      }
+      if (filename === "group_interactions.json") {
+        let jsonData = JSON.parse(content);
+        let group_messages_data = jsonData.group_interactions_v2;
+      
+        if (group_messages_data.length > 0) {
+          let entries = group_messages_data[0].entries;
+          await this.faceGroupMessagesRepo.startGroupMessagesBulkAdd(entries[0].data.name, entries[0].data.value, entries.length);
+      
+          for (let i = 1; i < entries.length; i++) {
+            let entry = entries[i];
+            let name = entry.data.name;
+            let value = entry.data.value;
+            await this.faceGroupMessagesRepo.addGroupMessagesBulkEntry(name, value);
+          }
+        }
+      }
     }
 
     console.log("Start Addresses Fetching");
@@ -598,6 +631,7 @@ export class ServiceSelectionComponent {
       console.log("Read Addresses:");
       console.log(data);
     });
+  
     console.log("Start Search History Fetching");
     this.faceSearchhistoryRepo.getAllFaceSearchHistory().then((data) => {
       console.log("Read Search History:");
@@ -632,6 +666,16 @@ export class ServiceSelectionComponent {
     this.faceFriendsRepo.getAllFacebookFriends().then((friends) => {
       console.log("Read friends:");
       console.log(friends);
+    });
+
+    this.faceMessagesRepo.getAllFaceMessagesInfo().then((messages) => {
+      console.log("Read Messages:");
+      console.log(messages);
+    });
+    console.log("Start Group Messages Fetching");
+    this.faceGroupMessagesRepo.getAllFaceGroupMessagesInfo().then((data) => {
+      console.log("Read Group  Messages:");
+      console.log(data);
     });
     this.progressBarPercent = 100;
     await delay(500);
