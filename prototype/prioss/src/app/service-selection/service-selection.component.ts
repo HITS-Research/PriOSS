@@ -50,6 +50,7 @@ import { InstaTagSearchesRepository } from '../db/data-repositories/instagram/in
 import { FacebookLoginLocationsRepository } from '../db/data-repositories/facebook/fb-security-login-data/face_login_locations.repo';
 import { FacebookLoginLogoutsRepository } from '../db/data-repositories/facebook/fb-security-login-data/face_login_logouts.repo';
 import { FacebookAccountStatusChangesRepository } from '../db/data-repositories/facebook/fb-security-login-data/face_account_status_changes.repo';
+import { FacebookAccountActivityRepository } from '../db/data-repositories/facebook/fb-security-login-data/face_account_activity.repo';
 
 //service identifier filenames
 const instaIDFilename = "TODO";
@@ -142,6 +143,7 @@ export class ServiceSelectionComponent {
               private faceLoginLocationsRepo: FacebookLoginLocationsRepository,
               private faceLoginLogoutsRepo: FacebookLoginLogoutsRepository,
               private faceAccStatusChangesRepo: FacebookAccountStatusChangesRepository,
+              private faceAccActivityRepo: FacebookAccountActivityRepository,
              )  {
     
     //clear the database when this component gets created
@@ -593,8 +595,17 @@ export class ServiceSelectionComponent {
           await this.faceAccStatusChangesRepo.addAdActivityBulkEntry(acc_status_changes[i].status, acc_status_changes[i].timestamp);
         }
       }
-      
+      else if(filename === "account_activity.json") {
+        let jsonData = JSON.parse(content);
+        let account_activity_data = jsonData.account_activity_v2;
+
+        await this.faceAccActivityRepo.startAdActivityBulkAdd(account_activity_data[0].action, account_activity_data[0].timestamp, account_activity_data[0].city, account_activity_data[0].region, account_activity_data[0].country, account_activity_data[0].site_name, account_activity_data.length);
+        for (let i = 1; i < account_activity_data.length; i++) {
+          await this.faceAccActivityRepo.addAdActivityBulkEntry(account_activity_data[1].action, account_activity_data[1].timestamp, account_activity_data[1].city, account_activity_data[1].region, account_activity_data[1].country, account_activity_data[1].site_name);
+        }
+      }
     }
+    
     console.log("Start topics Fetching");
     this.inferredTopicsDataRepo.getAllInferredTopics().then((topics) => {
       console.log("Read topics:");
@@ -635,6 +646,12 @@ export class ServiceSelectionComponent {
     this.faceLoginLogoutsRepo.getAllLoginLogouts().then((loginouts) => {
       console.log("Read Login Logout Info:");
       console.log(loginouts);
+    });
+
+    console.log("Start Account Activities Fetching");
+    this.faceAccActivityRepo.getAllAccountActivities().then((activities) => {
+      console.log("Read Account Activities Info:");
+      console.log(activities);
     });
 
     this.progressBarPercent = 100;

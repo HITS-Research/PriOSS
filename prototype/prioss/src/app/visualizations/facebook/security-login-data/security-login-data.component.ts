@@ -8,6 +8,8 @@ import { FacebookLoginLogoutsRepository } from '../../../db/data-repositories/fa
 import { LoginLogoutsModel } from '../../../models/Facebook/loginlogouts';
 import { FacebookAccountStatusChangesRepository } from '../../../db/data-repositories/facebook/fb-security-login-data/face_account_status_changes.repo';
 import { AccountStatusChangesModel } from '../../../models/Facebook/accountStatusChanges';
+import { FacebookAccountActivityRepository } from '../../../db/data-repositories/facebook/fb-security-login-data/face_account_activity.repo';
+import { AccountActivitiesModel } from '../../../models/Facebook/accountActivities';
 
 @Component({
   selector: 'app-security-login-data',
@@ -32,11 +34,17 @@ export class SecurityLoginDataComponent {
   accStatusChangeData: AccountStatusChangesModel[] = [];
   account_deactivated: number = 0;
   account_reactivated: number = 0;
+  status: any[] = [];
+  timestamp: any[] = [];
+
+  accActivitiesData: AccountActivitiesModel[] = [];
+
 
   constructor(private dbService: NgxIndexedDBService,
               private faceLoginLocationsRepo: FacebookLoginLocationsRepository,
               private faceLoginLogoutsRepo: FacebookLoginLogoutsRepository,
               private faceAccStatusChangesRepo: FacebookAccountStatusChangesRepository,
+              private faceAccActivitiesRepo: FacebookAccountActivityRepository,
               ){}
 
   ngOnInit() {
@@ -83,7 +91,7 @@ export class SecurityLoginDataComponent {
 
     this.faceAccStatusChangesRepo.getAllAccStatusChanges().then((allAccStatusChanges) => {
       this.accStatusChangeData = allAccStatusChanges;
-      for(let i = 0; i< this.accStatusChangeData.length; i++) {
+      for(let i = 0; i < this.accStatusChangeData.length; i++) {
         const unixTime: number  = +this.accStatusChangeData[i].timestamp;
         this.accStatusChangeData[i].timestamp = new Date(unixTime * 1000).toDateString();
 
@@ -93,8 +101,20 @@ export class SecurityLoginDataComponent {
         else {
           this.account_reactivated++;
         }
+
+        this.status.push(this.accStatusChangeData[i].status);
+        this.timestamp.push(this.accStatusChangeData[i].timestamp);
       }
     });
+
+    this.faceAccActivitiesRepo.getAllAccountActivities().then((allAccActivities) => {
+      this.accActivitiesData = allAccActivities;
+      for (let i = 0; i < this.accActivitiesData.length; i++) {
+        const unixTime: number  = +this.accActivitiesData[i].timestamp;
+        this.accActivitiesData[i].timestamp = new Date(unixTime * 1000).toDateString();
+      }
+    });
+
   }
 
   async visualizeData(locations: string[], devices: string[], timestamps: string[]) {

@@ -296,6 +296,16 @@ CREATE TABLE IF NOT EXISTS face_account_status_changes (
     status TEXT NOT NULL,
     timestamp TEXT NOT NULL
 );
+
+CREATE TABLE IF NOT EXIST face_account_activity (
+    id INTEGER PRIMARY KEY,
+    action TEXT NOT NULL,
+    timestamp TEXT NOT NULL,
+    city TEXT NOT NULL,
+    region TEXT NOT NULL,
+    country TEXT NOT NULL,
+    site_name TEXT NOT NULL
+);
 `;
 //PRAGMA user_version = 1;
 
@@ -346,4 +356,5 @@ DROP TABLE IF EXISTS face_inferred_topics;
 DROP TABLE IF EXISTS face_login_locations;
 DROP TABLE IF EXISTS face_login_logouts;
 DROP TABLE IF EXISTS face_account_status_changes;
+DROP TABLE IF EXISTS face_account_activity;
 `;

@@ -76,6 +76,29 @@
           </nz-col>
         </nz-row>
         <br>
+        <br>
+
+      <div>
+        <nz-timeline nzMode="alternate">
+          <nz-timeline-item *ngFor="let eachRows of accStatusChangeData" [nzDot]="">
+            <ng-template #aTemplate>
+              <!-- <div class="a-timeline-item"
+                  [class.a-timeline-item-red] = "eachRows.status.fontsize"
+                  [class.a-timeline-item-green] = "eachRows.status.fontcolor"
+                  >
+              </div> -->
+              
+            </ng-template>
+            <b class="timeline-item-font">{{eachRows.status}}</b>  [on {{eachRows.timestamp}}]
+          </nz-timeline-item>
+        </nz-timeline>
+
+        <!-- <ng-template #aTemplate>0</ng-template> -->
+      </div>
+
+      <br>
+      <h6 class="note"> Tabular data cab accessed here! </h6>
+
         <nz-table [nzData]="accStatusChangeData" #accStatusChange>
           <thead>
             <tr>
@@ -95,20 +118,25 @@
       </nz-tab>
 
       <nz-tab nzTitle="Activity Locations">
-        <h4> Activity locations data visualizations will be here</h4>
         <br>
         <nz-table>
           <thead>
             <tr>
-              <th nzCustomFilter class="tableCol">Location</th>
-              <th nzCustomFilter class="tableCol">Device</th>
+              <th nzCustomFilter class="tableCol">Action</th>
+              <th nzCustomFilter class="tableCol">City</th>
+              <th nzCustomFilter class="tableCol">Region</th>
+              <th nzCustomFilter class="tableCol">Country</th>
+              <th nzCustomFilter class="tableCol">Site</th>
               <th nzCustomFilter class="tableCol">Time</th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let eachRow of loginLocationsData">
-              <td> {{ eachRow.location }} </td>
-              <td> {{ eachRow.device}} </td>
+            <tr *ngFor="let eachRow of accActivitiesData">
+              <td> {{ eachRow.action }} </td>
+              <td> {{ eachRow.city}} </td>
+              <td> {{ eachRow.region}} </td>
+              <td> {{ eachRow.country}} </td>
+              <td> {{ eachRow.site_name}} </td>
               <td> {{ eachRow.timestamp}} </td>
             </tr>
           </tbody>
