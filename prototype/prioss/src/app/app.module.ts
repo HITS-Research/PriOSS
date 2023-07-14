@@ -107,6 +107,12 @@ import { InstaAddManagerComponent } from './rectification/instagram/insta-add-ma
 import { RevokeAccessComponent } from './rectification/instagram/revoke-access/revoke-access.component';
 import { SpotPrivacyInstructionsComponent } from './visualizations/spotify/privacy-instructions/spot-privacy-instructions.component';
 import { SongtimelineComponent } from './visualizations/spotify/songtimeline/songtimeline.component';
+import { GdprComponent } from './info-pages/gdpr/gdpr.component';
+import { FacebookAddressBookRepository } from './db/data-repositories/facebook/fb-other-personal-info/face_address_book.repo';
+import { FacebookSearchHistoryRepository } from './db/data-repositories/facebook/fb-other-personal-info/face_search_history.repo';
+import { SpotPrivacyInstructionsComponent } from './visualizations/spotify/privacy-instructions/spot-privacy-instructions.component';
+import { SongtimelineComponent } from './visualizations/spotify/songtimeline/songtimeline.component';
+import { OtherPersonalInfoComponent } from './visualizations/facebook/other-personal-info/other-personal-info.component';
 registerLocaleData(de);
 
 // Ahead of time compiles requires an exported function for factories
@@ -134,7 +140,7 @@ export function migrationFactory()
 const dbConfig: DBConfig  =
 {
   name: 'priossDB',
-  version: 12,
+  version: 14,
   objectStoresMeta:
   [
     //Data relevant to all services
@@ -370,7 +376,7 @@ const dbConfig: DBConfig  =
     RevokeAccessComponent,
     SpotPrivacyInstructionsComponent,
     SongtimelineComponent,
-
+    OtherPersonalInfoComponent,
   ],
   imports: [
     BrowserModule,
@@ -435,7 +441,8 @@ const dbConfig: DBConfig  =
     FacebookAppsWebsitesRepository,
     FacebookOffFacebookActivityRepository,
     FacebookFriendsRepository,
-  
+    FacebookAddressBookRepository,
+    FacebookSearchHistoryRepository,
     { provide: NZ_I18N, useValue: de_DE }
   ],
   bootstrap: [AppComponent],
