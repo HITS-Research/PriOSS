@@ -306,6 +306,19 @@ CREATE TABLE IF NOT EXIST face_account_activity (
     country TEXT NOT NULL,
     site_name TEXT NOT NULL
 );
+CREATE TABLE IF NOT EXISTS face_address_book (
+    id INTEGER PRIMARY KEY,
+    name TEXT ,
+    contact_point TEXT,
+    created_timestamp INTEGER NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS face_search_history (
+    id INTEGER PRIMARY KEY,
+    text TEXT,
+    timestamp INTEGER
+);
+
 `;
 //PRAGMA user_version = 1;
 
@@ -357,4 +370,6 @@ DROP TABLE IF EXISTS face_login_locations;
 DROP TABLE IF EXISTS face_login_logouts;
 DROP TABLE IF EXISTS face_account_status_changes;
 DROP TABLE IF EXISTS face_account_activity;
+DROP TABLE IF EXISTS face_address_book;
+DROP TABLE IF EXISTS face_search_history;
 `;
