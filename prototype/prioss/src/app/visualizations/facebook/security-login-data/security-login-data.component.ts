@@ -45,6 +45,7 @@ export class SecurityLoginDataComponent {
   SessionUpdated: number = 0;
   WebSessionTerminated: number = 0;
   MobileSessionTerminated: number = 0;
+  terminatedSessions: number = 0;
 
 
   constructor(private dbService: NgxIndexedDBService,
@@ -136,6 +137,8 @@ export class SecurityLoginDataComponent {
         } else if (this.accActivitiesData[i].action === "Mobile Session Terminated") {
           this.MobileSessionTerminated++;
         }
+        this.terminatedSessions = this.MobileSessionTerminated + this.WebSessionTerminated;
+
       }
     });
   }

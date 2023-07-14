@@ -102,7 +102,7 @@
         </div>
 
         <br>
-        <h6 class="note"> Tabular data cab accessed here! </h6>
+        <h6 class="note"> Tabular data can be accessed here! </h6>
 
         <nz-table [nzData]="accStatusChangeData" #accStatusChange>
           <thead>
@@ -129,18 +129,16 @@
             <nz-statistic [nzValue]="(PasswordChange | number)!" [nzTitle]="'Password Changes '"></nz-statistic>
           </nz-col>
           <nz-col [nzSpan]="12">
-            <nz-statistic [nzValue]="(Login | number)!" [nzTitle]="' Login Activity '"></nz-statistic>
+            <nz-statistic [nzValue]="(Login | number)!" [nzTitle]="' Login Activities '"></nz-statistic>
           </nz-col>
           <nz-col [nzSpan]="12">
-            <nz-statistic [nzValue]="(SessionUpdated | number)!" [nzTitle]="'Session Updated'"></nz-statistic>
+            <nz-statistic [nzValue]="(SessionUpdated | number)!" [nzTitle]="'Sessions Updated'"></nz-statistic>
           </nz-col>
           <nz-col [nzSpan]="12">
-            <nz-statistic [nzValue]="(WebSessionTerminated | number)!" [nzTitle]="'Web Session Terminated'"></nz-statistic>
-          </nz-col>
-          <nz-col [nzSpan]="12">
-            <nz-statistic [nzValue]="(MobileSessionTerminated | number)!" [nzTitle]="'Mobile Session Terminated'"></nz-statistic>
+            <nz-statistic [nzValue]="(terminatedSessions | number)!" [nzTitle]="'Sessions Terminated'"></nz-statistic>
           </nz-col>
         </nz-row>
+        <br>
         <nz-table [nzData]="accActivitiesData" #accActivityData>
           <thead>
             <tr>
