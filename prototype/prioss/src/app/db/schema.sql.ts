@@ -236,41 +236,11 @@ CREATE TABLE IF NOT EXISTS face_off_facebook_activity (
     type TEXT NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS face_friend_requests_received (
-    id INTEGER PRIMARY KEY,
-    name TEXT NOT NULL,
-    timestamp TEXT NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS face_friend_requests_sent (
-    id INTEGER PRIMARY KEY,
-    name TEXT NOT NULL,
-    timestamp TEXT NOT NULL
-);
-
 CREATE TABLE IF NOT EXISTS face_friends (
     id INTEGER PRIMARY KEY,
     name TEXT NOT NULL,
     timestamp INTEGER NOT NULL,
     type TEXT NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS face_rejected_friend_requests (
-    id INTEGER PRIMARY KEY,
-    name TEXT NOT NULL,
-    timestamp TEXT NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS face_removed_friends (
-    id INTEGER PRIMARY KEY,
-    name TEXT NOT NULL,
-    timestamp TEXT NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS face_who_you_follow (
-    id INTEGER PRIMARY KEY,
-    name TEXT NOT NULL,
-    timestamp TEXT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS face_inferred_topics (
@@ -291,6 +261,11 @@ CREATE TABLE IF NOT EXISTS face_search_history (
     timestamp INTEGER
 );
 
+CREATE TABLE IF NOT EXISTS face_posts (
+    id INTEGER PRIMARY KEY,
+    timestamp INTEGER,
+    title STRING
+);
 `;
 //PRAGMA user_version = 1;
 
@@ -331,13 +306,9 @@ DROP TABLE IF EXISTS insta_received_follow_request_info;
 DROP TABLE IF EXISTS face_ads_interacted;
 DROP TABLE IF EXISTS face_apps_websites;
 DROP TABLE IF EXISTS face_off_facebook_activity;
-DROP TABLE IF EXISTS face_friend_requests_received;
-DROP TABLE IF EXISTS face_friend_requests_sent;
 DROP TABLE IF EXISTS face_friends;
-DROP TABLE IF EXISTS face_rejected_friend_requests;
-DROP TABLE IF EXISTS face_removed_friends;
-DROP TABLE IF EXISTS face_who_you_follow;
 DROP TABLE IF EXISTS face_inferred_topics;
 DROP TABLE IF EXISTS face_address_book;
 DROP TABLE IF EXISTS face_search_history;
+DROP TABLE IF EXISTS face_posts;
 `;
