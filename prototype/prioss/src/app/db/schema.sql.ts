@@ -297,7 +297,7 @@ CREATE TABLE IF NOT EXISTS face_account_status_changes (
     timestamp TEXT NOT NULL
 );
 
-CREATE TABLE IF NOT EXIST face_account_activity (
+CREATE TABLE IF NOT EXISTS face_account_activity (
     id INTEGER PRIMARY KEY,
     action TEXT NOT NULL,
     timestamp TEXT NOT NULL,

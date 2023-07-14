@@ -14,7 +14,7 @@ import * as sql from "./face_account_activity.sql";
  * 
  */
 
-@Injectable({providedIn: 'root'})
+@Injectable()
 export class FacebookAccountActivityRepository extends BulkAddCapableRepository {
     constructor(dbService: DBService) {
         super(sql.bulkAddFaceAccountActivityBaseSQL, sql.bulkAddFaceAccountActivityValuesSQL, sql.bulkAddValueConnector, dbService);

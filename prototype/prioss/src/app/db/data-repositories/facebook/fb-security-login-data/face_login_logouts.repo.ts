@@ -13,9 +13,7 @@ import * as sql from "./face_login_logouts.sql";
  * 
  */
 
-@Injectable({
-    providedIn: 'root'
-})
+@Injectable()
 export class FacebookLoginLogoutsRepository extends BulkAddCapableRepository {
     constructor(dbService: DBService) {
         super(sql.bulkAddFaceLoginLogoutsBaseSQL, sql.bulkAddFaceLoginLogoutsValuesSQL, sql.bulkAddValueConnector, dbService);

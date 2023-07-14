@@ -13,9 +13,7 @@ import { AccountStatusChangesModel } from "../../../../models/Facebook/accountSt
  * 
  */
 
-@Injectable({
-    providedIn: 'root'
-})
+@Injectable()
 export class FacebookAccountStatusChangesRepository extends BulkAddCapableRepository {
     constructor(dbService: DBService) {
         super(sql.bulkAddFaceStatusChangesBaseSQL, sql.bulkAddFaceStatusChangesValuesSQL, sql.bulkAddValueConnector, dbService);
