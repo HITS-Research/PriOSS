@@ -110,8 +110,6 @@ import { SongtimelineComponent } from './visualizations/spotify/songtimeline/son
 import { GdprComponent } from './info-pages/gdpr/gdpr.component';
 import { FacebookAddressBookRepository } from './db/data-repositories/facebook/fb-other-personal-info/face_address_book.repo';
 import { FacebookSearchHistoryRepository } from './db/data-repositories/facebook/fb-other-personal-info/face_search_history.repo';
-import { SpotPrivacyInstructionsComponent } from './visualizations/spotify/privacy-instructions/spot-privacy-instructions.component';
-import { SongtimelineComponent } from './visualizations/spotify/songtimeline/songtimeline.component';
 import { OtherPersonalInfoComponent } from './visualizations/facebook/other-personal-info/other-personal-info.component';
 registerLocaleData(de);
 
@@ -367,6 +365,7 @@ const dbConfig: DBConfig  =
     KnownIssuesComponent,
     AdsSettingsComponent,
     DashCardComponent,
+    GdprComponent,
     InstaBlockFollowersComponent,
     InstaAccountPrivateComponent,
     InstaTwoFactorAuthenticationComponent,
