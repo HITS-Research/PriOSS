@@ -304,7 +304,7 @@ CREATE TABLE IF NOT EXISTS face_account_activity (
     city TEXT NOT NULL,
     region TEXT NOT NULL,
     country TEXT NOT NULL,
-    site_name TEXT NOT NULL
+    site_name TEXT 
 );
 CREATE TABLE IF NOT EXISTS face_address_book (
     id INTEGER PRIMARY KEY,

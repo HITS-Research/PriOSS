@@ -8,10 +8,11 @@
         <nz-statistic [nzTitle]="'Total Searched text'"  [nzValue]="totalSearchedText"></nz-statistic>
       </nz-col>
       </nz-row>
-    </div>
-    </div>
-    <div *ngIf="!previewMode">
-<nz-tabset class="margin-top-20">
+  </div>
+</div>
+
+<div *ngIf="!previewMode">
+     <nz-tabset class="margin-top-20">
       <nz-tab nzTitle="Address Book">
       <div class="grid-container">
           <ng-container *ngFor="let entry of addressBookData">

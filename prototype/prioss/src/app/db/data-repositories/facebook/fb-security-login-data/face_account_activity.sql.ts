@@ -35,3 +35,7 @@ union all
 export const selectAllAccountActivity: string = `
 select id, action, timestamp, city, region, country, site_name from face_account_activity
 `;
+
+// export const selectAllAccountActivity: string = `
+// select * from face_account_activity
+// `;

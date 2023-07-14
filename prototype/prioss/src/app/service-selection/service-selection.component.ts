@@ -638,7 +638,7 @@ export class ServiceSelectionComponent {
 
         await this.faceAccActivityRepo.startAdActivityBulkAdd(account_activity_data[0].action, account_activity_data[0].timestamp, account_activity_data[0].city, account_activity_data[0].region, account_activity_data[0].country, account_activity_data[0].site_name, account_activity_data.length);
         for (let i = 1; i < account_activity_data.length; i++) {
-          await this.faceAccActivityRepo.addAdActivityBulkEntry(account_activity_data[1].action, account_activity_data[1].timestamp, account_activity_data[1].city, account_activity_data[1].region, account_activity_data[1].country, account_activity_data[1].site_name);
+          await this.faceAccActivityRepo.addAdActivityBulkEntry(account_activity_data[i].action, account_activity_data[i].timestamp, account_activity_data[i].city, account_activity_data[i].region, account_activity_data[i].country, account_activity_data[i].site_name);
         }
       }
       

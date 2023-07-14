@@ -26,10 +26,12 @@ export class SecurityLoginDataComponent {
   locations: string[] = [];
   devices: any[] = [];
   timestamps: any [] = [];
+  locations_num: number = 0
 
   loginlogoutData: LoginLogoutsModel[] = [];
   login_count: number = 0;
   logout_count: number = 0;
+  login_logouts: number = 0;
 
   accStatusChangeData: AccountStatusChangesModel[] = [];
   account_deactivated: number = 0;
@@ -38,6 +40,11 @@ export class SecurityLoginDataComponent {
   timestamp: any[] = [];
 
   accActivitiesData: AccountActivitiesModel[] = [];
+  PasswordChange: number = 0;
+  Login: number = 0;
+  SessionUpdated: number = 0;
+  WebSessionTerminated: number = 0;
+  MobileSessionTerminated: number = 0;
 
 
   constructor(private dbService: NgxIndexedDBService,
@@ -69,6 +76,9 @@ export class SecurityLoginDataComponent {
         const device = this.loginLocationsData[i].device;
         const time = this.loginLocationsData[i].timestamp;
 
+        this.locations.push(loc);
+        this.locations_num = this.locations.length;
+
         const unixTime: number  = +this.loginLocationsData[i].timestamp;
         this.loginLocationsData[i].timestamp = new Date(unixTime * 1000).toDateString();
       } 
@@ -86,11 +96,14 @@ export class SecurityLoginDataComponent {
         else if(this.loginlogoutData[i].action === 'Log out') {
           this.logout_count++;
         }
+
+        this.login_logouts = this.login_count + this.logout_count;
       }  
     });
 
     this.faceAccStatusChangesRepo.getAllAccStatusChanges().then((allAccStatusChanges) => {
       this.accStatusChangeData = allAccStatusChanges;
+      console.log("this.accStatusChangeData" + this.accStatusChangeData);
       for(let i = 0; i < this.accStatusChangeData.length; i++) {
         const unixTime: number  = +this.accStatusChangeData[i].timestamp;
         this.accStatusChangeData[i].timestamp = new Date(unixTime * 1000).toDateString();
@@ -107,14 +120,24 @@ export class SecurityLoginDataComponent {
       }
     });
 
-    this.faceAccActivitiesRepo.getAllAccountActivities().then((allAccActivities) => {
-      this.accActivitiesData = allAccActivities;
+    this.faceAccActivitiesRepo.getAllAccountActivities().then((collectData) => {
+      this.accActivitiesData = collectData;
       for (let i = 0; i < this.accActivitiesData.length; i++) {
         const unixTime: number  = +this.accActivitiesData[i].timestamp;
         this.accActivitiesData[i].timestamp = new Date(unixTime * 1000).toDateString();
+        if (this.accActivitiesData[i].action === "Password Change") {
+          this.PasswordChange++;
+        } else if (this.accActivitiesData[i].action === "Login") {
+          this.Login++;
+        } else if (this.accActivitiesData[i].action === "Session updated") {
+          this.SessionUpdated++;
+        } else if (this.accActivitiesData[i].action === "Web Session Terminated") {
+          this.WebSessionTerminated++;
+        } else if (this.accActivitiesData[i].action === "Mobile Session Terminated") {
+          this.MobileSessionTerminated++;
+        }
       }
     });
-
   }
 
   async visualizeData(locations: string[], devices: string[], timestamps: string[]) {

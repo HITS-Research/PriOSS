@@ -1,21 +1,26 @@
 <div [ngClass]="{'component-page': !previewMode}">
   <div *ngIf="previewMode">
     <nz-row [nzGutter]="16">
-      <nz-col [nzSpan]="18">
-        <nz-statistic [nzTitle]="'Location'"  [nzValue]="(loginLocationsData.length | number)!"></nz-statistic>
+      <nz-col [nzSpan]="14">
+        <nz-statistic [nzTitle]="'Login Lcations'"  [nzValue]="locations.length"></nz-statistic>
       </nz-col>
-      <nz-col [nzSpan]="12">
-        <nz-statistic [nzTitle]="'Device'"  [nzValue]="'8'"></nz-statistic>
+      <nz-row [nzSpan]="14">
+        <nz-statistic [nzTitle]="'Account Deactivated'"  [nzValue]="account_deactivated"></nz-statistic>
+      </nz-row>
+      <nz-col [nzSpan]="14">
+        <nz-statistic  [nzTitle]="'Password Changed'" [nzValue]="PasswordChange"></nz-statistic>
       </nz-col>
-      <nz-col [nzSpan]="12">
-        <nz-statistic  [nzTitle]="'Timestamp'" [nzValue]="'7'"></nz-statistic>
-      </nz-col>
+      <nz-row [nzSpan]="14">
+        <nz-statistic [nzTitle]="'Login & Lgouts'"  [nzValue]="login_logouts"></nz-statistic>
+      </nz-row>
     </nz-row>
   </div>
+</div>
 
-  <div *ngIf="!previewMode">
+<div *ngIf="!previewMode">
     <app-title-bar titleText="Security and Login Data" tooltipText="Your login related data"></app-title-bar>
     <nz-tabset class="margin-top-20">
+
       <nz-tab nzTitle="Login Locations">
         <br>
         <nz-table [nzData]="loginLocationsData" #loginLocations>
@@ -78,9 +83,11 @@
         <br>
         <br>
 
-      <div>
-        <nz-timeline nzMode="alternate">
-          <nz-timeline-item *ngFor="let eachRows of accStatusChangeData" [nzDot]="">
+        <div class="visualization-card">
+          <br>
+          <br>
+          <nz-timeline nzMode="alternate">
+            <nz-timeline-item *ngFor="let eachRows of accStatusChangeData" [nzDot]="">
             <ng-template #aTemplate>
               <!-- <div class="a-timeline-item"
                   [class.a-timeline-item-red] = "eachRows.status.fontsize"
@@ -90,14 +97,12 @@
               
             </ng-template>
             <b class="timeline-item-font">{{eachRows.status}}</b>  [on {{eachRows.timestamp}}]
-          </nz-timeline-item>
-        </nz-timeline>
+            </nz-timeline-item>
+          </nz-timeline>
+        </div>
 
-        <!-- <ng-template #aTemplate>0</ng-template> -->
-      </div>
-
-      <br>
-      <h6 class="note"> Tabular data cab accessed here! </h6>
+        <br>
+        <h6 class="note"> Tabular data cab accessed here! </h6>
 
         <nz-table [nzData]="accStatusChangeData" #accStatusChange>
           <thead>
@@ -119,25 +124,44 @@
 
       <nz-tab nzTitle="Activity Locations">
         <br>
-        <nz-table>
+        <nz-row [nzGutter]="16">
+          <nz-col [nzSpan]="12">
+            <nz-statistic [nzValue]="(PasswordChange | number)!" [nzTitle]="'Password Changes '"></nz-statistic>
+          </nz-col>
+          <nz-col [nzSpan]="12">
+            <nz-statistic [nzValue]="(Login | number)!" [nzTitle]="' Login Activity '"></nz-statistic>
+          </nz-col>
+          <nz-col [nzSpan]="12">
+            <nz-statistic [nzValue]="(SessionUpdated | number)!" [nzTitle]="'Session Updated'"></nz-statistic>
+          </nz-col>
+          <nz-col [nzSpan]="12">
+            <nz-statistic [nzValue]="(WebSessionTerminated | number)!" [nzTitle]="'Web Session Terminated'"></nz-statistic>
+          </nz-col>
+          <nz-col [nzSpan]="12">
+            <nz-statistic [nzValue]="(MobileSessionTerminated | number)!" [nzTitle]="'Mobile Session Terminated'"></nz-statistic>
+          </nz-col>
+        </nz-row>
+        <nz-table [nzData]="accActivitiesData" #accActivityData>
           <thead>
             <tr>
               <th nzCustomFilter class="tableCol">Action</th>
+              <th nzCustomFilter class="tableCol">Time</th>
               <th nzCustomFilter class="tableCol">City</th>
               <th nzCustomFilter class="tableCol">Region</th>
               <th nzCustomFilter class="tableCol">Country</th>
               <th nzCustomFilter class="tableCol">Site</th>
-              <th nzCustomFilter class="tableCol">Time</th>
+             
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let eachRow of accActivitiesData">
+            <tr *ngFor="let eachRow of accActivityData.data">
               <td> {{ eachRow.action }} </td>
+              <td> {{ eachRow.timestamp}} </td>
               <td> {{ eachRow.city}} </td>
               <td> {{ eachRow.region}} </td>
               <td> {{ eachRow.country}} </td>
               <td> {{ eachRow.site_name}} </td>
-              <td> {{ eachRow.timestamp}} </td>
+              
             </tr>
           </tbody>
         </nz-table>
@@ -147,6 +171,5 @@
 
     </nz-tabset>
 
-  </div>
-
 </div>
+
