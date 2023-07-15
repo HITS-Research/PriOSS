@@ -604,6 +604,16 @@ export class ServiceSelectionComponent {
           await this.faceEventsRepo.addAdActivityBulkEntry(events_invited[i].name, events_invited[i].start_timestamp, events_invited[i].end_timestamp);
         }
       }
+      // else if(filename === "your_event_responses.json") {
+      //   let jsonData = JSON.parse(content);
+      //   let _events_responses = jsonData.event_responses_v2;
+      //   let events_responses = _events_responses.events_joined[0];
+        
+      //   await this.faceEventsRepo.startAdActivityBulkAdd(events_responses[0].name, events_responses[0].start_timestamp, events_responses[0].end_timestamp, events_responses.length);
+      //   for(let i = 1; i < events_responses.events_joined.length; i++) {
+      //     await this.faceEventsRepo.addAdActivityBulkEntry(events_responses[i].name, events_responses[i].start_timestamp, events_responses[i].end_timestamp);
+      //   }
+      // }
       else if(filename === "your_group_membership_activity.json") {
         let jsonData = JSON.parse(content);
         let groups_joined = jsonData.groups_joined_v2;
@@ -616,46 +626,46 @@ export class ServiceSelectionComponent {
       } 
     }
 
-    console.log("Start Addresses Fetching");
-    this.faceAddressRepo.getAllFaceAddressBook().then((data) => {
-      console.log("Read Addresses:");
-      console.log(data);
-    });
-    console.log("Start Search History Fetching");
-    this.faceSearchhistoryRepo.getAllFaceSearchHistory().then((data) => {
-      console.log("Read Search History:");
-      console.log(data);
-    });
+    // console.log("Start Addresses Fetching");
+    // this.faceAddressRepo.getAllFaceAddressBook().then((data) => {
+    //   console.log("Read Addresses:");
+    //   console.log(data);
+    // });
+    // console.log("Start Search History Fetching");
+    // this.faceSearchhistoryRepo.getAllFaceSearchHistory().then((data) => {
+    //   console.log("Read Search History:");
+    //   console.log(data);
+    // });
 
-    console.log("Start topics Fetching");
-    this.inferredTopicsDataRepo.getAllInferredTopics().then((topics) => {
-      console.log("Read topics:");
-      console.log(topics);
-    });
-    console.log("view personal data")
-    this.UserdataRepo.getAllUserdata().then((info) => {
-      console.log("Personal info:");
-      console.log(info);
-    });
-    console.log("Start Ads Interacted Fetching");
-    this.faceAdsInteractedRepo.getAllFaceAdsInteracted().then((adsData) => {
-      console.log("Read Ads Interacted:");
-      console.log(adsData);
-    });
-    console.log("Start Apps and Websites Fetching");
-    this.faceAppsAndWebsitesRepo.getAllFaceAppsAndWebsites().then((apps_websites_data) => {
-      console.log("Read Apps and Websites:");
-      console.log(apps_websites_data);
-    });
-    console.log("Start Off Facebook Activity Fetching");
-    this.faceOffFacebookActivityRepo.getAllOffFacebookActivity().then((offfacebookactivity) => {
-      console.log("Read Off Facebook Activity:");
-      console.log(offfacebookactivity);
-    });
-    this.faceFriendsRepo.getAllFacebookFriends().then((friends) => {
-      console.log("Read friends:");
-      console.log(friends);
-    });
+    // console.log("Start topics Fetching");
+    // this.inferredTopicsDataRepo.getAllInferredTopics().then((topics) => {
+    //   console.log("Read topics:");
+    //   console.log(topics);
+    // });
+    // console.log("view personal data")
+    // this.UserdataRepo.getAllUserdata().then((info) => {
+    //   console.log("Personal info:");
+    //   console.log(info);
+    // });
+    // console.log("Start Ads Interacted Fetching");
+    // this.faceAdsInteractedRepo.getAllFaceAdsInteracted().then((adsData) => {
+    //   console.log("Read Ads Interacted:");
+    //   console.log(adsData);
+    // });
+    // console.log("Start Apps and Websites Fetching");
+    // this.faceAppsAndWebsitesRepo.getAllFaceAppsAndWebsites().then((apps_websites_data) => {
+    //   console.log("Read Apps and Websites:");
+    //   console.log(apps_websites_data);
+    // });
+    // console.log("Start Off Facebook Activity Fetching");
+    // this.faceOffFacebookActivityRepo.getAllOffFacebookActivity().then((offfacebookactivity) => {
+    //   console.log("Read Off Facebook Activity:");
+    //   console.log(offfacebookactivity);
+    // });
+    // this.faceFriendsRepo.getAllFacebookFriends().then((friends) => {
+    //   console.log("Read friends:");
+    //   console.log(friends);
+    // });
     this.progressBarPercent = 100;
     await delay(500);
 
