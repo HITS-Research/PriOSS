@@ -1,7 +1,7 @@
 import { Component, Input, OnInit} from '@angular/core';
 import { AddressBookModel } from 'src/app/models/Facebook/addressBook';
-import { FacebookAddressBookRepository } from 'src/app/db/data-repositories/facebook/fb-other-personal-info/face_address_book.repo';
-import { FacebookSearchHistoryRepository } from 'src/app/db/data-repositories/facebook/fb-other-personal-info/face_search_history.repo';
+import { FacebookAddressBookRepository } from 'src/app/db/data-repositories/facebook/fb-other-personal-info/face-address-book.repo';
+import { FacebookSearchHistoryRepository } from 'src/app/db/data-repositories/facebook/fb-other-personal-info/face-search-history.repo';
 import { SearchHistoryModel } from 'src/app/models/Facebook/searchHistory';
 
 @Component({
