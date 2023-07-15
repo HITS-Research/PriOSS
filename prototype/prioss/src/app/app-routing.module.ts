@@ -33,6 +33,7 @@ import {
 SpotPrivacyInstructionsComponent
 } from "./visualizations/spotify/privacy-instructions/spot-privacy-instructions.component";
 import { SongtimelineComponent } from './visualizations/spotify/songtimeline/songtimeline.component';
+import { GroupsAndEventsDataComponent } from './visualizations/facebook/groups-and-events-data/groups-and-events-data.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -67,7 +68,8 @@ const routes: Routes = [
   { path: 'face/configure-off-facebook-activity', component: OffFacebookActivityComponent },
   { path: 'face/guidelines-for-ads-settings', component: AdsSettingsComponent },
   { path: 'insta/searches', component: InstaSearchesComponent},
-  { path: 'face/other-personal-info' ,component:OtherPersonalInfoComponent}
+  { path: 'face/other-personal-info' ,component:OtherPersonalInfoComponent},
+  { path: 'face/groups-and-events-data' , component: GroupsAndEventsDataComponent},
 ];
 
 @NgModule({

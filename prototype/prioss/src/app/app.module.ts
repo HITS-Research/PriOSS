@@ -105,6 +105,10 @@ import { FacebookSearchHistoryRepository } from './db/data-repositories/facebook
 import { SpotPrivacyInstructionsComponent } from './visualizations/spotify/privacy-instructions/spot-privacy-instructions.component';
 import { SongtimelineComponent } from './visualizations/spotify/songtimeline/songtimeline.component';
 import { OtherPersonalInfoComponent } from './visualizations/facebook/other-personal-info/other-personal-info.component';
+import { GroupsAndEventsDataComponent } from './visualizations/facebook/groups-and-events-data/groups-and-events-data.component';
+import { FacebookEventsRepository } from './db/data-repositories/facebook/fb-groups-events-info/face_events.repo';
+import { FacebookGroupsRepository } from './db/data-repositories/facebook/fb-groups-events-info/face_groups.repo';
+
 
 registerLocaleData(de);
 
@@ -363,7 +367,8 @@ const dbConfig: DBConfig  =
     GdprComponent,
     SpotPrivacyInstructionsComponent,
     SongtimelineComponent,
-    OtherPersonalInfoComponent
+    OtherPersonalInfoComponent,
+    GroupsAndEventsDataComponent
   ],
   imports: [
     BrowserModule,
@@ -430,6 +435,8 @@ const dbConfig: DBConfig  =
     FacebookFriendsRepository,
     FacebookAddressBookRepository,
     FacebookSearchHistoryRepository,
+    FacebookEventsRepository,
+    FacebookGroupsRepository,
     { provide: NZ_I18N, useValue: de_DE }
   ],
   bootstrap: [AppComponent],

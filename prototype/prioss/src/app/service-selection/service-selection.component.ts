@@ -49,8 +49,8 @@ import { InstaKeywordSearchesRepository } from '../db/data-repositories/instagra
 import { InstaTagSearchesRepository } from '../db/data-repositories/instagram/insta-searches/insta-tag-searches.repository';
 import { FacebookAddressBookRepository } from '../db/data-repositories/facebook/fb-other-personal-info/face_address_book.repo';
 import { FacebookSearchHistoryRepository } from '../db/data-repositories/facebook/fb-other-personal-info/face_search_history.repo';
-
-
+import { FacebookEventsRepository } from '../db/data-repositories/facebook/fb-groups-events-info/face_events.repo';
+import { FacebookGroupsRepository } from '../db/data-repositories/facebook/fb-groups-events-info/face_groups.repo';
 
 //service identifier filenames
 const instaIDFilename = "TODO";
@@ -141,7 +141,9 @@ export class ServiceSelectionComponent {
               private scroll: ViewportScroller,
               private faceFriendsRepo: FacebookFriendsRepository,
               private faceAddressRepo: FacebookAddressBookRepository,
-              private faceSearchhistoryRepo: FacebookSearchHistoryRepository
+              private faceSearchhistoryRepo: FacebookSearchHistoryRepository,
+              private faceEventsRepo: FacebookEventsRepository,
+              private faceGroupsRepo: FacebookGroupsRepository
              )  {
     
     //clear the database when this component gets created
@@ -189,6 +191,9 @@ export class ServiceSelectionComponent {
     });
     this.dbService.clear("face/who_you_follow").subscribe((deleted) => {
       console.log("Cleared face/who_you_follow: " + deleted);
+    });
+    this.dbService.clear("face/groups-and-events-data").subscribe((deleted) => {
+      console.log("Cleared face/groups-and-events-data: " + deleted);
     });
   }
 
@@ -590,7 +595,15 @@ export class ServiceSelectionComponent {
           await this.faceSearchhistoryRepo.addAdsClickedBulkEntry(text, timestamp);
         }
       }
-      
+      else if(filename === "event_invitations.json") {
+        let jsonData = JSON.parse(content);
+        let events_invited = jsonData.events_invited_v2;
+
+        await this.faceEventsRepo.startAdActivityBulkAdd(events_invited[0].name, events_invited[0].start_timestamp, events_invited[0].end_timestamp, events_invited.length);
+        for(let i = 1; i < events_invited.length; i++) {
+          await this.faceEventsRepo.addAdActivityBulkEntry(events_invited[i].name, events_invited[i].start_timestamp, events_invited[i].end_timestamp);
+        }
+      } 
     }
 
     console.log("Start Addresses Fetching");

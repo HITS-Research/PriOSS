@@ -14,7 +14,7 @@ import * as sql from "./face_events.sql";
  */
 
 @Injectable()
-export class FacebookGroupsRepository extends BulkAddCapableRepository {
+export class FacebookEventsRepository extends BulkAddCapableRepository {
     constructor(dbService: DBService) {
         super(sql.bulkAddFaceEventsBaseSQL, sql.bulkAddFaceEventsValuesSQL, sql.bulkAddValueConnector, dbService);
     }
@@ -51,7 +51,7 @@ export class FacebookGroupsRepository extends BulkAddCapableRepository {
      * 
     */
 
-    async getAllGroups() : Promise<EventsModel[]> {
+    async getAllEvents() : Promise<EventsModel[]> {
         return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
           let result = await db.query(sql.selectAllEvents);
           return result.values as EventsModel[];

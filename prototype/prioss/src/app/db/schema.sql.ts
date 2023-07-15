@@ -291,6 +291,19 @@ CREATE TABLE IF NOT EXISTS face_search_history (
     timestamp INTEGER
 );
 
+CREATE TABLE IF NOT EXISTS face_groups (
+    id INTEGER PRIMARY KEY,
+    name TEXT,
+    timestamp TEXT
+);
+
+CREATE TABLE IF NOT EXISTS face_events (
+    id INTEGER PRIMARY KEY,
+    name TEXT,
+    start_timestamp TEXT,
+    end_timestamp TEXT
+);
+
 `;
 //PRAGMA user_version = 1;
 
@@ -340,4 +353,6 @@ DROP TABLE IF EXISTS face_who_you_follow;
 DROP TABLE IF EXISTS face_inferred_topics;
 DROP TABLE IF EXISTS face_address_book;
 DROP TABLE IF EXISTS face_search_history;
+DROP TABLE IF EXISTS face_groups;
+DROP TABLE IF EXISTS face_events;
 `;

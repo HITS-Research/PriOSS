@@ -52,8 +52,15 @@
       <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
         <div nz-col nzXs="24" nzXl="8">
           <app-dash-card cardLink="/face/other-personal-info" titleText="Other Personal Information"
-            tooltipText="This section provides information about the address book details and the search history.">
+            tooltipText="This card provides information about the address book details and the search history.">
             <app-other-personal-info [previewMode]="true"></app-other-personal-info>
+          </app-dash-card>
+        </div>
+
+        <div nz-col nzXs="24" nzXl="8">
+          <app-dash-card cardLink="/face/groups-and-events-data" titleText="Events & Groups Information"
+          tooltipText="This card gives a gist of the Events you are invited to, events you are interested in and the groups you have joined. Click to know more!">
+          <app-groups-and-events-data [previewMode]="true"></app-groups-and-events-data>
           </app-dash-card>
         </div>
    </div>
