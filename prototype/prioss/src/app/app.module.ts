@@ -102,6 +102,7 @@ import { DashCardComponent } from './page-sub-components/dash-card/dash-card.com
 import { GdprComponent } from './info-pages/gdpr/gdpr.component';
 import { SpotPrivacyInstructionsComponent } from './visualizations/spotify/privacy-instructions/spot-privacy-instructions.component';
 import { SongtimelineComponent } from './visualizations/spotify/songtimeline/songtimeline.component';
+import { YourTopicsComponent } from './manage-privacy/facebook/your-topics/your-topics.component';
 
 registerLocaleData(de);
 
@@ -359,7 +360,8 @@ const dbConfig: DBConfig  =
     DashCardComponent,
     GdprComponent,
     SpotPrivacyInstructionsComponent,
-    SongtimelineComponent
+    SongtimelineComponent,
+    YourTopicsComponent
   ],
   imports: [
     BrowserModule,
