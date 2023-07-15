@@ -23,6 +23,15 @@
 
       <nz-tab nzTitle="Login Locations">
         <br>
+        <!-- <div [ngClass]="{'logloc-tab': logloc_empty}">
+        <div data-bind="visible: !logloc_empty">
+          <nz-result class=".no_data" nzStatus="404" nzTitle="No Data" nzSubTitle="Sorry, your data does not exist.">
+            <div nz-result-extra>
+              <button nz-button nzType="primary">Back Home</button>
+            </div>
+          </nz-result>
+        </div> -->
+
         <nz-table [nzData]="loginLocationsData" #loginLocations>
           <thead>
             <tr>
@@ -44,6 +53,13 @@
       </nz-tab>
 
       <nz-tab nzTitle="Login and Logouts">
+        <!-- <div [ngClass]="{'component-page': loginlogout_empty}">
+          <nz-result class=".no_data" nzStatus="404" nzTitle="No Data" nzSubTitle="Sorry, your data does not exist.">
+            <div nz-result-extra>
+              <button nz-button nzType="primary">Back Home</button>
+            </div>
+          </nz-result>
+        </div> -->
         <nz-row [nzGutter]="16">
           <nz-col [nzSpan]="12">
             <nz-statistic [nzValue]="(login_count | number)!" [nzTitle]="'Number of times you have logged in '"></nz-statistic>
@@ -72,6 +88,13 @@
       </nz-tab>
 
       <nz-tab nzTitle="Account Status Changes">
+        <!-- <div [ngClass]="{'component-page': accstatus_empty}">
+          <nz-result class=".no_data" nzStatus="404" nzTitle="No Data" nzSubTitle="Sorry, your data does not exist.">
+            <div nz-result-extra>
+              <button nz-button nzType="primary">Back Home</button>
+            </div>
+          </nz-result>
+        </div> -->
         <nz-row [nzGutter]="16">
           <nz-col [nzSpan]="12">
             <nz-statistic [nzValue]="(account_deactivated | number)!" [nzTitle]="'Number of times you have deactivated your account in '"></nz-statistic>
@@ -124,6 +147,13 @@
 
       <nz-tab nzTitle="Activity Locations">
         <br>
+        <!-- <div [ngClass]="{'component-page': accactivity_empty}">
+          <nz-result class=".no_data" nzStatus="404" nzTitle="No Data" nzSubTitle="Sorry, your data does not exist.">
+            <div nz-result-extra>
+              <button nz-button nzType="primary">Back Home</button>
+            </div>
+          </nz-result>
+        </div> -->
         <nz-row [nzGutter]="16">
           <nz-col [nzSpan]="12">
             <nz-statistic [nzValue]="(PasswordChange | number)!" [nzTitle]="'Password Changes '"></nz-statistic>

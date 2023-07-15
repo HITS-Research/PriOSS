@@ -27,17 +27,20 @@ export class SecurityLoginDataComponent {
   devices: any[] = [];
   timestamps: any [] = [];
   locations_num: number = 0
+  logloc_empty: boolean = false;
 
   loginlogoutData: LoginLogoutsModel[] = [];
   login_count: number = 0;
   logout_count: number = 0;
   login_logouts: number = 0;
+  loginlogout_empty: boolean = false;
 
   accStatusChangeData: AccountStatusChangesModel[] = [];
   account_deactivated: number = 0;
   account_reactivated: number = 0;
   status: any[] = [];
   timestamp: any[] = [];
+  accstatus_empty: boolean = false;
 
   accActivitiesData: AccountActivitiesModel[] = [];
   PasswordChange: number = 0;
@@ -46,6 +49,7 @@ export class SecurityLoginDataComponent {
   WebSessionTerminated: number = 0;
   MobileSessionTerminated: number = 0;
   terminatedSessions: number = 0;
+  accactivity_empty: boolean = false;
 
 
   constructor(private dbService: NgxIndexedDBService,
@@ -69,6 +73,7 @@ export class SecurityLoginDataComponent {
   async prepareData() {
     this.faceLoginLocationsRepo.getAllLoginLocations().then((allLoginLocations) => {
       this.loginLocationsData = allLoginLocations;
+      if (this.loginLocationsData.length == 0) { this.logloc_empty = true}
       console.log("this.loginLocationsData", this.loginLocationsData);
       console.log("type of this.loginLocationsData", typeof(this.loginLocationsData));
 
@@ -87,6 +92,7 @@ export class SecurityLoginDataComponent {
 
     this.faceLoginLogoutsRepo.getAllLoginLogouts().then((allLoginLogouts) => {
       this.loginlogoutData = allLoginLogouts;
+      if (this.loginlogoutData.length == 0) {this.loginlogout_empty = true}
       for(let i = 0; i < this.loginlogoutData.length; i++) {
         const unixTime: number  = +this.loginlogoutData[i].timestamp;
         this.loginlogoutData[i].timestamp = new Date(unixTime * 1000).toDateString();
@@ -104,6 +110,7 @@ export class SecurityLoginDataComponent {
 
     this.faceAccStatusChangesRepo.getAllAccStatusChanges().then((allAccStatusChanges) => {
       this.accStatusChangeData = allAccStatusChanges;
+      if (this.accStatusChangeData.length == 0) {this.accstatus_empty = true}
       console.log("this.accStatusChangeData" + this.accStatusChangeData);
       for(let i = 0; i < this.accStatusChangeData.length; i++) {
         const unixTime: number  = +this.accStatusChangeData[i].timestamp;
@@ -123,6 +130,7 @@ export class SecurityLoginDataComponent {
 
     this.faceAccActivitiesRepo.getAllAccountActivities().then((collectData) => {
       this.accActivitiesData = collectData;
+      if (this.accActivitiesData.length == 0) {this.accactivity_empty = true}
       for (let i = 0; i < this.accActivitiesData.length; i++) {
         const unixTime: number  = +this.accActivitiesData[i].timestamp;
         this.accActivitiesData[i].timestamp = new Date(unixTime * 1000).toDateString();
