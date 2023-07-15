@@ -49,6 +49,7 @@ import { InstaKeywordSearchesRepository } from '../db/data-repositories/instagra
 import { InstaTagSearchesRepository } from '../db/data-repositories/instagram/insta-searches/insta-tag-searches.repository';
 import { FacebookAddressBookRepository } from '../db/data-repositories/facebook/fb-other-personal-info/face_address_book.repo';
 import { FacebookSearchHistoryRepository } from '../db/data-repositories/facebook/fb-other-personal-info/face_search_history.repo';
+import { FacebookPostsRepository } from '../db/data-repositories/facebook/fb-posts/face-posts.repo';
 
 
 
@@ -141,7 +142,8 @@ export class ServiceSelectionComponent {
               private scroll: ViewportScroller,
               private faceFriendsRepo: FacebookFriendsRepository,
               private faceAddressRepo: FacebookAddressBookRepository,
-              private faceSearchhistoryRepo: FacebookSearchHistoryRepository
+              private faceSearchhistoryRepo: FacebookSearchHistoryRepository,
+              private facePostsRepo: FacebookPostsRepository
              )  {
     
     //clear the database when this component gets created
@@ -590,9 +592,27 @@ export class ServiceSelectionComponent {
           await this.faceSearchhistoryRepo.addAdsClickedBulkEntry(text, timestamp);
         }
       }
-      
+      else if(filename === "your_posts_1.json") {
+        let jsonData = JSON.parse(content);
+        let posts = jsonData;
+
+        let timestamp = posts[0].timestamp;
+        let title = posts[0].title;
+        await this.facePostsRepo.startPostsBulkAdd(timestamp, title, posts.length);
+
+        for(let i = 1; i < posts.length; i++){
+          let title = posts[i].title;
+          let timestamp = posts[i].timestamp;
+          await this.facePostsRepo.addPostsBulkEntry(timestamp, title);
+        }
+      }
     }
 
+    console.log("Start post Fetching");
+    this.facePostsRepo.getAllPosts().then((data) => {
+      console.log("Read posts:");
+      console.log(data);
+    });
     console.log("Start Addresses Fetching");
     this.faceAddressRepo.getAllFaceAddressBook().then((data) => {
       console.log("Read Addresses:");
