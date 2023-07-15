@@ -603,6 +603,16 @@ export class ServiceSelectionComponent {
         for(let i = 1; i < events_invited.length; i++) {
           await this.faceEventsRepo.addAdActivityBulkEntry(events_invited[i].name, events_invited[i].start_timestamp, events_invited[i].end_timestamp);
         }
+      }
+      else if(filename === "your_group_membership_activity.json") {
+        let jsonData = JSON.parse(content);
+        let groups_joined = jsonData.groups_joined_v2;
+
+
+        await this.faceGroupsRepo.startAdActivityBulkAdd(groups_joined[0].data[0].name, groups_joined[0].timestamp, groups_joined.length);
+        for(let i = 1; i < groups_joined.length; i++) {
+          await this.faceGroupsRepo.addAdActivityBulkEntry(groups_joined[i].data[0].name, groups_joined[i].timestamp);
+        }
       } 
     }
 

@@ -47,7 +47,32 @@
         </nz-tab>
 
         <nz-tab nzTitle="Groups Data">
+            <nz-row [nzGutter]="16">
+                <nz-col [nzSpan]="12">
+                    <nz-statistic clas="stats" [nzValue]="(groupsData.length| number)!" [nzTitle]="'Number of Groups you are part of '"></nz-statistic>
+                </nz-col>
+                <nz-col [nzSpan]="12">
+                    <nz-statistic class="stats" [nzValue]= groupsData[groupsData.length-1].timestamp [nzTitle]="'Latest Group Joined on '"></nz-statistic>
+                </nz-col>
+            </nz-row>
 
+            <br>
+                <nz-table [nzData]="groupsData" #groupsId>
+                    <thead>
+                        <tr>
+                            <th nzCustomFilter class="tableCol">Group Name</th>
+                            <th nzCustomFilter class="tableCol"> Joined On</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let eachRow of groupsId.data">
+                            <td> {{ eachRow.name }} </td>
+                            <td> {{ eachRow.timestamp }} </td>
+                        </tr>
+                    </tbody>
+                </nz-table>
+                <br>
+                <button nz-button nzType="primary"> To Privacy Recommendations</button>
         </nz-tab>
     </nz-tabset>
 

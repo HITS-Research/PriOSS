@@ -57,7 +57,14 @@ export class GroupsAndEventsDataComponent {
       }
     });
 
-
+    await this.faceGroupsRepo.getAllGroups().then((allGroupsInfo) => {
+      this.groupsData = allGroupsInfo;
+      this.total_groups = this.groupsData.length; 
+      for (let i = 0; i < this.groupsData.length; i++) {
+        const unixTimeStart: number  = +this.groupsData[i].timestamp;
+        this.groupsData[i].timestamp = new Date(unixTimeStart * 1000).toDateString();
+      }
+    });
   }
 
 }
