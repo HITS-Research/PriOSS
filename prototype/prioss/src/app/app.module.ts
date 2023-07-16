@@ -114,6 +114,9 @@ import { OtherPersonalInfoComponent } from './visualizations/facebook/other-pers
 import { FaceBookMessagesInfoRepository } from './db/data-repositories/facebook/fb-messages-data/fb-messages-friends.repo';
 import { MessagesComponent } from './visualizations/facebook/messages/messages.component';
 import { FaceBookGroupMessagesInfoRepository } from './db/data-repositories/facebook/fb-messages-data/fb-messages-groups.repo';
+import { GroupsAndEventsDataComponent } from './visualizations/facebook/groups-and-events-data/groups-and-events-data.component';
+import { FacebookEventsRepository } from './db/data-repositories/facebook/fb-groups-events-info/face_events.repo';
+import { FacebookGroupsRepository } from './db/data-repositories/facebook/fb-groups-events-info/face_groups.repo';
 
 registerLocaleData(de);
 
@@ -375,7 +378,8 @@ const dbConfig: DBConfig  =
     YourTopicsComponent,
     SecurityLoginDataComponent,
     OtherPersonalInfoComponent,
-    MessagesComponent
+    MessagesComponent,
+    GroupsAndEventsDataComponent
 
   ],
   imports: [
@@ -449,6 +453,8 @@ const dbConfig: DBConfig  =
     FacebookLoginLogoutsRepository,
     FaceBookMessagesInfoRepository,
     FaceBookGroupMessagesInfoRepository,
+    FacebookGroupsRepository,
+    FacebookEventsRepository,
     { provide: NZ_I18N, useValue: de_DE }
   ],
   bootstrap: [AppComponent],
