@@ -56,14 +56,19 @@
             <app-other-personal-info [previewMode]="true"></app-other-personal-info>
           </app-dash-card>
         </div>
-
-        <div nz-col nzXs="24" nzXl="8">
+        <div>
           <app-dash-card cardLink="/face/security-login" titleText="Security and Login"
             tooltipText="This card gives a gist of your Facebook Security and Login info. Click to see year-wise details.">
             <app-security-login-data [previewMode]="true"></app-security-login-data>
           </app-dash-card>
         </div>
-      </div>
+        <div>
+      <app-dash-card cardLink="/face/messages-info" titleText="Messages"
+        tooltipText="This section provides information about the messages with other people,friends and also group interactions.">
+        <app-messages [previewMode]="true"></app-messages>
+      </app-dash-card>
+    </div>
+</div>
 </details>
 <br>
 

@@ -318,6 +318,16 @@ CREATE TABLE IF NOT EXISTS face_search_history (
     text TEXT,
     timestamp INTEGER
 );
+CREATE TABLE IF NOT EXISTS face_messages (
+    id INTEGER PRIMARY KEY,
+    name TEXT,
+    timestamp STRING
+);
+CREATE TABLE IF NOT EXISTS face_group_messages (
+    id INTEGER PRIMARY KEY,
+    name TEXT,
+    value STRING
+);
 
 `;
 //PRAGMA user_version = 1;
@@ -372,4 +382,6 @@ DROP TABLE IF EXISTS face_account_status_changes;
 DROP TABLE IF EXISTS face_account_activity;
 DROP TABLE IF EXISTS face_address_book;
 DROP TABLE IF EXISTS face_search_history;
+DROP TABLE IF EXISTS face_messages;
+DROP TABLE IF EXISTS face_group_messages;
 `;
