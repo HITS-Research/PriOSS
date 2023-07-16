@@ -8,8 +8,11 @@
         <nz-statistic [nzTitle]="'Total Searched text'"  [nzValue]="totalSearchedText"></nz-statistic>
       </nz-col>
       </nz-row>
-    </div>
-    </div>
+  </div>
+</div>
+
+<div *ngIf="!previewMode">
+     <nz-tabset class="margin-top-20">
     <div *ngIf="!previewMode">
       <app-title-bar titleText="Messages" tooltipText="This visualization presents an overview of data pertaining to address book and search history list."></app-title-bar>
    <nz-tabset class="margin-top-20">

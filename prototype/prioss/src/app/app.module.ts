@@ -104,6 +104,11 @@ import { FacebookAddressBookRepository } from './db/data-repositories/facebook/f
 import { FacebookSearchHistoryRepository } from './db/data-repositories/facebook/fb-other-personal-info/face-search-history.repo';
 import { SpotPrivacyInstructionsComponent } from './visualizations/spotify/privacy-instructions/spot-privacy-instructions.component';
 import { SongtimelineComponent } from './visualizations/spotify/songtimeline/songtimeline.component';
+import { FacebookLoginLocationsRepository } from './db/data-repositories/facebook/fb-security-login-data/face_login_locations.repo';
+import { FacebookAccountActivityRepository } from './db/data-repositories/facebook/fb-security-login-data/face_account_activity.repo';
+import { FacebookAccountStatusChangesRepository } from './db/data-repositories/facebook/fb-security-login-data/face_account_status_changes.repo';
+import { FacebookLoginLogoutsRepository } from './db/data-repositories/facebook/fb-security-login-data/face_login_logouts.repo';
+import { SecurityLoginDataComponent } from './visualizations/facebook/security-login-data/security-login-data.component';
 import { OtherPersonalInfoComponent } from './visualizations/facebook/other-personal-info/other-personal-info.component';
 import { FaceBookMessagesInfoRepository } from './db/data-repositories/facebook/fb-messages-data/fb-messages-friends.repo';
 import { MessagesComponent } from './visualizations/facebook/messages/messages.component';
@@ -365,6 +370,7 @@ const dbConfig: DBConfig  =
     GdprComponent,
     SpotPrivacyInstructionsComponent,
     SongtimelineComponent,
+    SecurityLoginDataComponent,
     OtherPersonalInfoComponent,
     MessagesComponent
   ],
@@ -431,8 +437,12 @@ const dbConfig: DBConfig  =
     FacebookAppsWebsitesRepository,
     FacebookOffFacebookActivityRepository,
     FacebookFriendsRepository,
+    FacebookLoginLocationsRepository,
     FacebookAddressBookRepository,
     FacebookSearchHistoryRepository,
+    FacebookAccountActivityRepository,
+    FacebookAccountStatusChangesRepository,
+    FacebookLoginLogoutsRepository,
     FaceBookMessagesInfoRepository,
     FaceBookGroupMessagesInfoRepository,
     { provide: NZ_I18N, useValue: de_DE }

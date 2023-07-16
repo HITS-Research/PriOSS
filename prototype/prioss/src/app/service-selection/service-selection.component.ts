@@ -47,6 +47,10 @@ import { FacebookFriendsRepository } from '../db/data-repositories/facebook/fb-f
 import { InstaUserSearchesRepository } from '../db/data-repositories/instagram/insta-searches/insta-user-searches.repository';
 import { InstaKeywordSearchesRepository } from '../db/data-repositories/instagram/insta-searches/insta-keyword-searches.repository';
 import { InstaTagSearchesRepository } from '../db/data-repositories/instagram/insta-searches/insta-tag-searches.repository';
+import { FacebookLoginLocationsRepository } from '../db/data-repositories/facebook/fb-security-login-data/face_login_locations.repo';
+import { FacebookLoginLogoutsRepository } from '../db/data-repositories/facebook/fb-security-login-data/face_login_logouts.repo';
+import { FacebookAccountStatusChangesRepository } from '../db/data-repositories/facebook/fb-security-login-data/face_account_status_changes.repo';
+import { FacebookAccountActivityRepository } from '../db/data-repositories/facebook/fb-security-login-data/face_account_activity.repo';
 import { FacebookAddressBookRepository } from '../db/data-repositories/facebook/fb-other-personal-info/face-address-book.repo';
 import { FacebookSearchHistoryRepository } from '../db/data-repositories/facebook/fb-other-personal-info/face-search-history.repo';
 import { FaceBookMessagesInfoRepository } from '../db/data-repositories/facebook/fb-messages-data/fb-messages-friends.repo';
@@ -140,6 +144,10 @@ export class ServiceSelectionComponent {
               private faceOffFacebookActivityRepo: FacebookOffFacebookActivityRepository,
               private scroll: ViewportScroller,
               private faceFriendsRepo: FacebookFriendsRepository,
+              private faceLoginLocationsRepo: FacebookLoginLocationsRepository,
+              private faceLoginLogoutsRepo: FacebookLoginLogoutsRepository,
+              private faceAccStatusChangesRepo: FacebookAccountStatusChangesRepository,
+              private faceAccActivityRepo: FacebookAccountActivityRepository,
               private faceAddressRepo: FacebookAddressBookRepository,
               private faceSearchhistoryRepo: FacebookSearchHistoryRepository,
               private faceMessagesRepo: FaceBookMessagesInfoRepository,
@@ -191,6 +199,9 @@ export class ServiceSelectionComponent {
     });
     this.dbService.clear("face/who_you_follow").subscribe((deleted) => {
       console.log("Cleared face/who_you_follow: " + deleted);
+    });
+    this.dbService.clear("face/security-login").subscribe((deleted) => {
+      console.log("Cleared face/security-login: " + deleted);
     });
   }
 
@@ -592,6 +603,46 @@ export class ServiceSelectionComponent {
           await this.faceSearchhistoryRepo.addSearchHistoryBulkEntry(text, timestamp);
         }
       }
+
+      else if(filename === "where_you_re_logged_in.json") {
+        let jsonData = JSON.parse(content);
+        let login_locations = jsonData.active_sessions_v2;
+        console.log("Parsing ****************:", filename);
+        console.log("Parsing name to data ****************:", login_locations);
+        console.log(login_locations);
+
+        await this.faceLoginLocationsRepo.startAdActivityBulkAdd(login_locations[0].location, login_locations[0].device, login_locations[0].created_timestamp, login_locations.length);
+        for (let i = 1; i < login_locations.length; i++) {
+          await this.faceLoginLocationsRepo.addAdActivityBulkEntry(login_locations[i].location, login_locations[i].device, login_locations[i].created_timestamp);
+        }
+      }
+      else if(filename === "logins_and_logouts.json") {
+        let jsonData = JSON.parse(content);
+        let logins_logouts = jsonData.account_accesses_v2;
+
+        await this.faceLoginLogoutsRepo.startAdActivityBulkAdd(logins_logouts[0].action, logins_logouts[0].timestamp, logins_logouts.length);
+        for (let i = 1; i < logins_logouts.length; i++) {
+          await this.faceLoginLogoutsRepo.addAdActivityBulkEntry(logins_logouts[i].action, logins_logouts[i].timestamp);
+        }
+      }
+      else if(filename === "account_status_changes.json") {
+        let jsonData = JSON.parse(content);
+        let acc_status_changes = jsonData.account_status_changes_v2;
+
+        await this.faceAccStatusChangesRepo.startAdActivityBulkAdd(acc_status_changes[0].status, acc_status_changes[0].timestamp, acc_status_changes.length);
+        for (let i = 1; i < acc_status_changes.length; i++) {
+          await this.faceAccStatusChangesRepo.addAdActivityBulkEntry(acc_status_changes[i].status, acc_status_changes[i].timestamp);
+        }
+      }
+      else if(filename === "account_activity.json") {
+        let jsonData = JSON.parse(content);
+        let account_activity_data = jsonData.account_activity_v2;
+
+        await this.faceAccActivityRepo.startAdActivityBulkAdd(account_activity_data[0].action, account_activity_data[0].timestamp, account_activity_data[0].city, account_activity_data[0].region, account_activity_data[0].country, account_activity_data[0].site_name, account_activity_data.length);
+        for (let i = 1; i < account_activity_data.length; i++) {
+          await this.faceAccActivityRepo.addAdActivityBulkEntry(account_activity_data[i].action, account_activity_data[i].timestamp, account_activity_data[i].city, account_activity_data[i].region, account_activity_data[i].country, account_activity_data[i].site_name);
+        }
+      }
       if (filename === "people_and_friends.json") {
         let jsonData = JSON.parse(content);
         let people_friends_messages_data = jsonData.people_interactions_v2;
@@ -666,6 +717,24 @@ export class ServiceSelectionComponent {
     this.faceFriendsRepo.getAllFacebookFriends().then((friends) => {
       console.log("Read friends:");
       console.log(friends);
+    });
+
+    console.log("Start Login Locations Fetching");
+    this.faceLoginLocationsRepo.getAllLoginLocations().then((locs) => {
+      console.log("Read Login Info:");
+      console.log(locs);
+    });
+
+    console.log("Start Login Logouts Fetching");
+    this.faceLoginLogoutsRepo.getAllLoginLogouts().then((loginouts) => {
+      console.log("Read Login Logout Info:");
+      console.log(loginouts);
+    });
+
+    console.log("Start Account Activities Fetching");
+    this.faceAccActivityRepo.getAllAccountActivities().then((activities) => {
+      console.log("Read Account Activities Info:");
+      console.log(activities);
     });
 
     this.faceMessagesRepo.getAllFaceMessagesInfo().then((messages) => {
