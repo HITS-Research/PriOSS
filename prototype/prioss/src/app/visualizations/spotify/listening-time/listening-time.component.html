@@ -50,4 +50,18 @@
     <div id="listeningtime-bar-chart" class="visualization-card"></div>
 </div>
 
-<app-songtimeline #SongtimelineComponent style="display:none" id="songtimeline-page"></app-songtimeline>
+<div id="contextmenu" class="contextmenu">
+    <button (click)="goToTopSongs()">
+        View Top Songs
+    </button>
+    <br>
+    <button (click)="goToTopArtists()">
+        View Top Artists
+    </button>
+</div>
+
+<div *ngIf="!previewMode">
+    <app-songtimeline #SongtimelineComponent style="display:none" id="songtimeline-page"></app-songtimeline>
+    <spot-top-songs #TopSongsComponent style="display:none" id="topsongs-page"></spot-top-songs>
+    <spot-top-artists #TopArtistsComponent style="display:none" id="topartists-page"></spot-top-artists>
+</div>
