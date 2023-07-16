@@ -27,9 +27,9 @@ export const selectInstaShoppingSQL: string = `
 `;
 
 export const getTotalMerchantCountSQL: string = `
- select count(merchantName) as totalMerchantCount from insta_shopping;
+ select count( DISTINCT merchantName) as totalMerchantCount from insta_shopping;
 `;
 
 export const getTotalProductCountSQL: string = `
- select count(productName) as totalProductCount from insta_shopping;
+ select count( DISTINCT productName) as totalProductCount from insta_shopping;
 `;

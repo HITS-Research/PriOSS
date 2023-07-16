@@ -116,6 +116,7 @@ import { OtherPersonalInfoComponent } from './visualizations/facebook/other-pers
 import { FaceBookMessagesInfoRepository } from './db/data-repositories/facebook/fb-messages-data/fb-messages-friends.repo';
 import { MessagesComponent } from './visualizations/facebook/messages/messages.component';
 import { FaceBookGroupMessagesInfoRepository } from './db/data-repositories/facebook/fb-messages-data/fb-messages-groups.repo';
+import { InstaShoppingWishlistRepository } from './db/data-repositories/instagram/insta-shopping/insta-shopping_wishlist.repository';
 
 registerLocaleData(de);
 
@@ -430,6 +431,7 @@ const dbConfig: DBConfig  =
     InstaFollowingRepository,
     InstaBlockedRepository,
     InstaShoppingRepository,
+    InstaShoppingWishlistRepository,
     InstaRecentFollowRepository,
     InstaPendingFollowRequestRepository,
     InstaRecentlyUnfollowedAccountsRepository,

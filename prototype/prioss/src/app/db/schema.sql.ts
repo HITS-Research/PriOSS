@@ -184,6 +184,12 @@ CREATE TABLE IF NOT EXISTS insta_shopping (
     productName TEXT NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS insta_shopping_wishlist (
+    id INTEGER PRIMARY KEY,
+    merchantName TEXT NOT NULL,
+    productName TEXT NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS insta_recent_follow_info (
     id INTEGER PRIMARY KEY,
     instaProfileURL TEXT NOT NULL,
@@ -368,6 +374,7 @@ DROP TABLE IF EXISTS insta_follower_info;
 DROP TABLE IF EXISTS insta_following_info;
 DROP TABLE IF EXISTS insta_blocked_info;
 DROP TABLE IF EXISTS insta_shopping;
+DROP TABLE IF EXISTS insta_shopping_wishlist;
 DROP TABLE IF EXISTS insta_recent_follow_info;
 DROP TABLE IF EXISTS insta_pending_follow_request_info;
 DROP TABLE IF EXISTS insta_recently_unfollowed_accounts_info;

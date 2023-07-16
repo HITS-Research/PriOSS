@@ -1,7 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { SequenceComponentInit } from '../../sequence-component-init.abstract';
 import { InstaShoppingRepository } from 'src/app/db/data-repositories/instagram/insta-shopping/insta-shopping.repository';
+import { InstaShoppingWishlistRepository } from 'src/app/db/data-repositories/instagram/insta-shopping/insta-shopping_wishlist.repository';
 import { InstaShoppingInfo } from 'src/app/models/Instagram/ShoppingInfo/InstaShoppingInfo';
+import { InstaShoppingWishlistInfo } from 'src/app/models/Instagram/ShoppingInfo/InstaShoppingWishlistInfo';
 
 @Component({
   selector: 'app-insta-shopping',
@@ -15,10 +17,14 @@ export class InstaShoppingComponent extends SequenceComponentInit{
 
   totalMerchants: number = 0;
   totalProducts: number = 0;
+  totalWishlistMerchants: number = 0;
+  totalWishlistProducts: number = 0;
 
   shoppingData: InstaShoppingInfo[] = [];
+  shoppingWishlistData: InstaShoppingWishlistInfo[] = [];
 
-  constructor(private instaShoppingRepo: InstaShoppingRepository){
+  constructor(private instaShoppingRepo: InstaShoppingRepository,
+              private instaShoppingWishlistRepo : InstaShoppingWishlistRepository){
     super();
   }
 
@@ -47,6 +53,14 @@ export class InstaShoppingComponent extends SequenceComponentInit{
 
     this.totalMerchants = await this.instaShoppingRepo.getTotalMerchantCount();
     this.totalProducts = await this.instaShoppingRepo.getTotalProductCount();
+
+     // Shopping Wishlist Data fetched from SQlite
+     await this.instaShoppingWishlistRepo.getAllShoppingWishlistInfo().then((shoppingWishlistData) => {
+      this.shoppingWishlistData = shoppingWishlistData;
+    });
+
+    this.totalWishlistMerchants = await this.instaShoppingWishlistRepo.getTotalMerchantCount();
+    this.totalWishlistProducts = await this.instaShoppingWishlistRepo.getTotalProductCount();
   }
 
 }
