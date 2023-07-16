@@ -1,0 +1,69 @@
+<div [ngClass]="{'component-page': !previewMode}">
+    <div *ngIf="previewMode">
+        <nz-row [nzGutter]="16">
+            <nz-col [nzSpan]="16">
+              <nz-statistic [nzTitle]="'Friends and Other People Interactions'"  [nzValue]="totalPeopleMessages"></nz-statistic>
+            </nz-col>
+            <nz-col [nzSpan]="16">
+              <nz-statistic  [nzTitle]="'Groups Interactions'" [nzValue]="totalGroupMessages"></nz-statistic>
+            </nz-col>
+          </nz-row>
+        </div>
+        </div>
+
+<div *ngIf="!previewMode">
+    <app-title-bar titleText="Messages" tooltipText="This visualization presents an overview of data pertaining to interactions with friends and group interactions."></app-title-bar>
+    <nz-tabset class="margin-top-20">
+    <nz-tab nzTitle="Friends and Other People Interactions">
+      <nz-row [nzGutter]="16">
+        <nz-col [nzSpan]="12">
+          <nz-statistic [nzValue]="(messagesData.length| number)!" [nzTitle]="'Number of People You Have Messaged '"></nz-statistic>
+        </nz-col>
+        <nz-col [nzSpan]="12">
+          <nz-statistic [nzValue]= convertTimestamp(messagesData[0].timestamp) [nzTitle]="'Latest Interaction On '"></nz-statistic>
+        </nz-col>
+      </nz-row>
+      <br>
+    <nz-table [nzData]="messagesData" #basicTable>
+    <thead>
+      <tr>  
+        <th nzCustomFilter class="tableCol">Contact Name</th>
+        <th nzCustomFilter class="tableCol">Last Interacted On</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of basicTable.data">
+        <td>{{ data.name }}</td>
+        <td>{{ convertTimestamp(data.timestamp) }}</td>
+      </tr>
+    </tbody>
+  </nz-table>
+
+  </nz-tab>
+  <nz-tab nzTitle="Group Interactions">
+    <nz-row [nzGutter]="16">
+      <nz-col [nzSpan]="12">
+        <nz-statistic [nzValue]="(groupMessagesData.length| number)!" [nzTitle]="'Number of Groups You Have Messaged '"></nz-statistic>
+      </nz-col>
+      <!-- <nz-col [nzSpan]="12">
+        <nz-statistic [nzValue]= convertTimestamp(messagesData[0].timestamp) [nzTitle]="'Latest Interaction On '"></nz-statistic>
+      </nz-col> -->
+    </nz-row>
+    <br>
+    <nz-table [nzData]="groupMessagesData" #grpMsgTable>
+        <thead>
+          <tr>  
+            <th nzCustomFilter class="tableCol">Group Name</th>
+            <th nzCustomFilter class="tableCol">Number of Group Interactions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of grpMsgTable.data">
+            <td>{{ data.name }}</td>
+            <td>{{ data.value }}</td>
+          </tr>
+        </tbody>
+      </nz-table>
+  </nz-tab>
+  </nz-tabset>
+</div>
