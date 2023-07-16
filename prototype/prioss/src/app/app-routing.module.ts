@@ -34,6 +34,9 @@ SpotPrivacyInstructionsComponent
 } from "./visualizations/spotify/privacy-instructions/spot-privacy-instructions.component";
 import { SongtimelineComponent } from './visualizations/spotify/songtimeline/songtimeline.component';
 import { GroupsAndEventsDataComponent } from './visualizations/facebook/groups-and-events-data/groups-and-events-data.component';
+import { YourTopicsComponent } from './manage-privacy/facebook/your-topics/your-topics.component';
+import { SecurityLoginDataComponent } from './visualizations/facebook/security-login-data/security-login-data.component';
+import { MessagesComponent } from './visualizations/facebook/messages/messages.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -70,6 +73,11 @@ const routes: Routes = [
   { path: 'insta/searches', component: InstaSearchesComponent},
   { path: 'face/other-personal-info' ,component:OtherPersonalInfoComponent},
   { path: 'face/groups-and-events-data' , component: GroupsAndEventsDataComponent},
+  { path: 'face/your-topics', component: YourTopicsComponent},
+  { path: 'face/security-login', component: SecurityLoginDataComponent },
+  { path: 'insta/searches', component: InstaSearchesComponent},
+  // { path: 'face/other-personal-info' ,component:OtherPersonalInfoComponent},
+  { path: 'face/messages-info' ,component:MessagesComponent}
 ];
 
 @NgModule({

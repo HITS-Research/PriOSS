@@ -1,12 +1,11 @@
 import { Component, Input, OnInit} from '@angular/core';
-import { NgxIndexedDBService } from 'ngx-indexed-db';
 import * as d3 from 'd3';
 import { Router } from '@angular/router';
-import { FacebookAdsInteractedRepository } from 'src/app/db/data-repositories/facebook/fb_ads_data/face_ads_interacted.repo';
+import { FacebookAdsInteractedRepository } from 'src/app/db/data-repositories/facebook/fb-ads-data/face-ads-interacted.repo';
 import { AdsInteractedModel } from "src/app/models/Facebook/adsInteracted";
-import { FacebookAppsWebsitesRepository } from 'src/app/db/data-repositories/facebook/fb_ads_data/face_apps_websites.repo';
+import { FacebookAppsWebsitesRepository } from 'src/app/db/data-repositories/facebook/fb-ads-data/face-apps-websites.repo';
 import { AppsAndWebsitesModel } from 'src/app/models/Facebook/appsAndWebsites';
-import { FacebookOffFacebookActivityRepository } from 'src/app/db/data-repositories/facebook/fb_ads_data/face_off_facebook_activity.repo';
+import { FacebookOffFacebookActivityRepository } from 'src/app/db/data-repositories/facebook/fb-ads-data/face-off-facebook-activity.repo';
 import { OffFacebookActivityModel } from 'src/app/models/Facebook/offfacebookactivity';
   @Component({
     selector: 'app-ads-related-data',

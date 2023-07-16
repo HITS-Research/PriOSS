@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { DBService } from "../../../../services/db/db.service";
 import { BulkAddCapableRepository } from "../../general/inferences/bulk-add-capable.repository";
-import * as sql from "./face_search_history.sql";
+import * as sql from "./face-search-history.sql";
 import { SearchHistoryModel } from "src/app/models/Facebook/searchHistory";
 import { SQLiteDBConnection } from "@capacitor-community/sqlite";
 
@@ -28,7 +28,7 @@ export class FacebookSearchHistoryRepository extends BulkAddCapableRepository {
      * 
      * @author: Rishma (rishmamn@mail.upb.de)
      */
-       async startAdsClickedBulkAdd(text: string, timestamp: number, totalRowCount: number, targetBulkSize: number = 500) {
+       async startSearchHistoryBulkAdd(text: string, timestamp: number, totalRowCount: number, targetBulkSize: number = 500) {
         this.startBulkAdd([text, timestamp], totalRowCount, targetBulkSize);
     }
 
@@ -40,7 +40,7 @@ export class FacebookSearchHistoryRepository extends BulkAddCapableRepository {
      * 
      *@author: Rishma (rishmamn@mail.upb.de)
      */
-    async addAdsClickedBulkEntry(text: string, timestamp: number,) : Promise<void> {
+    async addSearchHistoryBulkEntry(text: string, timestamp: number,) : Promise<void> {
         return this.addBulkEntry([text, timestamp]);
     }
     

@@ -92,23 +92,31 @@ import { InstaRecentlyUnfollowedAccountsRepository } from './db/data-repositorie
 import { InstaRemovedSuggestionRepository } from './db/data-repositories/instagram/insta-follower-info/insta-removed-suggestion.repository';
 import { InstaReceivedFollowRequestRepository } from './db/data-repositories/instagram/insta-follower-info/insta-received-follow-request.repository';
 import { FaqComponent } from './info-pages/faq/faq.component';
-import { FacebookAdsInteractedRepository } from './db/data-repositories/facebook/fb_ads_data/face_ads_interacted.repo';
-import { FacebookAppsWebsitesRepository } from './db/data-repositories/facebook/fb_ads_data/face_apps_websites.repo';
-import { FacebookOffFacebookActivityRepository } from './db/data-repositories/facebook/fb_ads_data/face_off_facebook_activity.repo';
+import { FacebookAdsInteractedRepository } from './db/data-repositories/facebook/fb-ads-data/face-ads-interacted.repo';
+import { FacebookAppsWebsitesRepository } from './db/data-repositories/facebook/fb-ads-data/face-apps-websites.repo';
+import { FacebookOffFacebookActivityRepository } from './db/data-repositories/facebook/fb-ads-data/face-off-facebook-activity.repo';
 import { KnownIssuesComponent } from './info-pages/known-issues/known-issues.component';
 import { FacebookFriendsRepository } from './db/data-repositories/facebook/fb-friends-data/face_friends.repo';
 import { AdsSettingsComponent } from './manage-privacy/facebook/guidlines-for-ads-settings/ads-settings/ads-settings.component';
 import { DashCardComponent } from './page-sub-components/dash-card/dash-card.component';
 import { GdprComponent } from './info-pages/gdpr/gdpr.component';
-import { FacebookAddressBookRepository } from './db/data-repositories/facebook/fb-other-personal-info/face_address_book.repo';
-import { FacebookSearchHistoryRepository } from './db/data-repositories/facebook/fb-other-personal-info/face_search_history.repo';
+import { FacebookAddressBookRepository } from './db/data-repositories/facebook/fb-other-personal-info/face-address-book.repo';
+import { FacebookSearchHistoryRepository } from './db/data-repositories/facebook/fb-other-personal-info/face-search-history.repo';
 import { SpotPrivacyInstructionsComponent } from './visualizations/spotify/privacy-instructions/spot-privacy-instructions.component';
 import { SongtimelineComponent } from './visualizations/spotify/songtimeline/songtimeline.component';
+import { YourTopicsComponent } from './manage-privacy/facebook/your-topics/your-topics.component';
+import { FacebookLoginLocationsRepository } from './db/data-repositories/facebook/fb-security-login-data/face_login_locations.repo';
+import { FacebookAccountActivityRepository } from './db/data-repositories/facebook/fb-security-login-data/face_account_activity.repo';
+import { FacebookAccountStatusChangesRepository } from './db/data-repositories/facebook/fb-security-login-data/face_account_status_changes.repo';
+import { FacebookLoginLogoutsRepository } from './db/data-repositories/facebook/fb-security-login-data/face_login_logouts.repo';
+import { SecurityLoginDataComponent } from './visualizations/facebook/security-login-data/security-login-data.component';
 import { OtherPersonalInfoComponent } from './visualizations/facebook/other-personal-info/other-personal-info.component';
+import { FaceBookMessagesInfoRepository } from './db/data-repositories/facebook/fb-messages-data/fb-messages-friends.repo';
+import { MessagesComponent } from './visualizations/facebook/messages/messages.component';
+import { FaceBookGroupMessagesInfoRepository } from './db/data-repositories/facebook/fb-messages-data/fb-messages-groups.repo';
 import { GroupsAndEventsDataComponent } from './visualizations/facebook/groups-and-events-data/groups-and-events-data.component';
 import { FacebookEventsRepository } from './db/data-repositories/facebook/fb-groups-events-info/face_events.repo';
 import { FacebookGroupsRepository } from './db/data-repositories/facebook/fb-groups-events-info/face_groups.repo';
-
 
 registerLocaleData(de);
 
@@ -367,8 +375,12 @@ const dbConfig: DBConfig  =
     GdprComponent,
     SpotPrivacyInstructionsComponent,
     SongtimelineComponent,
+    YourTopicsComponent,
+    SecurityLoginDataComponent,
     OtherPersonalInfoComponent,
+    MessagesComponent,
     GroupsAndEventsDataComponent
+
   ],
   imports: [
     BrowserModule,
@@ -386,7 +398,7 @@ const dbConfig: DBConfig  =
     NzDividerModule,
     NzProgressModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
-      enabled: !isDevMode(),
+      enabled: environment.production,
       // Register the ServiceWorker as soon as the application is stable
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000'
@@ -433,10 +445,16 @@ const dbConfig: DBConfig  =
     FacebookAppsWebsitesRepository,
     FacebookOffFacebookActivityRepository,
     FacebookFriendsRepository,
+    FacebookLoginLocationsRepository,
     FacebookAddressBookRepository,
     FacebookSearchHistoryRepository,
-    FacebookEventsRepository,
+    FacebookAccountActivityRepository,
+    FacebookAccountStatusChangesRepository,
+    FacebookLoginLogoutsRepository,
+    FaceBookMessagesInfoRepository,
+    FaceBookGroupMessagesInfoRepository,
     FacebookGroupsRepository,
+    FacebookEventsRepository,
     { provide: NZ_I18N, useValue: de_DE }
   ],
   bootstrap: [AppComponent],
