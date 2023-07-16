@@ -36,8 +36,8 @@ export class MoodComponent {
     this.allSongsNumber = spotHistory.length;
     const trackIds: string[] = [];
     const names: string[] = [];
-    const limit = 10000;
-    
+    const limit = 100;
+
     for (const entry of spotHistory) {
 
       if (this.queriedSongs >= limit) {
@@ -140,30 +140,30 @@ export class MoodComponent {
     if (trackName.length === 0) {
       throw new Error('Track name is empty');
     }
-  
+
     try {
       const response = await fetch(`https://api.spotify.com/v1/search?q=${trackName}&type=track&limit=1`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
       });
-  
+
       if (!response.ok) {
         throw new Error('Error retrieving track ID');
       }
-  
+
       const json = await response.json();
       if (!json.tracks.items.length) {
         throw new Error('No track found');
       }
-  
+
       return json.tracks.items[0].id;
     } catch (error) {
       console.error('An error occurred:', error);
       throw error;
     }
   }
-  
+
 
 
 
@@ -250,7 +250,7 @@ function addListeningDateToAudiofeatures(audiofeatures: any, names: string[], or
 * @author: Sven (svenf@mail.uni-paderborn.de)
 *
 */
-function makeBarChart(audiofeatures: any) {
+function maakeBarChart(audiofeatures: any) {
   let danceabilitySum = 0;
   let energySum = 0;
   let loudnessSum = 0;
@@ -362,6 +362,162 @@ function makeBarChart(audiofeatures: any) {
 
 }
 
+/*
+* D3 seems to be the most used visualisation library for javascript. I don't understand the code here yet. However, at the moment it calculates the average of all provided songs for the 
+* audiofeatures dancebility, enery, liveness and sum. And these values are then represented in a barchart.
+* @author: Sven (svenf@mail.uni-paderborn.de)
+*
+*/
+function makeBarChart(audiofeatures: any) {
+  let danceabilitySum = 0;
+  let energySum = 0;
+  let loudnessSum = 0;
+  let valenceSum = 0;
+  let tempoSum = 0;
+  let count = audiofeatures.length;
+
+  audiofeatures.forEach((key: any) => {
+    ;
+    danceabilitySum += key.danceability;
+    energySum += key.energy;
+    loudnessSum += key.loudness;
+    valenceSum += key.valence;
+    tempoSum += key.tempo;
+  })
+
+  let avgDance = danceabilitySum / count * 100;
+  let avgEnergy = energySum / count * 100;
+  //let avgLoudness = loudnessSum / count;
+  let avgVal = valenceSum / count * 100;
+  //let avgTempo = tempoSum / count;
+
+
+  let data: any = [
+    { feature: "Valence", value: avgVal, color: "#9954E6" },
+    { feature: "Energy", value: avgEnergy, color: "#63adfeb3" },
+    //{ name: "Loudness", value: avgLoudness, color: "#533a84" },
+    { feature: "Dancebility", value: avgDance, color: "#dd8050c4" },
+    // { name: "Tempo", value: avgTempo, color: "#296E01" }
+    { feature: "Valence", value: avgVal, color: "#9954E6" },
+    { feature: "Energy", value: avgEnergy, color: "#63adfeb3" },
+    //{ name: "Loudness", value: avgLoudness, color: "#533a84" },
+    { feature: "Dancebility", value: avgDance, color: "#dd8050c4" }
+  ];
+  console.log(data);
+
+  let width = 600;
+  let height = 600;
+
+  
+
+  let svg = d3.select("#bar-chart").append("svg")
+    .attr("width", width)
+    .attr("height", height);
+
+
+  let radialScale = d3.scaleLinear()
+    .domain([0, 100])
+    .range([0, 250]);
+  let ticks = [20, 40, 60, 80, 100];
+
+  svg.selectAll("circle")
+    .data(ticks)
+    .join(
+      enter => enter.append("circle")
+        .attr("cx", width / 2)
+        .attr("cy", height / 2)
+        .attr("fill", "none")
+        .attr("stroke", "gray")
+        .attr("r", d => radialScale(d))
+    );
+
+  svg.selectAll(".ticklabel")
+    .data(ticks)
+    .join(
+      enter => enter.append("text")
+        .attr("class", "ticklabel")
+        .attr("x", width / 2 + 5)
+        .attr("y", d => height / 2 - radialScale(d))
+        .text(d => d.toString())
+    );
+
+  let featureData = data.map((f:any, i:any) => {
+    let angle = (Math.PI / 2) + (2 * Math.PI * i / data.length);
+    return {
+      "name": f,
+      "angle": angle,
+      "line_coord": angleToCoordinate(angle, 100),
+      "label_coord": angleToCoordinate(angle, 105)
+    };
+  });
+
+  console.log(featureData);
+
+  // draw axis line
+  svg.selectAll("line")
+    .data(featureData)
+    .join(
+      enter => enter.append("line")
+        .attr("x1", width / 2)
+        .attr("y1", height / 2)
+        .attr("x2", (d:any)  => d.line_coord.x)
+        .attr("y2", (d:any)  => d.line_coord.y)
+        .attr("stroke", "black")
+    );
+
+  // draw axis label
+  svg.selectAll(".axislabel")
+    .data(featureData)
+    .join(
+      enter => enter.append("text")
+        .attr("x", (d:any) => d.label_coord.x)
+        .attr("y", (d:any)  => d.label_coord.y)
+        .text((d:any)  => d.name.feature)
+    );
+
+
+
+
+  let line = d3.line()
+    .x((d:any)  => d.x)
+    .y((d:any)  => d.y);
+  let colors = ["green"];
+
+  function getPathCoordinates() {
+    let coordinates = [];
+    for (var i = 0; i < data.length; i++) {
+      let angle = (Math.PI / 2) + (2 * Math.PI * i / data.length);
+      coordinates.push(angleToCoordinate(angle, data[i].value));
+    }
+    
+    return coordinates;
+  }
+
+  svg.selectAll("path")
+    .data(data)
+    .join(
+      (enter:any) => enter.append("path")
+        .datum(() => getPathCoordinates())
+        .attr("d", line)
+        .attr("stroke-width", 3)
+        .attr("stroke", () => colors[0])
+        .attr("fill", () => colors[0])
+        .attr("stroke-opacity", 1)
+        .attr("opacity", 1)
+    );
+
+
+    function angleToCoordinate(angle:number, value:number) {
+      let x = Math.cos(angle) * radialScale(value);
+      let y = Math.sin(angle) * radialScale(value);
+      return { "x": width / 2 + x, "y": height / 2 - y };
+    }
+
+
+
+}
+
+
 
 
 
@@ -382,3 +538,5 @@ function makeOneArray(arrayOfArrays: any): any {
   });
   return flattenedArray
 }
+
+

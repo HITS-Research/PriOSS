@@ -50,7 +50,7 @@
         </app-dash-card>
       </div>
     </div>
-    <div nz-col nzXs="24" nzXl="8">
+    <div nz-col nzXs="32" nzXl="16">
       <nz-card nzTitle="Average Audio Feature Value" nzHoverable [nzExtra]="switchTemplate">
         <div *ngIf="thirdPartyConnection; then spotifyMood else requiresConnectionText"></div>
         <ng-template #spotifyMood>
