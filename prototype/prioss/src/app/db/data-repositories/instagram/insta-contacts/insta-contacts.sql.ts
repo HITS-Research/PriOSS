@@ -19,5 +19,7 @@ union all
 `;
 
 export const selectContactsSQL: string=`
-select firstName, surname, contactInformation from insta_contacts;
+select firstName, surname, contactInformation 
+  from insta_contacts
+ order by surname;
 `;

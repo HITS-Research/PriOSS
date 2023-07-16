@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { DBService } from "../../../../services/db/db.service";
 import { BulkAddCapableRepository } from "../../general/inferences/bulk-add-capable.repository";
-import * as sql from "./face_apps_websites.sql";
+import * as sql from "./face-apps-websites.sql";
 import { AppsAndWebsitesModel } from "src/app/models/Facebook/appsAndWebsites";
 import { SQLiteDBConnection } from "@capacitor-community/sqlite";
 

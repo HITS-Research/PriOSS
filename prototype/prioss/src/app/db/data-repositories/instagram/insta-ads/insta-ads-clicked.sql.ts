@@ -23,7 +23,7 @@ union all
 // SELECT Queries
 
 export const selectInstaAdsClickedSQL: string = `
-    select 
-    title, timestamp
-    from insta_ads_clicked;
+select title, timestamp
+  from insta_ads_clicked
+ order by title asc;
 `;

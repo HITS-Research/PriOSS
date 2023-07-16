@@ -12,8 +12,15 @@ export class InstaContactComponent extends SequenceComponentInit{
 
   @Input()
   previewMode: boolean = false;
+  firstnameSearchValue = '';
+  surnameSearchValue = '';
+  numberSearchValue = '';
+  firstVisible = false;
+  surVisible = false;
+  numberVisible = false;
 
   contacts: InstaContactInfo[] = [];
+  listOfContacts: InstaContactInfo[] = [];
 
   constructor(private instaContactsRepo: InstaContactsRepository){
     super();
@@ -33,13 +40,67 @@ export class InstaContactComponent extends SequenceComponentInit{
 
   /**
   * @see-super-class
-  * @author Durva & Mayank (dghurye@mail.upb.de & mayank@mail.upb.de)
+  * @author: Durva & Mayank (dghurye@mail.upb.de & mayank@mail.upb.de)
   */
   override async initComponent(): Promise<void> {
-    console.log("--- Initializing Component 5: Contacts");
+    console.log("--- Initializing Component 4: Contacts");
     // Contacts fetched from SQlite
     await this.instaContactsRepo.getAllContacts().then((contacts) => {
       this.contacts = contacts;
+      this.listOfContacts = [...this.contacts];
     });
+  }
+
+  /**
+   * Resets the given searchvalue.
+   * 
+   * @param searchList the list that should be resetted.
+   * 
+   * @author: Paul (pasch@mail.upb.de)
+   */
+  reset(searchList: string): void {
+    switch (searchList) {
+      case 'first':
+        this.firstnameSearchValue = '';
+        break;
+      case 'sur':
+        this.surnameSearchValue = '';
+        break;
+      case 'number':
+        this.numberSearchValue = '';
+        break;
+      default:
+        break;
+    }
+
+    this.search(searchList);
+  }
+
+
+  /**
+   * Searches the given list for the current searchvalue.
+   * 
+   * @param searchList the list that should be searched.
+   * 
+   * @author: Paul (pasch@mail.upb.de)
+   */
+  search(searchList: string): void {
+    this.firstVisible = false;
+    this.surVisible = false;
+    this.numberVisible = false;
+
+    switch (searchList) {
+      case 'first':
+        this.listOfContacts = this.contacts.filter((item: InstaContactInfo) => item.firstName.indexOf(this.firstnameSearchValue) !== -1);
+        break;
+      case 'sur':
+        this.listOfContacts = this.contacts.filter((item: InstaContactInfo) => item.surname.indexOf(this.surnameSearchValue) !== -1);
+        break;
+      case 'number':
+        this.listOfContacts = this.contacts.filter((item: InstaContactInfo) => item.contactInformation.indexOf(this.numberSearchValue) !== -1);
+        break;
+      default:
+        break;
+    }
   }
 }

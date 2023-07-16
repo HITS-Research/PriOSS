@@ -1,7 +1,5 @@
-<div> <!--[ngClass]="{'component-page': !previewMode}"-->
-
+<div id="listeningtime-page"> <!--[ngClass]="{'component-page': !previewMode}"-->
 <!--    <p *ngIf="previewMode">Day: {{filterSingleDate?.toLocaleString([], { year: "numeric", month: "2-digit", day: "2-digit" })}}</p>-->
-
     <div *ngIf="!previewMode">
         <!--Titlebar component -->
         <app-title-bar titleText="Listening Time" tooltipText="Use the 'Visualize by' drop-down to switch between viewing how much time you spent listening to Spotify during which hours, days, months or years.
@@ -50,4 +48,20 @@
         <br>
     </div>
     <div id="listeningtime-bar-chart" class="visualization-card"></div>
+</div>
+
+<div id="contextmenu" class="contextmenu">
+    <button (click)="goToTopSongs()">
+        View Top Songs
+    </button>
+    <br>
+    <button (click)="goToTopArtists()">
+        View Top Artists
+    </button>
+</div>
+
+<div *ngIf="!previewMode">
+    <app-songtimeline #SongtimelineComponent style="display:none" id="songtimeline-page"></app-songtimeline>
+    <spot-top-songs #TopSongsComponent style="display:none" id="topsongs-page"></spot-top-songs>
+    <spot-top-artists #TopArtistsComponent style="display:none" id="topartists-page"></spot-top-artists>
 </div>

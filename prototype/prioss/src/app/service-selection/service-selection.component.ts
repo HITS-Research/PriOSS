@@ -40,9 +40,9 @@ import { InstaLoginRepository } from '../db/data-repositories/instagram/insta-ac
 import { InstaLogoutRepository } from '../db/data-repositories/instagram/insta-accountcreation-login/insta-logout.repository';
 import { InstaContactsRepository } from '../db/data-repositories/instagram/insta-contacts/insta-contacts.repository';
 import { InferredTopicsRepository } from '../db/data-repositories/facebook/fb-inferred-data/face_inferred_topics.repo';
-import { FacebookAdsInteractedRepository } from '../db/data-repositories/facebook/fb_ads_data/face_ads_interacted.repo';
-import { FacebookAppsWebsitesRepository } from '../db/data-repositories/facebook/fb_ads_data/face_apps_websites.repo';
-import { FacebookOffFacebookActivityRepository } from '../db/data-repositories/facebook/fb_ads_data/face_off_facebook_activity.repo';
+import { FacebookAdsInteractedRepository } from '../db/data-repositories/facebook/fb-ads-data/face-ads-interacted.repo';
+import { FacebookAppsWebsitesRepository } from '../db/data-repositories/facebook/fb-ads-data/face-apps-websites.repo';
+import { FacebookOffFacebookActivityRepository } from '../db/data-repositories/facebook/fb-ads-data/face-off-facebook-activity.repo';
 import { FacebookFriendsRepository } from '../db/data-repositories/facebook/fb-friends-data/face_friends.repo';
 import { InstaUserSearchesRepository } from '../db/data-repositories/instagram/insta-searches/insta-user-searches.repository';
 import { InstaKeywordSearchesRepository } from '../db/data-repositories/instagram/insta-searches/insta-keyword-searches.repository';
@@ -50,6 +50,14 @@ import { InstaTagSearchesRepository } from '../db/data-repositories/instagram/in
 import { InstaShoppingRepository } from '../db/data-repositories/instagram/insta-shopping/insta-shopping.repository';
 
 
+import { FacebookLoginLocationsRepository } from '../db/data-repositories/facebook/fb-security-login-data/face_login_locations.repo';
+import { FacebookLoginLogoutsRepository } from '../db/data-repositories/facebook/fb-security-login-data/face_login_logouts.repo';
+import { FacebookAccountStatusChangesRepository } from '../db/data-repositories/facebook/fb-security-login-data/face_account_status_changes.repo';
+import { FacebookAccountActivityRepository } from '../db/data-repositories/facebook/fb-security-login-data/face_account_activity.repo';
+import { FacebookAddressBookRepository } from '../db/data-repositories/facebook/fb-other-personal-info/face-address-book.repo';
+import { FacebookSearchHistoryRepository } from '../db/data-repositories/facebook/fb-other-personal-info/face-search-history.repo';
+import { FaceBookMessagesInfoRepository } from '../db/data-repositories/facebook/fb-messages-data/fb-messages-friends.repo';
+import { FaceBookGroupMessagesInfoRepository } from '../db/data-repositories/facebook/fb-messages-data/fb-messages-groups.repo';
 
 //service identifier filenames
 const instaIDFilename = "TODO";
@@ -139,7 +147,15 @@ export class ServiceSelectionComponent {
               private faceAppsAndWebsitesRepo: FacebookAppsWebsitesRepository,
               private faceOffFacebookActivityRepo: FacebookOffFacebookActivityRepository,
               private scroll: ViewportScroller,
-              private faceFriendsRepo: FacebookFriendsRepository
+              private faceFriendsRepo: FacebookFriendsRepository,
+              private faceLoginLocationsRepo: FacebookLoginLocationsRepository,
+              private faceLoginLogoutsRepo: FacebookLoginLogoutsRepository,
+              private faceAccStatusChangesRepo: FacebookAccountStatusChangesRepository,
+              private faceAccActivityRepo: FacebookAccountActivityRepository,
+              private faceAddressRepo: FacebookAddressBookRepository,
+              private faceSearchhistoryRepo: FacebookSearchHistoryRepository,
+              private faceMessagesRepo: FaceBookMessagesInfoRepository,
+              private faceGroupMessagesRepo: FaceBookGroupMessagesInfoRepository
              )  {
     
     //clear the database when this component gets created
@@ -187,6 +203,9 @@ export class ServiceSelectionComponent {
     });
     this.dbService.clear("face/who_you_follow").subscribe((deleted) => {
       console.log("Cleared face/who_you_follow: " + deleted);
+    });
+    this.dbService.clear("face/security-login").subscribe((deleted) => {
+      console.log("Cleared face/security-login: " + deleted);
     });
   }
 
@@ -558,8 +577,122 @@ export class ServiceSelectionComponent {
         const formattedBirthdate = `${birthdate.day.toString().padStart(2, '0')}-${birthdate.month.toString().padStart(2, '0')}-${birthdate.year}`;
         await this.UserdataRepo.addUserdata(personal_data.name.full_name, personal_data.emails.emails[0], personal_data.current_city ?  personal_data.current_city.name : "", formattedBirthdate, personal_data.gender.gender_option, 0,0,"","","");
       }
+      else if(filename === "your_address_books.json") {
+        let jsonData = JSON.parse(content);
+        let address_book = jsonData.address_book_v2.address_book;
+
+        let name = address_book[0].name;
+        let contact_point = address_book[0].details[0] ? address_book[0].details[0].contact_point : "";
+        let created_timestamp = address_book[0].created_timestamp;
+        await this.faceAddressRepo.startAddressBookBulkAdd(name, contact_point, created_timestamp, address_book.length);
+
+        for(let i = 1; i < address_book.length; i++){
+          let name = address_book[i].name;
+          let contact_point = address_book[i].details[0] ? address_book[i].details[0].contact_point : "";
+          let created_timestamp = address_book[i].created_timestamp;
+          await this.faceAddressRepo.addAddressBookBulkEntry(name, contact_point, created_timestamp);
+        }
+      }
+      else if(filename === "your_search_history.json") {
+        let jsonData = JSON.parse(content);
+        let search_history = jsonData.searches_v2;
+
+        let text = search_history[0].data[0].text;
+        let timestamp = search_history[0].timestamp;
+        await this.faceSearchhistoryRepo.startSearchHistoryBulkAdd(text, timestamp, search_history.length);
+
+        for(let i = 1; i < search_history.length; i++){
+          let text = search_history[i].data[0].text;
+          let timestamp = search_history[i].timestamp;
+          await this.faceSearchhistoryRepo.addSearchHistoryBulkEntry(text, timestamp);
+        }
+      }
+
+      else if(filename === "where_you_re_logged_in.json") {
+        let jsonData = JSON.parse(content);
+        let login_locations = jsonData.active_sessions_v2;
+        console.log("Parsing ****************:", filename);
+        console.log("Parsing name to data ****************:", login_locations);
+        console.log(login_locations);
+
+        await this.faceLoginLocationsRepo.startAdActivityBulkAdd(login_locations[0].location, login_locations[0].device, login_locations[0].created_timestamp, login_locations.length);
+        for (let i = 1; i < login_locations.length; i++) {
+          await this.faceLoginLocationsRepo.addAdActivityBulkEntry(login_locations[i].location, login_locations[i].device, login_locations[i].created_timestamp);
+        }
+      }
+      else if(filename === "logins_and_logouts.json") {
+        let jsonData = JSON.parse(content);
+        let logins_logouts = jsonData.account_accesses_v2;
+
+        await this.faceLoginLogoutsRepo.startAdActivityBulkAdd(logins_logouts[0].action, logins_logouts[0].timestamp, logins_logouts.length);
+        for (let i = 1; i < logins_logouts.length; i++) {
+          await this.faceLoginLogoutsRepo.addAdActivityBulkEntry(logins_logouts[i].action, logins_logouts[i].timestamp);
+        }
+      }
+      else if(filename === "account_status_changes.json") {
+        let jsonData = JSON.parse(content);
+        let acc_status_changes = jsonData.account_status_changes_v2;
+
+        await this.faceAccStatusChangesRepo.startAdActivityBulkAdd(acc_status_changes[0].status, acc_status_changes[0].timestamp, acc_status_changes.length);
+        for (let i = 1; i < acc_status_changes.length; i++) {
+          await this.faceAccStatusChangesRepo.addAdActivityBulkEntry(acc_status_changes[i].status, acc_status_changes[i].timestamp);
+        }
+      }
+      else if(filename === "account_activity.json") {
+        let jsonData = JSON.parse(content);
+        let account_activity_data = jsonData.account_activity_v2;
+
+        await this.faceAccActivityRepo.startAdActivityBulkAdd(account_activity_data[0].action, account_activity_data[0].timestamp, account_activity_data[0].city, account_activity_data[0].region, account_activity_data[0].country, account_activity_data[0].site_name, account_activity_data.length);
+        for (let i = 1; i < account_activity_data.length; i++) {
+          await this.faceAccActivityRepo.addAdActivityBulkEntry(account_activity_data[i].action, account_activity_data[i].timestamp, account_activity_data[i].city, account_activity_data[i].region, account_activity_data[i].country, account_activity_data[i].site_name);
+        }
+      }
+      if (filename === "people_and_friends.json") {
+        let jsonData = JSON.parse(content);
+        let people_friends_messages_data = jsonData.people_interactions_v2;
       
+        if (people_friends_messages_data.length > 0) {
+          let entries = people_friends_messages_data[0].entries;
+          await this.faceMessagesRepo.startMessagesBulkAdd(entries[0].data.name, entries[0].timestamp, entries.length);
+      
+          for (let i = 1; i < entries.length; i++) {
+            let entry = entries[i];
+            let name = entry.data.name;
+            let timestamp = entry.timestamp;
+            await this.faceMessagesRepo.addMessagesBulkEntry(name, timestamp);
+          }
+        }
+      }
+      if (filename === "group_interactions.json") {
+        let jsonData = JSON.parse(content);
+        let group_messages_data = jsonData.group_interactions_v2;
+      
+        if (group_messages_data.length > 0) {
+          let entries = group_messages_data[0].entries;
+          await this.faceGroupMessagesRepo.startGroupMessagesBulkAdd(entries[0].data.name, entries[0].data.value, entries.length);
+      
+          for (let i = 1; i < entries.length; i++) {
+            let entry = entries[i];
+            let name = entry.data.name;
+            let value = entry.data.value;
+            await this.faceGroupMessagesRepo.addGroupMessagesBulkEntry(name, value);
+          }
+        }
+      }
     }
+
+    console.log("Start Addresses Fetching");
+    this.faceAddressRepo.getAllFaceAddressBook().then((data) => {
+      console.log("Read Addresses:");
+      console.log(data);
+    });
+  
+    console.log("Start Search History Fetching");
+    this.faceSearchhistoryRepo.getAllFaceSearchHistory().then((data) => {
+      console.log("Read Search History:");
+      console.log(data);
+    });
+
     console.log("Start topics Fetching");
     this.inferredTopicsDataRepo.getAllInferredTopics().then((topics) => {
       console.log("Read topics:");
@@ -588,6 +721,34 @@ export class ServiceSelectionComponent {
     this.faceFriendsRepo.getAllFacebookFriends().then((friends) => {
       console.log("Read friends:");
       console.log(friends);
+    });
+
+    console.log("Start Login Locations Fetching");
+    this.faceLoginLocationsRepo.getAllLoginLocations().then((locs) => {
+      console.log("Read Login Info:");
+      console.log(locs);
+    });
+
+    console.log("Start Login Logouts Fetching");
+    this.faceLoginLogoutsRepo.getAllLoginLogouts().then((loginouts) => {
+      console.log("Read Login Logout Info:");
+      console.log(loginouts);
+    });
+
+    console.log("Start Account Activities Fetching");
+    this.faceAccActivityRepo.getAllAccountActivities().then((activities) => {
+      console.log("Read Account Activities Info:");
+      console.log(activities);
+    });
+
+    this.faceMessagesRepo.getAllFaceMessagesInfo().then((messages) => {
+      console.log("Read Messages:");
+      console.log(messages);
+    });
+    console.log("Start Group Messages Fetching");
+    this.faceGroupMessagesRepo.getAllFaceGroupMessagesInfo().then((data) => {
+      console.log("Read Group  Messages:");
+      console.log(data);
     });
     this.progressBarPercent = 100;
     await delay(500);
@@ -829,62 +990,80 @@ export class ServiceSelectionComponent {
       //add ads related data
       else if (filename.startsWith('ads_interests')) {
         let jsonData = JSON.parse(content);
-        let adsData = jsonData.inferred_data_ig_interest;
-        let startData = adsData[0].string_map_data;
+        let adsInterestData = jsonData.inferred_data_ig_interest;
 
-        await this.instaAdsInterestRepo.startAdInterestBulkAdd(startData.Interest.value, adsData.length);
-        for (let i = 1; i < adsData.length; i++) {
-          let entry = adsData[i].string_map_data;
-          await this.instaAdsInterestRepo.addAdInterestBulkEntry(entry.Interest.value);
+        let interest = utilities.getValueIgnoreCase(adsInterestData[0].string_map_data,"Interest", false);
+
+        if(adsInterestData.length == 1) {
+          await this.instaAdsInterestRepo.addSingleAdInterestData(interest);
+        } else {
+          await this.instaAdsInterestRepo.startAdInterestBulkAdd(interest, adsInterestData.length);
+          for (let i = 1; i < adsInterestData.length; i++) {
+            let interest = utilities.getValueIgnoreCase(adsInterestData[i].string_map_data,"Interest", false);
+            await this.instaAdsInterestRepo.addAdInterestBulkEntry(interest);
+          }
         }
       }
       else if (filename.startsWith('advertisers_using_your_activity')) {
         let jsonData = JSON.parse(content);
         let adsData = jsonData.ig_custom_audiences_all_types;
 
-        await this.instaAdsActivityRepo.startAdActivityBulkAdd(adsData[0].advertiser_name, adsData[0].has_data_file_custom_audience, 
-                                                       adsData[0].has_remarketing_custom_audience, adsData[0].has_in_person_store_visit, adsData.length);          
-        for (let i = 1; i < adsData.length; i++) {
-          await this.instaAdsActivityRepo.addAdActivityBulkEntry(adsData[i].advertiser_name, adsData[i].has_data_file_custom_audience, 
-                                                   adsData[i].has_remarketing_custom_audience, adsData[i].has_in_person_store_visit);
-        }
+        if(adsData.length == 1) {
+          await this.instaAdsActivityRepo.addSingleAdActivityData(adsData[0].advertiser_name, 
+            adsData[0].has_data_file_custom_audience, 
+            adsData[0].has_remarketing_custom_audience, 
+            adsData[0].has_in_person_store_visit);          
+        } else {
+          await this.instaAdsActivityRepo.startAdActivityBulkAdd(adsData[0].advertiser_name, 
+            adsData[0].has_data_file_custom_audience, 
+            adsData[0].has_remarketing_custom_audience, 
+            adsData[0].has_in_person_store_visit, 
+            adsData.length);          
+          for (let i = 1; i < adsData.length; i++) {
+            await this.instaAdsActivityRepo.addAdActivityBulkEntry(adsData[i].advertiser_name, 
+              adsData[i].has_data_file_custom_audience, 
+              adsData[i].has_remarketing_custom_audience, 
+              adsData[i].has_in_person_store_visit);
+          }
+        }        
       }
       else if (filename.startsWith('ads_clicked')) {
         let jsonData = JSON.parse(content);
-        let adsData = jsonData.impressions_history_ads_clicked;
+        let adsClickedData = jsonData.impressions_history_ads_clicked;
 
-        await this.instaAdsClickedRepo.startAdsClickedBulkAdd(adsData[0].title, adsData[0].string_list_data[0].timestamp, adsData.length);
-        for (let i = 1; i < adsData.length; i++) {
-          await this.instaAdsClickedRepo.addAdsClickedBulkEntry(adsData[i].title, adsData[i].string_list_data[0].timestamp);
+        if(adsClickedData.length == 1) {
+          await this.instaAdsClickedRepo.addSingleAdClickedData(
+            adsClickedData[0].title, 
+            adsClickedData[0].string_list_data[0].timestamp);
+        } else {
+          await this.instaAdsClickedRepo.startAdsClickedBulkAdd(
+            adsClickedData[0].title, 
+            adsClickedData[0].string_list_data[0].timestamp, 
+            adsClickedData.length);
+          for (let i = 1; i < adsClickedData.length; i++) {
+            await this.instaAdsClickedRepo.addAdsClickedBulkEntry(
+              adsClickedData[i].title, 
+              adsClickedData[i].string_list_data[0].timestamp);
+          }
         }
       }
       else if (filename.startsWith('ads_viewed')) {
         let jsonData = JSON.parse(content);
-        let adsData = jsonData.impressions_history_ads_seen;
-        let startData = adsData[0].string_map_data;
+        let adsViewedData = jsonData.impressions_history_ads_seen;
 
-        var startDate_time = ""
-        if (startData.Time.timestamp !== undefined) { 
-          startDate_time = startData.Time.timestamp
-        } else if (startData.Time.value !== undefined) {
-          startDate_time = startData.Time.value
-        }
+        let author = utilities.getValueIgnoreCase(adsViewedData[0].string_map_data, "Author", false);
+        let timestamp = utilities.getValueIgnoreCase(adsViewedData[0].string_map_data, "Time", true);
 
-        await this.instaAdsViewedRepo.startAdsViewedBulkAdd(startData.Author.value, startDate_time, adsData.length);
-        for (let i = 1; i < adsData.length; i++) {
-          let entry = adsData[i].string_map_data;
-          // Some data is incomplete so it is filtered out here
-          if (entry.Author === undefined || entry.Time === undefined) {
-            continue;
+        if(adsViewedData.length == 1) {
+          await this.instaAdsViewedRepo.addSinlgeAdViewedData(author, timestamp);
+        } else {
+          await this.instaAdsViewedRepo.startAdViewedBulkAdd(author, timestamp, 
+            adsViewedData.length);
+          for (let i = 1; i < adsViewedData.length; i++) {
+            let author = utilities.getValueIgnoreCase(adsViewedData[0].string_map_data, "Author", false);
+            let timestamp = utilities.getValueIgnoreCase(adsViewedData[0].string_map_data, "Time", true);
+            await this.instaAdsViewedRepo.addAdViewedBulkEntry(author, timestamp);
           }
-          var time = ""
-          if (entry.Time.timestamp !== undefined) { 
-            time = entry.Time.timestamp
-          } else if (entry.Time.value !== undefined) {
-            time = entry.Time.value
-          }
-
-          await this.instaAdsViewedRepo.addAdsViewedBulkEntry(entry.Author.value, time);
         }
       }
       else if (filename.startsWith("signup_information.json")) {
@@ -1086,7 +1265,7 @@ export class ServiceSelectionComponent {
         }
       }
       //add recent follow information
-      if (filename.startsWith("recent_follow_requests")) {
+      else if (filename.startsWith("recent_follow_requests")) {
         let jsonData = JSON.parse(content);
         let recentFollowData = jsonData.relationships_permanent_follow_requests;
         await this.instaRecentFollowRepo.startRecentFollowBulkAdd(recentFollowData[0].string_list_data[0].href,
@@ -1102,7 +1281,7 @@ export class ServiceSelectionComponent {
         }    
       }
       //add pending follow request information
-      if (filename.startsWith("pending_follow_requests")) {
+      else if (filename.startsWith("pending_follow_requests")) {
         let jsonData = JSON.parse(content);
         let pendingFollowData = jsonData.relationships_follow_requests_sent;
         await this.instaPendingFollowRequestRepo.startPendingFollowRequestBulkAdd(pendingFollowData[0].string_list_data[0].href,
@@ -1117,7 +1296,7 @@ export class ServiceSelectionComponent {
         }    
       }
       //add recently unfollowed accounts information
-      if (filename.startsWith("recently_unfollowed_accounts")) {
+      else if (filename.startsWith("recently_unfollowed_accounts")) {
         let jsonData = JSON.parse(content);
         let recentlyUnfollowData = jsonData.relationships_unfollowed_users;
         await this.instaRecentlyUnfollowedAccountsRepo.startRecentlyUnfollowedAccountsBulkAdd(recentlyUnfollowData[0].string_list_data[0].href,
@@ -1133,7 +1312,7 @@ export class ServiceSelectionComponent {
       }
 
       //add removed suggestion information
-      if (filename.startsWith("removed_suggestions")) {
+      else if (filename.startsWith("removed_suggestions")) {
         let jsonData = JSON.parse(content);
         let removedSuggestionData = jsonData.relationships_dismissed_suggested_users;
         await this.instaRemovedSuggestionRepo.startRemovedSuggestionBulkAdd(removedSuggestionData[0].string_list_data[0].href,
@@ -1149,7 +1328,7 @@ export class ServiceSelectionComponent {
       }
 
       //add received follow request information
-      if (filename.startsWith("follow_requests_you've_received")) {
+      else if (filename.startsWith("follow_requests_you've_received")) {
         let jsonData = JSON.parse(content);
         let receivedRequestData = jsonData.relationships_follow_requests_received;
         await this.instaReceivedFollowRequestRepo.startReceivedFollowRequestBulkAdd(receivedRequestData[0].string_list_data[0].href,
@@ -1269,199 +1448,6 @@ export class ServiceSelectionComponent {
         this.router.navigate(['spot/dashboard']);
       }, 3000);
 
-    });
-  }
-
-  /**
-    * Parses the uploaded Facebook data-download-zip file into the indexedDB
-    *
-    * @author: rishmamn@campus.uni-paderborn.de,Rishma (rishmamn@mail.uni-paderborn.de)
-    *
-    */
-  parseFacebookFile() {
-    let file = this.uploadedFiles[0];
-
-    this.loadZipFile(file).then((zip: any) => {
-
-      Object.keys(zip.files).forEach((filename: any) => {
-        zip.files[filename].async("string").then((content: any) => {
-          if (filename == "profile_information/profile_information.json") {
-            let jsonData = JSON.parse(content);
-            let personal_data = jsonData.profile_v2;
-            const birthdate = personal_data.birthday;
-            const formattedBirthdate = `${birthdate.day.toString().padStart(2, '0')}
-            -${birthdate.month.toString().padStart(2, '0')}-${birthdate.year}`;
-            this.dbService.add("all/userdata",
-              {
-                username: personal_data.name.full_name,
-                email: personal_data.emails.emails,
-                birthdate: formattedBirthdate,
-                gender: personal_data.gender.gender_option
-              }).subscribe((key) => {
-              });
-              setTimeout(() => {
-              }, 1000);
-         
-          }
-       
-          else if (filename == "ads_information/advertisers_using_your_activity_or_information.json") {
-            console.log('Parsing: ' + filename);
-            let jsonData = JSON.parse(content);
-            jsonData.custom_audiences_all_types_v2.forEach((advertisers_info: any) => {
-              this.dbService.add('face/ads_information',
-                {
-                  advertiser_name: advertisers_info.advertiser_name,
-                  has_data_file_custom_audience: advertisers_info.has_data_file_custom_audience,
-                  has_remarketing_custom_audience: advertisers_info.has_remarketing_custom_audience,
-                  has_in_person_store_visit: advertisers_info.has_in_person_store_visit,
-                }).subscribe((key) => {
-                });
-            });
-            setTimeout(() => {
-            }, 1500);
-         
-          }
-          else if (filename == "ads_information/advertisers_you've_interacted_with.json") {
-            console.log('Parsing: ' + filename);
-            let jsonData = JSON.parse(content);
-            jsonData.history_v2.forEach((ads_interacted_with_info: any) => {
-              this.dbService.add('face/ads_interacted',
-                {
-                  title: ads_interacted_with_info.title,
-                  action: ads_interacted_with_info.action,
-                  timestamp: ads_interacted_with_info.timestamp,
-                }).subscribe((key) => {
-                  console.log("interact", key, this.dbService.getAll('face/ads_interacted'))
-                });
-            });
-          }
-          else if (filename == "your_topics/your_topics.json") {
-            console.log('Parsing: ' + filename);
-            let jsonData = JSON.parse(content);
-            jsonData.inferred_topics_v2.forEach((topic: any) => {
-              this.dbService.add('face/inferred_topics',
-                {
-                  topic: topic
-                }).subscribe((key) => {
-                  console.log("inferred", key, this.dbService.getAll('face/inferred_topics'))
-                });
-            });
-          }
-          else if (filename == "apps_and_websites_off_of_facebook/apps_and_websites.json") {
-            console.log('Parsing: ' + filename);
-            let jsonData = JSON.parse(content);
-            jsonData.installed_apps_v2.forEach((apps_websites_info: any) => {
-              this.dbService.add('face/apps_websites',
-                {
-                  name: apps_websites_info.name,
-                  added_timestamp: apps_websites_info.added_timestamp,
-                  user_app_scoped_id: apps_websites_info.user_app_scoped_id,
-                  category: apps_websites_info.category,
-                  removed_timestamp: apps_websites_info.removed_timestamp
-                }).subscribe((key) => {
-
-                });
-            });
-          }
-          else if (filename == "apps_and_websites_off_of_facebook/your_off-facebook_activity.json") {
-            console.log('Parsing: ' + filename);
-            let jsonData = JSON.parse(content);
-            jsonData.off_facebook_activity_v2.forEach((off_facebook_activity_info: any) => {
-              this.dbService.add('face/off_facebook_activity',
-                {
-                  name: off_facebook_activity_info.name,
-                  events: off_facebook_activity_info.events,
-                  id: off_facebook_activity_info.events[0].id,
-                  type: off_facebook_activity_info.events[0].type,
-                  timestamp: off_facebook_activity_info.events[0].timestamp
-                }).subscribe((key) => {
-
-                });
-            });
-          }
-          else if (filename == "friends_and_followers/friend_requests_received.json") {
-            console.log('Parsing: ' + filename);
-            let jsonData = JSON.parse(content);
-            jsonData.received_requests_v2.forEach((friends: any) => {
-              this.dbService.add('face/friend_requests_received',
-                {
-                  name: friends.name,
-                  timestamp: new Date(friends.timestamp * 1000),
-                }).subscribe((key) => {
-                  console.log("requests", key, this.dbService.getAll('face/friend_requests_received'))
-                });
-            });
-          }
-          else if (filename == "friends_and_followers/friend_requests_sent.json") {
-            console.log('Parsing: ' + filename);
-            let jsonData = JSON.parse(content);
-            jsonData.sent_requests_v2.forEach((friends: any) => {
-              this.dbService.add('face/friend_requests_sent',
-                {
-                  name: friends.name,
-                  timestamp: new Date(friends.timestamp * 1000),
-                }).subscribe((key) => {
-                  console.log("request_sent", key, this.dbService.getAll('face/friend_requests_sent'))
-                });
-            });
-          }
-          else if (filename == "friends_and_followers/friends.json") {
-            console.log('Parsing: ' + filename);
-            let jsonData = JSON.parse(content);
-            jsonData.friends_v2.forEach((friends: any) => {
-              this.dbService.add('face/friends',
-                {
-                  name: friends.name,
-                  timestamp: new Date(friends.timestamp * 1000),
-                }).subscribe((key) => {
-                  console.log("friends", key, this.dbService.getAll('face/friends'))
-                });
-            });
-          }
-          else if (filename == "friends_and_followers/rejected_friend_requests.json") {
-            console.log('Parsing: ' + filename);
-            let jsonData = JSON.parse(content);
-            jsonData.rejected_requests_v2.forEach((friends: any) => {
-              this.dbService.add('face/rejected_friend_requests',
-                {
-                  name: friends.name,
-                  timestamp: new Date(friends.timestamp * 1000),
-                }).subscribe((key) => {
-                  console.log("rejected_friend_request", key, this.dbService.getAll('face/rejected_friend_requests'))
-                });
-            });
-          }
-          else if (filename == "friends_and_followers/removed_friends.json") {
-            console.log('Parsing: ' + filename);
-            let jsonData = JSON.parse(content);
-            jsonData.deleted_friends_v2.forEach((friends: any) => {
-              this.dbService.add('face/removed_friends',
-                {
-                  name: friends.name,
-                  timestamp: new Date(friends.timestamp * 1000),
-                }).subscribe((key) => {
-                  console.log("removed_friends", key, this.dbService.getAll('face/removed_friends'))
-                });
-            });
-          }
-          else if (filename == "friends_and_followers/who_you_follow.json") {
-            console.log('Parsing: ' + filename);
-            let jsonData = JSON.parse(content);
-            jsonData.following_v2.forEach((friends: any) => {
-              this.dbService.add('face/who_you_follow',
-                {
-                  name: friends.name,
-                  timestamp: new Date(friends.timestamp * 1000),
-                }).subscribe((key) => {
-                  console.log("who_you_follow", key, this.dbService.getAll('friends_and_followers/who_you_follow'))
-                });
-            });
-          }
-          setTimeout(() => {
-          }, 2000);
-        });
-      });
-      return true;
     });
   }
 

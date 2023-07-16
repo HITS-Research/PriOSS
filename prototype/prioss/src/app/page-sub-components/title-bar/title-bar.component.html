@@ -1,6 +1,6 @@
-<button *ngIf="includeButton" nz-button nzType="text" class="header-back-button" (click)="routeToDashboard()">
+<button *ngIf="includeButton" nz-button nzType="text" class="header-back-button" (click)="onClickedBackButton()">
   <span nz-icon nzType="arrow-left"></span>
-  Back to Dashboard
+  {{ backButtonTextOverride.length > 0 ? backButtonTextOverride : 'Back to Dashboard'}}
 </button>
 <h3 style="position: relative;">{{titleText}}
   <span *ngIf="tooltipText.length > 0" nz-tooltip nzTooltipTitle="{{tooltipText}}">
