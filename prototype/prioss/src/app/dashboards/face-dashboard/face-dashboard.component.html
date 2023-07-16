@@ -114,6 +114,8 @@
 <br>
 
 <details open>
+  <summary class="collapsible-dashboard-section-title" id="recommendation">Privacy Recommendations</summary>
+  <div id="fStep30">
   <summary id="privacyRecommendations" class="collapsible-dashboard-section-title">Privacy Recommendations</summary>
   <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
     <div nz-col nzXs="24" nzXl="8">
@@ -141,7 +143,16 @@
           <a routerLink="/face/guidelines-for-ads-settings">More</a>
         </ng-template>
       </div>
+      <div id="fStep24" nz-col nzXs="24" nzXl="8">
+        <nz-card nzTitle="Guidelines to manage Inferred Topics" nzHoverable  [nzExtra]="yourtopics">
+        <p>This section provides you guidelines to manage Inferred Topics and see less ads related to those topics in future.</p>
+        </nz-card>
+        <ng-template #yourtopics>
+          <a routerLink="/face/your-topics">More</a>
+        </ng-template>
+      </div>
     </div>
+</div>
 </details>
 <br>
 <br>

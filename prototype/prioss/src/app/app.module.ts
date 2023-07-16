@@ -104,6 +104,7 @@ import { FacebookAddressBookRepository } from './db/data-repositories/facebook/f
 import { FacebookSearchHistoryRepository } from './db/data-repositories/facebook/fb-other-personal-info/face-search-history.repo';
 import { SpotPrivacyInstructionsComponent } from './visualizations/spotify/privacy-instructions/spot-privacy-instructions.component';
 import { SongtimelineComponent } from './visualizations/spotify/songtimeline/songtimeline.component';
+import { YourTopicsComponent } from './manage-privacy/facebook/your-topics/your-topics.component';
 import { FacebookLoginLocationsRepository } from './db/data-repositories/facebook/fb-security-login-data/face_login_locations.repo';
 import { FacebookAccountActivityRepository } from './db/data-repositories/facebook/fb-security-login-data/face_account_activity.repo';
 import { FacebookAccountStatusChangesRepository } from './db/data-repositories/facebook/fb-security-login-data/face_account_status_changes.repo';
@@ -113,6 +114,7 @@ import { OtherPersonalInfoComponent } from './visualizations/facebook/other-pers
 import { FaceBookMessagesInfoRepository } from './db/data-repositories/facebook/fb-messages-data/fb-messages-friends.repo';
 import { MessagesComponent } from './visualizations/facebook/messages/messages.component';
 import { FaceBookGroupMessagesInfoRepository } from './db/data-repositories/facebook/fb-messages-data/fb-messages-groups.repo';
+
 registerLocaleData(de);
 
 // Ahead of time compiles requires an exported function for factories
@@ -370,9 +372,11 @@ const dbConfig: DBConfig  =
     GdprComponent,
     SpotPrivacyInstructionsComponent,
     SongtimelineComponent,
+    YourTopicsComponent,
     SecurityLoginDataComponent,
     OtherPersonalInfoComponent,
     MessagesComponent
+
   ],
   imports: [
     BrowserModule,
