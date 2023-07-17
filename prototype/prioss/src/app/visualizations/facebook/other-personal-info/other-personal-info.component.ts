@@ -21,6 +21,7 @@ export class OtherPersonalInfoComponent implements OnInit {
    totalContactNumbers = 0;
    contactNumbers:any = [];
    totalSearchedText = 0;
+   
    @Input()
    previewMode: boolean = false;
 

@@ -1,1 +1,13 @@
-<p>posts works!</p>
+<div>
+    <div *ngIf="previewMode">
+        <nz-row [nzGutter]="16">
+            <nz-col [nzSpan]="10">
+              <nz-statistic [nzValue]="posts.length" [nzTitle]="'Posts'"></nz-statistic>
+            </nz-col>
+        </nz-row>
+    </div>
+    <div *ngIf="!previewMode">
+        <app-title-bar titleText="Posts" tooltipText="This visualization provides a comprehensive overview of your facebook posts"></app-title-bar>
+        <div id="post-chart"></div>
+    </div>
+</div>
