@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SettingsFormComponent } from './settings-form.component';
+import { RevokeAccessComponent } from './revoke-access.component';
 
-describe('SettingsFormComponent', () => {
-  let component: SettingsFormComponent;
-  let fixture: ComponentFixture<SettingsFormComponent>;
+describe('RevokeAccessComponent', () => {
+  let component: RevokeAccessComponent;
+  let fixture: ComponentFixture<RevokeAccessComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SettingsFormComponent ]
+      declarations: [ RevokeAccessComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(SettingsFormComponent);
+    fixture = TestBed.createComponent(RevokeAccessComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -21,5 +21,3 @@ describe('SettingsFormComponent', () => {
     expect(component).toBeTruthy();
   });
 });
-
-

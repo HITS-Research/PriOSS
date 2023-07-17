@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SettingsFormComponent } from './settings-form.component';
+import { DateColumnComponent } from './date-column.component';
 
-describe('SettingsFormComponent', () => {
-  let component: SettingsFormComponent;
-  let fixture: ComponentFixture<SettingsFormComponent>;
+describe('DateColumnComponent', () => {
+  let component: DateColumnComponent;
+  let fixture: ComponentFixture<DateColumnComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SettingsFormComponent ]
+      declarations: [ DateColumnComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(SettingsFormComponent);
+    fixture = TestBed.createComponent(DateColumnComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -21,5 +21,3 @@ describe('SettingsFormComponent', () => {
     expect(component).toBeTruthy();
   });
 });
-
-
