@@ -110,16 +110,41 @@
         <span>Next</span>
       </button>
     </div>
-    <br>
-    <h4 nz-typography>Send an email to support@instagram.com. Generally, Instagram team responds within a week.</h4>
-    <h4 nz-typography>Contact the privacy center for Meta. It covers Facebook, Instagram, Messenger, and other Meta products.</h4>
   </details>
   <br>
 
-  <app-gdpr></app-gdpr>
+ <details open id="Manage-Privacy">
+  <summary class="collapsible-dashboard-section-title">
+    Privacy Recommendations
+  </summary>
+  <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
+    <div nz-col nzXs="24" nzXl="8">
+      <!--card for Privacy settings judge-->
+      <app-dash-card cardLink="" titleText="Privacy Settings Judge" 
+          tooltipText="In this card, you can check if your Instagram settings are setup to protect your privacy. Just answer the questions below to learn how you can improve your privacy through your Instagram account's settings.">
+            <app-settings-form [service]="'Instagram'"></app-settings-form>
+          </app-dash-card>
+    </div>
+
+    <div nz-col nzXs="24" nzXl="8"><!--card for privacy recommendation - How to block folllowers-->
+       <app-dash-card cardLink="/insta/block-followers" titleText="How to Block Followers"
+            tooltipText="This card provides guidelines that helps you to block followers for your Instagram account. The guidelines are provided for Web Browser user as well as Mobile Application user. Click to find out more.">
+            <p nz-typography>This section provides you guidelines to block followers for Instagram.</p>
+        </app-dash-card>
+    </div>
+
+    <div nz-col nzXs="24" nzXl="8"><!--card for privacy recommendation- How to hide Instagram Stories and live videos from specific people -->
+      <app-dash-card cardLink="/insta/hide-stories" titleText="How to Hide Instagram Stories"
+            tooltipText="This card provides guidelines that helps you to hide Instagram stories and live videos from specific people. The guidelines are provided for Mobile Application user. Click to find out more.">
+            <p nz-typography>This section provides you guidelines to hide Instagram Stories and live videos from specific people.</p>
+        </app-dash-card>
+    </div>
+  </div>
+ </details>
+ <br>
 
   <details open id="purpose">
-    <summary class="collapsible-dashboard-section-title">Purpose</summary>
+    <summary class="collapsible-dashboard-section-title">Purposes - Why Instagram collects your data? </summary>
     <p nz-typography>
       The following purposes should give an example of Instagram's reasoning in regards to data collection. To Get a full list of their reasons you can check out Instagram's privacy policy <span nz-icon nzType="link"><a target="_blank" href="https://privacycenter.instagram.com/policy/?section_id=0-WhatIsThePrivacy">privacy policy</a></span>
       <nz-table nzTemplateMode>
@@ -148,7 +173,30 @@
           </tr>
         </tbody>
       </nz-table>
+  </details>
+    
+    <details open id="gdpr">
+      <summary class="collapsible-dashboard-section-title">GDPR Rights</summary>
+      <div>
+        <p nz-typography>
+        The General Data Protection Regulation (GDPR) is a data privacy regulation that came into effect in May 2018. It was created by the European Union (EU) to regulate the collection, processing, and storage of personal data of individuals residing in the EU.
+        The most important points of the GDPR are: </p>
+       <ol nz-typography>
+        <li><b>Consent:</b> Companies must obtain explicit and informed consent from individuals to collect, process, and store their personal data.</li>
+        <li><b>Right to Access:</b> Individuals have the right to access their personal data that has been collected and stored by companies.</li>
+        <li><b>Right to be Forgotten:</b> Individuals have the right to request the deletion of their personal data.</li>
+        <li><b>Data Portability:</b> Individuals have the right to receive their personal data in a format that is easily transferable to another organization.</li>
+        <li><b>Data Protection Officers (DPOs):</b> Companies that process large amounts of personal data or sensitive personal data must appoint a DPO.</li>
+        <li><b>Data Breach Notification:</b> Companies must notify individuals and the relevant authorities within 72 hours of a data breach.</li>
+        <li><b>Penalties:</b> Non-compliance with the GDPR can result in fines of up to 4% of a company's annual global revenue or €20 million (whichever is greater).</li>
+       </ol>
+       <p nz-typography>
+        The GDPR aims to protect the privacy and personal data of individuals within the EU, and has had a significant impact on the way that companies handle and store personal data. More information can be found under <span nz-icon nzType="link"><a target="_blank" href="https://gdpr.eu/">GDPR</a></span>.
+       </p>
+      </div>
     </details>
+
+<app-gdpr></app-gdpr>
   <app-faq serviceName="insta"></app-faq>
   <app-help-button (startTourClick)="startTour()">
     <h2 nz-typography id="introduction">Introduction</h2>
@@ -159,5 +207,7 @@
   </app-help-button>
   <app-offline-indicator [bottom]="'32px'" [right]="'76px'"></app-offline-indicator>
 
-</div>
+  
+
+
 

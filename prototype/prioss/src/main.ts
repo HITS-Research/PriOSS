@@ -6,6 +6,10 @@ import { defineCustomElements as jeepSqlite} from 'jeep-sqlite/loader';
 import { Capacitor } from '@capacitor/core';
 import { CapacitorSQLite, SQLiteConnection } from '@capacitor-community/sqlite';
 
+// Add the following import for service worker
+import { enableProdMode } from '@angular/core';
+import { environment } from './environments/environment';
+
 jeepSqlite(window);
 window.addEventListener('DOMContentLoaded', async () => {
   const platform = Capacitor.getPlatform();
@@ -22,6 +26,20 @@ window.addEventListener('DOMContentLoaded', async () => {
       console.log('after sqlite.initWebStore()');
     }
     await sqlite.checkConnectionsConsistency();
+
+    if (environment.production) {
+      enableProdMode();
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker
+          .register('/ngsw-worker.js')
+          .then(registration => {
+            console.log('Service Worker registered successfully:', registration);
+          })
+          .catch(error => {
+            console.error('Error registering Service Worker:', error);
+          });
+      }
+    }
 
     platformBrowserDynamic().bootstrapModule(AppModule)
       .catch(err => console.log(err));

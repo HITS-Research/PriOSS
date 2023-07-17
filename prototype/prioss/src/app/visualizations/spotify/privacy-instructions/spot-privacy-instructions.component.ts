@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component,Input } from '@angular/core';
+import { NgModule } from '@angular/core';
 
 /**
  * This component contains privacy instructions. The instructions show users how to

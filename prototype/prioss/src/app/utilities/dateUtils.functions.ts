@@ -57,8 +57,16 @@ export function parseDate(dateString: string) {
     return new Date(parseInt(date[0]), parseInt(date[1]) - 1, parseInt(date[2]), parseInt(time[0]), parseInt(time[1]));
   }
 
-  //Month is decremented by one because in a date object, the month is 0-indexed
-  return new Date(parseInt(date[0]), parseInt(date[1]) - 1, parseInt(date[2]));
+  //If a day is also present in the dateString
+  if(date[2]) {
+    //Month is decremented by one because in a date object, the month is 0-indexed
+    return new Date(parseInt(date[0]), parseInt(date[1]) - 1, parseInt(date[2]));
+  }
+  //Only a year and month are present in the dateString
+  else { 
+    //Month is decremented by one because in a date object, the month is 0-indexed
+    return new Date(parseInt(date[0]), parseInt(date[1]) - 1);
+  }
 }
 
 export function getDisplayDateString(date: Date) {

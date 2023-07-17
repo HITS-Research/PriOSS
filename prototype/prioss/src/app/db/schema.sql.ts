@@ -278,6 +278,70 @@ CREATE TABLE IF NOT EXISTS face_inferred_topics (
     topic TEXT NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS face_login_locations (
+    id INTEGER PRIMARY KEY,
+    location TEXT NOT NULL,
+    device TEXT NOT NULL,
+    timestamp TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS face_login_logouts (
+    id INTEGER PRIMARY KEY,
+    action TEXT NOT NULL,
+    timestamp TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS face_account_status_changes (
+    id INTEGER PRIMARY KEY,
+    status TEXT NOT NULL,
+    timestamp TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS face_account_activity (
+    id INTEGER PRIMARY KEY,
+    action TEXT NOT NULL,
+    timestamp TEXT NOT NULL,
+    city TEXT NOT NULL,
+    region TEXT NOT NULL,
+    country TEXT NOT NULL,
+    site_name TEXT 
+);
+CREATE TABLE IF NOT EXISTS face_address_book (
+    id INTEGER PRIMARY KEY,
+    name TEXT ,
+    contact_point TEXT,
+    created_timestamp INTEGER NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS face_search_history (
+    id INTEGER PRIMARY KEY,
+    text TEXT,
+    timestamp INTEGER
+);
+CREATE TABLE IF NOT EXISTS face_messages (
+    id INTEGER PRIMARY KEY,
+    name TEXT,
+    timestamp STRING
+);
+CREATE TABLE IF NOT EXISTS face_group_messages (
+    id INTEGER PRIMARY KEY,
+    name TEXT,
+    value STRING
+);
+
+CREATE TABLE IF NOT EXISTS face_groups (
+    id INTEGER PRIMARY KEY,
+    name TEXT,
+    timestamp TEXT
+);
+
+CREATE TABLE IF NOT EXISTS face_events (
+    id INTEGER PRIMARY KEY,
+    name TEXT,
+    start_timestamp TEXT,
+    end_timestamp TEXT
+);
+
 `;
 //PRAGMA user_version = 1;
 
@@ -325,4 +389,14 @@ DROP TABLE IF EXISTS face_rejected_friend_requests;
 DROP TABLE IF EXISTS face_removed_friends;
 DROP TABLE IF EXISTS face_who_you_follow;
 DROP TABLE IF EXISTS face_inferred_topics;
+DROP TABLE IF EXISTS face_login_locations;
+DROP TABLE IF EXISTS face_login_logouts;
+DROP TABLE IF EXISTS face_account_status_changes;
+DROP TABLE IF EXISTS face_account_activity;
+DROP TABLE IF EXISTS face_address_book;
+DROP TABLE IF EXISTS face_search_history;
+DROP TABLE IF EXISTS face_groups;
+DROP TABLE IF EXISTS face_events;
+DROP TABLE IF EXISTS face_messages;
+DROP TABLE IF EXISTS face_group_messages;
 `;
