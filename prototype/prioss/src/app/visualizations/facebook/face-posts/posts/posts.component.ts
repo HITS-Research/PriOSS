@@ -3,11 +3,6 @@ import * as d3 from 'd3';
 import { FacebookPostsRepository } from 'src/app/db/data-repositories/facebook/fb-posts/face-posts.repo';
 import { PostsModel } from 'src/app/models/Facebook/posts';
 
-export class PostDataModel {
-  year: number;
-  time: string;
-}
-
 @Component({
   selector: 'app-posts',
   templateUrl: './posts.component.html',
@@ -16,8 +11,6 @@ export class PostDataModel {
 export class PostsComponent {
 
   posts: PostsModel[] = [];
-
-  dataset: PostDataModel[] = [];
 
   @Input()
   previewMode: boolean = false;
