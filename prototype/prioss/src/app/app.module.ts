@@ -7,7 +7,6 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from 'src/environments/environment';
 
 import { SQLiteService } from './services/sqlite/sqlite.service';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LandingComponent } from './landing/landing.component';
@@ -99,11 +98,18 @@ import { KnownIssuesComponent } from './info-pages/known-issues/known-issues.com
 import { FacebookFriendsRepository } from './db/data-repositories/facebook/fb-friends-data/face_friends.repo';
 import { AdsSettingsComponent } from './manage-privacy/facebook/guidlines-for-ads-settings/ads-settings/ads-settings.component';
 import { DashCardComponent } from './page-sub-components/dash-card/dash-card.component';
+import { InstaBlockFollowersComponent } from './rectification/instagram/insta-block-followers/insta-block-followers.component';
+import { InstaAccountPrivateComponent } from './rectification/instagram/insta-account-private/insta-account-private.component';
+import { InstaTwoFactorAuthenticationComponent } from './rectification/instagram/insta-two-factor-authentication/insta-two-factor-authentication.component';
+import { InstaHideStoriesComponent } from './rectification/instagram/insta-hide-stories/insta-hide-stories.component';
+import { InstaProfileInfoPrivateComponent } from './rectification/instagram/insta-profile-info-private/insta-profile-info-private.component';
+import { InstaAddManagerComponent } from './rectification/instagram/insta-add-manager/insta-add-manager.component';
+import { RevokeAccessComponent } from './rectification/instagram/revoke-access/revoke-access.component';
+import { SpotPrivacyInstructionsComponent } from './visualizations/spotify/privacy-instructions/spot-privacy-instructions.component';
+import { SongtimelineComponent } from './visualizations/spotify/songtimeline/songtimeline.component';
 import { GdprComponent } from './info-pages/gdpr/gdpr.component';
 import { FacebookAddressBookRepository } from './db/data-repositories/facebook/fb-other-personal-info/face-address-book.repo';
 import { FacebookSearchHistoryRepository } from './db/data-repositories/facebook/fb-other-personal-info/face-search-history.repo';
-import { SpotPrivacyInstructionsComponent } from './visualizations/spotify/privacy-instructions/spot-privacy-instructions.component';
-import { SongtimelineComponent } from './visualizations/spotify/songtimeline/songtimeline.component';
 import { YourTopicsComponent } from './manage-privacy/facebook/your-topics/your-topics.component';
 import { FacebookLoginLocationsRepository } from './db/data-repositories/facebook/fb-security-login-data/face_login_locations.repo';
 import { FacebookAccountActivityRepository } from './db/data-repositories/facebook/fb-security-login-data/face_account_activity.repo';
@@ -117,7 +123,6 @@ import { FaceBookGroupMessagesInfoRepository } from './db/data-repositories/face
 import { GroupsAndEventsDataComponent } from './visualizations/facebook/groups-and-events-data/groups-and-events-data.component';
 import { FacebookEventsRepository } from './db/data-repositories/facebook/fb-groups-events-info/face_events.repo';
 import { FacebookGroupsRepository } from './db/data-repositories/facebook/fb-groups-events-info/face_groups.repo';
-
 registerLocaleData(de);
 
 // Ahead of time compiles requires an exported function for factories
@@ -373,6 +378,13 @@ const dbConfig: DBConfig  =
     AdsSettingsComponent,
     DashCardComponent,
     GdprComponent,
+    InstaBlockFollowersComponent,
+    InstaAccountPrivateComponent,
+    InstaTwoFactorAuthenticationComponent,
+    InstaHideStoriesComponent,
+    InstaProfileInfoPrivateComponent,
+    InstaAddManagerComponent,
+    RevokeAccessComponent,
     SpotPrivacyInstructionsComponent,
     SongtimelineComponent,
     YourTopicsComponent,
@@ -380,7 +392,7 @@ const dbConfig: DBConfig  =
     OtherPersonalInfoComponent,
     MessagesComponent,
     GroupsAndEventsDataComponent
-
+,
   ],
   imports: [
     BrowserModule,
