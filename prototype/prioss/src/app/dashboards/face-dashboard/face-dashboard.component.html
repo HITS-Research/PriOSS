@@ -78,6 +78,12 @@
           <app-messages [previewMode]="true"></app-messages>
           </app-dash-card>
         </div>
+        <div nz-col nzXs="24" nzXl="8">
+          <app-dash-card cardLink="/face/posts" titleText="Posts"
+          tooltipText="This section provides information about the posts added to the facebook.">
+          <app-posts [previewMode]="true"></app-posts>
+        </app-dash-card>
+      </div>
       </div>
 </details>
 <br>
@@ -126,7 +132,6 @@
 <details open>
   <summary class="collapsible-dashboard-section-title" id="recommendation">Privacy Recommendations</summary>
   <div id="fStep30">
-  <summary id="privacyRecommendations" class="collapsible-dashboard-section-title">Privacy Recommendations</summary>
   <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
     <div nz-col nzXs="24" nzXl="8">
       <app-dash-card cardLink="" titleText="Privacy Settings Judge" 
@@ -138,28 +143,22 @@
   <br>
     <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
       <div nz-col nzXs="24" nzXl="8">
-        <nz-card nzTitle="Configure Off-Facebook Activity" nzHoverable  [nzExtra]="extraPrivacy">
-        <p>This section provides you guidelines to Turn OFF your Off-Facebook Activity.</p>
-        </nz-card>
-        <ng-template #extraPrivacy>
-          <a routerLink="/face/configure-off-facebook-activity">More</a>
-        </ng-template>
+        <app-dash-card cardLink="/face/configure-off-facebook-activity" titleText="Configure Off-Facebook Activity"
+        tooltipText="This section provides you guidelines to Turn OFF your Off-Facebook Activity.">
+        <p nz-typography>This section provides you guidelines to Turn OFF your Off-Facebook Activity.</p>
+        </app-dash-card>
       </div>
       <div nz-col nzXs="24" nzXl="8">
-        <nz-card nzTitle="Guidelines to hide advertisements" nzHoverable  [nzExtra]="adssettings">
-        <p>This section provides you guidelines to hide the ads you don't want to see anymore.</p>
-        </nz-card>
-        <ng-template #adssettings>
-          <a routerLink="/face/guidelines-for-ads-settings">More</a>
-        </ng-template>
+        <app-dash-card cardLink="/face/guidelines-for-ads-settings" titleText="Guidelines to hide advertisements"
+        tooltipText="This section provides you guidelines to hide the ads you don't want to see anymore.">
+        <p nz-typography>This section provides you guidelines to hide the ads you don't want to see anymore.</p>
+        </app-dash-card>
       </div>
-      <div id="fStep24" nz-col nzXs="24" nzXl="8">
-        <nz-card nzTitle="Guidelines to manage Inferred Topics" nzHoverable  [nzExtra]="yourtopics">
-        <p>This section provides you guidelines to manage Inferred Topics and see less ads related to those topics in future.</p>
-        </nz-card>
-        <ng-template #yourtopics>
-          <a routerLink="/face/your-topics">More</a>
-        </ng-template>
+      <div nz-col nzXs="24" nzXl="8">
+        <app-dash-card cardLink="/face/your-topics" titleText="Guidelines to manage Inferred Topics"
+        tooltipText="This section provides you guidelines to hide the ads you don't want to see anymore.">
+        <p nz-typography>This section provides you guidelines to manage Inferred Topics and see less ads related to those topics in future.</p>
+        </app-dash-card>
       </div>
     </div>
 </div>

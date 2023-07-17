@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { scrollToTop } from 'src/app/utilities/generalUtilities.functions';
 
 @Component({
   selector: 'app-ads-settings',
@@ -7,6 +8,9 @@ import { Component } from '@angular/core';
 })
 export class AdsSettingsComponent {
   
+  async ngAfterViewInit(){
+    scrollToTop();
+  }
 }
 
 

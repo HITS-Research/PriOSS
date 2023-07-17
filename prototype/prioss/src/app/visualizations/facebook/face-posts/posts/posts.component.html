@@ -1,0 +1,40 @@
+<div>
+    <div *ngIf="previewMode">
+        <nz-row [nzGutter]="16">
+            <nz-col [nzSpan]="10">
+              <nz-statistic [nzValue]="posts.length" [nzTitle]="'Posts'"></nz-statistic>
+            </nz-col>
+        </nz-row>
+    </div>
+    <div *ngIf="!previewMode">
+        <app-title-bar titleText="Posts" tooltipText="This visualization provides a comprehensive overview of your facebook posts"></app-title-bar>
+        <nz-tabset class="margin-top-20">
+            <nz-tab nzTitle="Posts statistics">
+                <nz-card>
+                    <h6>This graph visualises the number of post over the period of certain year you joined Facebook</h6>
+                    <svg viewBox="0 0 1000 1000" id="post-chart" class="margin-top-30"></svg>
+                </nz-card>
+            </nz-tab>
+            <nz-tab nzTitle="Posts">
+                <nz-table [nzData]="posts" #basicTable>
+                    <thead>
+                      <tr>  
+                        <th nzCustomFilter class="tableCol">Title</th>
+                        <th nzCustomFilter class="tableCol">Time</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let data of basicTable.data">
+                        <td>{{ data.title }}</td>
+                        <td>{{ getTimestamp(data.timestamp) }}</td>
+                      </tr>
+                    </tbody>
+                  </nz-table>
+            </nz-tab>
+            <nz-tab nzTitle="Post view">
+                <h6>Under development</h6>
+            </nz-tab>
+        </nz-tabset>
+     
+    </div>
+</div>

@@ -117,6 +117,9 @@ import { FacebookAccountStatusChangesRepository } from './db/data-repositories/f
 import { FacebookLoginLogoutsRepository } from './db/data-repositories/facebook/fb-security-login-data/face_login_logouts.repo';
 import { SecurityLoginDataComponent } from './visualizations/facebook/security-login-data/security-login-data.component';
 import { OtherPersonalInfoComponent } from './visualizations/facebook/other-personal-info/other-personal-info.component';
+import { FacebookPostsRepository } from './db/data-repositories/facebook/fb-posts/face-posts.repo';
+import { PostsComponent } from './visualizations/facebook/face-posts/posts/posts.component';
+
 import { FaceBookMessagesInfoRepository } from './db/data-repositories/facebook/fb-messages-data/fb-messages-friends.repo';
 import { MessagesComponent } from './visualizations/facebook/messages/messages.component';
 import { FaceBookGroupMessagesInfoRepository } from './db/data-repositories/facebook/fb-messages-data/fb-messages-groups.repo';
@@ -387,6 +390,8 @@ const dbConfig: DBConfig  =
     RevokeAccessComponent,
     SpotPrivacyInstructionsComponent,
     SongtimelineComponent,
+    OtherPersonalInfoComponent,
+    PostsComponent,
     YourTopicsComponent,
     SecurityLoginDataComponent,
     OtherPersonalInfoComponent,
@@ -460,6 +465,7 @@ const dbConfig: DBConfig  =
     FacebookLoginLocationsRepository,
     FacebookAddressBookRepository,
     FacebookSearchHistoryRepository,
+    FacebookPostsRepository,
     FacebookAccountActivityRepository,
     FacebookAccountStatusChangesRepository,
     FacebookLoginLogoutsRepository,

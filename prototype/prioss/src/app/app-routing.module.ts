@@ -25,12 +25,12 @@ import { OffFacebookActivityComponent } from './rectification/facebook/off-faceb
 import { InstaSearchesComponent } from './visualizations/instagram/insta-searches/insta-searches.component';
 import { InstaFollowersComponent } from './visualizations/instagram/insta-followers/insta-followers.component';
 import { InstaContactComponent } from './visualizations/instagram/insta-contact/insta-contact.component';
-import { FaqComponent } from './info-pages/faq/faq.component';
 import { KnownIssuesComponent } from './info-pages/known-issues/known-issues.component';
 import { AdsSettingsComponent } from './manage-privacy/facebook/guidlines-for-ads-settings/ads-settings/ads-settings.component';
 import { SpotPrivacyInstructionsComponent } from "./visualizations/spotify/privacy-instructions/spot-privacy-instructions.component";
 import { OtherPersonalInfoComponent } from './visualizations/facebook/other-personal-info/other-personal-info.component';
 import { SongtimelineComponent } from './visualizations/spotify/songtimeline/songtimeline.component';
+import { PostsComponent } from './visualizations/facebook/face-posts/posts/posts.component';
 import { InstaBlockFollowersComponent } from './rectification/instagram/insta-block-followers/insta-block-followers.component';
 import { InstaAccountPrivateComponent } from './rectification/instagram/insta-account-private/insta-account-private.component';
 import { InstaTwoFactorAuthenticationComponent } from './rectification/instagram/insta-two-factor-authentication/insta-two-factor-authentication.component';
@@ -88,7 +88,8 @@ const routes: Routes = [
   { path: 'face/your-topics', component: YourTopicsComponent},
   { path: 'face/security-login', component: SecurityLoginDataComponent },
   { path: 'insta/searches', component: InstaSearchesComponent},
-  // { path: 'face/other-personal-info' ,component:OtherPersonalInfoComponent},
+  { path: 'face/other-personal-info' ,component: OtherPersonalInfoComponent},
+  { path: 'face/posts' ,component: PostsComponent},
   { path: 'face/messages-info' ,component:MessagesComponent}
 ];
 
