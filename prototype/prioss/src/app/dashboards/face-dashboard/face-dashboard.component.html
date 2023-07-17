@@ -47,13 +47,20 @@
             <app-friend-and-followers [previewMode]="true"></app-friend-and-followers>
           </app-dash-card>
         </div>
-      </div>
-      <br>
-      <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
+    </div>
+    <br>
+    <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
         <div nz-col nzXs="24" nzXl="8">
           <app-dash-card cardLink="/face/other-personal-info" titleText="Other Personal Information"
-            tooltipText="This section provides information about the address book details and the search history.">
+            tooltipText="This card provides information about the address book details and the search history.">
             <app-other-personal-info [previewMode]="true"></app-other-personal-info>
+          </app-dash-card>
+        </div>
+
+        <div nz-col nzXs="24" nzXl="8">
+          <app-dash-card cardLink="/face/groups-and-events-data" titleText="Events & Groups Information"
+          tooltipText="This card gives a gist of the Events you are invited to, events you are interested in and the groups you have joined. Click to know more!">
+          <app-groups-and-events-data [previewMode]="true"></app-groups-and-events-data>
           </app-dash-card>
         </div>
         <div nz-col nzXs="24" nzXl="8">
@@ -62,13 +69,16 @@
             <app-security-login-data [previewMode]="true"></app-security-login-data>
           </app-dash-card>
         </div>
+      </div>
+      <br>
+      <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
         <div nz-col nzXs="24" nzXl="8">
-      <app-dash-card cardLink="/face/messages-info" titleText="Messages"
+          <app-dash-card cardLink="/face/messages-info" titleText="Messages"
         tooltipText="This section provides information about the messages with other people,friends and also group interactions.">
-        <app-messages [previewMode]="true"></app-messages>
-      </app-dash-card>
-    </div>
-</div>
+          <app-messages [previewMode]="true"></app-messages>
+          </app-dash-card>
+        </div>
+      </div>
 </details>
 <br>
 
