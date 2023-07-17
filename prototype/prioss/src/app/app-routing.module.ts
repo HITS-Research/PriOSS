@@ -38,6 +38,11 @@ import { InstaHideStoriesComponent } from './rectification/instagram/insta-hide-
 import { InstaProfileInfoPrivateComponent } from './rectification/instagram/insta-profile-info-private/insta-profile-info-private.component';
 import { InstaAddManagerComponent } from './rectification/instagram/insta-add-manager/insta-add-manager.component';
 import { RevokeAccessComponent } from './rectification/instagram/revoke-access/revoke-access.component';
+import { GroupsAndEventsDataComponent } from './visualizations/facebook/groups-and-events-data/groups-and-events-data.component';
+import { YourTopicsComponent } from './manage-privacy/facebook/your-topics/your-topics.component';
+import { SecurityLoginDataComponent } from './visualizations/facebook/security-login-data/security-login-data.component';
+import { MessagesComponent } from './visualizations/facebook/messages/messages.component';
+
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: LandingComponent },
@@ -78,7 +83,13 @@ const routes: Routes = [
   { path: 'insta/add-manager' , component:InstaAddManagerComponent},
   { path: 'insta/revoke-access' , component: RevokeAccessComponent},
   { path: 'insta/searches', component: InstaSearchesComponent},
-  { path: 'face/other-personal-info' ,component:OtherPersonalInfoComponent}
+  { path: 'face/other-personal-info' ,component:OtherPersonalInfoComponent},
+  { path: 'face/groups-and-events-data' , component: GroupsAndEventsDataComponent},
+  { path: 'face/your-topics', component: YourTopicsComponent},
+  { path: 'face/security-login', component: SecurityLoginDataComponent },
+  { path: 'insta/searches', component: InstaSearchesComponent},
+  // { path: 'face/other-personal-info' ,component:OtherPersonalInfoComponent},
+  { path: 'face/messages-info' ,component:MessagesComponent}
 ];
 
 @NgModule({
