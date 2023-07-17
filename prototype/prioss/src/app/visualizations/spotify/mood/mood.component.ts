@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { environment } from '../../../../environments/environment.prod';
 import * as d3 from 'd3';
 import { SpotHistoryRepository } from 'src/app/db/data-repositories/spotify/spot-history/spot-history.repository';
@@ -7,6 +7,7 @@ const CLIENT_ID = environment.CLIENT_ID;
 const CLIENT_SECRET = environment.CLIENT_SECRET;
 let token: string;
 let withdate: any;
+
 
 
 /**
@@ -21,6 +22,11 @@ let withdate: any;
   styleUrls: ['./mood.component.less']
 })
 export class MoodComponent {
+  @Input()
+  previewMode: boolean = false;
+
+  readonly spotifyGreen: string = "#1DB954"
+
   files: any[] = [];
   queriedSongs = 0;
   allSongsNumber = 0;
@@ -31,6 +37,11 @@ export class MoodComponent {
     console.log(token);
   }
 
+  /**
+   * This function gets all Song Ids (currently limited to 100). Also calls @makeRadarChart.
+   * 
+   * @author Sven
+   */
   async getSongIds() {
     let spotHistory = await this.spotHistoryRepo.getSpotHistory();
     this.allSongsNumber = spotHistory.length;
@@ -49,44 +60,10 @@ export class MoodComponent {
       this.queriedSongs++;
     }
     let audiofeatures: any = await this.getAudioFeaturesInBulk(trackIds);
-    console.log("----" + audiofeatures + "------")
     let flattend = makeOneArray(audiofeatures);
-    console.log("before addd ListenDate");
     withdate = addListeningDateToAudiofeatures(flattend, names, spotHistory)
-    makeBarChart(flattend);
+    makeRadarChart(flattend);
   }
-
-  /*
-    {
-      console.log("history: ");
-      console.log(history);
-      let ids: string[] = [];
-              let names: string[] = [];
-             
-                await this.setToken();
-
-                const trackNames = history.map((track: any) => track.trackName);
-                console.log(trackNames);
-                const lastSongName = trackNames[trackNames.length - 1];
-                let lastStringId = await this.getTrackId(lastSongName);
-                trackNames.forEach(async (key: any) => {
-                  let stringid = await this.getTrackId(key);
-                  ids.push(stringid);
-                  names.push(key);
-                  if (stringid === lastStringId) {  //for some unknown reason the ids behaves weird. Normally you would except to have after the for loop all ids added and then make the calls 
-                                                    //that are inside this if clause. However, somehow the values are undefined if you try to access them after the loop. What is weird. console.log(ids).
-                                                    //This somehow circumvents this. It is probably realted to await and async but it does not make sense to me why it is not working.
-                    let audiofeatures: any = await this.getAudioFeaturesInBulk(ids);
-                    let flattend = makeOneArray(audiofeatures);
-                    withdate = addListeningDateToAudiofeatures(flattend, names, history);
-                    makeBarChart(flattend);
-                    
-                  }
-                })
-         
-              
-    });
-  }*/
 
   /**
   * Updates the displayed bar chart using an start and end date that the user can select.
@@ -104,7 +81,7 @@ export class MoodComponent {
     console.log(timed);
 
     d3.select("#bar-chart").selectAll("*").remove();
-    makeBarChart(timed);
+    makeRadarChart(timed);
   }
 
   /**
@@ -226,10 +203,6 @@ function makeBulkRequestUrl(trackIds: string[], spotifyUrl: string): string {
 
 function addListeningDateToAudiofeatures(audiofeatures: any, names: string[], original: any): any {
   let counter = 0;
-  console.log("-----isnide addlistenddate -----")
-  console.log("---- names----" + names.length);
-  console.log("---- original----" + original.length);
-  console.log("---- audiofeatures----" + audiofeatures.length);
   for (let i = 0; i < original.length; i++) {
     let key = original[i];
     if (names.includes(key.trackName)) {
@@ -243,153 +216,34 @@ function addListeningDateToAudiofeatures(audiofeatures: any, names: string[], or
   return audiofeatures;
 }
 
-
 /*
-* D3 seems to be the most used visualisation library for javascript. I don't understand the code here yet. However, at the moment it calculates the average of all provided songs for the 
-* audiofeatures dancebility, enery, liveness and sum. And these values are then represented in a barchart.
-* @author: Sven (svenf@mail.uni-paderborn.de)
-*
+* Creates radar chart for spotify audio values
+* @author Sven Feldmann
 */
-function maakeBarChart(audiofeatures: any) {
+function makeRadarChart(audiofeatures: any) {
   let danceabilitySum = 0;
   let energySum = 0;
   let loudnessSum = 0;
   let valenceSum = 0;
   let tempoSum = 0;
+  let accousticnessSum = 0;
   let count = audiofeatures.length;
 
   audiofeatures.forEach((key: any) => {
-    ;
     danceabilitySum += key.danceability;
     energySum += key.energy;
-    loudnessSum += key.loudness;
+    loudnessSum += (-1)* key.loudness;
     valenceSum += key.valence;
-    tempoSum += key.tempo;
-  })
-
-  let avgDance = danceabilitySum / count;
-  let avgEnergy = energySum / count;
-  //let avgLoudness = loudnessSum / count;
-  let avgVal = valenceSum / count;
-  //let avgTempo = tempoSum / count;
-
-
-  let data: any = [
-    { name: "Valence", value: avgVal, color: "#9954E6" },
-    { name: "Energy", value: avgEnergy, color: "#63adfeb3" },
-    //{ name: "Loudness", value: avgLoudness, color: "#533a84" },
-    { name: "Dancebility", value: avgDance, color: "#dd8050c4" },
-    // { name: "Tempo", value: avgTempo, color: "#296E01" }
-  ];
-
-  let margin = 100;
-  let width = 750 - margin * 2;
-  let height = 600 - margin * 2;
-  let svg = d3
-    .select("#bar-chart")
-    .append("svg")
-    .attr(
-      "viewBox",
-      `0 0 ${width + margin * 2} ${height + margin * 2}`
-    )
-
-    .append("g")
-    .attr("transform", "translate(" + margin + "," + margin + ")");
-
-  let x: any = d3
-    .scaleBand()
-    .range([0, width])
-    .domain(data.map((d: any) => d.name))
-    .padding(0.2);
-
-  svg
-    .append("text")
-    .attr("x", width / 2)
-    .attr("y", 0 - margin / 2)
-    .attr("text-anchor", "middle")
-    .style("font-size", "16px")
-    .style("text-decoration", "underline")
-    .text("Average audio_feature values of listend songs in given time");
-
-  // Drawing X-axis on the DOM
-  svg
-    .append("g")
-    .attr("transform", "translate(0," + height + ")")
-    .call(d3.axisBottom(x))
-    .selectAll("text")
-    // .attr('transform', 'translate(-10, 0)rotate(-45)')
-    // .style('text-anchor', 'end')
-    .style("font-size", "14px");
-
-  // Creaate Y-axis band scale
-  let y = d3
-    .scaleLinear()
-    .domain([0, 1])
-    .range([height, 0]);
-
-  let formatter = d3.format(".0%");
-  // Draw the Y-axis on the DOM
-  svg
-    .append("g")
-    .call(d3.axisLeft(y).scale(y).tickFormat(formatter))
-    .selectAll("text")
-    .style("font-size", "14px");
-
-  // Create and fill the bars
-  svg
-    .selectAll("bars")
-    .data(data)
-    .enter()
-    .append("rect")
-    .attr("x", (d: any) => x(d.name))
-    .attr("y", (d: any) => y(d.value))
-    //.attr("y", (d: any) => height - y(d.value) * height / 100)
-    .attr("width", x.bandwidth())
-    .attr("height", (d: any) => height - y(d.value))
-    //.attr("height", (d: any) => y(d.value) * height / 100)// this.height
-    .attr("fill", (d: any) => d.color);
-
-  svg
-    .selectAll("text.bar")
-    .data(data)
-    .enter()
-    .append("text")
-    .attr("text-anchor", "middle")
-    .attr("fill", "#70747a")
-    .attr("x", (d: any) => x(d.name) + 19)
-    .attr("y", (d: any) => y(d.value) - 5) // change text position
-    .text((d: any) => d3.format(".0%")(d.value));
-
-}
-
-/*
-* D3 seems to be the most used visualisation library for javascript. I don't understand the code here yet. However, at the moment it calculates the average of all provided songs for the 
-* audiofeatures dancebility, enery, liveness and sum. And these values are then represented in a barchart.
-* @author: Sven (svenf@mail.uni-paderborn.de)
-*
-*/
-function makeBarChart(audiofeatures: any) {
-  let danceabilitySum = 0;
-  let energySum = 0;
-  let loudnessSum = 0;
-  let valenceSum = 0;
-  let tempoSum = 0;
-  let count = audiofeatures.length;
-
-  audiofeatures.forEach((key: any) => {
-    ;
-    danceabilitySum += key.danceability;
-    energySum += key.energy;
-    loudnessSum += key.loudness;
-    valenceSum += key.valence;
-    tempoSum += key.tempo;
+    tempoSum += normalizeTempo(key.tempo);
+    accousticnessSum += key.acousticness;
   })
 
   let avgDance = danceabilitySum / count * 100;
   let avgEnergy = energySum / count * 100;
-  //let avgLoudness = loudnessSum / count;
+  let avgLoudness = loudnessSum / count;
   let avgVal = valenceSum / count * 100;
-  //let avgTempo = tempoSum / count;
+  let avgTempo = tempoSum / count;
+  let avgAccousticness = accousticnessSum / count * 100;
 
 
   let data: any = [
@@ -398,21 +252,29 @@ function makeBarChart(audiofeatures: any) {
     //{ name: "Loudness", value: avgLoudness, color: "#533a84" },
     { feature: "Dancebility", value: avgDance, color: "#dd8050c4" },
     // { name: "Tempo", value: avgTempo, color: "#296E01" }
-    { feature: "Valence", value: avgVal, color: "#9954E6" },
-    { feature: "Energy", value: avgEnergy, color: "#63adfeb3" },
+    { feature: "Loudness", value: avgLoudness, color: "#9954E6" },
+    { feature: "Tempo", value: avgTempo, color: "#63adfeb3" },
     //{ name: "Loudness", value: avgLoudness, color: "#533a84" },
-    { feature: "Dancebility", value: avgDance, color: "#dd8050c4" }
+    { feature: "Accousticness", value: avgAccousticness, color: "#dd8050c4" }
   ];
   console.log(data);
 
-  let width = 600;
-  let height = 600;
+  let margin = 100;
+  let leftmargin = 150;
+  let bottomMargin = 125;
+  let xAxisWidth = window.innerWidth - margin * 2;
+  let yAxisHeight = window.innerHeight*0.90 - margin * 2
 
   
 
   let svg = d3.select("#bar-chart").append("svg")
-    .attr("width", width)
-    .attr("height", height);
+  .attr(
+    "viewBox",
+    `0 0 ${xAxisWidth + margin * 2} ${yAxisHeight + bottomMargin}`
+    //`0 0 ${xAxisWidth + margin * 2} ${yAxisHeight + bottomMargin}`
+  )
+  .append("g")
+  .attr("transform", "translate(" + leftmargin + "," + 0 + ")");
 
 
   let radialScale = d3.scaleLinear()
@@ -424,8 +286,8 @@ function makeBarChart(audiofeatures: any) {
     .data(ticks)
     .join(
       enter => enter.append("circle")
-        .attr("cx", width / 2)
-        .attr("cy", height / 2)
+        .attr("cx", xAxisWidth / 2)
+        .attr("cy", yAxisHeight / 2)
         .attr("fill", "none")
         .attr("stroke", "gray")
         .attr("r", d => radialScale(d))
@@ -436,8 +298,8 @@ function makeBarChart(audiofeatures: any) {
     .join(
       enter => enter.append("text")
         .attr("class", "ticklabel")
-        .attr("x", width / 2 + 5)
-        .attr("y", d => height / 2 - radialScale(d))
+        .attr("x", xAxisWidth / 2 + 5)
+        .attr("y", d => yAxisHeight / 2 - radialScale(d))
         .text(d => d.toString())
     );
 
@@ -458,8 +320,8 @@ function makeBarChart(audiofeatures: any) {
     .data(featureData)
     .join(
       enter => enter.append("line")
-        .attr("x1", width / 2)
-        .attr("y1", height / 2)
+        .attr("x1", xAxisWidth / 2)
+        .attr("y1", yAxisHeight / 2)
         .attr("x2", (d:any)  => d.line_coord.x)
         .attr("y2", (d:any)  => d.line_coord.y)
         .attr("stroke", "black")
@@ -481,7 +343,7 @@ function makeBarChart(audiofeatures: any) {
   let line = d3.line()
     .x((d:any)  => d.x)
     .y((d:any)  => d.y);
-  let colors = ["green"];
+  let colors = ["#1DB954"];
 
   function getPathCoordinates() {
     let coordinates = [];
@@ -510,7 +372,7 @@ function makeBarChart(audiofeatures: any) {
     function angleToCoordinate(angle:number, value:number) {
       let x = Math.cos(angle) * radialScale(value);
       let y = Math.sin(angle) * radialScale(value);
-      return { "x": width / 2 + x, "y": height / 2 - y };
+      return { "x": xAxisWidth / 2 + x, "y": yAxisHeight / 2 - y };
     }
 
 
@@ -537,6 +399,23 @@ function makeOneArray(arrayOfArrays: any): any {
     })
   });
   return flattenedArray
+}
+
+/*
+* This is a helper function to normalize the tempo values to 0-100.
+*
+* @author: Sven (svenf@mail.uni-paderborn.de)
+* @return normalizedValue 
+*/
+function normalizeTempo(originalValue: number): number {
+  const minValue = 40;
+  const maxValue = 160;
+  const newMin = 0;
+  const newMax = 100;
+
+  const normalizedValue = ((originalValue - minValue) / (maxValue - minValue)) * (newMax - newMin) + newMin;
+  
+  return normalizedValue;
 }
 
 
