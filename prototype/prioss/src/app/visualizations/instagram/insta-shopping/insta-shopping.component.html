@@ -36,11 +36,21 @@
                 <!-- If Shopping Data present -->
                 <div *ngIf="shoppingData?.length">
                   <p>The following table shows all the details about shopping products viewed.</p>
-                  <nz-table #shoppingTable [nzData]="shoppingData">
+                  <nz-table #shoppingTable [nzData]="listOfShoppingData">
                     <thead>
                       <tr>
-                        <th>Merchant name</th>
-                        <th>Product name</th>
+                        <th nzCustomFilter>
+                          Merchant name
+                          <nz-filter-trigger [(nzVisible)]="merchantVisible" [nzActive]="merchantSearchValue.length > 0" [nzDropdownMenu]="merchantmenu">
+                            <span nz-icon nzType="search"></span>
+                          </nz-filter-trigger>
+                        </th>
+                        <th nzCustomFilter>
+                          Product name
+                          <nz-filter-trigger [(nzVisible)]="productVisible" [nzActive]="productSearchValue.length > 0" [nzDropdownMenu]="productmenu">
+                            <span nz-icon nzType="search"></span>
+                          </nz-filter-trigger>
+                        </th>
                       </tr>
                     </thead>
                     <tbody>
@@ -50,6 +60,24 @@
                       </tr>
                     </tbody>
                   </nz-table>
+                  <nz-dropdown-menu #merchantmenu="nzDropdownMenu">
+                    <div class="ant-table-filter-dropdown">
+                      <div class="search-box">
+                        <input type="text" nz-input placeholder="Search Merchant Name" [(ngModel)]="merchantSearchValue" />
+                        <button nz-button nzSize="small" nzType="primary" (click)="search('merchant')" class="search-button">Search</button>
+                        <button nz-button nzSize="small" (click)="reset('merchant')">Reset</button>
+                      </div>
+                    </div>
+                  </nz-dropdown-menu>
+                  <nz-dropdown-menu #productmenu="nzDropdownMenu">
+                    <div class="ant-table-filter-dropdown">
+                      <div class="search-box">
+                        <input type="text" nz-input placeholder="Search Product Name" [(ngModel)]="productSearchValue" />
+                        <button nz-button nzSize="small" nzType="primary" (click)="search('product')" class="search-button">Search</button>
+                        <button nz-button nzSize="small" (click)="reset('product')">Reset</button>
+                      </div>
+                    </div>
+                  </nz-dropdown-menu>
                 </div>
                 <!-- If No Shopping Data present -->
                 <div *ngIf="shoppingData?.length === 0">
@@ -64,11 +92,21 @@
                 <!-- If Shopping Data present -->
                 <div *ngIf="shoppingWishlistData?.length">
                   <p>The following table shows all the details about shopping products wishlisted.</p>
-                  <nz-table #shoppingWishlistTable [nzData]="shoppingWishlistData">
+                  <nz-table #shoppingWishlistTable [nzData]="listOfShoppingWishlistData">
                     <thead>
                       <tr>
-                        <th>Merchant name</th>
-                        <th>Product name</th>
+                        <th nzCustomFilter>
+                          Merchant name
+                          <nz-filter-trigger [(nzVisible)]="wishlistMerchantVisible" [nzActive]="wishlistMerchantSearchValue.length > 0" [nzDropdownMenu]="wishlistMerchantmenu">
+                            <span nz-icon nzType="search"></span>
+                          </nz-filter-trigger>
+                        </th>
+                        <th nzCustomFilter>
+                          Product name
+                          <nz-filter-trigger [(nzVisible)]="wishlistProductVisible" [nzActive]="wishlistProductSearchValue.length > 0" [nzDropdownMenu]="wishlistProductmenu">
+                            <span nz-icon nzType="search"></span>
+                          </nz-filter-trigger>
+                        </th>
                       </tr>
                     </thead>
                     <tbody>
@@ -78,6 +116,24 @@
                       </tr>
                     </tbody>
                   </nz-table>
+                  <nz-dropdown-menu #wishlistMerchantmenu="nzDropdownMenu">
+                    <div class="ant-table-filter-dropdown">
+                      <div class="search-box">
+                        <input type="text" nz-input placeholder="Search Merchant Name" [(ngModel)]="wishlistMerchantSearchValue" />
+                        <button nz-button nzSize="small" nzType="primary" (click)="search('wishlistMerchant')" class="search-button">Search</button>
+                        <button nz-button nzSize="small" (click)="reset('wishlistMerchant')">Reset</button>
+                      </div>
+                    </div>
+                  </nz-dropdown-menu>
+                  <nz-dropdown-menu #wishlistProductmenu="nzDropdownMenu">
+                    <div class="ant-table-filter-dropdown">
+                      <div class="search-box">
+                        <input type="text" nz-input placeholder="Search Product Name" [(ngModel)]="wishlistProductSearchValue" />
+                        <button nz-button nzSize="small" nzType="primary" (click)="search('wishlistProduct')" class="search-button">Search</button>
+                        <button nz-button nzSize="small" (click)="reset('wishlistProduct')">Reset</button>
+                      </div>
+                    </div>
+                  </nz-dropdown-menu>
                 </div>
                 <!-- If No Shopping Data present -->
                 <div *ngIf="shoppingWishlistData?.length === 0">
