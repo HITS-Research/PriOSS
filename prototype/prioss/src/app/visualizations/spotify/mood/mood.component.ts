@@ -283,15 +283,15 @@ function makeRadarChart(audiofeatures: any) {
 
 
   let data: any = [
-    { feature: "Valence", value: avgVal, color: "#9954E6" },
-    { feature: "Energy", value: avgEnergy, color: "#63adfeb3" },
+    { feature: "Valence", value: avgVal, additionalText: "Tracks with high valence sound more positive (e.g. happy, cheerful, euphoric), while tracks with low valence sound more negative (e.g. sad, depressed, angry)." },
+    { feature: "Energy", value: avgEnergy, additionalText: "represents a perceptual measure of intensity and activity" },
     //{ name: "Loudness", value: avgLoudness, color: "#533a84" },
-    { feature: "Dancebility", value: avgDance, color: "#dd8050c4" },
+    { feature: "Dancebility", value: avgDance, additionalText: "describes how suitable a track is for dancing" },
     // { name: "Tempo", value: avgTempo, color: "#296E01" }
-    { feature: "Loudness", value: avgLoudness, color: "#9954E6" },
-    { feature: "Tempo", value: avgTempo, color: "#63adfeb3" },
+    { feature: "Loudness", value: avgLoudness, additionalText: "is the quality of a sound that is the primary psychological correlate of physical strength (amplitude)" },
+    { feature: "Tempo", value: avgTempo, additionalText: "is the speed or pace of a given piece and derives directly from the average beat duration" },
     //{ name: "Loudness", value: avgLoudness, color: "#533a84" },
-    { feature: "Accousticness", value: avgAccousticness, color: "#dd8050c4" }
+    { feature: "Accousticness", value: avgAccousticness, additionalText: "High acoustic values represents  high confidence the track is acoustic" }
   ];
   console.log(data);
 
@@ -365,21 +365,67 @@ function makeRadarChart(audiofeatures: any) {
 
   // draw axis label
   svg.selectAll(".axislabel")
-    .data(featureData)
-    .join(
-      enter => enter.append("text")
-        .attr("x", (d:any) => d.label_coord.x)
-        .attr("y", (d:any)  => d.label_coord.y)
-        .text((d:any)  => d.name.feature)
-    );
+  .data(featureData)
+  .enter()
+  .append("g")
+  .attr("class", "axislabel")
+  .attr("transform", (d:any) => `translate(${d.label_coord.x},${d.label_coord.y})`)
+  .each(function(d:any) {
+    const group = d3.select(this);
+
+    group.append("text")
+      .attr("x", 15)
+      .attr("y", 5)
+      .text(d.name.feature)
+      .attr("class", "label");
+  
+  
+    group.append("circle")
+    .attr("r", 10)
+    .attr("class", "circle")
+    .attr("fill", "black");
+      
 
 
+    group.append("text")
+      .attr("x", 0)
+      .attr("y", 4)
+      .text("i")
+      .attr("class", "icon")
+      .attr("text-anchor", "middle")
+      .attr("fill", "white")
+      .style("font-weight", "bold")
+      .style("font-size", "10px");
+      
+    
 
+      const additionalText = group.append("text")
+      .attr("x", 15)
+      .attr("y", 20) // Adjust the y-coordinate for the additional text
+      .text(d.name.additionalText) // Replace with the desired additional text
+      .attr("class", "additional-text")
+      .style("opacity", 0)
+      .style("fill", "black")
+      .style("background-color", "lightgrey")
+      .style("border", "1px solid grey")
+        .style("font-size", "12px")
+        .style("font-weight", "normal")
+        .style("padding", "4px");
+
+      group.on("mouseover", function() {
+        additionalText.style("opacity", 1);
+      })
+      .on("mouseout", function() {
+        additionalText.style("opacity", 0);
+      });
+  });
+
+  
 
   let line = d3.line()
     .x((d:any)  => d.x)
     .y((d:any)  => d.y);
-  let colors = ["#1DB954"];
+  let colors = [spotifyGreen];
 
   function getPathCoordinates() {
     let coordinates = [];
