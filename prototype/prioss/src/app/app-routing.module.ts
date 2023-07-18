@@ -25,6 +25,7 @@ import { OffFacebookActivityComponent } from './rectification/facebook/off-faceb
 import { InstaSearchesComponent } from './visualizations/instagram/insta-searches/insta-searches.component';
 import { InstaFollowersComponent } from './visualizations/instagram/insta-followers/insta-followers.component';
 import { InstaContactComponent } from './visualizations/instagram/insta-contact/insta-contact.component';
+import { InstaShoppingComponent } from './visualizations/instagram/insta-shopping/insta-shopping.component';
 import { KnownIssuesComponent } from './info-pages/known-issues/known-issues.component';
 import { AdsSettingsComponent } from './manage-privacy/facebook/guidlines-for-ads-settings/ads-settings/ads-settings.component';
 import { SpotPrivacyInstructionsComponent } from "./visualizations/spotify/privacy-instructions/spot-privacy-instructions.component";
@@ -83,6 +84,7 @@ const routes: Routes = [
   { path: 'insta/add-manager' , component:InstaAddManagerComponent},
   { path: 'insta/revoke-access' , component: RevokeAccessComponent},
   { path: 'insta/searches', component: InstaSearchesComponent},
+  { path: 'insta/shopping', component: InstaShoppingComponent},
   { path: 'face/other-personal-info' ,component:OtherPersonalInfoComponent},
   { path: 'face/groups-and-events-data' , component: GroupsAndEventsDataComponent},
   { path: 'face/your-topics', component: YourTopicsComponent},

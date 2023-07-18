@@ -85,6 +85,8 @@ import { InstaContactsRepository } from './db/data-repositories/instagram/insta-
 import { InstaFollowerRepository } from './db/data-repositories/instagram/insta-follower-info/insta-follower.repository';
 import { InstaFollowingRepository } from './db/data-repositories/instagram/insta-follower-info/insta-following.repository';
 import { InstaBlockedRepository } from './db/data-repositories/instagram/insta-follower-info/insta-blocked.repository';
+import { InstaShoppingRepository } from './db/data-repositories/instagram/insta-shopping/insta-shopping.repository';
+import { InstaShoppingComponent } from './visualizations/instagram/insta-shopping/insta-shopping.component';
 import { InstaRecentFollowRepository } from './db/data-repositories/instagram/insta-follower-info/insta-recent-follow.repository';
 import { InstaPendingFollowRequestRepository } from './db/data-repositories/instagram/insta-follower-info/insta-pending-follow-request.repository';
 import { InstaRecentlyUnfollowedAccountsRepository } from './db/data-repositories/instagram/insta-follower-info/insta-recently-unfollowed-accounts.repository';
@@ -123,6 +125,8 @@ import { PostsComponent } from './visualizations/facebook/face-posts/posts/posts
 import { FaceBookMessagesInfoRepository } from './db/data-repositories/facebook/fb-messages-data/fb-messages-friends.repo';
 import { MessagesComponent } from './visualizations/facebook/messages/messages.component';
 import { FaceBookGroupMessagesInfoRepository } from './db/data-repositories/facebook/fb-messages-data/fb-messages-groups.repo';
+import { InstaShoppingWishlistRepository } from './db/data-repositories/instagram/insta-shopping/insta-shopping_wishlist.repository';
+
 import { GroupsAndEventsDataComponent } from './visualizations/facebook/groups-and-events-data/groups-and-events-data.component';
 import { FacebookEventsRepository } from './db/data-repositories/facebook/fb-groups-events-info/face_events.repo';
 import { FacebookGroupsRepository } from './db/data-repositories/facebook/fb-groups-events-info/face_groups.repo';
@@ -364,6 +368,7 @@ const dbConfig: DBConfig  =
     AboutComponent,
     ContactComponent,
     FaqComponent,
+    InstaShoppingComponent,
     InferredTopicsComponent,
     InstaAccountCreationLoginComponent,
     InstaAdsComponent,
@@ -447,6 +452,8 @@ const dbConfig: DBConfig  =
     InstaFollowerRepository,
     InstaFollowingRepository,
     InstaBlockedRepository,
+    InstaShoppingRepository,
+    InstaShoppingWishlistRepository,
     InstaRecentFollowRepository,
     InstaPendingFollowRequestRepository,
     InstaRecentlyUnfollowedAccountsRepository,

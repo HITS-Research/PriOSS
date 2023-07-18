@@ -73,6 +73,15 @@
         <app-insta-searches [previewMode]="true"></app-insta-searches>
       </app-dash-card>
     </div>
+    <div nz-col nzXs="24" nzXl="8">
+      <!--card for visualizing for shopping data-->
+      <nz-card nzTitle="Shopping" nzHoverable [nzExtra]="extraShopping">
+        <app-insta-shopping [previewMode]="true"></app-insta-shopping>
+      </nz-card>
+      <ng-template #extraShopping>
+        <a routerLink="/insta/shopping">More</a>
+      </ng-template>
+    </div>
   </div>
   <br>
   </details>
