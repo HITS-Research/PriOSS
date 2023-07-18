@@ -13,7 +13,6 @@
             (click)="getSongIds()">Visualize</button>
         <button *ngIf="firstRun" id="startButton" type="submit" nz-button nzType="default"
             (click)="drawRadarAgainWithSavedValues()">Visualize</button>
-            
         <div id="bar-chart"></div>
         <div class="container">
             <div class="spinner-wrapper"><nz-spin [nzSpinning]="isLoading"></nz-spin></div>

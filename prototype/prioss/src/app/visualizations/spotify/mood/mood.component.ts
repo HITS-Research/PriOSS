@@ -35,7 +35,7 @@ export class MoodComponent {
   @Input()
   selectedRange = [new Date('2021-11-01'), new Date('2021-11-30')]; // Set specific default dates
 
-  
+
   isLoading: boolean = false;
   files: any[] = [];
   queriedSongs = 0;
@@ -46,16 +46,25 @@ export class MoodComponent {
     this.setToken();
     console.log(token);
   }
-
+  /*
+  * This is a helper function to redraw the diagramm without calling the Spotify API again.
+  *
+  * @author: Sven (svenf@mail.uni-paderborn.de)
+  */
   drawRadarAgainWithSavedValues() {
-    this.updateBarChart();
+    this.updateRadarChart();
   }
 
   ranges = { Today: [new Date(), new Date()], 'This Month': [new Date(), endOfMonth(new Date())] };
 
+  /*
+  * This is a helper function to that sets the date taken from the range picker
+  *
+  * @author Sven (svenf@mail.uni-paderborn.de)
+  */
   onChange(result: Date[]): void {
     console.log('From: ', result[0], ', to: ', result[1]);
-    if (result[0]== undefined) {
+    if (result[0] == undefined) {
       startDateInput = new Date('1900-01-01');
       endDateInput = new Date('2023-07-19');
       return;
@@ -63,7 +72,7 @@ export class MoodComponent {
     startDateInput = result[0];
     endDateInput = result[1];
   }
-  
+
 
   /**
    * This function gets all Song Ids (currently limited to 100). Also calls @makeRadarChart.
@@ -93,7 +102,7 @@ export class MoodComponent {
     let flattend = makeOneArray(audiofeatures);
     withdate = addListeningDateToAudiofeatures(flattend, names, spotHistory);
     this.isLoading = false;
-    this.updateBarChart();
+    this.updateRadarChart();
     //makeRadarChart(flattend);
   }
 
@@ -103,10 +112,10 @@ export class MoodComponent {
   * @author: Max (maxy@mail.upb.de), Sven (svenf@mail.uni-paderborn.de)
   *
   */
-  updateBarChart() {
+  updateRadarChart() {
     let timed: any = [];
     console.log(withdate);
-      withdate.forEach((d: any) => {
+    withdate.forEach((d: any) => {
       let timestamp = new Date(d.time);
       let start = new Date(startDateInput).toUTCString();
       let end = new Date(endDateInput).toUTCString();
@@ -115,7 +124,7 @@ export class MoodComponent {
     console.log(timed);
     makeRadarChart(timed);
   }
-  
+
 
   /**
   * Sets the token to communicate with Spotify Web API https://developer.spotify.com/documentation/general/guides/authorization/client-credentials/
@@ -255,7 +264,7 @@ function addListeningDateToAudiofeatures(audiofeatures: any, names: string[], or
 */
 function makeRadarChart(audiofeatures: any) {
   d3.select("#bar-chart").selectAll("*").remove();
-  
+
   savedValues = audiofeatures;
   let danceabilitySum = 0;
   let energySum = 0;
@@ -268,7 +277,7 @@ function makeRadarChart(audiofeatures: any) {
   audiofeatures.forEach((key: any) => {
     danceabilitySum += key.danceability;
     energySum += key.energy;
-    loudnessSum += (-1)* key.loudness;
+    loudnessSum += (-1) * key.loudness;
     valenceSum += key.valence;
     tempoSum += normalizeTempo(key.tempo);
     accousticnessSum += key.acousticness;
@@ -299,18 +308,18 @@ function makeRadarChart(audiofeatures: any) {
   let leftmargin = 150;
   let bottomMargin = 125;
   let xAxisWidth = window.innerWidth - margin * 2;
-  let yAxisHeight = window.innerHeight*0.90 - margin * 2
+  let yAxisHeight = window.innerHeight * 0.90 - margin * 2
 
-  
+
 
   let svg = d3.select("#bar-chart").append("svg")
-  .attr(
-    "viewBox",
-    `0 0 ${xAxisWidth + margin * 2} ${yAxisHeight + bottomMargin}`
-    //`0 0 ${xAxisWidth + margin * 2} ${yAxisHeight + bottomMargin}`
-  )
-  .append("g")
-  .attr("transform", "translate(" + leftmargin + "," + 0 + ")");
+    .attr(
+      "viewBox",
+      `0 0 ${xAxisWidth + margin * 2} ${yAxisHeight + bottomMargin}`
+      //`0 0 ${xAxisWidth + margin * 2} ${yAxisHeight + bottomMargin}`
+    )
+    .append("g")
+    .attr("transform", "translate(" + leftmargin + "," + 0 + ")");
 
 
   let radialScale = d3.scaleLinear()
@@ -339,7 +348,7 @@ function makeRadarChart(audiofeatures: any) {
         .text(d => d.toString())
     );
 
-  let featureData = data.map((f:any, i:any) => {
+  let featureData = data.map((f: any, i: any) => {
     let angle = (Math.PI / 2) + (2 * Math.PI * i / data.length);
     return {
       "name": f,
@@ -349,7 +358,7 @@ function makeRadarChart(audiofeatures: any) {
     };
   });
 
-  
+
 
   // draw axis line
   svg.selectAll("line")
@@ -358,89 +367,94 @@ function makeRadarChart(audiofeatures: any) {
       enter => enter.append("line")
         .attr("x1", xAxisWidth / 2)
         .attr("y1", yAxisHeight / 2)
-        .attr("x2", (d:any)  => d.line_coord.x)
-        .attr("y2", (d:any)  => d.line_coord.y)
+        .attr("x2", (d: any) => d.line_coord.x)
+        .attr("y2", (d: any) => d.line_coord.y)
         .attr("stroke", "black")
     );
 
   // draw axis label
   svg.selectAll(".axislabel")
-  .data(featureData)
-  .enter()
-  .append("g")
-  .attr("class", "axislabel")
-  .attr("transform", (d:any) => `translate(${d.label_coord.x},${d.label_coord.y})`)
-  .each(function(d:any) {
-    const group = d3.select(this);
+    .data(featureData)
+    .enter()
+    .append("g")
+    .attr("class", "axislabel")
+    .attr("transform", (d: any) => `translate(${d.label_coord.x},${d.label_coord.y})`)
+    .each(function (d: any) {
+      const group = d3.select(this);
 
-    group.append("text")
-      .attr("x", 15)
-      .attr("y", 5)
-      .text(d.name.feature)
-      .attr("class", "label");
-  
-  
-    group.append("circle")
-    .attr("r", 10)
-    .attr("class", "circle")
-    .attr("fill", "black");
-      
+      group.append("text")
+        .attr("x", 15)
+        .attr("y", 5)
+        .text(d.name.feature)
+        .attr("class", "label");
 
 
-    group.append("text")
-      .attr("x", 0)
-      .attr("y", 4)
-      .text("i")
-      .attr("class", "icon")
-      .attr("text-anchor", "middle")
-      .attr("fill", "white")
-      .style("font-weight", "bold")
-      .style("font-size", "10px");
-      
-    
+      group.append("circle")
+        .attr("r", 10)
+        .attr("class", "circle")
+        .attr("fill", "black");
+
+
+
+      group.append("text")
+        .attr("x", 0)
+        .attr("y", 4)
+        .text("i")
+        .attr("class", "icon")
+        .attr("text-anchor", "middle")
+        .attr("fill", "white")
+        .style("font-weight", "bold")
+        .style("font-size", "10px");
+
+
 
       const additionalText = group.append("text")
-      .attr("x", 15)
-      .attr("y", 20) // Adjust the y-coordinate for the additional text
-      .text(d.name.additionalText) // Replace with the desired additional text
-      .attr("class", "additional-text")
-      .style("opacity", 0)
-      .style("fill", "black")
-      .style("background-color", "lightgrey")
-      .style("border", "1px solid grey")
+        .attr("x", 15)
+        .attr("y", 20) // Adjust the y-coordinate for the additional text
+        .text(d.name.additionalText) // Replace with the desired additional text
+        .attr("class", "additional-text")
+        .style("opacity", 0)
+        .style("fill", "black")
+        .style("background-color", "lightgrey")
+        .style("border", "1px solid grey")
         .style("font-size", "12px")
         .style("font-weight", "normal")
         .style("padding", "4px");
 
-      group.on("mouseover", function() {
+      group.on("mouseover", function () {
         additionalText.style("opacity", 1);
       })
-      .on("mouseout", function() {
-        additionalText.style("opacity", 0);
-      });
-  });
+        .on("mouseout", function () {
+          additionalText.style("opacity", 0);
+        });
+    });
 
-  
+
 
   let line = d3.line()
-    .x((d:any)  => d.x)
-    .y((d:any)  => d.y);
+    .x((d: any) => d.x)
+    .y((d: any) => d.y);
   let colors = [spotifyGreen];
-
+  /*
+  * This is a helper function ro calculate the path coordinates
+  *
+  * @author: Sven (svenf@mail.uni-paderborn.de)
+  *
+  */
   function getPathCoordinates() {
     let coordinates = [];
     for (var i = 0; i < data.length; i++) {
       let angle = (Math.PI / 2) + (2 * Math.PI * i / data.length);
       coordinates.push(angleToCoordinate(angle, data[i].value));
     }
-    
+
     return coordinates;
   }
 
   svg.selectAll("path")
     .data(data)
     .join(
-      (enter:any) => enter.append("path")
+      (enter: any) => enter.append("path")
         .datum(() => getPathCoordinates())
         .attr("d", line)
         .attr("stroke-width", 3)
@@ -451,14 +465,17 @@ function makeRadarChart(audiofeatures: any) {
     );
 
 
-    function angleToCoordinate(angle:number, value:number) {
-      let x = Math.cos(angle) * radialScale(value);
-      let y = Math.sin(angle) * radialScale(value);
-      return { "x": xAxisWidth / 2 + x, "y": yAxisHeight / 2 - y };
-    }
-
-
-
+  /*
+  * This is a helper function to calculate the angle for labels and lines
+  *
+  * @author: Sven (svenf@mail.uni-paderborn.de)
+  *
+  */
+  function angleToCoordinate(angle: number, value: number) {
+    let x = Math.cos(angle) * radialScale(value);
+    let y = Math.sin(angle) * radialScale(value);
+    return { "x": xAxisWidth / 2 + x, "y": yAxisHeight / 2 - y };
+  }
 }
 
 
@@ -495,7 +512,7 @@ function normalizeTempo(originalValue: number): number {
   const newMax = 100;
 
   const normalizedValue = ((originalValue - minValue) / (maxValue - minValue)) * (newMax - newMin) + newMin;
-  
+
   return normalizedValue;
 }
 
