@@ -2,11 +2,14 @@ import { Component, Input } from '@angular/core';
 import { environment } from '../../../../environments/environment.prod';
 import * as d3 from 'd3';
 import { SpotHistoryRepository } from 'src/app/db/data-repositories/spotify/spot-history/spot-history.repository';
+import { endOfMonth } from 'date-fns';
 
 const CLIENT_ID = environment.CLIENT_ID;
 const CLIENT_SECRET = environment.CLIENT_SECRET;
 let token: string;
 let withdate: any;
+const spotifyGreen: string = "#1DB954"
+let savedValues: any[] = [];
 
 
 
@@ -24,8 +27,10 @@ let withdate: any;
 export class MoodComponent {
   @Input()
   previewMode: boolean = false;
+  @Input()
+  firstRun: boolean = false;
 
-  readonly spotifyGreen: string = "#1DB954"
+  
 
   files: any[] = [];
   queriedSongs = 0;
@@ -37,12 +42,26 @@ export class MoodComponent {
     console.log(token);
   }
 
+  drawRadarAgainWithSavedValues() {
+    console.log("--- Preview Mode: " + this.firstRun);
+    makeRadarChart(savedValues)
+  }
+
+  ranges = { Today: [new Date(), new Date()], 'This Month': [new Date(), endOfMonth(new Date())] };
+
+  onChange(result: Date[]): void {
+    console.log('From: ', result[0], ', to: ', result[1]);
+  }
+  
+
   /**
    * This function gets all Song Ids (currently limited to 100). Also calls @makeRadarChart.
    * 
    * @author Sven
    */
   async getSongIds() {
+    console.log(this.firstRun);
+    this.firstRun = true;
     let spotHistory = await this.spotHistoryRepo.getSpotHistory();
     this.allSongsNumber = spotHistory.length;
     const trackIds: string[] = [];
@@ -78,8 +97,6 @@ export class MoodComponent {
       let timestamp = new Date(d.time);
       return timestamp >= new Date(startDateInput) && timestamp <= new Date(endDateInput);
     });
-    console.log(timed);
-
     d3.select("#bar-chart").selectAll("*").remove();
     makeRadarChart(timed);
   }
@@ -221,6 +238,9 @@ function addListeningDateToAudiofeatures(audiofeatures: any, names: string[], or
 * @author Sven Feldmann
 */
 function makeRadarChart(audiofeatures: any) {
+  d3.select("#bar-chart").selectAll("*").remove();
+  
+  savedValues = audiofeatures;
   let danceabilitySum = 0;
   let energySum = 0;
   let loudnessSum = 0;
@@ -313,7 +333,7 @@ function makeRadarChart(audiofeatures: any) {
     };
   });
 
-  console.log(featureData);
+  
 
   // draw axis line
   svg.selectAll("line")
@@ -378,7 +398,6 @@ function makeRadarChart(audiofeatures: any) {
 
 
 }
-
 
 
 

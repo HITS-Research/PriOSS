@@ -6,7 +6,9 @@
     <div *ngIf="!previewMode">
         <app-title-bar titleText="Average Mood of Songs" tooltipText="Use the 'Visualize' button to calculate the average Mood of Songs. Here comes the description of all audiofeatuers..."></app-title-bar>
         <!-- <p>QueriedSongs: {{ queriedSongs }} / {{ allSongsNumber }}</p> -->
-        <button id="startButton" type="submit" nz-button nzType="default" (click)="getSongIds()">Visualize</button>
+        <nz-range-picker [nzRanges]="ranges" ngModel (ngModelChange)="onChange($event)"></nz-range-picker>
+        <button *ngIf="!firstRun" id="startButton" type="submit" nz-button nzType="default" (click)="getSongIds()">Visualize</button>
+        <button *ngIf="firstRun" id="startButton" type="submit" nz-button nzType="default" (click)="drawRadarAgainWithSavedValues()">Visualize</button>
         <div id="bar-chart"></div>
     </div>
 </div>
