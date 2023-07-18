@@ -10,6 +10,8 @@ let token: string;
 let withdate: any;
 const spotifyGreen: string = "#1DB954"
 let savedValues: any[] = [];
+let startDateInput: any = null;
+let endDateInput: any = null;
 
 
 
@@ -43,14 +45,15 @@ export class MoodComponent {
   }
 
   drawRadarAgainWithSavedValues() {
-    console.log("--- Preview Mode: " + this.firstRun);
-    makeRadarChart(savedValues)
+    this.updateBarChart();
   }
 
   ranges = { Today: [new Date(), new Date()], 'This Month': [new Date(), endOfMonth(new Date())] };
 
   onChange(result: Date[]): void {
     console.log('From: ', result[0], ', to: ', result[1]);
+    startDateInput = result[0];
+    endDateInput = result[1];
   }
   
 
@@ -60,7 +63,6 @@ export class MoodComponent {
    * @author Sven
    */
   async getSongIds() {
-    console.log(this.firstRun);
     this.firstRun = true;
     let spotHistory = await this.spotHistoryRepo.getSpotHistory();
     this.allSongsNumber = spotHistory.length;
@@ -81,7 +83,8 @@ export class MoodComponent {
     let audiofeatures: any = await this.getAudioFeaturesInBulk(trackIds);
     let flattend = makeOneArray(audiofeatures);
     withdate = addListeningDateToAudiofeatures(flattend, names, spotHistory)
-    makeRadarChart(flattend);
+    this.updateBarChart();
+    //makeRadarChart(flattend);
   }
 
   /**
@@ -91,15 +94,17 @@ export class MoodComponent {
   *
   */
   updateBarChart() {
-    let startDateInput: any = (document.getElementById("start-date") as HTMLInputElement).value;
-    let endDateInput: any = (document.getElementById("end-date") as HTMLInputElement).value;
-    let timed: any = withdate.filter((d: any) => {
+    let timed: any = [];
+      withdate.forEach((d: any) => {
       let timestamp = new Date(d.time);
-      return timestamp >= new Date(startDateInput) && timestamp <= new Date(endDateInput);
+      let start = new Date(startDateInput).toUTCString();
+      let end = new Date(endDateInput).toUTCString();
+      if (start >= timestamp.toUTCString() && timestamp.toUTCString() <= end) timed.push(d);
     });
-    d3.select("#bar-chart").selectAll("*").remove();
+    console.log(timed);
     makeRadarChart(timed);
   }
+  
 
   /**
   * Sets the token to communicate with Spotify Web API https://developer.spotify.com/documentation/general/guides/authorization/client-credentials/
