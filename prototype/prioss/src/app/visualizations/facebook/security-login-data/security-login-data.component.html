@@ -1,18 +1,18 @@
 <div [ngClass]="{'component-page': !previewMode}">
   <div *ngIf="previewMode">
     <nz-row [nzGutter]="16">
-      <nz-col [nzSpan]="14">
+      <nz-col [nzSpan]="10">
         <nz-statistic [nzTitle]="'Login Lcations'"  [nzValue]="locations.length"></nz-statistic>
       </nz-col>
-      <nz-row [nzSpan]="14">
+      <nz-col [nzSpan]="10">
         <nz-statistic [nzTitle]="'Account Deactivated'"  [nzValue]="account_deactivated"></nz-statistic>
-      </nz-row>
-      <nz-col [nzSpan]="14">
+      </nz-col>
+      <nz-col [nzSpan]="10">
         <nz-statistic  [nzTitle]="'Password Changed'" [nzValue]="PasswordChange"></nz-statistic>
       </nz-col>
-      <nz-row [nzSpan]="14">
+      <nz-col [nzSpan]="10">
         <nz-statistic [nzTitle]="'Login & Lgouts'"  [nzValue]="login_logouts"></nz-statistic>
-      </nz-row>
+      </nz-col>
     </nz-row>
   </div>
 </div>

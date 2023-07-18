@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { scrollToTop } from 'src/app/utilities/generalUtilities.functions';
 
 @Component({
   selector: 'app-your-topics',
@@ -6,5 +7,8 @@ import { Component } from '@angular/core';
   styleUrls: ['./your-topics.component.less']
 })
 export class YourTopicsComponent {
-
+  
+  async ngAfterViewInit(){
+    scrollToTop();
+  }
 }
