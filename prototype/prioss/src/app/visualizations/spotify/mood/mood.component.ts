@@ -15,6 +15,7 @@ let endDateInput: any = null;
 
 
 
+
 /**
   * This component visualizes the mood of songs in the datadownload based on the information fetched from a Spotify API
   *
@@ -31,9 +32,11 @@ export class MoodComponent {
   previewMode: boolean = false;
   @Input()
   firstRun: boolean = false;
+  @Input()
+  selectedRange = [new Date('2021-11-01'), new Date('2021-11-30')]; // Set specific default dates
 
   
-
+  isLoading: boolean = false;
   files: any[] = [];
   queriedSongs = 0;
   allSongsNumber = 0;
@@ -52,6 +55,11 @@ export class MoodComponent {
 
   onChange(result: Date[]): void {
     console.log('From: ', result[0], ', to: ', result[1]);
+    if (result[0]== undefined) {
+      startDateInput = new Date('1900-01-01');
+      endDateInput = new Date('2023-07-19');
+      return;
+    }
     startDateInput = result[0];
     endDateInput = result[1];
   }
@@ -63,6 +71,7 @@ export class MoodComponent {
    * @author Sven
    */
   async getSongIds() {
+    this.isLoading = true;
     this.firstRun = true;
     let spotHistory = await this.spotHistoryRepo.getSpotHistory();
     this.allSongsNumber = spotHistory.length;
@@ -82,7 +91,8 @@ export class MoodComponent {
     }
     let audiofeatures: any = await this.getAudioFeaturesInBulk(trackIds);
     let flattend = makeOneArray(audiofeatures);
-    withdate = addListeningDateToAudiofeatures(flattend, names, spotHistory)
+    withdate = addListeningDateToAudiofeatures(flattend, names, spotHistory);
+    this.isLoading = false;
     this.updateBarChart();
     //makeRadarChart(flattend);
   }
@@ -95,6 +105,7 @@ export class MoodComponent {
   */
   updateBarChart() {
     let timed: any = [];
+    console.log(withdate);
       withdate.forEach((d: any) => {
       let timestamp = new Date(d.time);
       let start = new Date(startDateInput).toUTCString();

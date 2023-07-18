@@ -1,14 +1,21 @@
-<div [ngClass]="{'component-page': !previewMode}"> 
+<div [ngClass]="{'component-page': !previewMode}">
     <div *ngIf="previewMode">
         <div>This visualization requires a connection to Spotify. The connection to Spotify is only
             established when you click on this card and start the visualization.</div>
     </div>
     <div *ngIf="!previewMode">
-        <app-title-bar titleText="Average Mood of Songs" tooltipText="Use the 'Visualize' button to calculate the average Mood of Songs. Here comes the description of all audiofeatuers..."></app-title-bar>
+        <app-title-bar titleText="Average Mood of Songs"
+            tooltipText="Use the 'Visualize' button to calculate the average Mood of Songs. Here comes the description of all audiofeatuers..."></app-title-bar>
         <!-- <p>QueriedSongs: {{ queriedSongs }} / {{ allSongsNumber }}</p> -->
-        <nz-range-picker [nzRanges]="ranges" ngModel (ngModelChange)="onChange($event)"></nz-range-picker>
-        <button *ngIf="!firstRun" id="startButton" type="submit" nz-button nzType="default" (click)="getSongIds()">Visualize</button>
-        <button *ngIf="firstRun" id="startButton" type="submit" nz-button nzType="default" (click)="drawRadarAgainWithSavedValues()">Visualize</button>
+        <nz-range-picker [nzRanges]="ranges" [(ngModel)]="selectedRange"
+            (ngModelChange)="onChange($event)"></nz-range-picker>
+        <button *ngIf="!firstRun" id="startButton" type="submit" nz-button nzType="default"
+            (click)="getSongIds()">Visualize</button>
+        <button *ngIf="firstRun" id="startButton" type="submit" nz-button nzType="default"
+            (click)="drawRadarAgainWithSavedValues()">Visualize</button>
         <div id="bar-chart"></div>
+        <div class="container">
+            <div class="spinner-wrapper"><nz-spin [nzSpinning]="isLoading"></nz-spin></div>
+        </div>
     </div>
 </div>
