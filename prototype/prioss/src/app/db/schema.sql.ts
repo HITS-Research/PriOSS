@@ -87,6 +87,24 @@ CREATE TABLE IF NOT EXISTS insta_ads_viewed (
     timestamp TEXT NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS insta_user_searches (
+    id INTEGER PRIMARY KEY,
+    search TEXT NOT NULL,
+    timestamp TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS insta_keyword_searches (
+    id INTEGER PRIMARY KEY,
+    search TEXT NOT NULL,
+    timestamp TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS insta_tag_searches (
+    id INTEGER PRIMARY KEY,
+    search TEXT NOT NULL,
+    timestamp TEXT NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS insta_signup_information (
     id INTEGER PRIMARY KEY,
     username TEXT NOT NULL,
@@ -160,77 +178,155 @@ CREATE TABLE IF NOT EXISTS insta_blocked_info (
     timestamp INTEGER NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS face_ads_information (
+CREATE TABLE IF NOT EXISTS insta_shopping (
     id INTEGER PRIMARY KEY,
-    advertiser_name TEXT NOT NULL,
-    has_data_file_custom_audience TEXT NOT NULL,
-    has_remarketing_custom_audience TEXT NOT NULL,
-    has_in_person_store_visit TEXT NOT NULL
+    merchantName TEXT NOT NULL,
+    productName TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS insta_shopping_wishlist (
+    id INTEGER PRIMARY KEY,
+    merchantName TEXT NOT NULL,
+    productName TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS insta_recent_follow_info (
+    id INTEGER PRIMARY KEY,
+    instaProfileURL TEXT NOT NULL,
+    instaAccountName TEXT NOT NULL,
+    timestamp INTEGER NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS insta_pending_follow_request_info (
+    id INTEGER PRIMARY KEY,
+    instaProfileURL TEXT NOT NULL,
+    instaAccountName TEXT NOT NULL,
+    timestamp INTEGER NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS insta_recently_unfollowed_accounts_info (
+    id INTEGER PRIMARY KEY,
+    instaProfileURL TEXT NOT NULL,
+    instaAccountName TEXT NOT NULL,
+    timestamp INTEGER NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS insta_removed_suggestion_info (
+    id INTEGER PRIMARY KEY,
+    instaProfileURL TEXT NOT NULL,
+    instaAccountName TEXT NOT NULL,
+    timestamp INTEGER NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS insta_received_follow_request_info (
+    id INTEGER PRIMARY KEY,
+    instaProfileURL TEXT NOT NULL,
+    instaAccountName TEXT NOT NULL,
+    timestamp INTEGER NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS face_ads_interacted (
     id INTEGER PRIMARY KEY,
     title TEXT NOT NULL,
     action TEXT NOT NULL,
-    timestamp TEXT NOT NULL
+    timestamp INTEGER NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS face_apps_websites (
     id INTEGER PRIMARY KEY,
     name TEXT NOT NULL,
-    added_timestamp TEXT NOT NULL,
-    user_app_scoped_id TEXT NOT NULL,
+    added_timestamp INTEGER,
+    user_app_scoped_id INTEGER,
     category TEXT NOT NULL,
-    removed_timestamp TEXT NOT NULL
+    removed_timestamp INTEGER NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS face_off_facebook_activity (
+    id INTEGER PRIMARY KEY,
     name TEXT NOT NULL,
     events TEXT NOT NULL,
-    id TEXT NOT NULL,
-    type TEXT NOT NULL,
-    timestamp TEXT NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS face_friend_requests_received (
-    id INTEGER PRIMARY KEY,
-    name TEXT NOT NULL,
-    timestamp TEXT NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS face_friend_requests_sent (
-    id INTEGER PRIMARY KEY,
-    name TEXT NOT NULL,
-    timestamp TEXT NOT NULL
+    type TEXT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS face_friends (
     id INTEGER PRIMARY KEY,
     name TEXT NOT NULL,
-    timestamp TEXT NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS face_rejected_friend_requests (
-    id INTEGER PRIMARY KEY,
-    name TEXT NOT NULL,
-    timestamp TEXT NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS face_removed_friends (
-    id INTEGER PRIMARY KEY,
-    name TEXT NOT NULL,
-    timestamp TEXT NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS face_who_you_follow (
-    id INTEGER PRIMARY KEY,
-    name TEXT NOT NULL,
-    timestamp TEXT NOT NULL
+    timestamp INTEGER NOT NULL,
+    type TEXT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS face_inferred_topics (
     id INTEGER PRIMARY KEY,
     topic TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS face_login_locations (
+    id INTEGER PRIMARY KEY,
+    location TEXT NOT NULL,
+    device TEXT NOT NULL,
+    timestamp TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS face_login_logouts (
+    id INTEGER PRIMARY KEY,
+    action TEXT NOT NULL,
+    timestamp TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS face_account_status_changes (
+    id INTEGER PRIMARY KEY,
+    status TEXT NOT NULL,
+    timestamp TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS face_account_activity (
+    id INTEGER PRIMARY KEY,
+    action TEXT NOT NULL,
+    timestamp TEXT NOT NULL,
+    city TEXT NOT NULL,
+    region TEXT NOT NULL,
+    country TEXT NOT NULL,
+    site_name TEXT 
+);
+CREATE TABLE IF NOT EXISTS face_address_book (
+    id INTEGER PRIMARY KEY,
+    name TEXT ,
+    contact_point TEXT,
+    created_timestamp INTEGER NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS face_search_history (
+    id INTEGER PRIMARY KEY,
+    text TEXT,
+    timestamp INTEGER
+);
+CREATE TABLE IF NOT EXISTS face_messages (
+    id INTEGER PRIMARY KEY,
+    name TEXT,
+    timestamp STRING
+);
+CREATE TABLE IF NOT EXISTS face_group_messages (
+    id INTEGER PRIMARY KEY,
+    name TEXT,
+    value STRING
+);
+
+CREATE TABLE IF NOT EXISTS face_posts (
+    id INTEGER PRIMARY KEY,
+    timestamp INTEGER,
+    title STRING
+);
+CREATE TABLE IF NOT EXISTS face_groups (
+    id INTEGER PRIMARY KEY,
+    name TEXT,
+    timestamp TEXT
+);
+
+CREATE TABLE IF NOT EXISTS face_events (
+    id INTEGER PRIMARY KEY,
+    name TEXT,
+    start_timestamp TEXT,
+    end_timestamp TEXT
 );
 
 `;
@@ -252,6 +348,9 @@ DROP TABLE IF EXISTS insta_ads_activity;
 DROP TABLE IF EXISTS insta_ads_interests;
 DROP TABLE IF EXISTS insta_ads_clicked;
 DROP TABLE IF EXISTS insta_ads_viewed;
+DROP TABLE IF EXISTS insta_user_searches;
+DROP TABLE IF EXISTS insta_keyword_searches;
+DROP TABLE IF EXISTS insta_tag_searches;
 DROP TABLE IF EXISTS insta_signup_information;
 DROP TABLE IF EXISTS insta_login_information;
 DROP TABLE IF EXISTS insta_logout_information;
@@ -262,15 +361,27 @@ DROP TABLE IF EXISTS userdata;
 DROP TABLE IF EXISTS insta_follower_info;
 DROP TABLE IF EXISTS insta_following_info;
 DROP TABLE IF EXISTS insta_blocked_info;
-DROP TABLE IF EXISTS face_ads_information;
+DROP TABLE IF EXISTS insta_shopping;
+DROP TABLE IF EXISTS insta_shopping_wishlist;
+DROP TABLE IF EXISTS insta_recent_follow_info;
+DROP TABLE IF EXISTS insta_pending_follow_request_info;
+DROP TABLE IF EXISTS insta_recently_unfollowed_accounts_info;
+DROP TABLE IF EXISTS insta_removed_suggestion_info;
+DROP TABLE IF EXISTS insta_received_follow_request_info;
 DROP TABLE IF EXISTS face_ads_interacted;
 DROP TABLE IF EXISTS face_apps_websites;
 DROP TABLE IF EXISTS face_off_facebook_activity;
-DROP TABLE IF EXISTS face_friend_requests_received;
-DROP TABLE IF EXISTS face_friend_requests_sent;
 DROP TABLE IF EXISTS face_friends;
-DROP TABLE IF EXISTS face_rejected_friend_requests;
-DROP TABLE IF EXISTS face_removed_friends;
-DROP TABLE IF EXISTS face_who_you_follow;
 DROP TABLE IF EXISTS face_inferred_topics;
+DROP TABLE IF EXISTS face_login_locations;
+DROP TABLE IF EXISTS face_login_logouts;
+DROP TABLE IF EXISTS face_account_status_changes;
+DROP TABLE IF EXISTS face_account_activity;
+DROP TABLE IF EXISTS face_address_book;
+DROP TABLE IF EXISTS face_search_history;
+DROP TABLE IF EXISTS face_posts;
+DROP TABLE IF EXISTS face_groups;
+DROP TABLE IF EXISTS face_events;
+DROP TABLE IF EXISTS face_messages;
+DROP TABLE IF EXISTS face_group_messages;
 `;

@@ -13,7 +13,7 @@ import { SequenceComponentInit } from '../../sequence-component-init.abstract';
   * This component is the visualization component on instagram's dashboard page.
   * This page is shown when the user clicks on the personal information card on instagram's dashboard.
   *
-  * @author: Paul (pasch@mail.upb.de)
+  * @author: Aayushma & Paul (aayushma@uni-paderborn.de & pasch@mail.upb.de)
   */
 @Component({
   selector: 'app-personal-info',
@@ -56,7 +56,7 @@ export class Insta_PersonalInfoComponent extends SequenceComponentInit{
   * @author: Paul (pasch@mail.upb.de)
   */
   override async initComponent(): Promise<void> {
-    console.log("--- Initializing Component 1: PersonalInfo");
+    console.log("--- Initializing Component 0: PersonalInfo");
 
     await this.instaPersonalRepo.getPersonalInfo().then((pInfo) => {
       this.personalInfo = pInfo[0];

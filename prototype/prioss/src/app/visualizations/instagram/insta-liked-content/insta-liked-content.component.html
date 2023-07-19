@@ -16,33 +16,117 @@
   <div *ngIf="!previewMode">
     <div>
       <app-title-bar titleText="Liked Comments" tooltipText="This bar chart shows the liked comments that was collected by Instagram."></app-title-bar>
-      <div>
-        User:
-        <nz-select style="width: 180px;"[(ngModel)]="selectedUserForComments"  (ngModelChange)="onUserChangeForComment()">
-          <nz-option *ngFor="let user of userListForComments" [nzValue]="user" [nzLabel]="user"></nz-option>
-        </nz-select>
-        From:
-        <nz-date-picker [(ngModel)]="filterFromDateForComments" (ngModelChange)="onDateFilterChangeForComment()"></nz-date-picker>
-        To:
-        <nz-date-picker [(ngModel)]="filterToDateForComments" (ngModelChange)="onDateFilterChangeForComment()"></nz-date-picker>
-        <div class="bar_chart_liked_comments"></div>
-      </div>
-    </div>
-
-    <div>
-      <app-title-bar titleText="Liked Posts" tooltipText="This bar chart shows the liked posts that was collected by Instagram." [includeButton]="false"></app-title-bar>
-      <div>
-        User:
-        <nz-select style="width: 180px;"[(ngModel)]="selectedUserForPosts"  (ngModelChange)="onUserChangeForPost()">
-          <nz-option *ngFor="let user of userListForPosts" [nzValue]="user" [nzLabel]="user"></nz-option>
-        </nz-select>
-        From:
-        <nz-date-picker [(ngModel)]="filterFromDateForPosts" (ngModelChange)="onDateFilterChangeForPost()"></nz-date-picker>
-        To:
-        <nz-date-picker [(ngModel)]="filterToDateForPosts" (ngModelChange)="onDateFilterChangeForPost()"></nz-date-picker>
-        <div class="bar_chart_liked_posts"></div>
-      </div>
-    </div>
-    
+      <nz-card style="width:100%;">
+        <nz-tabset nzType="card">
+          <nz-tab nzTitle="Graph representation">
+            <p nz-typography>
+              The following graph visualizes top 10 comments and posts liked by you.
+            </p>
+            
+            <div class="liked_contents">
+              <div class="bar_chart_liked_comments"></div>
+              <div class="bar_chart_liked_posts"></div>
+            </div>
+          </nz-tab>
+          <nz-tab nzTitle="Liked Comments List">
+            <ng-template nz-tab>
+              <nz-demo-tab-content-lazy>
+                <!-- If Liked Comments Data present -->
+                <div *ngIf="liked_comments?.length">
+                    <nz-table [nzData]="listOfLikedComments" #likedCommentsTable>
+                        <thead>
+                            <tr>
+                                <th nzCustomFilter>
+                                  Username
+                                  <nz-filter-trigger [(nzVisible)]="visible" [nzActive]="likedCommentsSearchValue.length > 0" [nzDropdownMenu]="likedCommentsmenu">
+                                    <span nz-icon nzType="search"></span>
+                                  </nz-filter-trigger>
+                                </th>
+                                <th [nzSortFn]="sortLikedCommentsDate">Date</th>
+                                <th>Comment URL</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let like_comment of likedCommentsTable.data">
+                                <td>{{ like_comment.user }}</td>
+                                <td>{{ like_comment.timestamp + '000' | date: 'd MMM y, h:mm a' }}</td>
+                                <td>
+                                  <span nz-icon nzType="link">
+                                    <a target="_blank" href={{like_comment.href_link}}>
+                                      Link
+                                    </a>
+                                  </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </nz-table>
+                    <nz-dropdown-menu #likedCommentsmenu="nzDropdownMenu">
+                      <div class="ant-table-filter-dropdown">
+                        <div class="search-box">
+                          <input type="text" nz-input placeholder="Search Liked Comments" [(ngModel)]="likedCommentsSearchValue" />
+                          <button nz-button nzSize="small" nzType="primary" (click)="search('likedComments')" class="search-button">Search</button>
+                          <button nz-button nzSize="small" (click)="reset('likedComments')">Reset</button>
+                        </div>
+                      </div>
+                    </nz-dropdown-menu>
+                </div>
+                <!-- If No Follower Data present -->
+                <div *ngIf="liked_comments?.length === 0">
+                    <nz-empty nzNotFoundImage="simple"></nz-empty>
+                </div>
+              </nz-demo-tab-content-lazy>
+            </ng-template>
+          </nz-tab>
+          <nz-tab nzTitle="Liked Posts List">
+            <ng-template nz-tab>
+              <nz-demo-tab-content-lazy>
+                <!-- If Liked Posts Data present -->
+                <div *ngIf="liked_posts?.length">
+                    <nz-table [nzData]="listOfLikedPosts" #likedPostsTable>
+                        <thead>
+                            <tr>
+                              <th nzCustomFilter>
+                                Username
+                                <nz-filter-trigger [(nzVisible)]="visible" [nzActive]="likedPostsSearchValue.length > 0" [nzDropdownMenu]="likedPostsmenu">
+                                  <span nz-icon nzType="search"></span>
+                                </nz-filter-trigger>
+                              </th>
+                              <th [nzSortFn]="sortLikedPostsDate">Date</th>
+                              <th>Post URL</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let liked_post of likedPostsTable.data">
+                                <td>{{ liked_post.user }}</td>
+                                <td>{{ liked_post.timestamp + '000' | date: 'd MMM y, h:mm a' }}</td>
+                                <td>
+                                  <span nz-icon nzType="link">
+                                    <a target="_blank" href={{liked_post.href_link}}>
+                                      Link
+                                    </a>
+                                  </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </nz-table>
+                    <nz-dropdown-menu #likedPostsmenu="nzDropdownMenu">
+                      <div class="ant-table-filter-dropdown">
+                        <div class="search-box">
+                          <input type="text" nz-input placeholder="Search Liked Posts" [(ngModel)]="likedPostsSearchValue" />
+                          <button nz-button nzSize="small" nzType="primary" (click)="search('likedPosts')" class="search-button">Search</button>
+                          <button nz-button nzSize="small" (click)="reset('likedPosts')">Reset</button>
+                        </div>
+                      </div>
+                    </nz-dropdown-menu>
+                </div>
+                <!-- If No Follower Data present -->
+                <div *ngIf="liked_posts?.length === 0">
+                    <nz-empty nzNotFoundImage="simple"></nz-empty>
+                </div>
+              </nz-demo-tab-content-lazy>
+            </ng-template>
+          </nz-tab>
+        </nz-tabset>
+      </nz-card>
   </div>
 </div>

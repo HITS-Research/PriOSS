@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { NgxIndexedDBService } from 'ngx-indexed-db';
 import * as d3 from 'd3';
 import { GranularityEnum, Granularity2LabelMapping, getSmallerGranularity } from './granularity.enum';
@@ -11,6 +11,19 @@ import { SpotMonthlyListening } from 'src/app/models/Spotify/ListeningHistory/Sp
 import { SpotHourlyListening } from 'src/app/models/Spotify/ListeningHistory/SpotHourlyListening';
 import { SpotDailyListening } from 'src/app/models/Spotify/ListeningHistory/SpotDailyListening';
 import { SequenceComponentInit } from '../../sequence-component-init.abstract';
+import { filter } from 'jszip';
+import { SongtimelineComponent } from '../songtimeline/songtimeline.component';
+import { Router } from '@angular/router';
+import { Observable, Subscription, fromEvent } from 'rxjs';
+import { TopSongsComponent } from '../top-songs/top-songs.component';
+import { TopArtistsComponent } from '../top-artists/top-artists.component';
+
+interface ListeningtimeFilterHistoryEntry {
+  granularity: GranularityEnum;
+  filterFromDate: Date|null;
+  filterToDate: Date|null;
+  filterSingleDate: Date|null;
+}
 
 /**
   * This component visualizes the total listening time in relation to configurable time periods
@@ -27,6 +40,12 @@ export class ListeningTimeComponent extends SequenceComponentInit {
 
   @Input()
   previewMode: boolean = false;
+  @ViewChild('SongtimelineComponent') 
+  songtimelineComponent : SongtimelineComponent;
+  @ViewChild('TopSongsComponent') 
+  topSongsComponent : TopSongsComponent;
+  @ViewChild('TopArtistsComponent') 
+  topArtistsComponent : TopArtistsComponent;
 
   readonly spotifyGreen: string = "#1DB954";
 
@@ -49,8 +68,24 @@ export class ListeningTimeComponent extends SequenceComponentInit {
   filterToDate: Date | null;
   filterSingleDate: Date | null;
 
+  /**
+   * A list of previously used filters, so users can easily go back to their previous views on the data
+   */
+  filterHistory: ListeningtimeFilterHistoryEntry[] = []
+  /**
+   * A copy of the current filter values. This is needed, so when the actual filters change, their previous values can be inserted into the history.
+   */
+  currentFilterHistoryEntry: ListeningtimeFilterHistoryEntry;
+
   //Barchart visual elements
   showDataTextAboveBars: boolean = false;
+
+  /**
+   * The name of the bar that the user right clicked on last. 
+   * This is used to determine what date the bar represents when switching to Top Songs / Top Artists Visualization
+   */
+  rightClickedBarName: string = "";
+  contextMenuEventSubscription: Subscription;
 
   /**
     * the listening history to be visualized, this is fetched in the constructor and saved here so the recreateVisualization method can access this info whenever it needs to update
@@ -58,7 +93,7 @@ export class ListeningTimeComponent extends SequenceComponentInit {
     */
   history: any;
 
-  constructor(private spotHistoryRepo: SpotHistoryRepository, private dbService: NgxIndexedDBService, private notifyService: NotificationService) {
+  constructor(private spotHistoryRepo: SpotHistoryRepository, private dbService: NgxIndexedDBService, private notifyService: NotificationService, private router: Router) {
     super();
   }
 
@@ -71,10 +106,27 @@ export class ListeningTimeComponent extends SequenceComponentInit {
   ngAfterViewInit()
   {
     console.log("--- Preview Mode: " + this.previewMode);
+
+    this.contextMenuEventSubscription = fromEvent(document,'contextmenu-open').subscribe((res:any)=>{
+      console.log('Received Context Menu Event:');
+      console.log(res.detail)
+      this.rightClickedBarName = res.detail;
+    });
+
     if (!this.previewMode)
     {
       this.initComponent();
     }
+  }
+
+  /**
+  * A Callback called by angular when the component is destroyed
+  * It handles the cleanup necessary.
+  *
+  * @author: Simon (scg@mail.upb.de)
+  */
+  ngOnDestroy() {
+    this.contextMenuEventSubscription.unsubscribe();
   }
 
 /**
@@ -89,6 +141,14 @@ export class ListeningTimeComponent extends SequenceComponentInit {
     //Shows the single day view first because it takes less time to build than year/month/day views,
     //this gives us time to parse and compile the data needed for the year, month and day views
     this.selectedGranularity = GranularityEnum.Year;
+    
+    this.filterHistory = [];
+    this.currentFilterHistoryEntry = { 
+      granularity: this.selectedGranularity, 
+      filterFromDate: null, 
+      filterToDate: null, 
+      filterSingleDate: null
+    };
 
     let dataMap = await this.createYearData();
     this.yearDataMap = dataMap;
@@ -100,13 +160,76 @@ export class ListeningTimeComponent extends SequenceComponentInit {
     this.monthDataMap = dataMap;
   }
 
+
 /**
   * Callback that handles updating the visualization after the user changed the date filters of the chart
   *
   * @author: Simon (scg@mail.upb.de)
   */
   onDateFilterChanged() {
+
     this.recreateVisualization();
+  }
+
+  /**
+   * Called when the filter values change. Takes the current filter history entry and saves it in the filter history list.
+   * 
+   * @author: Simon (scg@mail.upb.de)
+   */
+  updateFilterHistory() {
+
+    let lastFilters = this.currentFilterHistoryEntry;//this.filterHistory[this.filterHistory.length-1];
+
+    if(lastFilters.granularity != this.selectedGranularity ||
+       lastFilters.filterFromDate != this.filterFromDate ||
+       lastFilters.filterToDate != this.filterToDate ||
+       lastFilters.filterSingleDate != this.filterSingleDate) {
+
+      this.filterHistory.push(lastFilters);
+      this.currentFilterHistoryEntry = { 
+        granularity: this.selectedGranularity, 
+        filterFromDate: this.filterFromDate, 
+        filterToDate: this.filterToDate, 
+        filterSingleDate: this.filterSingleDate
+      };
+    }
+  }
+
+  /**
+   * Callback for going back to the previous filter in the filter history list.
+   * 
+   * @author: Simon (scg@mail.upb.de)
+   */
+  onClickedRevertFilters() {
+    let filters = this.filterHistory.pop();
+
+    if(filters)
+    {
+      this.selectedGranularity = filters.granularity;
+      this.filterFromDate = filters.filterFromDate;
+      this.filterToDate = filters.filterToDate;
+      this.filterSingleDate = filters.filterSingleDate;
+      this.currentFilterHistoryEntry = filters;
+
+      this.recreateVisualization(false);
+    }
+    else
+    {
+      //reset to defaults
+      this.selectedGranularity = GranularityEnum.Year;
+      this.filterFromDate = null;
+      this.filterToDate = null;
+      this.filterSingleDate = null;
+
+      this.currentFilterHistoryEntry = { 
+        granularity: this.selectedGranularity, 
+        filterFromDate: this.filterFromDate, 
+        filterToDate: this.filterToDate, 
+        filterSingleDate: this.filterSingleDate
+      };
+
+      this.recreateVisualization(false);
+    }
   }
 
 /**
@@ -136,8 +259,12 @@ export class ListeningTimeComponent extends SequenceComponentInit {
     *
     * @author: Simon (scg@mail.upb.de)
     */
-  async recreateVisualization() {
+  async recreateVisualization(updateFilterHistory: boolean = true) {
     let data: { name: string, value: number, color: string }[] | null = [];
+
+    if(updateFilterHistory) {
+      this.updateFilterHistory();
+    }
 
     //compile the data based on the history in the selected granularity (e.g. by year / by month, etc.)
     switch (this.selectedGranularity) {
@@ -161,8 +288,6 @@ export class ListeningTimeComponent extends SequenceComponentInit {
     //make new barchart according to data
     this.makeBarChart(data);
   }
-
-
 
   /**
     * Parses the listening history into a data map usable for creating a bar chart with year-granularity
@@ -361,6 +486,30 @@ export class ListeningTimeComponent extends SequenceComponentInit {
   }
 
   /**
+   * Calculates at which values on the y-Axis a tick should be displayed. Aims for 10 ticks but may vary depending on the concrete values.
+   * The goal of this function is to display ticks that have rather even values (for example, dont have a tick at 1d 4h 23m but at 1d 4h 0m).
+   * 
+   * @param maxTimeValue the maximum value on the y-Axis (including a small margin over the highest actual value)
+   * @returns A series of values at which a tick on the y-Axis should be displayed
+   * @author: Simon (scg@mail.upb.de)
+   */
+  calculateTimeTicks(maxTimeValue : number) {
+
+    let stepSize = 1000;
+    let remainderFromMaxTime = maxTimeValue/1000;
+
+    while (remainderFromMaxTime > 60) {
+      remainderFromMaxTime /= 60;
+      stepSize *= 60;
+    }
+    let numberOfTicks = 10;
+    let stepSizeScaler = Math.round(maxTimeValue / (numberOfTicks * stepSize))
+    let tickStepSize = stepSize * (stepSizeScaler > 0 ? stepSizeScaler : 1);
+
+    return d3.range(0, maxTimeValue, (maxTimeValue/tickStepSize <= 5 ? tickStepSize/2 : tickStepSize));
+  }
+
+  /**
     * Creates a bar chart for the listening time based on the given data. The data may have any granularity
     *
     * @param data: The data array (structure: {name: string, value: number, color: string}[]) that should be used to fill the bar chart
@@ -368,7 +517,7 @@ export class ListeningTimeComponent extends SequenceComponentInit {
     * @author: Simon (scg@mail.upb.de)
     *
     */
-  makeBarChart(data: { name: string, value: number, color: string }[] | null) {
+  async makeBarChart(data: { name: string, value: number, color: string }[] | null) {
     //show an empty chart if the given data is null
     if (data == null) {
       data = [];
@@ -387,16 +536,17 @@ export class ListeningTimeComponent extends SequenceComponentInit {
     let textSize = "20px";
 
     let margin = 100;
-    let leftmargin = 125;
+    let leftmargin = 150;
     let bottomMargin = 125;
     let xAxisWidth = window.innerWidth - margin * 2;
-    let yAxisHeight = window.innerHeight - margin * 2;
+    let yAxisHeight = window.innerHeight*0.90 - margin * 2;
     let svg = d3
       .select("#listeningtime-bar-chart")
       .append("svg")
       .attr(
         "viewBox",
         `0 0 ${xAxisWidth + margin * 2} ${yAxisHeight + bottomMargin}`
+        //`0 0 ${xAxisWidth + margin * 2} ${yAxisHeight + bottomMargin}`
       )
       .append("g")
       .attr("transform", "translate(" + leftmargin + "," + 0 + ")");
@@ -406,16 +556,7 @@ export class ListeningTimeComponent extends SequenceComponentInit {
       .range([0, xAxisWidth])
       .domain(data.map((d: any) => d.name))
       .padding(0.2);
-    /* Title
-      svg
-        .append("text")
-        .attr("x", width / 2)
-        .attr("y", 0 - margin / 2)
-        .attr("text-anchor", "middle")
-        .style("font-size", titleSize)
-        .style("text-decoration", "underline")
-        .text("Total listening time in the given time-period");
-      */
+
     // Drawing X-axis on the DOM
     svg
       .append("g")
@@ -438,17 +579,22 @@ export class ListeningTimeComponent extends SequenceComponentInit {
       .attr("dy", ".15em")
       .attr("transform", "rotate(-65)");
 
+      
+    let formatter = this.getTimeFormat;//d3.format(".0%");
+
     // Create Y-axis band scale
     let y = d3
       .scaleLinear()
       .domain([0, yAxisValueheight])
-      .range([yAxisHeight, 0]);
+      .range([yAxisHeight,0]);//[yAxisHeight,0]
 
-    let formatter = this.getTimeFormat;//d3.format(".0%");
     // Draw the Y-axis on the DOM
     svg
       .append("g")
-      .call(d3.axisLeft(y).scale(y).tickFormat(formatter))
+      .call(d3.axisLeft(y)
+              .scale(y)
+              .tickFormat(formatter)
+              .tickValues(this.calculateTimeTicks(yAxisValueheight)))
       .selectAll("text")
       .style("font-size", textSize);
 
@@ -465,8 +611,14 @@ export class ListeningTimeComponent extends SequenceComponentInit {
       .style("color", "#fff")
       .text("a simple tooltip");
 
+    //find the custom contextmenu  
+    const contextMenu = d3.select("#contextmenu");
+
     let hoveringBarName: string = "";
     let currentGranularity: GranularityEnum = this.selectedGranularity;
+
+
+    let calcBarHeight = (d: any) => yAxisHeight - y(d.value)
 
     // Create and fill the bars
     svg
@@ -475,20 +627,39 @@ export class ListeningTimeComponent extends SequenceComponentInit {
       .enter()
       .append("rect")
       .attr("x", (d: any) => x(d.name))
-      .attr("y", (d: any) => y(d.value))
+      .attr("y", (d: any) => yAxisHeight)
       //.attr("y", (d: any) => height - y(d.value) * height / 100)
       .attr("width", x.bandwidth())
-      .attr("height", (d: any) => yAxisHeight - y(d.value))
+      .attr("height", 0)//calcBarHeight)
       //.attr("height", (d: any) => y(d.value) * height / 100)// this.height
       .attr("fill", (d: any) => d.color)
+      //Left CLick
       .on("click", () => {
-        if (this.selectedGranularity != GranularityEnum.Hour)
-          tooltip.html(``).style("visibility", "hidden");
+        tooltip.html(``).style("visibility", "hidden");
+        if (this.selectedGranularity != GranularityEnum.Hour) {
+          this.onBarClicked(hoveringBarName);
+        }
+        else if (this.filterSingleDate) {
+          this.onBarClicked(dateUtils.getDisplayDateString(this.filterSingleDate) + " " + hoveringBarName)
+        }
+      })
+      //Right Click
+      .on("contextmenu", function (event, d) {
+        //prevent the normal brwoser context menu from appearing
+        event.preventDefault();
+        //save the name of the bar that was rightcliced, so we can determine the date it represents later
+        document.dispatchEvent(new CustomEvent('contextmenu-open',{detail: d.name}));
+        //remove the tooltip, so it doesn't interfere with the new contextmenu
+        tooltip.html(``).style("visibility", "hidden");
+        //show the new context menu
+        contextMenu.style("visibility", "visible")
+          .style("top", (event.pageY - 10) + "px")
+          .style("left", (event.pageX + 10) + "px");
 
-        this.onBarClicked(hoveringBarName);
       })
       //Mouse Hover
       .on("mouseover", function (event, data) {
+        contextMenu.style("visibility", "hidden");
         onMouseOver(currentGranularity, tooltip, this, data);
         hoveringBarName = data.name;
       })
@@ -504,7 +675,13 @@ export class ListeningTimeComponent extends SequenceComponentInit {
         hoveringBarName = "";
         //d3.select(this).style("boxshadow", "none");
         //d3.select(this).style("cursor", "auto");
-      });
+      })
+      //Add bar rising transition
+      .transition()
+            .duration(1000)
+            .attr("y", (d: any) => y(d.value))
+            .attr("height", calcBarHeight)
+            .style("fill", (d: any) => d.color);
 
     //add texts above bars
     if (this.showDataTextAboveBars) {
@@ -520,8 +697,6 @@ export class ListeningTimeComponent extends SequenceComponentInit {
         .attr("y", (d: any) => y(d.value) - 5) // change text position
         .text((d: any) => formatDisplayTime(d.value));
     }
-
-
   }
 
   /**
@@ -541,7 +716,151 @@ export class ListeningTimeComponent extends SequenceComponentInit {
       this.recreateVisualization();
     }
     else {
-      this.notifyService.showNotification("Hour-wise visualization over a single day is the most detailed visualization available. You can't step into a single hour.");
+      /* Switch out listeningtime visualization for songtimeline visualization
+         this is done to make sure that, when the user navigates back from the songtimeline to the listeningtime, 
+         the listening time's filter history is still available
+      */
+      let listeningTimePage = document.getElementById('listeningtime-page');
+      let songtimelinePage = document.getElementById('songtimeline-page');
+
+      if(songtimelinePage && listeningTimePage) {
+        listeningTimePage.style.display='none';
+        songtimelinePage.style.display='block';
+        //set the correct input time in the visualization
+        this.songtimelineComponent.filterDateTime = dateUtils.parseDate(clickedBarDateString);
+        this.songtimelineComponent.onDateFilterChanged();
+
+      }
+
+      //this.notifyService.showNotification("Hour-wise visualization over a single day is the most detailed visualization available. You can't step into a single hour.");
+    }
+  }
+
+/**
+  * Callback for the context menu buttons: Displays the TopSongs Visualization with the date filtered to the bar that was right clicked last.
+  *
+  * @author: Simon (scg@mail.upb.de)
+  */
+  goToTopSongs() {
+    /* Switch out listeningtime visualization for Top Songs visualization
+         this is done to make sure that, when the user navigates back to the listeningtime, 
+         the listening time's filter history is still available
+      */
+    let listeningTimePage = document.getElementById('listeningtime-page');
+    let topsongsPage = document.getElementById('topsongs-page');
+
+    if(topsongsPage && listeningTimePage) {
+      listeningTimePage.style.display='none';
+      topsongsPage.style.display='block';
+      d3.select("#contextmenu").style("visibility", "hidden");
+
+      //set the correct input time in the visualization
+      this.topSongsComponent.filterFromDate = dateUtils.parseDate(this.getStartDateFromLabel(this.rightClickedBarName));
+      this.topSongsComponent.filterToDate = dateUtils.parseDate( this.getEndDateFromLabel(this.rightClickedBarName));
+      this.topSongsComponent.calledFromListeningtime = true;
+      this.topSongsComponent.onDateFilterChanged();
+    }
+
+    //this.router.navigate(['spot/top-songs/', this.getStartDateFromLabel(this.rightClickedBarName), this.getEndDateFromLabel(this.rightClickedBarName)]);
+  }
+
+/**
+  * Callback for the context menu buttons: Displays the TopArtists Visualization with the date filtered to the bar that was right clicked last.
+  *
+  * @author: Simon (scg@mail.upb.de)
+  */
+  goToTopArtists() {
+    /* Switch out listeningtime visualization for Top Artists visualization
+         this is done to make sure that, when the user navigates back to the listeningtime, 
+         the listening time's filter history is still available
+      */
+    let listeningTimePage = document.getElementById('listeningtime-page');
+    let topArtistsPage = document.getElementById('topartists-page');
+
+    if(topArtistsPage && listeningTimePage) {
+      listeningTimePage.style.display='none';
+      topArtistsPage.style.display='block';
+      d3.select("#contextmenu").style("visibility", "hidden");
+
+      //set the correct input time in the visualization
+      this.topArtistsComponent.filterFromDate = dateUtils.parseDate(this.getStartDateFromLabel(this.rightClickedBarName));
+      this.topArtistsComponent.filterToDate = dateUtils.parseDate( this.getEndDateFromLabel(this.rightClickedBarName));
+      this.topArtistsComponent.calledFromListeningtime = true;
+      this.topArtistsComponent.onDateFilterChanged();
+    }
+   
+    //this.router.navigate(['spot/top-artists/', this.getStartDateFromLabel(this.rightClickedBarName), this.getEndDateFromLabel(this.rightClickedBarName)]);
+  }
+
+/**
+  * Based on the given label of a bar in the chart, it calculates the start date of the timeframe that the bar represents.
+  * 
+  * @returns: the calculated date as a date-string in the format YYYY-MM-DD HH24-00. Hours and Minutes are left out when not needed
+  *
+  * @author: Simon (scg@mail.upb.de)
+  */
+  getStartDateFromLabel(dateLabel: string): string {
+
+    switch(this.selectedGranularity) {
+      case GranularityEnum.Hour:
+        let date: Date|null= this.filterSingleDate;
+        if(date) {
+          return date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + dateLabel;
+        }
+        else {
+          return "";
+        }
+      case GranularityEnum.Day:
+        return dateLabel;
+      case GranularityEnum.Month:
+        return dateLabel + "-01";
+      case GranularityEnum.Year:
+        return dateLabel + "-01-01";
+    }
+  }
+
+/**
+  * Based on the given label of a bar in the chart, it calculates the end date of the timeframe that the bar represents.
+  * 
+  * @returns: the calculated date as a date-string in the format YYYY-MM-DD HH24-00. Hours and Minutes are left out when not needed
+  *
+  * @author: Simon (scg@mail.upb.de)
+  */
+  getEndDateFromLabel(dateLabel: string): string {
+
+    let date: Date|null;
+    let startDate: Date;
+    let endDate: Date;
+
+    switch(this.selectedGranularity) {
+      case GranularityEnum.Hour:
+        date = this.filterSingleDate;
+        if(date) {
+          //change dateLabel to be the next hour
+          let dateParts = dateLabel.split(":");
+          if(dateParts[0]) {
+            return date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + (parseInt(dateParts[0]) + 1) + ':' + dateParts[1];
+          }
+          else {
+            return "";
+          }
+        }
+        else {
+          return "";
+        }
+
+      case GranularityEnum.Day:
+        startDate = dateUtils.parseDate(dateLabel);
+        endDate = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate()+1);
+        return endDate.getFullYear() + "-" + (endDate.getMonth() + 1) + "-" + endDate.getDate();
+
+      case GranularityEnum.Month:
+        startDate = dateUtils.parseDate(dateLabel);
+        endDate = new Date(startDate.getFullYear(), startDate.getMonth() + 1, 0);
+        return endDate.getFullYear() + "-" + (endDate.getMonth() + 1) + "-" + endDate.getDate();
+
+      case GranularityEnum.Year:
+        return dateLabel + "-12-31";
     }
   }
 
@@ -591,7 +910,8 @@ export class ListeningTimeComponent extends SequenceComponentInit {
 function onMouseOver(selectedGranularity: GranularityEnum, tooltip: d3.Selection<HTMLDivElement, unknown, HTMLElement, any>, currRect: SVGRectElement, data: { name: string, value: number, color: string }) {
   let html;
   if (selectedGranularity == GranularityEnum.Hour) {
-    html = tooltip.html(`${formatDisplayTime(data.value)}<br>`)
+    html = tooltip.html(`${formatDisplayTime(data.value)}<br><i>Click to see played songs.</i>`)
+    d3.select(currRect).style("cursor", "pointer");
   }
   else {
     html = tooltip.html(`${formatDisplayTime(data.value)}<br><i>Click to inspect.</i>`)

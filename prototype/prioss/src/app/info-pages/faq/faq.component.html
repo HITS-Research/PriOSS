@@ -1,0 +1,42 @@
+<details open>
+  <summary class="collapsible-dashboard-section-title" id="faq">Frequently Asked Questions</summary>
+  <div class="component-page">
+    <div>
+      <p nz-typography>
+        This section describes frequently asked questions.
+      </p>
+      <nz-collapse nzAccordion>
+        <nz-collapse-panel *ngFor="let faq of faqs" [nzHeader]="faq.name" [nzActive]="faq.active">
+          <p>{{ faq.content }}</p>
+          <span *ngIf="faq.link" nz-icon nzType="link">
+            <a *ngIf="faq.link" [href]="faq.link" target="_blank">{{faq.linkLabel}}</a>
+          </span>
+        </nz-collapse-panel>
+      </nz-collapse>
+      <nz-collapse nzAccordion class="service_div" *ngIf="serviceName == 'insta'">
+        <nz-collapse-panel *ngFor="let insta_faq of instagram_faqs" [nzHeader]="insta_faq.name" [nzActive]="insta_faq.active">
+          <p>{{ insta_faq.content }}</p>
+          <span *ngIf="insta_faq.link" nz-icon nzType="link">
+            <a *ngIf="insta_faq.link" [href]="insta_faq.link" target="_blank">{{insta_faq.linkLabel}}</a>
+          </span>
+        </nz-collapse-panel>
+      </nz-collapse>
+      <nz-collapse nzAccordion class="service_div" *ngIf="serviceName == 'spot'">
+        <nz-collapse-panel *ngFor="let spot_faq of spotify_faqs" [nzHeader]="spot_faq.name" [nzActive]="spot_faq.active">
+          <p>{{ spot_faq.content }}</p>
+          <span *ngIf="spot_faq.link" nz-icon nzType="link">
+            <a *ngIf="spot_faq.link" [href]="spot_faq.link" target="_blank">{{spot_faq.linkLabel}}</a>
+          </span>
+        </nz-collapse-panel>
+      </nz-collapse>
+      <nz-collapse nzAccordion class="service_div" *ngIf="serviceName == 'face'">
+        <nz-collapse-panel *ngFor="let face_faq of facebook_faqs" [nzHeader]="face_faq.name" [nzActive]="face_faq.active">
+          <p>{{ face_faq.content }}</p>
+          <span *ngIf="face_faq.link" nz-icon nzType="link">
+            <a *ngIf="face_faq.link" [href]="face_faq.link" target="_blank">{{face_faq.linkLabel}}</a>
+          </span>
+        </nz-collapse-panel>
+      </nz-collapse>
+    </div>
+  </div>
+</details>

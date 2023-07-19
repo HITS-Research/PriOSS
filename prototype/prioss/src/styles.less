@@ -30,31 +30,6 @@ body {
 }
 
 /*
- * Buttons
- */
-
-//all buttons
-.t-btn {
-    color: @btn-color;
-    border: 1px solid @btn-border-color;
-    border-radius: 5px;
-    background-color: @btn-bg-color;
-    padding: 10px;
-    cursor: pointer;
-    transition: 0.5s;
-}
-
-//all buttons when hovering over them
-.t-btn:hover {
-    background-color: @btn-hover-bg-color;
-    transition: 0.5s;
-}
-
-.t-btn:active {
-    background-color: @btn-bg-color;
-}
-
-/*
  * Icons
  */
 
@@ -85,8 +60,33 @@ nz-card {
 /*
  * This style is for pages other than the dashboard, that should not have the plain grey background color
  */
+ 
 .visualization-card {
     background: @component-bg-color;
     //height: 100%;
-    padding: 2rem;
+}
+
+
+/*
+ * Dashboard styles
+ */ 
+
+.dashboard-section-title {
+    text-align:justify;
+    font-size: x-large;
+    //font-feature-settings:"dist";
+    //font-weight: bold;
+    //color: rgb(27, 55, 87);
+}
+
+.collapsible-dashboard-section-title {
+    // display: block;
+    position: relative;
+    margin: -0.4em -0.4em 0;
+    padding: 0.5em;
+    text-align:justify;
+    font-size: x-large;
+    ///font-feature-settings:"dist";
+    //font-weight: bold;
+    //color: rgb(27, 55, 87);
 }

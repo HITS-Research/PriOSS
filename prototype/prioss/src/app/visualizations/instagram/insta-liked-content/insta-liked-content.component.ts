@@ -3,10 +3,14 @@ import { SequenceComponentInit } from '../../sequence-component-init.abstract';
 import * as d3 from 'd3';
 import {NotificationService} from "../../../notification/notification.component";
 
+import * as generalUtils from "../../../utilities/generalUtilities.functions";
+
 import { InstaLikedCommentsRepository } from 'src/app/db/data-repositories/instagram/insta-liked-content/insta-likedcomments.repository';
 import { InstaLikedPostsRepository } from 'src/app/db/data-repositories/instagram/insta-liked-content/insta-likedposts.repository';
 import { InstaLikedCommentsWithCount } from 'src/app/models/Instagram/LikedCommentsAndPostsInfo/InstaLikedCommentsWithCount';
 import { InstaLikedPostsWithCount } from 'src/app/models/Instagram/LikedCommentsAndPostsInfo/InstaLikedPostsWithCount';
+import { InstaLikedCommentsInfo } from 'src/app/models/Instagram/LikedCommentsAndPostsInfo/InstaLikedCommentsInfo';
+import { InstaLikedPostsInfo } from 'src/app/models/Instagram/LikedCommentsAndPostsInfo/InstaLikedPostsInfo';
 
 
 
@@ -29,20 +33,27 @@ export class InstaLikedContentComponent extends SequenceComponentInit {
 
   readonly color: string = "#DD2A7B";
 
-  liked_comments: InstaLikedCommentsWithCount[] = [];
-  liked_posts: InstaLikedPostsWithCount[] = [];
+  liked_comments_with_count: InstaLikedCommentsWithCount[] = [];
+  liked_posts_with_count: InstaLikedPostsWithCount[] = [];
   liked_comments_amount: number=0;
   liked_posts_amount: number=0;
 
-  filterFromDateForComments: Date | null;
-  filterToDateForComments: Date | null;
-  public userListForComments: any[] = [];
-  selectedUserForComments: string = "None";
+  liked_comments: InstaLikedCommentsInfo[] = [];
+  liked_posts: InstaLikedPostsInfo[] = [];
 
-  filterFromDateForPosts: Date | null;
-  filterToDateForPosts: Date | null;
+  // Variables for Graph
+  public userListForComments: any[] = [];
   public userListForPosts: any[] = [];
-  selectedUserForPosts: string = "None";
+
+  // Variables for Search and Filter
+  visible = false;
+  likedCommentsSearchValue = '';
+  likedPostsSearchValue = '';
+  listOfLikedComments: InstaLikedCommentsInfo[] = [];
+  listOfLikedPosts: InstaLikedPostsInfo[] = [];
+
+  sortLikedCommentsDate = (a: InstaLikedCommentsInfo, b: InstaLikedCommentsInfo): number => +a.timestamp - +b.timestamp;
+  sortLikedPostsDate = (a: InstaLikedPostsInfo, b: InstaLikedPostsInfo): number => +a.timestamp - +b.timestamp;
 
   constructor(private instaLikedCommentsRepo: InstaLikedCommentsRepository, 
     private instaLikedPostsRepo: InstaLikedPostsRepository,
@@ -67,140 +78,38 @@ export class InstaLikedContentComponent extends SequenceComponentInit {
   * @author: Mayank (mayank@mail.upb.de)
   */
   override async initComponent(): Promise<void> {
-    console.log("--- Initializing Component 6: Liked Comments and Posts");
+    console.log("--- Initializing Component 5: Liked Comments and Posts");
     
+    // Fetch Count and Table Data for Liked Comments from Database
     await this.instaLikedCommentsRepo.getLikedCommentsInfo().then((liked_comments) => {
       this.liked_comments_amount = liked_comments.length;
+      this.liked_comments = liked_comments;
+      this.listOfLikedComments = [...liked_comments]
     });
 
+    // Fetch Count and Table Data for Liked Posts from Database
+    await this.instaLikedPostsRepo.getLikedPostsInfo().then((liked_posts) => {
+      this.liked_posts_amount = liked_posts.length;
+      this.liked_posts = liked_posts;
+      this.listOfLikedPosts = [...liked_posts]
+    });
+
+    // Fetch data for Graph for Liked Comments from Database
     await this.instaLikedCommentsRepo.getLikedCommentsWithCount().then((liked_comments_with_count) => {
-      this.liked_comments = liked_comments_with_count;
+      this.liked_comments_with_count = liked_comments_with_count;
       this.userListForComments = this.fetchUsernames(liked_comments_with_count)
       this.userListForComments.unshift("None");
       this.makeBarChart(liked_comments_with_count,".bar_chart_liked_comments");
     });
 
-    this.filterFromDateForComments = await this.instaLikedCommentsRepo.getLikedCommentsFirstDate();
-    this.filterToDateForComments = await this.instaLikedCommentsRepo.getLikedCommentsLastDate();
-
-    await this.instaLikedPostsRepo.getLikedPostsInfo().then((liked_posts) => {
-      this.liked_posts_amount = liked_posts.length;
-    });
-
+    // Fetch data for Graph for Liked Posts from Database
     await this.instaLikedPostsRepo.getLikedPostsWithCount().then((liked_posts_with_count) => {
-      this.liked_posts = liked_posts_with_count;
+      this.liked_posts_with_count = liked_posts_with_count;
       this.userListForPosts = this.fetchUsernames(liked_posts_with_count);
       this.userListForPosts.unshift("None");
       this.makeBarChart(liked_posts_with_count,".bar_chart_liked_posts");
     });
 
-    this.filterFromDateForPosts = await this.instaLikedPostsRepo.getLikedPostsFirstDate();
-    this.filterToDateForPosts = await this.instaLikedPostsRepo.getLikedPostsLastDate();
-
-  }
-
-  /**
-   * This callback method is called when the user changes the date using the datepicker
-   *
-   * @author: Mayank (mayank@mail.upb.de)
-   *
-   */
-  onDateFilterChangeForComment() {
-    if (this.filterFromDateForComments !== null && this.filterToDateForComments !== null) {
-      if (this.filterFromDateForComments <= this.filterToDateForComments) {
-        if(this.selectedUserForComments == "None") {
-          this.instaLikedCommentsRepo.filterLikedCommentsBasedOnDate(
-            this.filterFromDateForComments,this.filterToDateForComments).then((liked_comments_with_count) => {
-              this.liked_comments = liked_comments_with_count;
-              this.userListForComments = this.fetchUsernames(liked_comments_with_count)
-              this.userListForComments.unshift("None");
-              this.makeBarChart(liked_comments_with_count,".bar_chart_liked_comments");
-          });
-        } 
-        else {
-          this.instaLikedCommentsRepo.filterLikedCommentsBasedOnUserAndDate(
-            this.selectedUserForComments, this.filterFromDateForComments,
-            this.filterToDateForComments).then((liked_comments_with_count) => {
-              this.liked_comments = liked_comments_with_count;
-              this.userListForComments = this.fetchUsernames(liked_comments_with_count)
-              this.userListForComments.unshift("None");
-              this.makeBarChart(liked_comments_with_count,".bar_chart_liked_comments");
-          });
-        }
-      } else {
-        this.notificationService.showNotification("The To Date is before the From Date. Please correct this.");
-      }
-    }
-  }
-
-  /**
-   * This callback method is called when the user changes the date using the datepicker
-   *
-   * @author: Mayank (mayank@mail.upb.de)
-   *
-   */
-  onDateFilterChangeForPost() {
-    if (this.filterFromDateForPosts !== null && this.filterToDateForPosts !== null) {
-      if (this.filterFromDateForPosts <= this.filterToDateForPosts) {
-        if(this.selectedUserForPosts == "None") {
-          this.instaLikedPostsRepo.filterLikedPostsBasedOnDate(
-            this.filterFromDateForPosts,this.filterToDateForPosts).then((liked_posts_with_count) => {
-              this.liked_posts = liked_posts_with_count;
-              this.userListForPosts = this.fetchUsernames(liked_posts_with_count)
-              this.userListForPosts.unshift("None");
-              this.makeBarChart(liked_posts_with_count,".bar_chart_liked_posts");
-          });
-        } 
-        else {
-          this.instaLikedPostsRepo.filterLikedPostsBasedOnUserAndDate(
-            this.selectedUserForPosts, this.filterFromDateForPosts,
-            this.filterToDateForPosts).then((liked_posts_with_count) => {
-              this.liked_posts = liked_posts_with_count;
-              this.userListForPosts = this.fetchUsernames(liked_posts_with_count)
-              this.userListForPosts.unshift("None");
-              this.makeBarChart(liked_posts_with_count,".bar_chart_liked_posts");
-          });
-        }
-      } else {
-        this.notificationService.showNotification("The To Date is before the From Date. Please correct this.");
-      }
-    }
-  }
-
-  /**
-   * This method is used to change data based on user selected for liked comments
-   * 
-   * @author: Mayank (mayank@mail.upb.de)
-   */
-  onUserChangeForComment() {
-    if(this.selectedUserForComments == "None") {
-      this.makeBarChart(this.liked_comments,".bar_chart_liked_comments");
-    } 
-    else {
-      for(let i = 0; i < this.liked_comments.length; i++) {
-        if(this.liked_comments[i].user == this.selectedUserForComments) {
-          this.makeBarChart([this.liked_comments[i]],".bar_chart_liked_comments");
-        }
-      }
-    }
-  }
-
-  /**
-   * This method is used to change data based on user selected for liked posts
-   * 
-   * @author: Mayank (mayank@mail.upb.de)
-   */
-  onUserChangeForPost() {
-    if(this.selectedUserForPosts == "None") {
-      this.makeBarChart(this.liked_posts,".bar_chart_liked_posts");
-    } 
-    else {
-      for(let i = 0; i < this.liked_posts.length; i++) {
-        if(this.liked_posts[i].user == this.selectedUserForPosts) {
-          this.makeBarChart([this.liked_posts[i]],".bar_chart_liked_posts");
-        }
-      }
-    }
   }
   
   /**
@@ -223,7 +132,7 @@ export class InstaLikedContentComponent extends SequenceComponentInit {
 
     // set the dimensions and margins of the graph
     const margin = {top: 20, right: 30, bottom: 50, left: 100},
-      width = 460 - margin.left - margin.right,
+      width = (460 - margin.left - margin.right)/2,
       height = ((data.length + 5) * 15) - margin.top - margin.bottom;
 
     // append the svg object to the body of the page
@@ -249,16 +158,24 @@ export class InstaLikedContentComponent extends SequenceComponentInit {
 
     // add X axis
     const xScale = d3.scaleLinear()
-      .domain([0, this.getMaxCounts(data)]) // maximum
+      .domain([0, this.getMaxCounts(data)])
       .range([0, width]);
+
+    let xAxis = d3.axisBottom(xScale).tickSizeOuter(0);
+    if(this.getMaxCounts(data) < 10) {
+      xAxis = xAxis
+      .tickValues(d3.range(0, this.getMaxCounts(data)+1))
+      .tickFormat(d3.format(".0f"));
+    } 
+    
     svg.append("g")
       .attr("transform", `translate(0, ${height})`)
-      .call(d3.axisBottom(xScale).tickSizeOuter(0))
+      .call(xAxis)
       .selectAll("text")
       .attr("transform", "translate(-10,0)rotate(-45)")
       .style("text-anchor", "end");
 
-    // Y axis
+    // add Y axis
     var yScale: any = d3.scaleBand()
       .range([0, height])
       .domain(data.map(d => d.user))
@@ -278,18 +195,16 @@ export class InstaLikedContentComponent extends SequenceComponentInit {
 
       //Mouse Hover
       .on("mouseover", function (event, data) {
-        data.user;
         tooltip.html(data.counts.toString()).style("visibility", "visible");
       })
       //Mouse moved: change tooltip position
       .on("mousemove", function (event) {
         tooltip
-          .style("top", (event.pageY - 10) + "px")
-          .style("left", (event.pageX + 10) + "px");
+          .style("top", (screenY) + "px")
+          .style("left", (screenX) + "px");
       })
       //Mouse not hovering: hide tooltip
       .on("mouseout", function () {
-        "";
         tooltip.html(``).style("visibility", "hidden");
       });
 
@@ -300,7 +215,7 @@ export class InstaLikedContentComponent extends SequenceComponentInit {
         .attr("y", height + margin.top + 20)
         .text("Number of comments liked per user");
       }
-      else if (divId == "bar_chart_liked_posts") {
+      else if (divId == ".bar_chart_liked_posts") {
         svg.append("text")
         .attr("text-anchor", "end")
         .attr("x", width)
@@ -321,5 +236,49 @@ export class InstaLikedContentComponent extends SequenceComponentInit {
       }
     });
     return maxCount;
+  }
+
+  /**
+   * Resets the given searchvalue.
+   * 
+   * @param searchList the list that should be resetted.
+   * 
+   * @author: Paul (pasch@mail.upb.de)
+   */
+  reset(searchList: string): void {
+    switch (searchList) {
+      case 'likedComments':
+        this.likedCommentsSearchValue = '';
+        break;
+      case 'likedPosts':
+        this.likedPostsSearchValue = '';
+        break;
+      default:
+        break;
+    }
+
+    this.search(searchList);
+  }
+
+  /**
+   * Searches the given list for the current searchvalue.
+   * 
+   * @param searchList the list that should be searched.
+   * 
+   * @author: Paul (pasch@mail.upb.de)
+   */
+  search(searchList: string): void {
+    this.visible = false;
+
+    switch (searchList) {
+      case 'likedComments':
+        this.listOfLikedComments = this.liked_comments.filter((item: InstaLikedCommentsInfo) => item.user.toLowerCase().indexOf(this.likedCommentsSearchValue.toLowerCase()) !== -1);
+        break;
+      case 'likedPosts':
+        this.listOfLikedPosts = this.liked_posts.filter((item: InstaLikedPostsInfo) => item.user.toLowerCase().indexOf(this.likedPostsSearchValue.toLowerCase()) !== -1);
+        break;
+      default:
+        break;
+    }
   }
 }

@@ -1,6 +1,8 @@
 import { Component, Input } from '@angular/core';
 import * as d3 from 'd3';
 import { NgxIndexedDBService } from 'ngx-indexed-db';
+import { FacebookFriendsRepository } from 'src/app/db/data-repositories/facebook/fb-friends-data/face_friends.repo';
+import { FacebookFriendsModel } from 'src/app/models/Facebook/faceFriends';
 
 export class chartData{
   year: number;
@@ -12,17 +14,17 @@ export class chartData{
   styleUrls: ['./friend-and-followers.component.less']
 })
 export class FriendAndFollowersComponent {
-  friends: any[] = [];
-  removedFriends: any[] = [];
-  friendRequestReceived: any[] = [];
-  friendRequestSent: any[] = [];
-  rejectedFriendRequests: any[] = [];
-  whoYouFollow: any[] = [];
+  friends: FacebookFriendsModel[] = [];
+  removedFriends: FacebookFriendsModel[] = [];
+  friendRequestReceived: FacebookFriendsModel[] = [];
+  friendRequestSent: FacebookFriendsModel[] = [];
+  rejectedFriendRequests: FacebookFriendsModel[] = [];
+  whoYouFollow: FacebookFriendsModel[] = [];
 
   @Input()
   previewMode: boolean = false;
 
-  constructor(private dbService: NgxIndexedDBService){}
+  constructor(private dbService: NgxIndexedDBService,private faceFriendsRepo: FacebookFriendsRepository){}
 
   ngOnInit() {
     this.getData();
@@ -37,29 +39,24 @@ export class FriendAndFollowersComponent {
   */
   private getData()
   {
-    this.dbService.getAll('face/friends').subscribe((friends) => {
-      this.friends= friends;
-      this.createData(friends, "#myFriends", "#1877F2");
-    });
-    this.dbService.getAll('face/removed_friends').subscribe((friends) => {
-      this.removedFriends = friends;
-      this.createData(friends,"#removedFriends", "#808080"); 
-    });
-    this.dbService.getAll('face/friend_requests_received').subscribe((friends) => {
-      this.friendRequestReceived = friends;    
-      this.createData(friends,"#friendRequestReceived", "#FF9800"); 
-    });
-    this.dbService.getAll('face/friend_requests_sent').subscribe((friends) => {
-      this.friendRequestSent= friends;
-      this.createData(friends,"#friendRequestSent", "#00C853");
-    });
-    this.dbService.getAll('face/rejected_friend_requests').subscribe((friends) => {
-      this.rejectedFriendRequests= friends;
-      this.createData(friends,"#rejectedFriends", "#FF0000");
-    });
-    this.dbService.getAll('face/who_you_follow').subscribe((friends) => {
-      this.whoYouFollow= friends;
-      this.createData(friends,"#following", "#00BCD4");
+    this.faceFriendsRepo.getAllFacebookFriends().then((friends) => {
+        this.friendRequestReceived = friends.filter(x => x.type === "#requestsReceived");
+        this.createData(this.friendRequestReceived,"#friendRequestReceived", "#FF9800"); 
+
+        this.friendRequestSent = friends.filter(x => x.type === "#requestsSent");
+        this.createData(this.friendRequestSent,"#friendRequestSent", "#00C853");
+
+        this.friends = friends.filter(x=>x.type === "#friends");
+        this.createData(this.friends, "#myFriends", "#1877F2");
+
+        this.rejectedFriendRequests = friends.filter(x=>x.type === "#rejectedFriends");
+        this.createData(this.rejectedFriendRequests,"#rejectedFriends", "#FF0000");
+
+        this.removedFriends = friends.filter(x=>x.type === "#removedFriends");
+        this.createData(this.removedFriends,"#removedFriends", "#808080"); 
+
+        this.whoYouFollow = friends.filter(x=>x.type === "#following")
+        this.createData(this.whoYouFollow,"#following", "#00BCD4");
     });
   }
 
@@ -79,14 +76,14 @@ export class FriendAndFollowersComponent {
     var dataCount: number[] = [];
     friends.forEach(x =>
       {
-        const year = x.timestamp.getFullYear();
+        const year = new Date(x.timestamp*1000).getFullYear();
         if(years.indexOf(year) === -1){
           years.push(year);
         }  
       });
       years.sort();
     years.forEach(year => {
-      const friendsCount = friends.filter(a => a.timestamp.getFullYear() === year);
+      const friendsCount = friends.filter(a => new Date(a.timestamp*1000).getFullYear() === year);
       var abc = {year: year, count: friendsCount.length};
       data.push(abc);
     });

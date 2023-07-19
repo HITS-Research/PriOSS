@@ -1,0 +1,30 @@
+All GDPR
+
+The GDPR is European Union's data protection law effective from May 2018. It is applicable for all individuals within the European Union (EU) and the European Economic Area (EEA). 
+It was created to regulate the collection, processing, and storage of personal data by any corporation in the world, as long as they target or collect data related to people in the EU.
+The GDPR also defines a range of individual rights you have in regards to your personal data. 
+
+The most central points from the GDPR are:
+
+1. Consent: Companies must obtain explicit and informed consent from individuals to collect, process, and store their personal data.
+
+2. Right to Access: Individuals have the right to access their personal data that has been collected and stored by companies.
+
+3. Right to rectification: Individuals have the right to have their personal data corrected if it is inaccurate or incomplete.
+
+4. Right to be Forgotten: Individuals have the right to request the deletion of their personal data.
+
+5. Right to Data Portability: Individuals have the right to receive their personal data in a format that is easily transferable to another company.
+
+6. Right to object: Individuals have the right to object to the processing of their personal data in certain circumstances.
+
+7. Data Protection Officers (DPOs): Companies that process large amounts of personal data or sensitive personal data must appoint a DPO.
+
+8. Data Breach Notification: Companies must notify individuals and the relevant authorities within 72 hours of a data breach.
+
+9. Penalties: Non-compliance with the GDPR can result in fines of up to 4% of a company's annual global revenue or €20 million (whichever is greater).
+
+10. Rights related to automated decision-making: Individuals have the right not to be subject to a decision based solely on automated processing, including profiling.
+
+It is important to note that these rights are not absolute and may be subject to certain limitations or conditions under certain circumstances. 
+To find out more, check out the EU's Complete guide to GDPR compliance(link).

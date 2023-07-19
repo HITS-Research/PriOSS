@@ -76,9 +76,8 @@ export function convertTimestamp(str: string): any {
   let date: Date = new Date(number);
 
   //returns a date in the format YYYY-MM-DD.
-  return date.getFullYear() + '-' 
-         + ('0' + date.getMonth()).slice(-2) + '-' 
-         + ('0' + date.getDay()).slice(-2);
+  //return date.getFullYear() + "-" + (date.getMonth() + 1).toString().padStart(2, '0') + "-" + date.getDate().toString().padStart(2, '0');
+  return date.getDate() + ' ' + date.toLocaleString('en-US', { month: 'long' }).substring(0,3) + ' ' + date.getFullYear() + ', ' + date.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
 }
 
 /**
@@ -97,7 +96,10 @@ export function getValueIgnoreCase(jsonObj: any, key: string, time_value : boole
   for (const i in keys) {
     if (keys[i].toLowerCase() === key.toLowerCase()) {
       if(time_value) {
-        return jsonObj[keys[i]].timestamp;
+        if(jsonObj[keys[i]].timestamp != undefined) {
+          return jsonObj[keys[i]].timestamp;
+        } else if (jsonObj[keys[i]].value != undefined)
+        return jsonObj[keys[i]].value;
       } else {
         return jsonObj[keys[i]].value;
       }
@@ -130,4 +132,19 @@ export function getObjectPairsNotNull(obj: object): [string, any][] {
 */
 export function capitalize(str: string) {
   return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+/**
+   * This method slice a dataset for the tables in 10 entrys per page
+   *
+   * @param data the dataset that sould be sliced
+   * @param currentPage the current page of the dataset
+   * @returns the sliced data
+   * 
+   * @author: Melina (kleber@mail.uni-paderborn.de)
+   */
+export function getSlicedData(data: Array<any>, currentPage: number) {
+  const start = (currentPage - 1) * 10;
+  const end = start + 10;
+  return data.slice(start, end);
 }
