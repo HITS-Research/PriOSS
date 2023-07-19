@@ -1,8 +1,29 @@
 image: node:latest
+pull_policy: if-not-present 
 
 stages:          # List of stages for jobs, and their order of execution
+  - install
   - build
   - test
+  
+install-job:
+  stage: install
+  tags:
+    - shared
+  script:
+    - echo "Installing modules"
+    - cd prototype/prioss
+    - npm ci
+    - echo "Modules installed"
+  cache:
+    key:
+      files:
+        - prototype/prioss/package-lock.json
+    paths:
+      - prototype/prioss/node_modules
+  only:
+    changes:
+      - prototype/prioss/package-lock.json
 
 build-job:       # This job runs in the build stage, which runs first.
   stage: build
@@ -10,7 +31,16 @@ build-job:       # This job runs in the build stage, which runs first.
     - shared
   script:
     - echo "Compiling the code..."
+    - cd prototype/prioss
+    - npm ng build
     - echo "Compile complete."
+  cache:
+    key:
+      files:
+        - prototype/prioss/package-lock.json
+    paths:
+      - prototype/prioss/node_modules
+    policy: pull
 
 unit-test-job:   # This job runs in the test stage.
   stage: test    # It only starts when the job in the build stage completes successfully.
@@ -26,7 +56,17 @@ lint-test-job:   # This job also runs in the test stage.
   tags:
     - shared
   script:
+    - echo "Start linting"
     - cd prototype/prioss
     - npm ci
-    - ng lint --max-warnings 0
+    - npm ng lint --max-warnings 0
+    - echo "linting finished"
+  cache:
+    key:
+      files:
+        - prototype/prioss/package-lock.json
+    paths:
+      - prototype/prioss/node_modules
+    policy: pull
+  
 
