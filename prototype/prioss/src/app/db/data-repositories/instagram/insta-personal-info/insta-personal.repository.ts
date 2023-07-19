@@ -6,6 +6,7 @@ import { InstaPersonalInfo } from 'src/app/models/Instagram/PersonalInfo/InstaPe
 import { InstaAccountInfo } from 'src/app/models/Instagram/PersonalInfo/InstaAccountInfo';
 import { InstaProfessionalInfo } from 'src/app/models/Instagram/PersonalInfo/InstaProfessionalInfo';
 import { InstaProfileChange } from 'src/app/models/Instagram/PersonalInfo/InstaProfileChange';
+import { InstaBasedInInfo } from "src/app/models/Instagram/PersonalInfo/InstaBasedInInfo";
 
 /**
  * This class handles all communication with the database tables that are used in the InstaPersonalInformation Component.
@@ -81,6 +82,23 @@ export class InstaPersonalRepository {
     }
 
     /**
+     * This async method adds based in information to the insta_based_in table.
+     * 
+     * @param basedIn the value of the location that should be added to the insta based in table
+     * 
+     * @author: Paul (pasch@mail.upb.de)
+     */
+    async addBasedInInfo(basedIn:string) {
+        await this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
+
+            let sqlStatement = sql.insertIntoBasedIn;
+            let values = [basedIn];
+      
+            let ret: capSQLiteChanges = await db.run(sqlStatement, values);
+          });
+    }
+
+    /**
      * This async method adds profile change infomration to the insta_profile_changes table.
      * 
      * @param title the title of the profile change of the user that should be added to the insta profile changes table
@@ -147,6 +165,22 @@ export class InstaPersonalRepository {
 
             let result = await db.query(sql.selectAccountInfo);
             return result.values as InstaAccountInfo[];
+        });
+    }
+
+    /**
+     * This async method selects all entries from the insta_based_in table
+     * 
+     * @returns an array of InstaBasedInInfos
+     * 
+     * @author: Paul (pasch@mail.upb.de)
+     */
+    async getBasedIn(): Promise<InstaBasedInInfo[]>
+    {
+        return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
+
+            let result = await db.query(sql.selectBasedIn);
+            return result.values as InstaBasedInInfo[];
         });
     }
 

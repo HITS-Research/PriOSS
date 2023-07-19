@@ -14,7 +14,14 @@ export const insertIntoInstaAccountInfoSQL: string = `
 
 export const insertIntoInstaProfessionalInfoSQL: string = `
   insert into insta_professional_info
-  (title)
+  (business_information)
+  values 
+  (?);
+`;
+
+export const insertIntoBasedIn: string = `
+  insert into insta_based_in
+  (account_based_in)
   values 
   (?);
 `;
@@ -47,8 +54,13 @@ export const selectAccountInfo: string = `
 `;
 
 export const selectProfessionalInfo: string = `
-  select title
+  select business_information
     from insta_professional_info;
+`;
+
+export const selectBasedIn: string = `
+  select account_based_in
+    from insta_based_in;
 `;
 
 export const selectProfileChanges: string = `

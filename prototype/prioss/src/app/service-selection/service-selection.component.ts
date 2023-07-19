@@ -959,6 +959,12 @@ export class ServiceSelectionComponent {
 
         await this.instaPersonalRepo.addProfessionalInformation(profData.title);
       }
+      else if (filename.startsWith("account_based_in")) {
+        let jsonData = JSON.parse(content);
+        let basedData = jsonData.inferred_data_primary_location[0].string_map_data;
+
+        await this.instaPersonalRepo.addBasedInInfo(basedData["City Name"].value);
+      }
       else if (filename.startsWith("profile_changes")) {
         let jsonData = JSON.parse(content);
         let profileData = jsonData.profile_profile_change;
