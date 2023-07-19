@@ -75,12 +75,10 @@
     </div>
     <div nz-col nzXs="24" nzXl="8">
       <!--card for visualizing for shopping data-->
-      <nz-card nzTitle="Shopping" nzHoverable [nzExtra]="extraShopping">
-        <app-insta-shopping [previewMode]="true"></app-insta-shopping>
-      </nz-card>
-      <ng-template #extraShopping>
-        <a routerLink="/insta/shopping">More</a>
-      </ng-template>
+      <app-dash-card cardLink="/insta/shopping" titleText="Shopping"
+            tooltipText="This card shows all items in recently viewed and wishlist shopping cart. Click to find out more.">
+          <app-insta-shopping [previewMode]="true"></app-insta-shopping>
+      </app-dash-card>
     </div>
   </div>
   <br>
