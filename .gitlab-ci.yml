@@ -1,58 +1,21 @@
-image: 
-  name: node:latest
+image: node:latest
 
-stages:          # List of stages for jobs, and their order of execution
-  - install
+stages:
   - build
   - test
-  
-install-job:
-  stage: install
-  tags:
-    - shared
-  script:
-    - cd prototype/prioss
-    - npm ci
-  cache:
-    key:
-      files:
-        - prototype/prioss/package-lock.json
-    paths:
-      - prototype/prioss/node_modules
-  only:
-    changes:
-      - prototype/prioss/package-lock.json
 
-build-job:       # This job runs in the build stage, which runs first.
+build-job:
   stage: build
-  tags:
-    - shared
-  script:
-    - cd prototype/prioss
-    - npm ng build
-  cache:
-    key:
-      files:
-        - prototype/prioss/package-lock.json
-    paths:
-      - prototype/prioss/node_modules
-    policy: pull
-
-
-lint-test-job:   # This job also runs in the test stage.
-  stage: test    # It can run at the same time as unit-test-job (in parallel).
-  tags:
-    - shared
-  script:
+  before_script:
     - cd prototype/prioss
     - npm ci
-    - npm ng lint --max-warnings 0
-  cache:
-    key:
-      files:
-        - prototype/prioss/package-lock.json
-    paths:
-      - prototype/prioss/node_modules
-    policy: pull
-  
+  script:
+    - npm run build
 
+lint-job:
+  stage: test
+  before_script:
+    - cd prototype/prioss
+    - npm ci
+  script:
+    - npm run lint
