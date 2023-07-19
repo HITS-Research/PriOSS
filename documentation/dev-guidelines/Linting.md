@@ -19,7 +19,11 @@ y: number;
 ## Usage
 
 In the PriOSS project we use the [ESLinter](https://eslint.org/). This one is also available as a Visual Studio Code Extension and **should be used**.
-This is important as the ESlinter is also used for our pipeline and enforces a 0 warning tolerance there.
+This is important as the ESlinter is also used for our pipeline and enforces a 0 warning tolerance there. The linter itself shows warnings and error in the code editor. To run the linter for the whole project, type the following command:
+
+```shell
+ng lint
+```
 
 
 
