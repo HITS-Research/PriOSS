@@ -1,5 +1,5 @@
 image: node:latest
-pull_policy: if-not-present 
+  pull_policy: if-not-present 
 
 stages:          # List of stages for jobs, and their order of execution
   - install
