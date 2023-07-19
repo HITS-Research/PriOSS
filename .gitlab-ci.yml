@@ -6,6 +6,8 @@ stages:
 
 build-job:
   stage: build
+  tags:
+    - shared
   before_script:
     - cd prototype/prioss
     - npm ci
@@ -14,6 +16,8 @@ build-job:
 
 lint-job:
   stage: test
+  tags:
+    - shared
   before_script:
     - cd prototype/prioss
     - npm ci
