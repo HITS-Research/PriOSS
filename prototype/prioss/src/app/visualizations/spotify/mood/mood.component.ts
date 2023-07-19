@@ -1,12 +1,20 @@
-import { Component } from '@angular/core';
-import { NgxIndexedDBService } from 'ngx-indexed-db';
+import { Component, Input } from '@angular/core';
 import { environment } from '../../../../environments/environment.prod';
 import * as d3 from 'd3';
+import { SpotHistoryRepository } from 'src/app/db/data-repositories/spotify/spot-history/spot-history.repository';
+import { endOfMonth } from 'date-fns';
 
 const CLIENT_ID = environment.CLIENT_ID;
 const CLIENT_SECRET = environment.CLIENT_SECRET;
 let token: string;
-let withdate:any;
+let withdate: any;
+const spotifyGreen: string = "#1DB954"
+let savedValues: any[] = [];
+let startDateInput: any = null;
+let endDateInput: any = null;
+
+
+
 
 /**
   * This component visualizes the mood of songs in the datadownload based on the information fetched from a Spotify API
@@ -20,40 +28,82 @@ let withdate:any;
   styleUrls: ['./mood.component.less']
 })
 export class MoodComponent {
+  @Input()
+  previewMode: boolean = false;
+  @Input()
+  firstRun: boolean = false;
+  @Input()
+  selectedRange = [new Date('2021-11-01'), new Date('2021-11-30')]; // Set specific default dates
+
+
+  isLoading: boolean = false;
   files: any[] = [];
-  
+  queriedSongs = 0;
+  allSongsNumber = 0;
 
-  constructor(private dbService: NgxIndexedDBService) {
-        this.dbService.getAll('spot/history').subscribe(async (history) => 
-    {
-      console.log("history: ");
-      console.log(history);
-      let ids: string[] = [];
-              let names: string[] = [];
-             
-                await this.setToken();
 
-                const trackNames = history.map((track: any) => track.trackName);
-                console.log(trackNames);
-                const lastSongName = trackNames[trackNames.length - 1];
-                let lastStringId = await this.getTrackId(lastSongName);
-                trackNames.forEach(async (key: any) => {
-                  let stringid = await this.getTrackId(key);
-                  ids.push(stringid);
-                  names.push(key);
-                  if (stringid === lastStringId) {  //for some unknown reason the ids behaves weird. Normally you would except to have after the for loop all ids added and then make the calls 
-                                                    //that are inside this if clause. However, somehow the values are undefined if you try to access them after the loop. What is weird. console.log(ids).
-                                                    //This somehow circumvents this. It is probably realted to await and async but it does not make sense to me why it is not working.
-                    let audiofeatures: any = await this.getAudioFeaturesInBulk(ids);
-                    let flattend = makeOneArray(audiofeatures);
-                    withdate = addListeningDateToAudiofeatures(flattend, names, history);
-                    makeBarChart(flattend);
-                    
-                  }
-                })
-         
-              
-    });
+  constructor(private spotHistoryRepo: SpotHistoryRepository) {
+    this.setToken();
+    console.log(token);
+  }
+  /*
+  * This is a helper function to redraw the diagramm without calling the Spotify API again.
+  *
+  * @author: Sven (svenf@mail.uni-paderborn.de)
+  */
+  drawRadarAgainWithSavedValues() {
+    this.updateRadarChart();
+  }
+
+  ranges = { Today: [new Date(), new Date()], 'This Month': [new Date(), endOfMonth(new Date())] };
+
+  /*
+  * This is a helper function to that sets the date taken from the range picker
+  *
+  * @author Sven (svenf@mail.uni-paderborn.de)
+  */
+  onChange(result: Date[]): void {
+    console.log('From: ', result[0], ', to: ', result[1]);
+    if (result[0] == undefined) {
+      startDateInput = new Date('1900-01-01');
+      endDateInput = new Date('2023-07-19');
+      return;
+    }
+    startDateInput = result[0];
+    endDateInput = result[1];
+  }
+
+
+  /**
+   * This function gets all Song Ids (currently limited to 100). Also calls @makeRadarChart.
+   * 
+   * @author Sven
+   */
+  async getSongIds() {
+    this.isLoading = true;
+    this.firstRun = true;
+    let spotHistory = await this.spotHistoryRepo.getSpotHistory();
+    this.allSongsNumber = spotHistory.length;
+    const trackIds: string[] = [];
+    const names: string[] = [];
+    const limit = 100;
+
+    for (const entry of spotHistory) {
+
+      if (this.queriedSongs >= limit) {
+        break;
+      }
+      names.push(entry.trackName);
+      const trackId = await this.getTrackId(entry.trackName);
+      trackIds.push(trackId);
+      this.queriedSongs++;
+    }
+    let audiofeatures: any = await this.getAudioFeaturesInBulk(trackIds);
+    let flattend = makeOneArray(audiofeatures);
+    withdate = addListeningDateToAudiofeatures(flattend, names, spotHistory);
+    this.isLoading = false;
+    this.updateRadarChart();
+    //makeRadarChart(flattend);
   }
 
   /**
@@ -62,18 +112,19 @@ export class MoodComponent {
   * @author: Max (maxy@mail.upb.de), Sven (svenf@mail.uni-paderborn.de)
   *
   */
-  updateBarChart() {
-    let startDateInput:any = (document.getElementById("start-date") as HTMLInputElement).value;
-    let endDateInput:any = (document.getElementById("end-date") as HTMLInputElement).value;
-    let timed:any  = withdate.filter((d:any) => {
+  updateRadarChart() {
+    let timed: any = [];
+    console.log(withdate);
+    withdate.forEach((d: any) => {
       let timestamp = new Date(d.time);
-      return timestamp >= new Date(startDateInput) && timestamp <= new Date(endDateInput);
+      let start = new Date(startDateInput).toUTCString();
+      let end = new Date(endDateInput).toUTCString();
+      if (start >= timestamp.toUTCString() && timestamp.toUTCString() <= end) timed.push(d);
     });
     console.log(timed);
-  
-    d3.select("#bar-chart").selectAll("*").remove();
-    makeBarChart(timed);
+    makeRadarChart(timed);
   }
+
 
   /**
   * Sets the token to communicate with Spotify Web API https://developer.spotify.com/documentation/general/guides/authorization/client-credentials/
@@ -84,17 +135,17 @@ export class MoodComponent {
   * @author: Sven (svenf@mail.uni-paderborn.de)
   *
   */
-  
-  async setToken() {;
+
+  async setToken() {
     const response = await fetch(`https://accounts.spotify.com/api/token`, {
       method: 'POST',
       headers: {
         'Authorization': 'Basic ' + btoa(CLIENT_ID + ':' + CLIENT_SECRET),
         'Content-Type': 'application/x-www-form-urlencoded',
       },
-    body: 'grant_type=client_credentials',
-    }) 
-    const json = await response.json(); 
+      body: 'grant_type=client_credentials',
+    })
+    const json = await response.json();
     token = json.access_token;
   };
 
@@ -105,14 +156,33 @@ export class MoodComponent {
   *
   */
   async getTrackId(trackName: string): Promise<string> {
-    const response = await fetch(`https://api.spotify.com/v1/search?q=${trackName}&type=track&limit=1`, {
-      headers: {
-        'Authorization': `Bearer ${token}`
+    if (trackName.length === 0) {
+      throw new Error('Track name is empty');
+    }
+
+    try {
+      const response = await fetch(`https://api.spotify.com/v1/search?q=${trackName}&type=track&limit=1`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error('Error retrieving track ID');
       }
-    });
-    const json = await response.json();
-    return json.tracks.items[0].id
-  };
+
+      const json = await response.json();
+      if (!json.tracks.items.length) {
+        throw new Error('No track found');
+      }
+
+      return json.tracks.items[0].id;
+    } catch (error) {
+      console.error('An error occurred:', error);
+      throw error;
+    }
+  }
+
 
 
 
@@ -123,26 +193,26 @@ export class MoodComponent {
   *
   */
   async getAudioFeaturesInBulk(ids: string[]): Promise<string[]> {
-    const spotifyUrl = 'https://api.spotify.com/v1/audio-features?ids='
-    let start = 0;
-    let end = 100;
-    let valenceArray = []
-    
-    while (start < ids.length) {
-      let songsBatch = ids.slice(start, end);
-      let bulkUrl = makeBulkRequestUrl(songsBatch, spotifyUrl);
-      start += 100;
-      end += 100;
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      let response = await fetch(bulkUrl, {
+    const spotifyUrl = 'https://api.spotify.com/v1/audio-features?ids=';
+    const batchSize = 100;
+    let valenceArray = [];
+
+    for (let start = 0; start < ids.length; start += batchSize) {
+      const end = Math.min(start + batchSize, ids.length);
+      const songsBatch = ids.slice(start, end);
+      const bulkUrl = makeBulkRequestUrl(songsBatch, spotifyUrl);
+      const response = await fetch(bulkUrl, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
       });
-      let json = await response.json();
+
+      const json = await response.json();
       valenceArray.push(json);
     }
+
     return valenceArray;
+
   }
 }
 
@@ -173,136 +243,239 @@ function makeBulkRequestUrl(trackIds: string[], spotifyUrl: string): string {
 *
 */
 
-function addListeningDateToAudiofeatures(audiofeatures: any, names:string[], original:any):any {
+function addListeningDateToAudiofeatures(audiofeatures: any, names: string[], original: any): any {
   let counter = 0;
-  for (let i = 0; i < original.length; i++) { 
+  for (let i = 0; i < original.length; i++) {
     let key = original[i];
     if (names.includes(key.trackName)) {
       audiofeatures[counter].time = key.endTime;
       counter++;
-    if (counter === audiofeatures.length) break;
-   }
+      if (counter === audiofeatures.length) {
+        break;
+      }
+    }
   }
-  console.log(audiofeatures);
   return audiofeatures;
 }
 
-
 /*
-* D3 seems to be the most used visualisation library for javascript. I don't understand the code here yet. However, at the moment it calculates the average of all provided songs for the 
-* audiofeatures dancebility, enery, liveness and sum. And these values are then represented in a barchart.
-* @author: Sven (svenf@mail.uni-paderborn.de)
-*
+* Creates radar chart for spotify audio values
+* @author Sven Feldmann
 */
-function makeBarChart(audiofeatures: any) {
+function makeRadarChart(audiofeatures: any) {
+  d3.select("#bar-chart").selectAll("*").remove();
+
+  savedValues = audiofeatures;
   let danceabilitySum = 0;
   let energySum = 0;
   let loudnessSum = 0;
   let valenceSum = 0;
   let tempoSum = 0;
+  let accousticnessSum = 0;
   let count = audiofeatures.length;
 
-  audiofeatures.forEach((key: any) => {;
+  audiofeatures.forEach((key: any) => {
     danceabilitySum += key.danceability;
     energySum += key.energy;
-    loudnessSum += key.loudness;
+    loudnessSum += (-1) * key.loudness;
     valenceSum += key.valence;
-    tempoSum += key.tempo;
+    tempoSum += normalizeTempo(key.tempo);
+    accousticnessSum += key.acousticness;
   })
 
-  let avgDance = danceabilitySum / count;
-  let avgEnergy = energySum / count;
-  //let avgLoudness = loudnessSum / count;
-  let avgVal = valenceSum / count;
-  //let avgTempo = tempoSum / count;
+  let avgDance = danceabilitySum / count * 100;
+  let avgEnergy = energySum / count * 100;
+  let avgLoudness = loudnessSum / count;
+  let avgVal = valenceSum / count * 100;
+  let avgTempo = tempoSum / count;
+  let avgAccousticness = accousticnessSum / count * 100;
 
 
   let data: any = [
-    { name: "Valence", value: avgVal, color: "#9954E6" },
-    { name: "Energy", value: avgEnergy, color: "#63adfeb3" },
+    { feature: "Valence", value: avgVal, additionalText: "Tracks with high valence sound more positive (e.g. happy, cheerful, euphoric), while tracks with low valence sound more negative (e.g. sad, depressed, angry)." },
+    { feature: "Energy", value: avgEnergy, additionalText: "represents a perceptual measure of intensity and activity" },
     //{ name: "Loudness", value: avgLoudness, color: "#533a84" },
-    { name: "Dancebility", value: avgDance, color: "#dd8050c4" },
-   // { name: "Tempo", value: avgTempo, color: "#296E01" }
+    { feature: "Dancebility", value: avgDance, additionalText: "describes how suitable a track is for dancing" },
+    // { name: "Tempo", value: avgTempo, color: "#296E01" }
+    { feature: "Loudness", value: avgLoudness, additionalText: "is the quality of a sound that is the primary psychological correlate of physical strength (amplitude)" },
+    { feature: "Tempo", value: avgTempo, additionalText: "is the speed or pace of a given piece and derives directly from the average beat duration" },
+    //{ name: "Loudness", value: avgLoudness, color: "#533a84" },
+    { feature: "Accousticness", value: avgAccousticness, additionalText: "High acoustic values represents  high confidence the track is acoustic" }
   ];
+  console.log(data);
 
   let margin = 100;
-  let width = 750 - margin * 2;
-  let height = 600 - margin * 2;
-  let svg = d3
-    .select("#bar-chart")
-    .append("svg")
+  let leftmargin = 150;
+  let bottomMargin = 125;
+  let xAxisWidth = window.innerWidth - margin * 2;
+  let yAxisHeight = window.innerHeight * 0.90 - margin * 2
+
+
+
+  let svg = d3.select("#bar-chart").append("svg")
     .attr(
       "viewBox",
-      `0 0 ${width + margin * 2} ${height + margin * 2}`
+      `0 0 ${xAxisWidth + margin * 2} ${yAxisHeight + bottomMargin}`
+      //`0 0 ${xAxisWidth + margin * 2} ${yAxisHeight + bottomMargin}`
     )
-
     .append("g")
-    .attr("transform", "translate(" + margin + "," + margin + ")");
+    .attr("transform", "translate(" + leftmargin + "," + 0 + ")");
 
-  let x: any = d3
-    .scaleBand()
-    .range([0, width])
-    .domain(data.map((d: any) => d.name))
-    .padding(0.2);
 
-  svg
-    .append("text")
-    .attr("x", width / 2)
-    .attr("y", 0 - margin / 2)
-    .attr("text-anchor", "middle")
-    .style("font-size", "16px")
-    .style("text-decoration", "underline")
-    .text("Average audio_feature values of listend songs in given time");
+  let radialScale = d3.scaleLinear()
+    .domain([0, 100])
+    .range([0, 250]);
+  let ticks = [20, 40, 60, 80, 100];
 
-  // Drawing X-axis on the DOM
-  svg
-    .append("g")
-    .attr("transform", "translate(0," + height + ")")
-    .call(d3.axisBottom(x))
-    .selectAll("text")
-    // .attr('transform', 'translate(-10, 0)rotate(-45)')
-    // .style('text-anchor', 'end')
-    .style("font-size", "14px");
+  svg.selectAll("circle")
+    .data(ticks)
+    .join(
+      enter => enter.append("circle")
+        .attr("cx", xAxisWidth / 2)
+        .attr("cy", yAxisHeight / 2)
+        .attr("fill", "none")
+        .attr("stroke", "gray")
+        .attr("r", d => radialScale(d))
+    );
 
-  // Creaate Y-axis band scale
-  let y = d3
-    .scaleLinear()
-    .domain([0, 1])
-    .range([height, 0]);
+  svg.selectAll(".ticklabel")
+    .data(ticks)
+    .join(
+      enter => enter.append("text")
+        .attr("class", "ticklabel")
+        .attr("x", xAxisWidth / 2 + 5)
+        .attr("y", d => yAxisHeight / 2 - radialScale(d))
+        .text(d => d.toString())
+    );
 
-  let formatter = d3.format(".0%");
-  // Draw the Y-axis on the DOM
-  svg
-    .append("g")
-    .call(d3.axisLeft(y).scale(y).tickFormat(formatter))
-    .selectAll("text")
-    .style("font-size", "14px");
+  let featureData = data.map((f: any, i: any) => {
+    let angle = (Math.PI / 2) + (2 * Math.PI * i / data.length);
+    return {
+      "name": f,
+      "angle": angle,
+      "line_coord": angleToCoordinate(angle, 100),
+      "label_coord": angleToCoordinate(angle, 105)
+    };
+  });
 
-  // Create and fill the bars
-  svg
-    .selectAll("bars")
-    .data(data)
+
+
+  // draw axis line
+  svg.selectAll("line")
+    .data(featureData)
+    .join(
+      enter => enter.append("line")
+        .attr("x1", xAxisWidth / 2)
+        .attr("y1", yAxisHeight / 2)
+        .attr("x2", (d: any) => d.line_coord.x)
+        .attr("y2", (d: any) => d.line_coord.y)
+        .attr("stroke", "black")
+    );
+
+  // draw axis label
+  svg.selectAll(".axislabel")
+    .data(featureData)
     .enter()
-    .append("rect")
-    .attr("x", (d: any) => x(d.name))
-    .attr("y", (d: any) => y(d.value))
-    //.attr("y", (d: any) => height - y(d.value) * height / 100)
-    .attr("width", x.bandwidth())
-    .attr("height", (d: any) => height - y(d.value))
-    //.attr("height", (d: any) => y(d.value) * height / 100)// this.height
-    .attr("fill", (d: any) => d.color);
+    .append("g")
+    .attr("class", "axislabel")
+    .attr("transform", (d: any) => `translate(${d.label_coord.x},${d.label_coord.y})`)
+    .each(function (d: any) {
+      const group = d3.select(this);
 
-  svg
-    .selectAll("text.bar")
+      group.append("text")
+        .attr("x", 15)
+        .attr("y", 5)
+        .text(d.name.feature)
+        .attr("class", "label");
+
+
+      group.append("circle")
+        .attr("r", 10)
+        .attr("class", "circle")
+        .attr("fill", "black");
+
+
+
+      group.append("text")
+        .attr("x", 0)
+        .attr("y", 4)
+        .text("i")
+        .attr("class", "icon")
+        .attr("text-anchor", "middle")
+        .attr("fill", "white")
+        .style("font-weight", "bold")
+        .style("font-size", "10px");
+
+
+
+      const additionalText = group.append("text")
+        .attr("x", 15)
+        .attr("y", 20) // Adjust the y-coordinate for the additional text
+        .text(d.name.additionalText) // Replace with the desired additional text
+        .attr("class", "additional-text")
+        .style("opacity", 0)
+        .style("fill", "black")
+        .style("background-color", "lightgrey")
+        .style("border", "1px solid grey")
+        .style("font-size", "12px")
+        .style("font-weight", "normal")
+        .style("padding", "4px");
+
+      group.on("mouseover", function () {
+        additionalText.style("opacity", 1);
+      })
+        .on("mouseout", function () {
+          additionalText.style("opacity", 0);
+        });
+    });
+
+
+
+  let line = d3.line()
+    .x((d: any) => d.x)
+    .y((d: any) => d.y);
+  let colors = [spotifyGreen];
+  /*
+  * This is a helper function ro calculate the path coordinates
+  *
+  * @author: Sven (svenf@mail.uni-paderborn.de)
+  *
+  */
+  function getPathCoordinates() {
+    let coordinates = [];
+    for (var i = 0; i < data.length; i++) {
+      let angle = (Math.PI / 2) + (2 * Math.PI * i / data.length);
+      coordinates.push(angleToCoordinate(angle, data[i].value));
+    }
+
+    return coordinates;
+  }
+
+  svg.selectAll("path")
     .data(data)
-    .enter()
-    .append("text")
-    .attr("text-anchor", "middle")
-    .attr("fill", "#70747a")
-    .attr("x", (d: any) => x(d.name) + 19)
-    .attr("y", (d: any) => y(d.value) - 5) // change text position
-    .text((d: any) => d3.format(".0%")(d.value));
+    .join(
+      (enter: any) => enter.append("path")
+        .datum(() => getPathCoordinates())
+        .attr("d", line)
+        .attr("stroke-width", 3)
+        .attr("stroke", () => colors[0])
+        .attr("fill", () => colors[0])
+        .attr("stroke-opacity", 1)
+        .attr("opacity", 1)
+    );
 
+
+  /*
+  * This is a helper function to calculate the angle for labels and lines
+  *
+  * @author: Sven (svenf@mail.uni-paderborn.de)
+  *
+  */
+  function angleToCoordinate(angle: number, value: number) {
+    let x = Math.cos(angle) * radialScale(value);
+    let y = Math.sin(angle) * radialScale(value);
+    return { "x": xAxisWidth / 2 + x, "y": yAxisHeight / 2 - y };
+  }
 }
 
 
@@ -325,3 +498,22 @@ function makeOneArray(arrayOfArrays: any): any {
   });
   return flattenedArray
 }
+
+/*
+* This is a helper function to normalize the tempo values to 0-100.
+*
+* @author: Sven (svenf@mail.uni-paderborn.de)
+* @return normalizedValue 
+*/
+function normalizeTempo(originalValue: number): number {
+  const minValue = 40;
+  const maxValue = 160;
+  const newMin = 0;
+  const newMax = 100;
+
+  const normalizedValue = ((originalValue - minValue) / (maxValue - minValue)) * (newMax - newMin) + newMin;
+
+  return normalizedValue;
+}
+
+
