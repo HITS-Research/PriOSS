@@ -1,6 +1,5 @@
 image: 
   name: node:latest
-  pull_policy: if-not-present 
 
 stages:          # List of stages for jobs, and their order of execution
   - install
@@ -12,10 +11,8 @@ install-job:
   tags:
     - shared
   script:
-    - echo "Installing modules"
     - cd prototype/prioss
     - npm ci
-    - echo "Modules installed"
   cache:
     key:
       files:
@@ -31,10 +28,8 @@ build-job:       # This job runs in the build stage, which runs first.
   tags:
     - shared
   script:
-    - echo "Compiling the code..."
     - cd prototype/prioss
     - npm ng build
-    - echo "Compile complete."
   cache:
     key:
       files:
@@ -43,25 +38,15 @@ build-job:       # This job runs in the build stage, which runs first.
       - prototype/prioss/node_modules
     policy: pull
 
-unit-test-job:   # This job runs in the test stage.
-  stage: test    # It only starts when the job in the build stage completes successfully.
-  tags:
-    - shared
-  script:
-    - echo "Running unit tests... This will take about 5 seconds."
-    - sleep 5
-    - echo "Code coverage is 90%"
 
 lint-test-job:   # This job also runs in the test stage.
   stage: test    # It can run at the same time as unit-test-job (in parallel).
   tags:
     - shared
   script:
-    - echo "Start linting"
     - cd prototype/prioss
     - npm ci
     - npm ng lint --max-warnings 0
-    - echo "linting finished"
   cache:
     key:
       files:
