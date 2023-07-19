@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { SQLiteDBConnection, capSQLiteChanges } from "@capacitor-community/sqlite";
+import { SQLiteDBConnection} from "@capacitor-community/sqlite";
 import { DBService } from "../../../../services/db/db.service";
 import * as sql from "./insta-recently-unfollowed-accounts.sql";
 import { InstaRecentlyUnfollowedInfo } from "src/app/models/Instagram/FollowerInfo/RecentlyUnfollowedAccounts";
@@ -27,7 +27,7 @@ export class InstaRecentlyUnfollowedAccountsRepository extends BulkAddCapableRep
      * 
      * @author: Melina (kleber@mail.uni-paderborn.de)
      */
-    async startRecentlyUnfollowedAccountsBulkAdd(instaProfileURL: string, instaAccountName: string, timestamp: number, totalRowCount: number, targetBulkSize: number = 500) {
+    async startRecentlyUnfollowedAccountsBulkAdd(instaProfileURL: string, instaAccountName: string, timestamp: number, totalRowCount: number, targetBulkSize = 500) {
         this.startBulkAdd([instaProfileURL, instaAccountName, timestamp], totalRowCount, targetBulkSize);
     }
 
@@ -59,10 +59,10 @@ export class InstaRecentlyUnfollowedAccountsRepository extends BulkAddCapableRep
     async addRecentlyUnfollowedAccountsInformation(instaProfileURL: string, instaAccountName: string, timestamp: number) {
         await this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
 
-            let sqlStatement = sql.insertRecentlyUnfollowedAccountsSQL;
-            let values = [instaProfileURL, instaAccountName, timestamp];
+            const sqlStatement = sql.insertRecentlyUnfollowedAccountsSQL;
+            const values = [instaProfileURL, instaAccountName, timestamp];
       
-            let ret: capSQLiteChanges = await db.run(sqlStatement, values);
+            await db.run(sqlStatement, values);
           });
     }
 
@@ -77,7 +77,7 @@ export class InstaRecentlyUnfollowedAccountsRepository extends BulkAddCapableRep
     {
         return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
 
-            let result = await db.query(sql.selectRecentlyUnfollowedAccountsInfo);
+            const result = await db.query(sql.selectRecentlyUnfollowedAccountsInfo);
             return result.values as InstaRecentlyUnfollowedInfo[];
         });
     }

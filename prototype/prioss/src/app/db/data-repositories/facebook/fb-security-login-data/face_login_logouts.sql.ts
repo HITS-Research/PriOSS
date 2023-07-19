@@ -8,26 +8,26 @@
 *
 */
 
-export const insertIntoFaceLoginLogoutsSQL: string = `
+export const insertIntoFaceLoginLogoutsSQL = `
 insert into face_login_logouts
 (action, timestamp)
 values 
 (?, ?);
 `;
 
-export const bulkAddFaceLoginLogoutsBaseSQL: string = `
+export const bulkAddFaceLoginLogoutsBaseSQL = `
 insert into face_login_logouts
 (action, timestamp)
 `;
 
-export const bulkAddFaceLoginLogoutsValuesSQL: string = `
+export const bulkAddFaceLoginLogoutsValuesSQL = `
 select ?, ?
 `;
 
-export const bulkAddValueConnector: string = `
+export const bulkAddValueConnector = `
 union all
 `;
 
-export const selectAllLoginLogouts: string = `
+export const selectAllLoginLogouts = `
 select id, action, timestamp from face_login_logouts
 `;

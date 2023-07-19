@@ -8,8 +8,7 @@ const CLIENT_ID = environment.CLIENT_ID;
 const CLIENT_SECRET = environment.CLIENT_SECRET;
 let token: string;
 let withdate: any;
-const spotifyGreen: string = "#1DB954"
-let savedValues: any[] = [];
+const spotifyGreen = "#1DB954"
 let startDateInput: any = null;
 let endDateInput: any = null;
 
@@ -29,14 +28,14 @@ let endDateInput: any = null;
 })
 export class MoodComponent {
   @Input()
-  previewMode: boolean = false;
+  previewMode = false;
   @Input()
-  firstRun: boolean = false;
+  firstRun = false;
   @Input()
   selectedRange = [new Date('2021-11-01'), new Date('2021-11-30')]; // Set specific default dates
 
 
-  isLoading: boolean = false;
+  isLoading = false;
   files: any[] = [];
   queriedSongs = 0;
   allSongsNumber = 0;
@@ -82,7 +81,7 @@ export class MoodComponent {
   async getSongIds() {
     this.isLoading = true;
     this.firstRun = true;
-    let spotHistory = await this.spotHistoryRepo.getSpotHistory();
+    const spotHistory = await this.spotHistoryRepo.getSpotHistory();
     this.allSongsNumber = spotHistory.length;
     const trackIds: string[] = [];
     const names: string[] = [];
@@ -98,8 +97,8 @@ export class MoodComponent {
       trackIds.push(trackId);
       this.queriedSongs++;
     }
-    let audiofeatures: any = await this.getAudioFeaturesInBulk(trackIds);
-    let flattend = makeOneArray(audiofeatures);
+    const audiofeatures: any = await this.getAudioFeaturesInBulk(trackIds);
+    const flattend = makeOneArray(audiofeatures);
     withdate = addListeningDateToAudiofeatures(flattend, names, spotHistory);
     this.isLoading = false;
     this.updateRadarChart();
@@ -113,12 +112,12 @@ export class MoodComponent {
   *
   */
   updateRadarChart() {
-    let timed: any = [];
+    const timed: any = [];
     console.log(withdate);
     withdate.forEach((d: any) => {
-      let timestamp = new Date(d.time);
-      let start = new Date(startDateInput).toUTCString();
-      let end = new Date(endDateInput).toUTCString();
+      const timestamp = new Date(d.time);
+      const start = new Date(startDateInput).toUTCString();
+      const end = new Date(endDateInput).toUTCString();
       if (start >= timestamp.toUTCString() && timestamp.toUTCString() <= end) timed.push(d);
     });
     console.log(timed);
@@ -147,7 +146,7 @@ export class MoodComponent {
     })
     const json = await response.json();
     token = json.access_token;
-  };
+  }
 
   /**
   * This function queries the Spotify Web API endpoint search to retrieve a song id. The assumption here is that the first song provided by the API is the correct one.
@@ -195,7 +194,7 @@ export class MoodComponent {
   async getAudioFeaturesInBulk(ids: string[]): Promise<string[]> {
     const spotifyUrl = 'https://api.spotify.com/v1/audio-features?ids=';
     const batchSize = 100;
-    let valenceArray = [];
+    const valenceArray = [];
 
     for (let start = 0; start < ids.length; start += batchSize) {
       const end = Math.min(start + batchSize, ids.length);
@@ -228,7 +227,7 @@ function makeBulkRequestUrl(trackIds: string[], spotifyUrl: string): string {
     url += trackIds[i] + '%2C';
   }
   return url;
-};
+}
 
 
 /**
@@ -246,7 +245,7 @@ function makeBulkRequestUrl(trackIds: string[], spotifyUrl: string): string {
 function addListeningDateToAudiofeatures(audiofeatures: any, names: string[], original: any): any {
   let counter = 0;
   for (let i = 0; i < original.length; i++) {
-    let key = original[i];
+    const key = original[i];
     if (names.includes(key.trackName)) {
       audiofeatures[counter].time = key.endTime;
       counter++;
@@ -265,14 +264,13 @@ function addListeningDateToAudiofeatures(audiofeatures: any, names: string[], or
 function makeRadarChart(audiofeatures: any) {
   d3.select("#bar-chart").selectAll("*").remove();
 
-  savedValues = audiofeatures;
   let danceabilitySum = 0;
   let energySum = 0;
   let loudnessSum = 0;
   let valenceSum = 0;
   let tempoSum = 0;
   let accousticnessSum = 0;
-  let count = audiofeatures.length;
+  const count = audiofeatures.length;
 
   audiofeatures.forEach((key: any) => {
     danceabilitySum += key.danceability;
@@ -283,15 +281,15 @@ function makeRadarChart(audiofeatures: any) {
     accousticnessSum += key.acousticness;
   })
 
-  let avgDance = danceabilitySum / count * 100;
-  let avgEnergy = energySum / count * 100;
-  let avgLoudness = loudnessSum / count;
-  let avgVal = valenceSum / count * 100;
-  let avgTempo = tempoSum / count;
-  let avgAccousticness = accousticnessSum / count * 100;
+  const avgDance = danceabilitySum / count * 100;
+  const avgEnergy = energySum / count * 100;
+  const avgLoudness = loudnessSum / count;
+  const avgVal = valenceSum / count * 100;
+  const avgTempo = tempoSum / count;
+  const avgAccousticness = accousticnessSum / count * 100;
 
 
-  let data: any = [
+  const data: any = [
     { feature: "Valence", value: avgVal, additionalText: "Tracks with high valence sound more positive (e.g. happy, cheerful, euphoric), while tracks with low valence sound more negative (e.g. sad, depressed, angry)." },
     { feature: "Energy", value: avgEnergy, additionalText: "represents a perceptual measure of intensity and activity" },
     //{ name: "Loudness", value: avgLoudness, color: "#533a84" },
@@ -304,15 +302,15 @@ function makeRadarChart(audiofeatures: any) {
   ];
   console.log(data);
 
-  let margin = 100;
-  let leftmargin = 150;
-  let bottomMargin = 125;
-  let xAxisWidth = window.innerWidth - margin * 2;
-  let yAxisHeight = window.innerHeight * 0.90 - margin * 2
+  const margin = 100;
+  const leftmargin = 150;
+  const bottomMargin = 125;
+  const xAxisWidth = window.innerWidth - margin * 2;
+  const yAxisHeight = window.innerHeight * 0.90 - margin * 2
 
 
 
-  let svg = d3.select("#bar-chart").append("svg")
+  const svg = d3.select("#bar-chart").append("svg")
     .attr(
       "viewBox",
       `0 0 ${xAxisWidth + margin * 2} ${yAxisHeight + bottomMargin}`
@@ -322,10 +320,10 @@ function makeRadarChart(audiofeatures: any) {
     .attr("transform", "translate(" + leftmargin + "," + 0 + ")");
 
 
-  let radialScale = d3.scaleLinear()
+  const radialScale = d3.scaleLinear()
     .domain([0, 100])
     .range([0, 250]);
-  let ticks = [20, 40, 60, 80, 100];
+  const ticks = [20, 40, 60, 80, 100];
 
   svg.selectAll("circle")
     .data(ticks)
@@ -348,8 +346,8 @@ function makeRadarChart(audiofeatures: any) {
         .text(d => d.toString())
     );
 
-  let featureData = data.map((f: any, i: any) => {
-    let angle = (Math.PI / 2) + (2 * Math.PI * i / data.length);
+  const featureData = data.map((f: any, i: any) => {
+    const angle = (Math.PI / 2) + (2 * Math.PI * i / data.length);
     return {
       "name": f,
       "angle": angle,
@@ -431,10 +429,10 @@ function makeRadarChart(audiofeatures: any) {
 
 
 
-  let line = d3.line()
+  const line = d3.line()
     .x((d: any) => d.x)
     .y((d: any) => d.y);
-  let colors = [spotifyGreen];
+  const colors = [spotifyGreen];
   /*
   * This is a helper function ro calculate the path coordinates
   *
@@ -442,9 +440,9 @@ function makeRadarChart(audiofeatures: any) {
   *
   */
   function getPathCoordinates() {
-    let coordinates = [];
-    for (var i = 0; i < data.length; i++) {
-      let angle = (Math.PI / 2) + (2 * Math.PI * i / data.length);
+    const coordinates = [];
+    for (let i = 0; i < data.length; i++) {
+      const angle = (Math.PI / 2) + (2 * Math.PI * i / data.length);
       coordinates.push(angleToCoordinate(angle, data[i].value));
     }
 
@@ -472,8 +470,8 @@ function makeRadarChart(audiofeatures: any) {
   *
   */
   function angleToCoordinate(angle: number, value: number) {
-    let x = Math.cos(angle) * radialScale(value);
-    let y = Math.sin(angle) * radialScale(value);
+    const x = Math.cos(angle) * radialScale(value);
+    const y = Math.sin(angle) * radialScale(value);
     return { "x": xAxisWidth / 2 + x, "y": yAxisHeight / 2 - y };
   }
 }
@@ -488,7 +486,7 @@ function makeRadarChart(audiofeatures: any) {
 *
 */
 function makeOneArray(arrayOfArrays: any): any {
-  let flattenedArray: any = []
+  const flattenedArray: any = []
   arrayOfArrays.forEach((array: any) => {
     array.audio_features.forEach((element: any) => {
       if (element != null) {

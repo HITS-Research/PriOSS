@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { AfterViewInit, Component, Input } from '@angular/core';
 import { SequenceComponentInit } from '../../sequence-component-init.abstract';
 import { InstaContactsRepository } from 'src/app/db/data-repositories/instagram/insta-contacts/insta-contacts.repository';
 import { InstaContactInfo } from 'src/app/models/Instagram/ContactInfo/InstaContactInfo';
@@ -8,10 +8,10 @@ import { InstaContactInfo } from 'src/app/models/Instagram/ContactInfo/InstaCont
   templateUrl: './insta-contact.component.html',
   styleUrls: ['./insta-contact.component.less']
 })
-export class InstaContactComponent extends SequenceComponentInit{
+export class InstaContactComponent extends SequenceComponentInit implements AfterViewInit{
 
   @Input()
-  previewMode: boolean = false;
+  previewMode = false;
   firstnameSearchValue = '';
   surnameSearchValue = '';
   numberSearchValue = '';

@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Input, OnDestroy, ViewChild } from '@angular/core';
 import { NgxIndexedDBService } from 'ngx-indexed-db';
 import * as d3 from 'd3';
 import { GranularityEnum, Granularity2LabelMapping, getSmallerGranularity } from './granularity.enum';
@@ -11,10 +11,9 @@ import { SpotMonthlyListening } from 'src/app/models/Spotify/ListeningHistory/Sp
 import { SpotHourlyListening } from 'src/app/models/Spotify/ListeningHistory/SpotHourlyListening';
 import { SpotDailyListening } from 'src/app/models/Spotify/ListeningHistory/SpotDailyListening';
 import { SequenceComponentInit } from '../../sequence-component-init.abstract';
-import { filter } from 'jszip';
 import { SongtimelineComponent } from '../songtimeline/songtimeline.component';
 import { Router } from '@angular/router';
-import { Observable, Subscription, fromEvent } from 'rxjs';
+import { Subscription, fromEvent } from 'rxjs';
 import { TopSongsComponent } from '../top-songs/top-songs.component';
 import { TopArtistsComponent } from '../top-artists/top-artists.component';
 
@@ -36,10 +35,10 @@ interface ListeningtimeFilterHistoryEntry {
   templateUrl: './listening-time.component.html',
   styleUrls: ['./listening-time.component.less']
 })
-export class ListeningTimeComponent extends SequenceComponentInit {
+export class ListeningTimeComponent extends SequenceComponentInit implements AfterViewInit, OnDestroy{
 
   @Input()
-  previewMode: boolean = false;
+  previewMode = false;
   @ViewChild('SongtimelineComponent') 
   songtimelineComponent : SongtimelineComponent;
   @ViewChild('TopSongsComponent') 
@@ -54,7 +53,7 @@ export class ListeningTimeComponent extends SequenceComponentInit {
   selectedGranularity: GranularityEnum = GranularityEnum.Year;
   GranularityEnum = GranularityEnum;
 
-  isFirstVisualizationRun: boolean = true;
+  isFirstVisualizationRun = true;
 
   //intermediate saves for the datamaps, so they don't have to be recalculated when the filters change
   //this is only used for the larger datamaps, month & year, because they may take significant time to recalculate
@@ -78,13 +77,13 @@ export class ListeningTimeComponent extends SequenceComponentInit {
   currentFilterHistoryEntry: ListeningtimeFilterHistoryEntry;
 
   //Barchart visual elements
-  showDataTextAboveBars: boolean = false;
+  showDataTextAboveBars = false;
 
   /**
    * The name of the bar that the user right clicked on last. 
    * This is used to determine what date the bar represents when switching to Top Songs / Top Artists Visualization
    */
-  rightClickedBarName: string = "";
+  rightClickedBarName = "";
   contextMenuEventSubscription: Subscription;
 
   /**
@@ -178,7 +177,7 @@ export class ListeningTimeComponent extends SequenceComponentInit {
    */
   updateFilterHistory() {
 
-    let lastFilters = this.currentFilterHistoryEntry;//this.filterHistory[this.filterHistory.length-1];
+    const lastFilters = this.currentFilterHistoryEntry;//this.filterHistory[this.filterHistory.length-1];
 
     if(lastFilters.granularity != this.selectedGranularity ||
        lastFilters.filterFromDate != this.filterFromDate ||
@@ -201,7 +200,7 @@ export class ListeningTimeComponent extends SequenceComponentInit {
    * @author: Simon (scg@mail.upb.de)
    */
   onClickedRevertFilters() {
-    let filters = this.filterHistory.pop();
+    const filters = this.filterHistory.pop();
 
     if(filters)
     {
@@ -259,7 +258,7 @@ export class ListeningTimeComponent extends SequenceComponentInit {
     *
     * @author: Simon (scg@mail.upb.de)
     */
-  async recreateVisualization(updateFilterHistory: boolean = true) {
+  async recreateVisualization(updateFilterHistory = true) {
     let data: { name: string, value: number, color: string }[] | null = [];
 
     if(updateFilterHistory) {
@@ -300,14 +299,14 @@ export class ListeningTimeComponent extends SequenceComponentInit {
     */
   async createYearData() {
 
-    let dataMap: Map<string, { date: Date, value: number }> = new Map();
+    const dataMap: Map<string, { date: Date, value: number }> = new Map();
 
-    let spotYearlyListening: SpotYearlyListening[] = await this.spotHistoryRepo.getHistoryByYear();
+    const spotYearlyListening: SpotYearlyListening[] = await this.spotHistoryRepo.getHistoryByYear();
     for(let i = 0; i < spotYearlyListening.length; i++)
     {
-      let yearData: SpotYearlyListening = spotYearlyListening[i];
-      let date: Date = new Date(Number(yearData.year), 0);
-      let value: number = yearData.msPlayed;
+      const yearData: SpotYearlyListening = spotYearlyListening[i];
+      const date: Date = new Date(Number(yearData.year), 0);
+      const value: number = yearData.msPlayed;
       dataMap.set(yearData.year, { date, value })
     }
 
@@ -324,14 +323,14 @@ export class ListeningTimeComponent extends SequenceComponentInit {
     */
   async createMonthData() {
 
-    let dataMap: Map<string, { date: Date, value: number }> = new Map();
+    const dataMap: Map<string, { date: Date, value: number }> = new Map();
 
-    let spotMonthlyListening: SpotMonthlyListening[] = await this.spotHistoryRepo.getHistoryByMonth();
+    const spotMonthlyListening: SpotMonthlyListening[] = await this.spotHistoryRepo.getHistoryByMonth();
     for(let i = 0; i < spotMonthlyListening.length; i++)
     {
-      let monthData: SpotMonthlyListening = spotMonthlyListening[i];
-      let date: Date = new Date(Number(monthData.year), Number(monthData.month)-1);
-      let value: number = monthData.msPlayed;
+      const monthData: SpotMonthlyListening = spotMonthlyListening[i];
+      const date: Date = new Date(Number(monthData.year), Number(monthData.month)-1);
+      const value: number = monthData.msPlayed;
       dataMap.set(monthData.yearMonth, { date, value })
     }
 
@@ -350,30 +349,30 @@ export class ListeningTimeComponent extends SequenceComponentInit {
   async createDayData() {
     console.log("Create day data");
 
-    let dataMap: Map<string, { date: Date, value: number }> = new Map();
+    const dataMap: Map<string, { date: Date, value: number }> = new Map();
 
     //Show nothing unless filters are active
     if (this.filterFromDate == null || this.filterToDate == null) {
       return null;
     }
 
-    let fromDate: Date = dateUtils.trimDate(this.filterFromDate, GranularityEnum.Day);
-    let toDate: Date = dateUtils.trimDate(this.filterToDate, GranularityEnum.Day);
+    const fromDate: Date = dateUtils.trimDate(this.filterFromDate, GranularityEnum.Day);
+    const toDate: Date = dateUtils.trimDate(this.filterToDate, GranularityEnum.Day);
 
-    let spotDailyListening: SpotDailyListening[] = await this.spotHistoryRepo.getHistoryByDay(fromDate, toDate);
+    const spotDailyListening: SpotDailyListening[] = await this.spotHistoryRepo.getHistoryByDay(fromDate, toDate);
     console.log(spotDailyListening);
 
     for (let i = 0; i < spotDailyListening.length; i++) {
 
-      let historyEntry: SpotDailyListening = spotDailyListening[i];
+      const historyEntry: SpotDailyListening = spotDailyListening[i];
 
-      let date: Date = dateUtils.parseDate(historyEntry.date);
-      let displayDate = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
-      let value: number = historyEntry.msPlayed;
+      const date: Date = dateUtils.parseDate(historyEntry.date);
+      const displayDate = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+      const value: number = historyEntry.msPlayed;
       dataMap.set(displayDate, { date, value });
     }
 
-    let dataArray = this.buildDataArray(dataMap);
+    const dataArray = this.buildDataArray(dataMap);
 
     return dataArray;
   }
@@ -392,7 +391,7 @@ export class ListeningTimeComponent extends SequenceComponentInit {
   async createHourData() {
 
     //Get the most recent day in the history from the db
-    let mostRecentDay: Date = await this.spotHistoryRepo.getMostRecentDay();
+    const mostRecentDay: Date = await this.spotHistoryRepo.getMostRecentDay();
 
     //If this is the initial visualization run, set the filter to the most recent day present in the history
     if (this.isFirstVisualizationRun) {
@@ -404,16 +403,16 @@ export class ListeningTimeComponent extends SequenceComponentInit {
       return null;
     }
 
-    let targetDate: Date = dateUtils.trimDate(this.filterSingleDate, GranularityEnum.Day);
+    const targetDate: Date = dateUtils.trimDate(this.filterSingleDate, GranularityEnum.Day);
 
-    let dataMap: Map<string, { date: Date, value: number }> = new Map();
-    let spotHourlyListening: SpotHourlyListening[] = await this.spotHistoryRepo.getHistoryByHour(targetDate);
+    const dataMap: Map<string, { date: Date, value: number }> = new Map();
+    const spotHourlyListening: SpotHourlyListening[] = await this.spotHistoryRepo.getHistoryByHour(targetDate);
 
     for(let i = 0; i < spotHourlyListening.length; i++)
     {
-      let hourlyData: SpotHourlyListening = spotHourlyListening[i];
-      let date: Date = new Date(targetDate.getFullYear(), targetDate.getMonth(), targetDate.getDate(), hourlyData.hour);
-      let value: number = hourlyData.msPlayed;
+      const hourlyData: SpotHourlyListening = spotHourlyListening[i];
+      const date: Date = new Date(targetDate.getFullYear(), targetDate.getMonth(), targetDate.getDate(), hourlyData.hour);
+      const value: number = hourlyData.msPlayed;
       dataMap.set(hourlyData.displayHour, { date, value })
     }
 
@@ -432,21 +431,21 @@ export class ListeningTimeComponent extends SequenceComponentInit {
    * @author: Simon (scg@mail.upb.de)
    */
   buildDataArray(dataMap: Map<string, { date: Date, value: number }>) {
-    dataMap = new Map([...dataMap.entries()].sort(function ([key1, value1], [key2, value2]) {
+    dataMap = new Map([...dataMap.entries()].sort(function ([, value1], [, value2]) {
       // Turn your strings into dates, and then subtract them
       // to get a value that is either negative, positive, or zero.
       return value1.date.getTime() - value2.date.getTime();
     }));
 
     //build data array
-    let data: { name: string, value: number, color: string }[] = [];
-    let names = Array.from(dataMap.keys());
+    const data: { name: string, value: number, color: string }[] = [];
+    const names = Array.from(dataMap.keys());
     for (let i = 0; i < names.length; i++) {
-      let element = dataMap.get(names[i]);
+      const element = dataMap.get(names[i]);
 
       if (element != undefined) {
-        let date: Date = element.date;
-        let value: number = Number(dataMap.get(names[i])?.value);
+        const date: Date = element.date;
+        const value = Number(dataMap.get(names[i])?.value);
 
         //Applying the Time filters
         if (this.selectedGranularity == GranularityEnum.Hour) {
@@ -462,8 +461,7 @@ export class ListeningTimeComponent extends SequenceComponentInit {
           }
         }
 
-        data.push
-          (
+        data.push(
             { name: String(names[i]), value: value, color: this.spotifyGreen }
           );
       }
@@ -481,6 +479,7 @@ export class ListeningTimeComponent extends SequenceComponentInit {
     * @author: Simon (scg@mail.upb.de)
     *
     */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   getTimeFormat(domainValue: d3.NumberValue, index: number) {
     return formatDisplayTime(domainValue.valueOf());
   }
@@ -502,9 +501,9 @@ export class ListeningTimeComponent extends SequenceComponentInit {
       remainderFromMaxTime /= 60;
       stepSize *= 60;
     }
-    let numberOfTicks = 10;
-    let stepSizeScaler = Math.round(maxTimeValue / (numberOfTicks * stepSize))
-    let tickStepSize = stepSize * (stepSizeScaler > 0 ? stepSizeScaler : 1);
+    const numberOfTicks = 10;
+    const stepSizeScaler = Math.round(maxTimeValue / (numberOfTicks * stepSize))
+    const tickStepSize = stepSize * (stepSizeScaler > 0 ? stepSizeScaler : 1);
 
     return d3.range(0, maxTimeValue, (maxTimeValue/tickStepSize <= 5 ? tickStepSize/2 : tickStepSize));
   }
@@ -529,18 +528,18 @@ export class ListeningTimeComponent extends SequenceComponentInit {
     //save used data
     this.lastUsedVisualizationData = data;
 
-    let values: number[] = data.map((element: any) => element.value);
+    const values: number[] = data.map((element: any) => element.value);
     const maxValue = values.reduce((a, b) => Math.max(a, b), -Infinity);
     const yAxisValueheight = maxValue * 1.1;
 
-    let textSize = "20px";
+    const textSize = "20px";
 
-    let margin = 100;
-    let leftmargin = 150;
-    let bottomMargin = 125;
-    let xAxisWidth = window.innerWidth - margin * 2;
-    let yAxisHeight = window.innerHeight*0.90 - margin * 2;
-    let svg = d3
+    const margin = 100;
+    const leftmargin = 150;
+    const bottomMargin = 125;
+    const xAxisWidth = window.innerWidth - margin * 2;
+    const yAxisHeight = window.innerHeight*0.90 - margin * 2;
+    const svg = d3
       .select("#listeningtime-bar-chart")
       .append("svg")
       .attr(
@@ -551,7 +550,7 @@ export class ListeningTimeComponent extends SequenceComponentInit {
       .append("g")
       .attr("transform", "translate(" + leftmargin + "," + 0 + ")");
 
-    let x: any = d3
+    const x: any = d3
       .scaleBand()
       .range([0, xAxisWidth])
       .domain(data.map((d: any) => d.name))
@@ -580,10 +579,10 @@ export class ListeningTimeComponent extends SequenceComponentInit {
       .attr("transform", "rotate(-65)");
 
       
-    let formatter = this.getTimeFormat;//d3.format(".0%");
+    const formatter = this.getTimeFormat;//d3.format(".0%");
 
     // Create Y-axis band scale
-    let y = d3
+    const y = d3
       .scaleLinear()
       .domain([0, yAxisValueheight])
       .range([yAxisHeight,0]);//[yAxisHeight,0]
@@ -614,11 +613,11 @@ export class ListeningTimeComponent extends SequenceComponentInit {
     //find the custom contextmenu  
     const contextMenu = d3.select("#contextmenu");
 
-    let hoveringBarName: string = "";
-    let currentGranularity: GranularityEnum = this.selectedGranularity;
+    let hoveringBarName = "";
+    const currentGranularity: GranularityEnum = this.selectedGranularity;
 
 
-    let calcBarHeight = (d: any) => yAxisHeight - y(d.value)
+    const calcBarHeight = (d: any) => yAxisHeight - y(d.value)
 
     // Create and fill the bars
     svg
@@ -627,7 +626,7 @@ export class ListeningTimeComponent extends SequenceComponentInit {
       .enter()
       .append("rect")
       .attr("x", (d: any) => x(d.name))
-      .attr("y", (d: any) => yAxisHeight)
+      .attr("y", () => yAxisHeight)
       //.attr("y", (d: any) => height - y(d.value) * height / 100)
       .attr("width", x.bandwidth())
       .attr("height", 0)//calcBarHeight)
@@ -707,7 +706,7 @@ export class ListeningTimeComponent extends SequenceComponentInit {
     * @author: Simon (scg@mail.upb.de)
     */
   onBarClicked(clickedBarDateString: string) {
-    let smallerGranulartiy: GranularityEnum | null = getSmallerGranularity(this.selectedGranularity);
+    const smallerGranulartiy: GranularityEnum | null = getSmallerGranularity(this.selectedGranularity);
 
     if (smallerGranulartiy != null) {
       this.selectedGranularity = smallerGranulartiy;
@@ -720,8 +719,8 @@ export class ListeningTimeComponent extends SequenceComponentInit {
          this is done to make sure that, when the user navigates back from the songtimeline to the listeningtime, 
          the listening time's filter history is still available
       */
-      let listeningTimePage = document.getElementById('listeningtime-page');
-      let songtimelinePage = document.getElementById('songtimeline-page');
+      const listeningTimePage = document.getElementById('listeningtime-page');
+      const songtimelinePage = document.getElementById('songtimeline-page');
 
       if(songtimelinePage && listeningTimePage) {
         listeningTimePage.style.display='none';
@@ -746,8 +745,8 @@ export class ListeningTimeComponent extends SequenceComponentInit {
          this is done to make sure that, when the user navigates back to the listeningtime, 
          the listening time's filter history is still available
       */
-    let listeningTimePage = document.getElementById('listeningtime-page');
-    let topsongsPage = document.getElementById('topsongs-page');
+    const listeningTimePage = document.getElementById('listeningtime-page');
+    const topsongsPage = document.getElementById('topsongs-page');
 
     if(topsongsPage && listeningTimePage) {
       listeningTimePage.style.display='none';
@@ -774,8 +773,8 @@ export class ListeningTimeComponent extends SequenceComponentInit {
          this is done to make sure that, when the user navigates back to the listeningtime, 
          the listening time's filter history is still available
       */
-    let listeningTimePage = document.getElementById('listeningtime-page');
-    let topArtistsPage = document.getElementById('topartists-page');
+    const listeningTimePage = document.getElementById('listeningtime-page');
+    const topArtistsPage = document.getElementById('topartists-page');
 
     if(topArtistsPage && listeningTimePage) {
       listeningTimePage.style.display='none';
@@ -802,14 +801,15 @@ export class ListeningTimeComponent extends SequenceComponentInit {
   getStartDateFromLabel(dateLabel: string): string {
 
     switch(this.selectedGranularity) {
-      case GranularityEnum.Hour:
-        let date: Date|null= this.filterSingleDate;
+      case GranularityEnum.Hour: {
+        const date: Date|null= this.filterSingleDate;
         if(date) {
           return date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + dateLabel;
         }
         else {
           return "";
         }
+      }
       case GranularityEnum.Day:
         return dateLabel;
       case GranularityEnum.Month:
@@ -837,7 +837,7 @@ export class ListeningTimeComponent extends SequenceComponentInit {
         date = this.filterSingleDate;
         if(date) {
           //change dateLabel to be the next hour
-          let dateParts = dateLabel.split(":");
+          const dateParts = dateLabel.split(":");
           if(dateParts[0]) {
             return date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + (parseInt(dateParts[0]) + 1) + ':' + dateParts[1];
           }
@@ -874,8 +874,8 @@ export class ListeningTimeComponent extends SequenceComponentInit {
     */
   calculateFilters(newGranularity: GranularityEnum, selectedBarDateString: string) {
 
-    let dateParts = selectedBarDateString.split("-").map(Number);
-    let selectedBarDate: Date = new Date(dateParts.length > 0 ? dateParts[0] : 0,
+    const dateParts = selectedBarDateString.split("-").map(Number);
+    const selectedBarDate: Date = new Date(dateParts.length > 0 ? dateParts[0] : 0,
       dateParts.length > 1 ? dateParts[1] - 1 : 0,
       dateParts.length > 2 ? dateParts[2] : 1);
 

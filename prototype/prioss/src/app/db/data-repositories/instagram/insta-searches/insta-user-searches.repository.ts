@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { SQLiteDBConnection, capSQLiteChanges } from "@capacitor-community/sqlite";
+import { SQLiteDBConnection} from "@capacitor-community/sqlite";
 import { DBService } from "../../../../services/db/db.service";
 import { BulkAddCapableRepository } from "../../general/inferences/bulk-add-capable.repository";
 import * as sql from "./insta-user-searches.sql";
@@ -28,7 +28,7 @@ export class InstaUserSearchesRepository extends BulkAddCapableRepository {
      * 
      * @author: Paul (pasch@mail.upb.de)
      */
-    async startUserSearchBulkAdd(search: string, timestamp: string, totalRowCount: number, targetBulkSize: number = 500) {
+    async startUserSearchBulkAdd(search: string, timestamp: string, totalRowCount: number, targetBulkSize = 500) {
         this.startBulkAdd([search, timestamp], totalRowCount, targetBulkSize);
     }
 
@@ -55,7 +55,7 @@ export class InstaUserSearchesRepository extends BulkAddCapableRepository {
     {
         return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
 
-            let result = await db.query(sql.selectAllFromInstaUserSearches);
+            const result = await db.query(sql.selectAllFromInstaUserSearches);
             return result.values as InstaUserSearch[];
         });
     }

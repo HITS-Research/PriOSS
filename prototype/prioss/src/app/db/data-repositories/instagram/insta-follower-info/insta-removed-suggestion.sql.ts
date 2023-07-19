@@ -1,33 +1,33 @@
-export const insertIntoInstaRemovedSuggestionInfoSQL: string = `
+export const insertIntoInstaRemovedSuggestionInfoSQL = `
   insert into insta_removed_suggestion_info
   (instaProfileURL, instaAccountName, timestamp)
   values 
   (?, ?, ?);
 `;
 
-export const selectRemovedSuggestionInfo: string = `
+export const selectRemovedSuggestionInfo = `
 select instaProfileURL,
        instaAccountName,
        timestamp 
     from insta_removed_suggestion_info;
 `;
 
-export const insertRemovedSuggestionSQL: string = `
+export const insertRemovedSuggestionSQL = `
 insert into insta_removed_suggestion_info
 (instaProfileURL, instaAccountName, timestamp)
 values 
 (?, ?, ?);
 `;
 
-export const bulkAddInstaRemovedSuggestionBaseSQL: string = `
+export const bulkAddInstaRemovedSuggestionBaseSQL = `
 insert into insta_removed_suggestion_info
 (instaProfileURL, instaAccountName, timestamp)
 `;
 
-export const bulkAddRemovedSuggestionValuesSQL: string = `
+export const bulkAddRemovedSuggestionValuesSQL = `
 select ?, ?, ?
 `;
 
-export const bulkAddValueConnector: string = `
+export const bulkAddValueConnector = `
 union all
 `;

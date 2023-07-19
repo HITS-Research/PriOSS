@@ -8,26 +8,26 @@
 *
 */
 
-export const insertIntoFaceFriendsSQL: string = `
+export const insertIntoFaceFriendsSQL = `
 insert into face_friends
 (name, timestamp, type)
 values 
 (?, ?, ?);
 `;
 
-export const bulkAddFaceFriendsBaseSQL: string = `
+export const bulkAddFaceFriendsBaseSQL = `
 insert into face_friends
 (name, timestamp, type)
 `;
 
-export const bulkAddFaceFriendsValuesSQL: string = `
+export const bulkAddFaceFriendsValuesSQL = `
 select ?, ?, ?
 `;
 
-export const bulkAddValueConnector: string = `
+export const bulkAddValueConnector = `
 union all
 `;
 
-export const selectAllFacebookFriends: string = `
+export const selectAllFacebookFriends = `
 select id, name, timestamp, type from face_friends
 `

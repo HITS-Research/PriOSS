@@ -28,7 +28,7 @@ export class FaceBookMessagesInfoRepository extends BulkAddCapableRepository {
      * 
      * @author: Rishma (rishmamn@mail.upb.de)
      */
-       async startMessagesBulkAdd(name: string, timestamp: string, totalRowCount: number, targetBulkSize: number = 500) {
+       async startMessagesBulkAdd(name: string, timestamp: string, totalRowCount: number, targetBulkSize = 500) {
         this.startBulkAdd([name,  timestamp], totalRowCount, targetBulkSize);
     }
 
@@ -53,7 +53,7 @@ export class FaceBookMessagesInfoRepository extends BulkAddCapableRepository {
        async getAllFaceMessagesInfo() : Promise<[MessagesModel]> {
         return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
     
-          let result = await db.query(sql.selectAllFaceMessagesInfoData);
+          const result = await db.query(sql.selectAllFaceMessagesInfoData);
           return result.values as MessagesModel[];
         });
       }

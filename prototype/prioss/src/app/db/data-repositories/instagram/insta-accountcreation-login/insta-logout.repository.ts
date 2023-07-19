@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { SQLiteDBConnection, capSQLiteChanges } from "@capacitor-community/sqlite";
+import { SQLiteDBConnection} from "@capacitor-community/sqlite";
 import { DBService } from "../../../../services/db/db.service";
 import * as sql from "./insta-accountcreation-login.sql";
 import { InstaLogoutInfo } from "src/app/models/Instagram/InstaAccountCreationAndLoginInfo/InstaLogoutInfo"; 
@@ -29,10 +29,10 @@ export class InstaLogoutRepository extends BulkAddCapableRepository{
      */
     async addLogoutInformation(ip_address: string, timestamp: number, user_agent: string) {
         await this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
-            let sqlStatement = sql.insertIntoInstaLogoutSQL;
-            let device = devicetypeUtils.getDeviceNameBasedOnUserAgent(user_agent);
-            let values = [ip_address, timestamp, user_agent, "Logout", "red", device];
-            let ret: capSQLiteChanges = await db.run(sqlStatement, values);
+            const sqlStatement = sql.insertIntoInstaLogoutSQL;
+            const device = devicetypeUtils.getDeviceNameBasedOnUserAgent(user_agent);
+            const values = [ip_address, timestamp, user_agent, "Logout", "red", device];
+            await db.run(sqlStatement, values);
           });
     }
 
@@ -45,8 +45,8 @@ export class InstaLogoutRepository extends BulkAddCapableRepository{
      * 
      * @author: Mayank (mayank@mail.upb.de)
      */
-    async startLogoutBulkAdd(ip_address: string, timestamp: number, user_agent: string, totalRowCount: number, targetBulkSize: number = 500) {
-        let device = devicetypeUtils.getDeviceNameBasedOnUserAgent(user_agent);
+    async startLogoutBulkAdd(ip_address: string, timestamp: number, user_agent: string, totalRowCount: number, targetBulkSize = 500) {
+        const device = devicetypeUtils.getDeviceNameBasedOnUserAgent(user_agent);
         this.startBulkAdd([ip_address, timestamp, user_agent, "Logout", "red", device], totalRowCount, targetBulkSize);
     }
 
@@ -60,7 +60,7 @@ export class InstaLogoutRepository extends BulkAddCapableRepository{
      * @author: Mayank (mayank@mail.upb.de)
      */
     async addLogoutBulkEntry(ip_address: string, timestamp: number, user_agent: string) : Promise<void> {
-        let device = devicetypeUtils.getDeviceNameBasedOnUserAgent(user_agent);
+        const device = devicetypeUtils.getDeviceNameBasedOnUserAgent(user_agent);
         return this.addBulkEntry([ip_address, timestamp, user_agent, "Logout", "red", device]);
     }
 
@@ -75,7 +75,7 @@ export class InstaLogoutRepository extends BulkAddCapableRepository{
     {
         return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
 
-            let result = await db.query(sql.selectLogoutSQL);
+            const result = await db.query(sql.selectLogoutSQL);
             return result.values as InstaLogoutInfo[];
         });
     }

@@ -1,6 +1,6 @@
 //import { capSQLiteSet } from '@capacitor-community/sqlite';
 
-export const createSchema: string = `
+export const createSchema = `
 CREATE TABLE IF NOT EXISTS spot_history (
     id INTEGER PRIMARY KEY,
     endTime TEXT NOT NULL,
@@ -337,7 +337,7 @@ CREATE TABLE IF NOT EXISTS face_events (
  * 
  */
 
-export const dropSchema: string =`
+export const dropSchema =`
 DROP TABLE IF EXISTS spot_history;
 DROP TABLE IF EXISTS insta_personal_info;
 DROP TABLE IF EXISTS insta_account_info;

@@ -27,7 +27,7 @@ export abstract class BaseDashboard {
   notifyInitializationComplete(initID: number): void {
     
     console.log("--- Initialization Complete for component " + initID);
-    let nextInitID = initID + 1;
+    const nextInitID = initID + 1;
 
     if(nextInitID < this.componentInitializationList.length) {
       this.componentInitializationList[nextInitID].initBaseComponent(this, nextInitID);

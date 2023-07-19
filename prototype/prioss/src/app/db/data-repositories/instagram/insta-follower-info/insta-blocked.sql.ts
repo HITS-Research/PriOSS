@@ -1,33 +1,33 @@
-export const insertIntoInstaBlockedInfoSQL: string = `
+export const insertIntoInstaBlockedInfoSQL = `
   insert into insta_blocked_info
   (instaAccountName, instaProfileURL, timestamp)
   values 
   (?, ?, ?);
 `;
 
-export const selectInstaBlockedInfo: string = `
+export const selectInstaBlockedInfo = `
   select instaAccountName,
   instaProfileURL,
   timestamp        
     from insta_blocked_info;
 `;
 
-export const insertIntoInstaBlockedSQL: string = `
+export const insertIntoInstaBlockedSQL = `
 insert into insta_blocked_info
 (instaAccountName, instaProfileURL, timestamp)
 values 
 (?, ?, ?);
 `;
 
-export const bulkAddInstaBlockedBaseSQL: string = `
+export const bulkAddInstaBlockedBaseSQL = `
 insert into insta_blocked_info
 (instaAccountName, instaProfileURL, timestamp)
 `;
 
-export const bulkAddInstaBlockedValuesSQL: string = `
+export const bulkAddInstaBlockedValuesSQL = `
 select ?, ?, ?
 `;
 
-export const bulkAddValueConnector: string = `
+export const bulkAddValueConnector = `
 union all
 `;

@@ -30,7 +30,7 @@ export class FacebookAppsWebsitesRepository extends BulkAddCapableRepository {
      *
      * @author: Deepa (dbelvi@mail.upb.de)
      */
-    async startAdActivityBulkAdd(name: string, added_timestamp: number, user_app_scoped_id: number, category: string, removed_timestamp: number, totalRowCount: number, targetBulkSize: number = 500) {
+    async startAdActivityBulkAdd(name: string, added_timestamp: number, user_app_scoped_id: number, category: string, removed_timestamp: number, totalRowCount: number, targetBulkSize = 500) {
         this.startBulkAdd([name, added_timestamp, user_app_scoped_id, category, removed_timestamp], totalRowCount, targetBulkSize);
     }
 
@@ -52,7 +52,7 @@ export class FacebookAppsWebsitesRepository extends BulkAddCapableRepository {
      async getAllFaceAppsAndWebsites() : Promise<AppsAndWebsitesModel[]> {
         return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
     
-          let result = await db.query(sql.selectAllFaceAppsAndWebsites);
+          const result = await db.query(sql.selectAllFaceAppsAndWebsites);
           return result.values as AppsAndWebsitesModel[];
         });
       }

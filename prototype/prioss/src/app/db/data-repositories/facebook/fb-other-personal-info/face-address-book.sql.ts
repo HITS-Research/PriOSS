@@ -8,26 +8,26 @@
 * @author: Rishma (rishmamn@mail.upb.de)
 */
 
-export const insertIntoFaceAddressBookSQL: string = `
+export const insertIntoFaceAddressBookSQL = `
 insert into face_address_book
 (name, contact_point, created_timestamp)
 values 
 (?, ?, ?);
 `;
 
-export const bulkAddFaceAddressBookBaseSQL: string = `
+export const bulkAddFaceAddressBookBaseSQL = `
 insert into face_address_book
 (name, contact_point, created_timestamp)
 `;
 
-export const bulkAddFaceAddressBookValuesSQL: string = `
+export const bulkAddFaceAddressBookValuesSQL = `
 select ?, ?, ?
 `;
 
-export const bulkAddValueConnector: string = `
+export const bulkAddValueConnector = `
 union all
 `;
-export const selectAllAddressBookData: string = `
+export const selectAllAddressBookData = `
  select id,
         name,
         contact_point,

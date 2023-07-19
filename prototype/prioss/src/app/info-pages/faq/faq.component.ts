@@ -8,7 +8,7 @@ import { Component, Input } from '@angular/core';
 export class FaqComponent {
 
   @Input()
-  serviceName: string = "";
+  serviceName = "";
 
   // General FAQs for all services
   faqs = [

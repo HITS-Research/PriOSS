@@ -1,51 +1,51 @@
 
 // INSERT Queries
 
-export const insertIntoInstaLikedCommentsSQL: string = `
+export const insertIntoInstaLikedCommentsSQL = `
     insert into insta_liked_comments 
     (user, href_link, timestamp) 
     values (?, ?, ?);
 `;
 
-export const bulkAddInstaLikedCommentsBaseSQL: string = `
+export const bulkAddInstaLikedCommentsBaseSQL = `
     insert into insta_liked_comments 
     (user, href_link, timestamp)
 `;
 
-export const bulkAddInstaLikedCommentsValuesSQL: string = `
+export const bulkAddInstaLikedCommentsValuesSQL = `
     select ?, ?, ?
 `;
 
-export const bulkAddValueConnectorForLikedComments: string = `
+export const bulkAddValueConnectorForLikedComments = `
     union all
 `;
 
-export const insertIntoInstaLikedPostsSQL: string = `
+export const insertIntoInstaLikedPostsSQL = `
     insert into insta_liked_posts 
     (user, href_link, timestamp) 
     values (?, ?, ?);
 `;
 
-export const bulkAddInstaLikedPostsBaseSQL: string = `
+export const bulkAddInstaLikedPostsBaseSQL = `
     insert into insta_liked_posts 
     (user, href_link, timestamp)
 `;
 
-export const bulkAddInstaLikedPostsValuesSQL: string = `
+export const bulkAddInstaLikedPostsValuesSQL = `
     select ?, ?, ?
 `;
 
-export const bulkAddValueConnectorForLikedPosts: string = `
+export const bulkAddValueConnectorForLikedPosts = `
     union all
 `;
 
 // SELECT Queries
 
-export const selectLikedCommentsSQL: string = `
+export const selectLikedCommentsSQL = `
     select user, href_link, timestamp from insta_liked_comments;
 `;
 
-export const selectLikedCommentsWithCountSQL: string = `
+export const selectLikedCommentsWithCountSQL = `
  select user, count(user) as counts
  from insta_liked_comments
  group by user
@@ -53,17 +53,17 @@ export const selectLikedCommentsWithCountSQL: string = `
  order by count(user) desc  LIMIT 10;
 `;
 
-export const getFirstDateForLikedCommentsSQL: string = `
+export const getFirstDateForLikedCommentsSQL = `
  select strftime('%Y-%m-%d', datetime(MIN(timestamp), 'unixepoch')) AS min_date
  from insta_liked_comments;
 `;
 
-export const getLastDateForLikedCommentsSQL: string = `
+export const getLastDateForLikedCommentsSQL = `
  select strftime('%Y-%m-%d', datetime(MAX(timestamp), 'unixepoch')) AS max_date
  from insta_liked_comments;
 `;
 
-export const filterLikedCommentBasedOnStartAndEndDateSQL: string = `
+export const filterLikedCommentBasedOnStartAndEndDateSQL = `
  select user, count(user) as counts
  from insta_liked_comments
  where (? <= strftime('%Y-%m-%d', datetime(timestamp, 'unixepoch')) and strftime('%Y-%m-%d', datetime(timestamp, 'unixepoch')) <= ?)
@@ -72,7 +72,7 @@ export const filterLikedCommentBasedOnStartAndEndDateSQL: string = `
  order by count(user) desc  LIMIT 10;
 `;
 
-export const filterLikedCommentBasedOnUserAndStartAndEndDateSQL: string = `
+export const filterLikedCommentBasedOnUserAndStartAndEndDateSQL = `
  select user, count(user) as counts
  from insta_liked_comments
  where (? <= strftime('%Y-%m-%d', datetime(timestamp, 'unixepoch')) and strftime('%Y-%m-%d', datetime(timestamp, 'unixepoch')) <= ?) AND user == ?
@@ -81,11 +81,11 @@ export const filterLikedCommentBasedOnUserAndStartAndEndDateSQL: string = `
  order by count(user) desc  LIMIT 10;
 `;
 
-export const selectLikedPostsSQL: string = `
+export const selectLikedPostsSQL = `
     select user, href_link, timestamp from insta_liked_posts;
 `;
 
-export const selectLikedPostsWithCountSQL: string = `
+export const selectLikedPostsWithCountSQL = `
  select user, count(user) as counts
  from insta_liked_posts
  group by user
@@ -93,17 +93,17 @@ export const selectLikedPostsWithCountSQL: string = `
  order by count(user) desc LIMIT 10;
 `;
 
-export const getFirstDateForLikedPostsSQL: string = `
+export const getFirstDateForLikedPostsSQL = `
  select strftime('%Y-%m-%d', datetime(MIN(timestamp), 'unixepoch')) AS min_date
  from insta_liked_posts;
 `;
 
-export const getLastDateForLikedPostsSQL: string = `
+export const getLastDateForLikedPostsSQL = `
  select strftime('%Y-%m-%d', datetime(MAX(timestamp), 'unixepoch')) AS max_date
  from insta_liked_posts;
 `;
 
-export const filterLikedPostsBasedOnStartAndEndDateSQL: string = `
+export const filterLikedPostsBasedOnStartAndEndDateSQL = `
  select user, count(user) as counts
  from insta_liked_posts
  where (? <= strftime('%Y-%m-%d', datetime(timestamp, 'unixepoch')) and strftime('%Y-%m-%d', datetime(timestamp, 'unixepoch')) <= ?)
@@ -112,7 +112,7 @@ export const filterLikedPostsBasedOnStartAndEndDateSQL: string = `
  order by count(user) desc  LIMIT 10;
 `;
 
-export const filterLikedPostsBasedOnUserAndStartAndEndDateSQL: string = `
+export const filterLikedPostsBasedOnUserAndStartAndEndDateSQL = `
  select user, count(user) as counts
  from insta_liked_posts
  where (? <= strftime('%Y-%m-%d', datetime(timestamp, 'unixepoch')) and strftime('%Y-%m-%d', datetime(timestamp, 'unixepoch')) <= ?) AND user == ?

@@ -1,61 +1,61 @@
 
 // INSERT Queries
 
-export const insertIntoInstaSignUpSQL: string = `
+export const insertIntoInstaSignUpSQL = `
     insert into insta_signup_information 
     (username, ip_address, timestamp, email, phone_number, device, color) 
     values (?, ?, ?, ?, ?, ?, ?);
 `;
 
-export const insertIntoInstaLoginSQL: string = `
+export const insertIntoInstaLoginSQL = `
     insert into insta_login_information 
     (ip_address, timestamp, user_agent, type, color, device) 
     values (?, ?, ?, ?, ?, ?);
 `;
 
-export const bulkAddInstaLoginBaseSQL: string = `
+export const bulkAddInstaLoginBaseSQL = `
     insert into insta_login_information 
     (ip_address, timestamp, user_agent, type, color, device)
 `;
 
-export const bulkAddInstaLoginValuesSQL: string = `
+export const bulkAddInstaLoginValuesSQL = `
     select ?, ?, ?, ?, ?, ?
 `;
 
-export const bulkAddValueConnectorForLogin: string = `
+export const bulkAddValueConnectorForLogin = `
     union all
 `;
 
 
-export const insertIntoInstaLogoutSQL: string = `
+export const insertIntoInstaLogoutSQL = `
     insert into insta_logout_information 
     (ip_address, timestamp, user_agent, type, color, device)
     values (?, ?, ?, ?, ?, ?);
 `;
 
-export const bulkAddInstaLogoutBaseSQL: string = `
+export const bulkAddInstaLogoutBaseSQL = `
     insert into insta_logout_information 
     (ip_address, timestamp, user_agent, type, color, device)
 `;
 
-export const bulkAddInstaLogoutValuesSQL: string = `
+export const bulkAddInstaLogoutValuesSQL = `
     select ?, ?, ?, ?, ?, ?
 `;
 
-export const bulkAddValueConnectorForLogout: string = `
+export const bulkAddValueConnectorForLogout = `
     union all
 `;
 
 // SELECT Queries
 
-export const selectSignUpSQL: string = `
+export const selectSignUpSQL = `
     select username, ip_address, timestamp, email, phone_number, device, color from insta_signup_information;
 `;
 
-export const selectLoginSQL: string = `
+export const selectLoginSQL = `
     select ip_address, timestamp, user_agent, type, color, device from insta_login_information;
 `;
 
-export const selectLogoutSQL: string = `
+export const selectLogoutSQL = `
     select ip_address, timestamp, user_agent, type, color, device from insta_logout_information;
 `;

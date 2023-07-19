@@ -1,4 +1,5 @@
-import { Component, Input } from '@angular/core';
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+import { Component, Input, OnInit } from '@angular/core';
 import * as d3 from 'd3';
 import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { FacebookFriendsRepository } from 'src/app/db/data-repositories/facebook/fb-friends-data/face_friends.repo';
@@ -13,7 +14,7 @@ export class chartData{
   templateUrl: './friend-and-followers.component.html',
   styleUrls: ['./friend-and-followers.component.less']
 })
-export class FriendAndFollowersComponent {
+export class FriendAndFollowersComponent implements OnInit{
   friends: FacebookFriendsModel[] = [];
   removedFriends: FacebookFriendsModel[] = [];
   friendRequestReceived: FacebookFriendsModel[] = [];
@@ -22,7 +23,7 @@ export class FriendAndFollowersComponent {
   whoYouFollow: FacebookFriendsModel[] = [];
 
   @Input()
-  previewMode: boolean = false;
+  previewMode = false;
 
   constructor(private dbService: NgxIndexedDBService,private faceFriendsRepo: FacebookFriendsRepository){}
 
@@ -71,9 +72,8 @@ export class FriendAndFollowersComponent {
 
   createData(friends: any[], id: string, color: string)
   {
-    var data:any[] = [];
-    var years: number[] = [];
-    var dataCount: number[] = [];
+    const data:any[] = [];
+    const years: number[] = [];
     friends.forEach(x =>
       {
         const year = new Date(x.timestamp*1000).getFullYear();
@@ -84,7 +84,7 @@ export class FriendAndFollowersComponent {
       years.sort();
     years.forEach(year => {
       const friendsCount = friends.filter(a => new Date(a.timestamp*1000).getFullYear() === year);
-      var abc = {year: year, count: friendsCount.length};
+      const abc = {year: year, count: friendsCount.length};
       data.push(abc);
     });
     this.drawChart(data, id, color)
@@ -160,7 +160,7 @@ export class FriendAndFollowersComponent {
             .style("left", (event.pageX + 10) + "px");
         })
         // Hide tooltip on mouse out
-        .on("mouseout", function(event, d) {
+        .on("mouseout", function() {
           tooltip.style("opacity", 0);
         });
   

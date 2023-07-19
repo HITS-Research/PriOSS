@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { AfterViewInit, Component, Input } from '@angular/core';
 import * as utilities from 'src/app/utilities/generalUtilities.functions'
 import { InstaPersonalRepository } from 'src/app/db/data-repositories/instagram/insta-personal-info/insta-personal.repository';
 import { InstaPersonalInfo } from 'src/app/models/Instagram/PersonalInfo/InstaPersonalInfo';
@@ -21,9 +21,9 @@ import { SequenceComponentInit } from '../../sequence-component-init.abstract';
   styleUrls: ['./personal-info.component.less']
 })
 
-export class Insta_PersonalInfoComponent extends SequenceComponentInit{
+export class Insta_PersonalInfoComponent extends SequenceComponentInit implements AfterViewInit{
   @Input()
-  previewMode: boolean = false;
+  previewMode = false;
 
   personalInfo: InstaPersonalInfo;
   accountInfo: InstaAccountInfo;

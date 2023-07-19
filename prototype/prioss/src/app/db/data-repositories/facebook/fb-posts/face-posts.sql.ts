@@ -7,27 +7,27 @@
 * @author: Rashida (rbharmal@mail.upb.de)
 */
 
-export const insertIntoFacePostsSQL: string = `
+export const insertIntoFacePostsSQL = `
 insert into face_posts
 (timestamp,title)
 values 
 (?, ?);
 `;
 
-export const bulkAddFacePostsBaseSQL: string = `
+export const bulkAddFacePostsBaseSQL = `
 insert into face_posts
 (timestamp,title)
 `;
 
-export const bulkAddFacePostsValuesSQL: string = `
+export const bulkAddFacePostsValuesSQL = `
 select ?, ?
 `;
 
-export const bulkAddValueConnector: string = `
+export const bulkAddValueConnector = `
 union all
 `;
 
-export const selectAllPostsData: string = `
+export const selectAllPostsData = `
  select id,
         timestamp,
         title
