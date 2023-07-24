@@ -31,7 +31,7 @@ export class FacebookOffFacebookActivityRepository extends BulkAddCapableReposit
      *
      * @author: Deepa (dbelvi@mail.upb.de)
      */
-    async startAdActivityBulkAdd(name: string, events: string, type: string, totalRowCount: number, targetBulkSize: number = 500) {
+    async startAdActivityBulkAdd(name: string, events: string, type: string, totalRowCount: number, targetBulkSize = 500) {
         this.startBulkAdd([name, events, type], totalRowCount, targetBulkSize);
     }
 
@@ -52,7 +52,7 @@ export class FacebookOffFacebookActivityRepository extends BulkAddCapableReposit
      async getAllOffFacebookActivity() : Promise<OffFacebookActivityModel[]> {
         return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
     
-          let result = await db.query(sql.selectAllFaceOffFacebookActivity);
+          const result = await db.query(sql.selectAllFaceOffFacebookActivity);
           return result.values as OffFacebookActivityModel[];
         });
       }

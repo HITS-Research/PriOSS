@@ -14,19 +14,19 @@
 
             <div class="t-inline-spacer-small"></div>
 
-            <div *ngIf="selectedGranularity == GranularityEnum.Year">
+            <div *ngIf="selectedGranularity === GranularityEnum.Year">
                 From: <nz-date-picker nzMode="year" [(ngModel)]="filterFromDate" (ngModelChange)="onDateFilterChanged()"></nz-date-picker>
                 To: <nz-date-picker nzMode="year" [(ngModel)]="filterToDate" (ngModelChange)="onDateFilterChanged()"></nz-date-picker>
             </div>
-            <div *ngIf="selectedGranularity == GranularityEnum.Month">
+            <div *ngIf="selectedGranularity === GranularityEnum.Month">
                 From: <nz-date-picker nzMode="month" [(ngModel)]="filterFromDate" (ngModelChange)="onDateFilterChanged()"></nz-date-picker>
                 To: <nz-date-picker nzMode="month" [(ngModel)]="filterToDate" (ngModelChange)="onDateFilterChanged()"></nz-date-picker>
             </div>
-            <div *ngIf="selectedGranularity == GranularityEnum.Day">
+            <div *ngIf="selectedGranularity === GranularityEnum.Day">
                 From: <nz-date-picker [(ngModel)]="filterFromDate" (ngModelChange)="onDateFilterChanged()"></nz-date-picker>
                 To: <nz-date-picker  [(ngModel)]="filterToDate" (ngModelChange)="onDateFilterChanged()"></nz-date-picker>
             </div>
-            <div *ngIf="selectedGranularity == GranularityEnum.Hour">
+            <div *ngIf="selectedGranularity === GranularityEnum.Hour">
                 On: <nz-date-picker  [(ngModel)]="filterSingleDate" (ngModelChange)="onDateFilterChanged()"></nz-date-picker>
             </div>
 

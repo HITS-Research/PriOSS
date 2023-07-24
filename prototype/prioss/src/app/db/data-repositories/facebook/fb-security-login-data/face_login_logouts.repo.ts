@@ -30,7 +30,7 @@ export class FacebookLoginLogoutsRepository extends BulkAddCapableRepository {
      * @author: Deepa (dbelvi@mail.upb.de)
     */
 
-    async startAdActivityBulkAdd(action: string, timestamp: string, totalRowCount: number, targetBulkSize: number = 500) {
+    async startAdActivityBulkAdd(action: string, timestamp: string, totalRowCount: number, targetBulkSize = 500) {
         this.startBulkAdd([action, timestamp], totalRowCount, targetBulkSize);
     }
 
@@ -53,7 +53,7 @@ export class FacebookLoginLogoutsRepository extends BulkAddCapableRepository {
 
     async getAllLoginLogouts() : Promise<LoginLogoutsModel[]> {
         return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
-          let result = await db.query(sql.selectAllLoginLogouts);
+          const result = await db.query(sql.selectAllLoginLogouts);
           return result.values as LoginLogoutsModel[];
         });
     }

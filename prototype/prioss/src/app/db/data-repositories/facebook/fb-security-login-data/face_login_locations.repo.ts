@@ -31,7 +31,7 @@ export class FacebookLoginLocationsRepository extends BulkAddCapableRepository {
      * @author: Deepa (dbelvi@mail.upb.de)
     */
 
-    async startAdActivityBulkAdd(location: string, device: string, timestamp: string, totalRowCount: number, targetBulkSize: number = 500) {
+    async startAdActivityBulkAdd(location: string, device: string, timestamp: string, totalRowCount: number, targetBulkSize = 500) {
         this.startBulkAdd([location, device, timestamp], totalRowCount, targetBulkSize);
     }
 
@@ -55,7 +55,7 @@ export class FacebookLoginLocationsRepository extends BulkAddCapableRepository {
     async getAllLoginLocations() : Promise<LoginLocationsModel[]> {
         return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
     
-          let result = await db.query(sql.selectAllLoginLocations);
+          const result = await db.query(sql.selectAllLoginLocations);
           return result.values as LoginLocationsModel[];
         });
     }

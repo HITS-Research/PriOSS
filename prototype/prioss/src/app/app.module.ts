@@ -1,4 +1,4 @@
-import { CUSTOM_ELEMENTS_SCHEMA, NgModule, isDevMode } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 
@@ -54,7 +54,6 @@ import { TopSongsComponent } from './visualizations/spotify/top-songs/top-songs.
 import { SettingsFormComponent } from './visualizations/all/privacy-settings-judge/settings-form/settings-form.component';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { HelpButtonComponent } from './help-button/help-button/help-button.component';
-import { IntrojsService } from './introjs/introjs.service';
 import { OffFacebookActivityComponent } from './rectification/facebook/off-facebook-activity/off-facebook-activity.component';
 import { InstaSearchesComponent } from './visualizations/instagram/insta-searches/insta-searches.component';
 

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 import { scrollToTop } from 'src/app/utilities/generalUtilities.functions';
 
 /**
@@ -12,7 +12,7 @@ import { scrollToTop } from 'src/app/utilities/generalUtilities.functions';
   templateUrl: './insta-hide-stories.component.html',
   styleUrls: ['./insta-hide-stories.component.less']
 })
-export class InstaHideStoriesComponent {
+export class InstaHideStoriesComponent implements AfterViewInit{
   async ngAfterViewInit(){
     scrollToTop();
   }

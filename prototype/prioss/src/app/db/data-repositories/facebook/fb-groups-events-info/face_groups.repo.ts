@@ -30,7 +30,7 @@ export class FacebookGroupsRepository extends BulkAddCapableRepository {
      * @author: Deepa (dbelvi@mail.upb.de)
     */
 
-    async startAdActivityBulkAdd(name: string, timestamp: string, totalRowCount: number, targetBulkSize: number = 500) {
+    async startAdActivityBulkAdd(name: string, timestamp: string, totalRowCount: number, targetBulkSize = 500) {
         this.startBulkAdd([name, timestamp], totalRowCount, targetBulkSize);
     }
 
@@ -53,7 +53,7 @@ export class FacebookGroupsRepository extends BulkAddCapableRepository {
 
     async getAllGroups() : Promise<GroupsModel[]> {
         return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
-          let result = await db.query(sql.selectAllGroups);
+          const result = await db.query(sql.selectAllGroups);
           return result.values as GroupsModel[];
         });
     }

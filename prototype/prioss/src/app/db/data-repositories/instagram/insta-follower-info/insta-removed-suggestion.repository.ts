@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { SQLiteDBConnection, capSQLiteChanges } from "@capacitor-community/sqlite";
+import { SQLiteDBConnection} from "@capacitor-community/sqlite";
 import { DBService } from "../../../../services/db/db.service";
 import * as sql from "./insta-removed-suggestion.sql";
 import { InstaRemovedSuggestionInfo } from "src/app/models/Instagram/FollowerInfo/RemovedSuggestion";
@@ -27,7 +27,7 @@ export class InstaRemovedSuggestionRepository extends BulkAddCapableRepository {
      * 
      * @author: Melina (kleber@mail.uni-paderborn.de)
      */
-    async startRemovedSuggestionBulkAdd(instaProfileURL: string, instaAccountName: string, timestamp: number, totalRowCount: number, targetBulkSize: number = 500) {
+    async startRemovedSuggestionBulkAdd(instaProfileURL: string, instaAccountName: string, timestamp: number, totalRowCount: number, targetBulkSize = 500) {
         this.startBulkAdd([instaProfileURL, instaAccountName, timestamp], totalRowCount, targetBulkSize);
     }
 
@@ -59,10 +59,10 @@ export class InstaRemovedSuggestionRepository extends BulkAddCapableRepository {
     async addRemovedSuggestionInformation(instaProfileURL: string, instaAccountName: string, timestamp: number) {
         await this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
 
-            let sqlStatement = sql.insertRemovedSuggestionSQL;
-            let values = [instaProfileURL, instaAccountName, timestamp];
+            const sqlStatement = sql.insertRemovedSuggestionSQL;
+            const values = [instaProfileURL, instaAccountName, timestamp];
       
-            let ret: capSQLiteChanges = await db.run(sqlStatement, values);
+            await db.run(sqlStatement, values);
           });
     }
 
@@ -77,7 +77,7 @@ export class InstaRemovedSuggestionRepository extends BulkAddCapableRepository {
     {
         return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
 
-            let result = await db.query(sql.selectRemovedSuggestionInfo);
+            const result = await db.query(sql.selectRemovedSuggestionInfo);
             return result.values as InstaRemovedSuggestionInfo[];
         });
     }

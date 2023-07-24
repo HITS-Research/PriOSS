@@ -16,7 +16,7 @@ import { OffFacebookActivityModel } from 'src/app/models/Facebook/offfacebookact
   export class AdsRelatedDataComponent implements OnInit {
     
     @Input()
-    previewMode: boolean = false;
+    previewMode = false;
     appNames: string[] = [];
     adNames: string[] = [];
     appsByCategory: { inactive: any[], active: any[], removed: any[] } = { inactive: [], active: [], removed: [] };
@@ -28,14 +28,14 @@ import { OffFacebookActivityModel } from 'src/app/models/Facebook/offfacebookact
     inActiveWebsite = 0;
     removedWebsite = 0;
     defaultTabIndex = 0;
-    pageViewViewContentCount: number = 0;
-    initiateCheckoutCount: number = 0;
+    pageViewViewContentCount = 0;
+    initiateCheckoutCount = 0;
     totalWebsites = 0;
     totalOffsiteInteractions = 0;
     totalOffsiteCheckoutActivities =0;
     adsInteracted: AdsInteractedModel[] = [];
     apps_websites: AppsAndWebsitesModel[] = [];
-    activeTab: number = 0;
+    activeTab = 0;
     off_facebook_activity: OffFacebookActivityModel[] = [];
     constructor(private router: Router,private faceAdsInteractedRepo: FacebookAdsInteractedRepository,private faceAppsAndWebsitesRepo: FacebookAppsWebsitesRepository,
       private faceOffFacebookActivityRepo: FacebookOffFacebookActivityRepository) { }
@@ -103,7 +103,7 @@ import { OffFacebookActivityModel } from 'src/app/models/Facebook/offfacebookact
         this.apps_websites = apps_websites;
         const category = this.apps_websites[0].category;
         if (apps_websites.length !== 0) {
-          for (let app of apps_websites) {
+          for (const app of apps_websites) {
             if (category === 'inactive') {
               //display unique apps checking the category and name
               if (!category.includes(app.name)) {
@@ -158,7 +158,6 @@ import { OffFacebookActivityModel } from 'src/app/models/Facebook/offfacebookact
               }
             
               for (let j = 0; j < events.length; j++) {
-                const event = events[j];
                 if ((selectedTab === 0) && (eventType === 'PAGE_VIEW' || eventType === 'VIEW_CONTENT')) {
                   appCounts[appName][eventType] += 1;
                   this.totalOffsiteInteractions += 1; // Increment the total offsite interactions count
@@ -191,14 +190,14 @@ import { OffFacebookActivityModel } from 'src/app/models/Facebook/offfacebookact
             
 
     // Remove old bubble chart
-    let margin = 10;
-    let leftmargin = 330;
-    let rightMargin = 80; // Adjust the right margin value
-    let bottomMargin = 125;
-    let xAxisWidth = window.innerWidth - leftmargin - rightMargin;
-    let yAxisHeight = window.innerHeight - margin - bottomMargin;
+    const margin = 10;
+    const leftmargin = 330;
+    const rightMargin = 80; // Adjust the right margin value
+    const bottomMargin = 125;
+    const xAxisWidth = window.innerWidth - leftmargin - rightMargin;
+    const yAxisHeight = window.innerHeight - margin - bottomMargin;
 
-    let svg = d3
+    const svg = d3
       .select(`#${chartId}`)
       .append("svg")
       .attr("viewBox", `0 0 ${xAxisWidth + leftmargin + rightMargin} ${yAxisHeight + margin + bottomMargin}`)

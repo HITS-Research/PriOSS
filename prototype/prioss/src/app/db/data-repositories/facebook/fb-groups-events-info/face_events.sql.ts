@@ -9,27 +9,27 @@
 *
 */
 
-export const insertIntoFaceEventsSQL: string = `
+export const insertIntoFaceEventsSQL = `
 insert into face_events
 (name, start_timestamp, end_timestamp)
 values 
 (?, ?, ?);
 `;
 
-export const bulkAddFaceEventsBaseSQL: string = `
+export const bulkAddFaceEventsBaseSQL = `
 insert into face_events
 (name, start_timestamp, end_timestamp)
 `;
 
-export const bulkAddFaceEventsValuesSQL: string = `
+export const bulkAddFaceEventsValuesSQL = `
 select ?, ?, ?
 `;
 
-export const bulkAddValueConnector: string = `
+export const bulkAddValueConnector = `
 union all
 `;
 
-export const selectAllEvents: string = `
+export const selectAllEvents = `
 select * from face_events
 `;
 

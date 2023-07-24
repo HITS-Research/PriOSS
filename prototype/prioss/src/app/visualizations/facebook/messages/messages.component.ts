@@ -3,7 +3,6 @@ import { MessagesModel } from 'src/app/models/Facebook/friendsMessages';
 import * as utilities from 'src/app/utilities/generalUtilities.functions'
 import { FaceBookMessagesInfoRepository } from 'src/app/db/data-repositories/facebook/fb-messages-data/fb-messages-friends.repo';
 import { GroupMessagesModel } from 'src/app/models/Facebook/groupsMessages';
-import * as d3 from 'd3';
 import { FaceBookGroupMessagesInfoRepository } from 'src/app/db/data-repositories/facebook/fb-messages-data/fb-messages-groups.repo';
 @Component({
   selector: 'app-messages',
@@ -15,7 +14,7 @@ export class MessagesComponent implements OnInit {
   groupMessagesData: GroupMessagesModel[] = [];
   convertTimestamp: (str: string) => any = utilities.convertTimestamp;
   @Input()
-  previewMode: boolean = false;
+  previewMode = false;
   totalPeopleMessages = 0;
   totalGroupMessages = 0;
   constructor(

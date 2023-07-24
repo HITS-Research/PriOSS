@@ -1,11 +1,11 @@
-import {Component, Input} from '@angular/core';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import {AfterViewInit, Component, Input} from '@angular/core';
 import * as d3 from 'd3';
 import {SpotHistoryRepository} from "../../../db/data-repositories/spotify/spot-history/spot-history.repository";
 import {NotificationService} from "../../../notification/notification.component";
 import { SpotMinListenedToArtist } from 'src/app/models/Spotify/TopArtist/SpotMinListenedToArtist';
 import { SequenceComponentInit } from '../../sequence-component-init.abstract';
 import { ActivatedRoute } from '@angular/router';
-import * as dateUtils from '../../../utilities/dateUtils.functions'
 
 /**
  * This component visualizes how many songs from an artist were listened to
@@ -19,22 +19,22 @@ import * as dateUtils from '../../../utilities/dateUtils.functions'
   templateUrl: './top-artists.component.html',
   styleUrls: ['./top-artists.component.less']
 })
-export class TopArtistsComponent extends SequenceComponentInit {
+export class TopArtistsComponent extends SequenceComponentInit implements AfterViewInit{
 
   readonly spotifyGreen: string = "#1DB954";
   @Input()
-  previewMode: boolean = false;
+  previewMode = false;
   @Input()
-  calledFromListeningtime: boolean = false;
+  calledFromListeningtime = false;
 
-  showArtistHistoy : boolean  = false;
+  showArtistHistoy   = false;
 
   filterFromDate: Date | null;
   filterToDate: Date | null;
 
   minListenedToArtist : any[];
-  activeTabIndex: number = 0;
-  selectedArtistName : string = "";
+  activeTabIndex = 0;
+  selectedArtistName  = "";
   selectedArtistHistory : any[];
 
   constructor(private spothistoryRepo: SpotHistoryRepository, private notifyService: NotificationService, private route: ActivatedRoute) {
@@ -71,7 +71,7 @@ export class TopArtistsComponent extends SequenceComponentInit {
       this.filterToDate = await this.spothistoryRepo.getMostRecentDay();
     }
     
-    let result: SpotMinListenedToArtist[] = await this.spothistoryRepo.getMinListenedToArtists(this.filterFromDate, this.filterToDate)
+    const result: SpotMinListenedToArtist[] = await this.spothistoryRepo.getMinListenedToArtists(this.filterFromDate, this.filterToDate)
     this.minListenedToArtist = result;
     this.makeBarChart(result.slice(0, 10));
     
@@ -131,7 +131,7 @@ export class TopArtistsComponent extends SequenceComponentInit {
       return;
     }
 
-    let hoveringBarName: string = "";
+    let hoveringBarName = "";
 
     // set the dimensions and margins of the graph
     const margin = {top: 20, right: 30, bottom: 50, left: 100},
@@ -171,7 +171,7 @@ export class TopArtistsComponent extends SequenceComponentInit {
       .style("text-anchor", "end");
 
     // Y axis
-    var yScale: any = d3.scaleBand()
+    const yScale: any = d3.scaleBand()
       .range([0, height])
       .domain(data.map(d => d.artistName))
       .padding(.1);
@@ -250,8 +250,8 @@ export class TopArtistsComponent extends SequenceComponentInit {
    * @author: Simon (scg@mail.upb.de)
    */
   returnToListeningTime() {
-    let listeningTimePage = document.getElementById('listeningtime-page');
-    let topArtistsPage = document.getElementById('topartists-page');
+    const listeningTimePage = document.getElementById('listeningtime-page');
+    const topArtistsPage = document.getElementById('topartists-page');
   
     if(topArtistsPage && listeningTimePage) {
       listeningTimePage.style.display='block';

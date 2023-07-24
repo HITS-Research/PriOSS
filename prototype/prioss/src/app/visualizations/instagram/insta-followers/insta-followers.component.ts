@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { AfterViewInit, Component, Input } from '@angular/core';
 import cytoscape from 'cytoscape';
 import { SequenceComponentInit } from '../../sequence-component-init.abstract';
 
@@ -31,25 +31,25 @@ import { InstaReceivedFollowRequestInfo } from 'src/app/models/Instagram/Followe
   styleUrls: ['./insta-followers.component.less']
 })
 
-export class InstaFollowersComponent extends SequenceComponentInit{
+export class InstaFollowersComponent extends SequenceComponentInit implements AfterViewInit{
   @Input()
-  previewMode: boolean = false;
-  followVisible: boolean = false;
-  pendingFollowVisible: boolean = false;
-  receivedVisible: boolean = false;
-  requestVisible: boolean = false;
-  blockedVisible: boolean = false;
-  recentUnfollowVisible: boolean = false;
-  removedVisible: boolean = false;
+  previewMode = false;
+  followVisible = false;
+  pendingFollowVisible = false;
+  receivedVisible = false;
+  requestVisible = false;
+  blockedVisible = false;
+  recentUnfollowVisible = false;
+  removedVisible = false;
 
-  followerSearchValue: string = '';
-  followingSearchValue: string = '';
-  blockedSearchValue: string = '';
-  recentFollowSearchValue: string = '';
-  pendingSearchValue: string = '';
-  recentUnfollowSearchValue: string = '';
-  removedSearchValue: string = '';
-  receivedSearchValue: string = '';
+  followerSearchValue = '';
+  followingSearchValue = '';
+  blockedSearchValue = '';
+  recentFollowSearchValue = '';
+  pendingSearchValue = '';
+  recentUnfollowSearchValue = '';
+  removedSearchValue = '';
+  receivedSearchValue = '';
 
   sortFollowerDate = (a: InstaFollowerInfo, b: InstaFollowerInfo): number => +a.timestamp - +b.timestamp;
   sortFollowingDate = (a: InstaFollowingInfo, b: InstaFollowingInfo): number => +a.timestamp - +b.timestamp;
@@ -167,7 +167,7 @@ export class InstaFollowersComponent extends SequenceComponentInit{
       );
     }
     //Gives every node their position in the cycle and add the nodes to the graphElement array
-    this.graphElements = [...nodes].map((node, index) => ({
+    this.graphElements = [...nodes].map((node) => ({
       data: {
         id: node,
       }
@@ -217,7 +217,7 @@ export class InstaFollowersComponent extends SequenceComponentInit{
   }
 
   initGraph(){
-    var container = document.getElementById('cy'); // container to render in
+    const container = document.getElementById('cy'); // container to render in
     this.cy = cytoscape({
       container, 
       elements: this.graphElements,

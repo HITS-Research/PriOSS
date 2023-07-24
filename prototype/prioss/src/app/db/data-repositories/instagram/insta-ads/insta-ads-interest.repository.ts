@@ -3,7 +3,7 @@ import { DBService } from "../../../../services/db/db.service";
 import { BulkAddCapableRepository } from "../../general/inferences/bulk-add-capable.repository";
 import * as sql from "./insta-ads-interest.sql"
 import { InstaAdsInterestInfo } from "src/app/models/Instagram/LikedAdsInfo/InstaAdsInterestInfo";
-import { SQLiteDBConnection, capSQLiteChanges } from "@capacitor-community/sqlite";
+import { SQLiteDBConnection} from "@capacitor-community/sqlite";
 
 /**
  * This repository component is responsible for providing functions to insert and request data from the
@@ -26,7 +26,7 @@ export class InstaAdsInterestRepository extends BulkAddCapableRepository {
      */
     async addSingleAdInterestData(interest: string) {
         await this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
-            let sqlStatement = sql.insertIntoInstaAdsInterestsSQL;
+            const sqlStatement = sql.insertIntoInstaAdsInterestsSQL;
             await db.run(sqlStatement, [interest]);
         });
     }
@@ -40,7 +40,7 @@ export class InstaAdsInterestRepository extends BulkAddCapableRepository {
      * 
      * @author: Mayank (mayank@mail.upb.de)
      */
-    async startAdInterestBulkAdd(interest: string, totalRowCount: number, targetBulkSize: number = 500) {
+    async startAdInterestBulkAdd(interest: string, totalRowCount: number, targetBulkSize = 500) {
         this.startBulkAdd([interest], totalRowCount, targetBulkSize);
     }
 
@@ -66,7 +66,7 @@ export class InstaAdsInterestRepository extends BulkAddCapableRepository {
     {
         return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
 
-            let result = await db.query(sql.selectInstaAdsInterestSQL);
+            const result = await db.query(sql.selectInstaAdsInterestSQL);
             return result.values as InstaAdsInterestInfo[];
         });
     }

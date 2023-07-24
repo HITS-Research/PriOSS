@@ -8,26 +8,26 @@
 * @author: Deepa (dbelvi@mail.upb.de)
 */
 
-export const insertIntoFaceAdsInteractedSQL: string = `
+export const insertIntoFaceAdsInteractedSQL = `
 insert into face_ads_interacted
 (title, action, timestamp)
 values 
 (?, ?, ?);
 `;
 
-export const bulkAddFaceAdsInteractedBaseSQL: string = `
+export const bulkAddFaceAdsInteractedBaseSQL = `
 insert into face_ads_interacted
 (title, action, timestamp)
 `;
 
-export const bulkAddFaceAdsInteractedValuesSQL: string = `
+export const bulkAddFaceAdsInteractedValuesSQL = `
 select ?, ?, ?
 `;
 
-export const bulkAddValueConnector: string = `
+export const bulkAddValueConnector = `
 union all
 `;
-export const selectAllFaceAdsInteracted: string = `
+export const selectAllFaceAdsInteracted = `
  select id,
         title,
         action,

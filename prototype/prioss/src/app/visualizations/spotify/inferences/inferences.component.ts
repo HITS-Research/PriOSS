@@ -1,4 +1,4 @@
-import { Component, Input, SimpleChanges } from '@angular/core';
+import { AfterViewInit, Component, Input} from '@angular/core';
 import { InferencesRepository } from 'src/app/db/data-repositories/general/inferences/inferences.repository';
 import { InferencesEntry } from 'src/app/models/General/Inferences/InferencesEntry';
 import { SequenceComponentInit } from '../../sequence-component-init.abstract';
@@ -16,10 +16,10 @@ import { SequenceComponentInit } from '../../sequence-component-init.abstract';
   templateUrl: './inferences.component.html',
   styleUrls: ['./inferences.component.less']
 })
-export class InferencesComponent extends SequenceComponentInit {
+export class InferencesComponent extends SequenceComponentInit implements AfterViewInit{
 
   @Input()
-  previewMode: boolean = false;
+  previewMode = false;
 
   inferences: readonly InferencesEntry[] = [];
   listOfInferences: InferencesEntry[] = [];
@@ -51,7 +51,7 @@ export class InferencesComponent extends SequenceComponentInit {
   */
   override async initComponent(): Promise<void> {
     console.log("--- Initializing Component 1: Inferences");
-    let inferences = await this.inferencesRepo.getAllInferences();
+    const inferences = await this.inferencesRepo.getAllInferences();
 
     this.inferences = inferences;
     this.listOfInferences = [...this.inferences];
@@ -151,7 +151,7 @@ export class InferencesComponent extends SequenceComponentInit {
    * @author: Sven (svenf@mail.uni-paderborn.de)
    */
   rectifyInferences(): void {
-    let inferencesWithLinebreak: String = "";
+    let inferencesWithLinebreak = "";
     for (const inference of this.listOfInferences) {
       if (this.setOfCheckedId.has(inference.id)) {
         inferencesWithLinebreak += inference.inference + '%0D%0A';

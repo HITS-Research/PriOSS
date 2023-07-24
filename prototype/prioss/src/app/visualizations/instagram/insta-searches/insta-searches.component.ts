@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { AfterViewInit, Component, Input } from '@angular/core';
 import { SequenceComponentInit } from '../../sequence-component-init.abstract';
 import { InstaUserSearchesRepository } from 'src/app/db/data-repositories/instagram/insta-searches/insta-user-searches.repository';
 import { InstaKeywordSearchesRepository } from 'src/app/db/data-repositories/instagram/insta-searches/insta-keyword-searches.repository';
@@ -20,10 +20,10 @@ import { InstaTagSearch } from 'src/app/models/Instagram/Searches/InstaTagSearch
   templateUrl: './insta-searches.component.html',
   styleUrls: ['./insta-searches.component.less']
 })
-export class InstaSearchesComponent extends SequenceComponentInit{
+export class InstaSearchesComponent extends SequenceComponentInit implements AfterViewInit{
 
   @Input()
-  previewMode: boolean = false;
+  previewMode = false;
   userSearchValue = '';
   keywordSearchValue = '';
   tagSearchValue = '';
