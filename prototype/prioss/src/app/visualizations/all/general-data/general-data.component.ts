@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {AfterViewInit, Component, Input} from '@angular/core';
 import * as utilities from 'src/app/utilities/generalUtilities.functions'
 import { UserdataRepository } from 'src/app/db/data-repositories/general/userdata/userdata.repository';
 import { UserdataEntry } from 'src/app/models/General/userdata/userdataEntry';
@@ -17,7 +17,7 @@ import { SequenceComponentInit } from '../../sequence-component-init.abstract';
   templateUrl: './general-data.component.html',
   styleUrls: ['./general-data.component.less']
 })
-export class GeneralDataComponent extends SequenceComponentInit {
+export class GeneralDataComponent extends SequenceComponentInit implements AfterViewInit{
 
 
   // userdata: object = {}
@@ -27,7 +27,7 @@ export class GeneralDataComponent extends SequenceComponentInit {
   capitalize: (str: string) => string = utilities.capitalize
   isSpotify = false;
   @Input()
-  previewMode: boolean = false;
+  previewMode = false;
 
   constructor(private userdataRepo: UserdataRepository) {
     super();
@@ -58,7 +58,7 @@ export class GeneralDataComponent extends SequenceComponentInit {
   */
   override async initComponent(): Promise<void> {
     console.log("--- Initializing Component 0: GeneralData");
-    let userdata = await this.userdataRepo.getAllUserdata()
+    const userdata = await this.userdataRepo.getAllUserdata()
     this.userdata = userdata;
   }
 }

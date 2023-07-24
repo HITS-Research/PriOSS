@@ -11,15 +11,15 @@ import { AppComponentMsg } from './enum/app-component-msg.enum';
   styleUrls: ['./app.component.less']
 })
 export class AppComponent {
-  title: string = 'prioss';
+  title = 'prioss';
   pRouter: Router;
-  isCollapsed: boolean = false;
+  isCollapsed = false;
   serviceName: string | null;
-  isDashboard: boolean = false;
-  showServiceButton: boolean = false;
+  isDashboard = false;
+  showServiceButton = false;
   navigateAndScroll: (router: Router, url: string) => void = utilities.navigateAndScroll;
 
-  public isWeb: boolean = false;
+  public isWeb = false;
   private initPlugin: boolean;
 
   constructor(private router: Router, private sqlite: SQLiteService, private appComponentMsgService: AppComponentMsgService) {

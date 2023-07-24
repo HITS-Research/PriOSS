@@ -20,72 +20,65 @@
     <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
       <div nz-col nzXs="24" nzXl="8">
         <!--card for visualizing the personal information-->
-        <nz-card id="personalInformation" nzTitle="Personal Information" nzHoverable [nzExtra]="extraPersonal">
+        <app-dash-card id="personalInformation" cardLink="/insta/personal-info" titleText="Personal Information"
+            tooltipText="This card shows your general personal information like email, gender, birthdate etc. Click to find out more.">
           <app-personal-info [previewMode]="true"></app-personal-info>
-        </nz-card>
-        <ng-template #extraPersonal>
-          <a routerLink="/insta/personal-info">More</a>
-        </ng-template>
+        </app-dash-card>
       </div>
       <div nz-col nzXs="24" nzXl="8">
         <!--card for visualizing all about advertisements-->
-        <nz-card id ="advertisement" nzTitle="Advertisement" nzHoverable [nzExtra]="extraAds">
-            <app-insta-ads [previewMode]="true"></app-insta-ads>
-        </nz-card>
-        <ng-template #extraAds>
-          <a routerLink="/insta/ads">More</a>
-        </ng-template>
+        <app-dash-card id="advertisement" cardLink="/insta/ads" titleText="Advertisement"
+            tooltipText="This card shows all data related to ads like viewed ads, clicked ads etc. Click to find out more.">
+          <app-insta-ads [previewMode]="true"></app-insta-ads>
+        </app-dash-card>
       </div>
       <div nz-col nzXs="24" nzXl="8">
         <!--card for visualizing the login and account creation-->
-        <nz-card nzTitle="Account Creation and Login" nzHoverable [nzExtra]="extraAccount">
+        <app-dash-card cardLink="/insta/account" titleText="Account Creation and Login"
+            tooltipText="This card shows all data related to all logins and logouts as well as the devices used. Click to find out more.">
           <app-insta-account-creation-login [previewMode]="true"></app-insta-account-creation-login>
-        </nz-card>
-        <ng-template #extraAccount>
-          <a routerLink="/insta/account">More</a>
-        </ng-template>
+        </app-dash-card>
       </div>
     </div>
     <br>
     <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
       <div nz-col nzXs="24" nzXl="8">
         <!--card for visualizing for friends and followers-->
-        <nz-card nzTitle="Followers and Following" nzHoverable [nzExtra]="extraFollowers">
+        <app-dash-card cardLink="/insta/followers" titleText="Followers and Following"
+            tooltipText="This card shows all data related to followers like current followers, pending followers, blocked accounts ect. Click to find out more.">
           <app-insta-followers [previewMode]="true"></app-insta-followers>
-        </nz-card>
-        <ng-template #extraFollowers>
-          <a routerLink="/insta/followers">More</a>
-        </ng-template>
+        </app-dash-card>
       </div>
       <div nz-col nzXs="24" nzXl="8">
         <!--card for visualizing the contacts-->
-        <nz-card nzTitle="Contacts" nzHoverable [nzExtra]="extraContacts">
+        <app-dash-card cardLink="/insta/contacts" titleText="Contacts"
+            tooltipText="This card shows all contacts synchronized with your instagram account. Click to find out more.">
           <app-insta-contact [previewMode]="true"></app-insta-contact>
-        </nz-card>
-        <ng-template #extraContacts>
-          <a routerLink="/insta/contacts">More</a>
-        </ng-template>
+        </app-dash-card>
       </div>
       <div nz-col nzXs="24" nzXl="8">
         <!--card for visualizing the liked comments and posts-->
-        <nz-card nzTitle="Liked Comments and Posts" nzHoverable [nzExtra]="extraLikedContent">
+        <app-dash-card cardLink="/insta/likedcontent" titleText="Liked Comments and Posts"
+            tooltipText="This card shows all comments and posts that you likes. Click to find out more.">
           <app-insta-liked-content [previewMode]="true"></app-insta-liked-content>
-        </nz-card>
-        <ng-template #extraLikedContent>
-          <a routerLink="/insta/likedcontent">More</a>
-        </ng-template>
+        </app-dash-card>
       </div>
     </div>
     <br>
   <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
     <div nz-col nzXs="24" nzXl="8">
       <!--card for visualizing for searches-->
-      <nz-card nzTitle="Searches" nzHoverable [nzExtra]="extraSearches">
+      <app-dash-card cardLink="/insta/searches" titleText="Searches"
+          tooltipText="This card shows all searches that you have done with your accounts like user searches or keyword searches etc. Click to find out more.">
         <app-insta-searches [previewMode]="true"></app-insta-searches>
-      </nz-card>
-      <ng-template #extraSearches>
-        <a routerLink="/insta/searches">More</a>
-      </ng-template>
+      </app-dash-card>
+    </div>
+    <div nz-col nzXs="24" nzXl="8">
+      <!--card for visualizing for shopping data-->
+      <app-dash-card cardLink="/insta/shopping" titleText="Shopping"
+            tooltipText="This card shows all items in recently viewed and wishlist shopping cart. Click to find out more.">
+          <app-insta-shopping [previewMode]="true"></app-insta-shopping>
+      </app-dash-card>
     </div>
   </div>
   <br>
@@ -124,16 +117,41 @@
         <span>Next</span>
       </button>
     </div>
-    <br>
-    <h4 nz-typography>Send an email to support@instagram.com. Generally, Instagram team responds within a week.</h4>
-    <h4 nz-typography>Contact the privacy center for Meta. It covers Facebook, Instagram, Messenger, and other Meta products.</h4>
   </details>
   <br>
 
-  <app-gdpr></app-gdpr>
+ <details open id="recommendation">
+  <summary class="collapsible-dashboard-section-title">
+    Privacy Recommendations
+  </summary>
+  <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
+    <div nz-col nzXs="24" nzXl="8">
+      <!--card for Privacy settings judge-->
+      <app-dash-card cardLink="" titleText="Privacy Settings Judge" 
+          tooltipText="In this card, you can check if your Instagram settings are setup to protect your privacy. Just answer the questions below to learn how you can improve your privacy through your Instagram account's settings.">
+            <app-settings-form [service]="'Instagram'"></app-settings-form>
+          </app-dash-card>
+    </div>
+
+    <div nz-col nzXs="24" nzXl="8"><!--card for privacy recommendation - How to block folllowers-->
+       <app-dash-card cardLink="/insta/block-followers" titleText="How to Block Followers"
+            tooltipText="This card provides guidelines that helps you to block followers for your Instagram account. The guidelines are provided for Web Browser user as well as Mobile Application user. Click to find out more.">
+            <p nz-typography>This section provides you guidelines to block followers for Instagram.</p>
+        </app-dash-card>
+    </div>
+
+    <div nz-col nzXs="24" nzXl="8"><!--card for privacy recommendation- How to hide Instagram Stories and live videos from specific people -->
+      <app-dash-card cardLink="/insta/hide-stories" titleText="How to Hide Instagram Stories"
+            tooltipText="This card provides guidelines that helps you to hide Instagram stories and live videos from specific people. The guidelines are provided for Mobile Application user. Click to find out more.">
+            <p nz-typography>This section provides you guidelines to hide Instagram Stories and live videos from specific people.</p>
+        </app-dash-card>
+    </div>
+  </div>
+ </details>
+ <br>
 
   <details open id="purpose">
-    <summary class="collapsible-dashboard-section-title">Purpose</summary>
+    <summary class="collapsible-dashboard-section-title">Purposes - Why Instagram collects your data? </summary>
     <p nz-typography>
       The following purposes should give an example of Instagram's reasoning in regards to data collection. To Get a full list of their reasons you can check out Instagram's privacy policy <span nz-icon nzType="link"><a target="_blank" href="https://privacycenter.instagram.com/policy/?section_id=0-WhatIsThePrivacy">privacy policy</a></span>
       <nz-table nzTemplateMode>
@@ -162,7 +180,11 @@
           </tr>
         </tbody>
       </nz-table>
-    </details>
+  </details>
+
+  <app-gdpr id="gdpr"></app-gdpr>
+  <br>
+
   <app-faq serviceName="insta"></app-faq>
   <app-help-button (startTourClick)="startTour()">
     <h2 nz-typography id="introduction">Introduction</h2>
@@ -173,5 +195,7 @@
   </app-help-button>
   <app-offline-indicator [bottom]="'32px'" [right]="'76px'"></app-offline-indicator>
 
-</div>
+  
+
+
 

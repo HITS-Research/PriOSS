@@ -1,9 +1,10 @@
-import {Component, Input} from '@angular/core';
+import {AfterViewInit, Component, Input} from '@angular/core';
 import * as d3 from "d3";
 import {SpotHistoryRepository} from "../../../db/data-repositories/spotify/spot-history/spot-history.repository";
 import {NotificationService} from "../../../notification/notification.component";
 import { SpotMinListenedToSong } from 'src/app/models/Spotify/TopSong/SpotMinListenedToSong';
 import { SequenceComponentInit } from '../../sequence-component-init.abstract';
+import { ActivatedRoute } from '@angular/router';
 
 /**
  * This component visualizes which songs have been listened the most to
@@ -16,22 +17,27 @@ import { SequenceComponentInit } from '../../sequence-component-init.abstract';
   templateUrl: './top-songs.component.html',
   styleUrls: ['./top-songs.component.less']
 })
-export class TopSongsComponent extends SequenceComponentInit {
+export class TopSongsComponent extends SequenceComponentInit implements AfterViewInit {
 
   readonly spotifyGreen: string = "#1DB954";
   @Input()
-  previewMode: boolean = false;
-  showSongHistoy : boolean = false;
+  previewMode = false;
+  @Input()
+  calledFromListeningtime = false;
+
+  showSongHistoy  = false;
 
   filterFromDate: Date | null;
   filterToDate: Date | null;
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   minListenedToSong : any[];
-  activeTabIndex: number = 0;
+  activeTabIndex = 0;
   selectedSong : string[] = [];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   selectedSongHistory: any[];
 
-  constructor(private spotHistoryRepo: SpotHistoryRepository, private notifyService: NotificationService) {
+  constructor(private spotHistoryRepo: SpotHistoryRepository, private notifyService: NotificationService, private route: ActivatedRoute) {
     super();
   }
 
@@ -56,10 +62,15 @@ export class TopSongsComponent extends SequenceComponentInit {
   override async initComponent() {
     //await new Promise(f => setTimeout(f, 1000));  // TODO: fix
     console.log("--- Initializing Component 4: TopSongs");
-    this.filterFromDate = await this.spotHistoryRepo.getFirstDay();
-    this.filterToDate = await this.spotHistoryRepo.getMostRecentDay();
 
-    let result: SpotMinListenedToSong[] = await this.spotHistoryRepo.getMinListenedToSongs(this.filterFromDate, this.filterToDate);
+    if(!this.filterFromDate) {
+      this.filterFromDate = await this.spotHistoryRepo.getFirstDay();
+    }
+    if(!this.filterToDate) {
+      this.filterToDate = await this.spotHistoryRepo.getMostRecentDay();
+    }
+
+    const result: SpotMinListenedToSong[] = await this.spotHistoryRepo.getMinListenedToSongs(this.filterFromDate, this.filterToDate);
     this.minListenedToSong = result;
     this.makeBarChart(result.slice(0, 10));
   }
@@ -117,8 +128,8 @@ export class TopSongsComponent extends SequenceComponentInit {
       return;
     }
 
-    let hoveringArtistName: string = "";
-    let hoveringTrackName: string = "";
+    let hoveringArtistName = "";
+    let hoveringTrackName = "";
 
     // set the dimensions and margins of the graph
     const margin = {top: 20, right: 30, bottom: 50, left: 200},
@@ -158,7 +169,8 @@ export class TopSongsComponent extends SequenceComponentInit {
       .style("text-anchor", "end");
 
     // Y axis
-    var yScale: any = d3.scaleBand()
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const yScale: any = d3.scaleBand()
       .range([0, height])
       .domain(data.map(d => d.trackName))
       .padding(.1);
@@ -232,4 +244,20 @@ export class TopSongsComponent extends SequenceComponentInit {
     this.showSongHistoy = false;
   }
 
+  /**
+   * A callback function that hides this visualization and replaces it with the listeningtime visualization.
+   * by doing the replacement this way, instead of displaying this component on a seperate page apart from the listening time, 
+   * the listeningtime visualization's filter history is preserved when navigating back to it.
+   * 
+   * @author: Simon (scg@mail.upb.de)
+   */
+  returnToListeningTime() {
+    const listeningTimePage = document.getElementById('listeningtime-page');
+    const topSongsPage = document.getElementById('topsongs-page');
+  
+    if(topSongsPage && listeningTimePage) {
+      listeningTimePage.style.display='block';
+      topSongsPage.style.display='none';
+    }
+  }  
 }

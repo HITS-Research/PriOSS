@@ -45,7 +45,7 @@ export function navigateAndScroll(router: Router, url: string):void {
   *
   */ 
 export function capitalizeAndPrettify(str: string) {
-  let result: string = "";
+  let result = "";
   str.split('_').forEach(function (splitted) {
     result = result + ' ' + splitted.charAt(0).toUpperCase() + splitted.slice(1);
   });
@@ -72,11 +72,12 @@ export function convertTimestamp(str: string): any {
     return 'na';
   }
 
-  let number: number = parseInt(str) * 1000;
-  let date: Date = new Date(number);
+  const number: number = parseInt(str) * 1000;
+  const date: Date = new Date(number);
 
   //returns a date in the format YYYY-MM-DD.
-  return date.getFullYear() + "-" + (date.getMonth() + 1).toString().padStart(2, '0') + "-" + date.getDate().toString().padStart(2, '0');
+  //return date.getFullYear() + "-" + (date.getMonth() + 1).toString().padStart(2, '0') + "-" + date.getDate().toString().padStart(2, '0');
+  return date.getDate() + ' ' + date.toLocaleString('en-US', { month: 'long' }).substring(0,3) + ' ' + date.getFullYear() + ', ' + date.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
 }
 
 /**
@@ -95,7 +96,10 @@ export function getValueIgnoreCase(jsonObj: any, key: string, time_value : boole
   for (const i in keys) {
     if (keys[i].toLowerCase() === key.toLowerCase()) {
       if(time_value) {
-        return jsonObj[keys[i]].timestamp;
+        if(jsonObj[keys[i]].timestamp != undefined) {
+          return jsonObj[keys[i]].timestamp;
+        } else if (jsonObj[keys[i]].value != undefined)
+        return jsonObj[keys[i]].value;
       } else {
         return jsonObj[keys[i]].value;
       }
@@ -116,7 +120,7 @@ export function getObjectPairsNotNull(obj: object): [string, any][] {
   if (obj === null || obj === undefined) {
       return [];
     }
-  return getObjectPairs(obj).filter( ([_, v]) => v != null );
+  return getObjectPairs(obj).filter( ([, v]) => v != null );
 }
 
 /**

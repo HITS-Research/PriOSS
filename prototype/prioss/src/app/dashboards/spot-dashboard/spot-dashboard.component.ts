@@ -1,7 +1,6 @@
-import { Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { GeneralDataComponent } from 'src/app/visualizations/all/general-data/general-data.component';
-import { MoodComponent } from 'src/app/visualizations/spotify/mood/mood.component';
 import { InferencesComponent } from 'src/app/visualizations/spotify/inferences/inferences.component';
 import { IntrojsService } from 'src/app/introjs/introjs.service';
 import { ListeningTimeComponent } from 'src/app/visualizations/spotify/listening-time/listening-time.component';
@@ -24,7 +23,7 @@ import { TopSongsComponent } from 'src/app/visualizations/spotify/top-songs/top-
   templateUrl: './spot-dashboard.component.html',
   styleUrls: ['./spot-dashboard.component.less']
 })
-export class SpotDashboardComponent extends BaseDashboard {
+export class SpotDashboardComponent extends BaseDashboard implements AfterViewInit{
   
   thirdPartyConnection = false;
   purposes = [

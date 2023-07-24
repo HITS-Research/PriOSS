@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { SQLiteDBConnection, capSQLiteChanges } from "@capacitor-community/sqlite";
+import { SQLiteDBConnection} from "@capacitor-community/sqlite";
 import { DBService } from "../../../../services/db/db.service";
 import * as sql from "./insta-following.sql";
 import { InstaFollowingInfo } from "src/app/models/Instagram/FollowerInfo/FollowingInfo";
@@ -27,7 +27,7 @@ export class InstaFollowingRepository extends BulkAddCapableRepository {
      * 
      * @author: Melina (kleber@mail.uni-paderborn.de)
      */
-    async startFollowingBulkAdd(instaProfileURL: string, timestamp: number, instaAccountName: string, totalRowCount: number, targetBulkSize: number = 500) {
+    async startFollowingBulkAdd(instaProfileURL: string, timestamp: number, instaAccountName: string, totalRowCount: number, targetBulkSize = 500) {
         this.startBulkAdd([instaProfileURL, timestamp, instaAccountName], totalRowCount, targetBulkSize);
     }
 
@@ -59,10 +59,10 @@ export class InstaFollowingRepository extends BulkAddCapableRepository {
     async addFollowingInformation(instaProfileURL: string, timestamp: number, instaAccountName: string) {
         await this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
 
-            let sqlStatement = sql.insertIntoInstaFollowingInfoSQL;
-            let values = [instaProfileURL, timestamp, instaAccountName];
+            const sqlStatement = sql.insertIntoInstaFollowingInfoSQL;
+            const values = [instaProfileURL, timestamp, instaAccountName];
       
-            let ret: capSQLiteChanges = await db.run(sqlStatement, values);
+            await db.run(sqlStatement, values);
           });
     }
 
@@ -77,7 +77,7 @@ export class InstaFollowingRepository extends BulkAddCapableRepository {
     {
         return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
 
-            let result = await db.query(sql.selectFollowingInfo);
+            const result = await db.query(sql.selectFollowingInfo);
             return result.values as InstaFollowingInfo[];
         });
     }

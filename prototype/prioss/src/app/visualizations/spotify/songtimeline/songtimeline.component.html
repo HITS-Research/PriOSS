@@ -1,0 +1,25 @@
+<div>
+  <app-title-bar titleText="Song Timeline" tooltipText="" [overrideBackButtonFunction]="true" (onButtonClickedEventOverride)="returnToListeningTime()" 
+    backButtonTextOverride="Back to Listeningtime">
+  </app-title-bar>
+  <div class="t-filter-container">
+    <div>
+        Date & Hour:  <nz-date-picker nzId="songtimeline-dateTimePicker" nzShowTime nzFormat="yyyy-MM-dd HH:00" [(ngModel)]="filterDateTime" 
+                        (ngModelChange)="onDateFilterChanged()">
+                      </nz-date-picker>
+    </div>
+<!-- Function not implemented yet.
+    <div class="t-inline-spacer-small"></div>
+
+    <button nz-button block="false" class="icon-button">
+        <span nz-icon nzType="rollback"></span>
+        Back to Previous
+    </button>
+-->
+  </div>
+
+  <br>
+
+  <div id="songtimeline-chart" class="visualization-card">
+  </div>
+</div>

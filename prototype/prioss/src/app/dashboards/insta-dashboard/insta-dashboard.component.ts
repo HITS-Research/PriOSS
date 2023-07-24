@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { IntrojsService } from 'src/app/introjs/introjs.service';
 import { BaseDashboard } from '../base-dashboard.abstract';
 import { Insta_PersonalInfoComponent } from 'src/app/visualizations/instagram/Insta_personal-info/personal-info.component';
@@ -8,6 +8,7 @@ import { InstaFollowersComponent } from 'src/app/visualizations/instagram/insta-
 import { InstaLikedContentComponent } from 'src/app/visualizations/instagram/insta-liked-content/insta-liked-content.component';
 import { InstaContactComponent } from 'src/app/visualizations/instagram/insta-contact/insta-contact.component';
 import { InstaSearchesComponent } from 'src/app/visualizations/instagram/insta-searches/insta-searches.component';
+import { InstaShoppingComponent } from 'src/app/visualizations/instagram/insta-shopping/insta-shopping.component';
 
 /**
   * This component is the root component for instagram's dashboard page.
@@ -24,7 +25,7 @@ import { InstaSearchesComponent } from 'src/app/visualizations/instagram/insta-s
   templateUrl: './insta-dashboard.component.html',
   styleUrls: ['./insta-dashboard.component.less']
 })
-export class InstaDashboardComponent extends BaseDashboard{
+export class InstaDashboardComponent extends BaseDashboard implements AfterViewInit{
   current = 0;
   rectificationInstructionText="Choose your country.";
   rectificationInstructionPicture="/../../assets/images/insta-rectifcation/step1.png"
@@ -37,6 +38,7 @@ export class InstaDashboardComponent extends BaseDashboard{
   @ViewChild(InstaLikedContentComponent) instaLikedContent: InstaLikedContentComponent;
   @ViewChild(InstaContactComponent) instaContact : InstaContactComponent;
   @ViewChild(InstaSearchesComponent) instaSearches : InstaSearchesComponent;
+  @ViewChild(InstaShoppingComponent) instaShopping : InstaShoppingComponent;
 
   constructor( private introService: IntrojsService) { 
     super();
@@ -103,6 +105,7 @@ export class InstaDashboardComponent extends BaseDashboard{
     this.componentInitializationList.push(this.instaContact);
     this.componentInitializationList.push(this.instaLikedContent);
     this.componentInitializationList.push(this.instaSearches);
+    this.componentInitializationList.push(this.instaShopping);
     
     //Start Component Initialization run
     this.startSequentialInitialization();

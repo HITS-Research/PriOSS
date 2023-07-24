@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { SQLiteDBConnection, capSQLiteChanges } from "@capacitor-community/sqlite";
+import { SQLiteDBConnection} from "@capacitor-community/sqlite";
 import { DBService } from "../../../../services/db/db.service";
 import * as dateUtils from "../../../../utilities/dateUtils.functions";
 import * as sql from "./insta-liked-content.sql";
@@ -31,10 +31,10 @@ export class InstaLikedPostsRepository extends BulkAddCapableRepository{
     async addLikedPostsInformation(user: string, href_link: string, timestamp: string) {
         await this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
 
-            let sqlStatement = sql.insertIntoInstaLikedPostsSQL;
-            let values = [user, href_link, timestamp];
+            const sqlStatement = sql.insertIntoInstaLikedPostsSQL;
+            const values = [user, href_link, timestamp];
       
-            let ret: capSQLiteChanges = await db.run(sqlStatement, values);
+            await db.run(sqlStatement, values);
           });
     }
 
@@ -47,7 +47,7 @@ export class InstaLikedPostsRepository extends BulkAddCapableRepository{
      * 
      * @author: Mayank (mayank@mail.upb.de)
      */
-    async startLikedPostsBulkAdd(user: string, href_link: string, timestamp: string, totalRowCount: number, targetBulkSize: number = 500) {
+    async startLikedPostsBulkAdd(user: string, href_link: string, timestamp: string, totalRowCount: number, targetBulkSize = 500) {
         this.startBulkAdd([user, href_link, timestamp], totalRowCount, targetBulkSize);
     }
 
@@ -75,7 +75,7 @@ export class InstaLikedPostsRepository extends BulkAddCapableRepository{
     {
         return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
 
-            let result = await db.query(sql.selectLikedPostsSQL);
+            const result = await db.query(sql.selectLikedPostsSQL);
             return result.values as InstaLikedPostsInfo[];
         });
     }
@@ -89,7 +89,7 @@ export class InstaLikedPostsRepository extends BulkAddCapableRepository{
     async getLikedPostsWithCount(): Promise<InstaLikedPostsWithCount[]>
     {
         return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
-        let result = await db.query(sql.selectLikedPostsWithCountSQL);
+        const result = await db.query(sql.selectLikedPostsWithCountSQL);
         return result.values as InstaLikedPostsWithCount[];
         });
     }
@@ -103,9 +103,9 @@ export class InstaLikedPostsRepository extends BulkAddCapableRepository{
     async getLikedPostsFirstDate(): Promise<Date>
     {
         return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
-            let result = await db.query(sql.getFirstDateForLikedPostsSQL);
+            const result = await db.query(sql.getFirstDateForLikedPostsSQL);
             if(result.values) {
-                let dateString: string = result.values[0].min_date;
+                const dateString: string = result.values[0].min_date;
                 return dateUtils.parseDate(dateString) as Date;
             }
             else {
@@ -123,9 +123,9 @@ export class InstaLikedPostsRepository extends BulkAddCapableRepository{
     async getLikedPostsLastDate(): Promise<Date>
     {
         return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
-            let result = await db.query(sql.getLastDateForLikedPostsSQL);
+            const result = await db.query(sql.getLastDateForLikedPostsSQL);
             if(result.values) {
-                let dateString: string = result.values[0].max_date;
+                const dateString: string = result.values[0].max_date;
                 return dateUtils.parseDate(dateString) as Date;
             }
             else {
@@ -143,8 +143,8 @@ export class InstaLikedPostsRepository extends BulkAddCapableRepository{
     async filterLikedPostsBasedOnDate(fromDate: Date, toDate: Date): Promise<InstaLikedPostsWithCount[]>
     {
         return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
-            let values = [dateUtils.getDisplayDateString(fromDate),dateUtils.getDisplayDateString(toDate)];
-            let result = await db.query(sql.filterLikedPostsBasedOnStartAndEndDateSQL, values);
+            const values = [dateUtils.getDisplayDateString(fromDate),dateUtils.getDisplayDateString(toDate)];
+            const result = await db.query(sql.filterLikedPostsBasedOnStartAndEndDateSQL, values);
             return result.values as InstaLikedPostsWithCount[];
         });
     }
@@ -159,8 +159,8 @@ export class InstaLikedPostsRepository extends BulkAddCapableRepository{
     Promise<InstaLikedPostsWithCount[]>
     {
         return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
-            let values = [dateUtils.getDisplayDateString(fromDate),dateUtils.getDisplayDateString(toDate), user];
-            let result = await db.query(sql.filterLikedPostsBasedOnUserAndStartAndEndDateSQL, values);
+            const values = [dateUtils.getDisplayDateString(fromDate),dateUtils.getDisplayDateString(toDate), user];
+            const result = await db.query(sql.filterLikedPostsBasedOnUserAndStartAndEndDateSQL, values);
             return result.values as InstaLikedPostsWithCount[];
         });
     }

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit} from '@angular/core';
 import { FormBuilder, UntypedFormGroup } from '@angular/forms';
 import { SpotPrivacySettingsService } from '../spot-privacy-settings.service';
 import { InstaPrivacySettingsService } from '../insta-privacy-settings.service';
@@ -10,11 +10,11 @@ import { FacePrivacySettingsService } from '../face-privacy-settings.service';
   templateUrl: './settings-form.component.html',
   styleUrls: ['./settings-form.component.less']
 })
-export class SettingsFormComponent {
+export class SettingsFormComponent implements OnInit{
   settingsForm: UntypedFormGroup;
   index = 0
   panel = {name: "How to Check ?"}
-  @Input("service") service: string;
+  @Input() service: string;
 
   settings = [
     {

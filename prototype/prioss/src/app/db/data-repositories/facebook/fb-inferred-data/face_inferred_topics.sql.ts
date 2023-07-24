@@ -1,17 +1,17 @@
-export const bulkAddFaceInferredTopicsBaseSQL: string = `
+export const bulkAddFaceInferredTopicsBaseSQL = `
   insert into face_inferred_topics 
   (topic)
 `;
 
-export const bulkAddFaceInferredTopicsValuesSQL: string = `
+export const bulkAddFaceInferredTopicsValuesSQL = `
   select ?
 `;
 
-export const bulkAddValueConnector: string = `
+export const bulkAddValueConnector = `
 union all
 `;
 
-export const selectAllInferredTopics: string = `
+export const selectAllInferredTopics = `
  select id,
         topic
   from face_inferred_topics;

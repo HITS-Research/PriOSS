@@ -25,12 +25,24 @@ import { OffFacebookActivityComponent } from './rectification/facebook/off-faceb
 import { InstaSearchesComponent } from './visualizations/instagram/insta-searches/insta-searches.component';
 import { InstaFollowersComponent } from './visualizations/instagram/insta-followers/insta-followers.component';
 import { InstaContactComponent } from './visualizations/instagram/insta-contact/insta-contact.component';
-import { FaqComponent } from './info-pages/faq/faq.component';
+import { InstaShoppingComponent } from './visualizations/instagram/insta-shopping/insta-shopping.component';
 import { KnownIssuesComponent } from './info-pages/known-issues/known-issues.component';
 import { AdsSettingsComponent } from './manage-privacy/facebook/guidlines-for-ads-settings/ads-settings/ads-settings.component';
-import {
-  SpotPrivacyInstructionsComponent
-} from "./visualizations/spotify/privacy-instructions/spot-privacy-instructions.component";
+import { SpotPrivacyInstructionsComponent } from "./visualizations/spotify/privacy-instructions/spot-privacy-instructions.component";
+import { OtherPersonalInfoComponent } from './visualizations/facebook/other-personal-info/other-personal-info.component';
+import { SongtimelineComponent } from './visualizations/spotify/songtimeline/songtimeline.component';
+import { PostsComponent } from './visualizations/facebook/face-posts/posts/posts.component';
+import { InstaBlockFollowersComponent } from './rectification/instagram/insta-block-followers/insta-block-followers.component';
+import { InstaAccountPrivateComponent } from './rectification/instagram/insta-account-private/insta-account-private.component';
+import { InstaTwoFactorAuthenticationComponent } from './rectification/instagram/insta-two-factor-authentication/insta-two-factor-authentication.component';
+import { InstaHideStoriesComponent } from './rectification/instagram/insta-hide-stories/insta-hide-stories.component';
+import { InstaProfileInfoPrivateComponent } from './rectification/instagram/insta-profile-info-private/insta-profile-info-private.component';
+import { InstaAddManagerComponent } from './rectification/instagram/insta-add-manager/insta-add-manager.component';
+import { RevokeAccessComponent } from './rectification/instagram/revoke-access/revoke-access.component';
+import { GroupsAndEventsDataComponent } from './visualizations/facebook/groups-and-events-data/groups-and-events-data.component';
+import { YourTopicsComponent } from './manage-privacy/facebook/your-topics/your-topics.component';
+import { SecurityLoginDataComponent } from './visualizations/facebook/security-login-data/security-login-data.component';
+import { MessagesComponent } from './visualizations/facebook/messages/messages.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -42,11 +54,14 @@ const routes: Routes = [
   { path: 'spot/inference', component: InferencesComponent },
   { path: 'spot/mood', component: MoodComponent },
   { path: 'spot/listening-time', component: ListeningTimeComponent },
+  { path: 'spot/listening-time/songtimeline', component: SongtimelineComponent },
   { path: 'spot/general-data', component: GeneralDataComponent },
   { path: 'spot/dashboard', component: SpotDashboardComponent },
   { path: 'spot/top-artists', component: TopArtistsComponent },
+  { path: 'spot/top-artists/:start/:end', component: TopArtistsComponent },
   { path: 'spot/privacy-instructions', component: SpotPrivacyInstructionsComponent },
   { path: 'spot/top-songs', component: TopSongsComponent },
+  { path: 'spot/top-songs/:start/:end', component: TopSongsComponent },
   { path: 'insta/dashboard', component: InstaDashboardComponent },
   { path: 'insta/personal-info', component:Insta_PersonalInfoComponent },
   { path: 'insta/account', component:InstaAccountCreationLoginComponent },
@@ -61,7 +76,23 @@ const routes: Routes = [
   { path: 'face/connections', component: FriendAndFollowersComponent },
   { path: 'face/configure-off-facebook-activity', component: OffFacebookActivityComponent },
   { path: 'face/guidelines-for-ads-settings', component: AdsSettingsComponent },
-  { path: 'insta/searches', component: InstaSearchesComponent}
+  { path: 'insta/block-followers', component: InstaBlockFollowersComponent },
+  { path: 'insta/account-private' , component: InstaAccountPrivateComponent},
+  { path: 'insta/two-factor-authentication' , component: InstaTwoFactorAuthenticationComponent},
+  { path: 'insta/hide-stories' , component:InstaHideStoriesComponent},
+  { path: 'insta/profile-info-private' , component:InstaProfileInfoPrivateComponent},
+  { path: 'insta/add-manager' , component:InstaAddManagerComponent},
+  { path: 'insta/revoke-access' , component: RevokeAccessComponent},
+  { path: 'insta/searches', component: InstaSearchesComponent},
+  { path: 'insta/shopping', component: InstaShoppingComponent},
+  { path: 'face/other-personal-info' ,component:OtherPersonalInfoComponent},
+  { path: 'face/groups-and-events-data' , component: GroupsAndEventsDataComponent},
+  { path: 'face/your-topics', component: YourTopicsComponent},
+  { path: 'face/security-login', component: SecurityLoginDataComponent },
+  { path: 'insta/searches', component: InstaSearchesComponent},
+  { path: 'face/other-personal-info' ,component: OtherPersonalInfoComponent},
+  { path: 'face/posts' ,component: PostsComponent},
+  { path: 'face/messages-info' ,component:MessagesComponent}
 ];
 
 @NgModule({

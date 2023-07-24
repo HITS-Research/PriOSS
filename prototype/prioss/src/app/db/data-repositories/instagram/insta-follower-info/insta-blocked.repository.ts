@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { SQLiteDBConnection, capSQLiteChanges } from "@capacitor-community/sqlite";
+import { SQLiteDBConnection} from "@capacitor-community/sqlite";
 import { DBService } from "../../../../services/db/db.service";
 import * as sql from "./insta-blocked.sql";
 import { InstaBlockedInfo } from "src/app/models/Instagram/FollowerInfo/BlockedInfo";
@@ -27,7 +27,7 @@ export class InstaBlockedRepository extends BulkAddCapableRepository {
      * 
      * @author: Melina (kleber@mail.uni-paderborn.de)
      */
-    async startBlockedBulkAdd(instaAccountName: string, instaProfileURL: string, timestamp: number, totalRowCount: number, targetBulkSize: number = 500) {
+    async startBlockedBulkAdd(instaAccountName: string, instaProfileURL: string, timestamp: number, totalRowCount: number, targetBulkSize = 500) {
         this.startBulkAdd([instaAccountName, instaProfileURL, timestamp], totalRowCount, targetBulkSize);
     }
 
@@ -57,9 +57,9 @@ export class InstaBlockedRepository extends BulkAddCapableRepository {
      */
     async addBlockedInformation(instaAccountName: string, instaProfileURL: string, timestamp: number) {
         await this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
-            let sqlStatement = sql.insertIntoInstaBlockedInfoSQL; 
-            let values = [instaAccountName, instaProfileURL, timestamp];
-            let ret: capSQLiteChanges = await db.run(sqlStatement, values);
+            const sqlStatement = sql.insertIntoInstaBlockedInfoSQL; 
+            const values = [instaAccountName, instaProfileURL, timestamp];
+            await db.run(sqlStatement, values);
           });
     }
    
@@ -75,7 +75,7 @@ export class InstaBlockedRepository extends BulkAddCapableRepository {
     {
         return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
 
-            let result = await db.query(sql.selectInstaBlockedInfo);
+            const result = await db.query(sql.selectInstaBlockedInfo);
             return result.values as InstaBlockedInfo[];
         });
     }

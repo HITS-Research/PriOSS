@@ -1,4 +1,4 @@
-import { CUSTOM_ELEMENTS_SCHEMA, NgModule, isDevMode } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 
@@ -6,7 +6,6 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from 'src/environments/environment';
 
 import { SQLiteService } from './services/sqlite/sqlite.service';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LandingComponent } from './landing/landing.component';
@@ -54,7 +53,6 @@ import { TopSongsComponent } from './visualizations/spotify/top-songs/top-songs.
 import { SettingsFormComponent } from './visualizations/all/privacy-settings-judge/settings-form/settings-form.component';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { HelpButtonComponent } from './help-button/help-button/help-button.component';
-import { IntrojsService } from './introjs/introjs.service';
 import { OffFacebookActivityComponent } from './rectification/facebook/off-facebook-activity/off-facebook-activity.component';
 import { InstaSearchesComponent } from './visualizations/instagram/insta-searches/insta-searches.component';
 
@@ -85,21 +83,51 @@ import { InstaContactsRepository } from './db/data-repositories/instagram/insta-
 import { InstaFollowerRepository } from './db/data-repositories/instagram/insta-follower-info/insta-follower.repository';
 import { InstaFollowingRepository } from './db/data-repositories/instagram/insta-follower-info/insta-following.repository';
 import { InstaBlockedRepository } from './db/data-repositories/instagram/insta-follower-info/insta-blocked.repository';
+import { InstaShoppingRepository } from './db/data-repositories/instagram/insta-shopping/insta-shopping.repository';
+import { InstaShoppingComponent } from './visualizations/instagram/insta-shopping/insta-shopping.component';
 import { InstaRecentFollowRepository } from './db/data-repositories/instagram/insta-follower-info/insta-recent-follow.repository';
 import { InstaPendingFollowRequestRepository } from './db/data-repositories/instagram/insta-follower-info/insta-pending-follow-request.repository';
 import { InstaRecentlyUnfollowedAccountsRepository } from './db/data-repositories/instagram/insta-follower-info/insta-recently-unfollowed-accounts.repository';
 import { InstaRemovedSuggestionRepository } from './db/data-repositories/instagram/insta-follower-info/insta-removed-suggestion.repository';
 import { InstaReceivedFollowRequestRepository } from './db/data-repositories/instagram/insta-follower-info/insta-received-follow-request.repository';
 import { FaqComponent } from './info-pages/faq/faq.component';
-import { FacebookAdsInteractedRepository } from './db/data-repositories/facebook/fb_ads_data/face_ads_interacted.repo';
-import { FacebookAppsWebsitesRepository } from './db/data-repositories/facebook/fb_ads_data/face_apps_websites.repo';
-import { FacebookOffFacebookActivityRepository } from './db/data-repositories/facebook/fb_ads_data/face_off_facebook_activity.repo';
+import { FacebookAdsInteractedRepository } from './db/data-repositories/facebook/fb-ads-data/face-ads-interacted.repo';
+import { FacebookAppsWebsitesRepository } from './db/data-repositories/facebook/fb-ads-data/face-apps-websites.repo';
+import { FacebookOffFacebookActivityRepository } from './db/data-repositories/facebook/fb-ads-data/face-off-facebook-activity.repo';
 import { KnownIssuesComponent } from './info-pages/known-issues/known-issues.component';
 import { FacebookFriendsRepository } from './db/data-repositories/facebook/fb-friends-data/face_friends.repo';
 import { AdsSettingsComponent } from './manage-privacy/facebook/guidlines-for-ads-settings/ads-settings/ads-settings.component';
-import { GdprComponent } from './info-pages/gdpr/gdpr.component';
+import { DashCardComponent } from './page-sub-components/dash-card/dash-card.component';
+import { InstaBlockFollowersComponent } from './rectification/instagram/insta-block-followers/insta-block-followers.component';
+import { InstaAccountPrivateComponent } from './rectification/instagram/insta-account-private/insta-account-private.component';
+import { InstaTwoFactorAuthenticationComponent } from './rectification/instagram/insta-two-factor-authentication/insta-two-factor-authentication.component';
+import { InstaHideStoriesComponent } from './rectification/instagram/insta-hide-stories/insta-hide-stories.component';
+import { InstaProfileInfoPrivateComponent } from './rectification/instagram/insta-profile-info-private/insta-profile-info-private.component';
+import { InstaAddManagerComponent } from './rectification/instagram/insta-add-manager/insta-add-manager.component';
+import { RevokeAccessComponent } from './rectification/instagram/revoke-access/revoke-access.component';
 import { SpotPrivacyInstructionsComponent } from './visualizations/spotify/privacy-instructions/spot-privacy-instructions.component';
+import { SongtimelineComponent } from './visualizations/spotify/songtimeline/songtimeline.component';
+import { GdprComponent } from './info-pages/gdpr/gdpr.component';
+import { FacebookAddressBookRepository } from './db/data-repositories/facebook/fb-other-personal-info/face-address-book.repo';
+import { FacebookSearchHistoryRepository } from './db/data-repositories/facebook/fb-other-personal-info/face-search-history.repo';
+import { YourTopicsComponent } from './manage-privacy/facebook/your-topics/your-topics.component';
+import { FacebookLoginLocationsRepository } from './db/data-repositories/facebook/fb-security-login-data/face_login_locations.repo';
+import { FacebookAccountActivityRepository } from './db/data-repositories/facebook/fb-security-login-data/face_account_activity.repo';
+import { FacebookAccountStatusChangesRepository } from './db/data-repositories/facebook/fb-security-login-data/face_account_status_changes.repo';
+import { FacebookLoginLogoutsRepository } from './db/data-repositories/facebook/fb-security-login-data/face_login_logouts.repo';
+import { SecurityLoginDataComponent } from './visualizations/facebook/security-login-data/security-login-data.component';
+import { OtherPersonalInfoComponent } from './visualizations/facebook/other-personal-info/other-personal-info.component';
+import { FacebookPostsRepository } from './db/data-repositories/facebook/fb-posts/face-posts.repo';
+import { PostsComponent } from './visualizations/facebook/face-posts/posts/posts.component';
 
+import { FaceBookMessagesInfoRepository } from './db/data-repositories/facebook/fb-messages-data/fb-messages-friends.repo';
+import { MessagesComponent } from './visualizations/facebook/messages/messages.component';
+import { FaceBookGroupMessagesInfoRepository } from './db/data-repositories/facebook/fb-messages-data/fb-messages-groups.repo';
+import { InstaShoppingWishlistRepository } from './db/data-repositories/instagram/insta-shopping/insta-shopping_wishlist.repository';
+
+import { GroupsAndEventsDataComponent } from './visualizations/facebook/groups-and-events-data/groups-and-events-data.component';
+import { FacebookEventsRepository } from './db/data-repositories/facebook/fb-groups-events-info/face_events.repo';
+import { FacebookGroupsRepository } from './db/data-repositories/facebook/fb-groups-events-info/face_groups.repo';
 registerLocaleData(de);
 
 @NgModule({
@@ -123,6 +151,7 @@ registerLocaleData(de);
     AboutComponent,
     ContactComponent,
     FaqComponent,
+    InstaShoppingComponent,
     InferredTopicsComponent,
     InstaAccountCreationLoginComponent,
     InstaAdsComponent,
@@ -138,8 +167,25 @@ registerLocaleData(de);
     TitleBarComponent,
     KnownIssuesComponent,
     AdsSettingsComponent,
+    DashCardComponent,
     GdprComponent,
-    SpotPrivacyInstructionsComponent
+    InstaBlockFollowersComponent,
+    InstaAccountPrivateComponent,
+    InstaTwoFactorAuthenticationComponent,
+    InstaHideStoriesComponent,
+    InstaProfileInfoPrivateComponent,
+    InstaAddManagerComponent,
+    RevokeAccessComponent,
+    SpotPrivacyInstructionsComponent,
+    SongtimelineComponent,
+    OtherPersonalInfoComponent,
+    PostsComponent,
+    YourTopicsComponent,
+    SecurityLoginDataComponent,
+    OtherPersonalInfoComponent,
+    MessagesComponent,
+    GroupsAndEventsDataComponent
+,
   ],
   imports: [
     BrowserModule,
@@ -156,7 +202,7 @@ registerLocaleData(de);
     NzDividerModule,
     NzProgressModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
-      enabled: !isDevMode(),
+      enabled: environment.production,
       // Register the ServiceWorker as soon as the application is stable
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000'
@@ -188,6 +234,8 @@ registerLocaleData(de);
     InstaFollowerRepository,
     InstaFollowingRepository,
     InstaBlockedRepository,
+    InstaShoppingRepository,
+    InstaShoppingWishlistRepository,
     InstaRecentFollowRepository,
     InstaPendingFollowRequestRepository,
     InstaRecentlyUnfollowedAccountsRepository,
@@ -203,6 +251,17 @@ registerLocaleData(de);
     FacebookAppsWebsitesRepository,
     FacebookOffFacebookActivityRepository,
     FacebookFriendsRepository,
+    FacebookLoginLocationsRepository,
+    FacebookAddressBookRepository,
+    FacebookSearchHistoryRepository,
+    FacebookPostsRepository,
+    FacebookAccountActivityRepository,
+    FacebookAccountStatusChangesRepository,
+    FacebookLoginLogoutsRepository,
+    FaceBookMessagesInfoRepository,
+    FaceBookGroupMessagesInfoRepository,
+    FacebookGroupsRepository,
+    FacebookEventsRepository,
     { provide: NZ_I18N, useValue: de_DE }
   ],
   bootstrap: [AppComponent],

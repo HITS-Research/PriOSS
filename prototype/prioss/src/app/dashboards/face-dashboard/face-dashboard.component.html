@@ -1,69 +1,99 @@
+<div class="dashboard-page dashboard-container">
 <h1 nz-typography>PriOSS - Facebook</h1>
-  <div class="dashboard-intro" id="fstep100">
+  <div id="introduction" class="dashboard-intro">
   Welcome to the Facebook Dashboard! <br><br>
   You can acquaint yourself about <b>G</b>eneral <b>D</b>ata <b>P</b>rotection <b>R</b>egulation (GDPR) under <b class="intro_content">GDPR and Your Rights</b> section. <br>
-  Visualize your personal data in easily comprehensible way, and verify your data for its correctness in <b class="intro_content">Visualizations</b> section.<br>
-  The Dashboard also gives you recommendations and instructions to enhance your privacy. Take a look at <b class="intro_content"> Recommendations, Rectification, and Manage Privacy </b> sections. <br>
-  Visit <b class="intro_content">FAQ</b> section if you have questions, or click on <b class="intro_content">Contact</b> on the side menu bar to contact us.
+  Visualize your personal data in easily comprehensible way, and verify your data for its correctness in <b class="intro_content">Data Visualizations</b> section.<br>
+  The Dashboard also gives you recommendations and instructions to enhance your privacy. Take a look at <b class="intro_content"> Rectification </b> and <b class="intro_content"> Privacy Recommendations</b> sections. <br>
+  Visit <b class="intro_content">FAQ</b> section if you have questions. If you have more questions, click on <b class="intro_content">Contact</b> on the side menu bar to contact us.
   </div> 
-
 <br>
+
 <details open>
-  <summary class="collapsible-dashboard-section-title">Your Information</summary>
-  <div nz-typography id="fstep90">
+  <summary id="yourInfo" class="collapsible-dashboard-section-title">Your Information</summary>
     <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
-      <div id="fStep10" nz-col nzXs="24" nzXl="8">
-        <app-general-data></app-general-data>
-          <ng-template #extraTemplate>
-            <a>More</a>
-          </ng-template>
+      <div  nz-col nzXs="24" nzXl="8">
+        <app-dash-card cardLink="/face/general-data" titleText="User Data" 
+            tooltipText="This card shows your general user data like your email, gender, etc. which Facebook may not show in your public profile.">
+          <app-general-data [previewMode]="false"></app-general-data>
+        </app-dash-card>
       </div>
     </div>
-  </div>
 </details>
 <br>
 <br>
 
 <details open>
-  <summary id="visualization" class="collapsible-dashboard-section-title">Visualization</summary>
-  <div id="fstep80">
+  <summary id="visualization" class="collapsible-dashboard-section-title">Data Visualizations</summary>
     <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
-        <div id="fStep20" nz-col nzXs="24" nzXl="8">
-          <nz-card nzTitle="Advertisements" nzHoverable [nzExtra]="extraAds">
+
+      <div nz-col nzXs="24" nzXl="8">
+        <app-dash-card cardLink="/face/ads-related-data" titleText="Advertisements" 
+            tooltipText="This card gives you more information about your Ads-related data. Click More to see what information Facebook has been tracking related to your activities/interactions with Ads.">
             <app-ads-related-data [previewMode]="true"></app-ads-related-data>
-          </nz-card>
-          <ng-template #extraAds>
-            <a routerLink="/face/ads-related-data">More</a>
-          </ng-template>
-        </div>
-        <div id="fStep21" nz-col nzXs="24" nzXl="8">
-          <nz-card nzTitle="Your topics" nzHoverable [nzExtra]="extraTopic">
+        </app-dash-card>
+      </div>
+
+      <div nz-col nzXs="24" nzXl="8">
+          <app-dash-card cardLink="/face/inferred-topics" titleText="Your Topics"
+            tooltipText="This card lists the inferences made by Facebook based on your profile activity - posts you liked, videos you watched, Ads you have clicked. Click to find out  more.">
             <app-inferred-topics [previewMode]="true"></app-inferred-topics>
-          </nz-card>
-          <ng-template #extraTopic>
-            <a routerLink="/face/inferred-topics">More</a>
-          </ng-template>
-        </div>
-        <div id="fStep22" nz-col nzXs="24" nzXl="8">
-          <nz-card nzTitle="Facebook Connections" nzHoverable [nzExtra]="extraConnections">
+          </app-dash-card>
+      </div>
+
+      <div nz-col nzXs="24" nzXl="8">
+          <app-dash-card cardLink="/face/connections" titleText="Facebook Connections"
+            tooltipText="This card gives a gist of your Facebook friends connections. Click to see year-wise details.">
             <app-friend-and-followers [previewMode]="true"></app-friend-and-followers>
-          </nz-card>
-          <ng-template #extraConnections>
-            <a routerLink="/face/connections">More</a>
-          </ng-template>
+          </app-dash-card>
         </div>
     </div>
-  </div>
+    <br>
+    <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
+        <div nz-col nzXs="24" nzXl="8">
+          <app-dash-card cardLink="/face/other-personal-info" titleText="Other Personal Information"
+            tooltipText="This card provides information about the address book details and the search history.">
+            <app-other-personal-info [previewMode]="true"></app-other-personal-info>
+          </app-dash-card>
+        </div>
+
+        <div nz-col nzXs="24" nzXl="8">
+          <app-dash-card cardLink="/face/groups-and-events-data" titleText="Events & Groups Information"
+          tooltipText="This card gives a gist of the Events you are invited to, events you are interested in and the groups you have joined. Click to know more!">
+          <app-groups-and-events-data [previewMode]="true"></app-groups-and-events-data>
+          </app-dash-card>
+        </div>
+        <div nz-col nzXs="24" nzXl="8">
+          <app-dash-card cardLink="/face/security-login" titleText="Security and Login"
+            tooltipText="This card gives a gist of your Facebook Security and Login info. Click to see year-wise details.">
+            <app-security-login-data [previewMode]="true"></app-security-login-data>
+          </app-dash-card>
+        </div>
+      </div>
+      <br>
+      <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
+        <div nz-col nzXs="24" nzXl="8">
+          <app-dash-card cardLink="/face/messages-info" titleText="Messages"
+        tooltipText="This section provides information about the messages with other people,friends and also group interactions.">
+          <app-messages [previewMode]="true"></app-messages>
+          </app-dash-card>
+        </div>
+        <div nz-col nzXs="24" nzXl="8">
+          <app-dash-card cardLink="/face/posts" titleText="Posts"
+          tooltipText="This section provides information about the posts added to the facebook.">
+          <app-posts [previewMode]="true"></app-posts>
+        </app-dash-card>
+      </div>
+      </div>
 </details>
 <br>
+
 <app-help-button (startTourClick)="startTour()"></app-help-button>
 <app-offline-indicator [bottom]="'32px'" [right]="'76px'"></app-offline-indicator>
-<br>
 <br>
 
 <details open>
   <summary id="rectification" class="collapsible-dashboard-section-title">Rectification</summary>
-  <div id="fStep70"> <!--id="rectification_instructions"> -->
     <h6>  You can object the use of your personal data to show you personalized Ads on your timeline. Visit <span nz-icon nzType="link"><a target="_blank" href='https://www.facebook.com/help/contact/367438723733209'>Facebook Help Center</a></span> and follow the instructions below: </h6>
     <br>
     <nz-steps [nzCurrent]="current">
@@ -95,33 +125,43 @@
         <span>Next</span>
       </button>
     </div>
-  </div>
 </details>
 <br>
 <br>
 
 <details open>
-  <summary class="collapsible-dashboard-section-title" id="recommendation">Manage Privacy</summary>
+  <summary class="collapsible-dashboard-section-title" id="recommendation">Privacy Recommendations</summary>
   <div id="fStep30">
+  <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
+    <div nz-col nzXs="24" nzXl="8">
+      <app-dash-card cardLink="" titleText="Privacy Settings Judge" 
+      tooltipText="In this card, you can check if your Facebook settings are setup to protect your privacy. Just answer the questions below to learn how you can improve your privacy through your Facebook account settings.">
+        <app-settings-form [service]="'Facebook'"></app-settings-form>
+      </app-dash-card>
+    </div> 
+  </div>
+  <br>
     <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
-      <div id="fStep23" nz-col nzXs="24" nzXl="8">
-        <nz-card nzTitle="Configure Off-Facebook Activity" nzHoverable  [nzExtra]="extraPrivacy">
-        <p>This section provides you guidelines to Turn OFF your Off-Facebook Activity.</p>
-        </nz-card>
-        <ng-template #extraPrivacy>
-          <a routerLink="/face/configure-off-facebook-activity">More</a>
-        </ng-template>
+      <div nz-col nzXs="24" nzXl="8">
+        <app-dash-card cardLink="/face/configure-off-facebook-activity" titleText="Configure Off-Facebook Activity"
+        tooltipText="This section provides you guidelines to Turn OFF your Off-Facebook Activity.">
+        <p nz-typography>This section provides you guidelines to Turn OFF your Off-Facebook Activity.</p>
+        </app-dash-card>
       </div>
-      <div id="fStep24" nz-col nzXs="24" nzXl="8">
-        <nz-card nzTitle="Guidelines to hide advertisements" nzHoverable  [nzExtra]="adssettings">
-        <p>This section provides you guidelines to hide the ads you don't want to see anymore.</p>
-        </nz-card>
-        <ng-template #adssettings>
-          <a routerLink="/face/guidelines-for-ads-settings">More</a>
-        </ng-template>
+      <div nz-col nzXs="24" nzXl="8">
+        <app-dash-card cardLink="/face/guidelines-for-ads-settings" titleText="Guidelines to hide advertisements"
+        tooltipText="This section provides you guidelines to hide the ads you don't want to see anymore.">
+        <p nz-typography>This section provides you guidelines to hide the ads you don't want to see anymore.</p>
+        </app-dash-card>
+      </div>
+      <div nz-col nzXs="24" nzXl="8">
+        <app-dash-card cardLink="/face/your-topics" titleText="Guidelines to manage Inferred Topics"
+        tooltipText="This section provides you guidelines to hide the ads you don't want to see anymore.">
+        <p nz-typography>This section provides you guidelines to manage Inferred Topics and see less ads related to those topics in future.</p>
+        </app-dash-card>
       </div>
     </div>
-  </div>
+</div>
 </details>
 <br>
 <br>
@@ -132,7 +172,7 @@
 
 <details open>
   <summary class="collapsible-dashboard-section-title" id="purpose">Purpose for Data Collection</summary>
-  <div class="dashboard-intro" id="fStep50">
+  <div class="dashboard-intro">
     <p nz-typography>
       The following purposes should give an example of Facebook's purpose to collect personal data. To Get a full list of their reasons you can check out Facebook's <span nz-icon nzType="link"><a target="_blank" href="https://www.facebook.com/privacy/policy">privacy policy</a></span>
       <br>
@@ -179,4 +219,5 @@
           <p class="faq_info">{{ eachFaq.answer }}</p>
         </nz-collapse-panel>
       </nz-collapse> -->
-<app-faq id="fStep60" serviceName="face"></app-faq>
+<app-faq serviceName="face"></app-faq>
+</div>

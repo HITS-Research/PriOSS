@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { SQLiteDBConnection, capSQLiteChanges } from "@capacitor-community/sqlite";
+import { SQLiteDBConnection} from "@capacitor-community/sqlite";
 import { DBService } from "../../../../services/db/db.service";
 import * as sql from "./insta-accountcreation-login.sql";
 import { InstaSignUpInfo } from "src/app/models/Instagram/InstaAccountCreationAndLoginInfo/InstaSignUpInfo";
@@ -30,9 +30,9 @@ export class InstaSignUpRepository{
         email: string, phone_number: string, device: string) {
         await this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
 
-            let sqlStatement = sql.insertIntoInstaSignUpSQL;
-            let values = [username, ip_address, timestamp, email, phone_number, device, "blue"];
-            let ret: capSQLiteChanges = await db.run(sqlStatement, values);
+            const sqlStatement = sql.insertIntoInstaSignUpSQL;
+            const values = [username, ip_address, timestamp, email, phone_number, device, "blue"];
+            await db.run(sqlStatement, values);
           });
     }
 
@@ -47,7 +47,7 @@ export class InstaSignUpRepository{
     {
         return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
 
-            let result = await db.query(sql.selectSignUpSQL);
+            const result = await db.query(sql.selectSignUpSQL);
             return result.values as InstaSignUpInfo[];
         });
     }
