@@ -1,5 +1,4 @@
 import { Component, Input, OnInit} from '@angular/core';
-import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { FacebookLoginLocationsRepository } from '../../../db/data-repositories/facebook/fb-security-login-data/face_login_locations.repo';
 import { LoginLocationsModel } from "../../../models/Facebook/loginLocations";
 import { FacebookLoginLogoutsRepository } from '../../../db/data-repositories/facebook/fb-security-login-data/face_login_logouts.repo';
@@ -50,8 +49,7 @@ export class SecurityLoginDataComponent implements OnInit{
   accactivity_empty = false;
 
 
-  constructor(private dbService: NgxIndexedDBService,
-              private faceLoginLocationsRepo: FacebookLoginLocationsRepository,
+  constructor(private faceLoginLocationsRepo: FacebookLoginLocationsRepository,
               private faceLoginLogoutsRepo: FacebookLoginLogoutsRepository,
               private faceAccStatusChangesRepo: FacebookAccountStatusChangesRepository,
               private faceAccActivitiesRepo: FacebookAccountActivityRepository,
