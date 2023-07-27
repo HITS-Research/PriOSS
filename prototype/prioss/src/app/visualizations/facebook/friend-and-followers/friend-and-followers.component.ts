@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Component, Input, OnInit } from '@angular/core';
 import * as d3 from 'd3';
-import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { FacebookFriendsRepository } from 'src/app/db/data-repositories/facebook/fb-friends-data/face_friends.repo';
 import { FacebookFriendsModel } from 'src/app/models/Facebook/faceFriends';
 
@@ -25,7 +24,7 @@ export class FriendAndFollowersComponent implements OnInit{
   @Input()
   previewMode = false;
 
-  constructor(private dbService: NgxIndexedDBService,private faceFriendsRepo: FacebookFriendsRepository){}
+  constructor(private faceFriendsRepo: FacebookFriendsRepository){}
 
   ngOnInit() {
     this.getData();

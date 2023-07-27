@@ -1,5 +1,4 @@
 import { AfterViewInit, Component, Input, OnDestroy, ViewChild } from '@angular/core';
-import { NgxIndexedDBService } from 'ngx-indexed-db';
 import * as d3 from 'd3';
 import { GranularityEnum, Granularity2LabelMapping, getSmallerGranularity } from './granularity.enum';
 import { formatDisplayTime } from './formatDisplayTime.function';
@@ -92,7 +91,7 @@ export class ListeningTimeComponent extends SequenceComponentInit implements Aft
     */
   history: any;
 
-  constructor(private spotHistoryRepo: SpotHistoryRepository, private dbService: NgxIndexedDBService, private notifyService: NotificationService, private router: Router) {
+  constructor(private spotHistoryRepo: SpotHistoryRepository, private notifyService: NotificationService, private router: Router) {
     super();
   }
 

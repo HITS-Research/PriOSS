@@ -1,6 +1,6 @@
+
 import { AfterViewInit, Component, HostListener } from '@angular/core';
 import { ViewportScroller } from "@angular/common";
-import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { faCircleRight } from '@fortawesome/free-regular-svg-icons'
 import { faArrowRotateRight } from '@fortawesome/free-solid-svg-icons'
 import { Router } from '@angular/router';
@@ -115,8 +115,7 @@ export class ServiceSelectionComponent implements AfterViewInit{
   sampleDataFilenameFacebook = "face_sampledata.zip";
   sampleDataFilenameInstagram = "insta_sampledata.zip";
 
-  constructor(private dbService: NgxIndexedDBService, 
-              private router: Router, 
+  constructor(private router: Router, 
               private notifyService: NotificationService, 
               private spotHistoryRepo: SpotHistoryRepository, 
               private inferencesRepo: InferencesRepository, 
@@ -165,59 +164,6 @@ export class ServiceSelectionComponent implements AfterViewInit{
               private faceMessagesRepo: FaceBookMessagesInfoRepository,
               private faceGroupMessagesRepo: FaceBookGroupMessagesInfoRepository,
              )  {
-    
-    //clear the database when this component gets created
-    this.dbService.clear("all/userdata").subscribe((deleted) => {
-      console.log("Cleared all/userdata: " + deleted);
-    });
-    this.dbService.clear("spot/userdata").subscribe((deleted) => {
-      console.log("Cleared spot/userdata: " + deleted);
-    });
-    this.dbService.clear("spot/inferences").subscribe((deleted) => {
-      console.log("Cleared spot/inferences: " + deleted);
-    });
-    this.dbService.clear("spot/history").subscribe((deleted) => {
-      console.log("Cleared spot/history: " + deleted);
-    });
-    this.dbService.clear("face/ads_information").subscribe((deleted) => {
-      console.log("Cleared face/ads_information: " + deleted);
-    });
-    this.dbService.clear("face/ads_interacted").subscribe((deleted) => {
-      console.log("Cleared face/ads_interacted: " + deleted);
-    });
-    this.dbService.clear("face/inferred_topics").subscribe((deleted) => {
-      console.log("Cleared face/inferred_topics: " + deleted);
-    });
-    this.dbService.clear("face/apps_websites").subscribe((deleted) => {
-      console.log("Cleared face/apps_websites: " + deleted);
-    });
-    this.dbService.clear("face/off_facebook_activity").subscribe((deleted) => {
-      console.log("Cleared face/off_facebook_activity: " + deleted);
-    });
-    this.dbService.clear("face/friend_requests_received").subscribe((deleted) => {
-      console.log("Cleared face/friend_requests_received: " + deleted);
-    });
-    this.dbService.clear("face/friend_requests_sent").subscribe((deleted) => {
-      console.log("Cleared face/friend_requests_sent: " + deleted);
-    });
-    this.dbService.clear("face/friends").subscribe((deleted) => {
-      console.log("Cleared face/friends: " + deleted);
-    });
-    this.dbService.clear("face/rejected_friend_requests").subscribe((deleted) => {
-      console.log("Cleared face/rejected_friend_requests: " + deleted);
-    });
-    this.dbService.clear("face/removed_friends").subscribe((deleted) => {
-      console.log("Cleared face/removed_friends: " + deleted);
-    });
-    this.dbService.clear("face/who_you_follow").subscribe((deleted) => {
-      console.log("Cleared face/who_you_follow: " + deleted);
-    });
-    this.dbService.clear("face/groups-and-events-data").subscribe((deleted) => {
-      console.log("Cleared face/groups-and-events-data: " + deleted);
-    });
-    this.dbService.clear("face/security-login").subscribe((deleted) => {
-      console.log("Cleared face/security-login: " + deleted);
-    });
   }
 
 /**
@@ -1379,98 +1325,6 @@ export class ServiceSelectionComponent implements AfterViewInit{
 
     this.progressBarVisible = false;
     this.router.navigate(['insta/dashboard']);
-  }
-
-  /**
-    * Parses the uploaded Spotify data-download-zip file into the indexedDB
-    *
-    * @author: Simon (scg@mail.upb.de)
-    *
-    */
-  parseSpotifyFile() {
-    const file = this.uploadedFiles[0];
-
-    this.loadZipFile(file).then((zip: any) => {
-      this.isProcessingFile = true;//shows the processing icon on the button
-
-      Object.keys(zip.files).forEach((filepath: any) => {
-        zip.files[filepath].async("string").then((content: any) => {
-          const filename: string = filepath.split('\\').pop().split('/').pop();
-          console.log('Opening: ' + filename);
-
-          if (filename == "Userdata.json") {
-            console.log('Parsing: ' + filename);
-            const jsonData = JSON.parse(content);
-
-            this.dbService.add("all/userdata",
-              {
-                username: jsonData.username,
-                email: jsonData.email,
-                //firstname: jsonData.firstname,
-                //lastname: jsonData.lastname,
-                country: jsonData.country,
-                birthdate: jsonData.birthdate,
-                gender: jsonData.gender,
-                postalCode: jsonData.postalCode,
-                mobileNumber: jsonData.mobileNumber,
-                mobileOperator: jsonData.mobileOperator,
-                mobileBrand: jsonData.mobileBrand,
-                creationTime: jsonData.creationTime,
-              }).subscribe(() => {
-                //console.log("Userdata:")
-                //console.log(key);
-              });
-          }
-          else if (filename == "Inferences.json") {
-            console.log('Parsing: ' + filename);
-            const jsonData = JSON.parse(content);
-
-            console.log("Json Data inferences: ");
-            console.log(jsonData);
-
-            jsonData.inferences.forEach((inference: any) => {
-              //console.log("Saving inference: " + inference);
-              this.dbService.add("spot/inferences",
-                {
-                  inference: inference,
-                }).subscribe(() => {
-                  //console.log("inference: ");
-                  //console.log(key);
-                });
-            });
-          }
-          //Scan all streaming history files (multiple numbered files may exist in a download)
-          if (filename.startsWith("StreamingHistory")) {
-            //console.log('Parsing: ' + filename);
-            const jsonData = JSON.parse(content);
-
-            //console.log("Json Data history: ");
-            //console.log(jsonData);
-
-            jsonData.forEach((historyItem: any) => {
-              console.log(historyItem);
-              this.dbService.add("spot/history",
-                {
-                  endTime: historyItem.endTime,
-                  artistName: historyItem.artistName,
-                  trackName: historyItem.trackName,
-                  msPlayed: historyItem.msPlayed,
-                }).subscribe(() => {
-                  //console.log("inference: ");
-                  //console.log(key);
-                });
-            });
-          }
-        });
-        return true;
-      });
-
-      setTimeout(() => {
-        //TODO: properly wait for data to be available in DB
-        this.router.navigate(['spot/dashboard']);
-      }, 3000);
-
-    });
   }
 
   /*

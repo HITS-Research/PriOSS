@@ -1,5 +1,4 @@
 import { AfterViewInit, Component } from '@angular/core';
-import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { ActivatedRoute, Router } from "@angular/router";
 import { IntrojsService } from 'src/app/introjs/introjs.service';
 
@@ -23,7 +22,6 @@ export class FaceDashboardComponent implements AfterViewInit{
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private dbService: NgxIndexedDBService,
     private introService: IntrojsService,
   ) { }
 

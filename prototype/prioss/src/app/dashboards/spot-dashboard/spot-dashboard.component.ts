@@ -1,5 +1,4 @@
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
-import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { Router } from '@angular/router';
 import { GeneralDataComponent } from 'src/app/visualizations/all/general-data/general-data.component';
 import { InferencesComponent } from 'src/app/visualizations/spotify/inferences/inferences.component';
@@ -57,7 +56,7 @@ export class SpotDashboardComponent extends BaseDashboard implements AfterViewIn
   @ViewChild(TopArtistsComponent) spotTopArtists : TopArtistsComponent;
   @ViewChild(TopSongsComponent) spotTopSongs : TopSongsComponent;
 
-  constructor(private dbService: NgxIndexedDBService, private router: Router, private introService: IntrojsService) {
+  constructor( private router: Router, private introService: IntrojsService) {
     super();
   }
 
