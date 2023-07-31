@@ -612,9 +612,11 @@ export class ListeningTimeComponent extends SequenceComponentInit implements Aft
     //find the custom contextmenu  
     const contextMenu = d3.select("#contextmenu");
 
-    let hoveringBarName = "";
     const currentGranularity: GranularityEnum = this.selectedGranularity;
 
+    //This is the only way to pass a reference to 'this' into the onClick listener while also getting the 'data' of the clicked bar as a parameter in the listerner
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
+    const listeningTimeComponent: ListeningTimeComponent = this;
 
     const calcBarHeight = (d: any) => yAxisHeight - y(d.value)
 
@@ -632,13 +634,13 @@ export class ListeningTimeComponent extends SequenceComponentInit implements Aft
       //.attr("height", (d: any) => y(d.value) * height / 100)// this.height
       .attr("fill", (d: any) => d.color)
       //Left CLick
-      .on("click", () => {
+      .on("click", function (event, data) {
         tooltip.html(``).style("visibility", "hidden");
-        if (this.selectedGranularity != GranularityEnum.Hour) {
-          this.onBarClicked(hoveringBarName);
+        if (currentGranularity != GranularityEnum.Hour) {
+          listeningTimeComponent.onBarClicked(data.name);
         }
-        else if (this.filterSingleDate) {
-          this.onBarClicked(dateUtils.getDisplayDateString(this.filterSingleDate) + " " + hoveringBarName)
+        else if (listeningTimeComponent.filterSingleDate) {
+          listeningTimeComponent.onBarClicked(dateUtils.getDisplayDateString(listeningTimeComponent.filterSingleDate) + " " + data.name)
         }
       })
       //Right Click
@@ -659,7 +661,6 @@ export class ListeningTimeComponent extends SequenceComponentInit implements Aft
       .on("mouseover", function (event, data) {
         contextMenu.style("visibility", "hidden");
         onMouseOver(currentGranularity, tooltip, this, data);
-        hoveringBarName = data.name;
       })
       //Mouse moved: change tooltip position
       .on("mousemove", function (event) {
@@ -670,7 +671,6 @@ export class ListeningTimeComponent extends SequenceComponentInit implements Aft
       //Mouse not hovering: hide tooltip
       .on("mouseout", function () {
         tooltip.html(``).style("visibility", "hidden");
-        hoveringBarName = "";
         //d3.select(this).style("boxshadow", "none");
         //d3.select(this).style("cursor", "auto");
       })
