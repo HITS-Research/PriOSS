@@ -301,6 +301,7 @@ export class ListeningTimeComponent extends SequenceComponentInit implements Aft
     const dataMap: Map<string, { date: Date, value: number }> = new Map();
 
     const spotYearlyListening: SpotYearlyListening[] = await this.spotHistoryRepo.getHistoryByYear();
+
     for(let i = 0; i < spotYearlyListening.length; i++)
     {
       const yearData: SpotYearlyListening = spotYearlyListening[i];
@@ -516,13 +517,23 @@ export class ListeningTimeComponent extends SequenceComponentInit implements Aft
     *
     */
   async makeBarChart(data: { name: string, value: number, color: string }[] | null) {
-    //show an empty chart if the given data is null
-    if (data == null) {
-      data = [];
-    }
-
+    
     //remove old barchart
     d3.select("#listeningtime-bar-chart").selectAll("*").remove();
+    
+    //show an empty chart if the given data is null
+    if (data == null || data.length == 0 
+        //If SQLite does not find any data it still returns an array with one entry, but the "name" portion in the entry is "null" (string, not nulltype)
+        || (data.length == 1 && data[0].name == "null")) {
+      
+      data = [];
+
+      d3.select("#listeningtime-bar-chart")
+        .append("div")
+        .text("There is no listening history data in your data-download.");
+
+      return;
+    }
 
     //save used data
     this.lastUsedVisualizationData = data;

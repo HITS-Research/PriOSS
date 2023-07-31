@@ -262,7 +262,12 @@ export class SpotHistoryRepository extends BulkAddCapableRepository{
       if(result.values)
       {
         const dateString: string = result.values[0].date;
-        return dateUtils.parseDate(dateString) as Date;
+        if (!dateString) {
+          return null;
+        }
+        else {
+          return dateUtils.parseDate(dateString) as Date;
+        }
       }
       else
       {
@@ -284,7 +289,12 @@ export class SpotHistoryRepository extends BulkAddCapableRepository{
       if(result.values)
       {
         const dateString: string = result.values[0].date;
-        return dateUtils.parseDate(dateString) as Date;
+        if (!dateString) {
+          return null;
+        }
+        else {
+          return dateUtils.parseDate(dateString) as Date;
+        }
       }
       else
       {
