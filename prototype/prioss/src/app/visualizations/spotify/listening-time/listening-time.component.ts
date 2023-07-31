@@ -540,7 +540,7 @@ export class ListeningTimeComponent extends SequenceComponentInit implements Aft
 
     const values: number[] = data.map((element: any) => element.value);
     const maxValue = values.reduce((a, b) => Math.max(a, b), -Infinity);
-    const yAxisValueheight = maxValue * 1.1;
+    const yAxisValueheight = (maxValue > 0 ? maxValue * 1.1 : 11 * 60 * 1000);
 
     const textSize = "20px";
 
