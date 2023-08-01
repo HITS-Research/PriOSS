@@ -29,8 +29,8 @@ export class InstaAdsActivityRepository extends BulkAddCapableRepository {
      */
     async addSingleAdActivityData(advertiserName: string, has_data_file_custom_audience: string, has_remarketing_custom_audience: string, has_in_person_store_visit: string) {
         await this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
-            let sqlStatement = sql.insertIntoInstaAdsActivitySQL;
-            let values = [advertiserName, has_data_file_custom_audience, has_remarketing_custom_audience, has_in_person_store_visit];
+            const sqlStatement = sql.insertIntoInstaAdsActivitySQL;
+            const values = [advertiserName, has_data_file_custom_audience, has_remarketing_custom_audience, has_in_person_store_visit];
             await db.run(sqlStatement, values);
         });
     }
@@ -47,7 +47,7 @@ export class InstaAdsActivityRepository extends BulkAddCapableRepository {
      * 
      * @author: Mayank (mayank@mail.upb.de)
      */
-    async startAdActivityBulkAdd(advertiserName: string, has_data_file_custom_audience: string, has_remarketing_custom_audience: string, has_in_person_store_visit: string, totalRowCount: number, targetBulkSize: number = 500) {
+    async startAdActivityBulkAdd(advertiserName: string, has_data_file_custom_audience: string, has_remarketing_custom_audience: string, has_in_person_store_visit: string, totalRowCount: number, targetBulkSize = 500) {
         this.startBulkAdd([advertiserName, has_data_file_custom_audience, has_remarketing_custom_audience, has_in_person_store_visit], totalRowCount, targetBulkSize);
     }
 
@@ -76,7 +76,7 @@ export class InstaAdsActivityRepository extends BulkAddCapableRepository {
     {
         return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
 
-            let result = await db.query(sql.selectInstaAdsActivitySQL);
+            const result = await db.query(sql.selectInstaAdsActivitySQL);
             return result.values as InstaAdsActivityInfo[];
         });
     }

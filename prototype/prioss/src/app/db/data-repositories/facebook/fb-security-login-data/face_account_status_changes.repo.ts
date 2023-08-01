@@ -30,7 +30,7 @@ export class FacebookAccountStatusChangesRepository extends BulkAddCapableReposi
      * @author: Deepa (dbelvi@mail.upb.de)
     */
 
-    async startAdActivityBulkAdd(status: string, timestamp: string, totalRowCount: number, targetBulkSize: number = 500) {
+    async startAdActivityBulkAdd(status: string, timestamp: string, totalRowCount: number, targetBulkSize = 500) {
         this.startBulkAdd([status, timestamp], totalRowCount, targetBulkSize);
     }
 
@@ -53,7 +53,7 @@ export class FacebookAccountStatusChangesRepository extends BulkAddCapableReposi
 
     async getAllAccStatusChanges() : Promise<AccountStatusChangesModel[]> {
         return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
-          let result = await db.query(sql.selectAllStatusChanges);
+          const result = await db.query(sql.selectAllStatusChanges);
           return result.values as AccountStatusChangesModel[];
         });
     }

@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { IntrojsService } from 'src/app/introjs/introjs.service';
 import { BaseDashboard } from '../base-dashboard.abstract';
 import { Insta_PersonalInfoComponent } from 'src/app/visualizations/instagram/Insta_personal-info/personal-info.component';
@@ -25,7 +25,7 @@ import { InstaShoppingComponent } from 'src/app/visualizations/instagram/insta-s
   templateUrl: './insta-dashboard.component.html',
   styleUrls: ['./insta-dashboard.component.less']
 })
-export class InstaDashboardComponent extends BaseDashboard{
+export class InstaDashboardComponent extends BaseDashboard implements AfterViewInit{
   current = 0;
   rectificationInstructionText="Choose your country.";
   rectificationInstructionPicture="/../../assets/images/insta-rectifcation/step1.png"

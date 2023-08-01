@@ -1,7 +1,4 @@
 import { Component, Input, OnInit} from '@angular/core';
-import { NgxIndexedDBService } from 'ngx-indexed-db';
-import * as d3 from 'd3';
-import { Router } from '@angular/router';
 import { FacebookLoginLocationsRepository } from '../../../db/data-repositories/facebook/fb-security-login-data/face_login_locations.repo';
 import { LoginLocationsModel } from "../../../models/Facebook/loginLocations";
 import { FacebookLoginLogoutsRepository } from '../../../db/data-repositories/facebook/fb-security-login-data/face_login_logouts.repo';
@@ -17,43 +14,42 @@ import { AccountActivitiesModel } from '../../../models/Facebook/accountActiviti
   styleUrls: ['./security-login-data.component.less']
 })
 
-export class SecurityLoginDataComponent {
+export class SecurityLoginDataComponent implements OnInit{
 
   @Input()
-  previewMode: boolean = false;
+  previewMode = false;
 
   loginLocationsData: LoginLocationsModel[] = [];
   locations: string[] = [];
   devices: any[] = [];
   timestamps: any [] = [];
-  locations_num: number = 0
-  logloc_empty: boolean = false;
+  locations_num = 0
+  logloc_empty = false;
 
   loginlogoutData: LoginLogoutsModel[] = [];
-  login_count: number = 0;
-  logout_count: number = 0;
-  login_logouts: number = 0;
-  loginlogout_empty: boolean = false;
+  login_count = 0;
+  logout_count = 0;
+  login_logouts = 0;
+  loginlogout_empty = false;
 
   accStatusChangeData: AccountStatusChangesModel[] = [];
-  account_deactivated: number = 0;
-  account_reactivated: number = 0;
+  account_deactivated = 0;
+  account_reactivated = 0;
   status: any[] = [];
   timestamp: any[] = [];
-  accstatus_empty: boolean = false;
+  accstatus_empty = false;
 
   accActivitiesData: AccountActivitiesModel[] = [];
-  PasswordChange: number = 0;
-  Login: number = 0;
-  SessionUpdated: number = 0;
-  WebSessionTerminated: number = 0;
-  MobileSessionTerminated: number = 0;
-  terminatedSessions: number = 0;
-  accactivity_empty: boolean = false;
+  PasswordChange = 0;
+  Login = 0;
+  SessionUpdated = 0;
+  WebSessionTerminated = 0;
+  MobileSessionTerminated = 0;
+  terminatedSessions = 0;
+  accactivity_empty = false;
 
 
-  constructor(private dbService: NgxIndexedDBService,
-              private faceLoginLocationsRepo: FacebookLoginLocationsRepository,
+  constructor(private faceLoginLocationsRepo: FacebookLoginLocationsRepository,
               private faceLoginLogoutsRepo: FacebookLoginLogoutsRepository,
               private faceAccStatusChangesRepo: FacebookAccountStatusChangesRepository,
               private faceAccActivitiesRepo: FacebookAccountActivityRepository,
@@ -79,8 +75,6 @@ export class SecurityLoginDataComponent {
 
       for(let i = 0; i < this.loginLocationsData.length; i++) {
         const loc = this.loginLocationsData[i].location;
-        const device = this.loginLocationsData[i].device;
-        const time = this.loginLocationsData[i].timestamp;
 
         this.locations.push(loc);
         this.locations_num = this.locations.length;
@@ -150,12 +144,4 @@ export class SecurityLoginDataComponent {
       }
     });
   }
-
-  async visualizeData(locations: string[], devices: string[], timestamps: string[]) {
-    console.log("In visualizeData");
-
-  }
-
-
-
 }

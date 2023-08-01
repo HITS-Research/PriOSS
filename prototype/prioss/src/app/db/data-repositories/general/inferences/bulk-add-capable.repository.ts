@@ -1,5 +1,4 @@
-import { Injectable } from "@angular/core";
-import { SQLiteDBConnection, capSQLiteChanges } from "@capacitor-community/sqlite";
+import { SQLiteDBConnection} from "@capacitor-community/sqlite";
 import { DBService } from "src/app/services/db/db.service";
 
 /**
@@ -14,11 +13,11 @@ export class BulkAddCapableRepository {
   /* 
    * Variables needed for bulk add feature
    */
-  private bulkAddSQL: string = "";//The SQL command as a prepared statement (values have placeholders: '?')
+  private bulkAddSQL = "";//The SQL command as a prepared statement (values have placeholders: '?')
   private bulkAddValues: any[] = [];//the values to fill the placeholders in the prepared statement with 
-  private currBulkSize: number = 0;//use to detect if the target bulk size is reached and a SQL command has to be run
-  private targetBulkSize: number = 500;//the number of rows that should be inserted in a single SQL query. The SQLite engine does not seem to support much more than 500 at a time
-  private totalRemainingBulkAddRowCount: number = 0;//the total number of rows remaining that should be added across all bulks inside this bulk add run
+  private currBulkSize = 0;//use to detect if the target bulk size is reached and a SQL command has to be run
+  private targetBulkSize = 500;//the number of rows that should be inserted in a single SQL query. The SQLite engine does not seem to support much more than 500 at a time
+  private totalRemainingBulkAddRowCount = 0;//the total number of rows remaining that should be added across all bulks inside this bulk add run
 
 
   private bulkAddBaseSQL: string;
@@ -43,7 +42,7 @@ export class BulkAddCapableRepository {
   * @author: Simon (scg@mail.upb.de)
   *
   */
-  async startBulkAdd(values: any[], totalRowCount: number, targetBulkSize: number = 500)
+  async startBulkAdd(values: any[], totalRowCount: number, targetBulkSize = 500)
   {
     this.bulkAddSQL = this.bulkAddBaseSQL + " " + this.bulkAddValuesSQL;
     this.bulkAddValues = values;
@@ -79,7 +78,7 @@ export class BulkAddCapableRepository {
     {
       //run the query without the newly passed row
       await this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
-        let ret: capSQLiteChanges = await db.run(this.bulkAddSQL, this.bulkAddValues);
+        await db.run(this.bulkAddSQL, this.bulkAddValues);
       });
 
       //Start a new bulk with the newly passed row
@@ -96,7 +95,7 @@ export class BulkAddCapableRepository {
 
       //run query
       await this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
-        let ret: capSQLiteChanges = await db.run(this.bulkAddSQL, this.bulkAddValues);
+        await db.run(this.bulkAddSQL, this.bulkAddValues);
       });
 
       //Reset the bulk add variables,

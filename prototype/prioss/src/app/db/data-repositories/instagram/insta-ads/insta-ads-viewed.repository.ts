@@ -27,8 +27,8 @@ export class InstaAdsViewedRepository extends BulkAddCapableRepository {
      */
     async addSinlgeAdViewedData(title: string, timestamp: string) {
         await this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
-            let sqlStatement = sql.insertIntoInstaAdsViewedSQL;
-            let values = [title, timestamp];
+            const sqlStatement = sql.insertIntoInstaAdsViewedSQL;
+            const values = [title, timestamp];
             await db.run(sqlStatement, values);
         });
     }
@@ -43,7 +43,7 @@ export class InstaAdsViewedRepository extends BulkAddCapableRepository {
      * 
      * @author: Mayank (mayank@mail.upb.de)
      */
-    async startAdViewedBulkAdd(title: string, timestamp: string, totalRowCount: number, targetBulkSize: number = 500) {
+    async startAdViewedBulkAdd(title: string, timestamp: string, totalRowCount: number, targetBulkSize = 500) {
         this.startBulkAdd([title, timestamp], totalRowCount, targetBulkSize);
     }
 
@@ -70,7 +70,7 @@ export class InstaAdsViewedRepository extends BulkAddCapableRepository {
     {
         return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
 
-            let result = await db.query(sql.selectInstaAdsViewedSQL);
+            const result = await db.query(sql.selectInstaAdsViewedSQL);
             return result.values as InstaAdsViewedInfo[];
         });
     }

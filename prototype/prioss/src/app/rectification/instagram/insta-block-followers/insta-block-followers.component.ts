@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { AfterViewInit, Component, Input } from '@angular/core';
 import { scrollToTop } from 'src/app/utilities/generalUtilities.functions';
 /**
   * This component is responsible for providing guidelines to block followers.
@@ -11,9 +11,9 @@ import { scrollToTop } from 'src/app/utilities/generalUtilities.functions';
   templateUrl: './insta-block-followers.component.html',
   styleUrls: ['./insta-block-followers.component.less']
 })
-export class InstaBlockFollowersComponent {
+export class InstaBlockFollowersComponent implements AfterViewInit{
   @Input()
-  previewMode: boolean = false;
+  previewMode = false;
 
   async ngAfterViewInit(){
     scrollToTop();

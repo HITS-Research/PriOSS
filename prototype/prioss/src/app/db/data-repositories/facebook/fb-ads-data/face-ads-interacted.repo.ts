@@ -28,7 +28,7 @@ export class FacebookAdsInteractedRepository extends BulkAddCapableRepository {
      * 
      * @author: @author: rishmamn@campus.uni-paderborn.de
      */
-       async startAdsClickedBulkAdd(title: string, action: string,timestamp: string,totalRowCount: number, targetBulkSize: number = 500) {
+       async startAdsClickedBulkAdd(title: string, action: string,timestamp: string,totalRowCount: number, targetBulkSize = 500) {
         this.startBulkAdd([title, action, timestamp], totalRowCount, targetBulkSize);
     }
 
@@ -53,7 +53,7 @@ export class FacebookAdsInteractedRepository extends BulkAddCapableRepository {
        async getAllFaceAdsInteracted() : Promise<AdsInteractedModel[]> {
         return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
     
-          let result = await db.query(sql.selectAllFaceAdsInteracted);
+          const result = await db.query(sql.selectAllFaceAdsInteracted);
           return result.values as AdsInteractedModel[];
         });
       }

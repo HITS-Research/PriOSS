@@ -23,7 +23,7 @@ export class OtherPersonalInfoComponent implements OnInit {
    totalSearchedText = 0;
    
    @Input()
-   previewMode: boolean = false;
+   previewMode = false;
 
   constructor(
     private faceAddressBookRepo: FacebookAddressBookRepository,

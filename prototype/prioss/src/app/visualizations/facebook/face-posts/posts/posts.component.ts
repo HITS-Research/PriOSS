@@ -1,4 +1,5 @@
-import { Component, Input } from '@angular/core';
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+import { Component, Input, OnInit } from '@angular/core';
 import * as d3 from 'd3';
 import { FacebookPostsRepository } from 'src/app/db/data-repositories/facebook/fb-posts/face-posts.repo';
 import { PostsModel } from 'src/app/models/Facebook/posts';
@@ -8,12 +9,12 @@ import { PostsModel } from 'src/app/models/Facebook/posts';
   templateUrl: './posts.component.html',
   styleUrls: ['./posts.component.less']
 })
-export class PostsComponent {
+export class PostsComponent implements OnInit{
 
   posts: PostsModel[] = [];
 
   @Input()
-  previewMode: boolean = false;
+  previewMode = false;
 
   constructor(
     private facePostsRepo: FacebookPostsRepository
@@ -48,9 +49,8 @@ export class PostsComponent {
   */
   createData()
   {
-    var data:any[] = [];
-    var years: number[] = [];
-    var postCount: number[] = [];
+    const data:any[] = [];
+    const years: number[] = [];
     this.posts.forEach(x =>
       {
         const year = new Date(x.timestamp*1000).getFullYear();
@@ -61,7 +61,7 @@ export class PostsComponent {
       years.sort();
     years.forEach(year => {
       const postCount = this.posts.filter(a => new Date(a.timestamp*1000).getFullYear() === year);
-      var abc = {year: year, count: postCount.length};
+      const abc = {year: year, count: postCount.length};
       data.push(abc);
     });
     this.makeChart(data);
@@ -182,7 +182,7 @@ export class PostsComponent {
             .style("left", (event.pageX + 10) + "px");
         })
         // Hide tooltip on mouse out
-        .on("mouseout", function(event, d) {
+        .on("mouseout", function() {
           tooltip.style("opacity", 0);
         });
   

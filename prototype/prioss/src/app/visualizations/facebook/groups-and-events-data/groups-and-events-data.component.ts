@@ -9,17 +9,17 @@ import { EventsModel } from '../../../models/Facebook/events';
   templateUrl: './groups-and-events-data.component.html',
   styleUrls: ['./groups-and-events-data.component.less'] 
 })
-export class GroupsAndEventsDataComponent {
+export class GroupsAndEventsDataComponent implements OnInit{
   groupsData: GroupsModel[] = [];
-  total_groups: number = 0;
+  total_groups = 0;
 
 
   eventsData: EventsModel [] = [];
-  total_event_invites: number = 0;
-  total_events_interested: number = 0;
+  total_event_invites = 0;
+  total_events_interested = 0;
 
   @Input()
-  previewMode: boolean = false;
+  previewMode = false;
 
   constructor(
     private faceEventsRepo: FacebookEventsRepository,

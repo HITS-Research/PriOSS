@@ -1,24 +1,24 @@
-export const insertIntoInstaUserSearchesSQL: string = `
+export const insertIntoInstaUserSearchesSQL = `
 insert into insta_user_searches
 (search, timestamp)
 values 
 (?, ?);
 `;
 
-export const bulkAddInstaUserSearchesBaseSQL: string = `
+export const bulkAddInstaUserSearchesBaseSQL = `
 insert into insta_user_searches
 (search, timestamp)
 `;
 
-export const bulkAddInstaUserSearchesValuesSQL: string = `
+export const bulkAddInstaUserSearchesValuesSQL = `
 select ?, ?
 `;
 
-export const bulkAddValueConnector: string = `
+export const bulkAddValueConnector = `
 union all
 `;
 
-export const selectAllFromInstaUserSearches: string = `
+export const selectAllFromInstaUserSearches = `
 select *
   from insta_user_searches
  order by timestamp desc;
