@@ -47,7 +47,7 @@ export function trimDate(date: Date, trimTo: GranularityEnum) {
 * @author: Simon (scg@mail.upb.de)
 */
 export function parseDate(dateString: string) {
-
+  
   const dateParts = dateString.split(" ");
   const date = dateParts[0].split("-");
   if(dateParts[1])

@@ -70,9 +70,14 @@ export class TopSongsComponent extends SequenceComponentInit implements AfterVie
       this.filterToDate = await this.spotHistoryRepo.getMostRecentDay();
     }
 
-    const result: SpotMinListenedToSong[] = await this.spotHistoryRepo.getMinListenedToSongs(this.filterFromDate, this.filterToDate);
-    this.minListenedToSong = result;
-    this.makeBarChart(result.slice(0, 10));
+    if(this.filterFromDate && this.filterToDate) {
+      const result: SpotMinListenedToSong[] = await this.spotHistoryRepo.getMinListenedToSongs(this.filterFromDate, this.filterToDate);
+      this.minListenedToSong = result;
+      this.makeBarChart(result.slice(0, 10));
+    }
+    else {
+      this.makeBarChart([]);
+    }
   }
 
   /**
@@ -123,10 +128,20 @@ export class TopSongsComponent extends SequenceComponentInit implements AfterVie
     //remove old barchart
     d3.select(".bar_chart_top_songs").selectAll("*").remove();
 
-    if (data.length === 0) {
-      this.notifyService.showNotification("You did not listen to any music in the selected time period.");
+    if (data.length === 0
+      //If SQLite does not find any data it still returns an array with one entry, but the "artistName" portion in the entry is "null" (string, not nulltype)
+      || (data.length == 1 && data[0].artistName == "null")) {
+
+      data = [];
+
+      d3.select(".bar_chart_top_songs")
+        .append("div")
+        .text("There is no listening history data in your data-download.");
+
+      //this.notifyService.showNotification("You did not listen to any music in the selected time period.");
+
       return;
-    }
+  }
 
     let hoveringArtistName = "";
     let hoveringTrackName = "";
