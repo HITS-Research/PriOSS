@@ -91,10 +91,10 @@ export class InstaPersonalRepository {
     async addBasedInInfo(basedIn:string) {
         await this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
 
-            let sqlStatement = sql.insertIntoBasedIn;
-            let values = [basedIn];
+            const sqlStatement = sql.insertIntoBasedIn;
+            const values = [basedIn];
       
-            let ret: capSQLiteChanges = await db.run(sqlStatement, values);
+            await db.run(sqlStatement, values);
           });
     }
 
@@ -179,7 +179,7 @@ export class InstaPersonalRepository {
     {
         return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
 
-            let result = await db.query(sql.selectBasedIn);
+            const result = await db.query(sql.selectBasedIn);
             return result.values as InstaBasedInInfo[];
         });
     }

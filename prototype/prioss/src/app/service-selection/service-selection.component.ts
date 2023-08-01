@@ -903,8 +903,8 @@ export class ServiceSelectionComponent implements AfterViewInit{
         await this.instaPersonalRepo.addProfessionalInformation(profData.title);
       }
       else if (filename.startsWith("account_based_in")) {
-        let jsonData = JSON.parse(content);
-        let basedData = jsonData.inferred_data_primary_location[0].string_map_data;
+        const jsonData = JSON.parse(content);
+        const basedData = jsonData.inferred_data_primary_location[0].string_map_data;
 
         await this.instaPersonalRepo.addBasedInInfo(basedData["City Name"].value);
       }
