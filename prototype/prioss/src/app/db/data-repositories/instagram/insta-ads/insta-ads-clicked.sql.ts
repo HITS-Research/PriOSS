@@ -1,28 +1,28 @@
 // INSERT Queries
 
-export const insertIntoInstaAdsClickedSQL: string = `
+export const insertIntoInstaAdsClickedSQL = `
 insert into insta_ads_clicked
 (title, timestamp)
 values 
 (?, ?);
 `;
 
-export const bulkAddInstaAdsClickedBaseSQL: string = `
+export const bulkAddInstaAdsClickedBaseSQL = `
 insert into insta_ads_clicked
 (title, timestamp)
 `;
 
-export const bulkAddInstaAdsClickedValuesSQL: string = `
+export const bulkAddInstaAdsClickedValuesSQL = `
 select ?, ?
 `;
 
-export const bulkAddValueConnector: string = `
+export const bulkAddValueConnector = `
 union all
 `;
 
 // SELECT Queries
 
-export const selectInstaAdsClickedSQL: string = `
+export const selectInstaAdsClickedSQL = `
 select title, timestamp
   from insta_ads_clicked
  order by title asc;

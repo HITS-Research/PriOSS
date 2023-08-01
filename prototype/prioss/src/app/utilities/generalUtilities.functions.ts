@@ -45,7 +45,7 @@ export function navigateAndScroll(router: Router, url: string):void {
   *
   */ 
 export function capitalizeAndPrettify(str: string) {
-  let result: string = "";
+  let result = "";
   str.split('_').forEach(function (splitted) {
     result = result + ' ' + splitted.charAt(0).toUpperCase() + splitted.slice(1);
   });
@@ -72,8 +72,8 @@ export function convertTimestamp(str: string): any {
     return 'na';
   }
 
-  let number: number = parseInt(str) * 1000;
-  let date: Date = new Date(number);
+  const number: number = parseInt(str) * 1000;
+  const date: Date = new Date(number);
 
   //returns a date in the format YYYY-MM-DD.
   //return date.getFullYear() + "-" + (date.getMonth() + 1).toString().padStart(2, '0') + "-" + date.getDate().toString().padStart(2, '0');
@@ -120,7 +120,7 @@ export function getObjectPairsNotNull(obj: object): [string, any][] {
   if (obj === null || obj === undefined) {
       return [];
     }
-  return getObjectPairs(obj).filter( ([_, v]) => v != null );
+  return getObjectPairs(obj).filter( ([, v]) => v != null );
 }
 
 /**

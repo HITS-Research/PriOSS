@@ -16,9 +16,9 @@ export class IntrojsService {
   introJS: any = null;
   introJSF: any = null;
   introJSI: any = null;
-  spotifyTourCompleted: boolean = false;
-  facebookTourCompleted: boolean = false;
-  instagramTourCompleted: boolean = false;
+  spotifyTourCompleted = false;
+  facebookTourCompleted = false;
+  instagramTourCompleted = false;
 
   /**
    * This method configures introJs. It sets the text for the steps of the tour.

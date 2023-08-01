@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Router} from '@angular/router';
 
 /**
  * Component that displays a help button and emits an event when clicked.

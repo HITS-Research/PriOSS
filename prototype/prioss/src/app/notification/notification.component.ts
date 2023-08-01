@@ -1,5 +1,5 @@
 import { Component, Injectable } from '@angular/core';
-import { BehaviorSubject, timeout } from 'rxjs';
+import { BehaviorSubject} from 'rxjs';
 
 /**
   * This component displays an error/notification message in the top right corner 
@@ -15,7 +15,7 @@ import { BehaviorSubject, timeout } from 'rxjs';
 })
 export class NotificationComponent 
 {
-  notificationMsg: string = "";
+  notificationMsg = "";
 
   constructor(protected notifyService: NotificationService)
   {
@@ -49,7 +49,7 @@ export class NotificationService {
   * @author: Simon (scg@mail.upb.de)
   *
   */
-  public showNotification(msg: string, durationMS: number = 5000) 
+  public showNotification(msg: string, durationMS = 5000) 
   {
     this.notificationMsgSubject.next(msg);
     setTimeout(() =>

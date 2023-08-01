@@ -29,7 +29,7 @@ export class FacebookAddressBookRepository extends BulkAddCapableRepository {
      * 
      * @author: Rishma (rishmamn@mail.upb.de)
      */
-       async startAddressBookBulkAdd(name: string, contact_point: string, created_timestamp: number,totalRowCount: number, targetBulkSize: number = 500) {
+       async startAddressBookBulkAdd(name: string, contact_point: string, created_timestamp: number,totalRowCount: number, targetBulkSize = 500) {
         this.startBulkAdd([name, contact_point, created_timestamp], totalRowCount, targetBulkSize);
     }
 
@@ -55,7 +55,7 @@ export class FacebookAddressBookRepository extends BulkAddCapableRepository {
        async getAllFaceAddressBook() : Promise<[AddressBookModel]> {
         return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
     
-          let result = await db.query(sql.selectAllAddressBookData);
+          const result = await db.query(sql.selectAllAddressBookData);
           return result.values as AddressBookModel[];
         });
       }

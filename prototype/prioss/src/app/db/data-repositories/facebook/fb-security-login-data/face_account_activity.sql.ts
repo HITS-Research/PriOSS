@@ -12,27 +12,27 @@
 *
 */
 
-export const insertIntoFaceAccountActivitySQL: string = `
+export const insertIntoFaceAccountActivitySQL = `
 insert into face_account_activity
 (action, timestamp, city, region, country, site_name)
 values 
 (?, ?, ?, ?, ?, ?);
 `;
 
-export const bulkAddFaceAccountActivityBaseSQL: string = `
+export const bulkAddFaceAccountActivityBaseSQL = `
 insert into face_account_activity
 (action, timestamp, city, region, country, site_name)
 `;
 
-export const bulkAddFaceAccountActivityValuesSQL: string = `
+export const bulkAddFaceAccountActivityValuesSQL = `
 select ?, ?, ?, ?, ?, ?
 `;
 
-export const bulkAddValueConnector: string = `
+export const bulkAddValueConnector = `
 union all
 `;
 
-export const selectAllAccountActivity: string = `
+export const selectAllAccountActivity = `
 select id, action, timestamp, city, region, country, site_name from face_account_activity
 `;
 

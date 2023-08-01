@@ -1,11 +1,10 @@
-import {Component, Input} from '@angular/core';
+import {AfterViewInit, Component, Input} from '@angular/core';
 import * as d3 from "d3";
 import {SpotHistoryRepository} from "../../../db/data-repositories/spotify/spot-history/spot-history.repository";
 import {NotificationService} from "../../../notification/notification.component";
 import { SpotMinListenedToSong } from 'src/app/models/Spotify/TopSong/SpotMinListenedToSong';
 import { SequenceComponentInit } from '../../sequence-component-init.abstract';
 import { ActivatedRoute } from '@angular/router';
-import * as dateUtils from '../../../utilities/dateUtils.functions'
 
 /**
  * This component visualizes which songs have been listened the most to
@@ -18,22 +17,24 @@ import * as dateUtils from '../../../utilities/dateUtils.functions'
   templateUrl: './top-songs.component.html',
   styleUrls: ['./top-songs.component.less']
 })
-export class TopSongsComponent extends SequenceComponentInit {
+export class TopSongsComponent extends SequenceComponentInit implements AfterViewInit {
 
   readonly spotifyGreen: string = "#1DB954";
   @Input()
-  previewMode: boolean = false;
+  previewMode = false;
   @Input()
-  calledFromListeningtime: boolean = false;
+  calledFromListeningtime = false;
 
-  showSongHistoy : boolean = false;
+  showSongHistoy  = false;
 
   filterFromDate: Date | null;
   filterToDate: Date | null;
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   minListenedToSong : any[];
-  activeTabIndex: number = 0;
+  activeTabIndex = 0;
   selectedSong : string[] = [];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   selectedSongHistory: any[];
 
   constructor(private spotHistoryRepo: SpotHistoryRepository, private notifyService: NotificationService, private route: ActivatedRoute) {
@@ -69,7 +70,7 @@ export class TopSongsComponent extends SequenceComponentInit {
       this.filterToDate = await this.spotHistoryRepo.getMostRecentDay();
     }
 
-    let result: SpotMinListenedToSong[] = await this.spotHistoryRepo.getMinListenedToSongs(this.filterFromDate, this.filterToDate);
+    const result: SpotMinListenedToSong[] = await this.spotHistoryRepo.getMinListenedToSongs(this.filterFromDate, this.filterToDate);
     this.minListenedToSong = result;
     this.makeBarChart(result.slice(0, 10));
   }
@@ -127,8 +128,8 @@ export class TopSongsComponent extends SequenceComponentInit {
       return;
     }
 
-    let hoveringArtistName: string = "";
-    let hoveringTrackName: string = "";
+    let hoveringArtistName = "";
+    let hoveringTrackName = "";
 
     // set the dimensions and margins of the graph
     const margin = {top: 20, right: 30, bottom: 50, left: 200},
@@ -168,7 +169,8 @@ export class TopSongsComponent extends SequenceComponentInit {
       .style("text-anchor", "end");
 
     // Y axis
-    var yScale: any = d3.scaleBand()
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const yScale: any = d3.scaleBand()
       .range([0, height])
       .domain(data.map(d => d.trackName))
       .padding(.1);
@@ -250,8 +252,8 @@ export class TopSongsComponent extends SequenceComponentInit {
    * @author: Simon (scg@mail.upb.de)
    */
   returnToListeningTime() {
-    let listeningTimePage = document.getElementById('listeningtime-page');
-    let topSongsPage = document.getElementById('topsongs-page');
+    const listeningTimePage = document.getElementById('listeningtime-page');
+    const topSongsPage = document.getElementById('topsongs-page');
   
     if(topSongsPage && listeningTimePage) {
       listeningTimePage.style.display='block';

@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { SQLiteDBConnection, capSQLiteChanges } from "@capacitor-community/sqlite";
+import { SQLiteDBConnection} from "@capacitor-community/sqlite";
 import { DBService } from "../../../../services/db/db.service";
 import * as sql from "./insta-shopping_wishlist.sql";
 import { InstaShoppingWishlistInfo } from "src/app/models/Instagram/ShoppingInfo/InstaShoppingWishlistInfo";
@@ -31,8 +31,8 @@ export class InstaShoppingWishlistRepository extends BulkAddCapableRepository{
      */
     async addShoppingWishlistInformation(merchantName: string, productName: string) {
         await this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
-            let sqlStatement = sql.insertIntoInstaShoppingWishlistSQL;
-            let values = [merchantName, productName];
+            const sqlStatement = sql.insertIntoInstaShoppingWishlistSQL;
+            const values = [merchantName, productName];
             await db.run(sqlStatement, values);
           });
     }
@@ -45,7 +45,7 @@ export class InstaShoppingWishlistRepository extends BulkAddCapableRepository{
      * 
      * @author: Mayank (mayank@mail.upb.de)
      */
-    async startShoppingWishlistBulkAdd(merchantName: string, productName: string, totalRowCount: number, targetBulkSize: number = 500) {
+    async startShoppingWishlistBulkAdd(merchantName: string, productName: string, totalRowCount: number, targetBulkSize = 500) {
         this.startBulkAdd([merchantName, productName], totalRowCount, targetBulkSize);
     }
 
@@ -71,7 +71,7 @@ export class InstaShoppingWishlistRepository extends BulkAddCapableRepository{
     async getAllShoppingWishlistInfo(): Promise<InstaShoppingWishlistInfo[]>
     {
         return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
-            let result = await db.query(sql.selectInstaShoppingWishlistSQL);
+            const result = await db.query(sql.selectInstaShoppingWishlistSQL);
             return result.values as InstaShoppingWishlistInfo[];
         });
     }
@@ -85,9 +85,9 @@ export class InstaShoppingWishlistRepository extends BulkAddCapableRepository{
     async getTotalMerchantCount(): Promise<number>
     {
         return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
-            let result = await db.query(sql.getTotalMerchantCountSQL);
+            const result = await db.query(sql.getTotalMerchantCountSQL);
             if(result.values) {
-                let totalMerchantCount: number = result.values[0].totalMerchantCount;
+                const totalMerchantCount: number = result.values[0].totalMerchantCount;
                 return totalMerchantCount;
             }
             else {
@@ -105,9 +105,9 @@ export class InstaShoppingWishlistRepository extends BulkAddCapableRepository{
     async getTotalProductCount(): Promise<number>
     {
         return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
-            let result = await db.query(sql.getTotalProductCountSQL);
+            const result = await db.query(sql.getTotalProductCountSQL);
             if(result.values) {
-                let totalProductCount: number = result.values[0].totalProductCount;
+                const totalProductCount: number = result.values[0].totalProductCount;
                 return totalProductCount;
             }
             else {

@@ -28,7 +28,7 @@ export class InstaContactsRepository extends BulkAddCapableRepository {
      * 
      * @author: Durva & Mayank (dghurye@mail.upb.de & mayank@mail.upb.de)
      */
-    async startContactBulkAdd(firstName: string, surname: string, contactInformation: string, totalRowCount: number, targetBulkSize: number = 500) {
+    async startContactBulkAdd(firstName: string, surname: string, contactInformation: string, totalRowCount: number, targetBulkSize = 500) {
         this.startBulkAdd([firstName, surname, contactInformation], totalRowCount, targetBulkSize);
     }
 
@@ -56,7 +56,7 @@ export class InstaContactsRepository extends BulkAddCapableRepository {
     {
         return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
 
-            let result = await db.query(sql.selectContactsSQL);
+            const result = await db.query(sql.selectContactsSQL);
             return result.values as InstaContactInfo[];
         });
     }

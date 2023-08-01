@@ -30,7 +30,7 @@ export class FacebookEventsRepository extends BulkAddCapableRepository {
      * @author: Deepa (dbelvi@mail.upb.de)
     */
 
-    async startAdActivityBulkAdd(name: string, start_timestamp: string, end_timestamp: string, totalRowCount: number, targetBulkSize: number = 500) {
+    async startAdActivityBulkAdd(name: string, start_timestamp: string, end_timestamp: string, totalRowCount: number, targetBulkSize = 500) {
         this.startBulkAdd([name, start_timestamp, end_timestamp], totalRowCount, targetBulkSize);
     }
 
@@ -53,7 +53,7 @@ export class FacebookEventsRepository extends BulkAddCapableRepository {
 
     async getAllEvents() : Promise<EventsModel[]> {
         return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
-          let result = await db.query(sql.selectAllEvents);
+          const result = await db.query(sql.selectAllEvents);
           return result.values as EventsModel[];
         });
     }

@@ -28,7 +28,7 @@ export class FacebookPostsRepository extends BulkAddCapableRepository {
      * 
      * @author: Rashida (rbharmal@mail.upb.de)
      */
-       async startPostsBulkAdd(timestamp: number, title: string, totalRowCount: number, targetBulkSize: number = 500) {
+       async startPostsBulkAdd(timestamp: number, title: string, totalRowCount: number, targetBulkSize = 500) {
         this.startBulkAdd([timestamp, title], totalRowCount, targetBulkSize);
     }
 
@@ -53,7 +53,7 @@ export class FacebookPostsRepository extends BulkAddCapableRepository {
        async getAllPosts() : Promise<[PostsModel]> {
         return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
     
-          let result = await db.query(sql.selectAllPostsData);
+          const result = await db.query(sql.selectAllPostsData);
           return result.values as PostsModel[];
         });
       }

@@ -1,18 +1,18 @@
-export const insertIntoInstaPersonalInfoSQL: string = `
+export const insertIntoInstaPersonalInfoSQL = `
   insert into insta_personal_info
   (username, email, birthdate, gender)
   values 
   (?, ?, ?, ?);
 `;
 
-export const insertIntoInstaAccountInfoSQL: string = `
+export const insertIntoInstaAccountInfoSQL = `
   insert into insta_account_info
   (contact_syncing, first_country_code, has_shared_live_video, last_login, last_logout, first_story_time, last_story_time, first_close_friends_story_time)
   values 
   (?, ?, ?, ?, ?, ?, ?, ?);
 `;
 
-export const insertIntoInstaProfessionalInfoSQL: string = `
+export const insertIntoInstaProfessionalInfoSQL = `
   insert into insta_professional_info
   (business_information)
   values 
@@ -26,14 +26,14 @@ export const insertIntoBasedIn: string = `
   (?);
 `;
 
-export const insertIntoInstaProfileChangesSQL: string = `
+export const insertIntoInstaProfileChangesSQL = `
   insert into insta_profile_changes
   (title, changed, previous_value, new_value, change_date)
   values 
   (?, ?, ?, ?, ?);
 `;
 
-export const selectPersonalInfo: string = `
+export const selectPersonalInfo = `
   select username,
          email,
          birthdate,
@@ -41,7 +41,7 @@ export const selectPersonalInfo: string = `
     from insta_personal_info;
 `;
 
-export const selectAccountInfo: string = `
+export const selectAccountInfo = `
   select contact_Syncing,
          first_country_code,
          has_shared_live_video,

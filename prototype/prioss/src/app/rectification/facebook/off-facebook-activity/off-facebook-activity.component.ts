@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 import { scrollToTop } from 'src/app/utilities/generalUtilities.functions';
 
 /**
@@ -12,7 +12,7 @@ import { scrollToTop } from 'src/app/utilities/generalUtilities.functions';
   templateUrl: './off-facebook-activity.component.html',
   styleUrls: ['./off-facebook-activity.component.less']
 })
-export class OffFacebookActivityComponent {
+export class OffFacebookActivityComponent implements AfterViewInit{
 
   async ngAfterViewInit(){
     scrollToTop();

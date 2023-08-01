@@ -1,4 +1,4 @@
-export const insertIntoFaceOffFacebookActivitySQL: string = `
+export const insertIntoFaceOffFacebookActivitySQL = `
 INSERT INTO face_off_facebook_activity
 (name, events, type)
 VALUES 
@@ -6,19 +6,19 @@ VALUES
 `;
 
 
-export const bulkAddFaceOffFacebookActivityBaseSQL: string = `
+export const bulkAddFaceOffFacebookActivityBaseSQL = `
 insert into face_off_facebook_activity 
 (name, events, type)
 `;
 
-export const bulkAddFaceOffFacebookActivityValuesSQL: string = `
+export const bulkAddFaceOffFacebookActivityValuesSQL = `
 select ?, ?, ?
 `;
 
-export const bulkAddValueConnector: string = `
+export const bulkAddValueConnector = `
 union all
 `;
-export const selectAllFaceOffFacebookActivity: string = `
+export const selectAllFaceOffFacebookActivity = `
  select name,
         events,
         type

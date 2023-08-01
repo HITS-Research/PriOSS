@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 import { scrollToTop } from 'src/app/utilities/generalUtilities.functions';
 
 @Component({
@@ -6,7 +6,7 @@ import { scrollToTop } from 'src/app/utilities/generalUtilities.functions';
   templateUrl: './ads-settings.component.html',
   styleUrls: ['./ads-settings.component.less']
 })
-export class AdsSettingsComponent {
+export class AdsSettingsComponent implements AfterViewInit{
   
   async ngAfterViewInit(){
     scrollToTop();

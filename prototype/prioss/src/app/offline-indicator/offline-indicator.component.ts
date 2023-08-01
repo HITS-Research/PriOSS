@@ -37,5 +37,5 @@ export class OfflineIndicatorComponent implements OnInit {
    */
   updateOnlineStatus() {
     this.onlineStatus = navigator.onLine;
-  };
+  }
 }

@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { SQLiteDBConnection, capSQLiteChanges } from "@capacitor-community/sqlite";
+import { SQLiteDBConnection} from "@capacitor-community/sqlite";
 import { DBService } from "../../../../services/db/db.service";
 import * as sql from "./insta-pending-follow-request.sql";
 import { InstaPendingFollowRequestInfo } from "src/app/models/Instagram/FollowerInfo/PendingFollowRequestInfo";
@@ -27,7 +27,7 @@ export class InstaPendingFollowRequestRepository extends BulkAddCapableRepositor
      * 
      * @author: Melina (kleber@mail.uni-paderborn.de)
      */
-    async startPendingFollowRequestBulkAdd(instaProfileURL: string, instaAccountName: string, timestamp: number, totalRowCount: number, targetBulkSize: number = 500) {
+    async startPendingFollowRequestBulkAdd(instaProfileURL: string, instaAccountName: string, timestamp: number, totalRowCount: number, targetBulkSize = 500) {
         this.startBulkAdd([instaProfileURL, instaAccountName, timestamp], totalRowCount, targetBulkSize);
     }
 
@@ -59,10 +59,10 @@ export class InstaPendingFollowRequestRepository extends BulkAddCapableRepositor
     async addPendingFollowRequestInformation(instaProfileURL: string, instaAccountName: string, timestamp: number) {
         await this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
 
-            let sqlStatement = sql.insertPendingFollowRequestSQL;
-            let values = [instaProfileURL, instaAccountName, timestamp];
+            const sqlStatement = sql.insertPendingFollowRequestSQL;
+            const values = [instaProfileURL, instaAccountName, timestamp];
       
-            let ret: capSQLiteChanges = await db.run(sqlStatement, values);
+            await db.run(sqlStatement, values);
           });
     }
 
@@ -77,7 +77,7 @@ export class InstaPendingFollowRequestRepository extends BulkAddCapableRepositor
     {
         return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
 
-            let result = await db.query(sql.selectPendingFollowRequestInfo);
+            const result = await db.query(sql.selectPendingFollowRequestInfo);
             return result.values as InstaPendingFollowRequestInfo[];
         });
     }
