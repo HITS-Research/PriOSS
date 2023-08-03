@@ -8,6 +8,9 @@ export class InstaPrivacySettingsService {
    * Interface for that is used for the settings variable, that may differ for the different services (Spotify, Facebook and Instragram)
    * For detailed information on the variable and on how to embed the privacy settings module to the Dashboard please refer to the documentation
    * Documentation File: "Privacy-Settings Module information.md"
+   *  
+   * Questions are in-line with the instructions provided in the Privacy Recommendations section.
+   * More questions will be added as and when they are explored.
    * 
    * @author: aayushma (aayushma@mail.uni-paderborn.de)
    *
