@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, Input } from '@angular/core';
 import { SequenceComponentInit } from '../../sequence-component-init.abstract';
+import { Router } from '@angular/router';
 
 import { InstaAdsActivityRepository } from 'src/app/db/data-repositories/instagram/insta-ads/insta-ads-activity.repository';
 import { InstaAdsClickedRepository } from 'src/app/db/data-repositories/instagram/insta-ads/insta-ads-clicked.repository';
@@ -10,6 +11,7 @@ import { InstaAdsActivityInfo } from 'src/app/models/Instagram/LikedAdsInfo/Inst
 import { InstaAdsClickedInfo } from 'src/app/models/Instagram/LikedAdsInfo/InstaAdsClickedInfo';
 import { InstaAdsInterestInfo } from 'src/app/models/Instagram/LikedAdsInfo/InstaAdsInterestInfo';
 import { InstaAdsViewedInfo } from 'src/app/models/Instagram/LikedAdsInfo/InstaAdsViewedInfo';
+
 
 /**
  * This component is fsor instagram's advertisement page.
@@ -45,7 +47,7 @@ export class InstaAdsComponent extends SequenceComponentInit implements AfterVie
   ads_viewed: InstaAdsViewedInfo[] = [];
   listOfAdsViewed: InstaAdsViewedInfo[] = [];
 
-  constructor(private instaAdsActivityRepo: InstaAdsActivityRepository,
+  constructor(private router: Router, private instaAdsActivityRepo: InstaAdsActivityRepository,
     private instaAdsClickedRepo: InstaAdsClickedRepository,
     private instaAdsInterestRepo: InstaAdsInterestRepository,
     private instaAdsViewedRepo: InstaAdsViewedRepository){
@@ -155,4 +157,17 @@ export class InstaAdsComponent extends SequenceComponentInit implements AfterVie
         break;
     }
   }
+  
+
+  /** 
+  * This method is responsible to navigate to guidelines to control which advertisements show on your Instagram account.
+  *
+  * @author: Aayushma (aayushma@mail.uni-paderborn.de)
+  *
+  */
+  navigateToRectification(){
+    this.router.navigate(['insta/add-manager']);
+  }
+
+ 
 }

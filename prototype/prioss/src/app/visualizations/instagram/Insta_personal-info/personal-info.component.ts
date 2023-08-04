@@ -1,4 +1,5 @@
-import { AfterViewInit, Component, Input } from '@angular/core';
+import { AfterViewInit, Component, Input, } from '@angular/core';
+import { Router } from '@angular/router';
 import * as utilities from 'src/app/utilities/generalUtilities.functions'
 import { InstaPersonalRepository } from 'src/app/db/data-repositories/instagram/insta-personal-info/insta-personal.repository';
 import { InstaPersonalInfo } from 'src/app/models/Instagram/PersonalInfo/InstaPersonalInfo';
@@ -34,8 +35,7 @@ export class Insta_PersonalInfoComponent extends SequenceComponentInit implement
   convertTimestamp: (str: string) => any = utilities.convertTimestamp;
   capitalizeAndPrettify: (str: string) => string = utilities.capitalizeAndPrettify;
 
-
-  constructor(private instaPersonalRepo: InstaPersonalRepository) {
+  constructor(private router: Router, private instaPersonalRepo: InstaPersonalRepository) {
     super();
   }
 
@@ -71,4 +71,28 @@ export class Insta_PersonalInfoComponent extends SequenceComponentInit implement
       this.profileChanges = changes;
     });
   }
+
+ /** 
+  * This method is responsible to navigate to guidelines to make Instagram Account Private.
+  *
+  * @author: Aayushma (aayushma@mail.uni-paderborn.de)
+  *
+  */
+
+ handleButtonClick1(){
+  this.router.navigate(['insta/account-private']);
 }
+
+ /** 
+  * This method is responsible to navigate to guidelines to make Instagram account's profile information private.
+  *
+  * @author: Aayushma (aayushma@mail.uni-paderborn.de)
+  *
+  */
+
+handleButtonClick2(){
+  this.router.navigate(['insta/profile-info-private']);
+}
+
+}
+
