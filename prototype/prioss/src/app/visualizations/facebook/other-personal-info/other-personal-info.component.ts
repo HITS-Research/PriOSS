@@ -39,6 +39,11 @@ export class OtherPersonalInfoComponent implements OnInit {
   ngOnInit(): void {
     this.getData();
   }
+     /**
+      * This method is responsible to activate the get the required data for address book and search history.
+      * @author: Rishma (rishmamn@mail.uni-paderborn.de))
+      *
+      */
 
   async getData() {
     this.faceAddressBookRepo.getAllFaceAddressBook().then((addressBookData) => {
@@ -57,6 +62,11 @@ export class OtherPersonalInfoComponent implements OnInit {
      
     });
   }
+    /**
+      * This method is responsible to show the address data in a grid manner with name and contact number.
+      * @author: Rishma (rishmamn@mail.uni-paderborn.de))
+      *
+    */
 
   gridLayout() {
     const width = window.innerWidth;
@@ -89,7 +99,11 @@ export class OtherPersonalInfoComponent implements OnInit {
       this.totalContactNumbers += numbers.length;
     });
   }
-
+   /**
+      * This method is responsible to filter the searched text in address book tab.
+      * @author: Rishma (rishmamn@mail.uni-paderborn.de))
+      *
+  */
   filterAddressBookItems(searchText: string): void {
     this.addressBookCurrentPage = 1;
   
@@ -101,8 +115,11 @@ export class OtherPersonalInfoComponent implements OnInit {
   
     this.addressBookTotalPages = Math.ceil(this.filteredAddressBookData.length / this.addressBookPageSize);
   }
-  
-
+  /**
+      * This method is responsible to filter the searched text in search history tab.
+      * @author: Rishma (rishmamn@mail.uni-paderborn.de))
+      *
+  */
   filterSearchHistoryItems(searchText: string): void {
     this.currentPage = 1;
 
@@ -113,34 +130,63 @@ export class OtherPersonalInfoComponent implements OnInit {
 
     this.totalPages = Math.ceil(this.filteredSearchHistoryData.length / this.pageSize);
   }
+    /**
+      * This method is responsible to show the data in that page for search history(1-10).
+      * @author: Rishma (rishmamn@mail.uni-paderborn.de))
+      *
+    */
 
   getVisibleData(): SearchHistoryModel[] {
     const startIndex = (this.currentPage - 1) * this.pageSize;
     const endIndex = startIndex + this.pageSize;
     return this.filteredSearchHistoryData.slice(startIndex, endIndex);
   }
+    /**
+      * This method is responsible to show go to the required page of the respective buttons(previos and next).
+      * @author: Rishma (rishmamn@mail.uni-paderborn.de))
+      *
+    */
 
   goToPage(page: number): void {
     if (page >= 1 && page <= this.totalPages) {
       this.currentPage = page;
     }
   }
+    /**
+      * This method is responsible to show the data in that page for address book(1-10).
+      * @author: Rishma (rishmamn@mail.uni-paderborn.de))
+      *
+    */
   getVisibleAddressBookData(): AddressBookModel[] {
     const startIndex = (this.addressBookCurrentPage - 1) * this.addressBookPageSize;
     const endIndex = startIndex + this.addressBookPageSize;
     return this.filteredAddressBookData.slice(startIndex, endIndex);
   }
-  
+    /**
+      * This method is responsible to show go to the required page of the respective buttons(previos and next).
+      * @author: Rishma (rishmamn@mail.uni-paderborn.de))
+      *
+    */
   goToAddressBookPage(page: number): void {
     if (page >= 1 && page <= this.addressBookTotalPages) {
       this.addressBookCurrentPage = page;
     }
   }
-  
+  /**
+      * This method is responsible to clear the searched text of search history data.
+      * @author: Rishma (rishmamn@mail.uni-paderborn.de))
+      *
+  */
+
   clearSearch(): void {
     this.searchText = '';
     this.filterSearchHistoryItems('');
   }
+   /**
+      * This method is responsible to clear the searched text of address book data.
+      * @author: Rishma (rishmamn@mail.uni-paderborn.de))
+      *
+  */
   clearAddressBookSearch(): void {
     this.searchText = '';
     this.filterAddressBookItems('');
