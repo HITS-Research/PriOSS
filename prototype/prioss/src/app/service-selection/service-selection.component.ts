@@ -1323,8 +1323,7 @@ export class ServiceSelectionComponent implements AfterViewInit{
         }
         else if(yourTopicData.length == 1) {
           await this.instaTopicRepo.addSingleTopicData(
-            utilities.getValueIgnoreCase(yourTopicData[0].string_map_data,"Name",false
-            ));
+            utilities.getValueIgnoreCase(yourTopicData[0].string_map_data,"Name",false));
         }
         else {
           await this.instaTopicRepo.startTopicBulkAdd(
@@ -1332,9 +1331,8 @@ export class ServiceSelectionComponent implements AfterViewInit{
             yourTopicData.length);
           
           for(let i = 1; i < yourTopicData.length; i++){
-            await this.instaTopicRepo.startTopicBulkAdd(
-              utilities.getValueIgnoreCase(yourTopicData[i].string_map_data,"Name",false),
-              yourTopicData.length);
+            await this.instaTopicRepo.addTopicsBulkEntry(
+              utilities.getValueIgnoreCase(yourTopicData[i].string_map_data,"Name",false));
           }
         }
       }
