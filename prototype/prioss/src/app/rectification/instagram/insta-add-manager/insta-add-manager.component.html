@@ -1,11 +1,43 @@
 <div class="component-page">
     <app-title-bar titleText="Guidelines to control which advertisements show on your Instagram account" tooltipText="The following guidelines helps you to control which ads show on your Instagram account. The guidelines are provided for Web Browser user as well as Mobile Application user." [includeButton]="false"></app-title-bar>
     <br>
-    
-    <p nz-typography> <strong>Note:</strong> It is not guaranteed that all ads related to each category can be avoided completely. Ads from certain categories like gambling and dating are restricted by default.</p>
-   
+    <p nz-typography> <strong>Note:</strong> It is not guaranteed that all ads related to each category can be avoided completely. Ads from certain categories like gambling and dating are restricted by default.</p>   
     <nz-tabset>
         <nz-tab nzTitle="Web Application">
+            <p nz-topography>Here’s how you can prevent and block specific ad categories and advertiser accounts to appear on your profile feed or reels:</p>
+            <br>   
+                <nz-steps [nzCurrent]="AddManager">
+                  <nz-step nzTitle="Step 1"></nz-step>
+                  <nz-step nzTitle="Step 2"></nz-step>
+                  <nz-step nzTitle="Step 3"></nz-step>
+                  <nz-step nzTitle="Step 4"></nz-step>
+                  <nz-step nzTitle="Step 5"></nz-step>
+                  <nz-step nzTitle="Step 6"></nz-step>
+                  <nz-step nzTitle="Step 7"></nz-step>
+                </nz-steps>
+            
+                <div class="steps-content">
+                  <img
+                    nz-image
+                    height="300px"
+                    nzSrc={{instructionPictureAddManager}}
+                    alt=""
+                  />
+                  <nz-divider></nz-divider>
+                  <p nz-typography>{{ instructionTextAddManager }}</p>
+                </div>
+
+                <div class="steps-action">
+                  <button nz-button nzType="default" (click)="preAddManager()" [disabled]="AddManager <= 0">
+                    <span>Previous</span>
+                  </button>
+                  <button nz-button nzType="default" (click)="nextAddManager()" [disabled]="AddManager >= 6">
+                    <span>Next</span>
+                  </button>
+                </div>
+
+        </nz-tab>
+<!--                
             <div>
                 <p nz-topography>Here’s how you can prevent and block specific ad categories and advertiser accounts to appear on your profile feed or reels:</p>
                 <br>
@@ -36,12 +68,47 @@
                 <p nz-typography> <strong>Step 7-</strong> Now you can sort and filter the advertisements. </p>
                 <img class ="insta-add-web1" src="../../assets/images/insta-privacy-recommendations/28.png">
             </div>
+-->
+       
 
-        </nz-tab>
-      <nz-tab nzTitle="Mobile Application">
+        <nz-tab nzTitle="Mobile Application">
             <div>
-                <p nz-typography>Here’s how you can prevent and block specific ad categories and advertiser accounts to appear on your profile feed or reels:</p>
+            <p nz-typography>Here’s how you can prevent and block specific ad categories and advertiser accounts to appear on your profile feed or reels:</p>
             <br>
+            <nz-steps [nzCurrent]="AddManagerMobile">
+                <nz-step nzTitle="Step 1"></nz-step>
+                <nz-step nzTitle="Step 2"></nz-step>
+                <nz-step nzTitle="Step 3"></nz-step>
+                <nz-step nzTitle="Step 4"></nz-step>
+                <nz-step nzTitle="Step 5"></nz-step>
+                <nz-step nzTitle="Step 6"></nz-step>
+                <nz-step nzTitle="Step 7"></nz-step>
+                <nz-step nzTitle="Step 8"></nz-step>
+                <nz-step nzTitle="Step 9"></nz-step>
+              </nz-steps>
+          
+              <div class="steps-content">
+                <img
+                  nz-image
+                  height="300px"
+                  nzSrc={{instructionPictureAddManagerMobile}}
+                  alt=""
+                />
+                <nz-divider></nz-divider>
+                <p nz-typography>{{ instructionTextAddManagerMobile }}</p>
+              </div>
+
+              <div class="steps-action">
+                <button nz-button nzType="default" (click)="preAddManagerMobile()" [disabled]="AddManagerMobile <= 0">
+                  <span>Previous</span>
+                </button>
+                <button nz-button nzType="default" (click)="nextAddManagerMobile()" [disabled]="AddManagerMobile >= 8">
+                  <span>Next</span>
+                </button>
+              </div>
+
+<!--
+
                 <p nz-typography> <strong>Step 1 -</strong> While viewing your Instagram feed, tap on your <strong>profile icon</strong> in the bottom right corner of the screen. </p>
                 <img class="hide-stories" src="../../assets/images/insta-privacy-recommendations/31.png">
                 <br>
@@ -72,6 +139,8 @@
                 <br>
                 <p nz-typography> <strong>Step 8 -</strong> Now you can sort and filter the advertisements. </p>
                 <img class ="insta-add-web1"src="../../assets/images/insta-privacy-recommendations/28.png">
+            </div>
+-->
             </div>
         </nz-tab>
     </nz-tabset>
