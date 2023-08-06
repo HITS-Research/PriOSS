@@ -225,6 +225,12 @@ CREATE TABLE IF NOT EXISTS insta_received_follow_request_info (
     timestamp INTEGER NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS insta_your_topics(
+    id INTEGER PRIMARY KEY,
+    topic TEXT NOT NULL
+);
+
+
 CREATE TABLE IF NOT EXISTS face_ads_interacted (
     id INTEGER PRIMARY KEY,
     title TEXT NOT NULL,
@@ -368,6 +374,7 @@ DROP TABLE IF EXISTS insta_pending_follow_request_info;
 DROP TABLE IF EXISTS insta_recently_unfollowed_accounts_info;
 DROP TABLE IF EXISTS insta_removed_suggestion_info;
 DROP TABLE IF EXISTS insta_received_follow_request_info;
+DROP TABLE IF EXISTS insta_your_topics
 DROP TABLE IF EXISTS face_ads_interacted;
 DROP TABLE IF EXISTS face_apps_websites;
 DROP TABLE IF EXISTS face_off_facebook_activity;
