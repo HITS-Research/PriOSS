@@ -1,33 +1,33 @@
-export const insertIntoInstaPendingFollowRequestInfoSQL: string = `
+export const insertIntoInstaPendingFollowRequestInfoSQL = `
   insert into insta_pending_follow_request_info
   (instaProfileURL, instaAccountName, timestamp)
   values 
   (?, ?, ?);
 `;
 
-export const selectPendingFollowRequestInfo: string = `
+export const selectPendingFollowRequestInfo = `
 select instaProfileURL,
        instaAccountName,
        timestamp 
     from insta_pending_follow_request_info;
 `;
 
-export const insertPendingFollowRequestSQL: string = `
+export const insertPendingFollowRequestSQL = `
 insert into insta_pending_follow_request_info
 (instaProfileURL, instaAccountName, timestamp)
 values 
 (?, ?, ?);
 `;
 
-export const bulkAddInstaPendingFollowRequestBaseSQL: string = `
+export const bulkAddInstaPendingFollowRequestBaseSQL = `
 insert into insta_pending_follow_request_info
 (instaProfileURL, instaAccountName, timestamp)
 `;
 
-export const bulkAddPendingFollowRequestValuesSQL: string = `
+export const bulkAddPendingFollowRequestValuesSQL = `
 select ?, ?, ?
 `;
 
-export const bulkAddValueConnector: string = `
+export const bulkAddValueConnector = `
 union all
 `;

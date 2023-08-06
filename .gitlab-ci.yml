@@ -1,0 +1,25 @@
+image: node:18.13.0-alpine
+
+stages:
+  - build
+  - test
+
+build-job:
+  stage: build
+  tags:
+    - shared
+  before_script:
+    - cd prototype/prioss
+    - npm ci
+  script:
+    - npm run build
+
+lint-job:
+  stage: test
+  tags:
+    - shared
+  before_script:
+    - cd prototype/prioss
+    - npm ci
+  script:
+    - npm run lint

@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
+import { scrollToTop } from 'src/app/utilities/generalUtilities.functions';
 
 /**
   * This component is responsible for providing guidelines to turn off the off-facebook-activity in facebook 
@@ -11,5 +12,9 @@ import { Component } from '@angular/core';
   templateUrl: './off-facebook-activity.component.html',
   styleUrls: ['./off-facebook-activity.component.less']
 })
-export class OffFacebookActivityComponent {
+export class OffFacebookActivityComponent implements AfterViewInit{
+
+  async ngAfterViewInit(){
+    scrollToTop();
+  }
 }

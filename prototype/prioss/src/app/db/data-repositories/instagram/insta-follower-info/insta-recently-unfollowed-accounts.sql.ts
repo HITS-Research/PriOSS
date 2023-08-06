@@ -1,33 +1,33 @@
-export const insertIntoInstaRecentlyUnfollowedAccountsInfoSQL: string = `
+export const insertIntoInstaRecentlyUnfollowedAccountsInfoSQL = `
   insert into insta_recently_unfollowed_accounts_info
   (instaProfileURL, instaAccountName, timestamp)
   values 
   (?, ?, ?);
 `;
 
-export const selectRecentlyUnfollowedAccountsInfo: string = `
+export const selectRecentlyUnfollowedAccountsInfo = `
 select instaProfileURL,
        instaAccountName,
        timestamp 
     from insta_recently_unfollowed_accounts_info;
 `;
 
-export const insertRecentlyUnfollowedAccountsSQL: string = `
+export const insertRecentlyUnfollowedAccountsSQL = `
 insert into insta_recently_unfollowed_accounts_info
 (instaProfileURL, instaAccountName, timestamp)
 values 
 (?, ?, ?);
 `;
 
-export const bulkAddInstaRecentlyUnfollowedAccountsBaseSQL: string = `
+export const bulkAddInstaRecentlyUnfollowedAccountsBaseSQL = `
 insert into insta_recently_unfollowed_accounts_info
 (instaProfileURL, instaAccountName, timestamp)
 `;
 
-export const bulkAddRecentlyUnfollowedAccountsValuesSQL: string = `
+export const bulkAddRecentlyUnfollowedAccountsValuesSQL = `
 select ?, ?, ?
 `;
 
-export const bulkAddValueConnector: string = `
+export const bulkAddValueConnector = `
 union all
 `;

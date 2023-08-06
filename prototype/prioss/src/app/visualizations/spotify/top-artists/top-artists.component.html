@@ -5,22 +5,27 @@
     </div>
 
     <div *ngIf="!previewMode">
-      <app-title-bar titleText="Top Artists" tooltipText="This bar chart shows your top 10 artists in a given time period. You can also switch to a tabular view.">
+      <app-title-bar *ngIf="!calledFromListeningtime" titleText="Top Artists" tooltipText="This bar chart shows your top 10 artists in a given time period. You can also switch to a tabular view.">
       </app-title-bar>
+
+      <app-title-bar *ngIf="calledFromListeningtime" titleText="Top Artists" tooltipText="This bar chart shows your top 10 artists in a given time period. You can also switch to a tabular view."
+        [overrideBackButtonFunction]="true" (onButtonClickedEventOverride)="returnToListeningTime()"
+        backButtonTextOverride="Back to Listeningtime">
+      </app-title-bar>
+
       <nz-tabset (nzSelectedIndexChange)="onTabSwitch($event)">
         <nz-tab nzTitle="Bar chart">
           From:
-          <nz-date-picker [(ngModel)]="filterFromDate" (ngModelChange)="onDateFilterChanged()"></nz-date-picker>
+          <nz-date-picker [(ngModel)]="filterFromDate" nzShowTime nzFormat="yyyy-MM-dd HH:00" (ngModelChange)="onDateFilterChanged()"></nz-date-picker>
           To:
-          <nz-date-picker [(ngModel)]="filterToDate" (ngModelChange)="onDateFilterChanged()"></nz-date-picker>
+          <nz-date-picker [(ngModel)]="filterToDate" nzShowTime nzFormat="yyyy-MM-dd HH:00" (ngModelChange)="onDateFilterChanged()"></nz-date-picker>
           <br><br>
-          <div class="bar_chart_top_artists visualization-card"></div>
-        </nz-tab>
+          <div class="bar_chart_top_artists visualization-card"></div>        </nz-tab>
         <nz-tab nzTitle="Table">
           From:
-          <nz-date-picker [(ngModel)]="filterFromDate" (ngModelChange)="onDateFilterChanged()"></nz-date-picker>
+          <nz-date-picker [(ngModel)]="filterFromDate" nzShowTime nzFormat="yyyy-MM-dd HH:00" (ngModelChange)="onDateFilterChanged()"></nz-date-picker>
           To:
-          <nz-date-picker [(ngModel)]="filterToDate" (ngModelChange)="onDateFilterChanged()"></nz-date-picker>
+          <nz-date-picker [(ngModel)]="filterToDate" nzShowTime nzFormat="yyyy-MM-dd HH:00" (ngModelChange)="onDateFilterChanged()"></nz-date-picker>
           <nz-table #basicTable [nzData]="this.minListenedToArtist">
             <thead>
             <tr>

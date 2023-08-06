@@ -1,33 +1,33 @@
-export const insertIntoInstaReceivedFollowRequestInfoSQL: string = `
+export const insertIntoInstaReceivedFollowRequestInfoSQL = `
   insert into insta_received_follow_request_info
   (instaProfileURL, instaAccountName, timestamp)
   values 
   (?, ?, ?);
 `;
 
-export const selectReceivedFollowRequestInfo: string = `
+export const selectReceivedFollowRequestInfo = `
 select instaProfileURL,
        instaAccountName,
        timestamp 
     from insta_received_follow_request_info;
 `;
 
-export const insertReceivedFollowRequestSQL: string = `
+export const insertReceivedFollowRequestSQL = `
 insert into insta_received_follow_request_info
 (instaProfileURL, instaAccountName, timestamp)
 values 
 (?, ?, ?);
 `;
 
-export const bulkAddInstaReceivedFollowRequestBaseSQL: string = `
+export const bulkAddInstaReceivedFollowRequestBaseSQL = `
 insert into insta_received_follow_request_info
 (instaProfileURL, instaAccountName, timestamp)
 `;
 
-export const bulkAddReceivedFollowRequestValuesSQL: string = `
+export const bulkAddReceivedFollowRequestValuesSQL = `
 select ?, ?, ?
 `;
 
-export const bulkAddValueConnector: string = `
+export const bulkAddValueConnector = `
 union all
 `;

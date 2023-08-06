@@ -5,29 +5,51 @@
         <app-title-bar titleText="Listening Time" tooltipText="Use the 'Visualize by' drop-down to switch between viewing how much time you spent listening to Spotify during which hours, days, months or years.
         You can hover over or click the bars in the chart with your mouse for more information."></app-title-bar>
         <div class="t-filter-container">
-            <div>
-                Visualize by:
-                <nz-select [(ngModel)]="selectedGranularity" (ngModelChange)="onGranularityChanged()">
+            <div class="t-filter-grid">
+                <span class="grid-col-one">Visualize by: </span>
+                <nz-select class="grid-col-two" [(ngModel)]="selectedGranularity" (ngModelChange)="onGranularityChanged()">
                     <nz-option *ngFor="let granularity of granularityValues" [nzValue]="granularity" [nzLabel]="Granularity2LabelMapping[granularity]"></nz-option>
                 </nz-select>
             </div>
 
             <div class="t-inline-spacer-small"></div>
 
-            <div *ngIf="selectedGranularity == GranularityEnum.Year">
-                From: <nz-date-picker nzMode="year" [(ngModel)]="filterFromDate" (ngModelChange)="onDateFilterChanged()"></nz-date-picker>
-                To: <nz-date-picker nzMode="year" [(ngModel)]="filterToDate" (ngModelChange)="onDateFilterChanged()"></nz-date-picker>
+            <!--Year Date Pickers-->
+            <div *ngIf="selectedGranularity === GranularityEnum.Year" class="t-filter-grid">
+                <span class="grid-col-one">From: </span> <nz-date-picker class="grid-col-two" nzMode="year" [(ngModel)]="filterFromDate" (ngModelChange)="onDateFilterChanged()"></nz-date-picker>
             </div>
-            <div *ngIf="selectedGranularity == GranularityEnum.Month">
-                From: <nz-date-picker nzMode="month" [(ngModel)]="filterFromDate" (ngModelChange)="onDateFilterChanged()"></nz-date-picker>
-                To: <nz-date-picker nzMode="month" [(ngModel)]="filterToDate" (ngModelChange)="onDateFilterChanged()"></nz-date-picker>
+
+            <div *ngIf="selectedGranularity === GranularityEnum.Year" class="t-inline-spacer-small"></div>
+
+            <div *ngIf="selectedGranularity === GranularityEnum.Year" class="t-filter-grid">
+                <span class="grid-col-one">To: </span> <nz-date-picker class="grid-col-two" nzMode="year" [(ngModel)]="filterToDate" (ngModelChange)="onDateFilterChanged()"></nz-date-picker>
             </div>
-            <div *ngIf="selectedGranularity == GranularityEnum.Day">
-                From: <nz-date-picker [(ngModel)]="filterFromDate" (ngModelChange)="onDateFilterChanged()"></nz-date-picker>
-                To: <nz-date-picker  [(ngModel)]="filterToDate" (ngModelChange)="onDateFilterChanged()"></nz-date-picker>
+
+            <!--Month Date Pickers-->
+            <div *ngIf="selectedGranularity === GranularityEnum.Month" class="t-filter-grid">
+                <span class="grid-col-one">From: </span> <nz-date-picker class="grid-col-two" nzMode="month" [(ngModel)]="filterFromDate" (ngModelChange)="onDateFilterChanged()"></nz-date-picker>
             </div>
-            <div *ngIf="selectedGranularity == GranularityEnum.Hour">
-                On: <nz-date-picker  [(ngModel)]="filterSingleDate" (ngModelChange)="onDateFilterChanged()"></nz-date-picker>
+
+            <div *ngIf="selectedGranularity === GranularityEnum.Month" class="t-inline-spacer-small"></div>
+
+            <div *ngIf="selectedGranularity === GranularityEnum.Month" class="t-filter-grid">
+                <span class="grid-col-one">To: </span> <nz-date-picker class="grid-col-two" nzMode="month" [(ngModel)]="filterToDate" (ngModelChange)="onDateFilterChanged()"></nz-date-picker>
+            </div>
+
+            <!--Day Date Pickers-->
+            <div *ngIf="selectedGranularity === GranularityEnum.Day" class="t-filter-grid">
+                <span class="grid-col-one">From: </span> <nz-date-picker class="grid-col-two" [(ngModel)]="filterFromDate" (ngModelChange)="onDateFilterChanged()"></nz-date-picker>
+            </div>
+
+            <div *ngIf="selectedGranularity === GranularityEnum.Day" class="t-inline-spacer-small"></div>
+
+            <div *ngIf="selectedGranularity === GranularityEnum.Day" class="t-filter-grid">
+                <span class="grid-col-one">To: </span> <nz-date-picker  class="grid-col-two" [(ngModel)]="filterToDate" (ngModelChange)="onDateFilterChanged()"></nz-date-picker>
+            </div>
+
+            <!--Hour Date Picker-->
+            <div *ngIf="selectedGranularity === GranularityEnum.Hour" class="t-filter-grid">
+                <span class="grid-col-one">On: </span> <nz-date-picker class="grid-col-two" [(ngModel)]="filterSingleDate" (ngModelChange)="onDateFilterChanged()"></nz-date-picker>
             </div>
 
             <div class="t-inline-spacer-small"></div>
@@ -39,8 +61,8 @@
 
             <div class="t-inline-spacer-small"></div>
 
-            <div>
-            Show time above bars: <nz-switch [(ngModel)]="showDataTextAboveBars" (ngModelChange)="onChartParametersChanged()"></nz-switch>
+            <div class="t-filter-grid">
+                <span class="grid-col-one">Show time above bars: </span> <nz-switch class="grid-col-two" [(ngModel)]="showDataTextAboveBars" (ngModelChange)="onChartParametersChanged()"></nz-switch>
             </div>
 
         </div>
@@ -50,4 +72,18 @@
     <div id="listeningtime-bar-chart" class="visualization-card"></div>
 </div>
 
-<app-songtimeline #SongtimelineComponent style="display:none" id="songtimeline-page"></app-songtimeline>
+<div id="contextmenu" class="contextmenu">
+    <button (click)="goToTopSongs()">
+        View Top Songs
+    </button>
+    <br>
+    <button (click)="goToTopArtists()">
+        View Top Artists
+    </button>
+</div>
+
+<div *ngIf="!previewMode">
+    <app-songtimeline #SongtimelineComponent style="display:none" id="songtimeline-page"></app-songtimeline>
+    <spot-top-songs #TopSongsComponent style="display:none" id="topsongs-page"></spot-top-songs>
+    <spot-top-artists #TopArtistsComponent style="display:none" id="topartists-page"></spot-top-artists>
+</div>

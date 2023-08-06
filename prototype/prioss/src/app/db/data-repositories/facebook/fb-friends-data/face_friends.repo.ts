@@ -31,7 +31,7 @@ export class FacebookFriendsRepository extends BulkAddCapableRepository {
      * @author: rbharmal (rbharmal@mail.upb.de)
      */
 
-    async startAdActivityBulkAdd(name: string, timestamp: string, type: string, totalRowCount: number, targetBulkSize: number = 500) {
+    async startAdActivityBulkAdd(name: string, timestamp: string, type: string, totalRowCount: number, targetBulkSize = 500) {
         this.startBulkAdd([name, timestamp, type], totalRowCount, targetBulkSize);
     }
 
@@ -54,7 +54,7 @@ export class FacebookFriendsRepository extends BulkAddCapableRepository {
       async getAllFacebookFriends() : Promise<FacebookFriendsModel[]> {
         return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
     
-          let result = await db.query(sql.selectAllFacebookFriends);
+          const result = await db.query(sql.selectAllFacebookFriends);
           return result.values as FacebookFriendsModel[];
         });
       }

@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { SQLiteDBConnection, capSQLiteChanges } from "@capacitor-community/sqlite";
+import { SQLiteDBConnection} from "@capacitor-community/sqlite";
 import { DBService } from "../../../../services/db/db.service";
 import * as sql from "./insta-follower.sql";
 import { InstaFollowerInfo } from 'src/app/models/Instagram/FollowerInfo/FollowerInfo';
@@ -27,7 +27,7 @@ export class InstaFollowerRepository extends BulkAddCapableRepository {
      * 
      * @author: Melina (kleber@mail.uni-paderborn.de)
      */
-    async startFollowerBulkAdd(instaProfileURL: string, timestamp: number, instaAccountName: string, totalRowCount: number, targetBulkSize: number = 500) {
+    async startFollowerBulkAdd(instaProfileURL: string, timestamp: number, instaAccountName: string, totalRowCount: number, targetBulkSize = 500) {
         this.startBulkAdd([instaProfileURL, timestamp, instaAccountName], totalRowCount, targetBulkSize);
     }
 
@@ -57,9 +57,9 @@ export class InstaFollowerRepository extends BulkAddCapableRepository {
      */
     async addFollowerInformation(instaProfileURL: string, timestamp: number, instaAccountName: string) {
         await this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
-            let sqlStatement = sql.insertIntoInstaFollowerInfoSQL; 
-            let values = [instaProfileURL, timestamp, instaAccountName];
-            let ret: capSQLiteChanges = await db.run(sqlStatement, values);
+            const sqlStatement = sql.insertIntoInstaFollowerInfoSQL; 
+            const values = [instaProfileURL, timestamp, instaAccountName];
+            await db.run(sqlStatement, values);
           });
     }
    
@@ -75,7 +75,7 @@ export class InstaFollowerRepository extends BulkAddCapableRepository {
     {
         return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
 
-            let result = await db.query(sql.selectFollowerInfo);
+            const result = await db.query(sql.selectFollowerInfo);
             return result.values as InstaFollowerInfo[];
         });
     }

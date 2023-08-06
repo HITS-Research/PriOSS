@@ -1,9 +1,11 @@
-import {Component, Input} from '@angular/core';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import {AfterViewInit, Component, Input} from '@angular/core';
 import * as d3 from 'd3';
 import {SpotHistoryRepository} from "../../../db/data-repositories/spotify/spot-history/spot-history.repository";
 import {NotificationService} from "../../../notification/notification.component";
 import { SpotMinListenedToArtist } from 'src/app/models/Spotify/TopArtist/SpotMinListenedToArtist';
 import { SequenceComponentInit } from '../../sequence-component-init.abstract';
+import { ActivatedRoute } from '@angular/router';
 
 /**
  * This component visualizes how many songs from an artist were listened to
@@ -17,23 +19,26 @@ import { SequenceComponentInit } from '../../sequence-component-init.abstract';
   templateUrl: './top-artists.component.html',
   styleUrls: ['./top-artists.component.less']
 })
-export class TopArtistsComponent extends SequenceComponentInit {
+export class TopArtistsComponent extends SequenceComponentInit implements AfterViewInit{
 
   readonly spotifyGreen: string = "#1DB954";
   readonly textSize = "20px";
   @Input()
-  previewMode: boolean = false;
-  showArtistHistoy : boolean  = false;
+  previewMode = false;
+  @Input()
+  calledFromListeningtime = false;
+
+  showArtistHistoy   = false;
 
   filterFromDate: Date | null;
   filterToDate: Date | null;
 
   minListenedToArtist : any[];
-  activeTabIndex: number = 0;
-  selectedArtistName : string = "";
+  activeTabIndex = 0;
+  selectedArtistName  = "";
   selectedArtistHistory : any[];
 
-  constructor(private spothistoryRepo: SpotHistoryRepository, private notifyService: NotificationService) {
+  constructor(private spothistoryRepo: SpotHistoryRepository, private notifyService: NotificationService, private route: ActivatedRoute) {
     super();
     console.log('>> constructor artists visualization');
   }
@@ -60,12 +65,21 @@ export class TopArtistsComponent extends SequenceComponentInit {
     //await new Promise(f => setTimeout(f, 500));  // TODO: fix
     console.log("--- Initializing Component 3: TopArtists");
 
-    this.filterFromDate = await this.spothistoryRepo.getFirstDay();
-    this.filterToDate = await this.spothistoryRepo.getMostRecentDay();
+    if(!this.filterFromDate) {
+      this.filterFromDate = await this.spothistoryRepo.getFirstDay();
+    }
+    if(!this.filterToDate) {
+      this.filterToDate = await this.spothistoryRepo.getMostRecentDay();
+    }
 
-    let result: SpotMinListenedToArtist[] = await this.spothistoryRepo.getMinListenedToArtists(this.filterFromDate, this.filterToDate)
-    this.minListenedToArtist = result;
-    this.makeBarChart(result.slice(0, 10));
+    if(this.filterFromDate && this.filterToDate) {
+      const result: SpotMinListenedToArtist[] = await this.spothistoryRepo.getMinListenedToArtists(this.filterFromDate, this.filterToDate)
+      this.minListenedToArtist = result;
+      this.makeBarChart(result.slice(0, 10));
+    }
+    else {
+      this.makeBarChart([]);
+    }
 
   }
 
@@ -118,12 +132,22 @@ export class TopArtistsComponent extends SequenceComponentInit {
     //remove old barchart
     d3.select(".bar_chart_top_artists").selectAll("*").remove();
 
-    if (data.length === 0) {
-      this.notifyService.showNotification("You did not listen to any music in the selected time period.");
+    if (data.length === 0
+        //If SQLite does not find any data it still returns an array with one entry, but the "artistName" portion in the entry is "null" (string, not nulltype)
+        || (data.length == 1 && data[0].artistName == "null")) {
+
+      data = [];
+
+      d3.select(".bar_chart_top_artists")
+        .append("div")
+        .text("There is no listening history data in your data-download.");
+
+      //this.notifyService.showNotification("You did not listen to any music in the selected time period.");
+
       return;
     }
 
-    let hoveringBarName: string = "";
+    let hoveringBarName = "";
 
     // set the dimensions and margins of the graph
     let margin = 100;
@@ -245,6 +269,23 @@ export class TopArtistsComponent extends SequenceComponentInit {
    */
   onBackFromArtist() {
     this.showArtistHistoy = false;
+  }
+
+  /**
+   * A callback function that hides this visualization and replaces it with the listeningtime visualization.
+   * by doing the replacement this way, instead of displaying this component on a seperate page apart from the listening time,
+   * the listeningtime visualization's filter history is preserved when navigating back to it.
+   *
+   * @author: Simon (scg@mail.upb.de)
+   */
+  returnToListeningTime() {
+    const listeningTimePage = document.getElementById('listeningtime-page');
+    const topArtistsPage = document.getElementById('topartists-page');
+
+    if(topArtistsPage && listeningTimePage) {
+      listeningTimePage.style.display='block';
+      topArtistsPage.style.display='none';
+    }
   }
 
 }

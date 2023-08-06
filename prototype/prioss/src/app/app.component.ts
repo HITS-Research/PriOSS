@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import * as utilities from 'src/app/utilities/generalUtilities.functions'
 import { SQLiteService } from './services/sqlite/sqlite.service';
 import { AppComponentMsgService } from './services/app-component-msg/app-component-msg.service';
@@ -10,19 +11,25 @@ import { AppComponentMsg } from './enum/app-component-msg.enum';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.less']
 })
-export class AppComponent {
-  title: string = 'prioss';
+export class AppComponent implements OnInit {
+  title = 'prioss';
   pRouter: Router;
-  isCollapsed: boolean = false;
+  isCollapsed = false;
   serviceName: string | null;
-  isDashboard: boolean = false;
-  showServiceButton: boolean = false;
+  isDashboard = false;
+  showServiceButton = false;
   navigateAndScroll: (router: Router, url: string) => void = utilities.navigateAndScroll;
 
-  public isWeb: boolean = false;
+  /**
+   * Determine the width in px of the side menu when it is collapsed.
+   * This is set via a call in ngOnInit depending on the device's screensize.
+   */
+  collapseWidth: number;
+
+  public isWeb = false;
   private initPlugin: boolean;
 
-  constructor(private router: Router, private sqlite: SQLiteService, private appComponentMsgService: AppComponentMsgService) {
+  constructor(private router: Router, private sqlite: SQLiteService, private appComponentMsgService: AppComponentMsgService, public breakpointObserver: BreakpointObserver) {
     this.pRouter = router;
 
     appComponentMsgService.appMsg$.subscribe((msg) =>
@@ -47,6 +54,18 @@ export class AppComponent {
 
       console.log('>>>> in App  this.initPlugin ' + this.initPlugin);
     });
+  }
+
+  ngOnInit() {
+    this.breakpointObserver
+      .observe(['(min-width: 500px)'])
+      .subscribe((state: BreakpointState) => {
+        if (state.matches) {
+          this.collapseWidth = 80;
+        } else {
+          this.collapseWidth = 0;
+        }
+      });
   }
 
   /**

@@ -1,24 +1,24 @@
-export const insertIntoInstaKeywordSearchesSQL: string = `
+export const insertIntoInstaKeywordSearchesSQL = `
 insert into insta_keyword_searches
 (search, timestamp)
 values 
 (?, ?);
 `;
 
-export const bulkAddInstaKeywordSearchesBaseSQL: string = `
+export const bulkAddInstaKeywordSearchesBaseSQL = `
 insert into insta_keyword_searches
 (search, timestamp)
 `;
 
-export const bulkAddInstaKeywordSearchesValuesSQL: string = `
+export const bulkAddInstaKeywordSearchesValuesSQL = `
 select ?, ?
 `;
 
-export const bulkAddValueConnector: string = `
+export const bulkAddValueConnector = `
 union all
 `;
 
-export const selectAllFromInstaKeywordSearches: string = `
+export const selectAllFromInstaKeywordSearches = `
 select *
   from insta_keyword_searches
  order by timestamp desc;
