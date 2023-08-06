@@ -394,7 +394,7 @@ export class ServiceSelectionComponent implements AfterViewInit{
   /**
     * Parses the uploaded Facebook data-download-zip file into the SQLite database
     *
-    * @author: Rashida (rbharmal@mail.upb.de),Rishma (rishmamn@mail.uni-paderborn.de)
+    * @author: Rashida (rbharmal@mail.upb.de), Rishma (rishmamn@mail.uni-paderborn.de)
     *
   */
   async parseFacebookFileToSQLite() {
@@ -1372,5 +1372,80 @@ export class ServiceSelectionComponent implements AfterViewInit{
   scrollToTop(){
     this.scroll.scrollToPosition([0,0]);
   }
-        
+    
+  
+  InstaDataDownload = 0;
+  instructionTextInstaDataDownload='Log in to your account, or use this Instagram Website link- https://www.instagram.com/ and enter your log in details.';
+  instructionPictureInstaDataDownload="../../assets/images/insta-instructions/login.png";
+
+  /**
+   * Callback function to decrement the "InstaDataDownload" variable.
+   * @author: Aayushma (aayushma@mail.uni-paderborn.de)
+   *
+   */
+  preInstaDataDownload(): void {
+    this.InstaDataDownload -= 1;
+    this.changeInstaDataDownload();
+  }
+
+  /**
+   * Callback function to increment the "InstaDataDownload" variable.
+   * @author: Aayushma (aayushma@mail.uni-paderborn.de)
+   *
+   */
+  nextInstaDataDownload(): void {
+    this.InstaDataDownload += 1;
+    this.changeInstaDataDownload();
+  }
+
+
+  /**
+   * This method shows the instruction text and picture for Instagram user to download their personal data.
+   * @author: Aayushma (aayushma@mail.uni-paderborn.de)
+   *
+   */
+  changeInstaDataDownload(): void {
+    switch (this.InstaDataDownload) {
+      case 0: {
+        this.instructionTextInstaDataDownload='Log in to your account, or use this Instagram Website link- https://www.instagram.com/ and enter your log in details.';
+        this.instructionPictureInstaDataDownload="../../assets/images/insta-instructions/login.png";
+        break;
+      }
+      case 1: {
+        this.instructionTextInstaDataDownload='Now go to "More" option in the bottom-left corner.';
+        this.instructionPictureInstaDataDownload="../../assets/images/insta-instructions/31.png";
+        break;
+      }
+      case 2: {
+        this.instructionTextInstaDataDownload='Select "Your activity" option';
+        this.instructionPictureInstaDataDownload="../../assets/images/insta-instructions/32.png";
+        break;
+      }
+      case 3: {
+        this.instructionTextInstaDataDownload='On the page, now click on "Download your information" option.';
+        this.instructionPictureInstaDataDownload="../../assets/images/insta-instructions/33.png";
+        break;
+      }
+      case 4: {
+        this.instructionTextInstaDataDownload='Verify your e-mail address. Select "JSON format" and click on "Next".';
+        this.instructionPictureInstaDataDownload="../../assets/images/insta-instructions/34.png";
+        break;
+      }
+      case 5: {
+        this.instructionTextInstaDataDownload='Before you go to the final step of requesting your data, make sure that the website is set to English. You can change that on the bottom of the screen. It is necessary to analyze your data correcty and after requesting your data you can switch back to your favorite language.';
+        this.instructionPictureInstaDataDownload="../../assets/images/insta-instructions/35.png";
+        break;
+      }
+      case 6: {
+        this.instructionTextInstaDataDownload='Enter your account password and click "Request Download".';
+        this.instructionPictureInstaDataDownload="../../assets/images/insta-instructions/36.png";
+        break;
+      }
+      default: {
+        this.instructionTextInstaDataDownload='Error';
+      }
+    }
+  }
+
+
 }
