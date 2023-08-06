@@ -374,7 +374,7 @@ DROP TABLE IF EXISTS insta_pending_follow_request_info;
 DROP TABLE IF EXISTS insta_recently_unfollowed_accounts_info;
 DROP TABLE IF EXISTS insta_removed_suggestion_info;
 DROP TABLE IF EXISTS insta_received_follow_request_info;
-DROP TABLE IF EXISTS insta_your_topics
+DROP TABLE IF EXISTS insta_your_topics;
 DROP TABLE IF EXISTS face_ads_interacted;
 DROP TABLE IF EXISTS face_apps_websites;
 DROP TABLE IF EXISTS face_off_facebook_activity;
