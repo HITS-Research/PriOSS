@@ -18,6 +18,21 @@ export class InstaTopicsRepository extends BulkAddCapableRepository {
     }
 
     /**
+     * Add a single row to the DB.
+     * 
+     * @param topic a single topic for your topics
+     * 
+     * @author: Durva & Mayank (dghurye@mail.upb.de & mayank@mail.upb.de)
+     */
+    async addSingleTopicData(topic: string) {
+        await this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
+            const sqlStatement = sql.insertIntoinstaTopicsSQL;
+            const values = [topic];
+            await db.run(sqlStatement, values);
+        });
+    }
+
+    /**
      * Starts a bulk-add run that adds multiple rows from subsequent addAdActivityBulkEntry-Calls to the DB in a single SQL statement.
      * 
      * @param topic the topic for your topics

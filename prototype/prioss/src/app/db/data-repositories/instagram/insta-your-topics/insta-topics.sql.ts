@@ -1,3 +1,5 @@
+// INSERT Queries
+
 export const insertIntoinstaTopicsSQL = `
 insert into insta_your_topics
 (topic)
