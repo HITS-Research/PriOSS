@@ -77,7 +77,7 @@ export class InstaYourTopicComponent {
 
     switch (searchList) {
       case 'topic':
-        this.listOfYourTopics = this.yourTopics.filter((item: InstaTopicsInfo) => item.value.toLowerCase().indexOf(this.topicSearchValue.toLowerCase()) !== -1);
+        this.listOfYourTopics = this.yourTopics.filter((item: InstaTopicsInfo) => item.topic.toLowerCase().indexOf(this.topicSearchValue.toLowerCase()) !== -1);
         break;
       default:
         break;
