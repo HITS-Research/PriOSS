@@ -38,11 +38,13 @@ export class InstaYourTopicComponent extends SequenceComponentInit implements Af
   * @author: Durva & Mayank (dghurye@mail.upb.de & mayank@mail.upb.de)
   */
   override async initComponent(): Promise<void> {
-    console.log("--- Initializing Component 9: Your Topics");
-    // Contacts fetched from SQlite
+    console.log("--- Initializing Component 10: Your Topics");
+    // Your Topics fetched from SQlite
     await this.instaTopicRepo.getAllTopics().then((yourTopics) => {
       this.yourTopics = yourTopics;
       this.listOfYourTopics = [...this.yourTopics];
+      console.log("Mayank check here");
+      console.log(yourTopics);
     });
   }
 

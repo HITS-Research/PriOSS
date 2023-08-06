@@ -4,7 +4,7 @@ export const insertIntoinstaTopicsSQL = `
 insert into insta_your_topics
 (topic)
 values 
-(?, ?, ?);
+(?);
 `;
 
 export const bulkAddinstaTopicsBaseSQL = `
@@ -13,7 +13,7 @@ insert into insta_your_topics
 `;
 
 export const bulkAddinstaTopicsValuesSQL = `
-select ?, ?, ?
+select ?
 `;
 
 export const bulkAddValueConnectorForTopics = `

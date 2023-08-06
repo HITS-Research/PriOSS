@@ -1318,15 +1318,15 @@ export class ServiceSelectionComponent implements AfterViewInit{
         const jsonData = JSON.parse(content);
         const yourTopicData=jsonData.topics_your_topics;
 
-        if(yourTopicData.length == 0){
+        if(yourTopicData.length == 0) {
           continue;
         }
-        else if(yourTopicData.length == 1){
+        else if(yourTopicData.length == 1) {
           await this.instaTopicRepo.addSingleTopicData(
             utilities.getValueIgnoreCase(yourTopicData[0].string_map_data,"Name",false
             ));
         }
-        else{
+        else {
           await this.instaTopicRepo.startTopicBulkAdd(
             utilities.getValueIgnoreCase(yourTopicData[0].string_map_data,"Name",false),
             yourTopicData.length);
