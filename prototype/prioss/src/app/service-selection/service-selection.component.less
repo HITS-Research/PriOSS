@@ -90,10 +90,14 @@ input[type=radio]:checked+label>img {
 
 .selection-list {
     display: flex;
-    justify-content: center;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    justify-content: safe center;
 
     .selection-choice {
         padding: 16px;
+        flex: 0 0 auto;
+        //margin: auto;
 
         label h3 {
             padding-top: 0.2rem;
@@ -101,6 +105,11 @@ input[type=radio]:checked+label>img {
         }
     }
 }
+
+.selection-list::-webkit-scrollbar {
+    display: none;
+}
+
 
 .instructions-content {
     margin-top: 20px;
