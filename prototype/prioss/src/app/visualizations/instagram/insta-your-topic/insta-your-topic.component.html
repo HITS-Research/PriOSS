@@ -3,7 +3,7 @@
     <div *ngIf="previewMode">
       <nz-row [nzGutter]="16">
           <nz-col [nzSpan]="12">
-              <nz-statistic [nzValue]="(your_topic.length | number)!" [nzTitle]="'Number of Your Topics'"></nz-statistic>
+              <nz-statistic [nzValue]="(yourTopics.length | number)!" [nzTitle]="'Number of Your Topics'"></nz-statistic>
           </nz-col>
       </nz-row>
     </div>
@@ -17,7 +17,7 @@
         <tr>
           <th nzCustomFilter>
             Topic
-            <nz-filter-trigger [(nzVisible)]="firstVisible" [nzActive]="topicSearchValue.length > 0" [nzDropdownMenu]="firstmenu">
+            <nz-filter-trigger [(nzVisible)]="topicVisible" [nzActive]="topicSearchValue.length > 0" [nzDropdownMenu]="firstmenu">
               <span nz-icon nzType="search"></span>
             </nz-filter-trigger>
           </th>
