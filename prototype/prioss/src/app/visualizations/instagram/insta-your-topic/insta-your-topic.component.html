@@ -1,0 +1,42 @@
+<div [ngClass]="{'component-page': !previewMode}">
+    <!--only shows a preview of the visualization-->
+    <div *ngIf="previewMode">
+      <nz-row [nzGutter]="16">
+          <nz-col [nzSpan]="12">
+              <nz-statistic [nzValue]="(your_topic.length | number)!" [nzTitle]="'Number of Your Topics'"></nz-statistic>
+          </nz-col>
+      </nz-row>
+    </div>
+
+    <!--only shows when visiting the page-->
+    <div *ngIf="!previewMode">
+    <!--Titlebar component -->
+    <app-title-bar titleText="Your Topics" tooltipText="The following table shows the topics instagram thinks you are interested in"></app-title-bar>
+    <nz-table #topicTable [nzData]="listOfYourTopics">
+      <thead>
+        <tr>
+          <th nzCustomFilter>
+            Topic
+            <nz-filter-trigger [(nzVisible)]="firstVisible" [nzActive]="topicSearchValue.length > 0" [nzDropdownMenu]="firstmenu">
+              <span nz-icon nzType="search"></span>
+            </nz-filter-trigger>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of topicTable.data">
+          <td>{{ data.topic }}</td>
+        </tr>
+      </tbody>
+    </nz-table>
+    <nz-dropdown-menu #firstmenu="nzDropdownMenu">
+      <div class="ant-table-filter-dropdown">
+        <div class="search-box">
+          <input type="text" nz-input placeholder="Search Your Topic" [(ngModel)]="topicSearchValue" />
+          <button nz-button nzSize="small" nzType="primary" (click)="search('topic')" class="search-button">Search</button>
+          <button nz-button nzSize="small" (click)="reset('topic')">Reset</button>
+        </div>
+      </div>
+    </nz-dropdown-menu>
+  </div>
+</div>
