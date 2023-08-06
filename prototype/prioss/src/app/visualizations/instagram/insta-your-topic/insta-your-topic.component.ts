@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, Input } from '@angular/core';
 import { SequenceComponentInit } from '../../sequence-component-init.abstract';
-import { InstaTopicsRepository } from 'src/app/db/data-repositories/instagram/insta-your-topic/insta-topics.repository';
+import { InstaTopicsRepository } from 'src/app/db/data-repositories/instagram/insta-your-topics/insta-topics.repository';
 import { InstaTopicsInfo } from 'src/app/models/Instagram/YourTopicsInfo/InstaTopicsInfo';
 
 @Component({
@@ -8,7 +8,7 @@ import { InstaTopicsInfo } from 'src/app/models/Instagram/YourTopicsInfo/InstaTo
   templateUrl: './insta-your-topic.component.html',
   styleUrls: ['./insta-your-topic.component.less']
 })
-export class InstaYourTopicComponent {
+export class InstaYourTopicComponent extends SequenceComponentInit implements AfterViewInit{
 
   @Input()
   previewMode = false;
@@ -83,5 +83,4 @@ export class InstaYourTopicComponent {
         break;
     }
   }
-
 }
