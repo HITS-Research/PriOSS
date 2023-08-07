@@ -67,7 +67,7 @@ export class FaqComponent {
   instagram_faqs = [
     {
       active: false,
-      name: 'How can I improve my Instagram privacy?',
+      name: 'How can I improve my Instagram account security?',
       content: 'Instagram provides some information and security tips at their help center (linked below). This can help you to improve the security for your Instagram account.',
       link: 'https://help.instagram.com/369001149843369/?helpref=hc_fnav',
       linkLabel: 'Instagram help center'

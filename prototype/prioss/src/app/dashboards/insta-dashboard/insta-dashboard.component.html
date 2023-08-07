@@ -80,6 +80,13 @@
           <app-insta-shopping [previewMode]="true"></app-insta-shopping>
       </app-dash-card>
     </div>
+    <div nz-col nzXs="24" nzXl="8">
+      <!--card for visualizing for your topic-->
+      <app-dash-card cardLink="/insta/your-topic" titleText="Your topic"
+            tooltipText="This card shows all topics instagram thinks you are interested. Click to find out more.">
+          <app-insta-your-topic [previewMode]="true"></app-insta-your-topic>
+      </app-dash-card>
+    </div>
   </div>
   <br>
   </details>
@@ -150,6 +157,9 @@
  </details>
  <br>
 
+  <app-gdpr id="gdpr"></app-gdpr>
+  <br>
+
   <details open id="purpose">
     <summary class="collapsible-dashboard-section-title">Purposes - Why Instagram collects your data? </summary>
     <p nz-typography>
@@ -183,9 +193,6 @@
         </tbody>
       </nz-table>
   </details>
-
-  <app-gdpr id="gdpr"></app-gdpr>
-  <br>
 
   <app-faq serviceName="insta"></app-faq>
   <app-help-button (startTourClick)="startTour()">

@@ -118,13 +118,13 @@ export class InstaSearchesComponent extends SequenceComponentInit implements Aft
 
     switch (searchList) {
       case 'user':
-        this.listOfUserSearches = this.userSearches.filter((item: InstaUserSearch) => item.search.indexOf(this.userSearchValue) !== -1);
+        this.listOfUserSearches = this.userSearches.filter((item: InstaUserSearch) => item.search.toLowerCase().indexOf(this.userSearchValue.toLowerCase()) !== -1);
         break;
       case 'keyword':
-        this.listOfKeywordSearches = this.keywordSearches.filter((item: InstaKeywordSearch) => item.search.indexOf(this.keywordSearchValue) !== -1);
+        this.listOfKeywordSearches = this.keywordSearches.filter((item: InstaKeywordSearch) => item.search.toLowerCase().indexOf(this.keywordSearchValue.toLowerCase()) !== -1);
         break;
       case 'tag':
-        this.listOfTagSearches = this.tagSearches.filter((item: InstaTagSearch) => item.search.indexOf(this.tagSearchValue) !== -1);
+        this.listOfTagSearches = this.tagSearches.filter((item: InstaTagSearch) => item.search.toLowerCase().indexOf(this.tagSearchValue.toLowerCase()) !== -1);
         break;
       default:
         break;

@@ -5,6 +5,35 @@
     <p nz-typography>Even if you have turned on the option to make your photos private, <strong>it won’t keep your posts private from those who are already following you</strong>. In this case, you will have to manually remove <strong>(Block)</strong> the people you don’t want to see your photos.</p>
     <nz-tabset>
         <nz-tab nzTitle="Web Application">
+            <p nz-typography>To remove followers from your list, follow these steps:</p>
+            <br>
+            <nz-steps [nzCurrent]="BlockFollowersWeb">
+                <nz-step nzTitle="Login"></nz-step>
+                <nz-step nzTitle="Privacy Settings to Block Followers"></nz-step>
+                <nz-step nzTitle="Final Step"></nz-step>
+              </nz-steps>
+
+              <div class="steps-content">
+                <img
+                  nz-image
+                  height="300px"
+                  nzSrc={{instructionPictureBlockFollowers}}
+                  alt=""
+                />
+                <nz-divider></nz-divider>
+                <p nz-typography>{{ instructionTextBlockFollowers }}</p>
+              </div>
+              
+              <div class="steps-action">
+                <button nz-button nzType="default" (click)="preBlockFollowers()" [disabled]=" BlockFollowersWeb <= 0">
+                  <span>Previous</span>
+                </button>
+                <button nz-button nzType="default" (click)="nextBlockFollowers()" [disabled]=" BlockFollowersWeb >= 2">
+                  <span>Next</span>
+                </button>
+            </div>
+
+<!--
             <div>
                 <p nz-typography>To remove one of your followers from your list, follow these steps:</p>
                 <br>
@@ -23,9 +52,40 @@
                 <br>
                 <p nz-typography>By following these steps can block a follower. </p>
             </div>
-
+-->
         </nz-tab>
+
+
         <nz-tab nzTitle="Mobile Application">
+            <p nz-typography>To remove followers from your list, follow these steps:</p>
+            <br>
+            <nz-steps [nzCurrent]="BlockFollowersMobile">
+                <nz-step nzTitle="Login"></nz-step>
+                <nz-step nzTitle="Followers List"></nz-step>
+                <nz-step nzTitle="Privacy Settings to Block Followers"></nz-step>
+              </nz-steps>
+
+              <div class="steps-content">
+                <img
+                  nz-image
+                  height="300px"
+                  nzSrc={{instructionPictureBlockFollowerssMobile}}
+                  alt=""
+                />
+                <nz-divider></nz-divider>
+                <p nz-typography>{{ instructionTextBlockFollowersMobile }}</p>
+              </div>
+              
+              <div class="steps-action">
+                <button nz-button nzType="default" (click)="preBlockFollowersMobile()" [disabled]=" BlockFollowersMobile <= 0">
+                  <span>Previous</span>
+                </button>
+                <button nz-button nzType="default" (click)="nextBlockFollowersMobile()" [disabled]=" BlockFollowersMobile >= 2">
+                  <span>Next</span>
+                </button>
+            </div>
+
+<!--            
             <div>
                 <p nz-typography>To remove one of your followers from your list, follow these steps:</p>
                 <br>
@@ -38,6 +98,8 @@
                 <p nz-typography> <strong>Step 4 -</strong>  In the new window, choose the <strong>Block User</strong> option.</p>
                 <img class ="insta-block-web" src="../../assets/images/insta-privacy-recommendations/5.png">  
             </div>
+-->
+
         </nz-tab>
     </nz-tabset>
 </div>
