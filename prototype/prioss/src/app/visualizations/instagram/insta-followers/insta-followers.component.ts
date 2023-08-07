@@ -114,7 +114,7 @@ export class InstaFollowersComponent extends SequenceComponentInit implements Af
     this.followingInfo = await this.instaFollowingRepo.getFollowingInfo();
     await this.instaFollowingRepo.getFollowingInfo().then((followingInfo) => {
       this.followingInfo = followingInfo;
-      this.listOfFollowing = [...this.followerInfo];
+      this.listOfFollowing = [...this.followingInfo];
     });
     this.blockedInfo = await this.instaBlockedRepo.getBlockedInfo();
     await this.instaBlockedRepo.getBlockedInfo().then((blockedInfo) => {
@@ -351,28 +351,28 @@ export class InstaFollowersComponent extends SequenceComponentInit implements Af
 
     switch (searchList) {
       case 'follower':
-        this.listOfFollowers = this.followerInfo.filter((item: InstaFollowerInfo) => item.instaAccountName.indexOf(this.followerSearchValue) !== -1)
+        this.listOfFollowers = this.followerInfo.filter((item: InstaFollowerInfo) => item.instaAccountName.toLowerCase().indexOf(this.followerSearchValue.toLowerCase()) !== -1)
         break;
       case 'following':
-        this.listOfFollowing = this.followingInfo.filter((item: InstaFollowingInfo) => item.instaAccountName.indexOf(this.followingSearchValue) !== -1)
+        this.listOfFollowing = this.followingInfo.filter((item: InstaFollowingInfo) => item.instaAccountName.toLowerCase().indexOf(this.followingSearchValue.toLowerCase()) !== -1)
         break;
       case 'blocked':
-        this.listOfBlocked = this.blockedInfo.filter((item: InstaBlockedInfo) => item.instaAccountName.indexOf(this.blockedSearchValue) !== -1)
+        this.listOfBlocked = this.blockedInfo.filter((item: InstaBlockedInfo) => item.instaAccountName.toLowerCase().indexOf(this.blockedSearchValue.toLowerCase()) !== -1)
         break;
       case 'recentFollow':
-        this.listOfRecentFollow = this.recentFollowInfo.filter((item: InstaRecentFollowInfo) => item.instaAccountName.indexOf(this.recentFollowSearchValue) !== -1)
+        this.listOfRecentFollow = this.recentFollowInfo.filter((item: InstaRecentFollowInfo) => item.instaAccountName.toLowerCase().indexOf(this.recentFollowSearchValue.toLowerCase()) !== -1)
         break;
       case 'pending':
-        this.listOfPending = this.pendingFollowRequestInfo.filter((item: InstaPendingFollowRequestInfo) => item.instaAccountName.indexOf(this.pendingSearchValue) !== -1)
+        this.listOfPending = this.pendingFollowRequestInfo.filter((item: InstaPendingFollowRequestInfo) => item.instaAccountName.toLowerCase().indexOf(this.pendingSearchValue.toLowerCase()) !== -1)
         break;
       case 'recentUnfollow':
-        this.listOfRecentUnfollow = this.recentlyUnfollowedAccountInfo.filter((item: InstaRecentlyUnfollowedInfo) => item.instaAccountName.indexOf(this.recentUnfollowSearchValue) !== -1)
+        this.listOfRecentUnfollow = this.recentlyUnfollowedAccountInfo.filter((item: InstaRecentlyUnfollowedInfo) => item.instaAccountName.toLowerCase().indexOf(this.recentUnfollowSearchValue.toLowerCase()) !== -1)
         break;
       case 'removed':
-        this.listOfRemoved = this.removedSuggestionInfo.filter((item: InstaRemovedSuggestionInfo) => item.instaAccountName.indexOf(this.removedSearchValue) !== -1)
+        this.listOfRemoved = this.removedSuggestionInfo.filter((item: InstaRemovedSuggestionInfo) => item.instaAccountName.toLowerCase().indexOf(this.removedSearchValue.toLowerCase()) !== -1)
         break;
       case 'received':
-        this.listOfReceived = this.receivedFollowRequestInfo.filter((item: InstaReceivedFollowRequestInfo) => item.instaAccountName.indexOf(this.receivedSearchValue) !== -1)
+        this.listOfReceived = this.receivedFollowRequestInfo.filter((item: InstaReceivedFollowRequestInfo) => item.instaAccountName.toLowerCase().indexOf(this.receivedSearchValue.toLowerCase()) !== -1)
         break;
       default:
         break;
