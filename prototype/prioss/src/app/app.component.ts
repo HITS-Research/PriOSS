@@ -4,7 +4,7 @@ import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import * as utilities from 'src/app/utilities/generalUtilities.functions'
 import { SQLiteService } from './services/sqlite/sqlite.service';
 import { AppComponentMsgService } from './services/app-component-msg/app-component-msg.service';
-import { AppComponentMsg } from './enum/app-component-msg.enum';
+import { AppComponentMsg } from './utilities/enum/app-component-msg.enum';
 
 @Component({
   selector: 'app-root',
