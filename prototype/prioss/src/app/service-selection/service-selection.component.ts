@@ -62,6 +62,7 @@ import { FaceBookMessagesInfoRepository } from '../db/data-repositories/facebook
 import { FaceBookGroupMessagesInfoRepository } from '../db/data-repositories/facebook/fb-messages-data/fb-messages-groups.repo';
 import { FacebookAddressBookRepository } from '../db/data-repositories/facebook/fb-other-personal-info/face-address-book.repo';
 import { FacebookSearchHistoryRepository } from '../db/data-repositories/facebook/fb-other-personal-info/face-search-history.repo';
+import { InstaTopicsRepository } from '../db/data-repositories/instagram/insta-your-topics/insta-topics.repository';
 
 //service identifier filenames
 const instaIDFilename = "TODO";
@@ -144,6 +145,7 @@ export class ServiceSelectionComponent implements AfterViewInit{
               private instaUserSearchesRepo: InstaUserSearchesRepository,
               private instaKeywordSearchesRepo: InstaKeywordSearchesRepository,
               private instaTagSearchesRepo: InstaTagSearchesRepository,
+              private instaTopicRepo: InstaTopicsRepository,
               private sqlDBService: DBService, 
               private http: HttpClient,
               private inferredTopicsDataRepo: InferredTopicsRepository,
@@ -1309,6 +1311,30 @@ export class ServiceSelectionComponent implements AfterViewInit{
           const timestamp = receivedRequestData[i].string_list_data[0].timestamp;
           await this.instaReceivedFollowRequestRepo.addReceivedFollowRequestBulkEntry(accountURL, accountName, timestamp);
         }    
+      }
+      
+      //your topic data
+      else if(filename.startsWith("your_topics")){
+        const jsonData = JSON.parse(content);
+        const yourTopicData=jsonData.topics_your_topics;
+
+        if(yourTopicData.length == 0) {
+          continue;
+        }
+        else if(yourTopicData.length == 1) {
+          await this.instaTopicRepo.addSingleTopicData(
+            utilities.getValueIgnoreCase(yourTopicData[0].string_map_data,"Name",false));
+        }
+        else {
+          await this.instaTopicRepo.startTopicBulkAdd(
+            utilities.getValueIgnoreCase(yourTopicData[0].string_map_data,"Name",false),
+            yourTopicData.length);
+          
+          for(let i = 1; i < yourTopicData.length; i++){
+            await this.instaTopicRepo.addTopicsBulkEntry(
+              utilities.getValueIgnoreCase(yourTopicData[i].string_map_data,"Name",false));
+          }
+        }
       }
     }
 
