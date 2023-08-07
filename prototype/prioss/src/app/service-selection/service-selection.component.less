@@ -88,29 +88,6 @@ input[type=radio]:checked+label>img {
   transform: scale(1.1);
 }
 
-.selection-list {
-    display: flex;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    justify-content: safe center;
-
-    .selection-choice {
-        padding: 16px;
-        flex: 0 0 auto;
-        //margin: auto;
-
-        label h3 {
-            padding-top: 0.2rem;
-            text-align: center;
-        }
-    }
-}
-
-.selection-list::-webkit-scrollbar {
-    display: none;
-}
-
-
 .instructions-content {
     margin-top: 20px;
     border: 1px solid #fff;
@@ -169,4 +146,56 @@ input[type=radio]:checked+label>img {
     margin-top: 20px;
     border: 1px solid #fff;
     box-shadow: 0 0 3px 3px black; 
+}
+
+.selection-list::-webkit-scrollbar {
+    display: none;
+}
+
+.selection-list {
+    -webkit-overflow-scrolling: touch;
+}
+
+//CSS-rules that are only used in mobile versions
+//Size Picked based on the service-selection icons
+@media only screen and (max-width: 650px) {
+    .selection-list {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        align-items: center; //"safe center" would be way better but is not supported on all browsers
+    
+        .selection-choice {
+            padding: 16px;
+            flex: 0 0 auto;
+            margin: auto;
+    
+            label h3 {
+                padding-top: 0.2rem;
+                text-align: center;
+            }
+        }
+    }
+  }
+
+//CSS-rules for screens larger than mobile
+//categories for tablets etc. can be created if necessary
+@media only screen and (min-width: 650px) {
+    .selection-list {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        justify-content: center; //"safe center" would be way better but is not supported on all browsers
+        
+
+        .selection-choice {
+            padding: 16px;
+            flex: 0 0 auto;
+    
+            label h3 {
+                padding-top: 0.2rem;
+                text-align: center;
+            }
+        }
+    }
 }
