@@ -1,27 +1,42 @@
 <div class="component-page">
     <app-title-bar titleText="Guidelines to Turn-ON Two Factor Authentication" tooltipText="The following guidelines helps you to increase the privacy of your Instagram acount by turning ON two factor authentication. The guidelines are provided for Mobile Application user." [includeButton]="false"></app-title-bar>
     <br>
-    <p nz-topography>If you do not want your photos to be public and available to be seen by everyone, you can make your profile private.</p>
+    <p nz-topography> Enabling Two-factor authentication in Instagram adds an extra layer of security, preventing unauthorized access, protecting your data, and mitigating phishing attacks. It gives you peace of mind while using the platform. </p>
+    <p nz-topography>For enablling Two Factor Authentication, follow the following steps: </p>
+    <br>
+
+    <div>
+
+        <nz-steps [nzCurrent]="TwoFactorAuthentication">
+          <nz-step nzTitle="Step 1"></nz-step>
+          <nz-step nzTitle="Step 2"></nz-step>
+          <nz-step nzTitle="Step 3"></nz-step>
+          <nz-step nzTitle="Step 4"></nz-step>
+          <nz-step nzTitle="Step 5"></nz-step>
+          <nz-step nzTitle="Step 6"></nz-step>
+        </nz-steps>
     
-        <!--<nz-tab nzTitle="Web Application">
-            <div>
-                <p>Follow these steps if you want to set your Instagram account to private on your computer or mobile browser-</p>
-                <br>
-                <h6 class ="steps">Step 1 - First of all, you have to visit <a href="https://www.instagram.com/">Instagram website</a> on your computer or mobile browser.</h6>
-                <img class ="off-facebook-web" src="../../assets/images/insta-privacy-recommendations/8.png">
-                <br>
-                <h6 class ="steps">Step 2 – You need to click <strong>profile icon</strong> and then, click <strong>settings</strong>. </h6>
-                <img class ="off-facebook-web"src="../../assets/images/insta-privacy-recommendations/2.png">
-                <br>
-                <h6 class ="steps">Step 3 – Here, you have to click <Strong>Privacy and Security</Strong>.</h6>
-                <br>
-                <h6 class ="steps">Step 4 – Below Account Privacy, you need to click to check the box next to Private Account. </h6>
-                <img class ="off-facebook-web"src="../../assets/images/insta-privacy-recommendations/3.png">
-                <br>
-                <p>Following these steps can help you to set your Instagram account to private on your computer or mobile browser.</p>
-            </div>
-        </nz-tab>-->
-       
+        <div class="steps-content">
+          <img
+            nz-image
+            height="300px"
+            nzSrc={{instructionPictureTwoFactorAuthentication}}
+            alt=""
+          />
+          <nz-divider></nz-divider>
+          <p nz-typography>{{ instructionTextTwoFactorAuthentication }}</p>
+        </div>
+        <div class="steps-action">
+          <button nz-button nzType="default" (click)="preTwoFactorAuthentication()" [disabled]="TwoFactorAuthentication <= 0">
+            <span>Previous</span>
+          </button>
+          <button nz-button nzType="default" (click)="nextTwoFactorAuthentication()" [disabled]="TwoFactorAuthentication >= 5">
+            <span>Next</span>
+          </button>
+        </div>
+    </div>
+
+    <!--
             <div>
                 <p nz-topography> The steps are as follows-</p>
                 <p nz-topography> <strong>Step 1 - </strong> Open your Instagram app on your mobile device. Tap on your profile picture in the bottom right to go to your profile, then tap (3 bars icon) in the top right.</p>
@@ -52,7 +67,7 @@
                 <p nz-topography> <strong>Step 8 - </strong> Your Instagram account is now protected. Press on <strong>Next</strong>, you are presented with access to your backup codes. Each code can only be used once. We suggest you to store them digitally in a safe place. Press <strong>Done</strong> and that's all.</p>
                 <img class ="insta3" src="../../assets/images/insta-privacy-recommendations/14.png">
             </div>
-      
+-->
 </div>
    
     
