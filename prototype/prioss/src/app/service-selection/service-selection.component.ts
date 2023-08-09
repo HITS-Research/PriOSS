@@ -638,13 +638,14 @@ export class ServiceSelectionComponent implements AfterViewInit{
       
         if (people_friends_messages_data.length > 0) {
           const entries = people_friends_messages_data[0].entries;
-          await this.faceMessagesRepo.startMessagesBulkAdd(entries[0].data.name, entries[0].timestamp, entries.length);
+          await this.faceMessagesRepo.startMessagesBulkAdd(entries[0].data.name, entries[0].timestamp,entries[0].data.uri, entries.length);
       
           for (let i = 1; i < entries.length; i++) {
             const entry = entries[i];
             const name = entry.data.name;
             const timestamp = entry.timestamp;
-            await this.faceMessagesRepo.addMessagesBulkEntry(name, timestamp);
+            const uri = entry.data.uri;
+            await this.faceMessagesRepo.addMessagesBulkEntry(name, timestamp, uri);
           }
         }
       }

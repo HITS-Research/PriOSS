@@ -13,57 +13,95 @@
 
 <div *ngIf="!previewMode">
     <app-title-bar titleText="Messages" tooltipText="This visualization presents an overview of data pertaining to interactions with friends and group interactions."></app-title-bar>
-    <nz-tabset class="margin-top-20">
-    <nz-tab nzTitle="Friends and Other People Interactions">
-      <nz-row [nzGutter]="16">
-        <nz-col [nzSpan]="12">
-          <nz-statistic [nzValue]="(messagesData.length| number)!" [nzTitle]="'Number of People You Have Messaged '"></nz-statistic>
-        </nz-col>
-        <nz-col [nzSpan]="12">
-          <nz-statistic [nzValue]= convertTimestamp(messagesData[0].timestamp) [nzTitle]="'Latest Interaction On '"></nz-statistic>
-        </nz-col>
-      </nz-row>
-      <br>
-    <nz-table [nzData]="messagesData" #basicTable>
-    <thead>
-      <tr>  
-        <th nzCustomFilter class="tableCol">Contact Name</th>
-        <th nzCustomFilter class="tableCol">Last Interacted On</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let data of basicTable.data">
-        <td>{{ data.name }}</td>
-        <td>{{ convertTimestamp(data.timestamp) }}</td>
-      </tr>
-    </tbody>
-  </nz-table>
+    <nz-tabset class="margin-top-20" (nzSelectChange)="onTabSelected($event)">
+      <nz-tab nzTitle="Friends and Other People Interactions">
+        
+        <h3 nz-typography>Latest 10 Interactions</h3>
+        <br>
+        <div class="timeline_div" class="visualization-card">
+          <!-- Creating timeline for complete data -->
+          <nz-timeline nzMode="alternate">
+            <nz-timeline-item [nzDot]="dotTemplateSignUp" *ngFor="let data of messagesData.slice(0, 10); let i = index">
+    
+              <!-- Creating a template for sign up information -->
+              <ng-template #dotTemplateSignUp>
+                <div class="ant-timeline-item-head ant-timeline-item-head-blue"
+                nz-button nz-popover nzType="primary" [nzPopoverContent]="contentTemplateSignUp" 
+                [nzPopoverPlacement]="'leftTop'">
+                </div>
+              </ng-template>
+    
+              <!-- Creating a template to show additional data -->
+              <ng-template #contentTemplateSignUp>
+                <strong>Login and check out the profile of <a href="{{data.uri}}" target="_blank" rel="noopener noreferrer">{{data.name}}</a>.</strong>
+              </ng-template>
+    
+              <!-- Showcasing necessary details in timeline -->
+              <strong>Name:</strong>  {{data.name}}<br>
+              <strong>Last Interacted On:</strong> {{ (data.timestamp *1000 | date: 'MMM d, y h:mm a') }}
+    
+            </nz-timeline-item>
+    
+          </nz-timeline>
+        </div>
+      </nz-tab>
+      <nz-tab nzTitle="Friends and Other People Interactions List">
+        
+        <nz-row [nzGutter]="16">
+          <nz-col [nzSpan]="12">
+            <nz-statistic [nzValue]="(messagesData.length| number)!" [nzTitle]="'Number of People You Have Messaged '"></nz-statistic>
+          </nz-col>
+          <nz-col [nzSpan]="12">
+            <nz-statistic [nzValue]="' ' + (messagesData[0].timestamp * 1000 | date: 'MMM d, y h:mm a')"
+            [nzTitle]="'Latest Interaction On '"  >
+          </nz-statistic>
+          </nz-col>
+        </nz-row>
+        <br>
+        <nz-table [nzData]="messagesData" #basicTable>
+          <thead>
+            <tr>  
+              <th nzCustomFilter class="tableCol">Contact Name</th>
+              <th nzCustomFilter class="tableCol">Last Interacted On</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of basicTable.data">
+              <td>{{ data.name }}</td>
+              <td>{{ data.timestamp *1000 | date: 'MMM d, y h:mm a'}}</td>
+            </tr>
+          </tbody>
+        </nz-table>
+      </nz-tab>
+      <nz-tab nzTitle="Group Interactions">
+        <h3 nz-typography>10 Interactions</h3>
+        <br>
+        <div class="chart-container">
+          <svg class="chart" id="chart"></svg>
+        </div>
+      </nz-tab>
+      <nz-tab nzTitle="Group Interactions List">
+        <nz-row [nzGutter]="16">
+          <nz-col [nzSpan]="12">
+            <nz-statistic [nzValue]="(groupMessagesData.length| number)!" [nzTitle]="'Number of Groups You Have Messaged '"></nz-statistic>
+          </nz-col>
 
-  </nz-tab>
-  <nz-tab nzTitle="Group Interactions">
-    <nz-row [nzGutter]="16">
-      <nz-col [nzSpan]="12">
-        <nz-statistic [nzValue]="(groupMessagesData.length| number)!" [nzTitle]="'Number of Groups You Have Messaged '"></nz-statistic>
-      </nz-col>
-      <!-- <nz-col [nzSpan]="12">
-        <nz-statistic [nzValue]= convertTimestamp(messagesData[0].timestamp) [nzTitle]="'Latest Interaction On '"></nz-statistic>
-      </nz-col> -->
-    </nz-row>
-    <br>
-    <nz-table [nzData]="groupMessagesData" #grpMsgTable>
-        <thead>
-          <tr>  
-            <th nzCustomFilter class="tableCol">Group Name</th>
-            <th nzCustomFilter class="tableCol">Number of Group Interactions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let data of grpMsgTable.data">
-            <td>{{ data.name }}</td>
-            <td>{{ data.value }}</td>
-          </tr>
-        </tbody>
-      </nz-table>
-  </nz-tab>
+        </nz-row>
+        <br>
+        <nz-table [nzData]="groupMessagesData" #grpMsgTable>
+            <thead>
+              <tr>  
+                <th nzCustomFilter class="tableCol">Group Name</th>
+                <th nzCustomFilter class="tableCol">Number of Group Interactions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let data of grpMsgTable.data">
+                <td>{{ data.name }}</td>
+                <td>{{ data.value }}</td>
+              </tr>
+            </tbody>
+          </nz-table>
+      </nz-tab>
   </nz-tabset>
 </div>

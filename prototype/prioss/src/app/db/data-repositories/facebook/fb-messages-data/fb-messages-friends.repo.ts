@@ -28,8 +28,8 @@ export class FaceBookMessagesInfoRepository extends BulkAddCapableRepository {
      * 
      * @author: Rishma (rishmamn@mail.upb.de)
      */
-       async startMessagesBulkAdd(name: string, timestamp: string, totalRowCount: number, targetBulkSize = 500) {
-        this.startBulkAdd([name,  timestamp], totalRowCount, targetBulkSize);
+       async startMessagesBulkAdd(name: string, timestamp: number, uri:string, totalRowCount: number, targetBulkSize = 500) {
+        this.startBulkAdd([name,  timestamp,uri], totalRowCount, targetBulkSize);
     }
 
     /**
@@ -40,8 +40,8 @@ export class FaceBookMessagesInfoRepository extends BulkAddCapableRepository {
      * 
      *@author: Rishma (rishmamn@mail.upb.de)
      */
-    async addMessagesBulkEntry(name: string, timestamp: string,) : Promise<void> {
-        return this.addBulkEntry([name, timestamp]);
+    async addMessagesBulkEntry(name: string, timestamp: number, uri:string) : Promise<void> {
+        return this.addBulkEntry([name, timestamp, uri]);
     }
     
     /**
