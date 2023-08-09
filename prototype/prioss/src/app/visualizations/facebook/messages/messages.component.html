@@ -23,7 +23,6 @@
           <nz-timeline nzMode="alternate">
             <nz-timeline-item [nzDot]="dotTemplateSignUp" *ngFor="let data of messagesData.slice(0, 10); let i = index">
     
-              <!-- Creating a template for sign up information -->
               <ng-template #dotTemplateSignUp>
                 <div class="ant-timeline-item-head ant-timeline-item-head-blue"
                 nz-button nz-popover nzType="primary" [nzPopoverContent]="contentTemplateSignUp" 
