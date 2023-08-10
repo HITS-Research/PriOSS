@@ -14,7 +14,7 @@
 <div *ngIf="!previewMode">
     <app-title-bar titleText="Messages" tooltipText="This visualization presents an overview of data pertaining to interactions with friends and group interactions."></app-title-bar>
     <nz-tabset class="margin-top-20" (nzSelectChange)="onTabSelected($event)">
-      <nz-tab nzTitle="Friends and Other People Interactions">
+      <nz-tab nzTitle="People & Friends Interactions - Graph View">
         
         <h3 nz-typography>Latest 10 Interactions</h3>
         <br>
@@ -43,7 +43,7 @@
           </nz-timeline>
         </div>
       </nz-tab>
-      <nz-tab nzTitle="Friends and Other People Interactions List">
+      <nz-tab nzTitle="People & Friends Intercations List">
         
         <nz-row [nzGutter]="16">
           <nz-col [nzSpan]="12">
@@ -71,7 +71,7 @@
           </tbody>
         </nz-table>
       </nz-tab>
-      <nz-tab nzTitle="Group Interactions">
+      <nz-tab nzTitle="Group Interactions - Graph View ">
         <h3 nz-typography>10 Interactions</h3>
         <br>
         <div class="chart-container">
