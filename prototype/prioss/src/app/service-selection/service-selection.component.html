@@ -112,7 +112,7 @@
       </div>
     </div>
 
-    <h5 id="download-instructions" *ngIf="selectedServiceName"> Follow Download Instructions</h5>  
+    <h5 id="download-instructions" *ngIf="selectedServiceName"> Follow Download Instructions:</h5>  
     
     <div class="instructions-content" id="instagram-instructions" *ngIf="selectedServiceName === appType.Instagram">
       <div class="selection-disclaimer">
@@ -125,6 +125,39 @@
         </div>
       </div>
 
+      <div class="steps">
+      
+        <nz-steps [nzCurrent]="InstaDataDownload">
+        <nz-step nzTitle="Step 1"></nz-step>
+        <nz-step nzTitle="Step 2"></nz-step>
+        <nz-step nzTitle="Step 3"></nz-step>
+        <nz-step nzTitle="Step 4"></nz-step>
+        <nz-step nzTitle="Step 5"></nz-step>
+        <nz-step nzTitle="Step 6"></nz-step>
+        <nz-step nzTitle="Step 7"></nz-step>
+        </nz-steps>
+      </div>
+  
+      <div class="steps-content">
+        <img
+          nz-image
+          height="320px"
+          nzSrc={{instructionPictureInstaDataDownload}}
+          alt=""
+        />
+        <nz-divider></nz-divider>
+        <p nz-typography>{{ instructionTextInstaDataDownload }}</p>
+      </div>
+      <div class="steps-action">
+        <button nz-button nzType="default" (click)="preInstaDataDownload()" [disabled]="InstaDataDownload <= 0">
+          <span>Previous</span>
+        </button>
+        <button nz-button nzType="default" (click)="nextInstaDataDownload()" [disabled]="InstaDataDownload >= 6">
+          <span>Next</span>
+        </button>
+      </div>
+<br>
+<!--
       <ol>
         <li>
           <span>Log in to your account, or click on link <span nz-icon nzType="link"><a href="https://www.instagram.com/" target="_blank">Instagram Website</a> </span> and enter your log in details. Now go to <strong><i>More</i></strong> option in the bottom-left corner. </span><br>
@@ -150,7 +183,9 @@
         <li>
           <span>Enter your <b><i>password</i></b> and click <b><i>Request Download</i></b>.</span><br>
           <img class="i-image1" src="../../assets/images/insta-instructions/36.png">
-        </li>
+        </li> 
+-->
+      <ul>
         <li>
           <span>After a few minutes to a couple of days, you will receive an email titled <b><i>Your Instagram Data</i></b> with a link to your data. Tap <b><i>Download data</i></b> and follow the instructions to finish downloading your information.</span><br>
         </li>
@@ -158,8 +193,10 @@
           <span>Return to this website after you downloaded your data.
           </span>
         </li>
-      </ol>
+      </ul>
     </div>
+
+
     <div class="instructions-content" id="facebook-instructions" *ngIf="selectedServiceName === appType.Facebook">
 
       <div class="selection-disclaimer">
