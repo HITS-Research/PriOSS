@@ -36,14 +36,16 @@ export class MessagesComponent implements OnInit {
    */
   async getData() {
     // Get all face messages info
-    const messages = await this.faceMessagesRepo.getAllFaceMessagesInfo();
+    this.faceMessagesRepo.getAllFaceMessagesInfo().then((messages) => {
      this.messagesData = messages;
     this.totalPeopleMessages = this.messagesData.length;
+    });
     // Get all face group messages info
-    const groupMessagesData = await this.facegroupMessagesRepo.getAllFaceGroupMessagesInfo();
-    this.groupMessagesData = groupMessagesData;
+    this.facegroupMessagesRepo.getAllFaceGroupMessagesInfo().then((group_messages) => {
+    this.groupMessagesData = group_messages;
     // Calculate total group messages
     this.totalGroupMessages = this.groupMessagesData.length;
+    });
   }
 
   onTabSelected(event: any) {
@@ -83,8 +85,8 @@ export class MessagesComponent implements OnInit {
       .selectAll(".bar")
       .data(data)
       .enter().append("g")
-        .attr("class", "bar-group")
-        .attr("transform", d => `translate(${x(d.name)!}, 0)`);
+      .attr("class", "bar-group")
+      .attr("transform", d => `translate(${x(d.name)!}, 0)`);
     
     svg.selectAll(".bar-group")
       .append("rect")
@@ -94,7 +96,7 @@ export class MessagesComponent implements OnInit {
         .attr("height", d => height - y(parseInt((d as { value: string }).value)))
         .attr("fill", "steelblue");
     
-        svg.selectAll(".bar-group")
+    svg.selectAll(".bar-group")
         .append("text")
           .attr("class", "bar-label")
           .attr("x", x.bandwidth() / 2)
@@ -103,8 +105,6 @@ export class MessagesComponent implements OnInit {
           .attr("fill", "black")
           .attr("font-size", "16px") 
           .text(d => ((d as { value: string }).value).replace(" times", ""));
-      
-    
   
     svg.append("g")
       .attr("transform", `translate(${margin.left}, ${height + margin.top})`)

@@ -22,7 +22,6 @@
           <!-- Creating timeline for complete data -->
           <nz-timeline nzMode="alternate">
             <nz-timeline-item [nzDot]="dotTemplateSignUp" *ngFor="let data of messagesData.slice(0, 10); let i = index">
-    
               <ng-template #dotTemplateSignUp>
                 <div class="ant-timeline-item-head ant-timeline-item-head-blue"
                 nz-button nz-popover nzType="primary" [nzPopoverContent]="contentTemplateSignUp" 
@@ -32,7 +31,7 @@
     
               <!-- Creating a template to show additional data -->
               <ng-template #contentTemplateSignUp>
-                <strong>Login and check out the profile of <a href="{{data.uri}}" target="_blank" rel="noopener noreferrer">{{data.name}}</a>.</strong>
+                <strong><a href="{{data.uri}}" target="_blank" rel="noopener noreferrer">{{data.name}}</a></strong>
               </ng-template>
     
               <!-- Showcasing necessary details in timeline -->
