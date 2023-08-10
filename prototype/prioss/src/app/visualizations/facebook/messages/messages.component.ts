@@ -30,14 +30,15 @@ export class MessagesComponent implements OnInit {
      this.getData();
   }
   
-
   /**
    * This method is responsible to get the required data for messages.
+   *  @author: Rishma (rishmamn@mail.uni-paderborn.de)
    */
   async getData() {
     // Get all face messages info
     this.faceMessagesRepo.getAllFaceMessagesInfo().then((messages) => {
      this.messagesData = messages;
+     // Calculate total friends messages
     this.totalPeopleMessages = this.messagesData.length;
     });
     // Get all face group messages info
@@ -48,39 +49,42 @@ export class MessagesComponent implements OnInit {
     });
   }
 
+  /**
+   * This method is responsible load the barchart on click of the tab.
+   *  @author: Rishma (rishmamn@mail.uni-paderborn.de)
+   */
   onTabSelected(event: any) {
     if (event.index === 2) {
         this.createBarChart("chart");
     }
   }
 
+  /**
+   * This method is responsible to create a bar chart for the data.
+   *  @author: Rishma (rishmamn@mail.uni-paderborn.de)
+  */
   createBarChart(chartId:string) {
     const data = this.groupMessagesData.slice(0, 10);
-  
     const margin = { top: 40, right: 80, bottom: 350, left: 200 };
     const width = 1000 - margin.left - margin.right;
     const height = 1000 - margin.top - margin.bottom;
-  
     const svg = d3.select(`#${chartId}`)
-       .append("svg")
-      .attr("viewBox", `0 0 ${width + margin.left + margin.right} ${height + margin.top + margin.bottom}`)
-      .append("g")
-      .attr("transform", "translate(" + margin.left + "," + margin + ")");
+    .append("svg")
+    .attr("viewBox", `0 0 ${width + margin.left + margin.right} ${height + margin.top + margin.bottom}`)
+    .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin + ")");
 
-      
-  const maxTickValue = d3.max(data, d => parseInt(d.value))!;
-  const tickCount = Math.min(maxTickValue, 10);
-  
+    const maxTickValue = d3.max(data, d => parseInt(d.value))!;
+    const tickCount = Math.min(maxTickValue, 10);
     const x = d3.scaleBand()
       .domain(data.map(d => d.name))
       .range([0, width])
       .padding(0.2);
-  
     const y = d3.scaleLinear()
       .domain([0, d3.max(data, d => parseInt(d.value))!])
       .range([height, 0]);
   
-      svg.append("g")
+    svg.append("g")
       .attr("transform", `translate(${margin.left}, ${margin.top})`)
       .selectAll(".bar")
       .data(data)
@@ -90,37 +94,36 @@ export class MessagesComponent implements OnInit {
     
     svg.selectAll(".bar-group")
       .append("rect")
-        .attr("class", "bar")
-        .attr("y", d => y(parseInt((d as { value: string }).value)))
-        .attr("width", x.bandwidth())
-        .attr("height", d => height - y(parseInt((d as { value: string }).value)))
-        .attr("fill", "steelblue");
+      .attr("class", "bar")
+      .attr("y", d => y(parseInt((d as { value: string }).value)))
+      .attr("width", x.bandwidth())
+      .attr("height", d => height - y(parseInt((d as { value: string }).value)))
+      .attr("fill", "steelblue");
     
     svg.selectAll(".bar-group")
-        .append("text")
-          .attr("class", "bar-label")
-          .attr("x", x.bandwidth() / 2)
-          .attr("y", d => y(parseInt((d as { value: string }).value)) - 5)
-          .attr("text-anchor", "middle")
-          .attr("fill", "black")
-          .attr("font-size", "16px") 
-          .text(d => ((d as { value: string }).value).replace(" times", ""));
+      .append("text")
+      .attr("class", "bar-label")
+      .attr("x", x.bandwidth() / 2)
+      .attr("y", d => y(parseInt((d as { value: string }).value)) - 5)
+      .attr("text-anchor", "middle")
+      .attr("fill", "black")
+      .attr("font-size", "16px") 
+      .text(d => ((d as { value: string }).value).replace(" times", ""));
   
     svg.append("g")
       .attr("transform", `translate(${margin.left}, ${height + margin.top})`)
       .style("font-size", "20px")
       .call(d3.axisBottom(x))
       .selectAll("text")
-        .style("text-anchor", "end")
-        .attr("dx", "-0.8em")
-        .attr("dy", ".15em")
-        .attr("transform", "rotate(-45)");
+      .style("text-anchor", "end")
+      .attr("dx", "-0.8em")
+      .attr("dy", ".15em")
+      .attr("transform", "rotate(-45)");
         
-  
-        svg.append("g")
-        .attr("transform", `translate(${margin.left}, ${margin.top})`)
-        .style("font-size", "20px")
-        .call(d3.axisLeft(y).ticks(tickCount)); // Use calculated tick count
+    svg.append("g")
+      .attr("transform", `translate(${margin.left}, ${margin.top})`)
+      .style("font-size", "20px")
+      .call(d3.axisLeft(y).ticks(tickCount)); // Use calculated tick count
   
     svg.append("text")
       .attr("transform", `translate(${margin.left + width / 2}, ${height + margin.top + 250})`)
@@ -133,9 +136,7 @@ export class MessagesComponent implements OnInit {
       .style("text-anchor", "middle")
       .style("font-size", "26px")
       .text("No of Group Interactions");
-  }
-  
-   
+  } 
 }
 export interface MessagesData {
   timestamp: number;
