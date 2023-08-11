@@ -3,21 +3,20 @@
     <app-title-bar titleText="User Data" tooltipText="This table shows the general user data Spotify has collected about you.">
     </app-title-bar>
   </div>
-
   <!-- This table can be embedded in a Card component -->
   <nz-table nzTemplateMode>
-    <thead>
+    <!-- <thead>
     <tr>
       <th><strong>Categories</strong></th>
       <th><strong>Information</strong></th>
     </tr>
-  </thead>
+  </thead> -->
   <tbody>
-    <tr *ngFor="let pair of getObjectPairsNotNull(this.userdata[0])">
+    <tr *ngFor="let pair of getObjectPairsNotNull(this.userdata[0])" >
       <!-- the part after the | in the *ngFor is responsible for cutting of the last element in userdata, which is the database index -->
-      <td *ngIf="pair[1]">{{ capitalize(pair[0]) }}</td>
-      <td *ngIf="pair[1]">{{ pair[1] }}</td>
+      <td *ngIf="pair[1]" rowSpan="1">{{ capitalize(pair[0]) }}</td>
+      <td *ngIf="pair[1]" rowSpan="1">{{ pair[1] }}</td>
     </tr>
-    </tbody>
+  </tbody>
   </nz-table>
 </div>
