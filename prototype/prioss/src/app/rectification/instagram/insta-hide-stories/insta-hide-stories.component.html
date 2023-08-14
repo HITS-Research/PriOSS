@@ -1,9 +1,40 @@
 <div class="component-page">
-  <app-title-bar titleText= "Guidelines to hide Instagram Stories and Live Videos from specific people" tooltipText="The following guidelines helps you to hide stories and live videos from specific people for your Instagram account. Note- The guidelines are provided for Mobile Application user."></app-title-bar>
+  <app-title-bar titleText= "Guidelines to hide Instagram Stories from specific people" tooltipText="The following guidelines helps you to hide stories from specific people for your Instagram account. Note- The guidelines are provided for Mobile Application user."></app-title-bar>
     <br>
     <p nz-typography>You should secure your privacy not just for photos or location, but also for your stories.</p>
-    
-   
+    <p nz-typography>Here’s how to hide Stories or control who interacts with them:</p>
+            <br>
+            <nz-steps [nzCurrent]="HideStoriesMobile">
+                <nz-step nzTitle="Step 1"></nz-step>
+                <nz-step nzTitle="Step 2"></nz-step>
+                <nz-step nzTitle="Step 3"></nz-step>
+                <nz-step nzTitle="Step 4"></nz-step>
+                <nz-step nzTitle="Step 5"></nz-step>
+                <nz-step nzTitle="Step 6"></nz-step>
+              </nz-steps>
+
+              <div class="steps-content">
+                <img
+                  nz-image
+                  height="300px"
+                  nzSrc={{instructionPictureHideStoriesMobile}}
+                  alt=""
+                />
+                <nz-divider></nz-divider>
+                <p nz-typography>{{ instructionTextHideStoriesMobile }}</p>
+              </div>
+              
+              <div class="steps-action">
+                <button nz-button nzType="default" (click)="preHideStoriesMobile()" [disabled]=" HideStoriesMobile <= 0">
+                  <span>Previous</span>
+                </button>
+                <button nz-button nzType="default" (click)="nextHideStoriesMobile()" [disabled]=" HideStoriesMobile >= 5">
+                  <span>Next</span>
+                </button>
+            </div>           
+</div>
+
+  <!--
             <div>
                 <p nz-typography>Here’s how to hide Stories or control who interacts with them:</p>
                 <br>
@@ -29,9 +60,9 @@
                 <br>
                 <p nz-typography> <strong>Step 6 -</strong> On Androids, tap the arrow in the upper left corner of your screen when you have finished adding users to the list. iPhone users should select "Done" in the top right.</p>
                 <br>
-              </div>
+            </div>
+ -->
           
-</div>
    
     
     

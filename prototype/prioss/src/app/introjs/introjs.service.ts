@@ -210,6 +210,10 @@ export class IntrojsService {
           intro: 'This section shows how you can rectify your data in Instagram.'
         },
         {
+          element:'#recommendation',
+          intro: 'This section gives you recommendations about your privacy settings.'
+        },
+        {
           element: '#gdpr',
           intro: 'This section explains the instructions to exercise your GDPR rights.'
         },
