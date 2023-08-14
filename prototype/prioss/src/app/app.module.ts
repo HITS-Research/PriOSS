@@ -128,6 +128,8 @@ import { InstaShoppingWishlistRepository } from './db/data-repositories/instagra
 import { GroupsAndEventsDataComponent } from './visualizations/facebook/groups-and-events-data/groups-and-events-data.component';
 import { FacebookEventsRepository } from './db/data-repositories/facebook/fb-groups-events-info/face_events.repo';
 import { FacebookGroupsRepository } from './db/data-repositories/facebook/fb-groups-events-info/face_groups.repo';
+import { InstaTopicsRepository } from './db/data-repositories/instagram/insta-your-topics/insta-topics.repository';
+import { InstaYourTopicComponent } from './visualizations/instagram/insta-your-topic/insta-your-topic.component';
 registerLocaleData(de);
 
 @NgModule({
@@ -163,6 +165,7 @@ registerLocaleData(de);
     HelpButtonComponent,
     OffFacebookActivityComponent,
     InstaSearchesComponent,
+    InstaYourTopicComponent,
     OfflineIndicatorComponent,
     TitleBarComponent,
     KnownIssuesComponent,
@@ -241,6 +244,7 @@ registerLocaleData(de);
     InstaRecentlyUnfollowedAccountsRepository,
     InstaRemovedSuggestionRepository,
     InstaReceivedFollowRequestRepository,
+    InstaTopicsRepository,
     InferencesRepository,
     UserdataRepository,
     InstaUserSearchesRepository,

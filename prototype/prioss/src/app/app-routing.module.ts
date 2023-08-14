@@ -43,6 +43,7 @@ import { GroupsAndEventsDataComponent } from './visualizations/facebook/groups-a
 import { YourTopicsComponent } from './visualizations/facebook/manage-privacy/your-topics/your-topics.component';
 import { SecurityLoginDataComponent } from './visualizations/facebook/security-login-data/security-login-data.component';
 import { MessagesComponent } from './visualizations/facebook/messages/messages.component';
+import { InstaYourTopicComponent } from './visualizations/instagram/insta-your-topic/insta-your-topic.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -85,6 +86,7 @@ const routes: Routes = [
   { path: 'insta/revoke-access' , component: RevokeAccessComponent},
   { path: 'insta/searches', component: InstaSearchesComponent},
   { path: 'insta/shopping', component: InstaShoppingComponent},
+  { path: 'insta/your-topic', component: InstaYourTopicComponent},
   { path: 'face/other-personal-info' ,component:OtherPersonalInfoComponent},
   { path: 'face/groups-and-events-data' , component: GroupsAndEventsDataComponent},
   { path: 'face/your-topics', component: YourTopicsComponent},
