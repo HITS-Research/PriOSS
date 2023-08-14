@@ -159,7 +159,7 @@ export class TopSongsComponent extends SequenceComponentInit implements AfterVie
       .append("svg")
       .attr(
         "viewBox",
-        `0 0 ${xAxisWidth + margin * 2} ${yAxisHeight + bottomMargin}`
+        `0 0 ${xAxisWidth + margin * 2 + 25} ${yAxisHeight + bottomMargin}`
       )
       .append("g")
       .attr("transform", "translate(" + leftmargin + "," + 0 + ")");
@@ -195,10 +195,31 @@ export class TopSongsComponent extends SequenceComponentInit implements AfterVie
       .range([0, yAxisHeight])
       .domain(data.map(d => d.trackName))
       .padding(.1);
-    svg.append("g")
-      .call(d3.axisLeft(yScale).tickSize(0))
-      .selectAll("text")
-      .style("font-size", this.textSize);
+    const yAxis = svg.append("g")
+      .call(d3.axisLeft(yScale).tickSize(0));
+
+    yAxis.selectAll<SVGTextElement, string>("text") // Specify the type for text elements and the data type
+      .style("font-size", this.textSize)
+      .text(function(d: string) {
+        const cleanTrackName = d.replace(/\(feat\..*?\)/i, ''); // Remove "(feat." and everything after it
+        return (cleanTrackName.length > 20) ? cleanTrackName.substring(0, 17) + "..." : cleanTrackName;
+      });
+
+    yAxis.selectAll<SVGTextElement, string>("text")
+      .on("mouseover", function(event, d) {
+        const item = data.find(item => item.trackName === d);
+        if (item) {
+          const tooltipContent = `${item.trackName} by ${item.artistName}`;
+          tooltip.style("visibility", "visible")
+            .html(tooltipContent)
+            .style("top", (event.pageY - 10) + "px")
+            .style("left", (event.pageX + 10) + "px");
+        }
+      })
+      .on("mouseout", function() {
+        tooltip.style("visibility", "hidden");
+      });
+
 
     // bars
     svg.selectAll("myRect")
