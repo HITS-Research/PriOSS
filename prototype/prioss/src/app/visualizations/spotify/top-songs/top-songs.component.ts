@@ -148,11 +148,11 @@ export class TopSongsComponent extends SequenceComponentInit implements AfterVie
     let hoveringTrackName = "";
 
     // set the dimensions and margins of the graph
-    let margin = 100;
-    let leftmargin = 200;
-    let bottomMargin = 125;
-    let xAxisWidth = window.innerWidth - margin * 2;
-    let yAxisHeight = window.innerHeight*0.90 - margin * 2;
+    const margin = 100;
+    const leftmargin = 200;
+    const bottomMargin = 125;
+    const xAxisWidth = window.innerWidth - margin * 2;
+    const yAxisHeight = window.innerHeight*0.90 - margin * 2;
 
     // append the svg object to the body of the page
     const svg = d3.select(".bar_chart_top_songs")
@@ -191,7 +191,7 @@ export class TopSongsComponent extends SequenceComponentInit implements AfterVie
 
     // Y axis
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    var yScale: any = d3.scaleBand()
+    const yScale: any = d3.scaleBand()
       .range([0, yAxisHeight])
       .domain(data.map(d => d.trackName))
       .padding(.1);
@@ -202,7 +202,7 @@ export class TopSongsComponent extends SequenceComponentInit implements AfterVie
       .style("font-size", this.textSize)
       .text(function(d: string) {
         const cleanTrackName = d.replace(/\(feat\..*?\)/i, ''); // Remove "(feat." and everything after it
-        return (cleanTrackName.length > 20) ? cleanTrackName.substring(0, 17) + "..." : cleanTrackName;
+        return (cleanTrackName.length > 18) ? cleanTrackName.substring(0, 15) + "..." : cleanTrackName;
       });
 
     yAxis.selectAll<SVGTextElement, string>("text")

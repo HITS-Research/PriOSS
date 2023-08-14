@@ -150,18 +150,18 @@ export class TopArtistsComponent extends SequenceComponentInit implements AfterV
     let hoveringBarName = "";
 
     // set the dimensions and margins of the graph
-    let margin = 100;
-    let leftmargin = 200;
-    let bottomMargin = 125;
-    let xAxisWidth = window.innerWidth - margin * 2;
-    let yAxisHeight = window.innerHeight*0.90 - margin * 2;
+    const margin = 100;
+    const leftmargin = 200;
+    const bottomMargin = 125;
+    const xAxisWidth = window.innerWidth - margin * 2;
+    const yAxisHeight = window.innerHeight*0.90 - margin * 2;
 
     // append the svg object to the body of the page
     const svg = d3.select(".bar_chart_top_artists")
       .append("svg")
       .attr(
         "viewBox",
-        `0 0 ${xAxisWidth + margin * 2} ${yAxisHeight + bottomMargin}`
+        `0 0 ${xAxisWidth + margin * 2 + 25} ${yAxisHeight + bottomMargin}`
       )
       .append("g")
       .attr("transform", "translate(" + leftmargin + "," + 0 + ")");
@@ -192,14 +192,32 @@ export class TopArtistsComponent extends SequenceComponentInit implements AfterV
       .style("font-size", this.textSize);
 
     // Y axis
-    var yScale: any = d3.scaleBand()
+    const yScale: any = d3.scaleBand()
       .range([0, yAxisHeight])
       .domain(data.map(d => d.artistName))
       .padding(.1);
-    svg.append("g")
-      .call(d3.axisLeft(yScale).tickSize(0))
-      .selectAll("text")
-      .style("font-size", this.textSize);
+    const yAxis = svg.append("g")
+      .call(d3.axisLeft(yScale).tickSize(0));
+
+    yAxis.selectAll<SVGTextElement, string>("text") // Specify the type for text elements and the data type
+      .style("font-size", this.textSize)
+      .text(function(d: string) {
+        const shortTrackName = d.replace(/\(feat\..*?\)/i, ''); // Remove "(feat." and everything after it
+        return (shortTrackName.length > 18) ? shortTrackName.substring(0, 15) + "..." : shortTrackName;
+      });
+
+    yAxis.selectAll<SVGTextElement, string>("text")
+      .on("mouseover", function(event, d) {
+        const tooltipContent = d;
+        tooltip.style("visibility", "visible")
+          .html(tooltipContent)
+          .style("top", (event.pageY - 10) + "px")
+          .style("left", (event.pageX + 10) + "px");
+      })
+      .on("mouseout", function() {
+        tooltip.style("visibility", "hidden");
+      });
+
 
     // bars
     svg.selectAll("myRect")
