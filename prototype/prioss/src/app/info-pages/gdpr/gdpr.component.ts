@@ -1,5 +1,12 @@
 import { Component } from '@angular/core';
 
+/**
+ * This component includes an array with the title, description, and an icon for all rights which should
+ * be presented to the user. They are shown in a grid where each right is a single card.
+ *
+ * @author: Jonathan (jvn@mail.upb.de)
+ *
+ */
 @Component({
   selector: 'app-gdpr',
   templateUrl: './gdpr.component.html',
