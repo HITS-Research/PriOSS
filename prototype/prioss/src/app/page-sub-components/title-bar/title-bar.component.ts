@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { AppComponentMsg } from 'src/app/enum/app-component-msg.enum';
+import { AppComponentMsg } from 'src/app/utilities/enum/app-component-msg.enum';
 import { AppComponentMsgService } from 'src/app/services/app-component-msg/app-component-msg.service';
 
 /**

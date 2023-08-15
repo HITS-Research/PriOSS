@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, Input } from '@angular/core';
 import { SequenceComponentInit } from '../../sequence-component-init.abstract';
 import * as d3 from 'd3';
-import {NotificationService} from "../../../notification/notification.component";
+import {NotificationService} from "../../../utilities/notification/notification.component";
 
 import { InstaLikedCommentsRepository } from 'src/app/db/data-repositories/instagram/insta-liked-content/insta-likedcomments.repository';
 import { InstaLikedPostsRepository } from 'src/app/db/data-repositories/instagram/insta-liked-content/insta-likedposts.repository';
