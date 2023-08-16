@@ -130,6 +130,7 @@ import { FacebookEventsRepository } from './db/data-repositories/facebook/fb-gro
 import { FacebookGroupsRepository } from './db/data-repositories/facebook/fb-groups-events-info/face_groups.repo';
 import { InstaTopicsRepository } from './db/data-repositories/instagram/insta-your-topics/insta-topics.repository';
 import { InstaYourTopicComponent } from './visualizations/instagram/insta-your-topic/insta-your-topic.component';
+import { PurposesComponent } from './visualizations/spotify/purposes/purposes.component';
 registerLocaleData(de);
 
 @NgModule({
@@ -187,7 +188,8 @@ registerLocaleData(de);
     SecurityLoginDataComponent,
     OtherPersonalInfoComponent,
     MessagesComponent,
-    GroupsAndEventsDataComponent
+    GroupsAndEventsDataComponent,
+    PurposesComponent
 ,
   ],
   imports: [
