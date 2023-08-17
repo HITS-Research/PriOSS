@@ -1,6 +1,6 @@
 .t-explanation {
     text-align: center;
-    font-size: 1vw;
+    font-size: 22px;
 }
 
 //the container of the file upload field
@@ -21,7 +21,7 @@
 }
 
 .file-upload-explanation {
-    font-size: 0.75vw;
+    font-size: 18px;
     text-align: center;
 }
 
@@ -40,7 +40,7 @@
 //the div containing the text inside the file upload field
 .drag-text {
     text-align: center;
-    font-size: .9vw;
+    font-size: 20px;
 }
 
 //the actual text inside the file upload field
@@ -126,22 +126,6 @@ input[type=radio]:checked+label>img {
     margin: 20px 20px;
 }
 
-
-.selection-choice {
-    perspective: 1000px;
-  }
-
-  .selection-choice:hover img {
-    transform: scale(1.1);
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
-    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-  }
-
-  .selection-choice:hover img {
-    border-radius: 50%;
-    cursor: pointer;
-  }
-
 .i-image1{
     width: 60%;
     margin-top: 20px;
@@ -157,49 +141,6 @@ input[type=radio]:checked+label>img {
     -webkit-overflow-scrolling: touch;
 }
 
-//CSS-rules that are only used in mobile versions
-//Size Picked based on the service-selection icons
-@media only screen and (max-width: 650px) {
-    .selection-list {
-        display: flex;
-        flex-wrap: nowrap;
-        overflow-x: auto;
-        align-items: center; //"safe center" would be way better but is not supported on all browsers
-    
-        .selection-choice {
-            padding: 16px;
-            flex: 0 0 auto;
-            margin: auto;
-    
-            label h3 {
-                padding-top: 0.2rem;
-                text-align: center;
-            }
-        }
-    }
-  }
-
-//CSS-rules for screens larger than mobile
-//categories for tablets etc. can be created if necessary
-@media only screen and (min-width: 650px) {
-    .selection-list {
-        display: flex;
-        flex-wrap: nowrap;
-        overflow-x: auto;
-        justify-content: center; //"safe center" would be way better but is not supported on all browsers
-        
-
-        .selection-choice {
-            padding: 16px;
-            flex: 0 0 auto;
-    
-            label h3 {
-                padding-top: 0.2rem;
-                text-align: center;
-            }
-        }
-    }
-}
 .steps-content {
     margin-left: 10px;
     margin-right: 10px;
@@ -223,3 +164,82 @@ input[type=radio]:checked+label>img {
     margin-left: 10px;
     margin-right: 10px;
   }
+
+
+//CSS-rules that are only used in mobile versions
+//Size Picked based on the service-selection icons
+@media only screen and (max-width: 650px) {
+    .selection-list {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+    
+        .selection-choice {
+            padding: 16px;
+            flex: 0 0 auto;
+            margin: auto;
+    
+            label h3 {
+                padding-top: 0.2rem;
+                text-align: center;
+            }
+        }
+    }
+  }
+
+//CSS-rules for tablets
+@media only screen and (min-width: 650px) and (max-width: 1200px) {
+    .selection-list {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        justify-content: center; //"safe center" would be way better but is not supported on all browsers
+        
+
+        .selection-choice {
+            padding: 16px;
+            flex: 0 0 auto;
+    
+            label h3 {
+                padding-top: 0.2rem;
+                text-align: center;
+            }
+        }
+    }
+}
+
+//CSS-rules for screens larger than typical tablets
+@media only screen and (min-width: 1200px) {
+    .selection-list {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        justify-content: center; //"safe center" would be way better but is not supported on all browsers
+        
+
+        .selection-choice {
+            padding: 16px;
+            flex: 0 0 auto;
+    
+            label h3 {
+                padding-top: 0.2rem;
+                text-align: center;
+            }
+        }
+    }
+
+    .selection-choice {
+        perspective: 1000px;
+      }
+    
+      .selection-choice:hover img {
+        transform: scale(1.1);
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+      }
+    
+      .selection-choice:hover img {
+        border-radius: 50%;
+        cursor: pointer;
+      }
+}
