@@ -29,6 +29,10 @@ A single component is always contained in a folder that bears the name of the co
 
 The dashboards serve as a hub for getting an overview of the data in the data-download and for accessing the different visualizations and features of the app. Each service has its own dashboard which is a component located under ``src/app/dashboards/<service-abbreviation>-dashboard``.
 
+### Standalone/General Pages
+
+The main general components that are (mostly) displayed as standalone pages in the application are subfolders of ``src/app``. These are the landing page in ``src/app/landing``, the service selection page under ``src/app/service-selection`` and the info pages, under ``src/app/info-pages``. The info pages folder includes both info-components that are used across all dashboards, like the ``gdpr``- and ``faq``-components as well as standalone info-pages like ``about`` and ``contact``. 
+
 ### Visualizations
 
 The Visualizations available from the different dashboards can be found under ``src/app/visualizations/`` and are grouped by whether they may be used by all dashboards or by only a single service specific dashboard.
@@ -47,4 +51,9 @@ The ``src/app/services`` folder contains some angular services that are mainly u
 
  ### Utilities
 
-The ``src/app/utilities`` folder contains some typescript classes that can be imported in any typescript file and provide some useful functions, for example in regards to handling date types in typescript.
+The ``src/app/utilities`` folder contains some typescript classes that can be imported in any typescript file and provide some useful functions, for example in regards to handling date types in typescript. It also includes enums and utility components, like the notification component.
+
+### Rectification Guides
+
+The ``src/app/rectification`` folder contains pages that show guides on how to rectify personal information in the different services.
+

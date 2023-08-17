@@ -3,7 +3,7 @@ import * as d3 from 'd3';
 import { GranularityEnum, Granularity2LabelMapping, getSmallerGranularity } from './granularity.enum';
 import { formatDisplayTime } from './formatDisplayTime.function';
 import * as dateUtils from '../../../utilities/dateUtils.functions';
-import { NotificationService } from 'src/app/notification/notification.component';
+import { NotificationService } from 'src/app/utilities/notification/notification.component';
 import { SpotHistoryRepository } from 'src/app/db/data-repositories/spotify/spot-history/spot-history.repository';
 import { SpotYearlyListening } from 'src/app/models/Spotify/ListeningHistory/SpotYearlyListening';
 import { SpotMonthlyListening } from 'src/app/models/Spotify/ListeningHistory/SpotMonthlyListening';

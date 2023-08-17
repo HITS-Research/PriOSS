@@ -19,7 +19,7 @@ import { InstaAdsComponent } from './visualizations/instagram/insta-ads/insta-ad
 import { SpotDashboardComponent } from './dashboards/spot-dashboard/spot-dashboard.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';//free icon library for buttons etc
 import { MoodComponent } from './visualizations/spotify/mood/mood.component';
-import { NotificationComponent } from './notification/notification.component';
+import { NotificationComponent } from './utilities/notification/notification.component';
 import { GeneralDataComponent } from './visualizations/all/general-data/general-data.component';
 import { PreviewTileComponent } from './visualizations/all/preview-tile/preview-tile.component';
 import { ListeningTimeComponent } from './visualizations/spotify/listening-time/listening-time.component';
@@ -52,7 +52,7 @@ import { NzSpaceModule } from 'ng-zorro-antd/space';
 import { TopSongsComponent } from './visualizations/spotify/top-songs/top-songs.component';
 import { SettingsFormComponent } from './visualizations/all/privacy-settings-judge/settings-form/settings-form.component';
 import { NzFormModule } from 'ng-zorro-antd/form';
-import { HelpButtonComponent } from './help-button/help-button/help-button.component';
+import { HelpButtonComponent } from './page-sub-components/help-button/help-button.component';
 import { OffFacebookActivityComponent } from './rectification/facebook/off-facebook-activity/off-facebook-activity.component';
 import { InstaSearchesComponent } from './visualizations/instagram/insta-searches/insta-searches.component';
 
@@ -60,7 +60,7 @@ import { DBService } from './services/db/db.service';
 import { SpotHistoryRepository } from './db/data-repositories/spotify/spot-history/spot-history.repository';
 import { UserdataRepository } from './db/data-repositories/general/userdata/userdata.repository';
 import { InferencesRepository } from './db/data-repositories/general/inferences/inferences.repository';
-import { OfflineIndicatorComponent } from './offline-indicator/offline-indicator.component';
+import { OfflineIndicatorComponent } from './page-sub-components/offline-indicator/offline-indicator.component';
 
 import { InstaPersonalRepository } from './db/data-repositories/instagram/insta-personal-info/insta-personal.repository';
 import { InstaAdsActivityRepository } from './db/data-repositories/instagram/insta-ads/insta-ads-activity.repository';
@@ -96,7 +96,7 @@ import { FacebookAppsWebsitesRepository } from './db/data-repositories/facebook/
 import { FacebookOffFacebookActivityRepository } from './db/data-repositories/facebook/fb-ads-data/face-off-facebook-activity.repo';
 import { KnownIssuesComponent } from './info-pages/known-issues/known-issues.component';
 import { FacebookFriendsRepository } from './db/data-repositories/facebook/fb-friends-data/face_friends.repo';
-import { AdsSettingsComponent } from './manage-privacy/facebook/guidlines-for-ads-settings/ads-settings/ads-settings.component';
+import { AdsSettingsComponent } from './visualizations/facebook/manage-privacy/ads-settings/ads-settings.component';
 import { DashCardComponent } from './page-sub-components/dash-card/dash-card.component';
 import { InstaBlockFollowersComponent } from './rectification/instagram/insta-block-followers/insta-block-followers.component';
 import { InstaAccountPrivateComponent } from './rectification/instagram/insta-account-private/insta-account-private.component';
@@ -110,7 +110,7 @@ import { SongtimelineComponent } from './visualizations/spotify/songtimeline/son
 import { GdprComponent } from './info-pages/gdpr/gdpr.component';
 import { FacebookAddressBookRepository } from './db/data-repositories/facebook/fb-other-personal-info/face-address-book.repo';
 import { FacebookSearchHistoryRepository } from './db/data-repositories/facebook/fb-other-personal-info/face-search-history.repo';
-import { YourTopicsComponent } from './manage-privacy/facebook/your-topics/your-topics.component';
+import { YourTopicsComponent } from './visualizations/facebook/manage-privacy/your-topics/your-topics.component';
 import { FacebookLoginLocationsRepository } from './db/data-repositories/facebook/fb-security-login-data/face_login_locations.repo';
 import { FacebookAccountActivityRepository } from './db/data-repositories/facebook/fb-security-login-data/face_account_activity.repo';
 import { FacebookAccountStatusChangesRepository } from './db/data-repositories/facebook/fb-security-login-data/face_account_status_changes.repo';
@@ -128,6 +128,8 @@ import { InstaShoppingWishlistRepository } from './db/data-repositories/instagra
 import { GroupsAndEventsDataComponent } from './visualizations/facebook/groups-and-events-data/groups-and-events-data.component';
 import { FacebookEventsRepository } from './db/data-repositories/facebook/fb-groups-events-info/face_events.repo';
 import { FacebookGroupsRepository } from './db/data-repositories/facebook/fb-groups-events-info/face_groups.repo';
+import { InstaTopicsRepository } from './db/data-repositories/instagram/insta-your-topics/insta-topics.repository';
+import { InstaYourTopicComponent } from './visualizations/instagram/insta-your-topic/insta-your-topic.component';
 registerLocaleData(de);
 
 @NgModule({
@@ -163,6 +165,7 @@ registerLocaleData(de);
     HelpButtonComponent,
     OffFacebookActivityComponent,
     InstaSearchesComponent,
+    InstaYourTopicComponent,
     OfflineIndicatorComponent,
     TitleBarComponent,
     KnownIssuesComponent,
@@ -241,6 +244,7 @@ registerLocaleData(de);
     InstaRecentlyUnfollowedAccountsRepository,
     InstaRemovedSuggestionRepository,
     InstaReceivedFollowRequestRepository,
+    InstaTopicsRepository,
     InferencesRepository,
     UserdataRepository,
     InstaUserSearchesRepository,

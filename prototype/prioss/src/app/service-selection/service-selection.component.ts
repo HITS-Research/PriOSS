@@ -4,8 +4,8 @@ import { ViewportScroller } from "@angular/common";
 import { faCircleRight } from '@fortawesome/free-regular-svg-icons'
 import { faArrowRotateRight } from '@fortawesome/free-solid-svg-icons'
 import { Router } from '@angular/router';
-import { NotificationService } from '../notification/notification.component';
-import { AppType } from '../enum/app-type';
+import { NotificationService } from '../utilities/notification/notification.component';
+import { AppType } from '../utilities/enum/app-type';
 
 import { SpotHistoryRepository } from '../db/data-repositories/spotify/spot-history/spot-history.repository';
 import { DBService } from '../services/db/db.service';
@@ -62,6 +62,7 @@ import { FaceBookMessagesInfoRepository } from '../db/data-repositories/facebook
 import { FaceBookGroupMessagesInfoRepository } from '../db/data-repositories/facebook/fb-messages-data/fb-messages-groups.repo';
 import { FacebookAddressBookRepository } from '../db/data-repositories/facebook/fb-other-personal-info/face-address-book.repo';
 import { FacebookSearchHistoryRepository } from '../db/data-repositories/facebook/fb-other-personal-info/face-search-history.repo';
+import { InstaTopicsRepository } from '../db/data-repositories/instagram/insta-your-topics/insta-topics.repository';
 
 //service identifier filenames
 const instaIDFilename = "TODO";
@@ -144,6 +145,7 @@ export class ServiceSelectionComponent implements AfterViewInit{
               private instaUserSearchesRepo: InstaUserSearchesRepository,
               private instaKeywordSearchesRepo: InstaKeywordSearchesRepository,
               private instaTagSearchesRepo: InstaTagSearchesRepository,
+              private instaTopicRepo: InstaTopicsRepository,
               private sqlDBService: DBService, 
               private http: HttpClient,
               private inferredTopicsDataRepo: InferredTopicsRepository,
@@ -394,7 +396,7 @@ export class ServiceSelectionComponent implements AfterViewInit{
   /**
     * Parses the uploaded Facebook data-download-zip file into the SQLite database
     *
-    * @author: Rashida (rbharmal@mail.upb.de),Rishma (rishmamn@mail.uni-paderborn.de)
+    * @author: Rashida (rbharmal@mail.upb.de), Rishma (rishmamn@mail.uni-paderborn.de)
     *
   */
   async parseFacebookFileToSQLite() {
@@ -1310,6 +1312,30 @@ export class ServiceSelectionComponent implements AfterViewInit{
           await this.instaReceivedFollowRequestRepo.addReceivedFollowRequestBulkEntry(accountURL, accountName, timestamp);
         }    
       }
+      
+      //your topic data
+      else if(filename.startsWith("your_topics")){
+        const jsonData = JSON.parse(content);
+        const yourTopicData=jsonData.topics_your_topics;
+
+        if(yourTopicData.length == 0) {
+          continue;
+        }
+        else if(yourTopicData.length == 1) {
+          await this.instaTopicRepo.addSingleTopicData(
+            utilities.getValueIgnoreCase(yourTopicData[0].string_map_data,"Name",false));
+        }
+        else {
+          await this.instaTopicRepo.startTopicBulkAdd(
+            utilities.getValueIgnoreCase(yourTopicData[0].string_map_data,"Name",false),
+            yourTopicData.length);
+          
+          for(let i = 1; i < yourTopicData.length; i++){
+            await this.instaTopicRepo.addTopicsBulkEntry(
+              utilities.getValueIgnoreCase(yourTopicData[i].string_map_data,"Name",false));
+          }
+        }
+      }
     }
 
     if (this.requestedAbortDataParsing) {
@@ -1372,5 +1398,80 @@ export class ServiceSelectionComponent implements AfterViewInit{
   scrollToTop(){
     this.scroll.scrollToPosition([0,0]);
   }
-        
+    
+  
+  InstaDataDownload = 0;
+  instructionTextInstaDataDownload='Log in to your account, or use this Instagram Website link- https://www.instagram.com/ and enter your log in details.';
+  instructionPictureInstaDataDownload="../../assets/images/insta-instructions/login.png";
+
+  /**
+   * Callback function to decrement the "InstaDataDownload" variable.
+   * @author: Aayushma (aayushma@mail.uni-paderborn.de)
+   *
+   */
+  preInstaDataDownload(): void {
+    this.InstaDataDownload -= 1;
+    this.changeInstaDataDownload();
+  }
+
+  /**
+   * Callback function to increment the "InstaDataDownload" variable.
+   * @author: Aayushma (aayushma@mail.uni-paderborn.de)
+   *
+   */
+  nextInstaDataDownload(): void {
+    this.InstaDataDownload += 1;
+    this.changeInstaDataDownload();
+  }
+
+
+  /**
+   * This method shows the instruction text and picture for Instagram user to download their personal data.
+   * @author: Aayushma (aayushma@mail.uni-paderborn.de)
+   *
+   */
+  changeInstaDataDownload(): void {
+    switch (this.InstaDataDownload) {
+      case 0: {
+        this.instructionTextInstaDataDownload='Log in to your account, or use this Instagram Website link- https://www.instagram.com/ and enter your log in details.';
+        this.instructionPictureInstaDataDownload="../../assets/images/insta-instructions/login.png";
+        break;
+      }
+      case 1: {
+        this.instructionTextInstaDataDownload='Now go to "More" option in the bottom-left corner.';
+        this.instructionPictureInstaDataDownload="../../assets/images/insta-instructions/31.png";
+        break;
+      }
+      case 2: {
+        this.instructionTextInstaDataDownload='Select "Your activity" option';
+        this.instructionPictureInstaDataDownload="../../assets/images/insta-instructions/32.png";
+        break;
+      }
+      case 3: {
+        this.instructionTextInstaDataDownload='On the page, now click on "Download your information" option.';
+        this.instructionPictureInstaDataDownload="../../assets/images/insta-instructions/33.png";
+        break;
+      }
+      case 4: {
+        this.instructionTextInstaDataDownload='Verify your e-mail address. Select "JSON format" and click on "Next".';
+        this.instructionPictureInstaDataDownload="../../assets/images/insta-instructions/34.png";
+        break;
+      }
+      case 5: {
+        this.instructionTextInstaDataDownload='Before you go to the final step of requesting your data, make sure that the website is set to English. You can change that on the bottom of the screen. It is necessary to analyze your data correcty and after requesting your data you can switch back to your favorite language.';
+        this.instructionPictureInstaDataDownload="../../assets/images/insta-instructions/35.png";
+        break;
+      }
+      case 6: {
+        this.instructionTextInstaDataDownload='Enter your account password and click "Request Download".';
+        this.instructionPictureInstaDataDownload="../../assets/images/insta-instructions/36.png";
+        break;
+      }
+      default: {
+        this.instructionTextInstaDataDownload='Error';
+      }
+    }
+  }
+
+
 }
