@@ -1,0 +1,35 @@
+<details open id="purpose">
+  <summary class="collapsible-dashboard-section-title">Purposes - Why does Spotify collect your data ?</summary>
+  <div id="step6">
+    <nz-card nzTitle="Exemplary Purposes">
+      <p>
+        The following purposes should give an example of Spotify's reasoning in regards to why they collect your data.
+        To get a full list of their reasons you can check out Spotify's <a target="_blank"
+                                                                           href="https://www.spotify.com/us/legal/privacy-policy/">privacy policy</a><span nz-icon
+                                                                                                                                                           nzType="link"></span>
+      </p>
+      <br>
+      <nz-table nzTemplateMode>
+        <thead>
+        <tr>
+          <th [nzWidth]="'70%'">Purpose</th>
+          <th>Data Collected</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let row of dataRows">
+          <td>
+            <strong>{{ row.shortPurpose }}:</strong> {{ row.detailedPurpose }}
+          </td>
+          <td>
+            <ng-container *ngFor="let data of row.dataCollected.split(', '); let last = last">
+              <i nz-icon [nzType]="dataIcons[data]" [nzTheme]="'outline'" class="large-icon" [title]="data"></i>
+              <span *ngIf="!last">&nbsp;</span> <!-- Add a non-breaking space if not the last icon -->
+            </ng-container>
+          </td>
+        </tr>
+        </tbody>
+      </nz-table>
+    </nz-card>
+  </div>
+</details>
