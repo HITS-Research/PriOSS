@@ -2,7 +2,7 @@ import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { GeneralDataComponent } from 'src/app/visualizations/all/general-data/general-data.component';
 import { InferencesComponent } from 'src/app/visualizations/spotify/inferences/inferences.component';
-import { IntrojsService } from 'src/app/introjs/introjs.service';
+import { IntrojsService } from 'src/app/page-sub-components/introjs/introjs.service';
 import { ListeningTimeComponent } from 'src/app/visualizations/spotify/listening-time/listening-time.component';
 import { BaseDashboard } from '../base-dashboard.abstract';
 import { TopArtistsComponent } from 'src/app/visualizations/spotify/top-artists/top-artists.component';
