@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, Input} from '@angular/core';
 import * as d3 from "d3";
 import {SpotHistoryRepository} from "../../../db/data-repositories/spotify/spot-history/spot-history.repository";
-import {NotificationService} from "../../../notification/notification.component";
+import {NotificationService} from "../../../utilities/notification/notification.component";
 import { SpotMinListenedToSong } from 'src/app/models/Spotify/TopSong/SpotMinListenedToSong';
 import { SequenceComponentInit } from '../../sequence-component-init.abstract';
 import { ActivatedRoute } from '@angular/router';
