@@ -101,30 +101,37 @@ import { OffFacebookActivityModel } from 'src/app/models/Facebook/offfacebookact
       });
       this.faceAppsAndWebsitesRepo.getAllFaceAppsAndWebsites().then((apps_websites) => {
         this.apps_websites = apps_websites;
-        const category = this.apps_websites[0].category;
-        if (apps_websites.length !== 0) {
-          for (const app of apps_websites) {
+    
+        const uniqueAppNames = new Set();
+    
+        for (const app of apps_websites) {
+            const category = app.category;
+            const appName = app.name;
+    
             if (category === 'inactive') {
-              //display unique apps checking the category and name
-              if (!category.includes(app.name)) {
-                this.appsByCategory.inactive.push(app.name);
-                this.inActiveWebsite++;
-              }
+                if (!uniqueAppNames.has(appName)) {
+                    this.appsByCategory.inactive.push(appName);
+                    uniqueAppNames.add(appName);
+                    this.inActiveWebsite++;
+                }
             } else if (category === 'active') {
-              if (!category.includes(app.name)) {
-                this.appsByCategory.active.push(app.name);
-                this.activeWebsite++;
-              }
+                if (!uniqueAppNames.has(appName)) {
+                    this.appsByCategory.active.push(appName);
+                    uniqueAppNames.add(appName);
+                    this.activeWebsite++;
+                }
             } else if (category === 'removed') {
-              if (!category.includes(app.name)) {
-                this.appsByCategory.removed.push(app.name);
-                this.removedWebsite++;
-              }
+                if (!uniqueAppNames.has(appName)) {
+                    this.appsByCategory.removed.push(appName);
+                    uniqueAppNames.add(appName);
+                    this.removedWebsite++;
+                }
             }
-          }
         }
-        this.totalWebsites =  this.inActiveWebsite + this.activeWebsite + this.removedWebsite;
-      });
+    
+        this.totalWebsites = this.inActiveWebsite + this.activeWebsite + this.removedWebsite;
+    });
+    
     }
 
     /**

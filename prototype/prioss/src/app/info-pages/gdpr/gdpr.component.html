@@ -1,26 +1,23 @@
 <details open>
   <summary class="collapsible-dashboard-section-title" id="gdpr">GDPR and Your Rights</summary>
     <p>
-      The General Data Protection Regulation (GDPR) is the European Union's (EU) data protection law effective from May 2018. 
-      It is applicable for all individuals within the European Union and the European Economic Area (EEA). 
-      It was created to regulate the collection, processing, and storage of personal data by any corporation in the world, 
+      The General Data Protection Regulation (GDPR) is the European Union's (EU) data protection law effective from May 2018.
+      It is applicable for all individuals within the European Union and the European Economic Area (EEA).
+      It was created to regulate the collection, processing, and storage of personal data by any corporation in the world,
       as long as they target or collect data related to people in the EU.
       The GDPR also defines a range of individual rights you have in regards to your personal data.
     </p>
-    <nz-card class="gdpr-header" nzTitle="The most central points from the GDPR are:">
-      <ul>
-        <li><strong>Consent:</strong> Companies must obtain explicit and informed consent from individuals to collect, process, and store their personal data.</li>
-        <li><strong>Right to Access:</strong> Individuals have the right to access their personal data that has been collected and stored by companies. </li>
-        <li><strong>Right to Rectification:</strong> Individuals have the right to have their personal data corrected if it is inaccurate or incomplete.</li>
-        <li><strong>Right to be Forgotten:</strong> Individuals have the right to request the deletion of their personal data.</li>
-        <li><strong>Right to Data Portability:</strong>  Individuals have the right to receive their personal data in a format that is easily transferable to another company.</li>
-        <li><strong>Right to Object:</strong> Individuals have the right to object to the processing of their personal data in certain circumstances. </li>
-        <li><strong>Data Protection Officers (DPOs):</strong> Companies that process large amounts of personal data or sensitive personal data must appoint a DPO.</li>
-        <li><strong>Data Breach Notification:</strong> Companies must notify individuals and the relevant authorities within 72 hours of a data breach.</li>
-        <li><strong>Penalties:</strong>  Non-compliance with the GDPR can result in fines of up to 4% of a company's annual global revenue or €20 million (whichever is greater).</li>
-        <li><strong>Rights Related to Automated Decision-Making:</strong> Rights related to automated decision-making: Individuals have the right not to be subject to a decision based solely on automated processing, including profiling.</li>
-      </ul>
-      It is important to note that these rights are not absolute and may be subject to certain limitations or conditions under certain circumstances. 
+    <nz-card class="gdpr-header" nzTitle="Central Points from the GDPR">
+      <div class="grid">
+        <div *ngFor="let right of dataProtectionRights" class="card">
+          <div class="icon">
+            <i nz-icon [nzType]="right.icon"></i>
+          </div>
+          <div class="title">{{ right.title }}</div>
+          <p class="description">{{ right.description }}</p>
+        </div>
+      </div>
+      It is important to note that these rights are not absolute and may be subject to certain limitations or conditions under certain circumstances.
       To find out more, check out the EU's <a target="_blank" href='https://gdpr.eu/'>complete guide to GDPR compliance</a><span nz-icon nzType="link"></span>.
     </nz-card>
 </details>

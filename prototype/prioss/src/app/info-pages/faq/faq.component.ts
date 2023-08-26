@@ -49,7 +49,7 @@ export class FaqComponent {
     {
       active: false,
       name: 'How to traverse inside the data? ',
-      content: 'Users can navigate through their downloaded JSON data. The data is collected and grouped based on various interests such as ads_and_businesses, ads_and_topics, comments, and more. User data is organized into different folders and sorted alphabetically. To comprehend the contents of these JSON files, a basic understanding of JSON is required beforehand. This application simplifies the process and makes it straightforward to comprehend the data.',
+      content: 'Users can navigate through their downloaded JSON data. The data is collected and grouped based on various interests such as ads_and_businesses, ads_and_topics, posts, and more. User data is organized into different folders and sorted alphabetically. To comprehend the contents of these JSON files, a basic understanding of JSON is required beforehand. This application simplifies the process and makes it straightforward to comprehend the data.',
     },
     {
       active: false,
@@ -85,13 +85,6 @@ export class FaqComponent {
   facebook_faqs = [
     {
       active: false,
-      name: 'What is the purpose of Facebook dashboard?',
-      content: 'The Facebook dashboard presents your personal data in an easily understandable way. This helps you understand what personal data Facebook has been collecting, and how that data is being used. The dashboard also intends to help you excercise your privacy rights by making you more aware of your rights and by guiding you how to excercise your rights.',
-      link: undefined,
-      linkLabel: undefined
-    },
-    {
-      active: false,
       name: 'How does this dashboard help me improve my privacy on Facebook?',
       content: 'You can go to each visualization tile and inspect your data for its correctness. You can also see how your activities are being tracked. If you do not intend Facebook to know any of your particular personal data, you can follow the instructions mentioned in \'Manage Privacy\' section to manage your permissions and/or privacy.',
       link: undefined,
@@ -99,43 +92,22 @@ export class FaqComponent {
     },
     {
       active: false,
-      name: 'Can I excercise my privacy rights on this platform?',
-      content: 'This platform helps you excercise your privacy instructions through appropriate instructions. You have to go to your logged-in Facebook account and follow the instructions. Since this platform works offline, without internet, you can not click something here to make changes in your Facebook account!',
-      link: undefined,
-      linkLabel: undefined
-    },
-    {
-      active: false,
-      name: 'Is downloading my data compulsory to use the platform?',
-      content: 'No. This platform offers sample data for Facebook. You can explore how your data might look, by using the sample data.',
-      link: undefined,
-      linkLabel: undefined
-    },
-    {
-      active: false,
-      name: 'Is my data safe after I upload my data on this platform?',
-      content: 'Yes. This platform can completely run offline, without internet. Make sure to upload your data after you are disconnected from internet. Your data will not leave your computer then!',
-      link: undefined,
-      linkLabel: undefined
-    },
-    {
-      active: false,
-      name: 'What are my privacy rights?',
-      content: 'We reccommend you to read your rights as explained in \'GDPR and Your Rights\' section.',
+      name: 'Can I excercise my Facebook privacy rights on this platform?',
+      content: 'No. This platform helps you excercise your privacy rights through appropriate instructions. You have to go to your logged-in Facebook account and follow the instructions. Since this platform works offline, without internet, you can not click something here to make changes in your Facebook account!',
       link: undefined,
       linkLabel: undefined
     },
     {
       active: false,
       name: 'How do I excercise my privacy rights?',
-      content: 'By following the instructions mentioned in the \'Manage Privacy\' Section.',
+      content: 'By following the instructions mentioned in the \'Privacy Recommendations\' Section.',
       link: undefined,
       linkLabel: undefined
     },
     {
       active: false,
       name: 'Does this platform has any privacy recommedations for my personal Facebook account?',
-      content: 'Yes. Please refer to Privacy Recommendations section.',
+      content: 'Yes. Please refer to \'Privacy Settings Judge\' in \'Privacy Recommendations\' section.',
       link: undefined,
       linkLabel: undefined
     }

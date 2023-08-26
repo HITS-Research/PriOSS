@@ -1,5 +1,7 @@
 export interface MessagesModel
 {
+color: any;
     name: string;
-    timestamp: string;
+    timestamp: number;
+    uri: string;
 }
