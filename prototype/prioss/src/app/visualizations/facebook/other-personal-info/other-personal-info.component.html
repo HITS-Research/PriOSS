@@ -12,26 +12,36 @@
 </div>
 
 <div *ngIf="!previewMode">
-  <app-title-bar titleText="Messages" tooltipText="This visualization presents an overview of data pertaining to address book and search history list."></app-title-bar>
+  <app-title-bar titleText="Other Personal Information" tooltipText="This visualization presents an overview of data pertaining to address book and search history list."></app-title-bar>
    <nz-tabset class="margin-top-20">
-      <nz-tab nzTitle="Address Book">
+    <nz-tab nzTitle="Address Book">
+      <div class="search-bar">
+        <input type="text" [(ngModel)]="searchText" placeholder="Search..." (input)="filterAddressBookItems(searchText)">
+        <button class="clear-button" (click)="clearAddressBookSearch()">Clear</button>
+      </div>
+
       <div class="grid-container">
-          <ng-container *ngFor="let entry of addressBookData">
-            <div class="cell">
-              <div class="text">
-                <p>{{ entry.name }}</p>
-                <p>{{ entry.contact_point }}</p>
-              </div>
+        <ng-container *ngFor="let entry of getVisibleAddressBookData()">
+          <div class="cell">
+            <div class="text">
+              <p>{{ entry.name }}</p>
+              <p>{{ entry.contact_point }}</p>
             </div>
-          </ng-container>
-        </div>
-        </nz-tab>
+          </div>
+        </ng-container>
+      </div>
+      <div class="pagination">
+        <button class="page-btn" [disabled]="addressBookCurrentPage === 1" (click)="goToAddressBookPage(addressBookCurrentPage - 1)">Previous</button>
+        <span class="page-info">{{ addressBookCurrentPage }} / {{ addressBookTotalPages }}</span>
+        <button class="page-btn" [disabled]="addressBookCurrentPage === addressBookTotalPages" (click)="goToAddressBookPage(addressBookCurrentPage + 1)">Next</button>
+      </div>
+    </nz-tab>
         <nz-tab nzTitle="Search History">
           <div class="search-history-list">
               <h2>Searched History</h2>
             
               <div class="search-bar">
-                <input type="text" [(ngModel)]="searchText" placeholder="Search..." (input)="filterItems(searchText)">
+                <input type="text" [(ngModel)]="searchText" placeholder="Search..." (input)="filterSearchHistoryItems(searchText)">
                 <button class="clear-button" (click)="clearSearch()">Clear</button>
               </div>
               <ul>
