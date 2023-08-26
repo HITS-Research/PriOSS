@@ -27,7 +27,7 @@ import { InstaFollowersComponent } from './visualizations/instagram/insta-follow
 import { InstaContactComponent } from './visualizations/instagram/insta-contact/insta-contact.component';
 import { InstaShoppingComponent } from './visualizations/instagram/insta-shopping/insta-shopping.component';
 import { KnownIssuesComponent } from './info-pages/known-issues/known-issues.component';
-import { AdsSettingsComponent } from './manage-privacy/facebook/guidlines-for-ads-settings/ads-settings/ads-settings.component';
+import { AdsSettingsComponent } from './visualizations/facebook/manage-privacy/ads-settings/ads-settings.component';
 import { SpotPrivacyInstructionsComponent } from "./visualizations/spotify/privacy-instructions/spot-privacy-instructions.component";
 import { OtherPersonalInfoComponent } from './visualizations/facebook/other-personal-info/other-personal-info.component';
 import { SongtimelineComponent } from './visualizations/spotify/songtimeline/songtimeline.component';
@@ -40,7 +40,7 @@ import { InstaProfileInfoPrivateComponent } from './rectification/instagram/inst
 import { InstaAddManagerComponent } from './rectification/instagram/insta-add-manager/insta-add-manager.component';
 import { RevokeAccessComponent } from './rectification/instagram/revoke-access/revoke-access.component';
 import { GroupsAndEventsDataComponent } from './visualizations/facebook/groups-and-events-data/groups-and-events-data.component';
-import { YourTopicsComponent } from './manage-privacy/facebook/your-topics/your-topics.component';
+import { YourTopicsComponent } from './visualizations/facebook/manage-privacy/your-topics/your-topics.component';
 import { SecurityLoginDataComponent } from './visualizations/facebook/security-login-data/security-login-data.component';
 import { MessagesComponent } from './visualizations/facebook/messages/messages.component';
 import { InstaYourTopicComponent } from './visualizations/instagram/insta-your-topic/insta-your-topic.component';

@@ -1,6 +1,6 @@
 import { AfterViewInit, Component } from '@angular/core';
 import { ActivatedRoute, Router } from "@angular/router";
-import { IntrojsService } from 'src/app/introjs/introjs.service';
+import { IntrojsService } from 'src/app/page-sub-components/introjs/introjs.service';
 
 /**
   * This component is the root component for facebook's dashboard page.

@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
-import { IntrojsService } from 'src/app/introjs/introjs.service';
+import { IntrojsService } from 'src/app/page-sub-components/introjs/introjs.service';
 import { BaseDashboard } from '../base-dashboard.abstract';
 import { Insta_PersonalInfoComponent } from 'src/app/visualizations/instagram/Insta_personal-info/personal-info.component';
 import { InstaAdsComponent } from 'src/app/visualizations/instagram/insta-ads/insta-ads.component';
