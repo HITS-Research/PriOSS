@@ -22,7 +22,7 @@ export class DataDownloadInstructionsComponent {
   InstaDataDownload = 0;
   FaceDataDownload = 0;
   SpotDataDownload = 0;
-  instructionTextInstaDataDownload='Log in to your account, or use this Instagram Website link- https://www.instagram.com/ and enter your log in details.';
+  instructionTextInstaDataDownload='Log in to your account, or use this Instagram link <span nz-icon nzType="link"><a href="https://www.instagram.com/" target="_blank">Instagram Website</a> </span> and enter your log in details.';
   instructionPictureInstaDataDownload="../../assets/images/insta-instructions/login.png";
   instructionTextFaceDataDownload="Log in to your account and click your profile photo in the top right of Facebook.";
   instructionPictureFaceDataDownload="../../assets/images/fb-instructions/fb-instruction1.png";
@@ -94,43 +94,43 @@ export class DataDownloadInstructionsComponent {
 
   /**
    * This method shows the instruction text and picture for Instagram user to download their personal data.
-   * @author: Aayushma (aayushma@mail.uni-paderborn.de)
+   * @author: Aayushma (aayushma@mail.uni-paderborn.de), Max (maxy@mail.upb.de)
    *
    */
   changeInstaDataDownload(): void {
     switch (this.InstaDataDownload) {
       case 0: {
-        this.instructionTextInstaDataDownload='Log in to your account, or use this Instagram Website link- https://www.instagram.com/ and enter your log in details.';
+        this.instructionTextInstaDataDownload='Log in to your account, or use this Instagram link <span nz-icon nzType="link"><a href="https://www.instagram.com/" target="_blank">Instagram Website</a> </span> and enter your log in details.';
         this.instructionPictureInstaDataDownload="../../assets/images/insta-instructions/login.png";
         break;
       }
       case 1: {
-        this.instructionTextInstaDataDownload='Now go to "More" option in the bottom-left corner.';
+        this.instructionTextInstaDataDownload='Now go to <strong><i>More</i></strong> option in the bottom-left corner.';
         this.instructionPictureInstaDataDownload="../../assets/images/insta-instructions/31.png";
         break;
       }
       case 2: {
-        this.instructionTextInstaDataDownload='Select "Your activity" option';
+        this.instructionTextInstaDataDownload='Select <b><i>Your activity</i></b> option.';
         this.instructionPictureInstaDataDownload="../../assets/images/insta-instructions/32.png";
         break;
       }
       case 3: {
-        this.instructionTextInstaDataDownload='On the page, now click on "Download your information" option.';
+        this.instructionTextInstaDataDownload='On the page, now click on <b><i>Download your information</i></b> option.';
         this.instructionPictureInstaDataDownload="../../assets/images/insta-instructions/33.png";
         break;
       }
       case 4: {
-        this.instructionTextInstaDataDownload='Verify your e-mail address. Select "JSON format" and click on "Next".';
+        this.instructionTextInstaDataDownload='Verify your e-mail address. Select <b><i>JSON</i></b> format and click on <b><i>Next</i></b>';
         this.instructionPictureInstaDataDownload="../../assets/images/insta-instructions/34.png";
         break;
       }
       case 5: {
-        this.instructionTextInstaDataDownload='Before you go to the final step of requesting your data, make sure that the website is set to English. You can change that on the bottom of the screen. It is necessary to analyze your data correcty and after requesting your data you can switch back to your favorite language.';
+        this.instructionTextInstaDataDownload='Before you go to the final step of requesting your data, make sure that the website is set to <b><i>English</i></b>. You can change that on the bottom of the screen. It is necessary to analyze your data correcty and after requesting your data you can switch back to your favorite language.';
         this.instructionPictureInstaDataDownload="../../assets/images/insta-instructions/35.png";
         break;
       }
       case 6: {
-        this.instructionTextInstaDataDownload='Enter your account password and click "Request Download".';
+        this.instructionTextInstaDataDownload='Enter your <b><i>password</i></b> and click <b><i>Request Download</i></b>.';
         this.instructionPictureInstaDataDownload="../../assets/images/insta-instructions/36.png";
         break;
       }

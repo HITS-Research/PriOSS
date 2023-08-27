@@ -33,7 +33,7 @@
           alt=""
         />
         <nz-divider></nz-divider>
-        <p nz-typography>{{ instructionTextInstaDataDownload }}</p>
+        <p nz-typography [innerHTML]="instructionTextInstaDataDownload"></p>
       </div>
       <div class="steps-action">
         <button nz-button nzType="default" (click)="preInstaDataDownload()" [disabled]="InstaDataDownload <= 0">
@@ -44,34 +44,6 @@
         </button>
       </div>
   <br>
-  <!--
-      <ol>
-        <li>
-          <span>Log in to your account, or click on link <span nz-icon nzType="link"><a href="https://www.instagram.com/" target="_blank">Instagram Website</a> </span> and enter your log in details. Now go to <strong><i>More</i></strong> option in the bottom-left corner. </span><br>
-          <img  class = "i-image1" src="../../assets/images/insta-instructions/31.png">
-        </li>
-        <li>
-          <span>Select <b><i>Your activity</i></b> option.</span><br>
-          <img class="i-image1" src="../../assets/images/insta-instructions/32.png">
-        </li>
-        <li>
-          <span>On the page, now click on <b><i>Download your information</i></b> option.</span> <br>
-            <img class="i-image1" src="../../assets/images/insta-instructions/33.png">
-        </li>
-        <li>
-          <span>Verify your e-mail address. Select <b><i>JSON</i></b> format and click on <b><i>Next</i></b>.</span><br>
-          <img class="i-image1" src="../../assets/images/insta-instructions/34.png">
-        </li>
-        <li>
-          <span>Before you go to the final step of requesting your data, make sure that the website is set to <b><i>English</i></b>. You can change that on the bottom of the screen. It is necessary to analyze your data correcty and after requesting your data you can
-          switch back to your favorite language.</span><br>
-          <img class="i-image1" src="../../assets/images/insta-instructions/35.png">
-        </li>
-        <li>
-          <span>Enter your <b><i>password</i></b> and click <b><i>Request Download</i></b>.</span><br>
-          <img class="i-image1" src="../../assets/images/insta-instructions/36.png">
-        </li> 
-  -->
       <ul>
         <li>
           <span>After a few minutes to a couple of days, you will receive an email titled <b><i>Your Instagram Data</i></b> with a link to your data. Tap <b><i>Download data</i></b> and follow the instructions to finish downloading your information.</span><br>
@@ -116,7 +88,7 @@
           alt=""
         />
         <nz-divider></nz-divider>
-        <p nz-typography>{{ instructionTextFaceDataDownload }}</p>
+        <p nz-typography [innerHTML]="instructionTextFaceDataDownload"></p>
       </div>
       <div class="steps-action">
         <button nz-button nzType="default" (click)="preFaceDataDownload()" [disabled]="FaceDataDownload <= 0">
@@ -159,7 +131,7 @@
           alt=""
         />
         <nz-divider></nz-divider>
-        <p nz-typography>{{ instructionTextSpotDataDownload }}</p>
+        <p nz-typography [innerHTML]="instructionTextSpotDataDownload"></p>
       </div>
       <div class="steps-action">
         <button nz-button nzType="default" (click)="preSpotDataDownload()" [disabled]="SpotDataDownload <= 0">
