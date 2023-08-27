@@ -14,6 +14,16 @@ import { Router } from '@angular/router';
   styleUrls: ['./data-download-instructions.component.less']
 })
 export class DataDownloadInstructionsComponent {
+
+/**
+  * This method returns the User back to the ServiceSelection page upon beeing called.
+  *
+  * @author: Max (maxy@mail.upb.de)
+  *
+  */
+returnToServiceSelection(): void {
+  this.router.navigate(['serviceSelection']);
+}
   
   constructor(private router: Router, 
    )  {
@@ -130,7 +140,7 @@ export class DataDownloadInstructionsComponent {
         break;
       }
       case 6: {
-        this.instructionTextInstaDataDownload='Enter your <b><i>password</i></b> and click <b><i>Request Download</i></b>.';
+        this.instructionTextInstaDataDownload='Enter your <b><i>password</i></b> and click <b><i>Request Download</i></b>. <br> After a few minutes to a couple of days, you will receive an email titled <b><i>Your Instagram Data</i></b> with a link to your data. Tap <b><i>Download data</i></b> and follow the instructions to finish downloading your information. <br> Return to this website after you downloaded your data.';
         this.instructionPictureInstaDataDownload="../../assets/images/insta-instructions/36.png";
         break;
       }
@@ -184,7 +194,7 @@ export class DataDownloadInstructionsComponent {
         break;
       }
       case 7: {
-        this.instructionTextFaceDataDownload='It will take some time until your download is ready. Once you have received an email notification that the data is ready for download, click on <b><i>Available files</i></b>. You can download the files from here. If you did not get an email after a week, please check the site below manually as the mail might have been missed, for example due to your spam filter.';
+        this.instructionTextFaceDataDownload='It will take some time until your download is ready. Once you have received an email notification that the data is ready for download, click on <b><i>Available files</i></b>. You can download the files from here. If you did not get an email after a week, please check the site below manually as the mail might have been missed, for example due to your spam filter.<br>Return to this website after you downloaded your data.';
         this.instructionPictureFaceDataDownload="../../assets/images/fb-instructions/fb-instruction8.png";
         break;
       }
@@ -228,7 +238,7 @@ export class DataDownloadInstructionsComponent {
         break;
       }
       case 5: {
-        this.instructionTextSpotDataDownload='You will be re-directed to Spotify Privacy Settings page with a notification that your data is getting prepared. You will receive an e-mail from Spotify containing a link in the next few days. The link will redirect you to the Privacy Settings page where you will find a download button. Download the data to your computer.';
+        this.instructionTextSpotDataDownload='You will be re-directed to Spotify Privacy Settings page with a notification that your data is getting prepared. You will receive an e-mail from Spotify containing a link in the next few days. The link will redirect you to the Privacy Settings page where you will find a download button. Download the data to your computer.<br>Return to this website after you downloaded your data.';
         this.instructionPictureSpotDataDownload="../../assets/images/spot-instructions/spot-instruction6.png";
         break;
       }

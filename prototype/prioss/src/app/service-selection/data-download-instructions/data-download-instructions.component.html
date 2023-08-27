@@ -1,4 +1,9 @@
-<h1>Data Download Instructions</h1>
+
+<app-title-bar titleText="Data Download Instructions"
+[overrideBackButtonFunction]="true" (onButtonClickedEventOverride)="returnToServiceSelection()"
+backButtonTextOverride="Back to Service Selection">
+</app-title-bar>
+
 <nz-tabset>
   <nz-tab nzTitle="Instagram">
     <div class="instructions-content" id="instagram-instructions">
@@ -43,16 +48,6 @@
           <span>Next</span>
         </button>
       </div>
-  <br>
-      <ul>
-        <li>
-          <span>After a few minutes to a couple of days, you will receive an email titled <b><i>Your Instagram Data</i></b> with a link to your data. Tap <b><i>Download data</i></b> and follow the instructions to finish downloading your information.</span><br>
-        </li>
-        <li>
-          <span>Return to this website after you downloaded your data.
-          </span>
-        </li>
-      </ul>
     </div>  
   </nz-tab>
   <nz-tab nzTitle="Facebook">
@@ -98,13 +93,6 @@
           <span>Next</span>
         </button>
       </div>
-     <br>
-      <ul>
-        <li>
-          <span>Return to this website after you downloaded your data.
-          </span>
-        </li>
-      </ul>
     </div>  
   </nz-tab>
 
@@ -141,15 +129,13 @@
           <span>Next</span>
         </button>
       </div>
-     <br>
-      <ul>
-        <li>
-          <span>Return to this website after you downloaded your data.
-          </span>
-        </li>
-      </ul>
     </div>  
   </nz-tab>
-
 </nz-tabset>
-
+<br>
+<br>
+<div class="button-box">
+  <button nz-button nzSize="default" nzType="primary" class="return-btn" (click)="returnToServiceSelection()">
+    Back to Service Selection 
+  </button>
+</div>
