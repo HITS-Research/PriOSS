@@ -1,0 +1,183 @@
+<h1>Data Download Instructions</h1>
+<nz-tabset>
+  <nz-tab nzTitle="Instagram">
+    <div class="instructions-content" id="instagram-instructions">
+      <div class="selection-disclaimer">
+        <div class="disclaimer-content">
+          <h4>Disclaimer!</h4>
+
+          <p>Unfortunately it is impossible to use the data download option directly in the 'Instagram' app because it only allows
+            the user to download the data as an 'HTML' file. To visualize your data we need it packed into different 'json' files.<br>
+            Therefore please follow the upcomming instructions on how to download your data via an internet browser.</p>
+        </div>
+      </div>
+
+      <div class="steps">
+      
+        <nz-steps [nzCurrent]="InstaDataDownload">
+        <nz-step nzTitle="Step 1"></nz-step>
+        <nz-step nzTitle="Step 2"></nz-step>
+        <nz-step nzTitle="Step 3"></nz-step>
+        <nz-step nzTitle="Step 4"></nz-step>
+        <nz-step nzTitle="Step 5"></nz-step>
+        <nz-step nzTitle="Step 6"></nz-step>
+        <nz-step nzTitle="Step 7"></nz-step>
+        </nz-steps>
+      </div>
+
+      <div class="steps-content">
+        <img
+          nz-image
+          height="320px"
+          nzSrc={{instructionPictureInstaDataDownload}}
+          alt=""
+        />
+        <nz-divider></nz-divider>
+        <p nz-typography>{{ instructionTextInstaDataDownload }}</p>
+      </div>
+      <div class="steps-action">
+        <button nz-button nzType="default" (click)="preInstaDataDownload()" [disabled]="InstaDataDownload <= 0">
+          <span>Previous</span>
+        </button>
+        <button nz-button nzType="default" (click)="nextInstaDataDownload()" [disabled]="InstaDataDownload >= 6">
+          <span>Next</span>
+        </button>
+      </div>
+  <br>
+  <!--
+      <ol>
+        <li>
+          <span>Log in to your account, or click on link <span nz-icon nzType="link"><a href="https://www.instagram.com/" target="_blank">Instagram Website</a> </span> and enter your log in details. Now go to <strong><i>More</i></strong> option in the bottom-left corner. </span><br>
+          <img  class = "i-image1" src="../../assets/images/insta-instructions/31.png">
+        </li>
+        <li>
+          <span>Select <b><i>Your activity</i></b> option.</span><br>
+          <img class="i-image1" src="../../assets/images/insta-instructions/32.png">
+        </li>
+        <li>
+          <span>On the page, now click on <b><i>Download your information</i></b> option.</span> <br>
+            <img class="i-image1" src="../../assets/images/insta-instructions/33.png">
+        </li>
+        <li>
+          <span>Verify your e-mail address. Select <b><i>JSON</i></b> format and click on <b><i>Next</i></b>.</span><br>
+          <img class="i-image1" src="../../assets/images/insta-instructions/34.png">
+        </li>
+        <li>
+          <span>Before you go to the final step of requesting your data, make sure that the website is set to <b><i>English</i></b>. You can change that on the bottom of the screen. It is necessary to analyze your data correcty and after requesting your data you can
+          switch back to your favorite language.</span><br>
+          <img class="i-image1" src="../../assets/images/insta-instructions/35.png">
+        </li>
+        <li>
+          <span>Enter your <b><i>password</i></b> and click <b><i>Request Download</i></b>.</span><br>
+          <img class="i-image1" src="../../assets/images/insta-instructions/36.png">
+        </li> 
+  -->
+      <ul>
+        <li>
+          <span>After a few minutes to a couple of days, you will receive an email titled <b><i>Your Instagram Data</i></b> with a link to your data. Tap <b><i>Download data</i></b> and follow the instructions to finish downloading your information.</span><br>
+        </li>
+        <li>
+          <span>Return to this website after you downloaded your data.
+          </span>
+        </li>
+      </ul>
+    </div>  
+  </nz-tab>
+  <nz-tab nzTitle="Facebook">
+    <div class="instructions-content" id="face-instructions">
+      <div class="selection-disclaimer">
+        <div class="disclaimer-content">
+          <h4>Important!</h4>
+          <p>Use <a href="https://www.facebook.com/dyi/?referrer=yfi_settings" target="_blank">this link </a> to go to the Facebook data download page.  We can't see or access any of your personal information, like cookies or passwords, by using this link. If you're signed into Facebook, the link takes you directly to the download page. If not, it takes you to the login page, and then to the download page once you sign in. 
+           If the link fails, follow the instructions below. As Facebook's menu varies by country and language, you may need to navigate a bit to find the download page.
+           </p>
+        </div>
+      </div>
+
+      <div class="steps">
+      
+        <nz-steps [nzCurrent]="FaceDataDownload">
+        <nz-step nzTitle="Step 1"></nz-step>
+        <nz-step nzTitle="Step 2"></nz-step>
+        <nz-step nzTitle="Step 3"></nz-step>
+        <nz-step nzTitle="Step 4"></nz-step>
+        <nz-step nzTitle="Step 5"></nz-step>
+        <nz-step nzTitle="Step 6"></nz-step>
+        <nz-step nzTitle="Step 7"></nz-step>
+        <nz-step nzTitle="Step 8"></nz-step>
+        </nz-steps>
+      </div>
+
+      <div class="steps-content">
+        <img
+          nz-image
+          height="320px"
+          nzSrc={{instructionPictureFaceDataDownload}}
+          alt=""
+        />
+        <nz-divider></nz-divider>
+        <p nz-typography>{{ instructionTextFaceDataDownload }}</p>
+      </div>
+      <div class="steps-action">
+        <button nz-button nzType="default" (click)="preFaceDataDownload()" [disabled]="FaceDataDownload <= 0">
+          <span>Previous</span>
+        </button>
+        <button nz-button nzType="default" (click)="nextFaceDataDownload()" [disabled]="FaceDataDownload >= 7">
+          <span>Next</span>
+        </button>
+      </div>
+     <br>
+      <ul>
+        <li>
+          <span>Return to this website after you downloaded your data.
+          </span>
+        </li>
+      </ul>
+    </div>  
+  </nz-tab>
+
+  <nz-tab nzTitle="Spotify">
+    <div class="instructions-content" id="Spotify-instructions">
+
+      <div class="steps">
+      
+        <nz-steps [nzCurrent]="SpotDataDownload">
+        <nz-step nzTitle="Step 1"></nz-step>
+        <nz-step nzTitle="Step 2"></nz-step>
+        <nz-step nzTitle="Step 3"></nz-step>
+        <nz-step nzTitle="Step 4"></nz-step>
+        <nz-step nzTitle="Step 5"></nz-step>
+        <nz-step nzTitle="Step 6"></nz-step>
+        </nz-steps>
+      </div>
+
+      <div class="steps-content">
+        <img
+          nz-image
+          height="320px"
+          nzSrc={{instructionPictureSpotDataDownload}}
+          alt=""
+        />
+        <nz-divider></nz-divider>
+        <p nz-typography>{{ instructionTextSpotDataDownload }}</p>
+      </div>
+      <div class="steps-action">
+        <button nz-button nzType="default" (click)="preSpotDataDownload()" [disabled]="SpotDataDownload <= 0">
+          <span>Previous</span>
+        </button>
+        <button nz-button nzType="default" (click)="nextSpotDataDownload()" [disabled]="SpotDataDownload >= 5">
+          <span>Next</span>
+        </button>
+      </div>
+     <br>
+      <ul>
+        <li>
+          <span>Return to this website after you downloaded your data.
+          </span>
+        </li>
+      </ul>
+    </div>  
+  </nz-tab>
+
+</nz-tabset>
+
