@@ -1,1 +1,46 @@
-<p>insta-messages works!</p>
+<div [ngClass]="{'component-page': !previewMode}">
+    <!--in previewmode only a small table with message information is shown-->
+    <div *ngIf="!previewMode">
+        <app-title-bar titleText="Highlights" tooltipText="This are some important entrys in your data download regarding your messages."></app-title-bar>
+    </div>
+      <!-- <div *ngIf="personalInfo !== undefined"> -->
+        <nz-row [nzGutter]="16">
+            <nz-col [nzSpan]="12">
+            <nz-statistic [nzValue]="(12)!" [nzTitle]="'Total number of chats'"></nz-statistic>
+            </nz-col>
+            <nz-col [nzSpan]="12">
+            <nz-statistic [nzValue]="(13)!" [nzTitle]="'Number of one-on-ones chats'"></nz-statistic>
+            </nz-col>
+        </nz-row>
+        <nz-row [nzGutter]="16">
+            <nz-col [nzSpan]="12">
+                <nz-statistic [nzValue]="(14)!" [nzTitle]="'Number of send messages'"></nz-statistic>
+            </nz-col>
+            <nz-col [nzSpan]="12">
+                <nz-statistic [nzValue]="(14)!" [nzTitle]="'Number of received messages'"></nz-statistic>
+            </nz-col>
+        </nz-row>
+    <!--when not in previewmode the whole page is rendered-->
+    <div *ngIf="!previewMode">
+        <nz-row [nzGutter]="16">
+            <nz-col [nzSpan]="12">
+                <nz-statistic [nzValue]="(14)!" [nzTitle]="'Number of group chats'"></nz-statistic>
+            </nz-col>
+            <nz-col [nzSpan]="12">
+                <nz-statistic [nzValue]="(14)!" [nzTitle]="'Most active chat'"></nz-statistic>
+            </nz-col>
+        </nz-row>
+    </div>
+    <br>
+    <div *ngIf="!previewMode">
+      <!--Titlebar component -->
+      <app-title-bar titleText="General Information" tooltipText="The following charts show information about incoming and outgoing messages from all chats." [includeButton]="false"></app-title-bar>
+      <nz-card>
+        <div id="inOutBar"></div>
+        <div id="contextmenu"></div>
+      </nz-card>
+      <br>
+      <app-title-bar titleText="Chat Information" tooltipText="In the following, information is provided separately for each chat." [includeButton]="false"></app-title-bar>
+    
+    </div> 
+</div>
