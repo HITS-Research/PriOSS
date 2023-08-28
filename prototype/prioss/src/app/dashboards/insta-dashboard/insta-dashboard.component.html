@@ -88,6 +88,21 @@
       </app-dash-card>
     </div>
   </div>
+
+  <br>
+  <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
+    <div nz-col nzXs="24" nzXl="8">
+      <!--card for visualizing for messages-->
+      <app-dash-card cardLink="/insta/messages" titleText="Messages"
+          tooltipText="This card shows more information about exchanged messages on Instagram. Click to find out more.">
+        <app-insta-messages [previewMode]="true"></app-insta-messages>
+      </app-dash-card>
+    </div>
+    <div nz-col nzXs="24" nzXl="8">
+    </div>
+    <div nz-col nzXs="24" nzXl="8">
+    </div>
+  </div>
   <br>
   </details>
 

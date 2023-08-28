@@ -38,6 +38,7 @@ import { InstaTwoFactorAuthenticationComponent } from './rectification/instagram
 import { InstaHideStoriesComponent } from './rectification/instagram/insta-hide-stories/insta-hide-stories.component';
 import { InstaProfileInfoPrivateComponent } from './rectification/instagram/insta-profile-info-private/insta-profile-info-private.component';
 import { InstaAddManagerComponent } from './rectification/instagram/insta-add-manager/insta-add-manager.component';
+import { InstaMessagesComponent } from './visualizations/instagram/insta-messages/insta-messages.component';
 import { RevokeAccessComponent } from './rectification/instagram/revoke-access/revoke-access.component';
 import { GroupsAndEventsDataComponent } from './visualizations/facebook/groups-and-events-data/groups-and-events-data.component';
 import { YourTopicsComponent } from './visualizations/facebook/manage-privacy/your-topics/your-topics.component';
@@ -70,6 +71,7 @@ const routes: Routes = [
   { path: 'insta/followers', component: InstaFollowersComponent},
   { path: 'insta/likedcontent', component: InstaLikedContentComponent },
   { path: 'insta/contacts', component: InstaContactComponent },
+  { path: 'insta/messages', component: InstaMessagesComponent},
   { path: 'face/dashboard', component: FaceDashboardComponent },
   { path: 'face/inferred-topics', component: InferredTopicsComponent },
   { path: 'serviceSelection', component: ServiceSelectionComponent },
