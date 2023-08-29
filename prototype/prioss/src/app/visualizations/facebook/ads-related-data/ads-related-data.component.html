@@ -27,8 +27,15 @@
           </nz-col>
         </nz-row>
       <br>
-        <svg id="bubble-chart-interactions" class="chart"></svg>
-        <div id="tooltip"></div>
+      <div>
+        <ng-container *ngIf="dataAvailable; else noDataTemplate">
+          <svg id="bubble-chart-interactions" class="chart"></svg>
+          <div id="tooltip"></div>
+        </ng-container>
+        <ng-template #noDataTemplate>
+          <p>No data available</p>
+        </ng-template>
+      </div>        
         <br>
         <br>
         <h4  nz-typography>What are Off-Site Interactions?</h4>
@@ -52,8 +59,13 @@
           </nz-col>
         </nz-row>
       <br>
+      <ng-container *ngIf="dataAvailable; else noDataTemplate">
         <svg id="bubble-chart-purchase-tracking" class="chart"></svg>
         <div id="tooltip"></div>
+      </ng-container>
+      <ng-template #noDataTemplate>
+        <p>No data available</p>
+      </ng-template>
         <br>
         <br>
         <h4 nz-typography>What are Off-Site Checkout Activities?</h4>

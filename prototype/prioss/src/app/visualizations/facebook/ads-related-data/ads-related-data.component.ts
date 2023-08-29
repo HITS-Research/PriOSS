@@ -37,6 +37,7 @@ import { OffFacebookActivityModel } from 'src/app/models/Facebook/offfacebookact
     apps_websites: AppsAndWebsitesModel[] = [];
     activeTab = 0;
     off_facebook_activity: OffFacebookActivityModel[] = [];
+    dataAvailable: boolean = false;
     constructor(private router: Router,private faceAdsInteractedRepo: FacebookAdsInteractedRepository,private faceAppsAndWebsitesRepo: FacebookAppsWebsitesRepository,
       private faceOffFacebookActivityRepo: FacebookOffFacebookActivityRepository) { }
       ngOnInit(): void {
@@ -145,6 +146,7 @@ import { OffFacebookActivityModel } from 'src/app/models/Facebook/offfacebookact
     generateBubbleChart(types: string[], chartId: string, xAxisLabel: string, yAxisLabel: string, title: string,selectedTab : number): void {
       this.faceOffFacebookActivityRepo.getAllOffFacebookActivity().then((apps) => {
         this.off_facebook_activity = apps;
+        this.dataAvailable = this.off_facebook_activity.length !== 0;
         if (this.off_facebook_activity.length !== 0) {
           const appCounts: { [key: string]: { [key: string]: number } } = {};
 
