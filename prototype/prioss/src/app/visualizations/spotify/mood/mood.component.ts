@@ -408,25 +408,48 @@ function makeRadarChart(audiofeatures: any) {
 
 
 
-      const additionalText = group.append("text")
-        .attr("x", 15)
-        .attr("y", 20) // Adjust the y-coordinate for the additional text
+      // Inside your D3.js code where you handle the additional text:
+      // Inside your D3.js code where you handle the additional text:
+      const additionalTextGroup = group.append("g"); // Create a group for background and text
+
+      // Append a rectangle for the background
+      const backgroundRect = additionalTextGroup
+        .append("rect")
+        .attr("fill", "lightgrey")
+        .attr("stroke", "black")
+        .attr("stroke-width", 1)
+        .attr("rx", 5)
+        .style("opacity", 0); // Initially hide it // Optional: Add rounded corners
+
+      // Append the text element
+      const textElement: any = additionalTextGroup
+        .append("text")
+        .attr("x", 10) // Adjust the position as needed
+        .attr("y", 25) // Adjust the position as needed
         .text(d.name.additionalText) // Replace with the desired additional text
         .attr("class", "additional-text")
-        .style("opacity", 0)
         .style("fill", "black")
-        .style("background-color", "lightgrey")
-        .style("border", "1px solid grey")
         .style("font-size", "12px")
         .style("font-weight", "normal")
-        .style("padding", "4px");
+        .style("pointer-events", "none")
+        .style("opacity", 0); // Initially hide it // This prevents the background from blocking mouse events
 
-      group.on("mouseover", function () {
-        additionalText.style("opacity", 1);
-      })
-        .on("mouseout", function () {
-          additionalText.style("opacity", 0);
-        });
+      // Calculate and set the background rectangle's dimensions based on the text's size
+      const textBoundingBox = textElement.node().getBBox();
+      backgroundRect.attr("width", textBoundingBox.width + 20); // Adjust the padding as needed
+      backgroundRect.attr("height", textBoundingBox.height + 20); // Adjust the padding as needed
+
+
+
+      // Add event handlers to show/hide on mouseover/mouseout
+group.on("mouseover", function () {
+  backgroundRect.style("opacity", 1); // Show the background
+  textElement.style("opacity", 1); // Show the text
+}).on("mouseout", function () {
+  backgroundRect.style("opacity", 0); // Hide the background
+  textElement.style("opacity", 0); // Hide the text
+});
+
     });
 
 
