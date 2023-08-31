@@ -100,10 +100,15 @@
             </tr>
         </thead>
           <tbody>
+            <ng-container *ngIf="dataAvailableAdNames; else noDataTemplate">
             <tr *ngFor="let eachRow of this.adNames">
             <!-- <tr *ngFor="let eachRow of eventsId.data"> -->
               <td>{{eachRow}}</td>
             </tr>
+            </ng-container>
+            <ng-template #noDataTemplate>
+              <p>No data available</p>
+            </ng-template>
           </tbody>
         </nz-table>
         <br>
