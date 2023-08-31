@@ -20,8 +20,8 @@ export class MessagesComponent implements OnInit {
   totalPeopleMessages = 0;
   totalGroupMessages = 0;
   data: { label: string; value: any; }[];
-  dataAvailableIn: boolean = false;
-  dataAvailableGroup: boolean = false;
+  dataAvailableIn = false;
+  dataAvailableGroup = false;
 
   constructor(
     private faceMessagesRepo: FaceBookMessagesInfoRepository,

@@ -37,8 +37,8 @@ import { OffFacebookActivityModel } from 'src/app/models/Facebook/offfacebookact
     apps_websites: AppsAndWebsitesModel[] = [];
     activeTab = 0;
     off_facebook_activity: OffFacebookActivityModel[] = [];
-    dataAvailable: boolean = false;
-    dataAvailableAdNames: boolean = false;
+    dataAvailable = false;
+    dataAvailableAdNames = false;
     constructor(private router: Router,private faceAdsInteractedRepo: FacebookAdsInteractedRepository,private faceAppsAndWebsitesRepo: FacebookAppsWebsitesRepository,
       private faceOffFacebookActivityRepo: FacebookOffFacebookActivityRepository,private cdr: ChangeDetectorRef) { }
       ngOnInit(): void {

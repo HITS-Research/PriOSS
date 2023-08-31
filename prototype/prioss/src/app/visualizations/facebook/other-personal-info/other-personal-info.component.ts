@@ -25,8 +25,8 @@ export class OtherPersonalInfoComponent implements OnInit {
   addressBookPageSize = 10;
   addressBookCurrentPage = 1;
   addressBookTotalPages = 1;
-  dataAvailableAddressBook: boolean = false;
-  dataAvailableSearchHistory: boolean = false;
+  dataAvailableAddressBook = false;
+  dataAvailableSearchHistory = false;
   
   @Input()
   previewMode = false;
