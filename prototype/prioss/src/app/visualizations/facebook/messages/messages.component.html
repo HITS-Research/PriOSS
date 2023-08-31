@@ -15,8 +15,9 @@
     <app-title-bar titleText="Messages" tooltipText="This visualization presents an overview of data pertaining to interactions with friends and group interactions."></app-title-bar>
     <nz-tabset class="margin-top-20" (nzSelectChange)="onTabSelected($event)">
       <nz-tab nzTitle="People & Friends Interactions - Graph View">
-        
+         <ng-container *ngIf="dataAvailableIn; else noDataTemplate">
         <h3 nz-typography>Latest 10 Interactions</h3>
+        <h3 nz-typography>Note - Bubble hover shows profile link.</h3>
         <br>
         <div class="timeline_div" class="visualization-card">
           <!-- Creating timeline for complete data -->
@@ -40,9 +41,13 @@
             </nz-timeline-item>
           </nz-timeline>
         </div>
+        </ng-container>
+        <ng-template #noDataTemplate>
+          No data available
+          </ng-template>
       </nz-tab>
       <nz-tab nzTitle="People & Friends Intercations List">
-        
+        <ng-container *ngIf="dataAvailableIn; else noDataTemplate">
         <nz-row [nzGutter]="16">
           <nz-col [nzSpan]="12">
             <nz-statistic [nzValue]="(messagesData.length| number)!" [nzTitle]="'Number of People You Have Messaged '"></nz-statistic>
@@ -68,15 +73,25 @@
             </tr>
           </tbody>
         </nz-table>
+        </ng-container>
+        <ng-template #noDataTemplate>
+          No data available
+          </ng-template>
       </nz-tab>
       <nz-tab nzTitle="Group Interactions - Graph View ">
-        <h3 nz-typography>10 Interactions</h3>
+        <ng-container *ngIf="dataAvailableGroup; else noDataTemplate">
+        <h3 nz-typography>Latest 10 Interactions</h3>
         <br>
         <div class="chart-container">
           <svg class="chart" id="chart"></svg>
         </div>
+        </ng-container>
+        <ng-template #noDataTemplate>
+          No data available
+        </ng-template>
       </nz-tab>
       <nz-tab nzTitle="Group Interactions List">
+        <ng-container *ngIf="dataAvailableGroup; else noDataTemplate">
         <nz-row [nzGutter]="16">
           <nz-col [nzSpan]="12">
             <nz-statistic [nzValue]="(groupMessagesData.length| number)!" [nzTitle]="'Number of Groups You Have Messaged '"></nz-statistic>
@@ -98,6 +113,10 @@
               </tr>
             </tbody>
           </nz-table>
+          </ng-container>
+          <ng-template #noDataTemplate>
+            No data available
+          </ng-template>    
       </nz-tab>
   </nz-tabset>
 </div>

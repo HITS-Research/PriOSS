@@ -25,7 +25,8 @@ export class OtherPersonalInfoComponent implements OnInit {
   addressBookPageSize = 10;
   addressBookCurrentPage = 1;
   addressBookTotalPages = 1;
-
+  dataAvailableAddressBook: boolean = false;
+  dataAvailableSearchHistory: boolean = false;
   
   @Input()
   previewMode = false;
@@ -48,6 +49,7 @@ export class OtherPersonalInfoComponent implements OnInit {
   async getData() {
     this.faceAddressBookRepo.getAllFaceAddressBook().then((addressBookData) => {
       this.addressBookData = addressBookData;
+      this.dataAvailableAddressBook = this.addressBookData.length !== 0;
       this.gridLayout();
       this.addressBookTotalPages = Math.ceil(this.addressBookData.length / this.addressBookPageSize);
       this.filterAddressBookItems(this.searchText);
@@ -55,6 +57,7 @@ export class OtherPersonalInfoComponent implements OnInit {
 
       this.faceSearchHistoryRepo.getAllFaceSearchHistory().then((searchHistoryData) => {
       this.searchHistoryData = searchHistoryData;
+      this.dataAvailableSearchHistory = this.searchHistoryData.length !== 0;
       this.totalSearchedText= this.searchHistoryData.length;
       console.log(this.totalSearchedText)
       this.totalPages = Math.ceil(this.searchHistoryData.length / this.pageSize);
