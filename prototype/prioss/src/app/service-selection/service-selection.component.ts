@@ -676,7 +676,7 @@ export class ServiceSelectionComponent implements AfterViewInit{
         await this.facePostsRepo.startPostsBulkAdd(timestamp, title, posts.length);
 
         for(let i = 1; i < posts.length; i++){
-          const title = posts[i].title;
+          const title = posts[i].title ? posts[i].title : "New post";
           const timestamp = posts[i].timestamp;
           await this.facePostsRepo.addPostsBulkEntry(timestamp, title);
         }
