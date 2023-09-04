@@ -9,18 +9,18 @@
 
 export const insertIntoFaceMessagesInfoSQL = `
 insert into face_messages
-(name,timestamp)
+(name,timestamp,uri)
 values 
 (?, ?);
 `;
 
 export const bulkAddFaceMessagesInfoBaseSQL = `
 insert into face_messages
-(name,timestamp)
+(name,timestamp,uri)
 `;
 
 export const bulkAddFaceMessagesInfoValuesSQL = `
-select ?, ?
+select ?, ?, ?
 `;
 
 export const bulkAddValueConnector = `
@@ -29,6 +29,7 @@ union all
 export const selectAllFaceMessagesInfoData = `
  select id,
         name,
-        timestamp
+        timestamp,
+        uri
   from face_messages;
 `;

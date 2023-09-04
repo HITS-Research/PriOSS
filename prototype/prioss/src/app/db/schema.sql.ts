@@ -309,7 +309,8 @@ CREATE TABLE IF NOT EXISTS face_search_history (
 CREATE TABLE IF NOT EXISTS face_messages (
     id INTEGER PRIMARY KEY,
     name TEXT,
-    timestamp STRING
+    timestamp NUMBER,
+    uri TEXT
 );
 CREATE TABLE IF NOT EXISTS face_group_messages (
     id INTEGER PRIMARY KEY,
