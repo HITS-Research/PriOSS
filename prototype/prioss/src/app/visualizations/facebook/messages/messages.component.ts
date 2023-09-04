@@ -20,6 +20,8 @@ export class MessagesComponent implements OnInit {
   totalPeopleMessages = 0;
   totalGroupMessages = 0;
   data: { label: string; value: any; }[];
+  dataAvailableIn = false;
+  dataAvailableGroup = false;
 
   constructor(
     private faceMessagesRepo: FaceBookMessagesInfoRepository,
@@ -38,12 +40,14 @@ export class MessagesComponent implements OnInit {
     // Get all face messages info
     this.faceMessagesRepo.getAllFaceMessagesInfo().then((messages) => {
      this.messagesData = messages;
+     this.dataAvailableIn = this.messagesData.length !== 0;
      // Calculate total friends messages
     this.totalPeopleMessages = this.messagesData.length;
     });
     // Get all face group messages info
     this.facegroupMessagesRepo.getAllFaceGroupMessagesInfo().then((group_messages) => {
     this.groupMessagesData = group_messages;
+    this.dataAvailableGroup = this.groupMessagesData.length !== 0;
     // Calculate total group messages
     this.totalGroupMessages = this.groupMessagesData.length;
     });
