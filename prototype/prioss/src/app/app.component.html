@@ -67,11 +67,25 @@
           <span><a routerLink="/known-issues">Known Issues</a></span>
         </li>
       </ul>
-      <div class="navbar-btn-container">
-        <button *ngIf="showServiceButton" nz-button nzType="default" class="navbar-btn" id="service-btn" nzSize="large" (click)="pRouter.navigateByUrl('/serviceSelection')">
-          <span nz-icon nzType="arrow-left" nzTheme="outline"></span>
-          Change Service
-        </button>
+      <div class="navbar-btns-space">
+        <div class="navbar-btns-container">
+          <!--Share Buttons-->
+          <div class="share-btns-vbox">
+            Like our site? Share it!<br>
+            <div class="share-btns-hbox">
+              <a class="twitter-share-button"
+                href="https://twitter.com/intent/tweet?text=Want%20to%20know%20what%20personal%20info%20Instagram%2C%20Spotify%2C%20Facebook%20and%20the%20like%20have%20collected%20about%20you%3F%20Check%20out%20PriOSS%2C%20your%20privacy%20One%20Stop%20Shop%3A%20https%3A%2F%2Fprioss.cs.upb.de">
+                <span nz-icon nzType="twitter" nzTheme="outline"></span>
+              </a>
+            </div>  
+          </div>
+          <br>
+          <!--Change Service Button-->
+          <button *ngIf="showServiceButton" nz-button nzType="default" class="change-service-btn" nzSize="large" (click)="pRouter.navigateByUrl('/serviceSelection')">
+            <span nz-icon nzType="arrow-left" nzTheme="outline"></span>
+            Change Service
+          </button>
+        </div>
       </div>
     </div>
   </nz-sider>
