@@ -2,75 +2,77 @@
   <jeep-sqlite *ngIf="isWeb"></jeep-sqlite>
   <app-notification></app-notification>
   <!--defines a collapsable slider with a logo-->
-  <nz-sider class="menu-sidebar"
+  <nz-sider 
             nzCollapsible
             nzWidth="256px"
             [nzCollapsedWidth]="collapseWidth"
             nzBreakpoint="md"
             [(nzCollapsed)]="isCollapsed"
             [nzTrigger]="null">
-    <div class="sidebar-logo">
-      <a routerLink="/">
-        <img src="/assets/images/icons/prioss_icon_borderless.png" alt="logo">
-        <h1>PriOSS</h1>
-      </a>
-    </div>
-    <!--adding menu items-->
-    <ul nz-menu nzTheme="light" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
-      <li nz-menu-item nzMatchRouter>
-        <span nz-icon nzType="home" nzTheme="outline"></span>
-        <span><a routerLink="/home">Home</a></span>
-      </li>
-      <li nz-menu-item nzMatchRouter>
-        <span nz-icon nzType="info-circle" nzTheme="outline"></span>
-        <span><a routerLink="/about">About</a></span>
-      </li>
-      <li nz-menu-item nzMatchRouter>
-        <span nz-icon nzType="form" nzTheme="outline"></span>
-        <span><a routerLink="/contact">Contact</a></span>
-      </li>
-      <!-- FAQ page not needed, only shown as component on dashboards
-      <li nz-menu-item nzMatchRouter>
-        <span nz-icon nzType="question" nzTheme="outline"></span>
-        <span><a routerLink="/faq">FAQ</a></span>
-      </li>
-      -->
-      <!--this submenu is only shown when on a dashboard-->
-      <li *ngIf="isDashboard" nz-submenu nzOpen nzTitle="Dashboard" nzIcon="dashboard">
-        <ul>
-          <li nz-menu-item [nzSelected]="this.isSelected('')">
-            <a (click)="navigateAndScroll(pRouter, serviceName + '/dashboard')">Introduction</a>
-          </li>
-          <li nz-menu-item [nzSelected]="this.isSelected('#visualization')">
-            <a routerLink="{{serviceName}}/dashboard" fragment="visualization">Visualization</a>
-          </li>
-          <li nz-menu-item [nzSelected]="this.isSelected('#rectification')">
-            <a routerLink="{{serviceName}}/dashboard" fragment="rectification">Rectification</a>
-          </li>
-          <li nz-menu-item [nzSelected]="this.isSelected('#recommendation')">
-            <a routerLink="{{serviceName}}/dashboard" fragment="recommendation">Recommendation</a>
-          </li>
-          <li nz-menu-item [nzSelected]="this.isSelected('#gdpr')">
-            <a routerLink="{{serviceName}}/dashboard" fragment="gdpr">GDPR/Rights</a>
-          </li>
-          <li nz-menu-item [nzSelected]="this.isSelected('#purpose')">
-            <a routerLink="{{serviceName}}/dashboard" fragment="purpose">Purpose</a>
-          </li>
-          <li nz-menu-item [nzSelected]="this.isSelected('#faq')">
-            <a routerLink="{{serviceName}}/dashboard" fragment="faq">Frequently asked questions</a>
-          </li>
-        </ul>
-      </li>
-      <li nz-menu-item nzMatchRouter>
-        <span nz-icon nzType="warning" nzTheme="outline"></span>
-        <span><a routerLink="/known-issues">Known Issues</a></span>
-      </li>
-    </ul>
-    <div class="navbar-btn-container">
-      <button *ngIf="showServiceButton" nz-button nzType="default" class="navbar-btn" id="service-btn" nzSize="large" (click)="pRouter.navigateByUrl('/serviceSelection')">
-        <span nz-icon nzType="arrow-left" nzTheme="outline"></span>
-        Change Service
-      </button>
+    <div class="menu-sidebar">        
+      <div class="sidebar-logo">
+        <a routerLink="/">
+          <img src="/assets/images/icons/prioss_icon_borderless.png" alt="logo">
+          <h1>PriOSS</h1>
+        </a>
+      </div>
+      <!--adding menu items-->
+      <ul class="menu-items-list" nz-menu nzTheme="light" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
+        <li nz-menu-item nzMatchRouter>
+          <span nz-icon nzType="home" nzTheme="outline"></span>
+          <span><a routerLink="/home">Home</a></span>
+        </li>
+        <li nz-menu-item nzMatchRouter>
+          <span nz-icon nzType="info-circle" nzTheme="outline"></span>
+          <span><a routerLink="/about">About</a></span>
+        </li>
+        <li nz-menu-item nzMatchRouter>
+          <span nz-icon nzType="form" nzTheme="outline"></span>
+          <span><a routerLink="/contact">Contact</a></span>
+        </li>
+        <!-- FAQ page not needed, only shown as component on dashboards
+        <li nz-menu-item nzMatchRouter>
+          <span nz-icon nzType="question" nzTheme="outline"></span>
+          <span><a routerLink="/faq">FAQ</a></span>
+        </li>
+        -->
+        <!--this submenu is only shown when on a dashboard-->
+        <li *ngIf="isDashboard" nz-submenu nzOpen nzTitle="Dashboard" nzIcon="dashboard">
+          <ul>
+            <li nz-menu-item [nzSelected]="this.isSelected('')">
+              <a (click)="navigateAndScroll(pRouter, serviceName + '/dashboard')">Introduction</a>
+            </li>
+            <li nz-menu-item [nzSelected]="this.isSelected('#visualization')">
+              <a routerLink="{{serviceName}}/dashboard" fragment="visualization">Visualization</a>
+            </li>
+            <li nz-menu-item [nzSelected]="this.isSelected('#rectification')">
+              <a routerLink="{{serviceName}}/dashboard" fragment="rectification">Rectification</a>
+            </li>
+            <li nz-menu-item [nzSelected]="this.isSelected('#recommendation')">
+              <a routerLink="{{serviceName}}/dashboard" fragment="recommendation">Recommendation</a>
+            </li>
+            <li nz-menu-item [nzSelected]="this.isSelected('#gdpr')">
+              <a routerLink="{{serviceName}}/dashboard" fragment="gdpr">GDPR/Rights</a>
+            </li>
+            <li nz-menu-item [nzSelected]="this.isSelected('#purpose')">
+              <a routerLink="{{serviceName}}/dashboard" fragment="purpose">Purpose</a>
+            </li>
+            <li nz-menu-item [nzSelected]="this.isSelected('#faq')">
+              <a routerLink="{{serviceName}}/dashboard" fragment="faq">Frequently asked questions</a>
+            </li>
+          </ul>
+        </li>
+        <li nz-menu-item nzMatchRouter>
+          <span nz-icon nzType="warning" nzTheme="outline"></span>
+          <span><a routerLink="/known-issues">Known Issues</a></span>
+        </li>
+      </ul>
+      <div class="navbar-btn-container">
+        <button *ngIf="showServiceButton" nz-button nzType="default" class="navbar-btn" id="service-btn" nzSize="large" (click)="pRouter.navigateByUrl('/serviceSelection')">
+          <span nz-icon nzType="arrow-left" nzTheme="outline"></span>
+          Change Service
+        </button>
+      </div>
     </div>
   </nz-sider>
   <nz-layout>
