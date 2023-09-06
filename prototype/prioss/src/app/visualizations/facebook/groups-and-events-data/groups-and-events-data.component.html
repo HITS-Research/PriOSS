@@ -16,6 +16,7 @@
     <nz-tabset class="margin-top-20">
         <nz-tab nzTitle="Events Data">
             <br>
+            <ng-container *ngIf="dataAvailable; else noDataTemplate">
                 <nz-row [nzGutter]="16">
                     <nz-col [nzSpan]="12">
                         <nz-statistic clas="stats" [nzValue]="(eventsData.length| number)!" [nzTitle]="'Number of Events You are invited To '"></nz-statistic>
@@ -44,9 +45,13 @@
                 </nz-table>
                 <br>
                 <button nz-button nzType="primary"> To Privacy Recommendations</button>
+              </ng-container>
+                <ng-template #noDataTemplate>
+                    No data available
+                </ng-template>
         </nz-tab>
-
         <nz-tab nzTitle="Groups Data">
+            <ng-container *ngIf="dataAvailableGroup; else noDataTemplate">
             <nz-row [nzGutter]="16">
                 <nz-col [nzSpan]="12">
                     <nz-statistic clas="stats" [nzValue]="(groupsData.length| number)!" [nzTitle]="'Number of Groups you are part of '"></nz-statistic>
@@ -73,6 +78,10 @@
                 </nz-table>
                 <br>
                 <button nz-button nzType="primary"> To Privacy Recommendations</button>
+            </ng-container>
+                <ng-template #noDataTemplate>
+                    No data available
+                  </ng-template>
         </nz-tab>
     </nz-tabset>
 

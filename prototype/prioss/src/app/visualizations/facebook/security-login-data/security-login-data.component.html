@@ -31,7 +31,7 @@
             </div>
           </nz-result>
         </div> -->
-
+        <ng-container *ngIf="dataAvailableLoc; else noDataTemplate">
         <nz-table [nzData]="loginLocationsData" #loginLocations>
           <thead>
             <tr>
@@ -50,6 +50,10 @@
         </nz-table>
         <br>
         <button nz-button nzType="primary"> To Privacy Recommendations</button>
+      </ng-container>
+        <ng-template #noDataTemplate>
+          No data available
+        </ng-template>
       </nz-tab>
 
       <nz-tab nzTitle="Login and Logouts">
@@ -60,6 +64,7 @@
             </div>
           </nz-result>
         </div> -->
+        <ng-container *ngIf="dataAvailableLogOuts; else noDataTemplate">
         <nz-row [nzGutter]="16">
           <nz-col [nzSpan]="12">
             <nz-statistic [nzValue]="(login_count | number)!" [nzTitle]="'Number of times you have logged in '"></nz-statistic>
@@ -85,6 +90,10 @@
         </nz-table>
         <br>
         <button nz-button nzType="primary">To Privacy Recommendations</button>
+        </ng-container>
+        <ng-template #noDataTemplate>
+          No data available
+        </ng-template>
       </nz-tab>
 
       <nz-tab nzTitle="Account Status Changes">
@@ -95,6 +104,7 @@
             </div>
           </nz-result>
         </div> -->
+        <ng-container *ngIf="dataAvailableStatusChange; else noDataTemplate">
         <nz-row [nzGutter]="16">
           <nz-col [nzSpan]="12">
             <nz-statistic [nzValue]="(account_deactivated | number)!" [nzTitle]="'Number of times you have deactivated your account in '"></nz-statistic>
@@ -143,6 +153,10 @@
         </nz-table>
         <br>
         <button nz-button nzType="primary">To Privacy Recommendations</button>
+        </ng-container>
+        <ng-template #noDataTemplate>
+          No data available
+        </ng-template>
       </nz-tab>
 
       <nz-tab nzTitle="Activity Locations">
@@ -154,6 +168,7 @@
             </div>
           </nz-result>
         </div> -->
+        <ng-container *ngIf="dataAvailableActivities; else noDataTemplate">
         <nz-row [nzGutter]="16">
           <nz-col [nzSpan]="12">
             <nz-statistic [nzValue]="(PasswordChange | number)!" [nzTitle]="'Password Changes '"></nz-statistic>
@@ -195,8 +210,11 @@
         </nz-table>
         <br>
         <button nz-button nzType="primary">To Privacy Recommendations</button>
+        </ng-container>
+        <ng-template #noDataTemplate>
+          No data available
+        </ng-template>
       </nz-tab>
-
     </nz-tabset>
 
 </div>
