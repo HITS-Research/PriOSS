@@ -6,6 +6,12 @@ import { SQLiteService } from './services/sqlite/sqlite.service';
 import { AppComponentMsgService } from './services/app-component-msg/app-component-msg.service';
 import { AppComponentMsg } from './utilities/enum/app-component-msg.enum';
 
+/**
+ * This is the base component of the application that is always shown. It includes the side menu and the router outlet,
+ * which gets replaced by the page component that the user currently navigated to
+ * 
+ * authors: Paul (pasch@mail.upb.de), Simon (scg@mail.upb.de)
+ */
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -94,8 +100,7 @@ export class AppComponent implements OnInit {
         this.isDashboard = false;
         break;
     }
-    this.showServiceButton = !this.router.url.includes('contact') && !this.router.url.includes('about') && !this.router.url.includes('known-issues') 
-                              && !this.router.url.includes('serviceSelection') && !this.router.url.includes('home');
+    this.recalculateShowServiceButton();
   }
 
   /**
@@ -148,6 +153,16 @@ export class AppComponent implements OnInit {
    */
   handleNavbarFold(): void {
     this.isCollapsed = !this.isCollapsed;
-    this.showServiceButton = !this.router.url.includes('serviceSelection') && !this.router.url.includes('home');
+    this.recalculateShowServiceButton();
+  }
+
+  /**
+   * Caclulates whether the Switch Service Button should be shown and writes the result in this.showServiceButton
+   * 
+   * @author: Simon (scg@mail.upb.de)
+   */
+  recalculateShowServiceButton(): void {
+    this.showServiceButton = !this.router.url.includes('contact') && !this.router.url.includes('about') && !this.router.url.includes('known-issues') 
+                              && !this.router.url.includes('serviceSelection') && !this.router.url.includes('home');
   }
 }
