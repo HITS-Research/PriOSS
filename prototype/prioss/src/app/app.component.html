@@ -81,7 +81,10 @@
           </div>
           <br>
           <!--Change Service Button-->
-          <button *ngIf="showServiceButton" nz-button nzType="default" class="change-service-btn" nzSize="large" (click)="pRouter.navigateByUrl('/serviceSelection')">
+          <!--The && !isCollapsed is placed here instead of inside the typescript calculation of showServiceButton, 
+          because antdesign automatically collapses the menu when the horizontal width of the browser window is below a certain threshold.
+          this changes isCollapsed but does not trigger a recalculation of showServiceButton.-->
+          <button *ngIf="showServiceButton && !isCollapsed" nz-button nzType="default" class="change-service-btn" nzSize="large" (click)="pRouter.navigateByUrl('/serviceSelection')">
             <span nz-icon nzType="arrow-left" nzTheme="outline"></span>
             Change Service
           </button>
