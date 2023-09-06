@@ -15,6 +15,15 @@
   min-height: 100vh;
   box-shadow: 2px 0 6px rgba(0,21,41,.35);
   background: #fff;
+
+  //we are using the grid here, to make sure that the Change Service button is played at the bottom of the screen 
+  //but doesn't overlap with the other content of the menu when not enough vertical space is available for the menu on the screen
+  display: grid;
+  grid-template-columns: 100%;
+  //this makes the first two rows take up the minimum space according to their content, while the last row takes up the rest of the available space
+  grid-template-rows: auto auto 1fr;
+  //this makes sure, the auto rows are as small as possible while still containing their content
+  grid-auto-rows: min-content;
 }
 
 .header-trigger {
@@ -26,21 +35,27 @@
   display: inline-block;
 }
 
-.navbar-btn {
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
+.menu-items-list {
+  grid-row: span 1;//this makes the element take up one of the three rows in the grid
 }
 
 .navbar-btn-container {
   display: flex;
+  flex-direction: row;
+
   justify-content: center;
   align-items: center;
+  
+  grid-row: span 1;//this makes the element take up one of the three rows in the grid
 }
 
-#service-btn {
-  position: absolute;
-  top: 90%;
+.navbar-btn {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+
+  align-self: flex-end;
+  margin-bottom: 4vh;
 }
 
 .header-trigger:hover {
@@ -55,6 +70,8 @@
   line-height: 64px;
   background: #fff;
   transition: all .3s;
+
+  grid-row: span 1;//this makes the element take up one of the three rows in the grid
 }
 
 .sidebar-logo img {
