@@ -94,7 +94,7 @@ export class AppComponent implements OnInit {
         this.isDashboard = false;
         break;
     }
-    this.showServiceButton = !this.router.url.includes('serviceSelection') && !this.router.url.includes('home') && !this.isCollapsed;
+    this.showServiceButton = !this.router.url.includes('serviceSelection') && !this.router.url.includes('home');
   }
 
   /**
@@ -147,6 +147,6 @@ export class AppComponent implements OnInit {
    */
   handleNavbarFold(): void {
     this.isCollapsed = !this.isCollapsed;
-    this.showServiceButton = !this.router.url.includes('serviceSelection') && !this.router.url.includes('home') && !this.isCollapsed;
+    this.showServiceButton = !this.router.url.includes('serviceSelection') && !this.router.url.includes('home');
   }
 }
