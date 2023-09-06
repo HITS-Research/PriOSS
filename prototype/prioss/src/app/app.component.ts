@@ -94,7 +94,8 @@ export class AppComponent implements OnInit {
         this.isDashboard = false;
         break;
     }
-    this.showServiceButton = !this.router.url.includes('serviceSelection') && !this.router.url.includes('home');
+    this.showServiceButton = !this.router.url.includes('contact') && !this.router.url.includes('about') && !this.router.url.includes('known-issues') 
+                              && !this.router.url.includes('serviceSelection') && !this.router.url.includes('home');
   }
 
   /**
