@@ -136,8 +136,6 @@ export class ListeningTimeComponent extends SequenceComponentInit implements Aft
 
     console.log("--- Initializing Component 2: ListeningTime");
 
-    //Shows the single day view first because it takes less time to build than year/month/day views,
-    //this gives us time to parse and compile the data needed for the year, month and day views
     this.selectedGranularity = GranularityEnum.Year;
     
     this.filterHistory = [];
@@ -530,7 +528,7 @@ export class ListeningTimeComponent extends SequenceComponentInit implements Aft
 
       d3.select("#listeningtime-bar-chart")
         .append("div")
-        .text("There is no listening history data in your data-download.");
+        .text("There is no listening history data for the selected timeperiod in your data-download.");
 
       return;
     }

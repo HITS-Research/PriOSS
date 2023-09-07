@@ -1,7 +1,8 @@
-import { AfterViewInit, Component, Input} from '@angular/core';
+import { AfterViewInit, Component, Input, ViewChild} from '@angular/core';
 import { InferencesRepository } from 'src/app/db/data-repositories/general/inferences/inferences.repository';
 import { InferencesEntry } from 'src/app/models/General/Inferences/InferencesEntry';
 import { SequenceComponentInit } from '../../sequence-component-init.abstract';
+import { InferencesMailComponent } from './inferences-mail/inferences-mail.component';
 
 
 /**
@@ -20,6 +21,9 @@ export class InferencesComponent extends SequenceComponentInit implements AfterV
 
   @Input()
   previewMode = false;
+  
+  @ViewChild('InferencesMailComponent') 
+  inferencesMailDialogComponent : InferencesMailComponent;
 
   inferences: readonly InferencesEntry[] = [];
   listOfInferences: InferencesEntry[] = [];
@@ -154,11 +158,11 @@ export class InferencesComponent extends SequenceComponentInit implements AfterV
     let inferencesWithLinebreak = "";
     for (const inference of this.listOfInferences) {
       if (this.setOfCheckedId.has(inference.id)) {
-        inferencesWithLinebreak += inference.inference + '%0D%0A';
+        inferencesWithLinebreak += inference.inference + '\n';
       }
     }
     if (this.setOfCheckedId.size > 0) {
-      window.open('mailto:privacy@spotify.com?subject=Rectification&body=Dear Spotify Data Protection Team,%0D%0A I want to rectify the following inferences as I deem them wrong. I am exercising my right after GDPR 16. %0D%0A' + inferencesWithLinebreak, '_self');
+      this.inferencesMailDialogComponent.showModal(inferencesWithLinebreak);
     } else {
       console.log("no inference selected")
     }

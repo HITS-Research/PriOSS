@@ -1,12 +1,18 @@
 <div class="dashboard-page dashboard-container">
   <h1 nz-typography>PriOSS - Spotify</h1>
+  <div id="introduction" class="dashboard-intro">
+    Welcome to the Spotify Dashboard where you can view your personal Spotify data.<br>
+    The cards below show different interactive visualizations and explanations about the data Spotify has collected about you.
+    If you are unsure what something means, hover over the (?)-Icons for explanations.<br>
+    You can click on each of the white cards that contains a visualization to explore the visualization in more detail and unlock it's interactivity, try it!
+  </div> 
 
   <ng-template #extraTemplate>
     <a>More</a>
   </ng-template>
 
   <details open id="visualization">
-    <summary class="collapsible-dashboard-section-title">Your Data</summary>
+    <summary class="collapsible-dashboard-section-title">Visualization</summary>
     <div nz-row [nzGutter]="[{ xs: 8, xl: 20}, {xs: 8, xl: 40}]">
       <div id="step1" nz-col nzXs="24" nzXl="8">
         <app-dash-card cardLink="/spot/general-data" titleText="User Data"
@@ -59,7 +65,7 @@
 
   <br>
   <details open id="recommendation">
-    <summary class="collapsible-dashboard-section-title">Manage-Privacy</summary>
+    <summary class="collapsible-dashboard-section-title">Privacy Recommendations</summary>
     <div id="stepX">
       <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
         <div nz-col nzXs="24" nzXl="8">
