@@ -49,7 +49,7 @@ export class NotificationService {
   * @author: Simon (scg@mail.upb.de)
   *
   */
-  public showNotification(msg: string, durationMS = 5000) 
+  public showNotification(msg: string, durationMS = 15000) 
   {
     this.notificationMsgSubject.next(msg);
     setTimeout(() =>
