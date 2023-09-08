@@ -1,10 +1,9 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
-
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from 'src/environments/environment';
-
+import { NzButtonModule } from 'ng-zorro-antd/button';
 import { SQLiteService } from './services/sqlite/sqlite.service';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -132,6 +131,7 @@ import { InstaTopicsRepository } from './db/data-repositories/instagram/insta-yo
 import { InstaYourTopicComponent } from './visualizations/instagram/insta-your-topic/insta-your-topic.component';
 import { PurposesComponent } from './visualizations/spotify/purposes/purposes.component';
 import { DataDownloadInstructionsComponent } from './service-selection/data-download-instructions/data-download-instructions.component';
+import { InferencesMailComponent } from './visualizations/spotify/inferences/inferences-mail/inferences-mail.component';
 registerLocaleData(de);
 
 @NgModule({
@@ -191,7 +191,8 @@ registerLocaleData(de);
     MessagesComponent,
     GroupsAndEventsDataComponent,
     PurposesComponent,
-    DataDownloadInstructionsComponent
+    DataDownloadInstructionsComponent,
+    InferencesMailComponent
 ,
   ],
   imports: [
@@ -208,6 +209,7 @@ registerLocaleData(de);
     NzTableModule,
     NzDividerModule,
     NzProgressModule,
+    NzButtonModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
       // Register the ServiceWorker as soon as the application is stable
