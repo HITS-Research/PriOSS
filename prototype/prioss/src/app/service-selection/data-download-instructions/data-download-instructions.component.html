@@ -18,24 +18,35 @@ backButtonTextOverride="Back to Service Selection">
       </div>
 
       <div class="steps">
-      
+          <nz-steps [nzCurrent]="InstaDataDownload">
+          <nz-step nzTitle="Step 1"></nz-step>
+          <nz-step nzTitle="Step 2"></nz-step>
+          <nz-step nzTitle="Step 3"></nz-step>
+          <nz-step nzTitle="Step 4"></nz-step>
+          <nz-step nzTitle="Step 5"></nz-step>
+          <nz-step nzTitle="Step 6"></nz-step>
+          <nz-step nzTitle="Step 7"></nz-step>
+        </nz-steps>
+      </div>
+
+      <div class="steps-on-mobile">
         <nz-steps [nzCurrent]="InstaDataDownload">
-        <nz-step nzTitle="Step 1"></nz-step>
-        <nz-step nzTitle="Step 2"></nz-step>
-        <nz-step nzTitle="Step 3"></nz-step>
-        <nz-step nzTitle="Step 4"></nz-step>
-        <nz-step nzTitle="Step 5"></nz-step>
-        <nz-step nzTitle="Step 6"></nz-step>
-        <nz-step nzTitle="Step 7"></nz-step>
+          <nz-step></nz-step>
+          <nz-step></nz-step>
+          <nz-step></nz-step>
+          <nz-step></nz-step>
+          <nz-step></nz-step>
+          <nz-step></nz-step>
+          <nz-step></nz-step>
         </nz-steps>
       </div>
 
       <div class="steps-content">
         <img
           nz-image
-          height="320px"
           nzSrc={{instructionPictureInstaDataDownload}}
-          alt=""
+          alt="" 
+          class="i-image"
         />
         <nz-divider></nz-divider>
         <p nz-typography [innerHTML]="instructionTextInstaDataDownload"></p>
@@ -62,25 +73,37 @@ backButtonTextOverride="Back to Service Selection">
       </div>
 
       <div class="steps">
-      
+          <nz-steps [nzCurrent]="FaceDataDownload">
+          <nz-step nzTitle="Step 1"></nz-step>
+          <nz-step nzTitle="Step 2"></nz-step>
+          <nz-step nzTitle="Step 3"></nz-step>
+          <nz-step nzTitle="Step 4"></nz-step>
+          <nz-step nzTitle="Step 5"></nz-step>
+          <nz-step nzTitle="Step 6"></nz-step>
+          <nz-step nzTitle="Step 7"></nz-step>
+          <nz-step nzTitle="Step 8"></nz-step>
+        </nz-steps>
+      </div>
+
+      <div class="steps-on-mobile">
         <nz-steps [nzCurrent]="FaceDataDownload">
-        <nz-step nzTitle="Step 1"></nz-step>
-        <nz-step nzTitle="Step 2"></nz-step>
-        <nz-step nzTitle="Step 3"></nz-step>
-        <nz-step nzTitle="Step 4"></nz-step>
-        <nz-step nzTitle="Step 5"></nz-step>
-        <nz-step nzTitle="Step 6"></nz-step>
-        <nz-step nzTitle="Step 7"></nz-step>
-        <nz-step nzTitle="Step 8"></nz-step>
+          <nz-step></nz-step>
+          <nz-step></nz-step>
+          <nz-step></nz-step>
+          <nz-step></nz-step>
+          <nz-step></nz-step>
+          <nz-step></nz-step>
+          <nz-step></nz-step>
+          <nz-step></nz-step>
         </nz-steps>
       </div>
 
       <div class="steps-content">
         <img
           nz-image
-          height="320px"
           nzSrc={{instructionPictureFaceDataDownload}}
           alt=""
+          class="i-image"
         />
         <nz-divider></nz-divider>
         <p nz-typography [innerHTML]="instructionTextFaceDataDownload"></p>
@@ -100,23 +123,33 @@ backButtonTextOverride="Back to Service Selection">
     <div class="instructions-content" id="Spotify-instructions">
 
       <div class="steps">
-      
+          <nz-steps [nzCurrent]="SpotDataDownload">
+          <nz-step nzTitle="Step 1"></nz-step>
+          <nz-step nzTitle="Step 2"></nz-step>
+          <nz-step nzTitle="Step 3"></nz-step>
+          <nz-step nzTitle="Step 4"></nz-step>
+          <nz-step nzTitle="Step 5"></nz-step>
+          <nz-step nzTitle="Step 6"></nz-step>
+        </nz-steps>
+      </div>
+
+      <div class="steps-on-mobile">
         <nz-steps [nzCurrent]="SpotDataDownload">
-        <nz-step nzTitle="Step 1"></nz-step>
-        <nz-step nzTitle="Step 2"></nz-step>
-        <nz-step nzTitle="Step 3"></nz-step>
-        <nz-step nzTitle="Step 4"></nz-step>
-        <nz-step nzTitle="Step 5"></nz-step>
-        <nz-step nzTitle="Step 6"></nz-step>
+          <nz-step></nz-step>
+          <nz-step></nz-step>
+          <nz-step></nz-step>
+          <nz-step></nz-step>
+          <nz-step></nz-step>
+          <nz-step></nz-step>
         </nz-steps>
       </div>
 
       <div class="steps-content">
         <img
           nz-image
-          height="320px"
           nzSrc={{instructionPictureSpotDataDownload}}
           alt=""
+          class="i-image"
         />
         <nz-divider></nz-divider>
         <p nz-typography [innerHTML]="instructionTextSpotDataDownload"></p>
