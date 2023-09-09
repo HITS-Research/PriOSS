@@ -1,17 +1,41 @@
 <div [ngClass]="{'component-page': !previewMode}">
   <div *ngIf="previewMode">
     <nz-row [nzGutter]="16">
-      <nz-col [nzSpan]="10">
-        <nz-statistic [nzTitle]="'Login Lcations'"  [nzValue]="locations.length"></nz-statistic>
+      <nz-col [nzSpan]="12">
+        <nz-statistic [nzValue]="locations.length" 
+                      [nzTitle]="'Login Locations'" 
+                      [nzPrefix]="location"
+                      [nzValueStyle]="{display: 'inline-flux'}">
+        </nz-statistic>
+        <ng-template #location>
+          <div class="container_class">
+            <span nz-icon nzType="environment"></span>
+          </div>
+        </ng-template>
       </nz-col>
-      <nz-col [nzSpan]="10">
-        <nz-statistic [nzTitle]="'Account Deactivated'"  [nzValue]="account_deactivated"></nz-statistic>
+      <nz-col [nzSpan]="12">
+        <nz-statistic [nzTitle]="'A/c Deactivated'"  
+                      [nzValue]="account_deactivated" 
+                      [nzPrefix]="deactivated"
+                      [nzValueStyle]="{display: 'inline-flux'}">
+        </nz-statistic>
+        <ng-template class="icon_class" #deactivated><span nz-icon nzType="stop"></span></ng-template>
       </nz-col>
-      <nz-col [nzSpan]="10">
-        <nz-statistic  [nzTitle]="'Password Changed'" [nzValue]="PasswordChange"></nz-statistic>
+      <nz-col [nzSpan]="12">
+        <span class="container_class">
+          <nz-statistic  [nzTitle]="'Password Changed'" 
+                        [nzValue]="PasswordChange"
+                        [nzPrefix]="PwdChange">
+          </nz-statistic>
+          <ng-template class="container_class" #PwdChange><span nz-icon nzType="redo"></span></ng-template>
+        </span>
       </nz-col>
-      <nz-col [nzSpan]="10">
-        <nz-statistic [nzTitle]="'Login & Lgouts'"  [nzValue]="login_logouts"></nz-statistic>
+      <nz-col [nzSpan]="12">
+        <nz-statistic [nzTitle]="'Login & Logouts'"  
+                      [nzValue]="login_logouts"
+                      [nzPrefix]="Loginout">
+        </nz-statistic>
+        <ng-template class="container_class" #Loginout><span nz-icon nzType="retweet"></span></ng-template>
       </nz-col>
     </nz-row>
   </div>
