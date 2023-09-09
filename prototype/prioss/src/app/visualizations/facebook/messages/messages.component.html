@@ -4,12 +4,12 @@
             <nz-col [nzSpan]="16">
               <nz-statistic [nzTitle]="'Number of Interactions'"  
                             [nzValue]="totalPeopleMessages"
-                            [nzPrefix]="location"
+                            [nzPrefix]="interaction"
                             [nzValueStyle]="{display: 'inline-flux'}">
               </nz-statistic>
-              <ng-template #location>
+              <ng-template #interaction>
                 <div class="container_class">
-                  <span nz-icon nzType="environment"></span>
+                  <span nz-icon nzType="comment"></span>
                 </div>
               </ng-template>
             </nz-col>
@@ -21,7 +21,7 @@
               </nz-statistic>
               <ng-template #location>
                 <div class="container_class">
-                  <span nz-icon nzType="environment"></span>
+                  <span nz-icon nzType="wechat"></span>
                 </div>
               </ng-template>
             </nz-col>
