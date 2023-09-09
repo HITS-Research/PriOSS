@@ -1,5 +1,15 @@
-<nz-statistic  [nzTitle]="'Total inferences'" [nzValue]="inferredTopics.length" class ="bold-title" *ngIf="previewMode">
+<nz-statistic  [nzTitle]="'Total inferences'" 
+               [nzValue]="inferredTopics.length"
+               [nzPrefix]="location"
+               [nzValueStyle]="{display: 'inline-flux'}" 
+               class ="bold-title" 
+               *ngIf="previewMode">
 </nz-statistic>
+<ng-template #location>
+  <div class="container_class">
+    <span nz-icon nzType="environment"></span>
+  </div>
+</ng-template>
 <div class="component-page" *ngIf="!previewMode">
   <app-title-bar titleText="Inferred topics" tooltipText="TBD"></app-title-bar>
   <nz-list nzGrid class="margin-top-20" class="topic-view">
