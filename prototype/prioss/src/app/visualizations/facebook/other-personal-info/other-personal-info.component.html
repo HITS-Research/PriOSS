@@ -2,10 +2,28 @@
   <div *ngIf="previewMode">
     <nz-row [nzGutter]="16">
       <nz-col [nzSpan]="16">
-        <nz-statistic [nzTitle]="'Total Contact Numbers'"  [nzValue]="totalContactNumbers"></nz-statistic>
+        <nz-statistic [nzTitle]="'Total Contact Numbers'"  
+                      [nzValue]="totalContactNumbers"
+                      [nzPrefix]="location"
+                      [nzValueStyle]="{display: 'inline-flux'}">
+        </nz-statistic>
+        <ng-template #location>
+          <div class="container_class">
+            <span nz-icon nzType="environment"></span>
+          </div>
+        </ng-template>
       </nz-col>
       <nz-col [nzSpan]="16">
-        <nz-statistic [nzTitle]="'Total Searched text'"  [nzValue]="totalSearchedText"></nz-statistic>
+        <nz-statistic [nzTitle]="'Total Searched text'"  
+                      [nzValue]="totalSearchedText"
+                      [nzPrefix]="location"
+                      [nzValueStyle]="{display: 'inline-flux'}">
+        </nz-statistic>
+        <ng-template #location>
+          <div class="container_class">
+            <span nz-icon nzType="environment"></span>
+          </div>
+        </ng-template>
       </nz-col>
       </nz-row>
   </div>
