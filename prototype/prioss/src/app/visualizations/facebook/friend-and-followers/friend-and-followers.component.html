@@ -2,22 +2,76 @@
   <div *ngIf="previewMode">
     <nz-row [nzGutter]="16">
       <nz-col [nzSpan]="10">
-        <nz-statistic [nzValue]="friends.length" [nzTitle]="'Friends'"></nz-statistic>
+        <nz-statistic [nzValue]="friends.length" 
+                      [nzTitle]="'Friends'"
+                      [nzPrefix]="location"
+                      [nzValueStyle]="{display: 'inline-flux'}">
+        </nz-statistic>
+        <ng-template #location>
+          <div class="container_class">
+            <span nz-icon nzType="environment"></span>
+          </div>
+        </ng-template>
       </nz-col>
       <nz-col [nzSpan]="11">
-        <nz-statistic [nzValue]="removedFriends.length" [nzTitle]="'Removed friends'"></nz-statistic>
+        <nz-statistic [nzValue]="removedFriends.length" 
+                      [nzTitle]="'Removed friends'"
+                      [nzPrefix]="location"
+                      [nzValueStyle]="{display: 'inline-flux'}">
+        </nz-statistic>
+        <ng-template #location>
+          <div class="container_class">
+            <span nz-icon nzType="environment"></span>
+          </div>
+        </ng-template>
       </nz-col>
       <nz-col [nzSpan]="10">
-        <nz-statistic [nzValue]="friendRequestSent.length" [nzTitle]="'Friend requests sent'"></nz-statistic>
+        <nz-statistic [nzValue]="friendRequestSent.length" 
+                      [nzTitle]="'Friend requests sent'"
+                      [nzPrefix]="location"
+                      [nzValueStyle]="{display: 'inline-flux'}">
+        </nz-statistic>
+        <ng-template #location>
+          <div class="container_class">
+            <span nz-icon nzType="environment"></span>
+          </div>
+        </ng-template>
       </nz-col>
       <nz-col [nzSpan]="11">
-        <nz-statistic [nzValue]="friendRequestReceived.length" [nzTitle]="'Friend requests received'"></nz-statistic>
+        <nz-statistic [nzValue]="friendRequestReceived.length" 
+                      [nzTitle]="'Friend requests received'"
+                      [nzPrefix]="location"
+                      [nzValueStyle]="{display: 'inline-flux'}">
+        </nz-statistic>
+        <ng-template #location>
+          <div class="container_class">
+            <span nz-icon nzType="environment"></span>
+          </div>
+        </ng-template>
       </nz-col>
       <nz-col [nzSpan]="10">
-        <nz-statistic [nzValue]="rejectedFriendRequests.length" [nzTitle]="'Rejected requests'"></nz-statistic>
+        <nz-statistic [nzValue]="rejectedFriendRequests.length" 
+                      [nzTitle]="'Rejected requests'"
+                      [nzPrefix]="location"
+                      [nzValueStyle]="{display: 'inline-flux'}">
+        </nz-statistic>
+        <ng-template #location>
+          <div class="container_class">
+            <span nz-icon nzType="environment"></span>
+          </div>
+        </ng-template>
       </nz-col>
       <nz-col [nzSpan]="11">
-        <nz-statistic [nzValue]="whoYouFollow.length" [nzTitle]="'Who you follow'"></nz-statistic>
+        <nz-statistic [nzValue]="whoYouFollow.length" 
+                      [nzTitle]="'Who you follow'"
+                      [nzPrefix]="location"
+                      [nzValueStyle]="{display: 'inline-flux'}">
+        </nz-statistic>
+        <ng-template #location>
+          <div class="container_class">
+            <span nz-icon nzType="environment"></span>
+          </div>
+        </ng-template>
       </nz-col>
     </nz-row>
   </div>
