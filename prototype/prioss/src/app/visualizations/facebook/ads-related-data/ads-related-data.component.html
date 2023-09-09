@@ -2,16 +2,52 @@
   <div *ngIf="previewMode">
     <nz-row [nzGutter]="16">
       <nz-col [nzSpan]="16">
-        <nz-statistic [nzTitle]="'Ads Clicked'"  [nzValue]="totalCountClickedAds"></nz-statistic>
+        <nz-statistic [nzTitle]="'Ads Clicked'"  
+                      [nzValue]="totalCountClickedAds"
+                      [nzPrefix]="location"
+                      [nzValueStyle]="{display: 'inline-flux'}">
+        </nz-statistic>
+        <ng-template #location>
+          <div class="container_class">
+            <span nz-icon nzType="environment"></span>
+          </div>
+        </ng-template>
       </nz-col>
       <nz-col [nzSpan]="16">
-        <nz-statistic  [nzTitle]="'Off-Site Interactions'" [nzValue]="totalOffsiteInteractions"></nz-statistic>
+        <nz-statistic  [nzTitle]="'Off-Site Interactions'" 
+                       [nzValue]="totalOffsiteInteractions"
+                       [nzPrefix]="location"
+                       [nzValueStyle]="{display: 'inline-flux'}">
+        </nz-statistic>
+        <ng-template #location>
+          <div class="container_class">
+            <span nz-icon nzType="environment"></span>
+          </div>
+        </ng-template>
       </nz-col>
       <nz-col [nzSpan]="16">
-        <nz-statistic  [nzTitle]="'Checkout Activities'" [nzValue]="totalOffsiteCheckoutActivities"></nz-statistic> 
+        <nz-statistic  [nzTitle]="'Checkout Activities'" 
+                       [nzValue]="totalOffsiteCheckoutActivities"
+                       [nzPrefix]="location"
+                       [nzValueStyle]="{display: 'inline-flux'}">
+        </nz-statistic>
+        <ng-template #location>
+          <div class="container_class">
+            <span nz-icon nzType="environment"></span>
+          </div>
+        </ng-template> 
       </nz-col>
       <nz-col [nzSpan]="16">
-        <nz-statistic  [nzTitle]="'Website Associations'" [nzValue]="totalWebsites"></nz-statistic>
+        <nz-statistic  [nzTitle]="'Website Associations'" 
+                       [nzValue]="totalWebsites"
+                       [nzPrefix]="location"
+                       [nzValueStyle]="{display: 'inline-flux'}">
+        </nz-statistic>
+        <ng-template #location>
+          <div class="container_class">
+            <span nz-icon nzType="environment"></span>
+          </div>
+        </ng-template>
       </nz-col>
     </nz-row>
   </div>
