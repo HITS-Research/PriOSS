@@ -4,48 +4,48 @@
       <nz-col [nzSpan]="16">
         <nz-statistic [nzTitle]="'Ads Clicked'"  
                       [nzValue]="totalCountClickedAds"
-                      [nzPrefix]="location"
+                      [nzPrefix]="clicked"
                       [nzValueStyle]="{display: 'inline-flux'}">
         </nz-statistic>
-        <ng-template #location>
+        <ng-template #clicked>
           <div class="container_class">
-            <span nz-icon nzType="environment"></span>
+            <span nz-icon nzType="check-circle" nzTheme="outline"></span>
           </div>
         </ng-template>
       </nz-col>
       <nz-col [nzSpan]="16">
         <nz-statistic  [nzTitle]="'Off-Site Interactions'" 
                        [nzValue]="totalOffsiteInteractions"
-                       [nzPrefix]="location"
+                       [nzPrefix]="offsite"
                        [nzValueStyle]="{display: 'inline-flux'}">
         </nz-statistic>
-        <ng-template #location>
+        <ng-template #offsite>
           <div class="container_class">
-            <span nz-icon nzType="environment"></span>
+            <span nz-icon nzType="cloud-sync" nzTheme="outline"></span>
           </div>
         </ng-template>
       </nz-col>
       <nz-col [nzSpan]="16">
         <nz-statistic  [nzTitle]="'Checkout Activities'" 
                        [nzValue]="totalOffsiteCheckoutActivities"
-                       [nzPrefix]="location"
+                       [nzPrefix]="checkout"
                        [nzValueStyle]="{display: 'inline-flux'}">
         </nz-statistic>
-        <ng-template #location>
+        <ng-template #checkout>
           <div class="container_class">
-            <span nz-icon nzType="environment"></span>
+            <span nz-icon nzType="shopping-cart" nzTheme="outline"></span>
           </div>
         </ng-template> 
       </nz-col>
       <nz-col [nzSpan]="16">
         <nz-statistic  [nzTitle]="'Website Associations'" 
                        [nzValue]="totalWebsites"
-                       [nzPrefix]="location"
+                       [nzPrefix]="websites"
                        [nzValueStyle]="{display: 'inline-flux'}">
         </nz-statistic>
-        <ng-template #location>
+        <ng-template #websites>
           <div class="container_class">
-            <span nz-icon nzType="environment"></span>
+            <span nz-icon nzType="global" nzTheme="outline"></span>
           </div>
         </ng-template>
       </nz-col>

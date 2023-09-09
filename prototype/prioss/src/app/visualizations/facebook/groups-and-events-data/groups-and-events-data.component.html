@@ -4,24 +4,26 @@
             <nz-col [nzSpan]="16">
                 <nz-statistic [nzTitle]="'Total Groups'"  
                               [nzValue]="'2'"
-                              [nzPrefix]="location"
+                              [nzPrefix]="groups"
                               [nzValueStyle]="{display: 'inline-flux'}">
                 </nz-statistic>
-                <ng-template #location>
+                <ng-template #groups>
                     <div class="container_class">
-                      <span nz-icon nzType="environment"></span>
+                      <!-- <span nz-icon nzType="ungroup" nzTheme="outline"></span> -->
+                      <!-- <span nz-icon nzType="usergroup-add" nzTheme="outline"></span> -->
+                      <span nz-icon nzType="team" nzTheme="outline"></span>
                     </div>
                 </ng-template>
             </nz-col>
             <nz-col [nzSpan]="16">
                 <nz-statistic [nzTitle]="'Total Events'"  
                               [nzValue]="total_event_invites"
-                              [nzPrefix]="location"
+                              [nzPrefix]="events"
                               [nzValueStyle]="{display: 'inline-flux'}">
                 </nz-statistic>
-                <ng-template #location>
+                <ng-template #events>
                     <div class="container_class">
-                      <span nz-icon nzType="environment"></span>
+                        <span nz-icon nzType="star" nzTheme="outline"></span>
                     </div>
                 </ng-template>
             </nz-col>

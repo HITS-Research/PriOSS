@@ -4,24 +4,27 @@
       <nz-col [nzSpan]="16">
         <nz-statistic [nzTitle]="'Total Contact Numbers'"  
                       [nzValue]="totalContactNumbers"
-                      [nzPrefix]="location"
+                      [nzPrefix]="contacts"
                       [nzValueStyle]="{display: 'inline-flux'}">
         </nz-statistic>
-        <ng-template #location>
+        <ng-template #contacts>
           <div class="container_class">
-            <span nz-icon nzType="environment"></span>
+            <!-- <span nz-icon nzType="environment"></span> -->
+            <!-- <span nz-icon nzType="contacts" nzTheme="outline"></span> -->
+            <span nz-icon nzType="phone" nzTheme="outline"></span>
           </div>
         </ng-template>
       </nz-col>
       <nz-col [nzSpan]="16">
         <nz-statistic [nzTitle]="'Total Searched text'"  
                       [nzValue]="totalSearchedText"
-                      [nzPrefix]="location"
+                      [nzPrefix]="searched"
                       [nzValueStyle]="{display: 'inline-flux'}">
         </nz-statistic>
-        <ng-template #location>
+        <ng-template #searched>
           <div class="container_class">
-            <span nz-icon nzType="environment"></span>
+            <!-- <span nz-icon nzType="search" nzTheme="outline"></span> -->
+            <span nz-icon nzType="file-search" nzTheme="outline"></span>
           </div>
         </ng-template>
       </nz-col>
