@@ -128,6 +128,10 @@ export class PostsComponent implements OnInit{
             .style("opacity", 1)
             .style("font-size", "24px");
         })
+        .on('click', function (event, d) {
+          // You can access the data associated with the clicked bar (d) here
+          console.log(`Clicked on ${d.year} with value ${d.count}`);
+        })
         // Change position of tooltip on mouse move
         .on("mousemove", function (event) {
           tooltip
