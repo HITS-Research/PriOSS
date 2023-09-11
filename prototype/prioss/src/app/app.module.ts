@@ -1,10 +1,9 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
-
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from 'src/environments/environment';
-
+import { NzButtonModule } from 'ng-zorro-antd/button';
 import { SQLiteService } from './services/sqlite/sqlite.service';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -208,6 +207,7 @@ registerLocaleData(de);
     NzTableModule,
     NzDividerModule,
     NzProgressModule,
+    NzButtonModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
       // Register the ServiceWorker as soon as the application is stable

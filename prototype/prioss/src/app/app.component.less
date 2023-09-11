@@ -39,7 +39,7 @@
   grid-row: span 1;//this makes the element take up one of the three rows in the grid
 }
 
-.navbar-btn-container {
+.navbar-btns-space {
   display: flex;
   flex-direction: row;
 
@@ -49,13 +49,21 @@
   grid-row: span 1;//this makes the element take up one of the three rows in the grid
 }
 
-.navbar-btn {
+.navbar-btns-container {
+  align-self: flex-end;
+  margin-bottom: 4vh;
+  margin-top: 1vh;
+}
+
+.change-service-btn {
   display: inline-flex;
   justify-content: center;
   align-items: center;
+}
 
-  align-self: flex-end;
-  margin-bottom: 4vh;
+.share-btns-vbox {
+  align-content: center;
+  text-align: center;
 }
 
 .header-trigger:hover {
@@ -115,4 +123,8 @@ nz-footer {
   padding-inline: 5vmin;
   padding-top: 5vmin;
   height: 100%;
+}
+
+::ng-deep .anticon-check {
+  vertical-align: 0.125em;
 }
