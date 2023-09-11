@@ -166,7 +166,7 @@ export class InstaAdsComponent extends SequenceComponentInit implements AfterVie
   *
   */
   navigateToRectification(){
-    this.router.navigate(['insta/add-manager']);
+    window.open('insta/add-manager', '_blank');
   }
 
  

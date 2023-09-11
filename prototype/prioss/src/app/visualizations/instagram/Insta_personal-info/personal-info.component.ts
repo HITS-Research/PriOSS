@@ -80,7 +80,7 @@ export class Insta_PersonalInfoComponent extends SequenceComponentInit implement
   */
 
  handleButtonClick1(){
-  this.router.navigate(['insta/account-private']);
+  window.open('insta/account-private', '_blank');
 }
 
  /** 
@@ -91,7 +91,7 @@ export class Insta_PersonalInfoComponent extends SequenceComponentInit implement
   */
 
 handleButtonClick2(){
-  this.router.navigate(['insta/profile-info-private']);
+  window.open('insta/profile-info-private', '_blank');
 }
 
 }
