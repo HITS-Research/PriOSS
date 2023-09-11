@@ -24,39 +24,39 @@
   <div *ngIf="!previewMode">
     <app-title-bar titleText="Facebook Connections" tooltipText="This visualization shows overall data related to friends based on years."></app-title-bar>
     <nz-row [nzGutter]="16" class="margin-top-20">
-      <nz-col [nzSpan]="12">
+      <nz-col [nzSpan]="12" *ngIf="friends.length > 0; else noData">
         <nz-card class="friends-card" nzTitle="Friends: {{friends.length}}">
           <div>People you are currently connected to</div>
           <svg viewBox="0 0 1000 1000" id="myFriends" class="margin-top-20"></svg>
         </nz-card> 
       </nz-col>
-      <nz-col [nzSpan]="12"> 
+      <nz-col [nzSpan]="12" *ngIf="whoYouFollow.length > 0; else noData"> 
         <nz-card class="friends-card" nzTitle="Who you follow: {{whoYouFollow.length}}">
           <div>People, organisations or business that you choose to see content from</div>
           <svg viewBox="0 0 1000 1000" id="following" class="margin-top-20"></svg> 
         </nz-card>
       </nz-col>
-      <nz-col [nzSpan]="12">
+      <nz-col [nzSpan]="12" *ngIf="friendRequestReceived.length > 0; else noData">
         <nz-card class="friends-card" nzTitle="Friend requests recieved : {{friendRequestReceived.length}}">
           <div>Request from others asking you to be friends on Facebook</div>
           <svg viewBox="0 0 1000 1000" id="friendRequestReceived" class="margin-top-20"></svg>
         </nz-card>
       
       </nz-col>
-      <nz-col [nzSpan]="12">
+      <nz-col [nzSpan]="12" *ngIf="friendRequestReceived.length > 0; else noData">
         <nz-card class="friends-card" nzTitle="Friend requests sent: {{friendRequestSent.length}}">
           <div>Request sent to others to ask them to be friends on Facebook</div>
           <svg viewBox="0 0 1000 1000" id="friendRequestSent" class="margin-top-20"></svg>
         </nz-card>
       </nz-col>
-      <nz-col [nzSpan]="12">
+      <nz-col [nzSpan]="12" *ngIf="removedFriends.length > 0; else noData">
         <nz-card class="friends-card" nzTitle="Removed friends: {{removedFriends.length}}">
           <div>People who you are no longer connected to on Facebook</div>
           <svg viewBox="0 0 1000 1000" id="removedFriends" class="margin-top-20"></svg>
         </nz-card> 
         
       </nz-col>
-      <nz-col [nzSpan]="12"> 
+      <nz-col [nzSpan]="12" *ngIf="rejectedFriendRequests.length > 0; else noData"> 
         <nz-card class="friends-card" nzTitle="Rejected friends: {{rejectedFriendRequests.length}}">
           <div>Rejected friend requests on Facebook</div>
           <svg viewBox="0 0 1000 1000" id="rejectedFriends" class="margin-top-20"></svg>
@@ -64,5 +64,8 @@
         
       </nz-col>
     </nz-row>
+    <ng-template #noData>
+      <p>No data available</p>
+    </ng-template>
   </div> 
 </div>
