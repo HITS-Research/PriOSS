@@ -71,13 +71,13 @@
           <p *ngIf="selectedFileName.length > 0">Your selected file: {{selectedFileName}}</p>
         </div>
       </div>
-      <p class="file-upload-explanation">Where can I download my data ? <a routerLink="/serviceSelection/dataDownload">click here</a> for instructions</p>
+      <p class="file-upload-explanation">Where can I download my data ? <a routerLink="/serviceSelection/dataDownload">Click here</a> for instructions</p>
     </ng-template>
 
     <ng-template #uploadDialogFooter>
       <button nz-button nzType="primary" class="icon-button" block="false" (click)="onClickedExploreData()">
         <span nz-icon nzType="arrow-right"></span>
-        Continue with personal data
+        Continue with Personal Data
       </button>
     </ng-template>
   </nz-modal>
@@ -96,15 +96,15 @@
 
       <p class="t-explanation">
         OR:<br>
-        Follow the <a routerLink="/serviceSelection/dataDownload" fragment="download-instructions">download instructions</a> to download your personal data as a ".zip"-file.<br>
-        Afterwards, click 'Continue with personal data' and input your ".zip"-file in the popup.
+        Follow the <a routerLink="/serviceSelection/dataDownload" fragment="download-instructions">download instructions (click here)</a> to download your personal data as a ".zip"-file.<br>
+        Afterwards, click 'Continue with Personal Data' and input your ".zip"-file in the popup.
       </p>
 
       <div>
         
         <button nz-button nzSize="large" nzType="primary" block="false" class="icon-button continue-btn" (click)="openDataUploadDialog()">
           <span nz-icon nzType="arrow-right"></span>
-          Continue with personal data
+          Continue with Personal Data
         </button>
         
         <p *ngIf="selectedServiceName" class="t-explanation">
