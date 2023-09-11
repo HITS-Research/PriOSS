@@ -1,77 +1,62 @@
 <div [ngClass]="{'component-page': !previewMode}">
   <div *ngIf="previewMode">
     <nz-row [nzGutter]="16">
-      <nz-col [nzSpan]="10">
+      <nz-col [nzSpan]="12">
         <nz-statistic [nzValue]="friends.length" 
                       [nzTitle]="'Friends'"
                       [nzPrefix]="friend"
-                      [nzValueStyle]="{display: 'inline-flux'}">
+                     >
         </nz-statistic>
         <ng-template #friend>
-          <div class="container_class">
-            <span nz-icon nzType="heart" nzTheme="outline"></span>
-          </div>
+          <span nz-icon nzType="heart"></span>
         </ng-template>
       </nz-col>
-      <nz-col [nzSpan]="11">
+      <nz-col [nzSpan]="12">
         <nz-statistic [nzValue]="removedFriends.length" 
                       [nzTitle]="'Removed friends'"
                       [nzPrefix]="removed"
-                      [nzValueStyle]="{display: 'inline-flux'}">
+                      >
         </nz-statistic>
         <ng-template #removed>
-          <div class="container_class">
-            <span nz-icon nzType="usergroup-delete" nzTheme="outline"></span>
-          </div>
+          <span nz-icon nzType="usergroup-delete"></span>
         </ng-template>
       </nz-col>
-      <nz-col [nzSpan]="10">
+      <nz-col [nzSpan]="12">
         <nz-statistic [nzValue]="friendRequestSent.length" 
-                      [nzTitle]="'Friend requests sent'"
+                      [nzTitle]="'Requests sent'"
                       [nzPrefix]="sent"
-                      [nzValueStyle]="{display: 'inline-flux'}">
+                      >
         </nz-statistic>
         <ng-template #sent>
-          <div class="container_class">
-            <span nz-icon nzType="user-add" nzTheme="outline"></span>
-          </div>
+          <span nz-icon nzType="user-add"></span>
         </ng-template>
       </nz-col>
-      <nz-col [nzSpan]="11">
+      <nz-col [nzSpan]="12">
         <nz-statistic [nzValue]="friendRequestReceived.length" 
-                      [nzTitle]="'Friend requests received'"
+                      [nzTitle]="'Requests received'"
                       [nzPrefix]="received"
-                      [nzValueStyle]="{display: 'inline-flux'}">
+                      >
         </nz-statistic>
         <ng-template #received>
-          <div class="container_class">
-            <span nz-icon nzType="user-switch" nzTheme="outline"></span>
-
-          </div>
+          <span nz-icon nzType="user-switch"></span>
         </ng-template>
       </nz-col>
-      <nz-col [nzSpan]="10">
+      <nz-col [nzSpan]="12">
         <nz-statistic [nzValue]="rejectedFriendRequests.length" 
                       [nzTitle]="'Rejected requests'"
-                      [nzPrefix]="rejected"
-                      [nzValueStyle]="{display: 'inline-flux'}">
+                      [nzPrefix]="rejected">
         </nz-statistic>
         <ng-template #rejected>
-          <div class="container_class">
-            <span nz-icon nzType="user-delete" nzTheme="outline"></span>
-          </div>
+          <span nz-icon nzType="user-delete"></span>
         </ng-template>
       </nz-col>
-      <nz-col [nzSpan]="11">
+      <nz-col [nzSpan]="12">
         <nz-statistic [nzValue]="whoYouFollow.length" 
                       [nzTitle]="'Who you follow'"
-                      [nzPrefix]="follow"
-                      [nzValueStyle]="{display: 'inline-flux'}">
+                      [nzPrefix]="follow">
         </nz-statistic>
         <ng-template #follow>
-          <div class="container_class">
-            <span nz-icon nzType="smile" nzTheme="outline"></span>
-          </div>
+          <span nz-icon nzType="smile"></span>
         </ng-template>
       </nz-col>
     </nz-row>
