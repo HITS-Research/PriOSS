@@ -12,7 +12,10 @@ import { PostsModel } from 'src/app/models/Facebook/posts';
 export class PostsComponent implements OnInit{
 
   posts: PostsModel[] = [];
-
+  maximumPost: any[] = [];
+  minimumPost: any[] = [];
+  monthView: boolean;
+  
   @Input()
   previewMode = false;
 
@@ -23,7 +26,7 @@ export class PostsComponent implements OnInit{
   ngOnInit() {
     this.facePostsRepo.getAllPosts().then(posts => {
         this.posts = posts;
-        this.createData();
+        this.createYearData();
       })
   }
 
@@ -47,7 +50,7 @@ export class PostsComponent implements OnInit{
   * @author: rbharmal@mail.upb.de
   *
   */
-  createData()
+  createYearData()
   {
     const data:any[] = [];
     const years: number[] = [];
@@ -64,6 +67,30 @@ export class PostsComponent implements OnInit{
       const abc = {year: year, count: postCount.length};
       data.push(abc);
     });
+
+    let maxCount = -Infinity;
+    let minCount = Infinity;
+    let totalCount = 0;
+
+    data.forEach(item => {
+        const count = item.count;
+    
+        if (count > maxCount) {
+            maxCount = count;
+            this.maximumPost = [item];
+        } else if (count === maxCount) {
+            this.maximumPost.push(item);
+        }
+    
+        if (count < minCount) {
+            minCount = count;
+            this.minimumPost = [item];
+        } else if (count === minCount) {
+            this.minimumPost.push(item);
+        }
+      
+    });
+   
     this.makeChart(data);
   }
 
@@ -81,6 +108,11 @@ export class PostsComponent implements OnInit{
     if (data == null) {
       data = [];
     }
+
+    //remove old barchart
+    d3.select("#post-chart").selectAll("*").remove();
+
+    const postComponent: PostsComponent = this;
 
     const margin = { top: 40, right: 20, bottom: 30, left: 0 };
     const width = 1000 - margin.left - margin.right;
@@ -118,19 +150,20 @@ export class PostsComponent implements OnInit{
         .attr("width", x.bandwidth())
         .attr("height", d => height - y(d.count))
         .attr("fill", "#3B5998")
+        .attr("cursor","pointer")
         // Show tooltip on mouseover
         .on("mouseover", function(event, d) {
           const barX = x(d.year.toString())! + x.bandwidth() / 2;
           const barY = y(d.count);
-          tooltip.text(d.count)
+          tooltip.text(d.count )
             .attr("x", barX - 19)
             .attr("y", barY + 20)
             .style("opacity", 1)
-            .style("font-size", "24px");
+            .style("font-size", "24px")
+            .style("z-index","1000")
         })
         .on('click', function (event, d) {
-          // You can access the data associated with the clicked bar (d) here
-          console.log(`Clicked on ${d.year} with value ${d.count}`);
+          postComponent.createMonthData(d.year);
         })
         // Change position of tooltip on mouse move
         .on("mousemove", function (event) {
@@ -168,5 +201,178 @@ export class PostsComponent implements OnInit{
       .style("font-size", "26px")
       .text("Post count over the years");
 
+  }
+
+  /**
+  * This methods generates the data object for month distribution for posts over a year
+  * @param year for which we want the monthly distribution
+  *
+  * @author: rbharmal@mail.upb.de
+  *
+  */
+  createMonthData(year: number)
+  {
+    this.monthView = true
+    const result: any[] = [];
+    const dataObject: any[] = [];
+    const monthNames = [
+      "Jan", "Feb", "Mar", "Apr",
+      "May", "June", "July", "Aug",
+      "Sept", "Oct", "Nov", "Dec"
+      ];
+   this.posts.forEach(x => 
+      {
+        const date = new Date(x.timestamp*1000)
+        if(date.getFullYear() === year)
+        {
+          const monthName = monthNames[date.getUTCMonth()]
+          result.push({month: monthName, title: x.title});
+        }
+         
+      });
+    console.log(result);
+    monthNames.forEach(month =>
+      {
+        const count = result.filter(x => x.month == month).length;
+        dataObject.push({month: month, count: count});
+      })
+      console.log(dataObject);
+      let maxCount = -Infinity;
+    let minCount = Infinity;
+
+    dataObject.forEach(item => {
+        const count = item.count;
+    
+        if (count > maxCount) {
+            maxCount = count;
+            this.maximumPost = [item];
+        } else if (count === maxCount) {
+            this.maximumPost.push(item);
+        }
+    
+        if (count < minCount && count !== 0) {
+            minCount = count;
+            this.minimumPost = [item];
+        } else if (count === minCount) {
+            this.minimumPost.push(item);
+        }
+      
+    });
+      this.makeMonthChart(dataObject, year);
+  }
+  
+  /**
+  * This methods generates the barchart for the post data in monthly distribution for specific year
+  * @param data is the array of post data over a specific year
+  * @param year for the data 
+  *
+  * @author: rbharmal@mail.upb.de
+  *
+  */
+  makeMonthChart(data: any[], year: any)
+  {
+    //show an empty chart if the given data is null
+    if (data == null) {
+      data = [];
+    }
+     
+    //remove old barchart
+    d3.select("#post-chart").selectAll("*").remove();
+
+    const postComponent: PostsComponent = this;
+
+    const margin = { top: 40, right: 20, bottom: 30, left: 0 };
+    const width = 1000 - margin.left - margin.right;
+    const height = 600 - margin.top - margin.bottom;
+
+    // Get svg based on the id to draw chart
+    const svg = d3.select("#post-chart")
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom);
+
+    const x = d3.scaleBand()
+      .domain(data.map(d => d.month.toString()))
+      .range([0, width])
+      .padding(0.1);
+
+    const y = d3.scaleLinear()
+      .domain([0, d3.max(data, d => d.count)] as number[])
+      .range([height, 0]);
+
+    const tooltip = svg.append("text")
+      .attr("class", "tooltip")
+      .attr("x", 0)
+      .attr("y", 0)
+      .style("color", "white")
+      .style("opacity", 0);
+
+    // Fill the chart with data values
+    svg.append("g")
+      .attr("transform", `translate(${margin.left}, ${margin.top})`)
+      .selectAll("rect")
+      .data(data)
+      .join("rect")
+        .attr("x", d => x(d.month.toString())!)
+        .attr("y", d => y(d.count))
+        .attr("width", x.bandwidth())
+        .attr("height", d => height - y(d.count))
+        .attr("fill", "#3B5998")
+        // Show tooltip on mouseover
+        .on("mouseover", function(event, d) {
+          const barX = x(d.month.toString())! + x.bandwidth() / 2;
+          const barY = y(d.count);
+          tooltip.text(d.count)
+            .attr("x", barX - 19)
+            .attr("y", barY + 20)
+            .style("opacity", 1)
+            .style("font-size", "24px");
+        })
+        // Change position of tooltip on mouse move
+        .on("mousemove", function (event) {
+          tooltip
+            .style("top", (event.pageY - 10) + "px")
+            .style("left", (event.pageX + 10) + "px");
+        })
+        // Hide tooltip on mouse out
+        .on("mouseout", function() {
+          tooltip.style("opacity", 0);
+        });
+  
+
+    svg.append("g")
+      .attr("transform", `translate(${margin.left}, ${height + margin.top})`)
+      .style("font-size", "20px")
+      .call(d3.axisBottom(x));
+    
+    svg.append("g")
+      .attr("transform", `translate(${margin.left}, ${margin.top})`)
+      .style("font-size", "20px")
+      .call(d3.axisLeft(y).ticks(10));
+
+    // Add x-axis label
+    svg.append("text")
+      .attr("transform", `translate(${margin.left + width / 2}, ${height + margin.top + 55})`)
+      .style("text-anchor", "middle")
+      .style("font-size", "24px")
+      .text("Month");
+    
+    // Add y-axis label
+    svg.append("text")
+      .attr("transform", `rotate(-90) translate(${-margin.top - height / 2}, ${margin.left - 40})`)
+      .style("text-anchor", "middle")
+      .style("font-size", "32px")
+      .text("Post count for" + " " + year);
+  }
+
+  /**
+  * This methods gets the yearly barchart
+  *
+  * @author: rbharmal@mail.upb.de
+  *
+  */
+  backToPrevious()
+  {
+    this.monthView = false
+    this.createYearData();
   }
 }
