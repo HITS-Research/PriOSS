@@ -1,7 +1,6 @@
 import { AfterViewInit, Component, Input } from '@angular/core';
 import * as d3 from 'd3';
 import { SequenceComponentInit } from '../../sequence-component-init.abstract';
-import { chartData } from '../../facebook/friend-and-followers/friend-and-followers.component';
 
 enum Weekday {
   Monday = 'Monday',
@@ -102,46 +101,6 @@ export class InstaMessagesComponent extends SequenceComponentInit implements Aft
     this.panels.push({active: false, name: 'This is panel header 2',content: "This is panel content 2"});
     this.panels.push({active: false, name:"This is panel header 4", content:"This is panel content 4"});
     this.makeHorizontalStackedBarChart(this.chatData);
-    //   this.followerInfo = await this.instaFollowerRepo.getFollowerInfo();
-    //   await this.instaFollowerRepo.getFollowerInfo().then((followerInfo) => {
-    //     this.followerInfo = followerInfo;
-    //     this.listOfFollowers = [...this.followerInfo];
-    //   });
-    //   this.followingInfo = await this.instaFollowingRepo.getFollowingInfo();
-    //   await this.instaFollowingRepo.getFollowingInfo().then((followingInfo) => {
-    //     this.followingInfo = followingInfo;
-    //     this.listOfFollowing = [...this.followingInfo];
-    //   });
-    //   this.blockedInfo = await this.instaBlockedRepo.getBlockedInfo();
-    //   await this.instaBlockedRepo.getBlockedInfo().then((blockedInfo) => {
-    //     this.blockedInfo = blockedInfo;
-    //     this.listOfBlocked = [...this.blockedInfo];
-    //   });
-    //   this.recentFollowInfo = await this.instaRecentFollowRepo.getRecentFollowInfo();
-    //   await this.instaRecentFollowRepo.getRecentFollowInfo().then((recentFollowInfo) => {
-    //     this.recentFollowInfo = recentFollowInfo;
-    //     this.listOfRecentFollow = [...this.recentFollowInfo];
-    //   });
-    //   this.pendingFollowRequestInfo = await this.instaPendingFollowRequestRepo.getPendingFollowRequestInfo();
-    //   await this.instaPendingFollowRequestRepo.getPendingFollowRequestInfo().then((pendingFollowRequestInfo) => {
-    //     this.pendingFollowRequestInfo = pendingFollowRequestInfo;
-    //     this.listOfPending = [...this.pendingFollowRequestInfo];
-    //   });
-    //   this.recentlyUnfollowedAccountInfo = await this.instaRecentlyUnfollowedAccountsRepo.getRecentlyUnfollowedAccountInfo();
-    //   await this.instaRecentlyUnfollowedAccountsRepo.getRecentlyUnfollowedAccountInfo().then((recentlyUnfollowedAccountInfo) => {
-    //     this.recentlyUnfollowedAccountInfo = recentlyUnfollowedAccountInfo;
-    //     this.listOfRecentUnfollow = [...this.recentlyUnfollowedAccountInfo];
-    //   });
-    //   this.removedSuggestionInfo = await this.instaRemovedSuggestionRepo.getRemovedSuggestionInfo();
-    //   await this.instaRemovedSuggestionRepo.getRemovedSuggestionInfo().then((removedSuggestionInfo) => {
-    //     this.removedSuggestionInfo = removedSuggestionInfo;
-    //     this.listOfRemoved = [...this.removedSuggestionInfo];
-    //   });
-    //   this.receivedFollowRequestInfo = await this.instaReceivedFollowRequestRepo.getReceivedFollowRequestInfo();
-    //   await this.instaReceivedFollowRequestRepo.getReceivedFollowRequestInfo().then((receivedFollowRequestInfo) => {
-    //     this.receivedFollowRequestInfo = receivedFollowRequestInfo;
-    //     this.listOfReceived = [...this.receivedFollowRequestInfo];
-    //   });
   }
 
   /**
@@ -179,12 +138,6 @@ export class InstaMessagesComponent extends SequenceComponentInit implements Aft
     senders.add('me');
     data.forEach((d: ChatData) => { d.otherMessages.forEach((otherMessage => senders.add(otherMessage.sender))); });
     const subgroups = Array.from(senders);
-    // interface Message {
-    //   chat: string,
-    //   me: number,
-    //   [key: string]: number,
-    // }
-    // const groups: string[] = [];
     const flattenedData: any[] = [];
     data.forEach((chatData: ChatData) => {
 
@@ -196,8 +149,6 @@ export class InstaMessagesComponent extends SequenceComponentInit implements Aft
       });
       flattenedData.push({...myMessages, me: chatData.yourMessages});
       flattenedData.push(otherMessages);
-      // groups.push(`Me to ${chatData.chat}`);
-      // groups.push(chatData.chat);
     });
     const groups = d3.map(flattenedData, (chatData) => {
       return chatData.chat;
@@ -212,28 +163,40 @@ export class InstaMessagesComponent extends SequenceComponentInit implements Aft
       .attr("transform", "translate(0," + height + ")")
       .call(d3.axisBottom(x).tickSizeOuter(0));
 
-    // Add Y axis
-    const y = d3.scaleLinear()
-      .domain([0, 60])
-      .range([ height, 0 ]);
-    svg.append("g")
-      .call(d3.axisLeft(y));
-      
-    // color palette = one color per subgroup
-
-    const color = d3.scaleOrdinal()
-    .domain(subgroups)
-    .range(this.colorFactory(subgroups.length));
+    //find the custom contextmenu
+    const contextMenu = d3.select("#contextmenu-barChart-container");
 
     //stack the data? --> stack per subgroup
     const stackedData = d3.stack().keys(subgroups)(flattenedData);
-    
-    console.log('flattenedData');
-    console.log(flattenedData);
-    console.log('subgroups');
-    console.log(subgroups);
-    console.log('stackedData');
-    console.log(stackedData);
+
+    // highest bar
+    const maxValue = stackedData[stackedData.length - 1].reduce(
+      (max, stack) => Math.max(max, stack[1]),
+      0
+    );
+    //console.log(maxValue)
+
+    // Add Y axis
+    const y = d3.scaleLinear()
+      .domain([0, maxValue])
+      .range([ height, 0 ]);
+    svg.append("g")
+      .call(d3.axisLeft(y));
+
+    // create tooltip element
+    const tooltip = d3
+      .select('body')
+      .append('div')
+      .attr('class', 'd3-tooltip')
+      .style('position', 'absolute')
+      .style('z-index', '10')
+      .style('visibility', 'hidden')
+      .style('padding', '15px')
+      .style('background', 'rgba(0,0,0,0.6)')
+      .style('border-radius', '5px')
+      .style('color', '#fff')
+      .text('a simple tooltip');
+
     // Show the bars
     svg.append("g")
       .selectAll("g")
@@ -248,20 +211,33 @@ export class InstaMessagesComponent extends SequenceComponentInit implements Aft
         })
         .selectAll("rect")
       // enter a second time = loop subgroup per subgroup to add all rectangles
-        .data(function(d) { return d; })
+        .data(d => d)
         .enter()
           .append("rect")
           .attr("x", (d) => { 
-            console.log('dkasjfnlsnfklsd');
-            console.log(d.data['chat']);
-            return x('' + d.data['chat']);
+            return (x('' + d.data['chat']) || 0) as number;
           })
           .attr("y", (d) => { return y(d[1]); })
           .attr("height", (d) => { return y(d[0]) - y(d[1]); })
           .attr("width",x.bandwidth())
-
-  
-
+        //Mouse Hover
+    .on('mouseover', (event, data) => {
+      contextMenu.style('visibility', 'hidden');
+      const sender = stackedData.find((stack)=>stack.includes(data))?.key;
+      const html = tooltip.html("Sender: "+sender+", messages: "+(data[1]-data[0]).toString());
+      d3.select("#contextmenu-barChart-container").style('cursor', 'pointer');
+      html.style('visibility', 'visible').style('text-align', 'center');
+    })
+    //Mouse moved: change tooltip position
+    .on('mousemove', function (event) {
+      tooltip
+        .style('top', event.pageY - 10 + 'px')
+        .style('left', event.pageX + 10 + 'px');
+    })
+    //Mouse not hovering: hide tooltip
+    .on('mouseout', function () {
+      tooltip.html(``).style('visibility', 'hidden');
+    });
   } 
   otherMessageColors: string[] = [
     "#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd",
