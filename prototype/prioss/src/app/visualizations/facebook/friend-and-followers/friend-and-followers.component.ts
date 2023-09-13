@@ -14,12 +14,27 @@ export class chartData{
   styleUrls: ['./friend-and-followers.component.less']
 })
 export class FriendAndFollowersComponent implements OnInit{
+
   friends: FacebookFriendsModel[] = [];
+  friendsFilter = [...this.friends];
+
   removedFriends: FacebookFriendsModel[] = [];
+  removedFriendsFilter = [...this.removedFriends];
+
   friendRequestReceived: FacebookFriendsModel[] = [];
+  friendRequestReceivedFilter = [...this.friendRequestReceived];
+
   friendRequestSent: FacebookFriendsModel[] = [];
+  friendRequestSentFilter = [...this.friendRequestSent];
+
   rejectedFriendRequests: FacebookFriendsModel[] = [];
+  rejectedFriendRequestsFilter = [...this.rejectedFriendRequests];
+
   whoYouFollow: FacebookFriendsModel[] = [];
+  whoYouFollowFilter = [...this.whoYouFollow];
+
+  searchValue = '';
+  visible = false;
 
   @Input()
   previewMode = false;
@@ -42,21 +57,27 @@ export class FriendAndFollowersComponent implements OnInit{
     this.faceFriendsRepo.getAllFacebookFriends().then((friends) => {
         this.friendRequestReceived = friends.filter(x => x.type === "#requestsReceived");
         this.createData(this.friendRequestReceived,"#friendRequestReceived", "#FF9800"); 
+        this.searchRequestReceived();
 
         this.friendRequestSent = friends.filter(x => x.type === "#requestsSent");
         this.createData(this.friendRequestSent,"#friendRequestSent", "#00C853");
+        this.searchRequestSent();
 
         this.friends = friends.filter(x=>x.type === "#friends");
         this.createData(this.friends, "#myFriends", "#1877F2");
+        this.searchFriends();
 
         this.rejectedFriendRequests = friends.filter(x=>x.type === "#rejectedFriends");
         this.createData(this.rejectedFriendRequests,"#rejectedFriends", "#FF0000");
+        this.searchRejectedFriends();
 
         this.removedFriends = friends.filter(x=>x.type === "#removedFriends");
         this.createData(this.removedFriends,"#removedFriends", "#808080"); 
+        this.searchRemovedFriends();
 
         this.whoYouFollow = friends.filter(x=>x.type === "#following")
         this.createData(this.whoYouFollow,"#following", "#00BCD4");
+        this.searchWhoYouFollow();
     });
   }
 
@@ -188,6 +209,50 @@ export class FriendAndFollowersComponent implements OnInit{
       .style("font-size", "26px")
       .text("Count");
   }
+
+  convertToDate(timestamp: number)
+  {
+    return new Date(timestamp*1000)
+  }
  
-  
+  searchFriends(): void {
+    this.visible = false;
+    this.friendsFilter = this.friends.filter((item: FacebookFriendsModel) => item.name.indexOf(this.searchValue) !== -1);
+  }
+
+  searchRemovedFriends(): void {
+    this.visible = false;
+    this.removedFriendsFilter = this.removedFriends.filter((item: FacebookFriendsModel) => item.name.indexOf(this.searchValue) !== -1);
+  }
+
+  searchRequestSent(): void {
+    this.visible = false;
+    this.friendRequestSentFilter = this.friendRequestSent.filter((item: FacebookFriendsModel) => item.name.indexOf(this.searchValue) !== -1);
+  }
+
+  searchRequestReceived(): void {
+    this.visible = false;
+    this.friendRequestReceivedFilter = this.friendRequestReceived.filter((item: FacebookFriendsModel) => item.name.indexOf(this.searchValue) !== -1);
+  }
+
+  searchRejectedFriends(): void {
+    this.visible = false;
+    this.rejectedFriendRequestsFilter = this.rejectedFriendRequests.filter((item: FacebookFriendsModel) => item.name.indexOf(this.searchValue) !== -1);
+  }
+
+  searchWhoYouFollow(): void {
+    this.visible = false;
+    this.whoYouFollowFilter = this.whoYouFollow.filter((item: FacebookFriendsModel) => item.name.indexOf(this.searchValue) !== -1);
+  }
+
+  reset(): void {
+    this.searchValue = '';
+    this.searchFriends();
+    this.searchRejectedFriends();
+    this.searchRemovedFriends();
+    this.searchRequestReceived();
+    this.searchRequestSent();
+    this.searchWhoYouFollow();
+  }
+
 }

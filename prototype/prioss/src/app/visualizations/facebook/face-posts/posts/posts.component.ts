@@ -15,7 +15,12 @@ export class PostsComponent implements OnInit{
   maximumPost: any[] = [];
   minimumPost: any[] = [];
   monthView: boolean;
-  
+  selectedYear: number;
+  postDataMonths: any[] = [];
+  isShowPostList: Boolean = false;
+  selectedMonth: string;
+  postDataFilter: any[] = [];
+
   @Input()
   previewMode = false;
 
@@ -70,7 +75,6 @@ export class PostsComponent implements OnInit{
 
     let maxCount = -Infinity;
     let minCount = Infinity;
-    let totalCount = 0;
 
     data.forEach(item => {
         const count = item.count;
@@ -115,8 +119,8 @@ export class PostsComponent implements OnInit{
     const postComponent: PostsComponent = this;
 
     const margin = { top: 40, right: 20, bottom: 30, left: 0 };
-    const width = 1000 - margin.left - margin.right;
-    const height = 600 - margin.top - margin.bottom;
+    const width = 1080 - margin.left - margin.right;
+    const height = 700 - margin.top - margin.bottom;
 
     // Get svg based on the id to draw chart
     const svg = d3.select("#post-chart")
@@ -163,6 +167,7 @@ export class PostsComponent implements OnInit{
             .style("z-index","1000")
         })
         .on('click', function (event, d) {
+          postComponent.selectedYear = d.year
           postComponent.createMonthData(d.year);
         })
         // Change position of tooltip on mouse move
@@ -187,20 +192,6 @@ export class PostsComponent implements OnInit{
       .style("font-size", "20px")
       .call(d3.axisLeft(y).ticks(10));
 
-    // Add x-axis label
-    svg.append("text")
-      .attr("transform", `translate(${margin.left + width / 2}, ${height + margin.top + 55})`)
-      .style("text-anchor", "middle")
-      .style("font-size", "20px")
-      .text("Year");
-    
-    // Add y-axis label
-    svg.append("text")
-      .attr("transform", `rotate(-90) translate(${-margin.top - height / 2}, ${margin.left - 40})`)
-      .style("text-anchor", "middle")
-      .style("font-size", "26px")
-      .text("Post count over the years");
-
   }
 
   /**
@@ -213,7 +204,6 @@ export class PostsComponent implements OnInit{
   createMonthData(year: number)
   {
     this.monthView = true
-    const result: any[] = [];
     const dataObject: any[] = [];
     const monthNames = [
       "Jan", "Feb", "Mar", "Apr",
@@ -226,18 +216,18 @@ export class PostsComponent implements OnInit{
         if(date.getFullYear() === year)
         {
           const monthName = monthNames[date.getUTCMonth()]
-          result.push({month: monthName, title: x.title});
+          this.postDataMonths.push({month: monthName, title: x.title, post: x.post});
         }
          
       });
-    console.log(result);
+    console.log(this.postDataMonths);
     monthNames.forEach(month =>
       {
-        const count = result.filter(x => x.month == month).length;
+        const count = this.postDataMonths.filter(x => x.month == month).length;
         dataObject.push({month: month, count: count});
       })
-      console.log(dataObject);
-      let maxCount = -Infinity;
+    console.log(dataObject);
+    let maxCount = -Infinity;
     let minCount = Infinity;
 
     dataObject.forEach(item => {
@@ -258,7 +248,7 @@ export class PostsComponent implements OnInit{
         }
       
     });
-      this.makeMonthChart(dataObject, year);
+    this.makeMonthChart(dataObject, year);
   }
   
   /**
@@ -276,14 +266,13 @@ export class PostsComponent implements OnInit{
       data = [];
     }
      
+    const postComponent: PostsComponent = this;
     //remove old barchart
     d3.select("#post-chart").selectAll("*").remove();
 
-    const postComponent: PostsComponent = this;
-
     const margin = { top: 40, right: 20, bottom: 30, left: 0 };
-    const width = 1000 - margin.left - margin.right;
-    const height = 600 - margin.top - margin.bottom;
+    const width = 1050 - margin.left - margin.right;
+    const height = 700 - margin.top - margin.bottom;
 
     // Get svg based on the id to draw chart
     const svg = d3.select("#post-chart")
@@ -317,6 +306,10 @@ export class PostsComponent implements OnInit{
         .attr("width", x.bandwidth())
         .attr("height", d => height - y(d.count))
         .attr("fill", "#3B5998")
+        .on('click', function (event, d) {
+          postComponent.selectedMonth = d.month;
+          postComponent.showPostList();
+        })
         // Show tooltip on mouseover
         .on("mouseover", function(event, d) {
           const barX = x(d.month.toString())! + x.bandwidth() / 2;
@@ -349,19 +342,6 @@ export class PostsComponent implements OnInit{
       .style("font-size", "20px")
       .call(d3.axisLeft(y).ticks(10));
 
-    // Add x-axis label
-    svg.append("text")
-      .attr("transform", `translate(${margin.left + width / 2}, ${height + margin.top + 55})`)
-      .style("text-anchor", "middle")
-      .style("font-size", "24px")
-      .text("Month");
-    
-    // Add y-axis label
-    svg.append("text")
-      .attr("transform", `rotate(-90) translate(${-margin.top - height / 2}, ${margin.left - 40})`)
-      .style("text-anchor", "middle")
-      .style("font-size", "32px")
-      .text("Post count for" + " " + year);
   }
 
   /**
@@ -372,7 +352,17 @@ export class PostsComponent implements OnInit{
   */
   backToPrevious()
   {
+    this.isShowPostList = false;
     this.monthView = false
     this.createYearData();
+  }
+
+
+  showPostList()
+  {
+    this.isShowPostList = true;
+    let el = document.getElementById('basicTable');
+    el?.scrollIntoView();
+    this.postDataFilter = this.postDataMonths.filter(x => x.month === this.selectedMonth);
   }
 }

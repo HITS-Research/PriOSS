@@ -673,12 +673,14 @@ export class ServiceSelectionComponent implements AfterViewInit{
 
         const timestamp = posts[0].timestamp;
         const title = posts[0].title;
-        await this.facePostsRepo.startPostsBulkAdd(timestamp, title, posts.length);
+        const post = posts[0].data.length > 0 ?  posts[0].data[0].post : "";
+        await this.facePostsRepo.startPostsBulkAdd(timestamp, title,post, posts.length);
 
         for(let i = 1; i < posts.length; i++){
-          const title = posts[i].title ? posts[i].title : "New post";
+          const title = posts[i].title ? posts[i].title : "Updated timeline";
           const timestamp = posts[i].timestamp;
-          await this.facePostsRepo.addPostsBulkEntry(timestamp, title);
+          const post = posts[i].data.length > 0 ?  posts[i].data[0].post : "";
+          await this.facePostsRepo.addPostsBulkEntry(timestamp, title,post);
         }
       }
     }
