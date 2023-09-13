@@ -39,6 +39,7 @@ import { OffFacebookActivityModel } from 'src/app/models/Facebook/offfacebookact
     off_facebook_activity: OffFacebookActivityModel[] = [];
     dataAvailable = false;
     dataAvailableAdNames = false;
+    dataAvailableAWebsiteNames =  false;
     constructor(private router: Router,private faceAdsInteractedRepo: FacebookAdsInteractedRepository,private faceAppsAndWebsitesRepo: FacebookAppsWebsitesRepository,
       private faceOffFacebookActivityRepo: FacebookOffFacebookActivityRepository,private cdr: ChangeDetectorRef) { }
       ngOnInit(): void {
@@ -93,6 +94,7 @@ import { OffFacebookActivityModel } from 'src/app/models/Facebook/offfacebookact
     async getData() {
       this.faceAdsInteractedRepo.getAllFaceAdsInteracted().then((ads_interacted_with) => {
         this.adsInteracted = ads_interacted_with;
+        this.dataAvailableAdNames =  this.adsInteracted.length !== 0;
         for (let i = 0; i < this.adsInteracted.length; i++) {
           const name = this.adsInteracted[i].title;
           this.adNames.push(name);
@@ -104,7 +106,7 @@ import { OffFacebookActivityModel } from 'src/app/models/Facebook/offfacebookact
       });
       this.faceAppsAndWebsitesRepo.getAllFaceAppsAndWebsites().then((apps_websites) => {
         this.apps_websites = apps_websites;
-        this.dataAvailableAdNames =  this.apps_websites.length !== 0;
+        this.dataAvailableAWebsiteNames =  this.apps_websites.length !== 0;
         const uniqueAppNames = new Set();
     
         for (const app of apps_websites) {

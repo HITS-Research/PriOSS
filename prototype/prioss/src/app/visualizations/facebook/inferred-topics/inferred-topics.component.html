@@ -9,9 +9,10 @@
     </nz-list-item>
 </nz-list>
   </ng-container>
-<ng-template #noDataTemplate>
-  No data available
-</ng-template>
+  <ng-template #noDataTemplate>
+    <nz-result nzStatus="403" nzTitle="No data available">
+    </nz-result>
+  </ng-template>
 <h4 nz-typography>To manage the Inferred topics,</h4>
 <button nz-button nzType="primary" (click)="navigateToYourTopics()">Click here</button>
 </div>
