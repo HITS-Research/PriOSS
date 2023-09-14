@@ -2,7 +2,16 @@
     <div *ngIf="previewMode">
         <nz-row [nzGutter]="16">
             <nz-col [nzSpan]="10">
-              <nz-statistic [nzValue]="posts.length" [nzTitle]="'Posts'"></nz-statistic>
+              <nz-statistic [nzValue]="posts.length" 
+                            [nzTitle]="'Posts'"
+                            [nzPrefix]="location"
+                            [nzValueStyle]="{display: 'inline-flux'}">
+              </nz-statistic>
+              <ng-template #location>
+                <div class="container_class">
+                  <span nz-icon nzType="bar-chart" nzTheme="outline"></span>
+                </div>
+              </ng-template>
             </nz-col>
         </nz-row>
     </div>
