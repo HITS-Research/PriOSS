@@ -116,6 +116,8 @@ export class PostsComponent implements OnInit{
     //remove old barchart
     d3.select("#post-chart").selectAll("*").remove();
 
+    //This is the only way to pass a reference to 'this' into the onClick listener while also getting the 'data' of the clicked bar as a parameter in the listerner
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     const postComponent: PostsComponent = this;
 
     const margin = { top: 40, right: 20, bottom: 30, left: 0 };
@@ -266,6 +268,8 @@ export class PostsComponent implements OnInit{
       data = [];
     }
      
+    //This is the only way to pass a reference to 'this' into the onClick listener while also getting the 'data' of the clicked bar as a parameter in the listerner
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     const postComponent: PostsComponent = this;
     //remove old barchart
     d3.select("#post-chart").selectAll("*").remove();
