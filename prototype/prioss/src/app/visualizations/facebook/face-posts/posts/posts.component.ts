@@ -17,7 +17,7 @@ export class PostsComponent implements OnInit{
   monthView: boolean;
   selectedYear: number;
   postDataMonths: any[] = [];
-  isShowPostList: Boolean = false;
+  isShowPostList: boolean = false;
   selectedMonth: string;
   postDataFilter: any[] = [];
 
@@ -248,7 +248,7 @@ export class PostsComponent implements OnInit{
         }
       
     });
-    this.makeMonthChart(dataObject, year);
+    this.makeMonthChart(dataObject);
   }
   
   /**
@@ -259,7 +259,7 @@ export class PostsComponent implements OnInit{
   * @author: rbharmal@mail.upb.de
   *
   */
-  makeMonthChart(data: any[], year: any)
+  makeMonthChart(data: any[])
   {
     //show an empty chart if the given data is null
     if (data == null) {
@@ -366,7 +366,7 @@ export class PostsComponent implements OnInit{
   showPostList()
   {
     this.isShowPostList = true;
-    let el = document.getElementById('basicTable');
+    const el = document.getElementById('basicTable');
     el?.scrollIntoView();
     this.postDataFilter = this.postDataMonths.filter(x => x.month === this.selectedMonth);
   }
