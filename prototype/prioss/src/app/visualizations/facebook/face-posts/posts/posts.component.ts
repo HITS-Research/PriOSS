@@ -17,7 +17,7 @@ export class PostsComponent implements OnInit{
   monthView: boolean;
   selectedYear: number;
   postDataMonths: any[] = [];
-  isShowPostList: boolean = false;
+  isShowPostList = false;
   selectedMonth: string;
   postDataFilter: any[] = [];
 
