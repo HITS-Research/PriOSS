@@ -469,7 +469,7 @@ export class ServiceSelectionComponent implements AfterViewInit{
         }
         console.log("data",offfacebookActivityData)
       }
-      else if (filename === "friend_requests_received.json") {
+      else if (filename === "received_friend_requests.json") {
         console.log("fileoff---",filename)
         const jsonData = JSON.parse(content);
         const friendRequestsRecieved = jsonData.received_requests_v2;
@@ -479,7 +479,7 @@ export class ServiceSelectionComponent implements AfterViewInit{
           await this.faceFriendsRepo.addAdActivityBulkEntry(friendRequestsRecieved[i].name, friendRequestsRecieved[i].timestamp,"#requestsReceived");
         }
       }
-      else if (filename === "friend_requests_sent.json") {
+      else if (filename === "sent_friend_requests.json") {
         console.log("fileoff---",filename)
         const jsonData = JSON.parse(content);
         const friendRequestsSent = jsonData.sent_requests_v2;
@@ -489,7 +489,7 @@ export class ServiceSelectionComponent implements AfterViewInit{
           await this.faceFriendsRepo.addAdActivityBulkEntry(friendRequestsSent[i].name, friendRequestsSent[i].timestamp,"#requestsSent");
         }
       }
-      else if (filename === "friends.json") {
+      else if (filename === "your_friends.json") {
         console.log("fileoff---",filename)
         const jsonData = JSON.parse(content);
         const friends = jsonData.friends_v2;
@@ -519,10 +519,10 @@ export class ServiceSelectionComponent implements AfterViewInit{
           await this.faceFriendsRepo.addAdActivityBulkEntry(removedFriends[i].name, removedFriends[i].timestamp,"#removedFriends");
         }
       }
-      else if (filename === "who_you_follow.json") {
+      else if (filename === "who_you've_followed.json") {
         console.log("fileoff---",filename)
         const jsonData = JSON.parse(content);
-        const following = jsonData.following_v2;
+        const following = jsonData.following_v3;
 
         await this.faceFriendsRepo.startAdActivityBulkAdd(following[0].name, following[0].timestamp,"#following",following.length);
         for (let i = 1; i < following.length; i++) {
@@ -667,7 +667,7 @@ export class ServiceSelectionComponent implements AfterViewInit{
           }
         }
       }
-      else if(filename === "your_posts_1.json") {
+      else if(filename === "your_posts_1.json" || filename === "your_posts__check_ins__photos_and_videos_1.json") {
         const jsonData = JSON.parse(content);
         const posts = jsonData;
 
