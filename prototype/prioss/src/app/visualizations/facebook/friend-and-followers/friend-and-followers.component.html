@@ -1,23 +1,63 @@
 <div [ngClass]="{'component-page': !previewMode}">
   <div *ngIf="previewMode">
     <nz-row [nzGutter]="16">
-      <nz-col [nzSpan]="10">
-        <nz-statistic [nzValue]="friends.length" [nzTitle]="'Friends'"></nz-statistic>
+      <nz-col [nzSpan]="12">
+        <nz-statistic [nzValue]="friends.length" 
+                      [nzTitle]="'Friends'"
+                      [nzPrefix]="friend"
+                     >
+        </nz-statistic>
+        <ng-template #friend>
+          <span nz-icon nzType="heart"></span>
+        </ng-template>
       </nz-col>
-      <nz-col [nzSpan]="11">
-        <nz-statistic [nzValue]="removedFriends.length" [nzTitle]="'Removed friends'"></nz-statistic>
+      <nz-col [nzSpan]="12">
+        <nz-statistic [nzValue]="removedFriends.length" 
+                      [nzTitle]="'Removed friends'"
+                      [nzPrefix]="removed"
+                      >
+        </nz-statistic>
+        <ng-template #removed>
+          <span nz-icon nzType="usergroup-delete"></span>
+        </ng-template>
       </nz-col>
-      <nz-col [nzSpan]="10">
-        <nz-statistic [nzValue]="friendRequestSent.length" [nzTitle]="'Friend requests sent'"></nz-statistic>
+      <nz-col [nzSpan]="12">
+        <nz-statistic [nzValue]="friendRequestSent.length" 
+                      [nzTitle]="'Requests sent'"
+                      [nzPrefix]="sent"
+                      >
+        </nz-statistic>
+        <ng-template #sent>
+          <span nz-icon nzType="user-add"></span>
+        </ng-template>
       </nz-col>
-      <nz-col [nzSpan]="11">
-        <nz-statistic [nzValue]="friendRequestReceived.length" [nzTitle]="'Friend requests received'"></nz-statistic>
+      <nz-col [nzSpan]="12">
+        <nz-statistic [nzValue]="friendRequestReceived.length" 
+                      [nzTitle]="'Requests received'"
+                      [nzPrefix]="received"
+                      >
+        </nz-statistic>
+        <ng-template #received>
+          <span nz-icon nzType="user-switch"></span>
+        </ng-template>
       </nz-col>
-      <nz-col [nzSpan]="10">
-        <nz-statistic [nzValue]="rejectedFriendRequests.length" [nzTitle]="'Rejected requests'"></nz-statistic>
+      <nz-col [nzSpan]="12">
+        <nz-statistic [nzValue]="rejectedFriendRequests.length" 
+                      [nzTitle]="'Rejected requests'"
+                      [nzPrefix]="rejected">
+        </nz-statistic>
+        <ng-template #rejected>
+          <span nz-icon nzType="user-delete"></span>
+        </ng-template>
       </nz-col>
-      <nz-col [nzSpan]="11">
-        <nz-statistic [nzValue]="whoYouFollow.length" [nzTitle]="'Who you follow'"></nz-statistic>
+      <nz-col [nzSpan]="12">
+        <nz-statistic [nzValue]="whoYouFollow.length" 
+                      [nzTitle]="'Who you follow'"
+                      [nzPrefix]="follow">
+        </nz-statistic>
+        <ng-template #follow>
+          <span nz-icon nzType="smile"></span>
+        </ng-template>
       </nz-col>
     </nz-row>
   </div>
