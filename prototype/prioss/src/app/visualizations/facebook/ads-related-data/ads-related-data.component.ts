@@ -222,7 +222,7 @@ import { OffFacebookActivityModel } from 'src/app/models/Facebook/offfacebookact
 
     svg.append("text")
       .attr("x", xAxisWidth / 2)
-      .attr("y", margin - 50)
+      .attr("y", margin - 10)
       .attr("text-anchor", "middle")
       .style("font-size", "35px")
       .style("font-weight","bold")
