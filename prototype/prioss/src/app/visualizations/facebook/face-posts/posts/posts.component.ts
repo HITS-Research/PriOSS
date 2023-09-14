@@ -357,7 +357,12 @@ export class PostsComponent implements OnInit{
     this.createYearData();
   }
 
-
+  /**
+    * Shows post list for the respective month clicked
+    * 
+    * @author: Rashida (rbharmal@mail.upb.de)
+    *
+  */
   showPostList()
   {
     this.isShowPostList = true;

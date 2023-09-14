@@ -45,12 +45,12 @@ export class FriendAndFollowersComponent implements OnInit{
     this.getData();
   }
 
-   /**
-  * This methods gets all friends and followers related data from PriossDb
-  * 
-  *
-  * @author: rbharmal@mail.upb.de
-  *
+  /**
+    * This methods gets all friends and followers related data from PriossDb
+    * 
+    *
+    * @author: rbharmal@mail.upb.de
+    *
   */
   private getData()
   {
@@ -88,7 +88,7 @@ export class FriendAndFollowersComponent implements OnInit{
     *
     * @author: Rashida (rbharmal@mail.upb.de)
     *
-    */
+  */
 
   createData(friends: any[], id: string, color: string)
   {
@@ -112,13 +112,13 @@ export class FriendAndFollowersComponent implements OnInit{
   }
 
 /**
-    * Creates a bar chart for the friends related data.
-    * 
-    * @param data: The data array (structure: data: any[], id: string, color: string) that should be used to fill the bar chart
-    *
-    * @author: Rashida (rbharmal@mail.upb.de)
-    *
-    */
+  * Creates a bar chart for the friends related data.
+  * 
+  * @param data: The data array (structure: data: any[], id: string, color: string) that should be used to fill the bar chart
+  *
+  * @author: Rashida (rbharmal@mail.upb.de)
+  *
+*/
 
   drawChart(data: any[], id: string, color: string) {
 
@@ -210,41 +210,90 @@ export class FriendAndFollowersComponent implements OnInit{
       .text("Count");
   }
 
+/**
+  * Converts timestamp into date.
+  * 
+  * @param timestamp: the timestamp for date converstion
+  * @author: Rashida (rbharmal@mail.upb.de)
+  *
+*/
   convertToDate(timestamp: number)
   {
     return new Date(timestamp*1000)
   }
- 
+
+/**
+  * Searchs friends array according to the user input
+  * 
+  * @author: Rashida (rbharmal@mail.upb.de)
+  *
+*/
   searchFriends(): void {
     this.visible = false;
     this.friendsFilter = this.friends.filter((item: FacebookFriendsModel) => item.name.indexOf(this.searchValue) !== -1);
   }
 
+  /**
+    * Searchs removed friends array according to the user input
+    * 
+    * @author: Rashida (rbharmal@mail.upb.de)
+    *
+  */
   searchRemovedFriends(): void {
     this.visible = false;
     this.removedFriendsFilter = this.removedFriends.filter((item: FacebookFriendsModel) => item.name.indexOf(this.searchValue) !== -1);
   }
 
+  /**
+    * Searchs friend requests sent array according to the user input
+    * 
+    * @author: Rashida (rbharmal@mail.upb.de)
+    *
+  */
   searchRequestSent(): void {
     this.visible = false;
     this.friendRequestSentFilter = this.friendRequestSent.filter((item: FacebookFriendsModel) => item.name.indexOf(this.searchValue) !== -1);
   }
 
+  /**
+    * Searchs friend requests received array according to the user input
+    * 
+    * @author: Rashida (rbharmal@mail.upb.de)
+    *
+  */
   searchRequestReceived(): void {
     this.visible = false;
     this.friendRequestReceivedFilter = this.friendRequestReceived.filter((item: FacebookFriendsModel) => item.name.indexOf(this.searchValue) !== -1);
   }
 
+  /**
+    * Searchs rejected friends array according to the user input
+    * 
+    * @author: Rashida (rbharmal@mail.upb.de)
+    *
+  */
   searchRejectedFriends(): void {
     this.visible = false;
     this.rejectedFriendRequestsFilter = this.rejectedFriendRequests.filter((item: FacebookFriendsModel) => item.name.indexOf(this.searchValue) !== -1);
   }
 
+  /**
+    * Searchs who you follow array according to the user input
+    * 
+    * @author: Rashida (rbharmal@mail.upb.de)
+    *
+  */
   searchWhoYouFollow(): void {
     this.visible = false;
     this.whoYouFollowFilter = this.whoYouFollow.filter((item: FacebookFriendsModel) => item.name.indexOf(this.searchValue) !== -1);
   }
 
+  /**
+    * Resets the search filter and shows all value for all the arrays
+    * 
+    * @author: Rashida (rbharmal@mail.upb.de)
+    *
+  */
   reset(): void {
     this.searchValue = '';
     this.searchFriends();
