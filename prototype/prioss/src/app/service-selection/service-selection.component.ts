@@ -448,7 +448,7 @@ export class ServiceSelectionComponent implements AfterViewInit{
         }
         console.log("repoads",this.faceAdsInteractedRepo)
       }
-      else if (filename === "apps_and_websites.json") {
+      else if (filename === "connected_apps_and_websites.json") {
          console.log("fileapps---",filename)
          const jsonData = JSON.parse(content);
          const appsAndWebsiteData = jsonData.installed_apps_v2;
