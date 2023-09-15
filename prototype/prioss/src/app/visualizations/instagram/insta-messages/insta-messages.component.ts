@@ -25,7 +25,7 @@ interface UserInOutMessages {
 interface ChatData{
   chat: string;
   yourMessages: number;
-  otherMessages: {sender: string, messages: number}[];
+  otherMessages: {sender: string, messages: number, avg: number}[];
 }
 
 /**
@@ -83,10 +83,10 @@ export class InstaMessagesComponent extends SequenceComponentInit implements Aft
   chatData: ChatData[] = [
     {chat: "Chat1",
     yourMessages: 12,
-    otherMessages:[{sender: "sender1", messages: 5},{sender: "sender2", messages: 10},{sender: "sender3", messages: 15}]},
+    otherMessages:[{sender: "sender1", messages: 5, avg:2.1},{sender: "sender2", messages: 10, avg: 5.0},{sender: "sender3", messages: 15, avg: 2.1}]},
     {chat: "Chat2",
     yourMessages: 2,
-    otherMessages:[{sender: "sender4", messages: 5},{sender: "sender1", messages: 10},{sender: "sender5", messages: 15}]}
+    otherMessages:[{sender: "sender4", messages: 5, avg: 3.0},{sender: "sender1", messages: 10,avg:10.0},{sender: "sender5", messages: 15,avg:4.3}]}
   ];
 
   /**
@@ -98,9 +98,33 @@ export class InstaMessagesComponent extends SequenceComponentInit implements Aft
     this.makeBarChart(this.userInOutMessages);
     this.makeBarOutgoingChart(this.userOutMessages, "#bar1", "#contextmenu-bar1", "#4f5bd5");
     this.makeBarOutgoingChart(this.userInMessages, "#bar2", "#contextmenu-bar2", "#fa7e1e");
-    this.panels.push({active: false, name: 'This is panel header 2',content: "This is panel content 2"});
-    this.panels.push({active: false, name:"This is panel header 4", content:"This is panel content 4"});
-    this.makeHorizontalStackedBarChart(this.chatData);
+    this.panels.pop();
+    for (let i=0; i<this.chatData.length; i++){
+      if(i==0){
+        this.panels.push({ active: true, name: this.chatData[i].chat, content: this.chatData[i].chat });
+      }else{
+        this.panels.push({ active: true , name: this.chatData[i].chat, content: this.chatData[i].chat }); 
+      }   
+    }
+    this.on_collapsable_page_enter();
+    
+  }
+
+  initCollapsable() {
+    for (let i=0; i<this.chatData.length; i++){
+      this.makeHorizontalStackedBarChart(this.chatData, "#"+this.chatData[i].chat+"-barChart-container","#"+this.chatData[i].chat+"-contextmenu-barChart-container");
+    }
+  }
+  /**
+   * This function adds a small delay in loading the collapsable when enter the tab again.
+   * 
+   * @author: Melina (kleber@mail.uni-paderborn.de)
+   */
+  async on_collapsable_page_enter(){
+    while(!document.getElementById(this.chatData[0].chat+"-barChart-container")) {
+      await new Promise(r => setTimeout(r, 100));
+    }
+    this.initCollapsable();
   }
 
   /**
@@ -111,6 +135,7 @@ export class InstaMessagesComponent extends SequenceComponentInit implements Aft
   async ngAfterViewInit() {
     if (!this.previewMode) {
       await this.initComponent();
+
     }
   }
 
@@ -120,14 +145,14 @@ export class InstaMessagesComponent extends SequenceComponentInit implements Aft
   }
 
   //Bar chart for each chat
-  makeHorizontalStackedBarChart(data: ChatData[]){
+  makeHorizontalStackedBarChart(data: ChatData[], container:string, tooltipContainer: string){
     // set the dimensions and margins of the graph
     const margin = {top: 10, right: 30, bottom: 20, left: 50},
     width = 460 - margin.left - margin.right,
     height = 400 - margin.top - margin.bottom;
 
     // append the svg object to the body of the page
-    const svg = d3.select("#barChart-container")
+    const svg = d3.select(container)
       .append("svg")
       .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom)
@@ -164,7 +189,7 @@ export class InstaMessagesComponent extends SequenceComponentInit implements Aft
       .call(d3.axisBottom(x).tickSizeOuter(0));
 
     //find the custom contextmenu
-    const contextMenu = d3.select("#contextmenu-barChart-container");
+    const contextMenu = d3.select(tooltipContainer);
 
     //stack the data? --> stack per subgroup
     const stackedData = d3.stack().keys(subgroups)(flattenedData);
@@ -225,7 +250,7 @@ export class InstaMessagesComponent extends SequenceComponentInit implements Aft
       contextMenu.style('visibility', 'hidden');
       const sender = stackedData.find((stack)=>stack.includes(data))?.key;
       const html = tooltip.html("Sender: "+sender+", messages: "+(data[1]-data[0]).toString());
-      d3.select("#contextmenu-barChart-container").style('cursor', 'pointer');
+      d3.select(tooltipContainer).style('cursor', 'pointer');
       html.style('visibility', 'visible').style('text-align', 'center');
     })
     //Mouse moved: change tooltip position
@@ -364,7 +389,9 @@ export class InstaMessagesComponent extends SequenceComponentInit implements Aft
     const margin = { top: 10, right: 30, bottom: 20, left: 50 },
       width = 550 - margin.left - margin.right,
       height = 400 - margin.top - margin.bottom;
-
+    if(document.getElementById("inOutBar")?.innerHTML != ""){
+      return;
+    }
     // append the svg object to the body of the page
     const svg = d3
       .select('#inOutBar')

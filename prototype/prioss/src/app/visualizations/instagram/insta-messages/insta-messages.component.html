@@ -57,9 +57,9 @@
       <app-title-bar titleText="Chat Information" tooltipText="In the following, information is provided separately for each chat." [includeButton]="false"></app-title-bar>
         <nz-collapse>
             <nz-collapse-panel *ngFor="let panel of panels" [nzHeader]="panel.name" [nzActive]="panel.active">
-              <p>{{ panel.content }}</p>
-              <div id="barChart-container"></div>
-              <div id="contextmenu-barChart-container"></div>
+              
+              <div [id]="panel.name +'-barChart-container'"></div>
+              <div [id]="panel.name +'-contextmenu-barChart-container'"></div>
               <div class="skeleton-container"></div>
               <div class="description-container"></div>
               <div class="activity-container"></div>
