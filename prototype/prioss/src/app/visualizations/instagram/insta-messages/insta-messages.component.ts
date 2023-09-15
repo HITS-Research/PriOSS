@@ -86,7 +86,7 @@ export class InstaMessagesComponent extends SequenceComponentInit implements Aft
     otherMessages:[{sender: "sender1", messages: 5, avg:2.1},{sender: "sender2", messages: 10, avg: 5.0},{sender: "sender3", messages: 15, avg: 2.1}]},
     {chat: "Chat2",
     yourMessages: 2,
-    otherMessages:[{sender: "sender4", messages: 5, avg: 3.0},{sender: "sender1", messages: 10,avg:10.0},{sender: "sender5", messages: 15,avg:4.3}]}
+    otherMessages:[{sender: "sender4", messages: 5, avg: 3.0},{sender: "sender1", messages: 10,avg:10.0},{sender: "sender5", messages: 30,avg:4.3}]}
   ];
 
   /**
@@ -103,16 +103,17 @@ export class InstaMessagesComponent extends SequenceComponentInit implements Aft
       if(i==0){
         this.panels.push({ active: true, name: this.chatData[i].chat, content: this.chatData[i].chat });
       }else{
-        this.panels.push({ active: true , name: this.chatData[i].chat, content: this.chatData[i].chat }); 
+        this.panels.push({ active: false , name: this.chatData[i].chat, content: this.chatData[i].chat }); 
       }   
     }
     this.on_collapsable_page_enter();
+
     
   }
 
   initCollapsable() {
     for (let i=0; i<this.chatData.length; i++){
-      this.makeHorizontalStackedBarChart(this.chatData, "#"+this.chatData[i].chat+"-barChart-container","#"+this.chatData[i].chat+"-contextmenu-barChart-container");
+      this.makeHorizontalStackedBarChart([this.chatData[i]], "#"+this.chatData[i].chat+"-barChart-container", "#"+this.chatData[i].chat+"-contextmenu-barChart-container");
     }
   }
   /**
@@ -147,7 +148,7 @@ export class InstaMessagesComponent extends SequenceComponentInit implements Aft
   //Bar chart for each chat
   makeHorizontalStackedBarChart(data: ChatData[], container:string, tooltipContainer: string){
     // set the dimensions and margins of the graph
-    const margin = {top: 10, right: 30, bottom: 20, left: 50},
+    const margin = {top: 20, right: 30, bottom: 40, left: 90},
     width = 460 - margin.left - margin.right,
     height = 400 - margin.top - margin.bottom;
 
@@ -179,15 +180,6 @@ export class InstaMessagesComponent extends SequenceComponentInit implements Aft
       return chatData.chat;
     });
 
-    // Add X axis
-    const x = d3.scaleBand()
-      .domain(groups)
-      .range([0, width])
-      .padding(0.2)
-    svg.append("g")
-      .attr("transform", "translate(0," + height + ")")
-      .call(d3.axisBottom(x).tickSizeOuter(0));
-
     //find the custom contextmenu
     const contextMenu = d3.select(tooltipContainer);
 
@@ -199,14 +191,22 @@ export class InstaMessagesComponent extends SequenceComponentInit implements Aft
       (max, stack) => Math.max(max, stack[1]),
       0
     );
-    //console.log(maxValue)
 
-    // Add Y axis
-    const y = d3.scaleLinear()
+    //Add X axis
+    const x = d3.scaleLinear()
       .domain([0, maxValue])
-      .range([ height, 0 ]);
+      .range([0,width])
+      svg.append("g")
+      .attr("transform", "translate(0," + height + ")")
+      .call(d3.axisBottom(x));
+
+      //Add Y axis
+    const y = d3.scaleBand()
+      .domain(groups)
+      .range([0, height])
+      .padding(0.2);
     svg.append("g")
-      .call(d3.axisLeft(y));
+      .call(d3.axisLeft(y));   
 
     // create tooltip element
     const tooltip = d3
@@ -221,7 +221,7 @@ export class InstaMessagesComponent extends SequenceComponentInit implements Aft
       .style('border-radius', '5px')
       .style('color', '#fff')
       .text('a simple tooltip');
-
+    
     // Show the bars
     svg.append("g")
       .selectAll("g")
@@ -236,15 +236,16 @@ export class InstaMessagesComponent extends SequenceComponentInit implements Aft
         })
         .selectAll("rect")
       // enter a second time = loop subgroup per subgroup to add all rectangles
-        .data(d => d)
+        .data(d => d)    
         .enter()
           .append("rect")
-          .attr("x", (d) => { 
-            return (x('' + d.data['chat']) || 0) as number;
+          .attr("x", (d) =>x(d[0]))
+          .attr("y", (d) => {
+            return y('' + d.data['chat'])||0 as number;
           })
-          .attr("y", (d) => { return y(d[1]); })
-          .attr("height", (d) => { return y(d[0]) - y(d[1]); })
-          .attr("width",x.bandwidth())
+          .attr("height",y.bandwidth())
+          .attr("width", (d) => { return x(d[1])-x(d[0]) ; })
+          
         //Mouse Hover
     .on('mouseover', (event, data) => {
       contextMenu.style('visibility', 'hidden');

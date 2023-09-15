@@ -57,7 +57,7 @@
       <app-title-bar titleText="Chat Information" tooltipText="In the following, information is provided separately for each chat." [includeButton]="false"></app-title-bar>
         <nz-collapse>
             <nz-collapse-panel *ngFor="let panel of panels" [nzHeader]="panel.name" [nzActive]="panel.active">
-              
+              <p>Total number of messages for each chat member:</p>
               <div [id]="panel.name +'-barChart-container'"></div>
               <div [id]="panel.name +'-contextmenu-barChart-container'"></div>
               <div class="skeleton-container"></div>
