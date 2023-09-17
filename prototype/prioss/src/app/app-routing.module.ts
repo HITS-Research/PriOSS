@@ -44,6 +44,7 @@ import { YourTopicsComponent } from './visualizations/facebook/manage-privacy/yo
 import { SecurityLoginDataComponent } from './visualizations/facebook/security-login-data/security-login-data.component';
 import { MessagesComponent } from './visualizations/facebook/messages/messages.component';
 import { InstaYourTopicComponent } from './visualizations/instagram/insta-your-topic/insta-your-topic.component';
+import { InstaActivityStatusHiddenComponent } from './rectification/instagram/insta-activity-status-hidden/insta-activity-status-hidden.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -94,7 +95,8 @@ const routes: Routes = [
   { path: 'insta/searches', component: InstaSearchesComponent},
   { path: 'face/other-personal-info' ,component: OtherPersonalInfoComponent},
   { path: 'face/posts' ,component: PostsComponent},
-  { path: 'face/messages-info' ,component:MessagesComponent}
+  { path: 'face/messages-info' ,component:MessagesComponent},
+  { path: 'insta/activity-hidden' , component: InstaActivityStatusHiddenComponent},
 ];
 
 @NgModule({
