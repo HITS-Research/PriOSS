@@ -7,28 +7,29 @@
     <!-- <div *ngIf="personalInfo !== undefined"> -->
     <nz-row [nzGutter]="16">
         <nz-col [nzSpan]="12">
-            <nz-statistic [nzValue]="(12)!" [nzTitle]="'Total number of chats'"></nz-statistic>
+            <nz-statistic [nzValue]="(chatData.length)!" [nzTitle]="'Total number of chats'"></nz-statistic>
         </nz-col>
         <nz-col [nzSpan]="12">
-            <nz-statistic [nzValue]="(13)!" [nzTitle]="'Number of one-on-ones chats'"></nz-statistic>
+            <nz-statistic [nzValue]="(chatData.length-totalGroupChats)!"
+                [nzTitle]="'Number of one-on-ones chats'"></nz-statistic>
         </nz-col>
     </nz-row>
     <nz-row [nzGutter]="16">
         <nz-col [nzSpan]="12">
-            <nz-statistic [nzValue]="(14)!" [nzTitle]="'Number of send messages'"></nz-statistic>
+            <nz-statistic [nzValue]="(totalSentMessages)!" [nzTitle]="'Total number of sent messages'"></nz-statistic>
         </nz-col>
         <nz-col [nzSpan]="12">
-            <nz-statistic [nzValue]="(14)!" [nzTitle]="'Number of received messages'"></nz-statistic>
+            <nz-statistic [nzValue]="(totalReceivedMessages)!"
+                [nzTitle]="'Total number of received messages'"></nz-statistic>
         </nz-col>
     </nz-row>
     <!--when not in previewmode the whole page is rendered-->
     <div *ngIf="!previewMode">
         <nz-row [nzGutter]="16">
             <nz-col [nzSpan]="12">
-                <nz-statistic [nzValue]="(14)!" [nzTitle]="'Number of group chats'"></nz-statistic>
+                <nz-statistic [nzValue]="(totalGroupChats)!" [nzTitle]="'Number of group chats'"></nz-statistic>
             </nz-col>
             <nz-col [nzSpan]="12">
-                <nz-statistic [nzValue]="(14)!" [nzTitle]="'Most active chat'"></nz-statistic>
             </nz-col>
         </nz-row>
     </div>
@@ -84,7 +85,6 @@
                     <nz-descriptions-item nzTitle="Audio messages">{{element.audio}}</nz-descriptions-item>
                     <nz-descriptions-item nzTitle="Shared content">{{element.share}}</nz-descriptions-item>
                 </nz-descriptions>
-                <!-- <div class="activity-container"></div> -->
             </nz-collapse-panel>
         </nz-collapse>
     </div>

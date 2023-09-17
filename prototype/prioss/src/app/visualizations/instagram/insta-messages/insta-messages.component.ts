@@ -11,7 +11,6 @@ enum Weekday {
   Saturday = 'Saturday',
   Sunday = 'Sunday',
 }
-
 interface UserMessages {
   chat: string;
   messages: number;
@@ -21,7 +20,6 @@ interface UserInOutMessages {
   ingoing: number;
   outgoing: number;
 }
-
 interface ChatData {
   chat: string;
   yourMessages: number;
@@ -54,7 +52,12 @@ export class InstaMessagesComponent
   @Input()
   previewMode = false;
 
-  // Variables for bar chart
+  //Some variables for the highlights
+  totalSentMessages = 0;
+  totalReceivedMessages = 0;
+  totalGroupChats = 0;
+
+  // Variables for the grouped bar chart
   userInOutMessages: UserInOutMessages[] = [
     { weekday: Weekday.Monday, outgoing: 12, ingoing: 5 },
     { weekday: Weekday.Tuesday, outgoing: 2, ingoing: 10 },
@@ -64,7 +67,8 @@ export class InstaMessagesComponent
     { weekday: Weekday.Saturday, outgoing: 101, ingoing: 30 },
     { weekday: Weekday.Sunday, outgoing: 0, ingoing: 35 },
   ];
-  // Variables for the first pie chart
+
+  // Variables for the blue horizontal bar chart
   userOutMessages: UserMessages[] = [
     { chat: 'Chat 1', messages: 12 },
     { chat: 'Chat 2', messages: 2 },
@@ -73,7 +77,7 @@ export class InstaMessagesComponent
     { chat: 'Chat 5', messages: 14 },
   ];
 
-  // Variables for the second pie chart
+  // Variables for the orange horizontal bar chart
   userInMessages: UserMessages[] = [
     { chat: 'Chat 1', messages: 5 },
     { chat: 'Chat 2', messages: 10 },
@@ -81,6 +85,7 @@ export class InstaMessagesComponent
     { chat: 'Chat 4', messages: 20 },
   ];
 
+  //the panels for the collapsable
   panels = [
     {
       active: true,
@@ -89,6 +94,7 @@ export class InstaMessagesComponent
     },
   ];
 
+  //Chat data used to fill the collapsable
   chatData: ChatData[] = [
     {
       chat: 'Chat1',
@@ -164,14 +170,25 @@ export class InstaMessagesComponent
    * @author: Melina (kleber@mail.uni-paderborn.de)
    */
   async collectData() {
-    this.makeBarChart(this.userInOutMessages);
-    this.makeBarOutgoingChart(
+    this.userInMessages.forEach((data) => {
+      this.totalReceivedMessages += data.messages;
+    });
+    this.userOutMessages.forEach((data) => {
+      this.totalSentMessages += data.messages;
+    });
+    this.chatData.forEach((data) => {
+      if (data.otherMessages.length > 1) {
+        this.totalGroupChats++;
+      }
+    });
+    this.makeGroupedBarChart(this.userInOutMessages);
+    this.makeBarChart(
       this.userOutMessages,
       '#bar1',
       '#contextmenu-bar1',
       '#4f5bd5'
     );
-    this.makeBarOutgoingChart(
+    this.makeBarChart(
       this.userInMessages,
       '#bar2',
       '#contextmenu-bar2',
@@ -196,6 +213,11 @@ export class InstaMessagesComponent
     this.on_collapsable_page_enter();
   }
 
+  /**
+   * This function fills the the charts in the collapsable.
+   *
+   * @author: Melina (kleber@mail.uni-paderborn.de)
+   */
   initCollapsable() {
     for (let i = 0; i < this.chatData.length; i++) {
       this.makeHorizontalStackedBarChart(
@@ -203,12 +225,15 @@ export class InstaMessagesComponent
         '#' + this.chatData[i].chat + '-barChart-container',
         '#' + this.chatData[i].chat + '-contextmenu-barChart-container'
       );
-      this.makeAverageMessageChart(this.chatData[i],'#' + this.chatData[i].chat + '-avg-container',
-      '#' + this.chatData[i].chat + '-contextmenu-avg-container');
+      this.makeAverageMessageChart(
+        this.chatData[i],
+        '#' + this.chatData[i].chat + '-avg-container',
+        '#' + this.chatData[i].chat + '-contextmenu-avg-container'
+      );
     }
   }
   /**
-   * This function adds a small delay in loading the collapsable when enter the tab again.
+   * This function adds a small delay in loading the collapsable that the DOM elements are not null.
    *
    * @author: Melina (kleber@mail.uni-paderborn.de)
    */
@@ -222,7 +247,7 @@ export class InstaMessagesComponent
   }
 
   /**
-   * Builds the graph for the followers and following accounts.
+   * Builds the elements for the messages.
    *
    * @author: Melina (kleber@mail.uni-paderborn.de)
    */
@@ -237,7 +262,14 @@ export class InstaMessagesComponent
     await this.collectData();
   }
 
-  //Bar chart for each chat
+  /**
+   * Creates the horizontal stacked bar chart.
+   * @param data for the chart
+   * @param container where it is displayed
+   * @param tooltipContainer
+   *
+   * @author: Melina (kleber@mail.uni-paderborn.de)
+   */
   makeHorizontalStackedBarChart(
     data: ChatData[],
     container: string,
@@ -370,6 +402,8 @@ export class InstaMessagesComponent
         tooltip.html(``).style('visibility', 'hidden');
       });
   }
+
+  //Lot of colors for the charts
   otherMessageColors: string[] = [
     '#1f77b4',
     '#ff7f0e',
@@ -433,7 +467,14 @@ export class InstaMessagesComponent
     return colors;
   };
 
-  //average message length per chat
+  /**
+   * Creates a horizontal bar chart.
+   * @param data for the chart
+   * @param container where it is displayed
+   * @param tooltipContainer
+   *
+   * @author: Melina (kleber@mail.uni-paderborn.de)
+   */
   makeAverageMessageChart(
     data: ChatData,
     container: string,
@@ -453,9 +494,7 @@ export class InstaMessagesComponent
       .append('g')
       .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
-    const maxValue = Math.max(
-      ...data.otherMessages.map((o) =>o.avg)
-    );
+    const maxValue = Math.max(...data.otherMessages.map((o) => o.avg));
 
     // Add X axis
     const x = d3.scaleLinear().domain([0, maxValue]).range([0, width]);
@@ -507,7 +546,7 @@ export class InstaMessagesComponent
         return x(d.avg);
       })
       .attr('height', y.bandwidth())
-      .attr('fill', "#d62976")
+      .attr('fill', '#d62976')
       //Mouse Hover
       .on('mouseover', (event, data) => {
         contextMenu.style('visibility', 'hidden');
@@ -527,10 +566,17 @@ export class InstaMessagesComponent
         tooltip.html(``).style('visibility', 'hidden');
       });
   }
-  //description component
-  //total activity per weekday/user
 
-  makeBarOutgoingChart(
+  /**
+   * Creates the horizontal bar charts.
+   * @param data for the chart
+   * @param container where it is displayed
+   * @param tooltipContainer
+   * @param color of the bars
+   *
+   * @author: Melina (kleber@mail.uni-paderborn.de)
+   */
+  makeBarChart(
     data: UserMessages[],
     container: string,
     tooltipContainer: string,
@@ -623,7 +669,15 @@ export class InstaMessagesComponent
       });
   }
 
-  makeBarChart(userInOutMessages: UserInOutMessages[]) {
+  /**
+   * Creates the vertial grouped bar chart.
+   * @param data for the chart
+   * @param container where it is displayed
+   * @param tooltipContainer
+   *
+   * @author: Melina (kleber@mail.uni-paderborn.de)
+   */
+  makeGroupedBarChart(userInOutMessages: UserInOutMessages[]) {
     const highestValue = Math.max(
       ...userInOutMessages.map((o) => o.ingoing),
       ...userInOutMessages.map((o) => o.outgoing)
