@@ -1,25 +1,26 @@
 <div [ngClass]="{'component-page': !previewMode}">
     <!--in previewmode only a small table with message information is shown-->
     <div *ngIf="!previewMode">
-        <app-title-bar titleText="Highlights" tooltipText="This are some important entrys in your data download regarding your messages."></app-title-bar>
+        <app-title-bar titleText="Highlights"
+            tooltipText="This are some important entrys in your data download regarding your messages."></app-title-bar>
     </div>
-      <!-- <div *ngIf="personalInfo !== undefined"> -->
-        <nz-row [nzGutter]="16">
-            <nz-col [nzSpan]="12">
+    <!-- <div *ngIf="personalInfo !== undefined"> -->
+    <nz-row [nzGutter]="16">
+        <nz-col [nzSpan]="12">
             <nz-statistic [nzValue]="(12)!" [nzTitle]="'Total number of chats'"></nz-statistic>
-            </nz-col>
-            <nz-col [nzSpan]="12">
+        </nz-col>
+        <nz-col [nzSpan]="12">
             <nz-statistic [nzValue]="(13)!" [nzTitle]="'Number of one-on-ones chats'"></nz-statistic>
-            </nz-col>
-        </nz-row>
-        <nz-row [nzGutter]="16">
-            <nz-col [nzSpan]="12">
-                <nz-statistic [nzValue]="(14)!" [nzTitle]="'Number of send messages'"></nz-statistic>
-            </nz-col>
-            <nz-col [nzSpan]="12">
-                <nz-statistic [nzValue]="(14)!" [nzTitle]="'Number of received messages'"></nz-statistic>
-            </nz-col>
-        </nz-row>
+        </nz-col>
+    </nz-row>
+    <nz-row [nzGutter]="16">
+        <nz-col [nzSpan]="12">
+            <nz-statistic [nzValue]="(14)!" [nzTitle]="'Number of send messages'"></nz-statistic>
+        </nz-col>
+        <nz-col [nzSpan]="12">
+            <nz-statistic [nzValue]="(14)!" [nzTitle]="'Number of received messages'"></nz-statistic>
+        </nz-col>
+    </nz-row>
     <!--when not in previewmode the whole page is rendered-->
     <div *ngIf="!previewMode">
         <nz-row [nzGutter]="16">
@@ -33,42 +34,58 @@
     </div>
     <br>
     <div *ngIf="!previewMode">
-      <!--Titlebar component -->
-      <app-title-bar titleText="Weekly activity" tooltipText="The following bar chart shows how many messages you have received or sent per weekday. All your chats have been taken into account and added together." [includeButton]="false"></app-title-bar>
-      <nz-card>
-        <div id="inOutBar"></div>
-        <div id="contextmenu"></div>
-      </nz-card>
-      <br>
-      <app-title-bar titleText="Total number of messages" tooltipText="The following horizontal bar charts show how many messages you have received or sent. " [includeButton]="false"></app-title-bar>
-      <nz-card>
-        <nz-row>
-            <nz-col [nzSpan]="12">
-            <div id="bar1"></div>
-            <div id="contextmenu-bar1"></div>
-            </nz-col>
-            <nz-col [nzSpan]="12">
-            <div id="bar2"></div>
-            <div id="contextmenu-bar2"></div>
-            </nz-col>
-        </nz-row>
-      </nz-card>
-      <br>
-      <app-title-bar titleText="Chat Information" tooltipText="In the following, information is provided separately for each chat." [includeButton]="false"></app-title-bar>
+        <!--Titlebar component -->
+        <app-title-bar titleText="Weekly activity"
+            tooltipText="The following bar chart shows how many messages you have received or sent per weekday. All your chats have been taken into account and added together."
+            [includeButton]="false"></app-title-bar>
+        <nz-card>
+            <div id="inOutBar"></div>
+            <div id="contextmenu"></div>
+        </nz-card>
+        <br>
+        <app-title-bar titleText="Total number of messages"
+            tooltipText="The following horizontal bar charts show how many messages you have received or sent. "
+            [includeButton]="false"></app-title-bar>
+        <nz-card>
+            <nz-row>
+                <nz-col [nzSpan]="12">
+                    <div id="bar1"></div>
+                    <div id="contextmenu-bar1"></div>
+                </nz-col>
+                <nz-col [nzSpan]="12">
+                    <div id="bar2"></div>
+                    <div id="contextmenu-bar2"></div>
+                </nz-col>
+            </nz-row>
+        </nz-card>
+        <br>
+        <app-title-bar titleText="Chat Information"
+            tooltipText="In the following, information is provided separately for each chat."
+            [includeButton]="false"></app-title-bar>
         <nz-collapse>
-            <nz-collapse-panel *ngFor="let panel of panels; let index=index;" [nzHeader]="panel.name" [nzActive]="panel.active">
-              <p>Total number of messages for each chat member:</p>
-              <div [id]="panel.name +'-barChart-container'"></div>
-              <div [id]="panel.name +'-contextmenu-barChart-container'"></div>
-              <!-- <div class="skeleton-container"></div> -->
-              <nz-descriptions *ngFor="let element of chatData[index].otherMessages" nzTitle="{{element.sender}} message information" [nzBordered]="true" [nzColumn]="2">
-                <nz-descriptions-item nzTitle="Text messages">{{element.text}}</nz-descriptions-item>
-                <nz-descriptions-item nzTitle="Photos">{{element.photos}}</nz-descriptions-item>
-                <nz-descriptions-item nzTitle="Audio messages">{{element.audio}}</nz-descriptions-item>
-                <nz-descriptions-item nzTitle="Shared content">{{element.share}}</nz-descriptions-item>
-              </nz-descriptions>
-              <!-- <div class="activity-container"></div> -->
+            <nz-collapse-panel *ngFor="let panel of panels; let index=index;" [nzHeader]="panel.name"
+                [nzActive]="panel.active">
+                <nz-row>
+                    <nz-col [nzSpan]="12">
+                        <p>Total number of messages for each chat member:</p>
+                        <div [id]="panel.name +'-barChart-container'"></div>
+                        <div [id]="panel.name +'-contextmenu-barChart-container'"></div>
+                    </nz-col>
+                    <nz-col [nzSpan]="12">
+                        <p>Average message length:</p>
+                        <div [id]="panel.name +'-avg-container'"></div>
+                        <div [id]="panel.name +'-contextmenu-avg-container'"></div>
+                    </nz-col>
+                </nz-row>
+                <nz-descriptions *ngFor="let element of chatData[index].otherMessages"
+                    nzTitle="{{element.sender}} message information" [nzBordered]="true" [nzColumn]="2">
+                    <nz-descriptions-item nzTitle="Text messages">{{element.text}}</nz-descriptions-item>
+                    <nz-descriptions-item nzTitle="Photos">{{element.photos}}</nz-descriptions-item>
+                    <nz-descriptions-item nzTitle="Audio messages">{{element.audio}}</nz-descriptions-item>
+                    <nz-descriptions-item nzTitle="Shared content">{{element.share}}</nz-descriptions-item>
+                </nz-descriptions>
+                <!-- <div class="activity-container"></div> -->
             </nz-collapse-panel>
         </nz-collapse>
-    </div> 
+    </div>
 </div>

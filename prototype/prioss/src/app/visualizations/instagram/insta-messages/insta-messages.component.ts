@@ -12,7 +12,7 @@ enum Weekday {
   Sunday = 'Sunday',
 }
 
-interface UserMessages{
+interface UserMessages {
   chat: string;
   messages: number;
 }
@@ -22,10 +22,18 @@ interface UserInOutMessages {
   outgoing: number;
 }
 
-interface ChatData{
+interface ChatData {
   chat: string;
   yourMessages: number;
-  otherMessages: {sender: string, messages: number, avg: number, text: number, share:number, audio: number, photos: number}[];
+  otherMessages: {
+    sender: string;
+    messages: number;
+    avg: number;
+    text: number;
+    share: number;
+    audio: number;
+    photos: number;
+  }[];
 }
 
 /**
@@ -39,8 +47,9 @@ interface ChatData{
   templateUrl: './insta-messages.component.html',
   styleUrls: ['./insta-messages.component.less'],
 })
-
-export class InstaMessagesComponent extends SequenceComponentInit implements AfterViewInit
+export class InstaMessagesComponent
+  extends SequenceComponentInit
+  implements AfterViewInit
 {
   @Input()
   previewMode = false;
@@ -61,7 +70,7 @@ export class InstaMessagesComponent extends SequenceComponentInit implements Aft
     { chat: 'Chat 2', messages: 2 },
     { chat: 'Chat 3', messages: 3 },
     { chat: 'Chat 4', messages: 50 },
-    { chat: 'Chat 5', messages: 14 }
+    { chat: 'Chat 5', messages: 14 },
   ];
 
   // Variables for the second pie chart
@@ -69,24 +78,84 @@ export class InstaMessagesComponent extends SequenceComponentInit implements Aft
     { chat: 'Chat 1', messages: 5 },
     { chat: 'Chat 2', messages: 10 },
     { chat: 'Chat 3', messages: 15 },
-    { chat: 'Chat 4', messages: 20 }
+    { chat: 'Chat 4', messages: 20 },
   ];
 
   panels = [
     {
       active: true,
       name: 'This is panel header 1',
-      content: "This is panel content 1",
-    }
+      content: 'This is panel content 1',
+    },
   ];
 
   chatData: ChatData[] = [
-    {chat: "Chat1",
-    yourMessages: 12,
-    otherMessages:[{sender: "sender1", messages: 5, avg:2.1, text: 4, share:2, audio: 12, photos: 2},{sender: "sender2", messages: 10, avg: 5.0, text: 4, share:2, audio: 12, photos: 2},{sender: "sender3", messages: 15, avg: 2.1, text: 4, share:2, audio: 12, photos: 2}]},
-    {chat: "Chat2",
-    yourMessages: 2,
-    otherMessages:[{sender: "sender4", messages: 5, avg: 3.0,text: 4, share:2, audio: 12, photos: 2},{sender: "sender1", messages: 10,avg:10.0,text: 4, share:2, audio: 12, photos: 2},{sender: "sender5", messages: 30,avg:4.3,text: 4, share:2, audio: 12, photos: 2}]}
+    {
+      chat: 'Chat1',
+      yourMessages: 12,
+      otherMessages: [
+        {
+          sender: 'sender1',
+          messages: 5,
+          avg: 2.1,
+          text: 4,
+          share: 2,
+          audio: 12,
+          photos: 2,
+        },
+        {
+          sender: 'sender2',
+          messages: 10,
+          avg: 5.0,
+          text: 4,
+          share: 2,
+          audio: 12,
+          photos: 2,
+        },
+        {
+          sender: 'sender3',
+          messages: 15,
+          avg: 2.1,
+          text: 4,
+          share: 2,
+          audio: 12,
+          photos: 2,
+        },
+      ],
+    },
+    {
+      chat: 'Chat2',
+      yourMessages: 2,
+      otherMessages: [
+        {
+          sender: 'sender4',
+          messages: 5,
+          avg: 3.0,
+          text: 4,
+          share: 2,
+          audio: 12,
+          photos: 2,
+        },
+        {
+          sender: 'sender1',
+          messages: 10,
+          avg: 10.0,
+          text: 4,
+          share: 2,
+          audio: 12,
+          photos: 2,
+        },
+        {
+          sender: 'sender5',
+          messages: 30,
+          avg: 4.3,
+          text: 4,
+          share: 2,
+          audio: 12,
+          photos: 2,
+        },
+      ],
+    },
   ];
 
   /**
@@ -96,34 +165,58 @@ export class InstaMessagesComponent extends SequenceComponentInit implements Aft
    */
   async collectData() {
     this.makeBarChart(this.userInOutMessages);
-    this.makeBarOutgoingChart(this.userOutMessages, "#bar1", "#contextmenu-bar1", "#4f5bd5");
-    this.makeBarOutgoingChart(this.userInMessages, "#bar2", "#contextmenu-bar2", "#fa7e1e");
+    this.makeBarOutgoingChart(
+      this.userOutMessages,
+      '#bar1',
+      '#contextmenu-bar1',
+      '#4f5bd5'
+    );
+    this.makeBarOutgoingChart(
+      this.userInMessages,
+      '#bar2',
+      '#contextmenu-bar2',
+      '#fa7e1e'
+    );
     this.panels.pop();
-    for (let i=0; i<this.chatData.length; i++){
-      if(i==0){
-        this.panels.push({ active: true, name: this.chatData[i].chat, content: this.chatData[i].chat });
-      }else{
-        this.panels.push({ active: false , name: this.chatData[i].chat, content: this.chatData[i].chat }); 
-      }   
+    for (let i = 0; i < this.chatData.length; i++) {
+      if (i == 0) {
+        this.panels.push({
+          active: true,
+          name: this.chatData[i].chat,
+          content: this.chatData[i].chat,
+        });
+      } else {
+        this.panels.push({
+          active: false,
+          name: this.chatData[i].chat,
+          content: this.chatData[i].chat,
+        });
+      }
     }
     this.on_collapsable_page_enter();
-
-    
   }
 
   initCollapsable() {
-    for (let i=0; i<this.chatData.length; i++){
-      this.makeHorizontalStackedBarChart([this.chatData[i]], "#"+this.chatData[i].chat+"-barChart-container", "#"+this.chatData[i].chat+"-contextmenu-barChart-container");
+    for (let i = 0; i < this.chatData.length; i++) {
+      this.makeHorizontalStackedBarChart(
+        [this.chatData[i]],
+        '#' + this.chatData[i].chat + '-barChart-container',
+        '#' + this.chatData[i].chat + '-contextmenu-barChart-container'
+      );
+      this.makeAverageMessageChart(this.chatData[i],'#' + this.chatData[i].chat + '-avg-container',
+      '#' + this.chatData[i].chat + '-contextmenu-avg-container');
     }
   }
   /**
    * This function adds a small delay in loading the collapsable when enter the tab again.
-   * 
+   *
    * @author: Melina (kleber@mail.uni-paderborn.de)
    */
-  async on_collapsable_page_enter(){
-    while(!document.getElementById(this.chatData[0].chat+"-barChart-container")) {
-      await new Promise(r => setTimeout(r, 100));
+  async on_collapsable_page_enter() {
+    while (
+      !document.getElementById(this.chatData[0].chat + '-barChart-container')
+    ) {
+      await new Promise((r) => setTimeout(r, 100));
     }
     this.initCollapsable();
   }
@@ -136,7 +229,6 @@ export class InstaMessagesComponent extends SequenceComponentInit implements Aft
   async ngAfterViewInit() {
     if (!this.previewMode) {
       await this.initComponent();
-
     }
   }
 
@@ -146,34 +238,45 @@ export class InstaMessagesComponent extends SequenceComponentInit implements Aft
   }
 
   //Bar chart for each chat
-  makeHorizontalStackedBarChart(data: ChatData[], container:string, tooltipContainer: string){
+  makeHorizontalStackedBarChart(
+    data: ChatData[],
+    container: string,
+    tooltipContainer: string
+  ) {
     // set the dimensions and margins of the graph
-    const margin = {top: 20, right: 30, bottom: 40, left: 90},
-    width = 460 - margin.left - margin.right,
-    height = 400 - margin.top - margin.bottom;
+    const margin = { top: 20, right: 30, bottom: 40, left: 90 },
+      width = 460 - margin.left - margin.right,
+      height = 400 - margin.top - margin.bottom;
 
     // append the svg object to the body of the page
-    const svg = d3.select(container)
-      .append("svg")
-      .attr("width", width + margin.left + margin.right)
-      .attr("height", height + margin.top + margin.bottom)
-      .append("g")
-      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    const svg = d3
+      .select(container)
+      .append('svg')
+      .attr('width', width + margin.left + margin.right)
+      .attr('height', height + margin.top + margin.bottom)
+      .append('g')
+      .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
-    const senders = new Set<string>()
+    const senders = new Set<string>();
     senders.add('me');
-    data.forEach((d: ChatData) => { d.otherMessages.forEach((otherMessage => senders.add(otherMessage.sender))); });
+    data.forEach((d: ChatData) => {
+      d.otherMessages.forEach((otherMessage) =>
+        senders.add(otherMessage.sender)
+      );
+    });
     const subgroups = Array.from(senders);
     const flattenedData: any[] = [];
     data.forEach((chatData: ChatData) => {
-
-      const myMessages: any = {chat: `Me to ${chatData.chat}`};
-      const otherMessages: any = {chat: chatData.chat};
+      const myMessages: any = { chat: `Me to ${chatData.chat}` };
+      const otherMessages: any = { chat: chatData.chat };
       subgroups.forEach((sender: string) => {
         myMessages[sender] = 0;
-        otherMessages[sender] = chatData.otherMessages.find((otherMessage) => otherMessage.sender === sender)?.messages || 0;
+        otherMessages[sender] =
+          chatData.otherMessages.find(
+            (otherMessage) => otherMessage.sender === sender
+          )?.messages || 0;
       });
-      flattenedData.push({...myMessages, me: chatData.yourMessages});
+      flattenedData.push({ ...myMessages, me: chatData.yourMessages });
       flattenedData.push(otherMessages);
     });
     const groups = d3.map(flattenedData, (chatData) => {
@@ -193,20 +296,15 @@ export class InstaMessagesComponent extends SequenceComponentInit implements Aft
     );
 
     //Add X axis
-    const x = d3.scaleLinear()
-      .domain([0, maxValue])
-      .range([0,width])
-      svg.append("g")
-      .attr("transform", "translate(0," + height + ")")
+    const x = d3.scaleLinear().domain([0, maxValue]).range([0, width]);
+    svg
+      .append('g')
+      .attr('transform', 'translate(0,' + height + ')')
       .call(d3.axisBottom(x));
 
-      //Add Y axis
-    const y = d3.scaleBand()
-      .domain(groups)
-      .range([0, height])
-      .padding(0.2);
-    svg.append("g")
-      .call(d3.axisLeft(y));   
+    //Add Y axis
+    const y = d3.scaleBand().domain(groups).range([0, height]).padding(0.2);
+    svg.append('g').call(d3.axisLeft(y));
 
     // create tooltip element
     const tooltip = d3
@@ -221,116 +319,162 @@ export class InstaMessagesComponent extends SequenceComponentInit implements Aft
       .style('border-radius', '5px')
       .style('color', '#fff')
       .text('a simple tooltip');
-    
+
     // Show the bars
-    svg.append("g")
-      .selectAll("g")
-    // Enter in the stack data = loop key per key = group per group
+    svg
+      .append('g')
+      .selectAll('g')
+      // Enter in the stack data = loop key per key = group per group
       .data(stackedData)
       .enter()
-        .append("g")
-        .attr("fill", (d) => { 
-          return this.colorFactory(subgroups.length)[
+      .append('g')
+      .attr('fill', (d) => {
+        return (
+          this.colorFactory(subgroups.length)[
             subgroups.findIndex((sender) => sender === d.key)
-          ] ?? '#999999';
-        })
-        .selectAll("rect")
+          ] ?? '#999999'
+        );
+      })
+      .selectAll('rect')
       // enter a second time = loop subgroup per subgroup to add all rectangles
-        .data(d => d)    
-        .enter()
-          .append("rect")
-          .attr("x", (d) =>x(d[0]))
-          .attr("y", (d) => {
-            return y('' + d.data['chat'])||0 as number;
-          })
-          .attr("height",y.bandwidth())
-          .attr("width", (d) => { return x(d[1])-x(d[0]) ; })
-          
-        //Mouse Hover
-    .on('mouseover', (event, data) => {
-      contextMenu.style('visibility', 'hidden');
-      const sender = stackedData.find((stack)=>stack.includes(data))?.key;
-      const html = tooltip.html("Sender: "+sender+", messages: "+(data[1]-data[0]).toString());
-      d3.select(tooltipContainer).style('cursor', 'pointer');
-      html.style('visibility', 'visible').style('text-align', 'center');
-    })
-    //Mouse moved: change tooltip position
-    .on('mousemove', function (event) {
-      tooltip
-        .style('top', event.pageY - 10 + 'px')
-        .style('left', event.pageX + 10 + 'px');
-    })
-    //Mouse not hovering: hide tooltip
-    .on('mouseout', function () {
-      tooltip.html(``).style('visibility', 'hidden');
-    });
-  } 
+      .data((d) => d)
+      .enter()
+      .append('rect')
+      .attr('x', (d) => x(d[0]))
+      .attr('y', (d) => {
+        return y('' + d.data['chat']) || (0 as number);
+      })
+      .attr('height', y.bandwidth())
+      .attr('width', (d) => {
+        return x(d[1]) - x(d[0]);
+      })
+
+      //Mouse Hover
+      .on('mouseover', (event, data) => {
+        contextMenu.style('visibility', 'hidden');
+        const sender = stackedData.find((stack) => stack.includes(data))?.key;
+        const html = tooltip.html(
+          'Sender: ' + sender + ', messages: ' + (data[1] - data[0]).toString()
+        );
+        d3.select(tooltipContainer).style('cursor', 'pointer');
+        html.style('visibility', 'visible').style('text-align', 'center');
+      })
+      //Mouse moved: change tooltip position
+      .on('mousemove', function (event) {
+        tooltip
+          .style('top', event.pageY - 10 + 'px')
+          .style('left', event.pageX + 10 + 'px');
+      })
+      //Mouse not hovering: hide tooltip
+      .on('mouseout', function () {
+        tooltip.html(``).style('visibility', 'hidden');
+      });
+  }
   otherMessageColors: string[] = [
-    "#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd",
-    "#8c564b", "#e377c2", "#7f7f7f", "#bcbd22", "#17becf",
-    "#393b79", "#e6550d", "#31a354", "#d62728", "#756bb1",
-    "#8ca252", "#1f77b4", "#b2df8a", "#fd8d3c", "#6b6ecf",
-    "#bd9e39", "#2ca02c", "#ff9896", "#9467bd", "#c5b0d5",
-    "#8c564b", "#c49c94", "#e377c2", "#f7b6d2", "#7f7f7f",
-    "#c7c7c7", "#bcbd22", "#dbdb8d", "#17becf", "#9edae5",
-    "#393b79", "#7b4173", "#5254a3", "#ce6dbd", "#3182bd",
-    "#e6550d", "#fd8d3c", "#fdae6b", "#31a354", "#74c476",
-    "#a1d99b", "#c7e9c0", "#756bb1", "#9e9ac8", "#bcbddc"
+    '#1f77b4',
+    '#ff7f0e',
+    '#2ca02c',
+    '#d62728',
+    '#9467bd',
+    '#8c564b',
+    '#e377c2',
+    '#7f7f7f',
+    '#bcbd22',
+    '#17becf',
+    '#393b79',
+    '#e6550d',
+    '#31a354',
+    '#d62728',
+    '#756bb1',
+    '#8ca252',
+    '#1f77b4',
+    '#b2df8a',
+    '#fd8d3c',
+    '#6b6ecf',
+    '#bd9e39',
+    '#2ca02c',
+    '#ff9896',
+    '#9467bd',
+    '#c5b0d5',
+    '#8c564b',
+    '#c49c94',
+    '#e377c2',
+    '#f7b6d2',
+    '#7f7f7f',
+    '#c7c7c7',
+    '#bcbd22',
+    '#dbdb8d',
+    '#17becf',
+    '#9edae5',
+    '#393b79',
+    '#7b4173',
+    '#5254a3',
+    '#ce6dbd',
+    '#3182bd',
+    '#e6550d',
+    '#fd8d3c',
+    '#fdae6b',
+    '#31a354',
+    '#74c476',
+    '#a1d99b',
+    '#c7e9c0',
+    '#756bb1',
+    '#9e9ac8',
+    '#bcbddc',
   ];
-  currentColorIndex = this.otherMessageColors.length -1;
+  currentColorIndex = this.otherMessageColors.length - 1;
   colorFactory = (senderAmount: number) => {
     const colors: string[] = ['#377eb8'];
     for (let i = 1; i < senderAmount; i++) {
-      this.currentColorIndex = (this.currentColorIndex + 1) % this.otherMessageColors.length;
-      colors.push( this.otherMessageColors[this.currentColorIndex]);
+      this.currentColorIndex =
+        (this.currentColorIndex + 1) % this.otherMessageColors.length;
+      colors.push(this.otherMessageColors[this.currentColorIndex]);
     }
     return colors;
-  }
+  };
 
   //average message length per chat
-  //description component
-  //total activity per weekday/user
-
-  makeBarOutgoingChart(data : UserMessages[], container: string, tooltipContainer: string, color: string){
+  makeAverageMessageChart(
+    data: ChatData,
+    container: string,
+    tooltipContainer: string
+  ) {
     // set the dimensions and margins of the graph
-    const margin = {top: 20, right: 30, bottom: 40, left: 90},
-    width = 460 - margin.left - margin.right,
-    height = 400 - margin.top - margin.bottom;
+    const margin = { top: 20, right: 30, bottom: 40, left: 90 },
+      width = 460 - margin.left - margin.right,
+      height = 400 - margin.top - margin.bottom;
 
     // append the svg object to the body of the page
-    const svg = d3.select(container)
-    .append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-    .append("g")
-    .attr("transform",
-          "translate(" + margin.left + "," + margin.top + ")");
+    const svg = d3
+      .select(container)
+      .append('svg')
+      .attr('width', width + margin.left + margin.right)
+      .attr('height', height + margin.top + margin.bottom)
+      .append('g')
+      .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
-    const maxValue = Math.max(...data.map((o) => o.messages));
+    const maxValue = Math.max(
+      ...data.otherMessages.map((o) =>o.avg)
+    );
 
     // Add X axis
-    const x = d3.scaleLinear()
-    .domain([0, maxValue])
-    .range([0, width]);
-    svg.append("g")
-    .attr("transform", "translate(0," + height + ")")
-    .call(d3.axisBottom(x))
-    .selectAll("text")
-      .attr("transform", "translate(-10,0)rotate(-45)")
-      .style("text-anchor", "end");
+    const x = d3.scaleLinear().domain([0, maxValue]).range([0, width]);
+    svg
+      .append('g')
+      .attr('transform', 'translate(0,' + height + ')')
+      .call(d3.axisBottom(x))
+      .selectAll('text')
+      .attr('transform', 'translate(-10,0)rotate(-45)')
+      .style('text-anchor', 'end');
 
     // List of chats (their names) -> labels for the y-axis
-    const labels = d3.map(data, function (d) {
-      return d.chat;
+    const labels = d3.map(data.otherMessages, function (d) {
+      return d.sender;
     });
 
     // Y axis
-    const y = d3.scaleBand()
-    .range([ 0, height ])
-    .domain(labels)
-    .padding(0.2);
-    svg.append("g")
-    .call(d3.axisLeft(y))
+    const y = d3.scaleBand().range([0, height]).domain(labels).padding(0.2);
+    svg.append('g').call(d3.axisLeft(y));
 
     // create tooltip element
     const tooltip = d3
@@ -351,33 +495,132 @@ export class InstaMessagesComponent extends SequenceComponentInit implements Aft
 
     // Show the bars
     svg
-    .selectAll("myRect")
-    .data(data)
-    .enter()
-    .append("rect")
-    .attr('x', 0)
-    .attr("y", function(d)  { return y(d.chat) || 0; })
-    .attr("width", function(d) { return x(d.messages); })
-    .attr("height", y.bandwidth() )
-    .attr("fill", color)
-    //Mouse Hover
-    .on('mouseover', (event, data) => {
-      contextMenu.style('visibility', 'hidden');
-      const html = tooltip.html(data.messages.toString());
-      d3.select(tooltipContainer).style('cursor', 'pointer');
+      .selectAll('myRect')
+      .data(data.otherMessages)
+      .enter()
+      .append('rect')
+      .attr('x', 0)
+      .attr('y', function (d) {
+        return y(d.sender) || 0;
+      })
+      .attr('width', function (d) {
+        return x(d.avg);
+      })
+      .attr('height', y.bandwidth())
+      .attr('fill', "#d62976")
+      //Mouse Hover
+      .on('mouseover', (event, data) => {
+        contextMenu.style('visibility', 'hidden');
+        const html = tooltip.html(data.avg.toString());
+        d3.select(tooltipContainer).style('cursor', 'pointer');
 
-      html.style('visibility', 'visible').style('text-align', 'center');
-    })
-    //Mouse moved: change tooltip position
-    .on('mousemove', function (event) {
-      tooltip
-        .style('top', event.pageY - 10 + 'px')
-        .style('left', event.pageX + 10 + 'px');
-    })
-    //Mouse not hovering: hide tooltip
-    .on('mouseout', function () {
-      tooltip.html(``).style('visibility', 'hidden');
+        html.style('visibility', 'visible').style('text-align', 'center');
+      })
+      //Mouse moved: change tooltip position
+      .on('mousemove', function (event) {
+        tooltip
+          .style('top', event.pageY - 10 + 'px')
+          .style('left', event.pageX + 10 + 'px');
+      })
+      //Mouse not hovering: hide tooltip
+      .on('mouseout', function () {
+        tooltip.html(``).style('visibility', 'hidden');
+      });
+  }
+  //description component
+  //total activity per weekday/user
+
+  makeBarOutgoingChart(
+    data: UserMessages[],
+    container: string,
+    tooltipContainer: string,
+    color: string
+  ) {
+    // set the dimensions and margins of the graph
+    const margin = { top: 20, right: 30, bottom: 40, left: 90 },
+      width = 460 - margin.left - margin.right,
+      height = 400 - margin.top - margin.bottom;
+
+    // append the svg object to the body of the page
+    const svg = d3
+      .select(container)
+      .append('svg')
+      .attr('width', width + margin.left + margin.right)
+      .attr('height', height + margin.top + margin.bottom)
+      .append('g')
+      .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+
+    const maxValue = Math.max(...data.map((o) => o.messages));
+
+    // Add X axis
+    const x = d3.scaleLinear().domain([0, maxValue]).range([0, width]);
+    svg
+      .append('g')
+      .attr('transform', 'translate(0,' + height + ')')
+      .call(d3.axisBottom(x))
+      .selectAll('text')
+      .attr('transform', 'translate(-10,0)rotate(-45)')
+      .style('text-anchor', 'end');
+
+    // List of chats (their names) -> labels for the y-axis
+    const labels = d3.map(data, function (d) {
+      return d.chat;
     });
+
+    // Y axis
+    const y = d3.scaleBand().range([0, height]).domain(labels).padding(0.2);
+    svg.append('g').call(d3.axisLeft(y));
+
+    // create tooltip element
+    const tooltip = d3
+      .select('body')
+      .append('div')
+      .attr('class', 'd3-tooltip')
+      .style('position', 'absolute')
+      .style('z-index', '10')
+      .style('visibility', 'hidden')
+      .style('padding', '15px')
+      .style('background', 'rgba(0,0,0,0.6)')
+      .style('border-radius', '5px')
+      .style('color', '#fff')
+      .text('a simple tooltip');
+
+    //find the custom contextmenu
+    const contextMenu = d3.select(tooltipContainer);
+
+    // Show the bars
+    svg
+      .selectAll('myRect')
+      .data(data)
+      .enter()
+      .append('rect')
+      .attr('x', 0)
+      .attr('y', function (d) {
+        return y(d.chat) || 0;
+      })
+      .attr('width', function (d) {
+        return x(d.messages);
+      })
+      .attr('height', y.bandwidth())
+      .attr('fill', color)
+      //Mouse Hover
+      .on('mouseover', (event, data) => {
+        contextMenu.style('visibility', 'hidden');
+        const html = tooltip.html(data.messages.toString());
+        d3.select(tooltipContainer).style('cursor', 'pointer');
+
+        html.style('visibility', 'visible').style('text-align', 'center');
+      })
+      //Mouse moved: change tooltip position
+      .on('mousemove', function (event) {
+        tooltip
+          .style('top', event.pageY - 10 + 'px')
+          .style('left', event.pageX + 10 + 'px');
+      })
+      //Mouse not hovering: hide tooltip
+      .on('mouseout', function () {
+        tooltip.html(``).style('visibility', 'hidden');
+      });
   }
 
   makeBarChart(userInOutMessages: UserInOutMessages[]) {
@@ -390,7 +633,7 @@ export class InstaMessagesComponent extends SequenceComponentInit implements Aft
     const margin = { top: 10, right: 30, bottom: 20, left: 50 },
       width = 550 - margin.left - margin.right,
       height = 400 - margin.top - margin.bottom;
-    if(document.getElementById("inOutBar")?.innerHTML != ""){
+    if (document.getElementById('inOutBar')?.innerHTML != '') {
       return;
     }
     // append the svg object to the body of the page
