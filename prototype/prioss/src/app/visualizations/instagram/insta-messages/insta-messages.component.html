@@ -56,13 +56,18 @@
       <br>
       <app-title-bar titleText="Chat Information" tooltipText="In the following, information is provided separately for each chat." [includeButton]="false"></app-title-bar>
         <nz-collapse>
-            <nz-collapse-panel *ngFor="let panel of panels" [nzHeader]="panel.name" [nzActive]="panel.active">
+            <nz-collapse-panel *ngFor="let panel of panels; let index=index;" [nzHeader]="panel.name" [nzActive]="panel.active">
               <p>Total number of messages for each chat member:</p>
               <div [id]="panel.name +'-barChart-container'"></div>
               <div [id]="panel.name +'-contextmenu-barChart-container'"></div>
-              <div class="skeleton-container"></div>
-              <div class="description-container"></div>
-              <div class="activity-container"></div>
+              <!-- <div class="skeleton-container"></div> -->
+              <nz-descriptions *ngFor="let element of chatData[index].otherMessages" nzTitle="{{element.sender}} message information" [nzBordered]="true" [nzColumn]="2">
+                <nz-descriptions-item nzTitle="Text messages">{{element.text}}</nz-descriptions-item>
+                <nz-descriptions-item nzTitle="Photos">{{element.photos}}</nz-descriptions-item>
+                <nz-descriptions-item nzTitle="Audio messages">{{element.audio}}</nz-descriptions-item>
+                <nz-descriptions-item nzTitle="Shared content">{{element.share}}</nz-descriptions-item>
+              </nz-descriptions>
+              <!-- <div class="activity-container"></div> -->
             </nz-collapse-panel>
         </nz-collapse>
     </div> 

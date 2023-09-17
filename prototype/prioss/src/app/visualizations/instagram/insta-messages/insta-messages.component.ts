@@ -25,7 +25,7 @@ interface UserInOutMessages {
 interface ChatData{
   chat: string;
   yourMessages: number;
-  otherMessages: {sender: string, messages: number, avg: number}[];
+  otherMessages: {sender: string, messages: number, avg: number, text: number, share:number, audio: number, photos: number}[];
 }
 
 /**
@@ -83,10 +83,10 @@ export class InstaMessagesComponent extends SequenceComponentInit implements Aft
   chatData: ChatData[] = [
     {chat: "Chat1",
     yourMessages: 12,
-    otherMessages:[{sender: "sender1", messages: 5, avg:2.1},{sender: "sender2", messages: 10, avg: 5.0},{sender: "sender3", messages: 15, avg: 2.1}]},
+    otherMessages:[{sender: "sender1", messages: 5, avg:2.1, text: 4, share:2, audio: 12, photos: 2},{sender: "sender2", messages: 10, avg: 5.0, text: 4, share:2, audio: 12, photos: 2},{sender: "sender3", messages: 15, avg: 2.1, text: 4, share:2, audio: 12, photos: 2}]},
     {chat: "Chat2",
     yourMessages: 2,
-    otherMessages:[{sender: "sender4", messages: 5, avg: 3.0},{sender: "sender1", messages: 10,avg:10.0},{sender: "sender5", messages: 30,avg:4.3}]}
+    otherMessages:[{sender: "sender4", messages: 5, avg: 3.0,text: 4, share:2, audio: 12, photos: 2},{sender: "sender1", messages: 10,avg:10.0,text: 4, share:2, audio: 12, photos: 2},{sender: "sender5", messages: 30,avg:4.3,text: 4, share:2, audio: 12, photos: 2}]}
   ];
 
   /**
