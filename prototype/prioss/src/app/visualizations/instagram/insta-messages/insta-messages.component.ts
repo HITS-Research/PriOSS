@@ -222,13 +222,13 @@ export class InstaMessagesComponent
     for (let i = 0; i < this.chatData.length; i++) {
       this.makeHorizontalStackedBarChart(
         [this.chatData[i]],
-        '#' + this.chatData[i].chat + '-barChart-container',
-        '#' + this.chatData[i].chat + '-contextmenu-barChart-container'
+        this.chatData[i].chat + '-barChart-container',
+        this.chatData[i].chat + '-contextmenu-barChart-container'
       );
       this.makeAverageMessageChart(
         this.chatData[i],
-        '#' + this.chatData[i].chat + '-avg-container',
-        '#' + this.chatData[i].chat + '-contextmenu-avg-container'
+        this.chatData[i].chat + '-avg-container',
+        this.chatData[i].chat + '-contextmenu-avg-container'
       );
     }
   }
@@ -280,9 +280,13 @@ export class InstaMessagesComponent
       width = 460 - margin.left - margin.right,
       height = 400 - margin.top - margin.bottom;
 
+      if (document.getElementById(container)?.innerHTML != '') {
+        return;
+      }
+
     // append the svg object to the body of the page
     const svg = d3
-      .select(container)
+      .select("#"+container)
       .append('svg')
       .attr('width', width + margin.left + margin.right)
       .attr('height', height + margin.top + margin.bottom)
@@ -316,7 +320,7 @@ export class InstaMessagesComponent
     });
 
     //find the custom contextmenu
-    const contextMenu = d3.select(tooltipContainer);
+    const contextMenu = d3.select("#"+tooltipContainer);
 
     //stack the data? --> stack per subgroup
     const stackedData = d3.stack().keys(subgroups)(flattenedData);
@@ -388,7 +392,7 @@ export class InstaMessagesComponent
         const html = tooltip.html(
           'Sender: ' + sender + ', messages: ' + (data[1] - data[0]).toString()
         );
-        d3.select(tooltipContainer).style('cursor', 'pointer');
+        d3.select("#"+tooltipContainer).style('cursor', 'pointer');
         html.style('visibility', 'visible').style('text-align', 'center');
       })
       //Mouse moved: change tooltip position
@@ -485,9 +489,13 @@ export class InstaMessagesComponent
       width = 460 - margin.left - margin.right,
       height = 400 - margin.top - margin.bottom;
 
+      if (document.getElementById(container)?.innerHTML != '') {
+        return;
+      }
+
     // append the svg object to the body of the page
     const svg = d3
-      .select(container)
+      .select("#"+container)
       .append('svg')
       .attr('width', width + margin.left + margin.right)
       .attr('height', height + margin.top + margin.bottom)
@@ -530,7 +538,7 @@ export class InstaMessagesComponent
       .text('a simple tooltip');
 
     //find the custom contextmenu
-    const contextMenu = d3.select(tooltipContainer);
+    const contextMenu = d3.select("#"+tooltipContainer);
 
     // Show the bars
     svg
@@ -551,7 +559,7 @@ export class InstaMessagesComponent
       .on('mouseover', (event, data) => {
         contextMenu.style('visibility', 'hidden');
         const html = tooltip.html(data.avg.toString());
-        d3.select(tooltipContainer).style('cursor', 'pointer');
+        d3.select("#"+tooltipContainer).style('cursor', 'pointer');
 
         html.style('visibility', 'visible').style('text-align', 'center');
       })
@@ -672,8 +680,6 @@ export class InstaMessagesComponent
   /**
    * Creates the vertial grouped bar chart.
    * @param data for the chart
-   * @param container where it is displayed
-   * @param tooltipContainer
    *
    * @author: Melina (kleber@mail.uni-paderborn.de)
    */
