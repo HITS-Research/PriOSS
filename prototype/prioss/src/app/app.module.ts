@@ -131,6 +131,8 @@ import { InstaTopicsRepository } from './db/data-repositories/instagram/insta-yo
 import { InstaYourTopicComponent } from './visualizations/instagram/insta-your-topic/insta-your-topic.component';
 import { PurposesComponent } from './visualizations/spotify/purposes/purposes.component';
 import { InferencesMailComponent } from './visualizations/spotify/inferences/inferences-mail/inferences-mail.component';
+import { InstaPurposesComponent } from './visualizations/instagram/insta-purposes/insta-purposes.component';
+
 registerLocaleData(de);
 
 @NgModule({
@@ -190,7 +192,8 @@ registerLocaleData(de);
     MessagesComponent,
     GroupsAndEventsDataComponent,
     PurposesComponent,
-    InferencesMailComponent
+    InferencesMailComponent,
+    InstaPurposesComponent
 ,
   ],
   imports: [

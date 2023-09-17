@@ -44,6 +44,7 @@ import { YourTopicsComponent } from './visualizations/facebook/manage-privacy/yo
 import { SecurityLoginDataComponent } from './visualizations/facebook/security-login-data/security-login-data.component';
 import { MessagesComponent } from './visualizations/facebook/messages/messages.component';
 import { InstaYourTopicComponent } from './visualizations/instagram/insta-your-topic/insta-your-topic.component';
+import { InstaPurposesComponent } from './visualizations/instagram/insta-purposes/insta-purposes.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
