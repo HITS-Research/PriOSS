@@ -44,6 +44,8 @@ import { YourTopicsComponent } from './visualizations/facebook/manage-privacy/yo
 import { SecurityLoginDataComponent } from './visualizations/facebook/security-login-data/security-login-data.component';
 import { MessagesComponent } from './visualizations/facebook/messages/messages.component';
 import { InstaYourTopicComponent } from './visualizations/instagram/insta-your-topic/insta-your-topic.component';
+import { InstaDisableCookiesComponent } from './rectification/instagram/insta-disable-cookies/insta-disable-cookies.component';
+
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -94,7 +96,8 @@ const routes: Routes = [
   { path: 'insta/searches', component: InstaSearchesComponent},
   { path: 'face/other-personal-info' ,component: OtherPersonalInfoComponent},
   { path: 'face/posts' ,component: PostsComponent},
-  { path: 'face/messages-info' ,component:MessagesComponent}
+  { path: 'face/messages-info' , component: MessagesComponent},
+  { path: 'insta/disable-cookies' , component: InstaDisableCookiesComponent}
 ];
 
 @NgModule({
