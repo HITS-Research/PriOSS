@@ -1,16 +1,20 @@
 import { AfterViewInit, Component, Input } from '@angular/core';
 import * as d3 from 'd3';
 import { SequenceComponentInit } from '../../sequence-component-init.abstract';
+import { InstaChatData } from 'src/app/models/Instagram/MessageInfo/InstaChatData';
+import { InstaChatDataRepository } from 'src/app/db/data-repositories/instagram/insta-messages/insta-chat-data.repository';
+import { InstaChatPartnerData } from 'src/app/models/Instagram/MessageInfo/InstaChatData';
+import { InstaChatPartnerDataRepository } from 'src/app/db/data-repositories/instagram/insta-messages/insta-chat-partner-data.repository';
 
-enum Weekday {
-  Monday = 'Monday',
-  Tuesday = 'Tuesday',
-  Wednesday = 'Wednesday',
-  Thursday = 'Thursday',
-  Friday = 'Friday',
-  Saturday = 'Saturday',
-  Sunday = 'Sunday',
-}
+const weekday = [
+  'Sunday',
+  'Monday',
+  'Tuesday',
+  'Wednesday',
+  'Thursday',
+  'Friday',
+  'Saturday',
+];
 interface UserMessages {
   chat: string;
   messages: number;
@@ -52,6 +56,9 @@ export class InstaMessagesComponent
   @Input()
   previewMode = false;
 
+  instaChatData: InstaChatData[] = [];
+  instaChatPartnerData: InstaChatPartnerData[] = [];
+
   //Some variables for the highlights
   totalSentMessages = 0;
   totalReceivedMessages = 0;
@@ -59,110 +66,127 @@ export class InstaMessagesComponent
 
   // Variables for the grouped bar chart
   userInOutMessages: UserInOutMessages[] = [
-    { weekday: Weekday.Monday, outgoing: 12, ingoing: 5 },
-    { weekday: Weekday.Tuesday, outgoing: 2, ingoing: 10 },
-    { weekday: Weekday.Wednesday, outgoing: 3, ingoing: 15 },
-    { weekday: Weekday.Thursday, outgoing: 40, ingoing: 20 },
-    { weekday: Weekday.Friday, outgoing: 14, ingoing: 25 },
-    { weekday: Weekday.Saturday, outgoing: 101, ingoing: 30 },
-    { weekday: Weekday.Sunday, outgoing: 0, ingoing: 35 },
+    { weekday: weekday[1], outgoing: 0, ingoing: 0 },
+    { weekday: weekday[2], outgoing: 0, ingoing: 0 },
+    { weekday: weekday[3], outgoing: 0, ingoing: 0 },
+    { weekday: weekday[4], outgoing: 0, ingoing: 0 },
+    { weekday: weekday[5], outgoing: 0, ingoing: 0 },
+    { weekday: weekday[6], outgoing: 0, ingoing: 0 },
+    { weekday: weekday[0], outgoing: 0, ingoing: 0 },
   ];
+  // userInOutMessages: UserInOutMessages[] = [
+  //   { weekday: Weekday.Sunday, outgoing: 0, ingoing: 35 },
+  //   { weekday: Weekday.Monday, outgoing: 12, ingoing: 5 },
+  //   { weekday: Weekday.Tuesday, outgoing: 2, ingoing: 10 },
+  //   { weekday: Weekday.Wednesday, outgoing: 3, ingoing: 15 },
+  //   { weekday: Weekday.Thursday, outgoing: 40, ingoing: 20 },
+  //   { weekday: Weekday.Friday, outgoing: 14, ingoing: 25 },
+  //   { weekday: Weekday.Saturday, outgoing: 101, ingoing: 30 },
+  // ];
 
   // Variables for the blue horizontal bar chart
-  userOutMessages: UserMessages[] = [
-    { chat: 'Chat 1', messages: 12 },
-    { chat: 'Chat 2', messages: 2 },
-    { chat: 'Chat 3', messages: 3 },
-    { chat: 'Chat 4', messages: 50 },
-    { chat: 'Chat 5', messages: 14 },
-  ];
+  userOutMessages: UserMessages[] = [];
+  // userOutMessages: UserMessages[] = [
+  //   { chat: 'Chat 1', messages: 12 },
+  //   { chat: 'Chat 2', messages: 2 },
+  //   { chat: 'Chat 3', messages: 3 },
+  //   { chat: 'Chat 4', messages: 50 },
+  //   { chat: 'Chat 5', messages: 14 },
+  // ];
 
   // Variables for the orange horizontal bar chart
-  userInMessages: UserMessages[] = [
-    { chat: 'Chat 1', messages: 5 },
-    { chat: 'Chat 2', messages: 10 },
-    { chat: 'Chat 3', messages: 15 },
-    { chat: 'Chat 4', messages: 20 },
-  ];
+  userInMessages: UserMessages[] = [];
+  // userInMessages: UserMessages[] = [
+  //   { chat: 'Chat 1', messages: 5 },
+  //   { chat: 'Chat 2', messages: 10 },
+  //   { chat: 'Chat 3', messages: 15 },
+  //   { chat: 'Chat 4', messages: 20 },
+  // ];
 
   //the panels for the collapsable
-  panels = [
-    {
-      active: true,
-      name: 'This is panel header 1',
-      content: 'This is panel content 1',
-    },
-  ];
+  panels: {
+    active: boolean;
+    name: string;
+    content: string;
+  }[] = [];
 
   //Chat data used to fill the collapsable
-  chatData: ChatData[] = [
-    {
-      chat: 'Chat1',
-      yourMessages: 12,
-      otherMessages: [
-        {
-          sender: 'sender1',
-          messages: 5,
-          avg: 2.1,
-          text: 4,
-          share: 2,
-          audio: 12,
-          photos: 2,
-        },
-        {
-          sender: 'sender2',
-          messages: 10,
-          avg: 5.0,
-          text: 4,
-          share: 2,
-          audio: 12,
-          photos: 2,
-        },
-        {
-          sender: 'sender3',
-          messages: 15,
-          avg: 2.1,
-          text: 4,
-          share: 2,
-          audio: 12,
-          photos: 2,
-        },
-      ],
-    },
-    {
-      chat: 'Chat2',
-      yourMessages: 2,
-      otherMessages: [
-        {
-          sender: 'sender4',
-          messages: 5,
-          avg: 3.0,
-          text: 4,
-          share: 2,
-          audio: 12,
-          photos: 2,
-        },
-        {
-          sender: 'sender1',
-          messages: 10,
-          avg: 10.0,
-          text: 4,
-          share: 2,
-          audio: 12,
-          photos: 2,
-        },
-        {
-          sender: 'sender5',
-          messages: 30,
-          avg: 4.3,
-          text: 4,
-          share: 2,
-          audio: 12,
-          photos: 2,
-        },
-      ],
-    },
-  ];
+  chatData: ChatData[] = [];
+  // chatData: ChatData[] = [
+  //   {
+  //     chat: 'Chat1',
+  //     yourMessages: 12,
+  //     otherMessages: [
+  //       {
+  //         sender: 'sender1',
+  //         messages: 5,
+  //         avg: 2.1,
+  //         text: 4,
+  //         share: 2,
+  //         audio: 12,
+  //         photos: 2,
+  //       },
+  //       {
+  //         sender: 'sender2',
+  //         messages: 10,
+  //         avg: 5.0,
+  //         text: 4,
+  //         share: 2,
+  //         audio: 12,
+  //         photos: 2,
+  //       },
+  //       {
+  //         sender: 'sender3',
+  //         messages: 15,
+  //         avg: 2.1,
+  //         text: 4,
+  //         share: 2,
+  //         audio: 12,
+  //         photos: 2,
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     chat: 'Chat2',
+  //     yourMessages: 2,
+  //     otherMessages: [
+  //       {
+  //         sender: 'sender4',
+  //         messages: 5,
+  //         avg: 3.0,
+  //         text: 4,
+  //         share: 2,
+  //         audio: 12,
+  //         photos: 2,
+  //       },
+  //       {
+  //         sender: 'sender1',
+  //         messages: 10,
+  //         avg: 10.0,
+  //         text: 4,
+  //         share: 2,
+  //         audio: 12,
+  //         photos: 2,
+  //       },
+  //       {
+  //         sender: 'sender5',
+  //         messages: 30,
+  //         avg: 4.3,
+  //         text: 4,
+  //         share: 2,
+  //         audio: 12,
+  //         photos: 2,
+  //       },
+  //     ],
+  //   },
+  // ];
+
+  constructor(
+    private instaChatDataRepository: InstaChatDataRepository,
+    private instaChatPartnerDataRepository: InstaChatPartnerDataRepository
+  ) {
+    super();
+  }
 
   /**
    * Stores all needed data from the different tables into the corresponding interface variables.
@@ -170,6 +194,66 @@ export class InstaMessagesComponent
    * @author: Melina (kleber@mail.uni-paderborn.de)
    */
   async collectData() {
+    this.instaChatPartnerData =
+      await this.instaChatPartnerDataRepository.getChatPartnerData();
+    this.instaChatData = await this.instaChatDataRepository.getChatData();
+
+    //Fill chatData
+    this.instaChatData = this.instaChatData.map((chat) => {
+      return {
+        ...chat,
+        otherMessages: this.instaChatPartnerData.filter((chatPartner) => {
+          return chatPartner.chat_id === chat.id;
+        }),
+      };
+    });
+    this.chatData = this.instaChatData.map((chat) => {
+      return {
+        chat: chat.chat,
+        yourMessages: chat.yourMessages,
+        otherMessages: chat.otherMessages.map((otherMessage) => {
+          return {
+            sender: otherMessage.sender,
+            messages: otherMessage.messages,
+            avg: otherMessage.avg,
+            text: otherMessage.text,
+            share: otherMessage.share,
+            audio: otherMessage.audio,
+            photos: otherMessage.photos,
+          };
+        }),
+      };
+    });
+
+    //Fill userOutMessages { chat: 'Chat 1', messages: 5 }
+    //Fill userInMessages { chat: 'Chat 1', messages: 5 }
+    //Fill userInOutMessages { weekday[3], outgoing: 12, ingoing: 5 }
+    this.instaChatData.forEach((chat) => {
+      this.userInOutMessages[0].outgoing += chat.monday;
+      this.userInOutMessages[1].outgoing += chat.tuesday;
+      this.userInOutMessages[2].outgoing += chat.wednesday;
+      this.userInOutMessages[3].outgoing += chat.thursday;
+      this.userInOutMessages[4].outgoing += chat.friday;
+      this.userInOutMessages[5].outgoing += chat.saturday;
+      this.userInOutMessages[6].outgoing += chat.sunday;
+      this.userOutMessages.push({
+        chat: chat.chat,
+        messages: chat.yourMessages,
+      });
+      let inMessages = 0;
+      chat.otherMessages.forEach((otherMessage) => {
+        this.userInOutMessages[0].ingoing += otherMessage.monday;
+        this.userInOutMessages[1].ingoing += otherMessage.tuesday;
+        this.userInOutMessages[2].ingoing += otherMessage.wednesday;
+        this.userInOutMessages[3].ingoing += otherMessage.thursday;
+        this.userInOutMessages[4].ingoing += otherMessage.friday;
+        this.userInOutMessages[5].ingoing += otherMessage.saturday;
+        this.userInOutMessages[6].ingoing += otherMessage.sunday;
+        inMessages += otherMessage.messages;
+      });
+      this.userInMessages.push({ chat: chat.chat, messages: inMessages });
+    });
+
     this.userInMessages.forEach((data) => {
       this.totalReceivedMessages += data.messages;
     });
@@ -194,7 +278,6 @@ export class InstaMessagesComponent
       '#contextmenu-bar2',
       '#fa7e1e'
     );
-    this.panels.pop();
     for (let i = 0; i < this.chatData.length; i++) {
       if (i == 0) {
         this.panels.push({
@@ -222,13 +305,15 @@ export class InstaMessagesComponent
     for (let i = 0; i < this.chatData.length; i++) {
       this.makeHorizontalStackedBarChart(
         [this.chatData[i]],
-        this.chatData[i].chat + '-barChart-container',
-        this.chatData[i].chat + '-contextmenu-barChart-container'
+        this.trimWhitespace(this.chatData[i].chat) + '-barChart-container',
+        this.trimWhitespace(this.chatData[i].chat) +
+          '-contextmenu-barChart-container'
       );
       this.makeAverageMessageChart(
         this.chatData[i],
-        this.chatData[i].chat + '-avg-container',
-        this.chatData[i].chat + '-contextmenu-avg-container'
+        this.trimWhitespace(this.chatData[i].chat) + '-avg-container',
+        this.trimWhitespace(this.chatData[i].chat) +
+          '-contextmenu-avg-container'
       );
     }
   }
@@ -239,7 +324,9 @@ export class InstaMessagesComponent
    */
   async on_collapsable_page_enter() {
     while (
-      !document.getElementById(this.chatData[0].chat + '-barChart-container')
+      !document.getElementById(
+        this.trimWhitespace(this.chatData[0].chat) + '-barChart-container'
+      )
     ) {
       await new Promise((r) => setTimeout(r, 100));
     }
@@ -255,6 +342,10 @@ export class InstaMessagesComponent
     if (!this.previewMode) {
       await this.initComponent();
     }
+  }
+
+  trimWhitespace(text: string) {
+    return text.replace(/\s/g, '');
   }
 
   override async initComponent(): Promise<void> {

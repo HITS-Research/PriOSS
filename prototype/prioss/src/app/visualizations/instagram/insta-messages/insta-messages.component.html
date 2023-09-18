@@ -63,19 +63,19 @@
         <app-title-bar titleText="Chat Information"
             tooltipText="In the following, information is provided separately for each chat."
             [includeButton]="false"></app-title-bar>
-        <nz-collapse>
+        <nz-collapse *ngIf="panels">
             <nz-collapse-panel *ngFor="let panel of panels; let index=index;" [nzHeader]="panel.name"
                 [nzActive]="panel.active">
                 <nz-row>
                     <nz-col [nzSpan]="12">
                         <p>Total number of messages for each chat member:</p>
-                        <div [id]="panel.name +'-barChart-container'"></div>
-                        <div [id]="panel.name +'-contextmenu-barChart-container'"></div>
+                        <div [id]="trimWhitespace(panel.name) +'-barChart-container'"></div>
+                        <div [id]="trimWhitespace(panel.name) +'-contextmenu-barChart-container'"></div>
                     </nz-col>
                     <nz-col [nzSpan]="12">
                         <p>Average message length:</p>
-                        <div [id]="panel.name +'-avg-container'"></div>
-                        <div [id]="panel.name +'-contextmenu-avg-container'"></div>
+                        <div [id]="trimWhitespace(panel.name) +'-avg-container'"></div>
+                        <div [id]="trimWhitespace(panel.name) +'-contextmenu-avg-container'"></div>
                     </nz-col>
                 </nz-row>
                 <nz-descriptions *ngFor="let element of chatData[index].otherMessages"
