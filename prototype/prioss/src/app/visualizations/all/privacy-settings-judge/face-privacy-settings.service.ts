@@ -25,13 +25,13 @@ export class FacePrivacySettingsService {
       question : "Is your Facebook account password strong enough?",
       howToCheck : "Facebook doesn't provide a direct feature to check the strength of your password.",
       options : [
-        { label: "Yes", value: "yes", advice: "Good. It is recommended to change your password periodically, say, once every 6 months. Enable 2-Factor authentication for your account to avoid misuse and account hacks." },
+        { label: "Yes", value: "yes", advice: "Good. Enable 2-Factor authentication for strong security." },
         { label: "No", value: "no", advice: "Set your password using some general guidelines: use a unique sequence of characters, avoid using personal information like your name or date-of-birth, avoid using common and guessable passwords like 'password' or '123456' etc. " }
       ]
     },
     {
       question : "Do you review your Privacy settings often?",
-      howToCheck : "<strong>Text Guide:</strong> Login to your Facebook account &#8594 Click on you Account on the top right corner &#8594 Go to 'Settings and Privacy' &#8594 Go to 'Privacy Checkup'. <br> <br> <strong> Facebook Link </strong> Please look <a target='_blank' href='https://www.facebook.com/privacy/checkup/?source=settings_and_privacy'>here</a> for detailed instructions.",
+      howToCheck : "<strong>Text Guide:</strong> Login to your Facebook account &#8594 Click on you Account on the top right corner &#8594 Go to 'Settings and Privacy' &#8594 Go to 'Privacy Checkup'. <br> <br> <strong> Facebook Link: </strong> Please look <a target='_blank' href='https://www.facebook.com/privacy/checkup/?source=settings_and_privacy'>here</a> for detailed instructions. <br> Go to <a target='_blank' href='https://www.facebook.com/settings?tab=privacy&view'> this link </a> to review and modify your privacy settings.",
       options : [
         { label: "Yes", value: "yes", advice: "Good. It is a good practice to review your privacy settings and be aware of your rights." },
         { label: "No", value: "no", advice: "Need attention! It is recommended to be aware of the available Privacy settings and excercise your rights. Please look at the link under 'How to Check' for detailed instructions." }
