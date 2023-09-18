@@ -2,10 +2,31 @@
   <div *ngIf="previewMode">
     <nz-row [nzGutter]="16">
       <nz-col [nzSpan]="16">
-        <nz-statistic [nzTitle]="'Total Contact Numbers'"  [nzValue]="totalContactNumbers"></nz-statistic>
+        <nz-statistic [nzTitle]="'Total Contact Numbers'"  
+                      [nzValue]="totalContactNumbers"
+                      [nzPrefix]="contacts"
+                      [nzValueStyle]="{display: 'inline-flux'}">
+        </nz-statistic>
+        <ng-template #contacts>
+          <div class="container_class">
+            <!-- <span nz-icon nzType="environment"></span> -->
+            <!-- <span nz-icon nzType="contacts" nzTheme="outline"></span> -->
+            <span nz-icon nzType="phone" nzTheme="outline"></span>
+          </div>
+        </ng-template>
       </nz-col>
       <nz-col [nzSpan]="16">
-        <nz-statistic [nzTitle]="'Total Searched text'"  [nzValue]="totalSearchedText"></nz-statistic>
+        <nz-statistic [nzTitle]="'Total Searched text'"  
+                      [nzValue]="totalSearchedText"
+                      [nzPrefix]="searched"
+                      [nzValueStyle]="{display: 'inline-flux'}">
+        </nz-statistic>
+        <ng-template #searched>
+          <div class="container_class">
+            <!-- <span nz-icon nzType="search" nzTheme="outline"></span> -->
+            <span nz-icon nzType="file-search" nzTheme="outline"></span>
+          </div>
+        </ng-template>
       </nz-col>
       </nz-row>
   </div>
@@ -15,6 +36,7 @@
   <app-title-bar titleText="Other Personal Information" tooltipText="This visualization presents an overview of data pertaining to address book and search history list."></app-title-bar>
    <nz-tabset class="margin-top-20">
     <nz-tab nzTitle="Address Book">
+      <ng-container *ngIf="dataAvailableAddressBook; else noDataTemplate">
       <div class="search-bar">
         <input type="text" [(ngModel)]="searchText" placeholder="Search..." (input)="filterAddressBookItems(searchText)">
         <button class="clear-button" (click)="clearAddressBookSearch()">Clear</button>
@@ -35,8 +57,14 @@
         <span class="page-info">{{ addressBookCurrentPage }} / {{ addressBookTotalPages }}</span>
         <button class="page-btn" [disabled]="addressBookCurrentPage === addressBookTotalPages" (click)="goToAddressBookPage(addressBookCurrentPage + 1)">Next</button>
       </div>
+      </ng-container>
+      <ng-template #noDataTemplate>
+        <nz-result nzStatus="403" nzTitle="No data available">
+        </nz-result>
+      </ng-template>
     </nz-tab>
         <nz-tab nzTitle="Search History">
+          <ng-container *ngIf="dataAvailableSearchHistory; else noDataTemplate">
           <div class="search-history-list">
               <h2>Searched History</h2>
             
@@ -54,6 +82,11 @@
                 <button class="page-btn" [disabled]="currentPage === totalPages" (click)="goToPage(currentPage + 1)">Next</button>
               </div>
             </div>
+            </ng-container>
+            <ng-template #noDataTemplate>
+              <nz-result nzStatus="403" nzTitle="No data available">
+              </nz-result>
+            </ng-template>
             </nz-tab>
   </nz-tabset>
 </div>

@@ -38,11 +38,11 @@ export class IntrojsService {
         },
         {
           element: '#step1',
-          intro: 'This card contains all personal information that Spotify has collected. To see more details click on "More".'
+          intro: 'This card contains all personal information that Spotify has collected. To see more details on such cards, hover over the (?)-icon and click on the card (this doesn\'t work during this tour).'
         },
         {
           element: '#step2',
-          intro: 'This card shows all inferences Spotify made about you. You can correct them here by sending Spotify an email with the selected inferences!'
+          intro: 'This card shows all inferences Spotify has made about you. You can correct them here by sending Spotify an email with the selected inferences!'
         },
         {
           element: '#step3',

@@ -20,7 +20,7 @@ export class FriendAndFollowersComponent implements OnInit{
   friendRequestSent: FacebookFriendsModel[] = [];
   rejectedFriendRequests: FacebookFriendsModel[] = [];
   whoYouFollow: FacebookFriendsModel[] = [];
-
+  showResult = false;
   @Input()
   previewMode = false;
 
@@ -40,8 +40,8 @@ export class FriendAndFollowersComponent implements OnInit{
   private getData()
   {
     this.faceFriendsRepo.getAllFacebookFriends().then((friends) => {
-        this.friendRequestReceived = friends.filter(x => x.type === "#requestsReceived");
-        this.createData(this.friendRequestReceived,"#friendRequestReceived", "#FF9800"); 
+      this.friendRequestReceived = friends.filter(x => x.type === "#requestsReceived");
+      this.createData(this.friendRequestReceived, "#friendRequestReceived", "#FF9800");
 
         this.friendRequestSent = friends.filter(x => x.type === "#requestsSent");
         this.createData(this.friendRequestSent,"#friendRequestSent", "#00C853");

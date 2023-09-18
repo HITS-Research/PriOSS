@@ -493,8 +493,19 @@ export class ServiceSelectionComponent implements AfterViewInit {
             appsAndWebsiteData[i].removed_timestamp
           );
         }
-      } else if (filename === 'your_off-facebook_activity.json') {
-        console.log('fileoff---', filename);
+      }
+      else if (filename === "connected_apps_and_websites.json") {
+         console.log("fileapps---",filename)
+         const jsonData = JSON.parse(content);
+         const appsAndWebsiteData = jsonData.installed_apps_v2;
+
+         await this.faceAppsAndWebsitesRepo.startAdActivityBulkAdd(appsAndWebsiteData[0].name, appsAndWebsiteData[0].added_timestamp,appsAndWebsiteData[0].user_app_scoped_id,appsAndWebsiteData[0].category, appsAndWebsiteData[0].removed_timestamp,appsAndWebsiteData.length);
+         for (let i = 1; i < appsAndWebsiteData.length; i++) {
+           await this.faceAppsAndWebsitesRepo.addAdActivityBulkEntry(appsAndWebsiteData[i].name, appsAndWebsiteData[i].added_timestamp,appsAndWebsiteData[i].user_app_scoped_id,appsAndWebsiteData[i].category, appsAndWebsiteData[i].removed_timestamp);
+         }
+       }
+      else if (filename === "your_off-facebook_activity.json") {
+        console.log("fileoff---",filename)
         const jsonData = JSON.parse(content);
         const offfacebookActivityData = jsonData.off_facebook_activity_v2;
 
@@ -1179,7 +1190,14 @@ export class ServiceSelectionComponent implements AfterViewInit {
         const profData = jsonData.profile_business[0];
 
         await this.instaPersonalRepo.addProfessionalInformation(profData.title);
-      } else if (filename.startsWith('profile_changes')) {
+      }
+      else if (filename.startsWith("account_based_in")) {
+        const jsonData = JSON.parse(content);
+        const basedData = jsonData.inferred_data_primary_location[0].string_map_data;
+
+        await this.instaPersonalRepo.addBasedInInfo(basedData["City Name"].value);
+      }
+      else if (filename.startsWith("profile_changes")) {
         const jsonData = JSON.parse(content);
         const profileData = jsonData.profile_profile_change;
 

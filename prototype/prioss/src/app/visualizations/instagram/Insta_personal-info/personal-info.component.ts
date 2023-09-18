@@ -1,10 +1,12 @@
-import { AfterViewInit, Component, Input } from '@angular/core';
+import { AfterViewInit, Component, Input, } from '@angular/core';
+import { Router } from '@angular/router';
 import * as utilities from 'src/app/utilities/generalUtilities.functions'
 import { InstaPersonalRepository } from 'src/app/db/data-repositories/instagram/insta-personal-info/insta-personal.repository';
 import { InstaPersonalInfo } from 'src/app/models/Instagram/PersonalInfo/InstaPersonalInfo';
 import { InstaAccountInfo } from 'src/app/models/Instagram/PersonalInfo/InstaAccountInfo';
 import { InstaProfessionalInfo } from 'src/app/models/Instagram/PersonalInfo/InstaProfessionalInfo';
 import { InstaProfileChange } from 'src/app/models/Instagram/PersonalInfo/InstaProfileChange';
+import { InstaBasedInInfo } from 'src/app/models/Instagram/PersonalInfo/InstaBasedInInfo';
 import { SequenceComponentInit } from '../../sequence-component-init.abstract';
 
 
@@ -28,14 +30,14 @@ export class Insta_PersonalInfoComponent extends SequenceComponentInit implement
   personalInfo: InstaPersonalInfo;
   accountInfo: InstaAccountInfo;
   professionalInfo: InstaProfessionalInfo;
+  basedInInfo: InstaBasedInInfo;
   profileChanges: InstaProfileChange[] = [];
 
   getObjectPairs: (obj: object) => [string, any][] = utilities.getObjectPairs;
   convertTimestamp: (str: string) => any = utilities.convertTimestamp;
   capitalizeAndPrettify: (str: string) => string = utilities.capitalizeAndPrettify;
 
-
-  constructor(private instaPersonalRepo: InstaPersonalRepository) {
+  constructor(private router: Router, private instaPersonalRepo: InstaPersonalRepository) {
     super();
   }
 
@@ -67,8 +69,35 @@ export class Insta_PersonalInfoComponent extends SequenceComponentInit implement
     await this.instaPersonalRepo.getProfessionalInfo().then((proInfo) => {
       this.professionalInfo = proInfo[0];
     });
+    await this.instaPersonalRepo.getBasedIn().then((location) => {
+      this.basedInInfo = location[0];
+    })
     await this.instaPersonalRepo.getProfileChanges().then((changes) => {
       this.profileChanges = changes;
     });
   }
+
+ /** 
+  * This method is responsible to navigate to guidelines to make Instagram Account Private.
+  *
+  * @author: Aayushma (aayushma@mail.uni-paderborn.de)
+  *
+  */
+
+ handleButtonClick1(){
+  this.router.navigate(['insta/account-private']);
 }
+
+ /** 
+  * This method is responsible to navigate to guidelines to make Instagram account's profile information private.
+  *
+  * @author: Aayushma (aayushma@mail.uni-paderborn.de)
+  *
+  */
+
+handleButtonClick2(){
+  this.router.navigate(['insta/profile-info-private']);
+}
+
+}
+

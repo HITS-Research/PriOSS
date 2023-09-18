@@ -47,6 +47,10 @@ export class SecurityLoginDataComponent implements OnInit{
   MobileSessionTerminated = 0;
   terminatedSessions = 0;
   accactivity_empty = false;
+  dataAvailableLoc = false;
+  dataAvailableLogOuts = false;
+  dataAvailableStatusChange = false;
+  dataAvailableActivities = false;
 
 
   constructor(private faceLoginLocationsRepo: FacebookLoginLocationsRepository,
@@ -69,6 +73,7 @@ export class SecurityLoginDataComponent implements OnInit{
   async prepareData() {
     this.faceLoginLocationsRepo.getAllLoginLocations().then((allLoginLocations) => {
       this.loginLocationsData = allLoginLocations;
+      this.dataAvailableLoc = this.loginLocationsData.length !== 0;
       if (this.loginLocationsData.length == 0) { this.logloc_empty = true}
       console.log("this.loginLocationsData", this.loginLocationsData);
       console.log("type of this.loginLocationsData", typeof(this.loginLocationsData));
@@ -86,6 +91,7 @@ export class SecurityLoginDataComponent implements OnInit{
 
     this.faceLoginLogoutsRepo.getAllLoginLogouts().then((allLoginLogouts) => {
       this.loginlogoutData = allLoginLogouts;
+      this.dataAvailableLogOuts = this.loginlogoutData.length !== 0;
       if (this.loginlogoutData.length == 0) {this.loginlogout_empty = true}
       for(let i = 0; i < this.loginlogoutData.length; i++) {
         const unixTime: number  = +this.loginlogoutData[i].timestamp;
@@ -104,6 +110,7 @@ export class SecurityLoginDataComponent implements OnInit{
 
     this.faceAccStatusChangesRepo.getAllAccStatusChanges().then((allAccStatusChanges) => {
       this.accStatusChangeData = allAccStatusChanges;
+      this.dataAvailableStatusChange = this.accStatusChangeData.length !== 0;
       if (this.accStatusChangeData.length == 0) {this.accstatus_empty = true}
       console.log("this.accStatusChangeData" + this.accStatusChangeData);
       for(let i = 0; i < this.accStatusChangeData.length; i++) {
@@ -124,6 +131,7 @@ export class SecurityLoginDataComponent implements OnInit{
 
     this.faceAccActivitiesRepo.getAllAccountActivities().then((collectData) => {
       this.accActivitiesData = collectData;
+      this.dataAvailableActivities = this.accActivitiesData.length !== 0;
       if (this.accActivitiesData.length == 0) {this.accactivity_empty = true}
       for (let i = 0; i < this.accActivitiesData.length; i++) {
         const unixTime: number  = +this.accActivitiesData[i].timestamp;

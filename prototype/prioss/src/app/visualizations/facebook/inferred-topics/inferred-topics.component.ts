@@ -26,6 +26,7 @@ export class InferredTopicsComponent implements OnInit{
   previewMode = false;
 
   inferredTopics: InferredTopicsModel[] = [];
+  dataAvailable = false;
 
   /**
   * This method gets all inferred topics on intialization of the component
@@ -37,6 +38,7 @@ export class InferredTopicsComponent implements OnInit{
   ngOnInit() {
     this.inferredTopicsDataRepo.getAllInferredTopics().then((topics) => {
       this.inferredTopics = topics;
+      this.dataAvailable = this.inferredTopics.length !== 0;
     });
   }
   /**

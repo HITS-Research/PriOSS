@@ -1,23 +1,63 @@
 <div [ngClass]="{'component-page': !previewMode}">
   <div *ngIf="previewMode">
     <nz-row [nzGutter]="16">
-      <nz-col [nzSpan]="10">
-        <nz-statistic [nzValue]="friends.length" [nzTitle]="'Friends'"></nz-statistic>
+      <nz-col [nzSpan]="12">
+        <nz-statistic [nzValue]="friends.length" 
+                      [nzTitle]="'Friends'"
+                      [nzPrefix]="friend"
+                     >
+        </nz-statistic>
+        <ng-template #friend>
+          <span nz-icon nzType="heart"></span>
+        </ng-template>
       </nz-col>
-      <nz-col [nzSpan]="11">
-        <nz-statistic [nzValue]="removedFriends.length" [nzTitle]="'Removed friends'"></nz-statistic>
+      <nz-col [nzSpan]="12">
+        <nz-statistic [nzValue]="removedFriends.length" 
+                      [nzTitle]="'Removed friends'"
+                      [nzPrefix]="removed"
+                      >
+        </nz-statistic>
+        <ng-template #removed>
+          <span nz-icon nzType="usergroup-delete"></span>
+        </ng-template>
       </nz-col>
-      <nz-col [nzSpan]="10">
-        <nz-statistic [nzValue]="friendRequestSent.length" [nzTitle]="'Friend requests sent'"></nz-statistic>
+      <nz-col [nzSpan]="12">
+        <nz-statistic [nzValue]="friendRequestSent.length" 
+                      [nzTitle]="'Requests sent'"
+                      [nzPrefix]="sent"
+                      >
+        </nz-statistic>
+        <ng-template #sent>
+          <span nz-icon nzType="user-add"></span>
+        </ng-template>
       </nz-col>
-      <nz-col [nzSpan]="11">
-        <nz-statistic [nzValue]="friendRequestReceived.length" [nzTitle]="'Friend requests received'"></nz-statistic>
+      <nz-col [nzSpan]="12">
+        <nz-statistic [nzValue]="friendRequestReceived.length" 
+                      [nzTitle]="'Requests received'"
+                      [nzPrefix]="received"
+                      >
+        </nz-statistic>
+        <ng-template #received>
+          <span nz-icon nzType="user-switch"></span>
+        </ng-template>
       </nz-col>
-      <nz-col [nzSpan]="10">
-        <nz-statistic [nzValue]="rejectedFriendRequests.length" [nzTitle]="'Rejected requests'"></nz-statistic>
+      <nz-col [nzSpan]="12">
+        <nz-statistic [nzValue]="rejectedFriendRequests.length" 
+                      [nzTitle]="'Rejected requests'"
+                      [nzPrefix]="rejected">
+        </nz-statistic>
+        <ng-template #rejected>
+          <span nz-icon nzType="user-delete"></span>
+        </ng-template>
       </nz-col>
-      <nz-col [nzSpan]="11">
-        <nz-statistic [nzValue]="whoYouFollow.length" [nzTitle]="'Who you follow'"></nz-statistic>
+      <nz-col [nzSpan]="12">
+        <nz-statistic [nzValue]="whoYouFollow.length" 
+                      [nzTitle]="'Who you follow'"
+                      [nzPrefix]="follow">
+        </nz-statistic>
+        <ng-template #follow>
+          <span nz-icon nzType="smile"></span>
+        </ng-template>
       </nz-col>
     </nz-row>
   </div>
@@ -29,6 +69,7 @@
           <div>People you are currently connected to</div>
           <svg viewBox="0 0 1000 1000" id="myFriends" class="margin-top-20"></svg>
         </nz-card> 
+        <nz-result id="noDataResult" nzStatus="403" nzTitle="No data available" *ngIf="friends.length === 0"></nz-result>
       </nz-col>
       <nz-col [nzSpan]="12"> 
         <nz-card class="friends-card" nzTitle="Who you follow: {{whoYouFollow.length}}">
@@ -37,11 +78,10 @@
         </nz-card>
       </nz-col>
       <nz-col [nzSpan]="12">
-        <nz-card class="friends-card" nzTitle="Friend requests recieved : {{friendRequestReceived.length}}">
+        <nz-card class="friends-card" nzTitle="Friend requests received: {{friendRequestReceived.length}}">
           <div>Request from others asking you to be friends on Facebook</div>
-          <svg viewBox="0 0 1000 1000" id="friendRequestReceived" class="margin-top-20"></svg>
-        </nz-card>
-      
+          <svg  viewBox="0 0 1000 1000" id="friendRequestReceived" class="margin-top-20"></svg>
+        </nz-card>        
       </nz-col>
       <nz-col [nzSpan]="12">
         <nz-card class="friends-card" nzTitle="Friend requests sent: {{friendRequestSent.length}}">
@@ -49,7 +89,7 @@
           <svg viewBox="0 0 1000 1000" id="friendRequestSent" class="margin-top-20"></svg>
         </nz-card>
       </nz-col>
-      <nz-col [nzSpan]="12">
+      <nz-col [nzSpan]="12" >
         <nz-card class="friends-card" nzTitle="Removed friends: {{removedFriends.length}}">
           <div>People who you are no longer connected to on Facebook</div>
           <svg viewBox="0 0 1000 1000" id="removedFriends" class="margin-top-20"></svg>
@@ -64,5 +104,8 @@
         
       </nz-col>
     </nz-row>
+    <ng-template #noData>
+      <p>No data available</p>
+    </ng-template>
   </div> 
 </div>

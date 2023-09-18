@@ -1,4 +1,4 @@
-import { Component, Input, OnInit} from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
 import * as d3 from 'd3';
 import { Router } from '@angular/router';
 import { FacebookAdsInteractedRepository } from 'src/app/db/data-repositories/facebook/fb-ads-data/face-ads-interacted.repo';
@@ -37,8 +37,11 @@ import { OffFacebookActivityModel } from 'src/app/models/Facebook/offfacebookact
     apps_websites: AppsAndWebsitesModel[] = [];
     activeTab = 0;
     off_facebook_activity: OffFacebookActivityModel[] = [];
+    dataAvailable = false;
+    dataAvailableAdNames = false;
+    dataAvailableAWebsiteNames =  false;
     constructor(private router: Router,private faceAdsInteractedRepo: FacebookAdsInteractedRepository,private faceAppsAndWebsitesRepo: FacebookAppsWebsitesRepository,
-      private faceOffFacebookActivityRepo: FacebookOffFacebookActivityRepository) { }
+      private faceOffFacebookActivityRepo: FacebookOffFacebookActivityRepository,private cdr: ChangeDetectorRef) { }
       ngOnInit(): void {
         this.loadTabContent();
         this.getData();
@@ -48,10 +51,11 @@ import { OffFacebookActivityModel } from 'src/app/models/Facebook/offfacebookact
       * @author: Rishma (rishmamn@mail.uni-paderborn.de))
       *
       */
-      loadTabContent() {
-        this.activateTab(0);
-        this.activateTab(1);
+       async loadTabContent() {
+        await this.activateTab(0);
+        await this.activateTab(1);
       }
+      
      /**
       * This method is responsible to activate the respective link based on clicked events.
       * @author: Rishma (rishmamn@mail.uni-paderborn.de))
@@ -90,6 +94,7 @@ import { OffFacebookActivityModel } from 'src/app/models/Facebook/offfacebookact
     async getData() {
       this.faceAdsInteractedRepo.getAllFaceAdsInteracted().then((ads_interacted_with) => {
         this.adsInteracted = ads_interacted_with;
+        this.dataAvailableAdNames =  this.adsInteracted.length !== 0;
         for (let i = 0; i < this.adsInteracted.length; i++) {
           const name = this.adsInteracted[i].title;
           this.adNames.push(name);
@@ -101,7 +106,7 @@ import { OffFacebookActivityModel } from 'src/app/models/Facebook/offfacebookact
       });
       this.faceAppsAndWebsitesRepo.getAllFaceAppsAndWebsites().then((apps_websites) => {
         this.apps_websites = apps_websites;
-    
+        this.dataAvailableAWebsiteNames =  this.apps_websites.length !== 0;
         const uniqueAppNames = new Set();
     
         for (const app of apps_websites) {
@@ -143,11 +148,18 @@ import { OffFacebookActivityModel } from 'src/app/models/Facebook/offfacebookact
     *
     */
     generateBubbleChart(types: string[], chartId: string, xAxisLabel: string, yAxisLabel: string, title: string,selectedTab : number): void {
+      //reset the count when tab is clicked
+      if (selectedTab === 0) {
+        this.totalOffsiteInteractions = 0;
+      } else if (selectedTab === 1) {
+        this.totalOffsiteCheckoutActivities = 0;
+      }
       this.faceOffFacebookActivityRepo.getAllOffFacebookActivity().then((apps) => {
         this.off_facebook_activity = apps;
+        this.dataAvailable = this.off_facebook_activity.length !== 0;
+        this.cdr.detectChanges();
         if (this.off_facebook_activity.length !== 0) {
           const appCounts: { [key: string]: { [key: string]: number } } = {};
-
           for (let i = 0; i < this.off_facebook_activity.length; i++) {
             const app = this.off_facebook_activity[i];
             const appName = app.name;
@@ -176,9 +188,6 @@ import { OffFacebookActivityModel } from 'src/app/models/Facebook/offfacebookact
               }
             }
           }
-
-          console.log("totalsite", this.totalOffsiteInteractions)
-          console.log("totalsite", this.totalOffsiteCheckoutActivities)
             // Convert the appCounts object into an array of objects and calculate total counts
              const appCountsArray = Object.entries(appCounts).map(([appName, counts]) => {
               const pageViewViewContentCount = counts['PAGE_VIEW'] + counts['VIEW_CONTENT'];
@@ -213,7 +222,7 @@ import { OffFacebookActivityModel } from 'src/app/models/Facebook/offfacebookact
 
     svg.append("text")
       .attr("x", xAxisWidth / 2)
-      .attr("y", margin - 50)
+      .attr("y", margin - 10)
       .attr("text-anchor", "middle")
       .style("font-size", "35px")
       .style("font-weight","bold")

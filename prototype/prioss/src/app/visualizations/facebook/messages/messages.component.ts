@@ -20,6 +20,8 @@ export class MessagesComponent implements OnInit {
   totalPeopleMessages = 0;
   totalGroupMessages = 0;
   data: { label: string; value: any; }[];
+  dataAvailableIn = false;
+  dataAvailableGroup = false;
 
   constructor(
     private faceMessagesRepo: FaceBookMessagesInfoRepository,
@@ -38,12 +40,14 @@ export class MessagesComponent implements OnInit {
     // Get all face messages info
     this.faceMessagesRepo.getAllFaceMessagesInfo().then((messages) => {
      this.messagesData = messages;
+     this.dataAvailableIn = this.messagesData.length !== 0;
      // Calculate total friends messages
     this.totalPeopleMessages = this.messagesData.length;
     });
     // Get all face group messages info
     this.facegroupMessagesRepo.getAllFaceGroupMessagesInfo().then((group_messages) => {
     this.groupMessagesData = group_messages;
+    this.dataAvailableGroup = this.groupMessagesData.length !== 0;
     // Calculate total group messages
     this.totalGroupMessages = this.groupMessagesData.length;
     });
@@ -74,23 +78,25 @@ export class MessagesComponent implements OnInit {
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin + ")");
 
-    const maxTickValue = d3.max(data, d => parseInt(d.value))!;
+    const maxTickValue = d3.max(data, d => parseInt(d.value)) || 0; 
     const tickCount = Math.min(maxTickValue, 10);
+    
     const x = d3.scaleBand()
       .domain(data.map(d => d.name))
       .range([0, width])
       .padding(0.2);
+    
     const y = d3.scaleLinear()
-      .domain([0, d3.max(data, d => parseInt(d.value))!])
+      .domain([0, d3.max(data, d => parseInt(d.value)) || 0]) 
       .range([height, 0]);
-  
+    
     svg.append("g")
       .attr("transform", `translate(${margin.left}, ${margin.top})`)
       .selectAll(".bar")
       .data(data)
       .enter().append("g")
       .attr("class", "bar-group")
-      .attr("transform", d => `translate(${x(d.name)!}, 0)`);
+      .attr("transform", d => `translate(${x(d.name)}, 0)`); 
     
     svg.selectAll(".bar-group")
       .append("rect")
