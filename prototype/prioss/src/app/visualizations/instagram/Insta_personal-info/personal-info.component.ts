@@ -6,6 +6,7 @@ import { InstaPersonalInfo } from 'src/app/models/Instagram/PersonalInfo/InstaPe
 import { InstaAccountInfo } from 'src/app/models/Instagram/PersonalInfo/InstaAccountInfo';
 import { InstaProfessionalInfo } from 'src/app/models/Instagram/PersonalInfo/InstaProfessionalInfo';
 import { InstaProfileChange } from 'src/app/models/Instagram/PersonalInfo/InstaProfileChange';
+import { InstaBasedInInfo } from 'src/app/models/Instagram/PersonalInfo/InstaBasedInInfo';
 import { SequenceComponentInit } from '../../sequence-component-init.abstract';
 
 
@@ -29,6 +30,7 @@ export class Insta_PersonalInfoComponent extends SequenceComponentInit implement
   personalInfo: InstaPersonalInfo;
   accountInfo: InstaAccountInfo;
   professionalInfo: InstaProfessionalInfo;
+  basedInInfo: InstaBasedInInfo;
   profileChanges: InstaProfileChange[] = [];
 
   getObjectPairs: (obj: object) => [string, any][] = utilities.getObjectPairs;
@@ -67,6 +69,9 @@ export class Insta_PersonalInfoComponent extends SequenceComponentInit implement
     await this.instaPersonalRepo.getProfessionalInfo().then((proInfo) => {
       this.professionalInfo = proInfo[0];
     });
+    await this.instaPersonalRepo.getBasedIn().then((location) => {
+      this.basedInInfo = location[0];
+    })
     await this.instaPersonalRepo.getProfileChanges().then((changes) => {
       this.profileChanges = changes;
     });
