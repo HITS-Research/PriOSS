@@ -205,6 +205,7 @@ export class PostsComponent implements OnInit{
   */
   createMonthData(year: number)
   {
+    this.postDataMonths = [];
     this.monthView = true
     const dataObject: any[] = [];
     const monthNames = [

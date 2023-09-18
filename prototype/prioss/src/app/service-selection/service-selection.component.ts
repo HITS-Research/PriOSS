@@ -667,19 +667,19 @@ export class ServiceSelectionComponent implements AfterViewInit{
           }
         }
       }
-      else if(filename === "your_posts_1.json" || filename === "your_posts__check_ins__photos_and_videos_1.json") {
+      else if(filename === "your_posts__check_ins__photos_and_videos_1.json") {
         const jsonData = JSON.parse(content);
         const posts = jsonData;
 
         const timestamp = posts[0].timestamp;
         const title = posts[0].title;
-        const post = posts[0].data.length > 0 ?  posts[0].data[0].post : "";
+        const post = posts[0].data.length > 0 ?  posts[0].data[0].post : "Added a photo";
         await this.facePostsRepo.startPostsBulkAdd(timestamp, title,post, posts.length);
 
         for(let i = 1; i < posts.length; i++){
           const title = posts[i].title ? posts[i].title : "Updated timeline";
           const timestamp = posts[i].timestamp;
-          const post = posts[i].data.length > 0 ?  posts[i].data[0].post : "";
+          const post = posts[i].data.length > 0 ?  posts[i].data[0].post : "Added a photo";
           await this.facePostsRepo.addPostsBulkEntry(timestamp, title,post);
         }
       }

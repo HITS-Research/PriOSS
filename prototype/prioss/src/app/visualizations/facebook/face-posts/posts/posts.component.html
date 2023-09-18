@@ -20,14 +20,14 @@
         <div style="padding:30px 0;" *ngIf="!monthView">
           <div nz-row [nzGutter]="8">
             <div nz-col [nzSpan]="8">
-              <nz-card nzTitle="Most active year/years for posting">
+              <nz-card nzTitle="Most active year(s) for posting">
                 <div *ngFor="let item of maximumPost">
                   <p><b style="font-size: 16px;">{{item.year}}</b> with post count <b style="font-size: 16px;">{{item.count}}</b></p>
                 </div>
               </nz-card>
             </div>
             <div nz-col [nzSpan]="8">
-              <nz-card nzTitle="Least active year/years for posting">
+              <nz-card nzTitle="Least active year(s) for posting">
                 <div *ngFor="let item of minimumPost">
                   <p><b style="font-size: 16px;">{{item.year}}</b> with post count <b style="font-size: 16px;">{{item.count}}</b></p>
                 </div>
@@ -38,14 +38,14 @@
         <div style="padding:30px 0;" *ngIf="monthView">
           <div nz-row [nzGutter]="8">
             <div nz-col [nzSpan]="8">
-              <nz-card nzTitle="Most active month/months for posting">
+              <nz-card nzTitle="Most active month(s) for posting">
                 <div *ngFor="let item of maximumPost">
                   <p><b style="font-size: 16px;">{{item.month}}</b> with post count <b style="font-size: 16px;">{{item.count}}</b></p>
                 </div>
               </nz-card>
             </div>
             <div nz-col [nzSpan]="8">
-              <nz-card nzTitle="Least active month/months for posting">
+              <nz-card nzTitle="Least active month(s) for posting">
                 <div *ngFor="let item of minimumPost">
                   <p><b style="font-size: 16px;">{{item.month}}</b> with post count <b style="font-size: 16px;">{{item.count}}</b></p>
                 </div>

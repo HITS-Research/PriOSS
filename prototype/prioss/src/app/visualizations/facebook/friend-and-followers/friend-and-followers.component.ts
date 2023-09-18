@@ -17,25 +17,30 @@ export class FriendAndFollowersComponent implements OnInit{
 
   friends: FacebookFriendsModel[] = [];
   friendsFilter = [...this.friends];
+  visibleFriends = false;
 
   removedFriends: FacebookFriendsModel[] = [];
   removedFriendsFilter = [...this.removedFriends];
+  visibleRemovedFriends = false
 
   friendRequestReceived: FacebookFriendsModel[] = [];
   friendRequestReceivedFilter = [...this.friendRequestReceived];
+  visibleRequestsReceived = false
 
   friendRequestSent: FacebookFriendsModel[] = [];
   friendRequestSentFilter = [...this.friendRequestSent];
+  visibleRequestsSent = false
 
   rejectedFriendRequests: FacebookFriendsModel[] = [];
   rejectedFriendRequestsFilter = [...this.rejectedFriendRequests];
+  visibleRejectedFriends = false
 
   whoYouFollow: FacebookFriendsModel[] = [];
   whoYouFollowFilter = [...this.whoYouFollow];
+  visibleWhoYouFollow = false
 
   searchValue = '';
-  visible = false;
-
+  
   @Input()
   previewMode = false;
 
@@ -128,8 +133,8 @@ export class FriendAndFollowersComponent implements OnInit{
     }
 
     const margin = { top: 40, right: 20, bottom: 30, left: 0 };
-    const width = 650 - margin.left - margin.right;
-    const height = 500 - margin.top - margin.bottom;
+    const width = 750 - margin.left - margin.right;
+    const height = 600 - margin.top - margin.bottom;
 
     // Get svg based on the id to draw chart
     const svg = d3.select(id)
@@ -194,20 +199,6 @@ export class FriendAndFollowersComponent implements OnInit{
       .attr("transform", `translate(${margin.left}, ${margin.top})`)
       .style("font-size", "20px")
       .call(d3.axisLeft(y).ticks(10));
-
-    // Add x-axis label
-    svg.append("text")
-      .attr("transform", `translate(${margin.left + width / 2}, ${height + margin.top + 55})`)
-      .style("text-anchor", "middle")
-      .style("font-size", "20px")
-      .text("Year");
-    
-    // Add y-axis label
-    svg.append("text")
-      .attr("transform", `rotate(-90) translate(${-margin.top - height / 2}, ${margin.left - 40})`)
-      .style("text-anchor", "middle")
-      .style("font-size", "26px")
-      .text("Count");
   }
 
 /**
@@ -229,7 +220,7 @@ export class FriendAndFollowersComponent implements OnInit{
   *
 */
   searchFriends(): void {
-    this.visible = false;
+    this.visibleFriends = false;
     this.friendsFilter = this.friends.filter((item: FacebookFriendsModel) => item.name.indexOf(this.searchValue) !== -1);
   }
 
@@ -240,7 +231,7 @@ export class FriendAndFollowersComponent implements OnInit{
     *
   */
   searchRemovedFriends(): void {
-    this.visible = false;
+    this.visibleRemovedFriends = false;
     this.removedFriendsFilter = this.removedFriends.filter((item: FacebookFriendsModel) => item.name.indexOf(this.searchValue) !== -1);
   }
 
@@ -251,7 +242,7 @@ export class FriendAndFollowersComponent implements OnInit{
     *
   */
   searchRequestSent(): void {
-    this.visible = false;
+    this.visibleRequestsSent = false;
     this.friendRequestSentFilter = this.friendRequestSent.filter((item: FacebookFriendsModel) => item.name.indexOf(this.searchValue) !== -1);
   }
 
@@ -262,7 +253,7 @@ export class FriendAndFollowersComponent implements OnInit{
     *
   */
   searchRequestReceived(): void {
-    this.visible = false;
+    this.visibleRequestsReceived = false;
     this.friendRequestReceivedFilter = this.friendRequestReceived.filter((item: FacebookFriendsModel) => item.name.indexOf(this.searchValue) !== -1);
   }
 
@@ -273,7 +264,7 @@ export class FriendAndFollowersComponent implements OnInit{
     *
   */
   searchRejectedFriends(): void {
-    this.visible = false;
+    this.visibleRejectedFriends = false;
     this.rejectedFriendRequestsFilter = this.rejectedFriendRequests.filter((item: FacebookFriendsModel) => item.name.indexOf(this.searchValue) !== -1);
   }
 
@@ -284,7 +275,7 @@ export class FriendAndFollowersComponent implements OnInit{
     *
   */
   searchWhoYouFollow(): void {
-    this.visible = false;
+    this.visibleWhoYouFollow = false;
     this.whoYouFollowFilter = this.whoYouFollow.filter((item: FacebookFriendsModel) => item.name.indexOf(this.searchValue) !== -1);
   }
 
