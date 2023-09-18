@@ -132,6 +132,7 @@ import { InstaYourTopicComponent } from './visualizations/instagram/insta-your-t
 import { PurposesComponent } from './visualizations/spotify/purposes/purposes.component';
 import { DataDownloadInstructionsComponent } from './service-selection/data-download-instructions/data-download-instructions.component';
 import { InferencesMailComponent } from './visualizations/spotify/inferences/inferences-mail/inferences-mail.component';
+import { NzResultModule } from 'ng-zorro-antd/result';
 registerLocaleData(de);
 
 @NgModule({
@@ -223,7 +224,8 @@ registerLocaleData(de);
     NzStatisticModule,
     NzSpaceModule,
     ReactiveFormsModule,
-    NzFormModule
+    NzFormModule,
+    NzResultModule
   ],
   providers: [
     SQLiteService,
