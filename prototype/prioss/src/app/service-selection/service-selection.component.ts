@@ -1949,10 +1949,12 @@ export class ServiceSelectionComponent implements AfterViewInit {
           } else if (message.photos != undefined) {
             otherMessagesPerUser[message.sender_name].photos++;
           } else {
+            
             otherMessagesPerUser[message.sender_name].avg =
-              message.content.length +
-              otherMessagesPerUser[message.sender_name].avg *
-                otherMessagesPerUser[message.sender_name].text;
+              (otherMessagesPerUser[message.sender_name].text * 
+              otherMessagesPerUser[message.sender_name].avg + message.content.length) /
+                (otherMessagesPerUser[message.sender_name].text + 1);
+
             otherMessagesPerUser[message.sender_name].text++;
           }
 

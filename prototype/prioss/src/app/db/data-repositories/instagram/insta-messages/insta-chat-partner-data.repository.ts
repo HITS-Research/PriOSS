@@ -34,28 +34,8 @@ export class InstaChatPartnerDataRepository extends BulkAddCapableRepository {
       this.addChatPartnerDataBulkEntry(chatData, chat_id);
     });
     this.finishBulkEntry();
-
-    // (sender,
-    //     messages,
-    //     avg,
-    //     text,
-    //     share,
-    //     audio,
-    //     photos,
-    //     monday,
-    //     tuesday,
-    //     wednesday,
-    //     thursday,
-    //     friday,
-    //     saturday,
-    //     sunday,
-    //   ),
-    //   totalRowCount,
-    //   targetBulkSize
-    // );
   }
 
-  // TODO: fix the parameters in the comments
   /**
    * Starts a bulk-add run that adds multiple rows from subsequent addBlockedBulkEntry-Calls to the DB in a single SQL statement.
    *

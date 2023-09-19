@@ -74,34 +74,12 @@ export class InstaMessagesComponent
     { weekday: weekday[6], outgoing: 0, ingoing: 0 },
     { weekday: weekday[0], outgoing: 0, ingoing: 0 },
   ];
-  // userInOutMessages: UserInOutMessages[] = [
-  //   { weekday: Weekday.Sunday, outgoing: 0, ingoing: 35 },
-  //   { weekday: Weekday.Monday, outgoing: 12, ingoing: 5 },
-  //   { weekday: Weekday.Tuesday, outgoing: 2, ingoing: 10 },
-  //   { weekday: Weekday.Wednesday, outgoing: 3, ingoing: 15 },
-  //   { weekday: Weekday.Thursday, outgoing: 40, ingoing: 20 },
-  //   { weekday: Weekday.Friday, outgoing: 14, ingoing: 25 },
-  //   { weekday: Weekday.Saturday, outgoing: 101, ingoing: 30 },
-  // ];
 
   // Variables for the blue horizontal bar chart
   userOutMessages: UserMessages[] = [];
-  // userOutMessages: UserMessages[] = [
-  //   { chat: 'Chat 1', messages: 12 },
-  //   { chat: 'Chat 2', messages: 2 },
-  //   { chat: 'Chat 3', messages: 3 },
-  //   { chat: 'Chat 4', messages: 50 },
-  //   { chat: 'Chat 5', messages: 14 },
-  // ];
 
   // Variables for the orange horizontal bar chart
   userInMessages: UserMessages[] = [];
-  // userInMessages: UserMessages[] = [
-  //   { chat: 'Chat 1', messages: 5 },
-  //   { chat: 'Chat 2', messages: 10 },
-  //   { chat: 'Chat 3', messages: 15 },
-  //   { chat: 'Chat 4', messages: 20 },
-  // ];
 
   //the panels for the collapsable
   panels: {
@@ -112,74 +90,6 @@ export class InstaMessagesComponent
 
   //Chat data used to fill the collapsable
   chatData: ChatData[] = [];
-  // chatData: ChatData[] = [
-  //   {
-  //     chat: 'Chat1',
-  //     yourMessages: 12,
-  //     otherMessages: [
-  //       {
-  //         sender: 'sender1',
-  //         messages: 5,
-  //         avg: 2.1,
-  //         text: 4,
-  //         share: 2,
-  //         audio: 12,
-  //         photos: 2,
-  //       },
-  //       {
-  //         sender: 'sender2',
-  //         messages: 10,
-  //         avg: 5.0,
-  //         text: 4,
-  //         share: 2,
-  //         audio: 12,
-  //         photos: 2,
-  //       },
-  //       {
-  //         sender: 'sender3',
-  //         messages: 15,
-  //         avg: 2.1,
-  //         text: 4,
-  //         share: 2,
-  //         audio: 12,
-  //         photos: 2,
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     chat: 'Chat2',
-  //     yourMessages: 2,
-  //     otherMessages: [
-  //       {
-  //         sender: 'sender4',
-  //         messages: 5,
-  //         avg: 3.0,
-  //         text: 4,
-  //         share: 2,
-  //         audio: 12,
-  //         photos: 2,
-  //       },
-  //       {
-  //         sender: 'sender1',
-  //         messages: 10,
-  //         avg: 10.0,
-  //         text: 4,
-  //         share: 2,
-  //         audio: 12,
-  //         photos: 2,
-  //       },
-  //       {
-  //         sender: 'sender5',
-  //         messages: 30,
-  //         avg: 4.3,
-  //         text: 4,
-  //         share: 2,
-  //         audio: 12,
-  //         photos: 2,
-  //       },
-  //     ],
-  //   },
-  // ];
 
   constructor(
     private instaChatDataRepository: InstaChatDataRepository,
@@ -225,9 +135,6 @@ export class InstaMessagesComponent
       };
     });
 
-    //Fill userOutMessages { chat: 'Chat 1', messages: 5 }
-    //Fill userInMessages { chat: 'Chat 1', messages: 5 }
-    //Fill userInOutMessages { weekday[3], outgoing: 12, ingoing: 5 }
     this.instaChatData.forEach((chat) => {
       this.userInOutMessages[0].outgoing += chat.monday;
       this.userInOutMessages[1].outgoing += chat.tuesday;
