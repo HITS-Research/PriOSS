@@ -1,4 +1,4 @@
-import { CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { ServiceWorkerModule } from '@angular/service-worker';
@@ -11,12 +11,12 @@ import { LandingComponent } from './landing/landing.component';
 import { ServiceSelectionComponent } from './service-selection/service-selection.component';
 import { FaceDashboardComponent } from './dashboards/face-dashboard/face-dashboard.component';
 import { InstaDashboardComponent } from './dashboards/insta-dashboard/insta-dashboard.component';
-import { Insta_PersonalInfoComponent} from './visualizations/instagram/Insta_personal-info/personal-info.component';
+import { Insta_PersonalInfoComponent } from './visualizations/instagram/Insta_personal-info/personal-info.component';
 import { InstaFollowersComponent } from './visualizations/instagram/insta-followers/insta-followers.component';
 import { InstaAccountCreationLoginComponent } from './visualizations/instagram/insta-account-creation-login/insta-account-creation-login.component';
 import { InstaAdsComponent } from './visualizations/instagram/insta-ads/insta-ads.component';
 import { SpotDashboardComponent } from './dashboards/spot-dashboard/spot-dashboard.component';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';//free icon library for buttons etc
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'; //free icon library for buttons etc
 import { MoodComponent } from './visualizations/spotify/mood/mood.component';
 import { NotificationComponent } from './utilities/notification/notification.component';
 import { GeneralDataComponent } from './visualizations/all/general-data/general-data.component';
@@ -32,14 +32,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { IconsProviderModule } from './icons-provider.module';
-import { NgZorroAntdModule } from "./ng-zorro-antd.module";
+import { NgZorroAntdModule } from './ng-zorro-antd.module';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzTimelineModule } from 'ng-zorro-antd/timeline';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
-import { NzProgressModule } from 'ng-zorro-antd/progress'
+import { NzProgressModule } from 'ng-zorro-antd/progress';
 import { AboutComponent } from './info-pages/about/about.component';
 import { ContactComponent } from './info-pages/contact/contact.component';
 import { InferredTopicsComponent } from './visualizations/facebook/inferred-topics/inferred-topics.component';
@@ -84,6 +84,8 @@ import { InstaFollowingRepository } from './db/data-repositories/instagram/insta
 import { InstaBlockedRepository } from './db/data-repositories/instagram/insta-follower-info/insta-blocked.repository';
 import { InstaShoppingRepository } from './db/data-repositories/instagram/insta-shopping/insta-shopping.repository';
 import { InstaShoppingComponent } from './visualizations/instagram/insta-shopping/insta-shopping.component';
+import { InstaChatDataRepository } from './db/data-repositories/instagram/insta-messages/insta-chat-data.repository';
+import { InstaChatPartnerDataRepository } from './db/data-repositories/instagram/insta-messages/insta-chat-partner-data.repository';
 import { InstaRecentFollowRepository } from './db/data-repositories/instagram/insta-follower-info/insta-recent-follow.repository';
 import { InstaPendingFollowRequestRepository } from './db/data-repositories/instagram/insta-follower-info/insta-pending-follow-request.repository';
 import { InstaRecentlyUnfollowedAccountsRepository } from './db/data-repositories/instagram/insta-follower-info/insta-recently-unfollowed-accounts.repository';
@@ -127,6 +129,7 @@ import { FacebookEventsRepository } from './db/data-repositories/facebook/fb-gro
 import { FacebookGroupsRepository } from './db/data-repositories/facebook/fb-groups-events-info/face_groups.repo';
 import { InstaTopicsRepository } from './db/data-repositories/instagram/insta-your-topics/insta-topics.repository';
 import { InstaYourTopicComponent } from './visualizations/instagram/insta-your-topic/insta-your-topic.component';
+import { InstaMessagesComponent } from './visualizations/instagram/insta-messages/insta-messages.component';
 import { PurposesComponent } from './visualizations/spotify/purposes/purposes.component';
 import { DataDownloadInstructionsComponent } from './service-selection/data-download-instructions/data-download-instructions.component';
 import { InferencesMailComponent } from './visualizations/spotify/inferences/inferences-mail/inferences-mail.component';
@@ -166,6 +169,7 @@ registerLocaleData(de);
     InstaAdsComponent,
     InstaLikedContentComponent,
     InstaContactComponent,
+    InstaMessagesComponent,
     AdsRelatedDataComponent,
     FriendAndFollowersComponent,
     SettingsFormComponent,
@@ -222,7 +226,7 @@ registerLocaleData(de);
       enabled: environment.production,
       // Register the ServiceWorker as soon as the application is stable
       // or after 30 seconds (whichever comes first).
-      registrationStrategy: 'registerWhenStable:30000'
+      registrationStrategy: 'registerWhenStable:30000',
     }),
     CommonModule,
     NzTimelineModule,
@@ -252,6 +256,8 @@ registerLocaleData(de);
     InstaFollowerRepository,
     InstaFollowingRepository,
     InstaBlockedRepository,
+    InstaChatDataRepository,
+    InstaChatPartnerDataRepository,
     InstaShoppingRepository,
     InstaShoppingWishlistRepository,
     InstaRecentFollowRepository,
@@ -281,9 +287,9 @@ registerLocaleData(de);
     FaceBookGroupMessagesInfoRepository,
     FacebookGroupsRepository,
     FacebookEventsRepository,
-    { provide: NZ_I18N, useValue: de_DE }
+    { provide: NZ_I18N, useValue: de_DE },
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class AppModule { }
+export class AppModule {}
