@@ -50,7 +50,12 @@ CREATE TABLE IF NOT EXISTS insta_account_info (
 
 CREATE TABLE IF NOT EXISTS insta_professional_info (
     id INTEGER PRIMARY KEY,
-    title TEXT NOT NULL
+    business_information TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS insta_based_in (
+    id INTEGER PRIMARY KEY,
+    account_based_in TEXT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS insta_profile_changes (
@@ -321,7 +326,8 @@ CREATE TABLE IF NOT EXISTS face_group_messages (
 CREATE TABLE IF NOT EXISTS face_posts (
     id INTEGER PRIMARY KEY,
     timestamp INTEGER,
-    title STRING
+    title STRING,
+    post STRING
 );
 CREATE TABLE IF NOT EXISTS face_groups (
     id INTEGER PRIMARY KEY,

@@ -59,8 +59,9 @@
       </div>
       </ng-container>
       <ng-template #noDataTemplate>
-        No data available
-        </ng-template>
+        <nz-result nzStatus="403" nzTitle="No data available">
+        </nz-result>
+      </ng-template>
     </nz-tab>
         <nz-tab nzTitle="Search History">
           <ng-container *ngIf="dataAvailableSearchHistory; else noDataTemplate">
@@ -83,8 +84,9 @@
             </div>
             </ng-container>
             <ng-template #noDataTemplate>
-              No data available
-              </ng-template>
+              <nz-result nzStatus="403" nzTitle="No data available">
+              </nz-result>
+            </ng-template>
             </nz-tab>
   </nz-tabset>
 </div>
