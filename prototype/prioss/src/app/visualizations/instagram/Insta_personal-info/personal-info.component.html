@@ -29,12 +29,20 @@
         </tr>
       </thead>
       <!--waits for the personal data to be loaded-->
-      <tbody *ngIf="personalInfo !== undefined && accountInfo !== undefined && professionalInfo !== undefined">
+      <tbody *ngIf="personalInfo !== undefined && accountInfo !== undefined && professionalInfo !== undefined && basedInInfo !== undefined">
         <tr *ngFor="let pair of getObjectPairs(personalInfo)">
           <td>{{ capitalizeAndPrettify(pair[0]) }}</td>
           <td>{{ convertTimestamp(pair[1]) }}</td>
         </tr>
         <tr *ngFor="let pair of getObjectPairs(accountInfo)">
+          <td>{{ capitalizeAndPrettify(pair[0]) }}</td>
+          <td>{{ convertTimestamp(pair[1]) }}</td>
+        </tr>
+        <tr *ngFor="let pair of getObjectPairs(basedInInfo)">
+          <td>{{ capitalizeAndPrettify(pair[0]) }}</td>
+          <td>{{ convertTimestamp(pair[1]) }}</td>
+        </tr>
+        <tr *ngFor="let pair of getObjectPairs(professionalInfo)">
           <td>{{ capitalizeAndPrettify(pair[0]) }}</td>
           <td>{{ convertTimestamp(pair[1]) }}</td>
         </tr>

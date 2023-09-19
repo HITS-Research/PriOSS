@@ -33,7 +33,7 @@
     <app-title-bar titleText="Messages" tooltipText="This visualization presents an overview of data pertaining to interactions with friends and group interactions."></app-title-bar>
     <nz-tabset class="margin-top-20" (nzSelectChange)="onTabSelected($event)">
       <nz-tab nzTitle="People & Friends Interactions - Graph View">
-         <ng-container *ngIf="dataAvailableIn; else noDataTemplate">
+        <ng-container *ngIf="dataAvailableIn; else noDataTemplate">
         <h3 nz-typography>Latest 10 Interactions</h3>
         <h3 nz-typography>Note - Bubble hover shows profile link.</h3>
         <br>
@@ -61,8 +61,9 @@
         </div>
         </ng-container>
         <ng-template #noDataTemplate>
-          No data available
-          </ng-template>
+          <nz-result nzStatus="403" nzTitle="No data available">
+          </nz-result>
+        </ng-template>
       </nz-tab>
       <nz-tab nzTitle="People & Friends Intercations List">
         <ng-container *ngIf="dataAvailableIn; else noDataTemplate">
@@ -93,8 +94,9 @@
         </nz-table>
         </ng-container>
         <ng-template #noDataTemplate>
-          No data available
-          </ng-template>
+          <nz-result nzStatus="403" nzTitle="No data available">
+          </nz-result>
+        </ng-template>
       </nz-tab>
       <nz-tab nzTitle="Group Interactions - Graph View ">
         <ng-container *ngIf="dataAvailableGroup; else noDataTemplate">
@@ -105,7 +107,8 @@
         </div>
         </ng-container>
         <ng-template #noDataTemplate>
-          No data available
+          <nz-result nzStatus="403" nzTitle="No data available">
+          </nz-result>
         </ng-template>
       </nz-tab>
       <nz-tab nzTitle="Group Interactions List">
@@ -133,8 +136,9 @@
           </nz-table>
           </ng-container>
           <ng-template #noDataTemplate>
-            No data available
-          </ng-template>    
+            <nz-result nzStatus="403" nzTitle="No data available">
+            </nz-result>
+          </ng-template>  
       </nz-tab>
   </nz-tabset>
 </div>

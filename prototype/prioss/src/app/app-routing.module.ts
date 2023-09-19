@@ -44,6 +44,7 @@ import { YourTopicsComponent } from './visualizations/facebook/manage-privacy/yo
 import { SecurityLoginDataComponent } from './visualizations/facebook/security-login-data/security-login-data.component';
 import { MessagesComponent } from './visualizations/facebook/messages/messages.component';
 import { InstaYourTopicComponent } from './visualizations/instagram/insta-your-topic/insta-your-topic.component';
+import { DataDownloadInstructionsComponent } from './service-selection/data-download-instructions/data-download-instructions.component';
 import { InstaDisableCookiesComponent } from './rectification/instagram/insta-disable-cookies/insta-disable-cookies.component';
 
 
@@ -75,6 +76,7 @@ const routes: Routes = [
   { path: 'face/dashboard', component: FaceDashboardComponent },
   { path: 'face/inferred-topics', component: InferredTopicsComponent },
   { path: 'serviceSelection', component: ServiceSelectionComponent },
+  { path: 'serviceSelection/dataDownload', component: DataDownloadInstructionsComponent },
   { path: 'face/ads-related-data', component: AdsRelatedDataComponent },
   { path: 'face/connections', component: FriendAndFollowersComponent },
   { path: 'face/configure-off-facebook-activity', component: OffFacebookActivityComponent },
