@@ -48,6 +48,7 @@ import { DataDownloadInstructionsComponent } from './service-selection/data-down
 import { InstaActivityStatusHiddenComponent } from './rectification/instagram/insta-activity-status-hidden/insta-activity-status-hidden.component';
 import { InstaDisableCookiesComponent } from './rectification/instagram/insta-disable-cookies/insta-disable-cookies.component';
 
+import { InstaPurposesComponent } from './visualizations/instagram/insta-purposes/insta-purposes.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },

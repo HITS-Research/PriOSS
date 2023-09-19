@@ -135,6 +135,8 @@ import { InstaActivityStatusHiddenComponent } from './rectification/instagram/in
 
 import { InstaDisableCookiesComponent } from './rectification/instagram/insta-disable-cookies/insta-disable-cookies.component';
 
+import { InstaPurposesComponent } from './visualizations/instagram/insta-purposes/insta-purposes.component';
+
 registerLocaleData(de);
 
 @NgModule({
@@ -197,7 +199,8 @@ registerLocaleData(de);
     DataDownloadInstructionsComponent,
     InferencesMailComponent,
     InstaActivityStatusHiddenComponent,
-    InstaDisableCookiesComponent
+    InstaDisableCookiesComponent,
+    InstaPurposesComponent
 ,
   ],
   imports: [
