@@ -326,7 +326,8 @@ CREATE TABLE IF NOT EXISTS face_group_messages (
 CREATE TABLE IF NOT EXISTS face_posts (
     id INTEGER PRIMARY KEY,
     timestamp INTEGER,
-    title STRING
+    title STRING,
+    post STRING
 );
 CREATE TABLE IF NOT EXISTS face_groups (
     id INTEGER PRIMARY KEY,
