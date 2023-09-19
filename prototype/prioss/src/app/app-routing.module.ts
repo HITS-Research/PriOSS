@@ -100,7 +100,7 @@ const routes: Routes = [
   { path: 'face/other-personal-info' ,component: OtherPersonalInfoComponent},
   { path: 'face/posts' ,component: PostsComponent},
   { path: 'face/messages-info' , component: MessagesComponent},
-  { path: 'insta/activity-hidden' , component: InstaActivityStatusHiddenComponent},,
+  { path: 'insta/activity-hidden' , component: InstaActivityStatusHiddenComponent},
   { path: 'insta/disable-cookies' , component: InstaDisableCookiesComponent}
 ];
 
