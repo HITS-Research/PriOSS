@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
   * It integrates the tutorials that were previously displayed directly on the Service Selection page.
   * It Adepts the step-by-step apporach for the instructions initially used by Instagram to the other services
   *
-  * @author: Max (maxy@mail.upb.de), Aayushma (aayushma@mail.uni-paderborn.de)
+  * @author: Aayushma (aayushma@mail.uni-paderborn.de), Max (maxy@mail.upb.de)
   *
   */
 @Component({
@@ -51,7 +51,7 @@ returnToServiceSelection(): void {
 
   /**
    * Callback function to decrement the "FaceDataDownload" variable.
-   * @author: Max (maxy@mail.upb.de)
+   * @author: Aayushma (aayushma@mail.uni-paderborn.de)
    *
    */
     preFaceDataDownload(): void {
@@ -61,7 +61,7 @@ returnToServiceSelection(): void {
 
   /**
    * Callback function to decrement the "SpotDataDownload" variable.
-   * @author: Max (maxy@mail.upb.de)
+   * @author: Aayushma (aayushma@mail.uni-paderborn.de)
    *
    */
   preSpotDataDownload(): void {
@@ -81,7 +81,7 @@ returnToServiceSelection(): void {
 
   /**
    * Callback function to increment the "FaceDataDownload" variable.
-   * @author: Max (maxy@mail.upb.de)
+   * @author: Aayushma (aayushma@mail.uni-paderborn.de)
    *
    */
   nextFaceDataDownload(): void {
@@ -91,8 +91,8 @@ returnToServiceSelection(): void {
 
     
   /**
-   * Callback function to increment the "InstaDataDownload" variable.
-   * @author: Max (maxy@mail.upb.de)
+   * Callback function to increment the "SpotDataDownload" variable.
+   * @author: Aayushma (aayushma@mail.uni-paderborn.de)
    *
    */
   nextSpotDataDownload(): void {
@@ -153,7 +153,7 @@ returnToServiceSelection(): void {
   /**
    * This method shows the instruction text and picture for Facebook user to download their personal data.
    * 
-   * @author: Max (maxy@mail.upb.de)
+   * @author: Aayushma (aayushma@mail.uni-paderborn.de), Max (maxy@mail.upb.de)
    *
    */
   changeFaceDataDownload(): void {
@@ -207,7 +207,7 @@ returnToServiceSelection(): void {
   /**
    * This method shows the instruction text and picture for Spotify user to download their personal data.
    * 
-   * @author: Max (maxy@mail.upb.de)
+   * @author: Aayushma (aayushma@mail.uni-paderborn.de), Max (maxy@mail.upb.de)
    *
    */
   changeSpotDataDownload(): void {
@@ -247,6 +247,4 @@ returnToServiceSelection(): void {
       }
     }
   }
-
-
 }
