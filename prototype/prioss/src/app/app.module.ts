@@ -120,12 +120,10 @@ import { SecurityLoginDataComponent } from './visualizations/facebook/security-l
 import { OtherPersonalInfoComponent } from './visualizations/facebook/other-personal-info/other-personal-info.component';
 import { FacebookPostsRepository } from './db/data-repositories/facebook/fb-posts/face-posts.repo';
 import { PostsComponent } from './visualizations/facebook/face-posts/posts/posts.component';
-
 import { FaceBookMessagesInfoRepository } from './db/data-repositories/facebook/fb-messages-data/fb-messages-friends.repo';
 import { MessagesComponent } from './visualizations/facebook/messages/messages.component';
 import { FaceBookGroupMessagesInfoRepository } from './db/data-repositories/facebook/fb-messages-data/fb-messages-groups.repo';
 import { InstaShoppingWishlistRepository } from './db/data-repositories/instagram/insta-shopping/insta-shopping_wishlist.repository';
-
 import { GroupsAndEventsDataComponent } from './visualizations/facebook/groups-and-events-data/groups-and-events-data.component';
 import { FacebookEventsRepository } from './db/data-repositories/facebook/fb-groups-events-info/face_events.repo';
 import { FacebookGroupsRepository } from './db/data-repositories/facebook/fb-groups-events-info/face_groups.repo';
@@ -136,6 +134,10 @@ import { PurposesComponent } from './visualizations/spotify/purposes/purposes.co
 import { DataDownloadInstructionsComponent } from './service-selection/data-download-instructions/data-download-instructions.component';
 import { InferencesMailComponent } from './visualizations/spotify/inferences/inferences-mail/inferences-mail.component';
 import { NzResultModule } from 'ng-zorro-antd/result';
+import { InstaActivityStatusHiddenComponent } from './rectification/instagram/insta-activity-status-hidden/insta-activity-status-hidden.component';
+
+import { InstaDisableCookiesComponent } from './rectification/instagram/insta-disable-cookies/insta-disable-cookies.component';
+
 registerLocaleData(de);
 
 @NgModule({
@@ -197,7 +199,9 @@ registerLocaleData(de);
     GroupsAndEventsDataComponent,
     PurposesComponent,
     DataDownloadInstructionsComponent,
-    InferencesMailComponent
+    InferencesMailComponent,
+    InstaActivityStatusHiddenComponent,
+    InstaDisableCookiesComponent
 ,
   ],
   imports: [

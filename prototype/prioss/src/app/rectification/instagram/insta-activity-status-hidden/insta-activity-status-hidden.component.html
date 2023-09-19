@@ -1,0 +1,75 @@
+<div class="component-page">
+    <app-title-bar titleText="Guidelines to hide Instagram's activity status" tooltipText="The following guidelines helps you to hide Instagram's activity status. The guidelines are provided for Web Browser user as well as Mobile Application user." [includeButton]="false"></app-title-bar>
+    <p nz-typography>If you don't want people to see when you're online in real-time do have the option to turn off Instagram's Show Activity Status feature, though, if you do, you won't be able to see anyone else's activity.</p>
+    <nz-tabset>
+        <nz-tab nzTitle="Web Browser">
+                <p nz-typography>Follow these steps if you want to set your Instagram account's activity status as hidden:</p>
+                <nz-steps [nzCurrent]="ActivityHidden">
+                    <nz-step nzTitle="Step 1"></nz-step>
+                    <nz-step nzTitle="Step 2"></nz-step>
+                    <nz-step nzTitle="Step 3"></nz-step>
+                    <nz-step nzTitle="Step 4"></nz-step>
+                    <nz-step nzTitle="Step 5"></nz-step>
+                  </nz-steps>
+              
+                  <div class="steps-content">
+                    <img
+                      nz-image
+                      height="300px"
+                      nzSrc={{instructionPictureActivityHidden}}
+                      alt=""
+                    />
+                    <nz-divider></nz-divider>
+                    <p nz-typography>{{ instructionTextActivityHidden }}</p>
+                  </div>
+                  <div class="steps-action">
+                    <button nz-button nzType="default" (click)="preActivityHidden()" [disabled]="ActivityHidden <= 0">
+                      <span>Previous</span>
+                    </button>
+                    <button nz-button nzType="default" (click)="nextActivityHidden()" [disabled]="ActivityHidden >= 4">
+                      <span>Next</span>
+                    </button>
+                  </div>
+
+
+        </nz-tab>
+        <nz-tab nzTitle="Mobile Application">
+            <p nz-typography>Follow these steps if you want to set your Instagram account's activity status as hidden:</p>
+                <nz-steps [nzCurrent]="ActivityHiddenMobile">
+                    <nz-step nzTitle="Step 1"></nz-step>
+                    <nz-step nzTitle="Step 2"></nz-step>
+                    <nz-step nzTitle="Step 3"></nz-step>
+                    <nz-step nzTitle="Step 4"></nz-step>
+                    <nz-step nzTitle="Step 5"></nz-step>
+                    <nz-step nzTitle="Step 6"></nz-step>
+                  </nz-steps>
+              
+                  <div class="steps-content">
+                    <img
+                      nz-image
+                      height="300px"
+                      nzSrc={{instructionPictureActivityHiddenMobile}}
+                      alt=""
+                    />
+                    <nz-divider></nz-divider>
+                    <p nz-typography>{{ instructionTextActivityHiddenMobile }}</p>
+                  </div>
+                  <div class="steps-action">
+                    <button nz-button nzType="default" (click)="preActivityHiddenMobile()" [disabled]="ActivityHiddenMobile <= 0">
+                      <span>Previous</span>
+                    </button>
+                    <button nz-button nzType="default" (click)="nextActivityHiddenMobile()" [disabled]="ActivityHiddenMobile >= 5">
+                      <span>Next</span>
+                    </button>
+                  </div>
+                
+        </nz-tab>
+    </nz-tabset>
+</div>
+   
+    
+    
+    
+
+
+

@@ -541,8 +541,9 @@ export class ServiceSelectionComponent implements AfterViewInit {
             '#requestsReceived'
           );
         }
-      } else if (filename === 'friend_requests_sent.json') {
-        console.log('fileoff---', filename);
+      }
+      else if (filename === "sent_friend_requests.json") {
+        console.log("fileoff---",filename)
         const jsonData = JSON.parse(content);
         const friendRequestsSent = jsonData.sent_requests_v2;
 
@@ -559,8 +560,9 @@ export class ServiceSelectionComponent implements AfterViewInit {
             '#requestsSent'
           );
         }
-      } else if (filename === 'friends.json') {
-        console.log('fileoff---', filename);
+      }
+      else if (filename === "your_friends.json") {
+        console.log("fileoff---",filename)
         const jsonData = JSON.parse(content);
         const friends = jsonData.friends_v2;
 
@@ -613,10 +615,11 @@ export class ServiceSelectionComponent implements AfterViewInit {
             '#removedFriends'
           );
         }
-      } else if (filename === 'who_you_follow.json') {
-        console.log('fileoff---', filename);
+      }
+      else if (filename === "who_you've_followed.json") {
+        console.log("fileoff---",filename)
         const jsonData = JSON.parse(content);
-        const following = jsonData.following_v2;
+        const following = jsonData.following_v3;
 
         await this.faceFriendsRepo.startAdActivityBulkAdd(
           following[0].name,
@@ -863,22 +866,21 @@ export class ServiceSelectionComponent implements AfterViewInit {
             );
           }
         }
-      } else if (filename === 'your_posts_1.json') {
+      }
+      else if(filename === "your_posts__check_ins__photos_and_videos_1.json") {
         const jsonData = JSON.parse(content);
         const posts = jsonData;
 
         const timestamp = posts[0].timestamp;
         const title = posts[0].title;
-        await this.facePostsRepo.startPostsBulkAdd(
-          timestamp,
-          title,
-          posts.length
-        );
+        const post = posts[0].data.length > 0 ?  posts[0].data[0].post : "Added a photo";
+        await this.facePostsRepo.startPostsBulkAdd(timestamp, title,post, posts.length);
 
-        for (let i = 1; i < posts.length; i++) {
-          const title = posts[i].title;
+        for(let i = 1; i < posts.length; i++){
+          const title = posts[i].title ? posts[i].title : "Updated timeline";
           const timestamp = posts[i].timestamp;
-          await this.facePostsRepo.addPostsBulkEntry(timestamp, title);
+          const post = posts[i].data.length > 0 ?  posts[i].data[0].post : "Added a photo";
+          await this.facePostsRepo.addPostsBulkEntry(timestamp, title,post);
         }
       }
     }

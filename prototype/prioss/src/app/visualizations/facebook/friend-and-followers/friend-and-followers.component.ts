@@ -14,13 +14,33 @@ export class chartData{
   styleUrls: ['./friend-and-followers.component.less']
 })
 export class FriendAndFollowersComponent implements OnInit{
+
   friends: FacebookFriendsModel[] = [];
+  friendsFilter = [...this.friends];
+  visibleFriends = false;
+
   removedFriends: FacebookFriendsModel[] = [];
+  removedFriendsFilter = [...this.removedFriends];
+  visibleRemovedFriends = false
+
   friendRequestReceived: FacebookFriendsModel[] = [];
+  friendRequestReceivedFilter = [...this.friendRequestReceived];
+  visibleRequestsReceived = false
+
   friendRequestSent: FacebookFriendsModel[] = [];
+  friendRequestSentFilter = [...this.friendRequestSent];
+  visibleRequestsSent = false
+
   rejectedFriendRequests: FacebookFriendsModel[] = [];
+  rejectedFriendRequestsFilter = [...this.rejectedFriendRequests];
+  visibleRejectedFriends = false
+
   whoYouFollow: FacebookFriendsModel[] = [];
-  showResult = false;
+  whoYouFollowFilter = [...this.whoYouFollow];
+  visibleWhoYouFollow = false
+
+  searchValue = '';
+  
   @Input()
   previewMode = false;
 
@@ -30,33 +50,39 @@ export class FriendAndFollowersComponent implements OnInit{
     this.getData();
   }
 
-   /**
-  * This methods gets all friends and followers related data from PriossDb
-  * 
-  *
-  * @author: rbharmal@mail.upb.de
-  *
+  /**
+    * This methods gets all friends and followers related data from PriossDb
+    * 
+    *
+    * @author: rbharmal@mail.upb.de
+    *
   */
   private getData()
   {
     this.faceFriendsRepo.getAllFacebookFriends().then((friends) => {
-      this.friendRequestReceived = friends.filter(x => x.type === "#requestsReceived");
-      this.createData(this.friendRequestReceived, "#friendRequestReceived", "#FF9800");
+        this.friendRequestReceived = friends.filter(x => x.type === "#requestsReceived");
+        this.createData(this.friendRequestReceived,"#friendRequestReceived", "#FF9800"); 
+        this.searchRequestReceived();
 
         this.friendRequestSent = friends.filter(x => x.type === "#requestsSent");
         this.createData(this.friendRequestSent,"#friendRequestSent", "#00C853");
+        this.searchRequestSent();
 
         this.friends = friends.filter(x=>x.type === "#friends");
         this.createData(this.friends, "#myFriends", "#1877F2");
+        this.searchFriends();
 
         this.rejectedFriendRequests = friends.filter(x=>x.type === "#rejectedFriends");
         this.createData(this.rejectedFriendRequests,"#rejectedFriends", "#FF0000");
+        this.searchRejectedFriends();
 
         this.removedFriends = friends.filter(x=>x.type === "#removedFriends");
         this.createData(this.removedFriends,"#removedFriends", "#808080"); 
+        this.searchRemovedFriends();
 
         this.whoYouFollow = friends.filter(x=>x.type === "#following")
         this.createData(this.whoYouFollow,"#following", "#00BCD4");
+        this.searchWhoYouFollow();
     });
   }
 
@@ -67,7 +93,7 @@ export class FriendAndFollowersComponent implements OnInit{
     *
     * @author: Rashida (rbharmal@mail.upb.de)
     *
-    */
+  */
 
   createData(friends: any[], id: string, color: string)
   {
@@ -91,13 +117,13 @@ export class FriendAndFollowersComponent implements OnInit{
   }
 
 /**
-    * Creates a bar chart for the friends related data.
-    * 
-    * @param data: The data array (structure: data: any[], id: string, color: string) that should be used to fill the bar chart
-    *
-    * @author: Rashida (rbharmal@mail.upb.de)
-    *
-    */
+  * Creates a bar chart for the friends related data.
+  * 
+  * @param data: The data array (structure: data: any[], id: string, color: string) that should be used to fill the bar chart
+  *
+  * @author: Rashida (rbharmal@mail.upb.de)
+  *
+*/
 
   drawChart(data: any[], id: string, color: string) {
 
@@ -107,8 +133,8 @@ export class FriendAndFollowersComponent implements OnInit{
     }
 
     const margin = { top: 40, right: 20, bottom: 30, left: 0 };
-    const width = 650 - margin.left - margin.right;
-    const height = 500 - margin.top - margin.bottom;
+    const width = 750 - margin.left - margin.right;
+    const height = 600 - margin.top - margin.bottom;
 
     // Get svg based on the id to draw chart
     const svg = d3.select(id)
@@ -173,21 +199,100 @@ export class FriendAndFollowersComponent implements OnInit{
       .attr("transform", `translate(${margin.left}, ${margin.top})`)
       .style("font-size", "20px")
       .call(d3.axisLeft(y).ticks(10));
-
-    // Add x-axis label
-    svg.append("text")
-      .attr("transform", `translate(${margin.left + width / 2}, ${height + margin.top + 55})`)
-      .style("text-anchor", "middle")
-      .style("font-size", "20px")
-      .text("Year");
-    
-    // Add y-axis label
-    svg.append("text")
-      .attr("transform", `rotate(-90) translate(${-margin.top - height / 2}, ${margin.left - 40})`)
-      .style("text-anchor", "middle")
-      .style("font-size", "26px")
-      .text("Count");
   }
- 
-  
+
+/**
+  * Converts timestamp into date.
+  * 
+  * @param timestamp: the timestamp for date converstion
+  * @author: Rashida (rbharmal@mail.upb.de)
+  *
+*/
+  convertToDate(timestamp: number)
+  {
+    return new Date(timestamp*1000)
+  }
+
+/**
+  * Searchs friends array according to the user input
+  * 
+  * @author: Rashida (rbharmal@mail.upb.de)
+  *
+*/
+  searchFriends(): void {
+    this.visibleFriends = false;
+    this.friendsFilter = this.friends.filter((item: FacebookFriendsModel) => item.name.indexOf(this.searchValue) !== -1);
+  }
+
+  /**
+    * Searchs removed friends array according to the user input
+    * 
+    * @author: Rashida (rbharmal@mail.upb.de)
+    *
+  */
+  searchRemovedFriends(): void {
+    this.visibleRemovedFriends = false;
+    this.removedFriendsFilter = this.removedFriends.filter((item: FacebookFriendsModel) => item.name.indexOf(this.searchValue) !== -1);
+  }
+
+  /**
+    * Searchs friend requests sent array according to the user input
+    * 
+    * @author: Rashida (rbharmal@mail.upb.de)
+    *
+  */
+  searchRequestSent(): void {
+    this.visibleRequestsSent = false;
+    this.friendRequestSentFilter = this.friendRequestSent.filter((item: FacebookFriendsModel) => item.name.indexOf(this.searchValue) !== -1);
+  }
+
+  /**
+    * Searchs friend requests received array according to the user input
+    * 
+    * @author: Rashida (rbharmal@mail.upb.de)
+    *
+  */
+  searchRequestReceived(): void {
+    this.visibleRequestsReceived = false;
+    this.friendRequestReceivedFilter = this.friendRequestReceived.filter((item: FacebookFriendsModel) => item.name.indexOf(this.searchValue) !== -1);
+  }
+
+  /**
+    * Searchs rejected friends array according to the user input
+    * 
+    * @author: Rashida (rbharmal@mail.upb.de)
+    *
+  */
+  searchRejectedFriends(): void {
+    this.visibleRejectedFriends = false;
+    this.rejectedFriendRequestsFilter = this.rejectedFriendRequests.filter((item: FacebookFriendsModel) => item.name.indexOf(this.searchValue) !== -1);
+  }
+
+  /**
+    * Searchs who you follow array according to the user input
+    * 
+    * @author: Rashida (rbharmal@mail.upb.de)
+    *
+  */
+  searchWhoYouFollow(): void {
+    this.visibleWhoYouFollow = false;
+    this.whoYouFollowFilter = this.whoYouFollow.filter((item: FacebookFriendsModel) => item.name.indexOf(this.searchValue) !== -1);
+  }
+
+  /**
+    * Resets the search filter and shows all value for all the arrays
+    * 
+    * @author: Rashida (rbharmal@mail.upb.de)
+    *
+  */
+  reset(): void {
+    this.searchValue = '';
+    this.searchFriends();
+    this.searchRejectedFriends();
+    this.searchRemovedFriends();
+    this.searchRequestReceived();
+    this.searchRequestSent();
+    this.searchWhoYouFollow();
+  }
+
 }
