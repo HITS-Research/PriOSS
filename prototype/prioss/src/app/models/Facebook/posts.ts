@@ -1,5 +1,6 @@
 export interface PostsModel
 {
     timestamp: number,
-    title: string
+    title: string,
+    post: string
 }
