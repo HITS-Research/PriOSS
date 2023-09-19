@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 export class InstaPrivacySettingsService {
   /**
    * Interface for that is used for the settings variable, that may differ for the different services (Spotify, Facebook and Instragram)
-   * For detailed information on the variable and on how to embed the privacy settings module to the Dashboard please refer to the documentation
+   * For detailed information on the variable and on how to embed the privacy settings module to the Dashboard please refer to the documentation.
    * Documentation File: "Privacy-Settings Module information.md"
    *  
    * Questions are in-line with the instructions provided in the Privacy Recommendations section.
@@ -59,7 +59,7 @@ export class InstaPrivacySettingsService {
     },
     {
       question : "Is your Instagram account's Activity Status hidden?",
-      howToCheck : "<strong>Text Guide:</strong> <br> 1. Open your <strong>Instagram account</strong>. <br> 2. Open <strong>Instagram settings</strong>. <br> 3. Go to the <strong>Privacy settings</strong>. <br> 4. Look for <strong>Activity Status</strong>. <br> 5. Tap on it, and tap on the slider next to <strong>Show activity status</strong>. <br> This will hide your status from everyone and it can prevent others from tracking your online activity.",
+      howToCheck : "<strong>Text Guide:</strong> <br> 1. Open your <strong>Instagram account</strong>. <br> 2. Open <strong>Instagram settings</strong>. <br> 3. Go to the <strong>Privacy settings</strong>. <br> 4. Look for <strong>Activity Status</strong>. <br> 5. Tap on it, and tap on the slider next to <strong>Show activity status</strong>. <br> This will hide your status from everyone and it can prevent others from tracking your online activity. <br> <br> <strong>Picture Guide:</strong><br> Please look <a target='_blank' href=/insta/activity-hidden> <strong> here </a></strong> for the picture guide to hide Instagram's activity status. </a></strong>",
       options : [
         { label: "Yes, Activity Status for my account is hidden", value: "Yes", advice: "Well Done! You are aware about your privacy concerns."},
         { label: "No, Activity Status for my account is not hidden", value: "No", advice: "Hiding your Instagram account's activity status is important for privacy and security reasons. It prevents other users from knowing when you were last active on the platform, which can help protect your online presence and keep your interactions more private. This can be particularly valuable if you want to control who knows when you are online, avoid unwanted attention, or simply maintain a level of anonymity on the platform."}

@@ -131,6 +131,8 @@ import { PurposesComponent } from './visualizations/spotify/purposes/purposes.co
 import { DataDownloadInstructionsComponent } from './service-selection/data-download-instructions/data-download-instructions.component';
 import { InferencesMailComponent } from './visualizations/spotify/inferences/inferences-mail/inferences-mail.component';
 import { NzResultModule } from 'ng-zorro-antd/result';
+import { InstaActivityStatusHiddenComponent } from './rectification/instagram/insta-activity-status-hidden/insta-activity-status-hidden.component';
+
 import { InstaDisableCookiesComponent } from './rectification/instagram/insta-disable-cookies/insta-disable-cookies.component';
 
 registerLocaleData(de);
@@ -194,6 +196,7 @@ registerLocaleData(de);
     PurposesComponent,
     DataDownloadInstructionsComponent,
     InferencesMailComponent,
+    InstaActivityStatusHiddenComponent,
     InstaDisableCookiesComponent
 ,
   ],

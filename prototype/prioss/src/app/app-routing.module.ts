@@ -45,6 +45,7 @@ import { SecurityLoginDataComponent } from './visualizations/facebook/security-l
 import { MessagesComponent } from './visualizations/facebook/messages/messages.component';
 import { InstaYourTopicComponent } from './visualizations/instagram/insta-your-topic/insta-your-topic.component';
 import { DataDownloadInstructionsComponent } from './service-selection/data-download-instructions/data-download-instructions.component';
+import { InstaActivityStatusHiddenComponent } from './rectification/instagram/insta-activity-status-hidden/insta-activity-status-hidden.component';
 import { InstaDisableCookiesComponent } from './rectification/instagram/insta-disable-cookies/insta-disable-cookies.component';
 
 
@@ -99,6 +100,7 @@ const routes: Routes = [
   { path: 'face/other-personal-info' ,component: OtherPersonalInfoComponent},
   { path: 'face/posts' ,component: PostsComponent},
   { path: 'face/messages-info' , component: MessagesComponent},
+  { path: 'insta/activity-hidden' , component: InstaActivityStatusHiddenComponent},,
   { path: 'insta/disable-cookies' , component: InstaDisableCookiesComponent}
 ];
 
