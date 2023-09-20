@@ -118,9 +118,11 @@ export class ServiceSelectionComponent implements AfterViewInit {
   sampleDataFilenameFacebook = 'face_sampledata.zip';
   sampleDataFilenameInstagram = 'insta_sampledata.zip';
 
+  errorMsg = "";
+
   constructor(
     private router: Router,
-    private notifyService: NotificationService,
+    //private notifyService: NotificationService,
     private spotHistoryRepo: SpotHistoryRepository,
     private inferencesRepo: InferencesRepository,
     private UserdataRepo: UserdataRepository,
@@ -259,9 +261,8 @@ export class ServiceSelectionComponent implements AfterViewInit {
         const foundFile = zip.files[instaIDFilename];
 
         if (typeof foundFile == undefined) {
-          this.notifyService.showNotification(
-            'Please select a valid zip-file that you downloaded from Instagram!'
-          );
+          this.errorMsg = 'Please select a valid zip-file that you downloaded from Instagram!';
+          this.uploadDialogVisible = true;
         } else {
           this.setSelectedFileName(file.name);
         }
@@ -270,9 +271,8 @@ export class ServiceSelectionComponent implements AfterViewInit {
         //console.log(foundFile);
 
         if (typeof foundFile == undefined) {
-          this.notifyService.showNotification(
-            'Please select a valid zip-file that you downloaded from Spotify!'
-          );
+          this.errorMsg = 'Please select a valid zip-file that you downloaded from Spotify!';
+          this.uploadDialogVisible = true;
         } else {
           this.setSelectedFileName(file.name);
         }
@@ -280,9 +280,8 @@ export class ServiceSelectionComponent implements AfterViewInit {
         const foundFile = zip.files[faceIDFilename];
 
         if (typeof foundFile == undefined) {
-          this.notifyService.showNotification(
-            'Please select a valid zip-file that you downloaded from Facebook!'
-          );
+          this.errorMsg = 'Please select a valid zip-file that you downloaded from Facebook!';
+          this.uploadDialogVisible = true;
         } else {
           this.setSelectedFileName(file.name);
         }
@@ -300,6 +299,16 @@ export class ServiceSelectionComponent implements AfterViewInit {
   setSelectedFileName(filename: string) {
     console.log('enabling file selection prompt: ' + filename);
     this.selectedFileName = filename;
+  }
+
+  /**
+   *  Clears the error message when the error message box is clicked away by the user.
+   *
+   * @author: Simon (scg@mail.upb.de)
+   *
+   */
+  afterCloseErrorMsg() {
+    this.errorMsg = "";
   }
 
   /*
@@ -368,9 +377,11 @@ export class ServiceSelectionComponent implements AfterViewInit {
    */
   async onClickedExploreData() {
     console.log('Clicked explore data');
+
     this.isProcessingFile = true;
     this.uploadDialogVisible = false;
-    await this.parseFile(this.selectedServiceName); //TODO: get selected service's name
+    await this.parseFile(this.selectedServiceName);
+    
   }
 
   /**
@@ -2039,10 +2050,9 @@ export class ServiceSelectionComponent implements AfterViewInit {
    */
   async loadZipFile(file: File): Promise<JSZip> {
     if (typeof file == 'undefined') {
-      //TODO: Show error: you didn't upload a zip file
-      this.notifyService.showNotification(
-        'Please select a data-download zip-file first!'
-      );
+      //Show error: you didn't upload a zip file
+      this.errorMsg = 'Please select a data-download zip-file first!';
+      this.uploadDialogVisible = true;
       this.isProcessingFile = false;
       throw Error('No File selected!');
     }
@@ -2054,12 +2064,9 @@ export class ServiceSelectionComponent implements AfterViewInit {
       const zip = new JSZip();
       return await zip.loadAsync(file);
     } else {
-      //TODO: Show error: you didn't upload a zip file
-      this.notifyService.showNotification(
-        'The file you selected is not a zip-file. Please select the zip file you downloaded from ' +
-          this.selectedServiceName,
-        10000
-      );
+      //Show error: you didn't upload a zip file
+      this.errorMsg = 'The file you selected is not a zip-file. Please select the zip file you downloaded from ' + this.selectedServiceName;
+      this.uploadDialogVisible = true;
       this.isProcessingFile = false;
       console.log('Filetype: ' + typeof file);
       throw Error('Selected File is not a .zip file!');
