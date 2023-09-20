@@ -1,3 +1,8 @@
-<div id="notification-container" *ngIf="notificationMsg.length > 0" class="notification-window">
-    <p>{{notificationMsg}}</p>
-</div>
+
+<nz-alert *ngIf="notificationMsg.length > 0" class="notification-window"
+      nzType="error"
+      nzCloseable
+      nzMessage="Error"
+      nzDescription="{{notificationMsg}}"
+      nzShowIcon>
+</nz-alert>
