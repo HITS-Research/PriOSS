@@ -18,23 +18,15 @@ import { SequenceComponentInit } from '../../sequence-component-init.abstract';
   styleUrls: ['./general-data.component.less']
 })
 export class GeneralDataComponent extends SequenceComponentInit implements AfterViewInit{
-
-
-  // userdata: object = {}
-  userdata: readonly UserdataEntry[] = [];
-  getObjectPairs: (obj: object) => [string, any][] = utilities.getObjectPairs;
+  userdata: UserdataEntry;
   getObjectPairsNotNull: (obj: object) => [string, any][] = utilities.getObjectPairsNotNull
   capitalize: (str: string) => string = utilities.capitalize
-  isSpotify = false;
   @Input()
   previewMode = false;
 
   constructor(private userdataRepo: UserdataRepository) {
     super();
-
-    if (window.location.href.includes('/spot/')) {
-      this.isSpotify = true;
-    }    
+    this.initComponent();
   }
 
 /**
@@ -47,18 +39,17 @@ export class GeneralDataComponent extends SequenceComponentInit implements After
   {
     console.log("--- Preview Mode: " + this.previewMode);
     if(!this.previewMode) {
-      
       this.initComponent();
     }
   }
 
 /**
   * @see-super-class
-  * @author: Simon (scg@mail.upb.de) 
+  * @author: Simon (scg@mail.upb.de)
   */
   override async initComponent(): Promise<void> {
     console.log("--- Initializing Component 0: GeneralData");
     const userdata = await this.userdataRepo.getAllUserdata()
-    this.userdata = userdata;
+    this.userdata = userdata[0];
   }
 }
