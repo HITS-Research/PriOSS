@@ -71,6 +71,16 @@
           <p *ngIf="selectedFileName.length > 0">Your selected file: {{selectedFileName}}</p>
         </div>
       </div>
+
+      <nz-alert *ngIf="errorMsg.length > 0"
+        nzType="error"
+        nzCloseable
+        nzMessage="Error"
+        nzDescription="{{errorMsg}}"
+        (nzOnClose)="afterCloseErrorMsg()"
+
+      ></nz-alert>
+
       <p class="file-upload-explanation">Where can I download my data ? <a routerLink="/serviceSelection/dataDownload">Click here</a> for instructions</p>
     </ng-template>
 
