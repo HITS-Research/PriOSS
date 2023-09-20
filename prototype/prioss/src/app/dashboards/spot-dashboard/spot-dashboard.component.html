@@ -30,13 +30,6 @@
     </div>
 
     <div nz-row [nzGutter]="[{ xs: 8, xl: 20}, {xs: 8, xl: 40}]">
-      <div id="step2" nz-col nzXs="24" nzXl="8">
-        <app-dash-card cardLink="/spot/inference" titleText="Inferences"
-          tooltipText="This card shows the interests you have and groups you belong to according to Spotify. You can let Spotify delete them, if you think they are incorrect. Click to find out more.">
-          <spot-inferences [previewMode]="true"></spot-inferences>
-        </app-dash-card>
-      </div>
-
       <div id="step4" nz-col nzXs="24" nzXl="8">
         <app-dash-card cardLink="/spot/top-artists" titleText="Top Artists"
           tooltipText="This card shows your most played artists. You can customize the timeframe over which this is calculated. Click to find out more.">
@@ -50,9 +43,7 @@
           <spot-top-songs [previewMode]="true"></spot-top-songs>
         </app-dash-card>
       </div>
-    </div>
-
-    <div nz-row [nzGutter]="[{ xs: 8, xl: 20}, {xs: 8, xl: 40}]">
+      
       <div nz-col nzXs="24" nzXl="8">
         <app-dash-card cardLink="/spot/mood" titleText="Average Mood of Songs"
           tooltipText="This card shows your mood. You can customize the timeframe over which this is calculated. Click to find out more.">
@@ -64,6 +55,18 @@
   </details>
 
   <br>
+  <details open id="rectification">
+    <summary class="collapsible-dashboard-section-title">Rectification</summary>
+    <div id="step-inferences" nz-col nzXs="24" nzXl="8">
+      <app-dash-card cardLink="/spot/inference" titleText="Inferences"
+        tooltipText="This card shows the interests you have and groups you belong to according to Spotify. You can let Spotify delete them, if you think they are incorrect. Click to find out more.">
+        <spot-inferences [previewMode]="true"></spot-inferences>
+      </app-dash-card>
+    </div>
+  </details>
+  <br>
+
+
   <details open id="recommendation">
     <summary class="collapsible-dashboard-section-title">Privacy Recommendations</summary>
     <div id="stepX">
