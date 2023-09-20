@@ -49,12 +49,40 @@
 }
 
 /* 
- * Buttons
+ * Buttons & text spacing
  */
 .icon-button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+}
+
+//Desktop
+@media (min-width : 801px) {
+    .centered-icon {
+        vertical-align: middle;
+    }
+}
+
+//Mobile
+@media (max-width : 800px) {
+    .centered-icon {
+        display: block;
+    }
+}
+
+.line-break:after {
+    content: '\A';
+    white-space: pre;
+}
+
+.line-break {
+    margin-bottom: 2vh;
+}
+
+.or-separator {
+    display: block;
+    margin-bottom: 1vh;
 }
 
 .continue-btn {
@@ -107,23 +135,6 @@ input[type=radio]:checked+label>img {
         width: 200px;
     }
     
-}
-
-//disclaimer div
-.selection-disclaimer {
-    margin: 20px 15px;
-    border-style: solid;
-    border-color: red;
-    border-width: 1.5px;
-
-    p {
-        font-size: 18px;
-    }
-}
-
-//disclaimer content
-.disclaimer-content {
-    margin: 20px 20px;
 }
 
 .i-image1{

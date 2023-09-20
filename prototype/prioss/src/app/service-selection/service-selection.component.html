@@ -1,7 +1,7 @@
 <div class="component-page">
 
   <p class="t-explanation">
-    Please select a service below from which you want to explore some personal data.
+    Select the service from which you want to explore your personal data
   </p>
 
   <div class="selection-list">
@@ -94,11 +94,22 @@
         Continue with Sample Data
       </button>
 
-      <p class="t-explanation">
-        OR:<br>
-        Follow the <a routerLink="/serviceSelection/dataDownload" fragment="download-instructions">download instructions (click here)</a> to download your personal data as a ".zip"-file.<br>
-        Afterwards, click 'Continue with Personal Data' and input your ".zip"-file in the popup.
-      </p>
+      <div class="t-explanation">
+        <span class="or-separator">OR:</span>
+        
+        <span nz-icon class="centered-icon" nzType="download" nzTheme="outline"></span> 
+        <span class="centered-icon line-break">
+          <a routerLink="/serviceSelection/dataDownload" fragment="download-instructions">
+            Download your personal data (click here) 
+          </a> 
+          as a ".zip"-file
+        </span>
+        
+        <span nz-icon class="centered-icon" nzType="bar-chart" nzTheme="outline"></span> 
+        <span class="centered-icon">
+          Then click 'Continue with Personal Data' and input your ".zip"-file in the popup.
+        </span>
+      </div>
 
       <div>
         
@@ -106,10 +117,15 @@
           <span nz-icon nzType="arrow-right"></span>
           Continue with Personal Data
         </button>
-        
-        <p *ngIf="selectedServiceName" class="t-explanation">
-          This website works offline. You can switch into flight mode or disconnect from the internet before uploading your ".zip"-file.
-        </p>
+
+        <br>
+
+        <div class="t-explanation">
+          <span nz-icon class="centered-icon" nzType="wifi" nzTheme="outline"></span> 
+          <span class="centered-icon">
+            This website works offline. Switch into flight mode or disconnect from the internet before uploading your ".zip"-file.
+          </span>  
+        </div>
 
       </div>
     </div>
