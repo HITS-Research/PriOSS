@@ -4,17 +4,20 @@
     <p nz-typography>
       Welcome to the dashboard for the Instagram specific data. This page will offer you all the information you need, to fully understand the data that
       is collected about you and what steps you can take to increase your personal privacy.<br>
-      In the first section you will be presented with different visualizations of your personal data.<br>
+      The cards below show different interactive visualizations and explanations about the data Instagram has collected about you. If you are unsure what something means, hover over the (?)-Icons for explanations.
+      You can click on each of the white cards that contains a visualization to explore the visualization in more detail and unlock it's interactivity, try it!
+      <br>
       All the following sections will help you to understand the purpose of this application as well as the legal basis of the data collection and your rights
       regarding your data.
     </p>
   </div>
+  <br>
 
   <details open id="visualization">
     <summary class="collapsible-dashboard-section-title">Visualization</summary>
     <p nz-typography>
       In this section you will be presented with different visualizations of the data you put in before. Every card shows a preview of the data from a specific 
-      topic. By clicking on 'More' you will be redirected to a page with a more precise visualization and description of the specific topic.
+      topic. By clicking on card you will be redirected to a page with a more precise visualization and description of the specific topic.
     </p>
 
     <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
@@ -88,6 +91,21 @@
       </app-dash-card>
     </div>
   </div>
+
+  <br>
+  <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
+    <div nz-col nzXs="24" nzXl="8">
+      <!--card for visualizing for messages-->
+      <app-dash-card cardLink="/insta/messages" titleText="Messages"
+          tooltipText="This card shows more information about exchanged messages on Instagram. Click to find out more.">
+        <app-insta-messages [previewMode]="true"></app-insta-messages>
+      </app-dash-card>
+    </div>
+    <div nz-col nzXs="24" nzXl="8">
+    </div>
+    <div nz-col nzXs="24" nzXl="8">
+    </div>
+  </div>
   <br>
   </details>
 
@@ -140,14 +158,14 @@
           </app-dash-card>
     </div>
 
-    <div nz-col nzXs="24" nzXl="8"><!--card for privacy recommendation - How to block folllowers-->
+    <div nz-col nzXs="24" nzXl="8" class="column"><!--card for privacy recommendation - How to block folllowers-->
        <app-dash-card cardLink="/insta/block-followers" titleText="How to Block Followers"
             tooltipText="This card provides guidelines that helps you to block followers for your Instagram account. The guidelines are provided for Web Browser user as well as Mobile Application user. Click to find out more.">
             <p nz-typography>This section provides you guidelines to block followers for Instagram.</p>
         </app-dash-card>
     </div>
 
-    <div nz-col nzXs="24" nzXl="8"><!--card for privacy recommendation- How to hide Instagram Stories and live videos from specific people -->
+    <div nz-col nzXs="24" nzXl="8" class="column"><!--card for privacy recommendation- How to hide Instagram Stories and live videos from specific people -->
       <app-dash-card cardLink="/insta/hide-stories" titleText="How to Hide Instagram Stories"
             tooltipText="This card provides guidelines that helps you to hide Instagram stories and live videos from specific people. The guidelines are provided for Mobile Application user. Click to find out more.">
             <p nz-typography>This section provides you guidelines to hide Instagram Stories and live videos from specific people.</p>
@@ -159,7 +177,11 @@
 
   <app-gdpr id="gdpr"></app-gdpr>
   <br>
+  
+  <p nz-topography> <app-insta-purposes></app-insta-purposes> </p>
+  <br>
 
+  <!--
   <details open id="purpose">
     <summary class="collapsible-dashboard-section-title">Purposes - Why Instagram collects your data? </summary>
     <p nz-typography>
@@ -193,6 +215,7 @@
         </tbody>
       </nz-table>
   </details>
+-->
 
   <app-faq serviceName="insta"></app-faq>
   <app-help-button (startTourClick)="startTour()">

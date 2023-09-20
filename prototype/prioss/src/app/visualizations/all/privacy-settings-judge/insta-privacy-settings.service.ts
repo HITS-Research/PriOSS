@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 export class InstaPrivacySettingsService {
   /**
    * Interface for that is used for the settings variable, that may differ for the different services (Spotify, Facebook and Instragram)
-   * For detailed information on the variable and on how to embed the privacy settings module to the Dashboard please refer to the documentation
+   * For detailed information on the variable and on how to embed the privacy settings module to the Dashboard please refer to the documentation.
    * Documentation File: "Privacy-Settings Module information.md"
    *  
    * Questions are in-line with the instructions provided in the Privacy Recommendations section.
@@ -59,7 +59,7 @@ export class InstaPrivacySettingsService {
     },
     {
       question : "Is your Instagram account's Activity Status hidden?",
-      howToCheck : "<strong>Text Guide:</strong> <br> 1. Open your <strong>Instagram account</strong>. <br> 2. Open <strong>Instagram settings</strong>. <br> 3. Go to the <strong>Privacy settings</strong>. <br> 4. Look for <strong>Activity Status</strong>. <br> 5. Tap on it, and tap on the slider next to <strong>Show activity status</strong>. <br> This will hide your status from everyone and it can prevent others from tracking your online activity.",
+      howToCheck : "<strong>Text Guide:</strong> <br> 1. Open your <strong>Instagram account</strong>. <br> 2. Open <strong>Instagram settings</strong>. <br> 3. Go to the <strong>Privacy settings</strong>. <br> 4. Look for <strong>Activity Status</strong>. <br> 5. Tap on it, and tap on the slider next to <strong>Show activity status</strong>. <br> This will hide your status from everyone and it can prevent others from tracking your online activity. <br> <br> <strong>Picture Guide:</strong><br> Please look <a target='_blank' href=/insta/activity-hidden> <strong> here </a></strong> for the picture guide to hide Instagram's activity status. </a></strong>",
       options : [
         { label: "Yes, Activity Status for my account is hidden", value: "Yes", advice: "Well Done! You are aware about your privacy concerns."},
         { label: "No, Activity Status for my account is not hidden", value: "No", advice: "Hiding your Instagram account's activity status is important for privacy and security reasons. It prevents other users from knowing when you were last active on the platform, which can help protect your online presence and keep your interactions more private. This can be particularly valuable if you want to control who knows when you are online, avoid unwanted attention, or simply maintain a level of anonymity on the platform."}
@@ -67,7 +67,7 @@ export class InstaPrivacySettingsService {
     },
     {
       question : "Are non-essential cookies disabled for your Instagram's account?",
-      howToCheck : "<strong>Text Guide:</strong> <br> 1. Open your <strong>Instagram account</strong>. <br> 2. Open <strong>Instagram settings</strong>. <br> 3. Go to <strong>Privacy</strong>, and scroll down to the bottom of the list. <br> 4. Under Data permissions, click on <strong>Cookies</strong>. <br> 5. Disable <strong>Our Cookes on Other Apps and Websites</strong> and <strong>Cookies From Other Companies</strong>. <br> This will stop other companies from sharing data about you with Instagram. You will also stop getting personalized ads from Meta on other sites you visit.",
+      howToCheck : "<strong>Text Guide:</strong> <br> 1. Open your <strong>Instagram account</strong>. <br> 2. Open <strong>Instagram settings</strong>. <br> 3. Go to <strong>Privacy</strong>, and scroll down to the bottom of the list. <br> 4. Under Data permissions, click on <strong>Cookies</strong>. <br> 5. Disable <strong>Our Cookies on Other Apps and Websites</strong> and <strong>Cookies From Other Companies</strong>. <br> This will stop other companies from sharing data about you with Instagram. You will also stop getting personalized ads from Meta on other sites you visit. <br> <br> <strong>Picture Guide:</strong><br> Please look <a target='_blank' href=/insta/disable-cookies> <strong> here </a></strong> for the picture guide to disable non-essential cookies for your Instagram's account. </a></strong>",
       options : [
         { label: "Yes, non-essential cookies are disabled", value: "Yes", advice: "Great! Disabling non-essentail cookies is a good step towards privacy and security for your account."},
         { label: "No, non-essential cookies are not disabled", value: "No", advice: "Disabling non-essential cookies for an Instagram account is important because it helps protect user privacy and data security. Non-essential cookies are often used for tracking user behavior and collecting personal information for targeted advertising and analytics. By disabling these cookies, users can limit the amount of data being collected about them, reducing the risk of their information being shared with third parties without their consent. This measure promotes a more secure and private online experience for Instagram users."}

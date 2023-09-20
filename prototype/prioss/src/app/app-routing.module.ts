@@ -38,12 +38,18 @@ import { InstaTwoFactorAuthenticationComponent } from './rectification/instagram
 import { InstaHideStoriesComponent } from './rectification/instagram/insta-hide-stories/insta-hide-stories.component';
 import { InstaProfileInfoPrivateComponent } from './rectification/instagram/insta-profile-info-private/insta-profile-info-private.component';
 import { InstaAddManagerComponent } from './rectification/instagram/insta-add-manager/insta-add-manager.component';
+import { InstaMessagesComponent } from './visualizations/instagram/insta-messages/insta-messages.component';
 import { RevokeAccessComponent } from './rectification/instagram/revoke-access/revoke-access.component';
 import { GroupsAndEventsDataComponent } from './visualizations/facebook/groups-and-events-data/groups-and-events-data.component';
 import { YourTopicsComponent } from './visualizations/facebook/manage-privacy/your-topics/your-topics.component';
 import { SecurityLoginDataComponent } from './visualizations/facebook/security-login-data/security-login-data.component';
 import { MessagesComponent } from './visualizations/facebook/messages/messages.component';
 import { InstaYourTopicComponent } from './visualizations/instagram/insta-your-topic/insta-your-topic.component';
+import { DataDownloadInstructionsComponent } from './service-selection/data-download-instructions/data-download-instructions.component';
+import { InstaActivityStatusHiddenComponent } from './rectification/instagram/insta-activity-status-hidden/insta-activity-status-hidden.component';
+import { InstaDisableCookiesComponent } from './rectification/instagram/insta-disable-cookies/insta-disable-cookies.component';
+
+import { InstaPurposesComponent } from './visualizations/instagram/insta-purposes/insta-purposes.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -70,9 +76,11 @@ const routes: Routes = [
   { path: 'insta/followers', component: InstaFollowersComponent},
   { path: 'insta/likedcontent', component: InstaLikedContentComponent },
   { path: 'insta/contacts', component: InstaContactComponent },
+  { path: 'insta/messages', component: InstaMessagesComponent},
   { path: 'face/dashboard', component: FaceDashboardComponent },
   { path: 'face/inferred-topics', component: InferredTopicsComponent },
   { path: 'serviceSelection', component: ServiceSelectionComponent },
+  { path: 'serviceSelection/dataDownload', component: DataDownloadInstructionsComponent },
   { path: 'face/ads-related-data', component: AdsRelatedDataComponent },
   { path: 'face/connections', component: FriendAndFollowersComponent },
   { path: 'face/configure-off-facebook-activity', component: OffFacebookActivityComponent },
@@ -94,7 +102,9 @@ const routes: Routes = [
   { path: 'insta/searches', component: InstaSearchesComponent},
   { path: 'face/other-personal-info' ,component: OtherPersonalInfoComponent},
   { path: 'face/posts' ,component: PostsComponent},
-  { path: 'face/messages-info' ,component:MessagesComponent}
+  { path: 'face/messages-info' , component: MessagesComponent},
+  { path: 'insta/activity-hidden' , component: InstaActivityStatusHiddenComponent},
+  { path: 'insta/disable-cookies' , component: InstaDisableCookiesComponent}
 ];
 
 @NgModule({

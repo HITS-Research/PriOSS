@@ -116,4 +116,18 @@ export class BulkAddCapableRepository {
 
     return Promise.resolve();
   }
+  
+  async finishBulkEntry(){
+    if(this.bulkAddValues.length > 0){
+      //run the query without the newly passed row
+      await this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
+        await db.run(this.bulkAddSQL, this.bulkAddValues);
+      });
+      //Reset the bulk add variables,
+      this.totalRemainingBulkAddRowCount = 0;
+      this.currBulkSize = 0;
+      this.bulkAddSQL = "";
+      this.bulkAddValues = [];
+    }
+  }
 }

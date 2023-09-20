@@ -50,7 +50,12 @@ CREATE TABLE IF NOT EXISTS insta_account_info (
 
 CREATE TABLE IF NOT EXISTS insta_professional_info (
     id INTEGER PRIMARY KEY,
-    title TEXT NOT NULL
+    business_information TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS insta_based_in (
+    id INTEGER PRIMARY KEY,
+    account_based_in TEXT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS insta_profile_changes (
@@ -230,6 +235,37 @@ CREATE TABLE IF NOT EXISTS insta_your_topics(
     topic TEXT NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS insta_chat_data_info(
+    id INTEGER PRIMARY KEY,
+    chat TEXT NOT NULL,
+    yourMessages INTEGER NOT NULL,
+    monday INTEGER NOT NULL,
+    tuesday INTEGER NOT NULL,
+    wednesday INTEGER NOT NULL,
+    thursday INTEGER NOT NULL,
+    friday INTEGER NOT NULL,
+    saturday INTEGER NOT NULL,
+    sunday INTEGER NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS insta_chat_partner_data_info(
+    id INTEGER PRIMARY KEY,
+    sender TEXT NOT NULL,
+    messages INTEGER NOT NULL,
+    avg REAL NOT NULL,
+    text INTEGER NOT NULL,
+    share INTEGER NOT NULL,
+    audio INTEGER NOT NULL,
+    photos INTEGER NOT NULL,
+    monday INTEGER NOT NULL,
+    tuesday INTEGER NOT NULL,
+    wednesday INTEGER NOT NULL,
+    thursday INTEGER NOT NULL,
+    friday INTEGER NOT NULL,
+    saturday INTEGER NOT NULL,
+    sunday INTEGER NOT NULL,
+    chat_id INTEGER NOT NULL
+);
 
 CREATE TABLE IF NOT EXISTS face_ads_interacted (
     id INTEGER PRIMARY KEY,
@@ -321,7 +357,8 @@ CREATE TABLE IF NOT EXISTS face_group_messages (
 CREATE TABLE IF NOT EXISTS face_posts (
     id INTEGER PRIMARY KEY,
     timestamp INTEGER,
-    title STRING
+    title STRING,
+    post STRING
 );
 CREATE TABLE IF NOT EXISTS face_groups (
     id INTEGER PRIMARY KEY,
@@ -376,6 +413,8 @@ DROP TABLE IF EXISTS insta_recently_unfollowed_accounts_info;
 DROP TABLE IF EXISTS insta_removed_suggestion_info;
 DROP TABLE IF EXISTS insta_received_follow_request_info;
 DROP TABLE IF EXISTS insta_your_topics;
+DROP TABLE IF EXISTS insta_chat_data_info;
+DROP TABLE IF EXISTS insta_chat_partner_data_info;
 DROP TABLE IF EXISTS face_ads_interacted;
 DROP TABLE IF EXISTS face_apps_websites;
 DROP TABLE IF EXISTS face_off_facebook_activity;
