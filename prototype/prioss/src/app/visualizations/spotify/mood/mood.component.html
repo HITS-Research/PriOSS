@@ -5,15 +5,37 @@
     </div>
     <div *ngIf="!previewMode">
         <app-title-bar titleText="Average Mood of Songs"
-            tooltipText="Use the 'Visualize' button to calculate the average Mood of Songs. Here comes the description of all audiofeatuers..."></app-title-bar>
-        <!-- <p>QueriedSongs: {{ queriedSongs }} / {{ allSongsNumber }}</p> -->
+            tooltipText="Use the 'Visualize' button to calculate the average Mood of Songs."></app-title-bar>
         <nz-range-picker [nzRanges]="ranges" [(ngModel)]="selectedRange"
             (ngModelChange)="onChange($event)"></nz-range-picker>
         <button *ngIf="!firstRun" id="startButton" type="submit" nz-button nzType="default"
             (click)="getSongIds()">Visualize</button>
         <button *ngIf="firstRun" id="startButton" type="submit" nz-button nzType="default"
             (click)="drawRadarAgainWithSavedValues()">Visualize</button>
-        <div id="bar-chart"></div>
+
+        <div class="t-inline-spacer-small"></div>
+
+        <div *ngIf="mood" class="visualization-card">
+            <div class="mood-content">
+                <p>The mood of your songs is {{ mood }}</p>
+                <ng-container *ngIf="mood === 'happy'" class="icon-container">
+                    <i nz-icon nzType="smile" nzTheme="outline" [nzTheme]="'twotone'" [nzTwotoneColor]="'#FFD700'" style="font-size: 32px;" nzTooltipTitle="The certain is emotion is decided on specific average values which may indicate a mood" nzTooltipPlacement="left" nz-tooltip></i>
+                </ng-container>
+                <ng-container *ngIf="mood === 'energetic'" class="icon-container">
+                    <i nz-icon nzType="thunderbolt" nzTheme="outline" [nzTheme]="'twotone'" [nzTwotoneColor]="'#FF5733'" style="font-size: 32px;" nzTooltipTitle="The certain is emotion is decided on specific average values which may indicate a mood" nzTooltipPlacement="left" nz-tooltip></i>
+                </ng-container>
+                <ng-container *ngIf="mood === 'calm'" class="icon-container">
+                    <i nz-icon nzType="meh" nzTheme="outline" [nzTheme]="'twotone'" [nzTwotoneColor]="'#00CED1'" style="font-size: 32px;" nzTooltipTitle="The certain is emotion is decided on specific average values which may indicate a mood" nzTooltipPlacement="left" nz-tooltip></i>
+                </ng-container>
+                <ng-container *ngIf="mood === 'sad'" class="icon-container">
+                    <i nz-icon nzType="frown" nzTheme="outline" [nzTheme]="'twotone'" [nzTwotoneColor]="'#4682B4'" style="font-size: 32px;" nzTooltipTitle="The certain is emotion is decided on specific average values which may indicate a mood" nzTooltipPlacement="left" nz-tooltip></i>
+                </ng-container>
+            </div>
+        </div>
+        <div class="bar-chart-card">
+            <div id="bar-chart" class="visualization-card"></div>
+        </div>
+
         <div class="container">
             <div class="spinner-wrapper"><nz-spin [nzSpinning]="isLoading"></nz-spin></div>
         </div>

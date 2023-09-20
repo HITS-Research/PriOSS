@@ -9,7 +9,6 @@ const CLIENT_SECRET = environment.CLIENT_SECRET;
 let token: string;
 let withdate: any;
 const spotifyGreen: string = "#1DB954"
-let savedValues: any[] = [];
 let startDateInput: any = null;
 let endDateInput: any = null;
 
@@ -34,8 +33,9 @@ export class MoodComponent {
   firstRun: boolean = false;
   @Input()
   selectedRange = [new Date('2021-11-01'), new Date('2021-11-30')]; // Set specific default dates
-
-
+  @Input()
+  mood: string = '';
+ 
   isLoading: boolean = false;
   files: any[] = [];
   queriedSongs = 0;
@@ -44,8 +44,13 @@ export class MoodComponent {
 
   constructor(private spotHistoryRepo: SpotHistoryRepository) {
     this.setToken();
-    console.log(token);
   }
+
+  setMood = (mood: string) => {
+    this.mood = mood;
+  }
+
+  
   /*
   * This is a helper function to redraw the diagramm without calling the Spotify API again.
   *
@@ -122,7 +127,7 @@ export class MoodComponent {
       if (start >= timestamp.toUTCString() && timestamp.toUTCString() <= end) timed.push(d);
     });
     console.log(timed);
-    makeRadarChart(timed);
+    makeRadarChart(timed,this);
   }
 
 
@@ -262,10 +267,10 @@ function addListeningDateToAudiofeatures(audiofeatures: any, names: string[], or
 * Creates radar chart for spotify audio values
 * @author Sven Feldmann
 */
-function makeRadarChart(audiofeatures: any) {
+function makeRadarChart(audiofeatures: any, componentInstance: MoodComponent) {
   d3.select("#bar-chart").selectAll("*").remove();
 
-  savedValues = audiofeatures;
+
   let danceabilitySum = 0;
   let energySum = 0;
   let loudnessSum = 0;
@@ -290,19 +295,35 @@ function makeRadarChart(audiofeatures: any) {
   let avgTempo = tempoSum / count;
   let avgAccousticness = accousticnessSum / count * 100;
 
+  // Define criteria for each mood
+  const danceabilityThreshold = 0.6;  // Adjust as needed
+  const energyThreshold = 0.6;        // Adjust as needed
+  const valenceThreshold = 0.6;       // Adjust as needed
+  const acousticnessThreshold = 0.4;
+  if (avgDance >= danceabilityThreshold && avgEnergy >= energyThreshold) {
+    if (avgVal >= valenceThreshold) {
+      componentInstance.setMood('happy');
+    } else {
+      componentInstance.setMood('energetic');
+
+    }
+  } else {
+    if (avgVal >= valenceThreshold) {
+      componentInstance.setMood('calm');
+    } else if (avgAccousticness >= acousticnessThreshold) {
+      componentInstance.setMood('sad');
+    }
+  }
+
 
   let data: any = [
     { feature: "Valence", value: avgVal, additionalText: "Tracks with high valence sound more positive (e.g. happy, cheerful, euphoric), while tracks with low valence sound more negative (e.g. sad, depressed, angry)." },
     { feature: "Energy", value: avgEnergy, additionalText: "represents a perceptual measure of intensity and activity" },
-    //{ name: "Loudness", value: avgLoudness, color: "#533a84" },
     { feature: "Dancebility", value: avgDance, additionalText: "describes how suitable a track is for dancing" },
-    // { name: "Tempo", value: avgTempo, color: "#296E01" }
     { feature: "Loudness", value: avgLoudness, additionalText: "is the quality of a sound that is the primary psychological correlate of physical strength (amplitude)" },
     { feature: "Tempo", value: avgTempo, additionalText: "is the speed or pace of a given piece and derives directly from the average beat duration" },
-    //{ name: "Loudness", value: avgLoudness, color: "#533a84" },
     { feature: "Accousticness", value: avgAccousticness, additionalText: "High acoustic values represents  high confidence the track is acoustic" }
   ];
-  console.log(data);
 
   let margin = 100;
   let leftmargin = 150;
@@ -442,13 +463,13 @@ function makeRadarChart(audiofeatures: any) {
 
 
       // Add event handlers to show/hide on mouseover/mouseout
-group.on("mouseover", function () {
-  backgroundRect.style("opacity", 1); // Show the background
-  textElement.style("opacity", 1); // Show the text
-}).on("mouseout", function () {
-  backgroundRect.style("opacity", 0); // Hide the background
-  textElement.style("opacity", 0); // Hide the text
-});
+      group.on("mouseover", function () {
+        backgroundRect.style("opacity", 1); // Show the background
+        textElement.style("opacity", 1); // Show the text
+      }).on("mouseout", function () {
+        backgroundRect.style("opacity", 0); // Hide the background
+        textElement.style("opacity", 0); // Hide the text
+      });
 
     });
 
@@ -538,5 +559,7 @@ function normalizeTempo(originalValue: number): number {
 
   return normalizedValue;
 }
+
+
 
 
