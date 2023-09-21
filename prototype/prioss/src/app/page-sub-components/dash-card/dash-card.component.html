@@ -1,0 +1,11 @@
+<a [routerLink]="cardLink.length > 0 ? cardLink : null">
+  <nz-card nzTitle="{{titleText}}" nzHoverable [nzExtra]="extraTemplate" class="card">
+    <ng-content></ng-content>
+  </nz-card>  
+</a>
+
+<ng-template #extraTemplate>
+  <span *ngIf="tooltipText.length > 0" nz-tooltip nzTooltipTitle="{{tooltipText}}">
+    <span nz-icon nzType="question-circle" nzTheme="fill" style="font-size: 1.5rem"></span>
+  </span>
+</ng-template>

@@ -1,0 +1,106 @@
+<div class="component-page">
+    <app-title-bar titleText= "Guidelines to keep your Instagram account's Profile Information Private" tooltipText="The following guidelines helps you to make your Instagram profile information private. The guidelines are provided for Web Browser user as well as Mobile Application user." [includeButton]="false"></app-title-bar>
+    <br>
+    <p nz-typography> Do not expose too much private data in your profile information and especially in your EDIT PROFILE area.</p>
+    <p nz-typography> Do not write any personal information that could be used against you in the Bio field.</p>
+
+    
+    <nz-tabset>
+        <nz-tab nzTitle="Web Browser">
+            <div>
+                <p nz-typography>Follow these steps if you want to keep your profile information private for your Instagram account on your computer or mobile browser:</p>
+                <nz-steps [nzCurrent]="ProfileInfoPrivate">
+                    <nz-step nzTitle="Step 1"></nz-step>
+                    <nz-step nzTitle="Step 2"></nz-step>
+                    <nz-step nzTitle="Step 3"></nz-step>
+                  </nz-steps>
+              
+                  <div class="steps-content">
+                    <img
+                      nz-image
+                      height="300px"
+                      nzSrc={{instructionPictureProfileInfoPrivate}}
+                      alt=""
+                    />
+                    <nz-divider></nz-divider>
+                    <p nz-typography>{{ instructionTextProfileInfoPrivate }}</p>
+                  </div>
+
+                  <div class="steps-action">
+                    <button nz-button nzType="default" (click)="preProfileInfoPrivate()" [disabled]="ProfileInfoPrivate <= 0">
+                      <span>Previous</span>
+                    </button>
+                    <button nz-button nzType="default" (click)="nextProfileInfoPrivate()" [disabled]="ProfileInfoPrivate >= 2">
+                      <span>Next</span>
+                    </button>
+                  </div>
+            </div>
+
+<!--
+
+                <p nz-typography> <strong>Step 1 -</strong> First of all, you have to visit <span nz-icon nzType="link"> <a href="https://www.instagram.com/" target="_blank"><strong>Instagram website</strong></a></span> on your computer or mobile browser.</p>
+                <img class ="profile-info1" src="../../assets/images/insta-privacy-recommendations/8.png">
+                <br>
+                <br>
+                <p nz-typography> <strong>Step 2 -</strong> You need to click profile icon.</p>
+                <img class ="profile-info1" src="../../assets/images/insta-privacy-recommendations/35.png">
+                <br>
+                <br>
+                <p nz-typography> <strong>Step 3 -</strong> Now, click on <strong>Edit Profile</strong> option.</p>
+                <img class ="profile-info1" src="../../assets/images/insta-privacy-recommendations/22.png">
+                <br>
+                <br>
+                <p nz-typography> <strong>Step 4 -</strong> Now, you can edit your information in <strong>'Bio'</strong> section.</p>
+                <br>
+            </div>
+-->
+
+        </nz-tab>
+        <nz-tab nzTitle="Mobile Application">
+            <div>
+                <p nz-typography>Follow these steps if you want to keep your profile information private for your Instagram account:</p>
+                <nz-steps [nzCurrent]="ProfileInfoPrivateMobile">
+                    <nz-step nzTitle="Step 1"></nz-step>
+                    <nz-step nzTitle="Step 2"></nz-step>
+                  </nz-steps>
+              
+                  <div class="steps-content">
+                    <img
+                      nz-image
+                      height="300px"
+                      nzSrc={{instructionPictureProfileInfoPrivateMobile}}
+                      alt=""
+                    />
+                    <nz-divider></nz-divider>
+                    <p nz-typography>{{ instructionTextProfileInfoPrivateMobile }}</p>
+                  </div>
+                  
+                  <div class="steps-action">
+                    <button nz-button nzType="default" (click)="preProfileInfoPrivateMobile()" [disabled]="ProfileInfoPrivateMobile <= 0">
+                      <span>Previous</span>
+                    </button>
+                    <button nz-button nzType="default" (click)="nextProfileInfoPrivateMobile()" [disabled]="ProfileInfoPrivateMobile >= 1">
+                      <span>Next</span>
+                    </button>
+                  </div>
+            </div>
+                
+<!--
+                
+                <br>
+                <p nz-typography> <strong>Step 1 -</strong> Go to your Instagram <strong>profile window</strong> and click <strong>edit your profile</strong>.</p>
+                <img class ="profile-info"src="../../assets/images/insta-privacy-recommendations/20.png">
+                <br>
+            </div>
+-->
+
+        </nz-tab>
+    </nz-tabset>
+</div>
+   
+    
+    
+    
+
+
+

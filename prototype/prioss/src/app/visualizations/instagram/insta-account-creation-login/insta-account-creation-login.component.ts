@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { AfterViewInit, Component, Input } from '@angular/core';
 import { SequenceComponentInit } from '../../sequence-component-init.abstract';
 import { InstaSignUpInfo } from 'src/app/models/Instagram/InstaAccountCreationAndLoginInfo/InstaSignUpInfo';
 import { InstaSignUpRepository } from 'src/app/db/data-repositories/instagram/insta-accountcreation-login/insta-signup.repository';
@@ -19,19 +19,19 @@ import { InstaLogoutInfo } from 'src/app/models/Instagram/InstaAccountCreationAn
   templateUrl: './insta-account-creation-login.component.html',
   styleUrls: ['./insta-account-creation-login.component.less']
 })
-export class InstaAccountCreationLoginComponent extends SequenceComponentInit{
+export class InstaAccountCreationLoginComponent extends SequenceComponentInit implements AfterViewInit{
   @Input()
-  previewMode: boolean = false;
+  previewMode = false;
 
   login_logout_activities: Login_Logout_Actvity_Output[] = [];
   signup_information: InstaSignUpInfo[] = [];
   login_activities: InstaLoginInfo[] = [];
   logout_activities: InstaLogoutInfo[] = [];
 
-  login_amount: number=0;
-  logout_amount: number=0;
-  most_used_device_amount: number=0;
-  most_used_device: string="";
+  login_amount=0;
+  logout_amount=0;
+  most_used_device_amount=0;
+  most_used_device="";
 
   constructor(private instaSignUpRepo: InstaSignUpRepository,
               private instaLoginRepo: InstaLoginRepository,
@@ -56,22 +56,22 @@ export class InstaAccountCreationLoginComponent extends SequenceComponentInit{
   * @author Paul (pasch@mail.upb.de)
   */
   override async initComponent(): Promise<void> {
-    console.log("--- Initializing Component 3: AccountCreationAndLogin");
+    console.log("--- Initializing Component 2: AccountCreationAndLogin");
     // SignUp Information fetched from SQLite
-    let signup_information = await this.instaSignUpRepo.getSignUpInfo();
+    const signup_information = await this.instaSignUpRepo.getSignUpInfo();
     if(signup_information.length > 0) {
       this.signup_information = signup_information
     }
 
     // Login Activities fetched from SQLite
-    let login_activities = await this.instaLoginRepo.getLoginInfo();
+    const login_activities = await this.instaLoginRepo.getLoginInfo();
     this.login_amount = login_activities.length;
     if(login_activities.length > 0) {
       this.login_activities = login_activities;
     }
 
     // Logout Activities fetched from SQLite
-    let logout_activities = await this.instaLogoutRepo.getLogoutInfo();
+    const logout_activities = await this.instaLogoutRepo.getLogoutInfo();
     this.logout_amount = logout_activities.length;
     if(logout_activities.length > 0) {
       this.logout_activities = logout_activities;
@@ -107,8 +107,8 @@ export class InstaAccountCreationLoginComponent extends SequenceComponentInit{
   */
   mostUsedDevice() {
     const activityAmounts: { [id: string] : number; } = {};
-    let mostUsedDevice: string = '';
-    let mostUsedAmount: number = 0;
+    let mostUsedDevice = '';
+    let mostUsedAmount = 0;
     this.login_logout_activities.forEach((login_logout_activity)=>{
       if( activityAmounts[login_logout_activity.device] > 0){
         activityAmounts[login_logout_activity.device] = activityAmounts[login_logout_activity.device] + 1;

@@ -1,0 +1,111 @@
+<div [ngClass]="{'component-page': !previewMode}">
+    <div *ngIf="previewMode">
+        <nz-row [nzGutter]="16">
+            <nz-col [nzSpan]="16">
+                <nz-statistic [nzTitle]="'Total Groups'"  
+                              [nzValue]="'2'"
+                              [nzPrefix]="groups"
+                              [nzValueStyle]="{display: 'inline-flux'}">
+                </nz-statistic>
+                <ng-template #groups>
+                    <div class="container_class">
+                      <!-- <span nz-icon nzType="ungroup" nzTheme="outline"></span> -->
+                      <!-- <span nz-icon nzType="usergroup-add" nzTheme="outline"></span> -->
+                      <span nz-icon nzType="team" nzTheme="outline"></span>
+                    </div>
+                </ng-template>
+            </nz-col>
+            <nz-col [nzSpan]="16">
+                <nz-statistic [nzTitle]="'Total Events'"  
+                              [nzValue]="total_event_invites"
+                              [nzPrefix]="events"
+                              [nzValueStyle]="{display: 'inline-flux'}">
+                </nz-statistic>
+                <ng-template #events>
+                    <div class="container_class">
+                        <span nz-icon nzType="star" nzTheme="outline"></span>
+                    </div>
+                </ng-template>
+            </nz-col>
+        </nz-row>
+    </div>
+</div>
+
+<div *ngIf="!previewMode"> 
+    <app-title-bar titleText="Events and Groups Data" tooltipText="Your Events and Groups data is shown in detail here."></app-title-bar>
+    <nz-tabset class="margin-top-20">
+        <nz-tab nzTitle="Events Data">
+            <br>
+            <ng-container *ngIf="dataAvailable; else noDataTemplate">
+                <nz-row [nzGutter]="16">
+                    <nz-col [nzSpan]="12">
+                        <nz-statistic clas="stats" [nzValue]="(eventsData.length| number)!" [nzTitle]="'Number of Events You are invited To '"></nz-statistic>
+                    </nz-col>
+                    <nz-col [nzSpan]="12">
+                        <nz-statistic class="stats" [nzValue]= eventsData[0].start_timestamp [nzTitle]="'Latest Event on '"></nz-statistic>
+                    </nz-col>
+                </nz-row>
+
+                <br>
+                <nz-table [nzData]="eventsData" #eventsId>
+                    <thead>
+                        <tr>
+                            <th nzCustomFilter class="tableCol">Event Name</th>
+                            <th nzCustomFilter class="tableCol"> Start Time</th>
+                            <th nzCustomFilter class="tableCol"> End Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let eachRow of eventsId.data">
+                            <td> {{ eachRow.name }} </td>
+                            <td> {{ eachRow.start_timestamp }} </td>
+                            <td> {{ eachRow.end_timestamp }} </td>
+                        </tr>
+                    </tbody>
+                </nz-table>
+                <br>
+                <button nz-button nzType="primary"> To Privacy Recommendations</button>
+              </ng-container>
+              <ng-template #noDataTemplate>
+                <nz-result nzStatus="403" nzTitle="No data available">
+                </nz-result>
+              </ng-template>
+        </nz-tab>
+        <nz-tab nzTitle="Groups Data">
+            <ng-container *ngIf="dataAvailableGroup; else noDataTemplate">
+            <nz-row [nzGutter]="16">
+                <nz-col [nzSpan]="12">
+                    <nz-statistic clas="stats" [nzValue]="(groupsData.length| number)!" [nzTitle]="'Number of Groups you are part of '"></nz-statistic>
+                </nz-col>
+                <nz-col [nzSpan]="12">
+                    <nz-statistic class="stats" [nzValue]= groupsData[groupsData.length-1].timestamp [nzTitle]="'Latest Group Joined on '"></nz-statistic>
+                </nz-col>
+            </nz-row>
+
+            <br>
+                <nz-table [nzData]="groupsData" #groupsId>
+                    <thead>
+                        <tr>
+                            <th nzCustomFilter class="tableCol">Group Name</th>
+                            <th nzCustomFilter class="tableCol"> Joined On</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let eachRow of groupsId.data">
+                            <td> {{ eachRow.name }} </td>
+                            <td> {{ eachRow.timestamp }} </td>
+                        </tr>
+                    </tbody>
+                </nz-table>
+                <br>
+                <button nz-button nzType="primary"> To Privacy Recommendations</button>
+            </ng-container>
+            <ng-template #noDataTemplate>
+                <nz-result nzStatus="403" nzTitle="No data available">
+                </nz-result>
+              </ng-template>
+        </nz-tab>
+    </nz-tabset>
+
+
+</div>

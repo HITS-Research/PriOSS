@@ -39,7 +39,7 @@
             </nz-col>
         </nz-row>
         <br>
-        
+       
         <app-title-bar titleText="Advertisements" tooltipText="The below displays the advertisement details for your Instagram data." [includeButton]="false"></app-title-bar>
         <nz-card style="width:100%;">
             <nz-tabset nzType="card">
@@ -49,10 +49,15 @@
                             <!-- If Ads Activity Data present -->
                             <div *ngIf="ads_activity?.length">
                                 <p>The below displays the advertisement activity performed by you on your Instagram account.</p>
-                                <nz-table [nzData]="ads_activity" #adsActivityTable>
+                                <nz-table [nzData]="listOfAdsActivity" #adsActivityTable>
                                     <thead>
                                         <tr>
-                                            <th>Advertiser Name</th>
+                                            <th nzCustomFilter>
+                                                Advertiser Name
+                                                <nz-filter-trigger [(nzVisible)]="visible" [nzActive]="activitySearchValue.length > 0" [nzDropdownMenu]="menu">
+                                                  <span nz-icon nzType="search"></span>
+                                                </nz-filter-trigger>
+                                            </th>
                                             <th>Has Data file custom audience</th>
                                             <th>Has in person store visit</th>
                                             <th>Has remarketing custom audience</th>
@@ -67,6 +72,15 @@
                                         </tr>
                                     </tbody>
                                 </nz-table>
+                                <nz-dropdown-menu #menu="nzDropdownMenu">
+                                    <div class="ant-table-filter-dropdown">
+                                      <div class="search-box">
+                                        <input type="text" nz-input placeholder="Search activity" [(ngModel)]="activitySearchValue" />
+                                        <button nz-button nzSize="small" nzType="primary" (click)="search('activity')" class="search-button">Search</button>
+                                        <button nz-button nzSize="small" (click)="reset('activity')">Reset</button>
+                                      </div>
+                                    </div>
+                                </nz-dropdown-menu>
                             </div>
                             <!-- If No Ads Activity Data present -->
                             <div *ngIf="ads_activity?.length === 0">
@@ -81,18 +95,34 @@
                             <!-- If Ads Clicked Data present -->
                             <div *ngIf="ads_clicked?.length">
                                 <p>The below displays the advertisement clicked by you on your Instagram account.</p>
-                                <nz-table [nzData]="ads_clicked" #adsClickedTable>
+                                <nz-table [nzData]="listOfAdsClicked" #adsClickedTable>
                                         <thead>
                                             <tr>
-                                                <th>Title</th>
+                                                <th nzCustomFilter>
+                                                    Clicked Ad
+                                                    <nz-filter-trigger [(nzVisible)]="visible" [nzActive]="clickedSearchValue.length > 0" [nzDropdownMenu]="menu">
+                                                      <span nz-icon nzType="search"></span>
+                                                    </nz-filter-trigger>
+                                                </th>
+                                                <th [nzSortFn]="sortClickedDate">Date</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr *ngFor="let ad_clicked of adsClickedTable.data">
                                                 <td>{{ ad_clicked.title }}</td>
+                                                <td>{{ ad_clicked.timestamp + '000' | date: 'd MMM y, h:mm a' }}</td>
                                             </tr>
                                         </tbody>
                                 </nz-table>
+                                <nz-dropdown-menu #menu="nzDropdownMenu">
+                                    <div class="ant-table-filter-dropdown">
+                                      <div class="search-box">
+                                        <input type="text" nz-input placeholder="Search clicked" [(ngModel)]="clickedSearchValue" />
+                                        <button nz-button nzSize="small" nzType="primary" (click)="search('clicked')" class="search-button">Search</button>
+                                        <button nz-button nzSize="small" (click)="reset('clicked')">Reset</button>
+                                      </div>
+                                    </div>
+                                </nz-dropdown-menu>
                             </div>
                             <!-- If No Ads Clicked Data present -->
                             <div *ngIf="ads_clicked?.length === 0">
@@ -107,10 +137,15 @@
                             <!-- If Ads Interest Data present -->
                             <div *ngIf="ads_interests?.length">
                                 <p>The below displays the advertisement interests inferred by Instagram.</p>
-                                <nz-table [nzData]="ads_interests" #adsInterestsTable>
+                                <nz-table [nzData]="listOfAdsInterests" #adsInterestsTable>
                                         <thead>
                                             <tr>
-                                                <th>Interest</th>
+                                                <th nzCustomFilter>
+                                                    Interest
+                                                    <nz-filter-trigger [(nzVisible)]="visible" [nzActive]="interestSearchValue.length > 0" [nzDropdownMenu]="menu">
+                                                      <span nz-icon nzType="search"></span>
+                                                    </nz-filter-trigger>
+                                                </th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -119,6 +154,15 @@
                                             </tr>
                                         </tbody>
                                 </nz-table>
+                                <nz-dropdown-menu #menu="nzDropdownMenu">
+                                    <div class="ant-table-filter-dropdown">
+                                      <div class="search-box">
+                                        <input type="text" nz-input placeholder="Search interest" [(ngModel)]="interestSearchValue" />
+                                        <button nz-button nzSize="small" nzType="primary" (click)="search('interest')" class="search-button">Search</button>
+                                        <button nz-button nzSize="small" (click)="reset('interest')">Reset</button>
+                                      </div>
+                                    </div>
+                                </nz-dropdown-menu>
                             </div>
                             <!-- If No Ads Interest Data present -->
                             <div *ngIf="ads_interests?.length === 0">
@@ -131,23 +175,39 @@
                     <ng-template nz-tab>
                         <nz-demo-tab-content-lazy>
                             <!-- If Ads Viewed Data present -->
-                            <div *ngIf="ads_viewed?.length">
+                            <div *ngIf="listOfAdsViewed?.length">
                                 <p>The below displays the advertisement viewed by you on your Instagram account.</p>
-                                <nz-table [nzData]="ads_viewed" #adsViewedTable>
+                                <nz-table [nzData]="listOfAdsViewed" #adsViewedTable>
                                         <thead>
                                             <tr>
-                                                <th>Title</th>
+                                                <th nzCustomFilter>
+                                                    Viewed Ad
+                                                    <nz-filter-trigger [(nzVisible)]="visible" [nzActive]="viewedSearchValue.length > 0" [nzDropdownMenu]="menu">
+                                                      <span nz-icon nzType="search"></span>
+                                                    </nz-filter-trigger>
+                                                </th>
+                                                <th [nzSortFn]="sortViewedDate">Date</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr *ngFor="let ad_viewed of adsViewedTable.data">
                                                 <td>{{ ad_viewed.title }}</td>
+                                                <td>{{ ad_viewed.timestamp + '000' | date: 'd MMM y, h:mm a' }}</td>
                                             </tr>
                                         </tbody>
                                 </nz-table>
+                                <nz-dropdown-menu #menu="nzDropdownMenu">
+                                    <div class="ant-table-filter-dropdown">
+                                      <div class="search-box">
+                                        <input type="text" nz-input placeholder="Search viewed" [(ngModel)]="viewedSearchValue" />
+                                        <button nz-button nzSize="small" nzType="primary" (click)="search('viewed')" class="search-button">Search</button>
+                                        <button nz-button nzSize="small" (click)="reset('viewed')">Reset</button>
+                                      </div>
+                                    </div>
+                                </nz-dropdown-menu>
                             </div>
                             <!-- If No Ads Viewed Data present -->
-                            <div *ngIf="ads_viewed?.length === 0">
+                            <div *ngIf="listOfAdsViewed?.length === 0">
                                 <nz-empty nzNotFoundImage="simple"></nz-empty>
                             </div>
                         </nz-demo-tab-content-lazy>
@@ -155,6 +215,9 @@
                 </nz-tab>
             </nz-tabset>
         </nz-card>
+        <br>
+        <h4 nz-typography>Guidelines to get tailored advertisements for your Instagram account,</h4>
+        <button nz-button nzType="primary" (click)="navigateToRectification()">Click here</button>
 
         <!-- Advertisement Activity -->
         <!-- <app-title-bar titleText="Advertisement Activity" tooltipText="The below displays the advertisement activity performed by you on your Instagram account." [includeButton]="false"></app-title-bar> -->

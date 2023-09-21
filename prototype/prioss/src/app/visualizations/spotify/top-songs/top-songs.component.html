@@ -5,21 +5,43 @@
     </div>
 
     <div *ngIf="!previewMode">
-      <app-title-bar titleText="Top Songs" tooltipText="This bar chart shows your top 10 songs in a given time period. You can also switch to a tabular view.">
+      <app-title-bar *ngIf="!calledFromListeningtime" titleText="Top Songs" tooltipText="This bar chart shows your top 10 songs in a given time period. You can also switch to a tabular view.">
       </app-title-bar>
+
+      <app-title-bar *ngIf="calledFromListeningtime" titleText="Top Songs" tooltipText="This bar chart shows your top 10 songs in a given time period. You can also switch to a tabular view."
+        [overrideBackButtonFunction]="true" (onButtonClickedEventOverride)="returnToListeningTime()"
+        backButtonTextOverride="Back to Listeningtime">
+      </app-title-bar>
+
       <nz-tabset (nzSelectedIndexChange)="onTabSwitch($event)">
         <nz-tab nzTitle="Bar chart">
-          From:
-          <nz-date-picker [(ngModel)]="filterFromDate" (ngModelChange)="onDateFilterChanged()"></nz-date-picker>
-          To:
-          <nz-date-picker [(ngModel)]="filterToDate" (ngModelChange)="onDateFilterChanged()"></nz-date-picker>
-          <div class="bar_chart_top_songs"></div>
+          <div class="t-filter-container">
+            <div class="t-filter-grid">
+              <span class="grid-col-one">From: </span>
+              <nz-date-picker class="grid-col-two" [(ngModel)]="filterFromDate" nzShowTime nzFormat="yyyy-MM-dd HH:00"
+                              (ngModelChange)="onDateFilterChanged()"></nz-date-picker>
+              <div class="t-inline-spacer-small"></div>
+              <span class="grid-col-one">To: </span>
+              <nz-date-picker class="grid-col-two" [(ngModel)]="filterToDate" nzShowTime nzFormat="yyyy-MM-dd HH:00"
+                              (ngModelChange)="onDateFilterChanged()"></nz-date-picker>
+            </div>
+          </div>
+          <br>
+          <div class="bar_chart_top_songs visualization-card"></div>
         </nz-tab>
         <nz-tab nzTitle="Table">
-          From:
-          <nz-date-picker [(ngModel)]="filterFromDate" (ngModelChange)="onDateFilterChanged()"></nz-date-picker>
-          To:
-          <nz-date-picker [(ngModel)]="filterToDate" (ngModelChange)="onDateFilterChanged()"></nz-date-picker>
+          <div class="t-filter-container">
+            <div class="t-filter-grid">
+              <span class="grid-col-one">From: </span>
+              <nz-date-picker class="grid-col-two" [(ngModel)]="filterFromDate" nzShowTime nzFormat="yyyy-MM-dd HH:00"
+                              (ngModelChange)="onDateFilterChanged()"></nz-date-picker>
+              <div class="t-inline-spacer-small"></div>
+              <span class="grid-col-one">To: </span>
+              <nz-date-picker class="grid-col-two" [(ngModel)]="filterToDate" nzShowTime nzFormat="yyyy-MM-dd HH:00"
+                              (ngModelChange)="onDateFilterChanged()"></nz-date-picker>
+            </div>
+          </div>
+          <br>
           <nz-table #basicTable [nzData]="this.minListenedToSong">
             <thead>
             <tr>

@@ -1,17 +1,20 @@
-import { Component, Input } from '@angular/core';
-import { NgxIndexedDBService } from 'ngx-indexed-db';
+import { AfterViewInit, Component, Input, OnDestroy, ViewChild } from '@angular/core';
 import * as d3 from 'd3';
 import { GranularityEnum, Granularity2LabelMapping, getSmallerGranularity } from './granularity.enum';
 import { formatDisplayTime } from './formatDisplayTime.function';
 import * as dateUtils from '../../../utilities/dateUtils.functions';
-import { NotificationService } from 'src/app/notification/notification.component';
+import { NotificationService } from 'src/app/utilities/notification/notification.component';
 import { SpotHistoryRepository } from 'src/app/db/data-repositories/spotify/spot-history/spot-history.repository';
 import { SpotYearlyListening } from 'src/app/models/Spotify/ListeningHistory/SpotYearlyListening';
 import { SpotMonthlyListening } from 'src/app/models/Spotify/ListeningHistory/SpotMonthlyListening';
 import { SpotHourlyListening } from 'src/app/models/Spotify/ListeningHistory/SpotHourlyListening';
 import { SpotDailyListening } from 'src/app/models/Spotify/ListeningHistory/SpotDailyListening';
 import { SequenceComponentInit } from '../../sequence-component-init.abstract';
-import { filter } from 'jszip';
+import { SongtimelineComponent } from '../songtimeline/songtimeline.component';
+import { Router } from '@angular/router';
+import { Subscription, fromEvent } from 'rxjs';
+import { TopSongsComponent } from '../top-songs/top-songs.component';
+import { TopArtistsComponent } from '../top-artists/top-artists.component';
 
 interface ListeningtimeFilterHistoryEntry {
   granularity: GranularityEnum;
@@ -31,10 +34,16 @@ interface ListeningtimeFilterHistoryEntry {
   templateUrl: './listening-time.component.html',
   styleUrls: ['./listening-time.component.less']
 })
-export class ListeningTimeComponent extends SequenceComponentInit {
+export class ListeningTimeComponent extends SequenceComponentInit implements AfterViewInit, OnDestroy{
 
   @Input()
-  previewMode: boolean = false;
+  previewMode = false;
+  @ViewChild('SongtimelineComponent') 
+  songtimelineComponent : SongtimelineComponent;
+  @ViewChild('TopSongsComponent') 
+  topSongsComponent : TopSongsComponent;
+  @ViewChild('TopArtistsComponent') 
+  topArtistsComponent : TopArtistsComponent;
 
   readonly spotifyGreen: string = "#1DB954";
 
@@ -43,7 +52,7 @@ export class ListeningTimeComponent extends SequenceComponentInit {
   selectedGranularity: GranularityEnum = GranularityEnum.Year;
   GranularityEnum = GranularityEnum;
 
-  isFirstVisualizationRun: boolean = true;
+  isFirstVisualizationRun = true;
 
   //intermediate saves for the datamaps, so they don't have to be recalculated when the filters change
   //this is only used for the larger datamaps, month & year, because they may take significant time to recalculate
@@ -67,7 +76,14 @@ export class ListeningTimeComponent extends SequenceComponentInit {
   currentFilterHistoryEntry: ListeningtimeFilterHistoryEntry;
 
   //Barchart visual elements
-  showDataTextAboveBars: boolean = false;
+  showDataTextAboveBars = false;
+
+  /**
+   * The name of the bar that the user right clicked on last. 
+   * This is used to determine what date the bar represents when switching to Top Songs / Top Artists Visualization
+   */
+  rightClickedBarName = "";
+  contextMenuEventSubscription: Subscription;
 
   /**
     * the listening history to be visualized, this is fetched in the constructor and saved here so the recreateVisualization method can access this info whenever it needs to update
@@ -75,7 +91,7 @@ export class ListeningTimeComponent extends SequenceComponentInit {
     */
   history: any;
 
-  constructor(private spotHistoryRepo: SpotHistoryRepository, private dbService: NgxIndexedDBService, private notifyService: NotificationService) {
+  constructor(private spotHistoryRepo: SpotHistoryRepository, private notifyService: NotificationService, private router: Router) {
     super();
   }
 
@@ -88,10 +104,27 @@ export class ListeningTimeComponent extends SequenceComponentInit {
   ngAfterViewInit()
   {
     console.log("--- Preview Mode: " + this.previewMode);
+
+    this.contextMenuEventSubscription = fromEvent(document,'contextmenu-open').subscribe((res:any)=>{
+      console.log('Received Context Menu Event:');
+      console.log(res.detail)
+      this.rightClickedBarName = res.detail;
+    });
+
     if (!this.previewMode)
     {
       this.initComponent();
     }
+  }
+
+  /**
+  * A Callback called by angular when the component is destroyed
+  * It handles the cleanup necessary.
+  *
+  * @author: Simon (scg@mail.upb.de)
+  */
+  ngOnDestroy() {
+    this.contextMenuEventSubscription.unsubscribe();
   }
 
 /**
@@ -103,8 +136,6 @@ export class ListeningTimeComponent extends SequenceComponentInit {
 
     console.log("--- Initializing Component 2: ListeningTime");
 
-    //Shows the single day view first because it takes less time to build than year/month/day views,
-    //this gives us time to parse and compile the data needed for the year, month and day views
     this.selectedGranularity = GranularityEnum.Year;
     
     this.filterHistory = [];
@@ -143,7 +174,7 @@ export class ListeningTimeComponent extends SequenceComponentInit {
    */
   updateFilterHistory() {
 
-    let lastFilters = this.currentFilterHistoryEntry;//this.filterHistory[this.filterHistory.length-1];
+    const lastFilters = this.currentFilterHistoryEntry;//this.filterHistory[this.filterHistory.length-1];
 
     if(lastFilters.granularity != this.selectedGranularity ||
        lastFilters.filterFromDate != this.filterFromDate ||
@@ -166,7 +197,7 @@ export class ListeningTimeComponent extends SequenceComponentInit {
    * @author: Simon (scg@mail.upb.de)
    */
   onClickedRevertFilters() {
-    let filters = this.filterHistory.pop();
+    const filters = this.filterHistory.pop();
 
     if(filters)
     {
@@ -224,7 +255,7 @@ export class ListeningTimeComponent extends SequenceComponentInit {
     *
     * @author: Simon (scg@mail.upb.de)
     */
-  async recreateVisualization(updateFilterHistory: boolean = true) {
+  async recreateVisualization(updateFilterHistory = true) {
     let data: { name: string, value: number, color: string }[] | null = [];
 
     if(updateFilterHistory) {
@@ -265,14 +296,15 @@ export class ListeningTimeComponent extends SequenceComponentInit {
     */
   async createYearData() {
 
-    let dataMap: Map<string, { date: Date, value: number }> = new Map();
+    const dataMap: Map<string, { date: Date, value: number }> = new Map();
 
-    let spotYearlyListening: SpotYearlyListening[] = await this.spotHistoryRepo.getHistoryByYear();
+    const spotYearlyListening: SpotYearlyListening[] = await this.spotHistoryRepo.getHistoryByYear();
+
     for(let i = 0; i < spotYearlyListening.length; i++)
     {
-      let yearData: SpotYearlyListening = spotYearlyListening[i];
-      let date: Date = new Date(Number(yearData.year), 0);
-      let value: number = yearData.msPlayed;
+      const yearData: SpotYearlyListening = spotYearlyListening[i];
+      const date: Date = new Date(Number(yearData.year), 0);
+      const value: number = yearData.msPlayed;
       dataMap.set(yearData.year, { date, value })
     }
 
@@ -289,14 +321,14 @@ export class ListeningTimeComponent extends SequenceComponentInit {
     */
   async createMonthData() {
 
-    let dataMap: Map<string, { date: Date, value: number }> = new Map();
+    const dataMap: Map<string, { date: Date, value: number }> = new Map();
 
-    let spotMonthlyListening: SpotMonthlyListening[] = await this.spotHistoryRepo.getHistoryByMonth();
+    const spotMonthlyListening: SpotMonthlyListening[] = await this.spotHistoryRepo.getHistoryByMonth();
     for(let i = 0; i < spotMonthlyListening.length; i++)
     {
-      let monthData: SpotMonthlyListening = spotMonthlyListening[i];
-      let date: Date = new Date(Number(monthData.year), Number(monthData.month)-1);
-      let value: number = monthData.msPlayed;
+      const monthData: SpotMonthlyListening = spotMonthlyListening[i];
+      const date: Date = new Date(Number(monthData.year), Number(monthData.month)-1);
+      const value: number = monthData.msPlayed;
       dataMap.set(monthData.yearMonth, { date, value })
     }
 
@@ -315,30 +347,30 @@ export class ListeningTimeComponent extends SequenceComponentInit {
   async createDayData() {
     console.log("Create day data");
 
-    let dataMap: Map<string, { date: Date, value: number }> = new Map();
+    const dataMap: Map<string, { date: Date, value: number }> = new Map();
 
     //Show nothing unless filters are active
     if (this.filterFromDate == null || this.filterToDate == null) {
       return null;
     }
 
-    let fromDate: Date = dateUtils.trimDate(this.filterFromDate, GranularityEnum.Day);
-    let toDate: Date = dateUtils.trimDate(this.filterToDate, GranularityEnum.Day);
+    const fromDate: Date = dateUtils.trimDate(this.filterFromDate, GranularityEnum.Day);
+    const toDate: Date = dateUtils.trimDate(this.filterToDate, GranularityEnum.Day);
 
-    let spotDailyListening: SpotDailyListening[] = await this.spotHistoryRepo.getHistoryByDay(fromDate, toDate);
+    const spotDailyListening: SpotDailyListening[] = await this.spotHistoryRepo.getHistoryByDay(fromDate, toDate);
     console.log(spotDailyListening);
 
     for (let i = 0; i < spotDailyListening.length; i++) {
 
-      let historyEntry: SpotDailyListening = spotDailyListening[i];
+      const historyEntry: SpotDailyListening = spotDailyListening[i];
 
-      let date: Date = dateUtils.parseDate(historyEntry.date);
-      let displayDate = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
-      let value: number = historyEntry.msPlayed;
+      const date: Date = dateUtils.parseDate(historyEntry.date);
+      const displayDate = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+      const value: number = historyEntry.msPlayed;
       dataMap.set(displayDate, { date, value });
     }
 
-    let dataArray = this.buildDataArray(dataMap);
+    const dataArray = this.buildDataArray(dataMap);
 
     return dataArray;
   }
@@ -357,7 +389,7 @@ export class ListeningTimeComponent extends SequenceComponentInit {
   async createHourData() {
 
     //Get the most recent day in the history from the db
-    let mostRecentDay: Date = await this.spotHistoryRepo.getMostRecentDay();
+    const mostRecentDay: Date = await this.spotHistoryRepo.getMostRecentDay();
 
     //If this is the initial visualization run, set the filter to the most recent day present in the history
     if (this.isFirstVisualizationRun) {
@@ -369,16 +401,16 @@ export class ListeningTimeComponent extends SequenceComponentInit {
       return null;
     }
 
-    let targetDate: Date = dateUtils.trimDate(this.filterSingleDate, GranularityEnum.Day);
+    const targetDate: Date = dateUtils.trimDate(this.filterSingleDate, GranularityEnum.Day);
 
-    let dataMap: Map<string, { date: Date, value: number }> = new Map();
-    let spotHourlyListening: SpotHourlyListening[] = await this.spotHistoryRepo.getHistoryByHour(targetDate);
+    const dataMap: Map<string, { date: Date, value: number }> = new Map();
+    const spotHourlyListening: SpotHourlyListening[] = await this.spotHistoryRepo.getHistoryByHour(targetDate);
 
     for(let i = 0; i < spotHourlyListening.length; i++)
     {
-      let hourlyData: SpotHourlyListening = spotHourlyListening[i];
-      let date: Date = new Date(targetDate.getFullYear(), targetDate.getMonth(), targetDate.getDate(), hourlyData.hour);
-      let value: number = hourlyData.msPlayed;
+      const hourlyData: SpotHourlyListening = spotHourlyListening[i];
+      const date: Date = new Date(targetDate.getFullYear(), targetDate.getMonth(), targetDate.getDate(), hourlyData.hour);
+      const value: number = hourlyData.msPlayed;
       dataMap.set(hourlyData.displayHour, { date, value })
     }
 
@@ -397,21 +429,21 @@ export class ListeningTimeComponent extends SequenceComponentInit {
    * @author: Simon (scg@mail.upb.de)
    */
   buildDataArray(dataMap: Map<string, { date: Date, value: number }>) {
-    dataMap = new Map([...dataMap.entries()].sort(function ([key1, value1], [key2, value2]) {
+    dataMap = new Map([...dataMap.entries()].sort(function ([, value1], [, value2]) {
       // Turn your strings into dates, and then subtract them
       // to get a value that is either negative, positive, or zero.
       return value1.date.getTime() - value2.date.getTime();
     }));
 
     //build data array
-    let data: { name: string, value: number, color: string }[] = [];
-    let names = Array.from(dataMap.keys());
+    const data: { name: string, value: number, color: string }[] = [];
+    const names = Array.from(dataMap.keys());
     for (let i = 0; i < names.length; i++) {
-      let element = dataMap.get(names[i]);
+      const element = dataMap.get(names[i]);
 
       if (element != undefined) {
-        let date: Date = element.date;
-        let value: number = Number(dataMap.get(names[i])?.value);
+        const date: Date = element.date;
+        const value = Number(dataMap.get(names[i])?.value);
 
         //Applying the Time filters
         if (this.selectedGranularity == GranularityEnum.Hour) {
@@ -427,8 +459,7 @@ export class ListeningTimeComponent extends SequenceComponentInit {
           }
         }
 
-        data.push
-          (
+        data.push(
             { name: String(names[i]), value: value, color: this.spotifyGreen }
           );
       }
@@ -446,6 +477,7 @@ export class ListeningTimeComponent extends SequenceComponentInit {
     * @author: Simon (scg@mail.upb.de)
     *
     */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   getTimeFormat(domainValue: d3.NumberValue, index: number) {
     return formatDisplayTime(domainValue.valueOf());
   }
@@ -467,9 +499,9 @@ export class ListeningTimeComponent extends SequenceComponentInit {
       remainderFromMaxTime /= 60;
       stepSize *= 60;
     }
-    let numberOfTicks = 10;
-    let stepSizeScaler = Math.round(maxTimeValue / (numberOfTicks * stepSize))
-    let tickStepSize = stepSize * (stepSizeScaler > 0 ? stepSizeScaler : 1);
+    const numberOfTicks = 10;
+    const stepSizeScaler = Math.round(maxTimeValue / (numberOfTicks * stepSize))
+    const tickStepSize = stepSize * (stepSizeScaler > 0 ? stepSizeScaler : 1);
 
     return d3.range(0, maxTimeValue, (maxTimeValue/tickStepSize <= 5 ? tickStepSize/2 : tickStepSize));
   }
@@ -483,29 +515,39 @@ export class ListeningTimeComponent extends SequenceComponentInit {
     *
     */
   async makeBarChart(data: { name: string, value: number, color: string }[] | null) {
-    //show an empty chart if the given data is null
-    if (data == null) {
-      data = [];
-    }
-
+    
     //remove old barchart
     d3.select("#listeningtime-bar-chart").selectAll("*").remove();
+    
+    //show an empty chart if the given data is null
+    if (data == null || data.length == 0 
+        //If SQLite does not find any data it still returns an array with one entry, but the "name" portion in the entry is "null" (string, not nulltype)
+        || (data.length == 1 && data[0].name == "null")) {
+      
+      data = [];
+
+      d3.select("#listeningtime-bar-chart")
+        .append("div")
+        .text("There is no listening history data for the selected timeperiod in your data-download.");
+
+      return;
+    }
 
     //save used data
     this.lastUsedVisualizationData = data;
 
-    let values: number[] = data.map((element: any) => element.value);
+    const values: number[] = data.map((element: any) => element.value);
     const maxValue = values.reduce((a, b) => Math.max(a, b), -Infinity);
-    const yAxisValueheight = maxValue * 1.1;
+    const yAxisValueheight = (maxValue > 0 ? maxValue * 1.1 : 11 * 60 * 1000);
 
-    let textSize = "20px";
+    const textSize = "20px";
 
-    let margin = 100;
-    let leftmargin = 150;
-    let bottomMargin = 125;
-    let xAxisWidth = window.innerWidth - margin * 2;
-    let yAxisHeight = window.innerHeight*0.90 - margin * 2;
-    let svg = d3
+    const margin = 100;
+    const leftmargin = 150;
+    const bottomMargin = 125;
+    const xAxisWidth = window.innerWidth - margin * 2;
+    const yAxisHeight = window.innerHeight*0.90 - margin * 2;
+    const svg = d3
       .select("#listeningtime-bar-chart")
       .append("svg")
       .attr(
@@ -516,21 +558,11 @@ export class ListeningTimeComponent extends SequenceComponentInit {
       .append("g")
       .attr("transform", "translate(" + leftmargin + "," + 0 + ")");
 
-    let x: any = d3
+    const x: any = d3
       .scaleBand()
       .range([0, xAxisWidth])
       .domain(data.map((d: any) => d.name))
       .padding(0.2);
-    /* Title
-      svg
-        .append("text")
-        .attr("x", width / 2)
-        .attr("y", 0 - margin / 2)
-        .attr("text-anchor", "middle")
-        .style("font-size", titleSize)
-        .style("text-decoration", "underline")
-        .text("Total listening time in the given time-period");
-      */ 
 
     // Drawing X-axis on the DOM
     svg
@@ -555,10 +587,10 @@ export class ListeningTimeComponent extends SequenceComponentInit {
       .attr("transform", "rotate(-65)");
 
       
-    let formatter = this.getTimeFormat;//d3.format(".0%");
+    const formatter = this.getTimeFormat;//d3.format(".0%");
 
     // Create Y-axis band scale
-    let y = d3
+    const y = d3
       .scaleLinear()
       .domain([0, yAxisValueheight])
       .range([yAxisHeight,0]);//[yAxisHeight,0]
@@ -586,11 +618,16 @@ export class ListeningTimeComponent extends SequenceComponentInit {
       .style("color", "#fff")
       .text("a simple tooltip");
 
-    let hoveringBarName: string = "";
-    let currentGranularity: GranularityEnum = this.selectedGranularity;
+    //find the custom contextmenu  
+    const contextMenu = d3.select("#contextmenu");
 
+    const currentGranularity: GranularityEnum = this.selectedGranularity;
 
-    let calcBarHeight = (d: any) => yAxisHeight - y(d.value)
+    //This is the only way to pass a reference to 'this' into the onClick listener while also getting the 'data' of the clicked bar as a parameter in the listerner
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
+    const listeningTimeComponent: ListeningTimeComponent = this;
+
+    const calcBarHeight = (d: any) => yAxisHeight - y(d.value)
 
     // Create and fill the bars
     svg
@@ -599,22 +636,40 @@ export class ListeningTimeComponent extends SequenceComponentInit {
       .enter()
       .append("rect")
       .attr("x", (d: any) => x(d.name))
-      .attr("y", (d: any) => yAxisHeight)
+      .attr("y", () => yAxisHeight)
       //.attr("y", (d: any) => height - y(d.value) * height / 100)
       .attr("width", x.bandwidth())
       .attr("height", 0)//calcBarHeight)
       //.attr("height", (d: any) => y(d.value) * height / 100)// this.height
       .attr("fill", (d: any) => d.color)
-      .on("click", () => {
-        if (this.selectedGranularity != GranularityEnum.Hour)
-          tooltip.html(``).style("visibility", "hidden");
+      //Left CLick
+      .on("click", function (event, data) {
+        tooltip.html(``).style("visibility", "hidden");
+        if (currentGranularity != GranularityEnum.Hour) {
+          listeningTimeComponent.onBarClicked(data.name);
+        }
+        else if (listeningTimeComponent.filterSingleDate) {
+          listeningTimeComponent.onBarClicked(dateUtils.getDisplayDateString(listeningTimeComponent.filterSingleDate) + " " + data.name)
+        }
+      })
+      //Right Click
+      .on("contextmenu", function (event, d) {
+        //prevent the normal brwoser context menu from appearing
+        event.preventDefault();
+        //save the name of the bar that was rightcliced, so we can determine the date it represents later
+        document.dispatchEvent(new CustomEvent('contextmenu-open',{detail: d.name}));
+        //remove the tooltip, so it doesn't interfere with the new contextmenu
+        tooltip.html(``).style("visibility", "hidden");
+        //show the new context menu
+        contextMenu.style("visibility", "visible")
+          .style("top", (event.pageY - 10) + "px")
+          .style("left", (event.pageX + 10) + "px");
 
-        this.onBarClicked(hoveringBarName);
       })
       //Mouse Hover
       .on("mouseover", function (event, data) {
+        contextMenu.style("visibility", "hidden");
         onMouseOver(currentGranularity, tooltip, this, data);
-        hoveringBarName = data.name;
       })
       //Mouse moved: change tooltip position
       .on("mousemove", function (event) {
@@ -625,7 +680,6 @@ export class ListeningTimeComponent extends SequenceComponentInit {
       //Mouse not hovering: hide tooltip
       .on("mouseout", function () {
         tooltip.html(``).style("visibility", "hidden");
-        hoveringBarName = "";
         //d3.select(this).style("boxshadow", "none");
         //d3.select(this).style("cursor", "auto");
       })
@@ -660,7 +714,7 @@ export class ListeningTimeComponent extends SequenceComponentInit {
     * @author: Simon (scg@mail.upb.de)
     */
   onBarClicked(clickedBarDateString: string) {
-    let smallerGranulartiy: GranularityEnum | null = getSmallerGranularity(this.selectedGranularity);
+    const smallerGranulartiy: GranularityEnum | null = getSmallerGranularity(this.selectedGranularity);
 
     if (smallerGranulartiy != null) {
       this.selectedGranularity = smallerGranulartiy;
@@ -669,7 +723,152 @@ export class ListeningTimeComponent extends SequenceComponentInit {
       this.recreateVisualization();
     }
     else {
-      this.notifyService.showNotification("Hour-wise visualization over a single day is the most detailed visualization available. You can't step into a single hour.");
+      /* Switch out listeningtime visualization for songtimeline visualization
+         this is done to make sure that, when the user navigates back from the songtimeline to the listeningtime, 
+         the listening time's filter history is still available
+      */
+      const listeningTimePage = document.getElementById('listeningtime-page');
+      const songtimelinePage = document.getElementById('songtimeline-page');
+
+      if(songtimelinePage && listeningTimePage) {
+        listeningTimePage.style.display='none';
+        songtimelinePage.style.display='block';
+        //set the correct input time in the visualization
+        this.songtimelineComponent.filterDateTime = dateUtils.parseDate(clickedBarDateString);
+        this.songtimelineComponent.onDateFilterChanged();
+
+      }
+
+      //this.notifyService.showNotification("Hour-wise visualization over a single day is the most detailed visualization available. You can't step into a single hour.");
+    }
+  }
+
+/**
+  * Callback for the context menu buttons: Displays the TopSongs Visualization with the date filtered to the bar that was right clicked last.
+  *
+  * @author: Simon (scg@mail.upb.de)
+  */
+  goToTopSongs() {
+    /* Switch out listeningtime visualization for Top Songs visualization
+         this is done to make sure that, when the user navigates back to the listeningtime, 
+         the listening time's filter history is still available
+      */
+    const listeningTimePage = document.getElementById('listeningtime-page');
+    const topsongsPage = document.getElementById('topsongs-page');
+
+    if(topsongsPage && listeningTimePage) {
+      listeningTimePage.style.display='none';
+      topsongsPage.style.display='block';
+      d3.select("#contextmenu").style("visibility", "hidden");
+
+      //set the correct input time in the visualization
+      this.topSongsComponent.filterFromDate = dateUtils.parseDate(this.getStartDateFromLabel(this.rightClickedBarName));
+      this.topSongsComponent.filterToDate = dateUtils.parseDate( this.getEndDateFromLabel(this.rightClickedBarName));
+      this.topSongsComponent.calledFromListeningtime = true;
+      this.topSongsComponent.onDateFilterChanged();
+    }
+
+    //this.router.navigate(['spot/top-songs/', this.getStartDateFromLabel(this.rightClickedBarName), this.getEndDateFromLabel(this.rightClickedBarName)]);
+  }
+
+/**
+  * Callback for the context menu buttons: Displays the TopArtists Visualization with the date filtered to the bar that was right clicked last.
+  *
+  * @author: Simon (scg@mail.upb.de)
+  */
+  goToTopArtists() {
+    /* Switch out listeningtime visualization for Top Artists visualization
+         this is done to make sure that, when the user navigates back to the listeningtime, 
+         the listening time's filter history is still available
+      */
+    const listeningTimePage = document.getElementById('listeningtime-page');
+    const topArtistsPage = document.getElementById('topartists-page');
+
+    if(topArtistsPage && listeningTimePage) {
+      listeningTimePage.style.display='none';
+      topArtistsPage.style.display='block';
+      d3.select("#contextmenu").style("visibility", "hidden");
+
+      //set the correct input time in the visualization
+      this.topArtistsComponent.filterFromDate = dateUtils.parseDate(this.getStartDateFromLabel(this.rightClickedBarName));
+      this.topArtistsComponent.filterToDate = dateUtils.parseDate( this.getEndDateFromLabel(this.rightClickedBarName));
+      this.topArtistsComponent.calledFromListeningtime = true;
+      this.topArtistsComponent.onDateFilterChanged();
+    }
+   
+    //this.router.navigate(['spot/top-artists/', this.getStartDateFromLabel(this.rightClickedBarName), this.getEndDateFromLabel(this.rightClickedBarName)]);
+  }
+
+/**
+  * Based on the given label of a bar in the chart, it calculates the start date of the timeframe that the bar represents.
+  * 
+  * @returns: the calculated date as a date-string in the format YYYY-MM-DD HH24-00. Hours and Minutes are left out when not needed
+  *
+  * @author: Simon (scg@mail.upb.de)
+  */
+  getStartDateFromLabel(dateLabel: string): string {
+
+    switch(this.selectedGranularity) {
+      case GranularityEnum.Hour: {
+        const date: Date|null= this.filterSingleDate;
+        if(date) {
+          return date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + dateLabel;
+        }
+        else {
+          return "";
+        }
+      }
+      case GranularityEnum.Day:
+        return dateLabel;
+      case GranularityEnum.Month:
+        return dateLabel + "-01";
+      case GranularityEnum.Year:
+        return dateLabel + "-01-01";
+    }
+  }
+
+/**
+  * Based on the given label of a bar in the chart, it calculates the end date of the timeframe that the bar represents.
+  * 
+  * @returns: the calculated date as a date-string in the format YYYY-MM-DD HH24-00. Hours and Minutes are left out when not needed
+  *
+  * @author: Simon (scg@mail.upb.de)
+  */
+  getEndDateFromLabel(dateLabel: string): string {
+
+    let date: Date|null;
+    let startDate: Date;
+    let endDate: Date;
+
+    switch(this.selectedGranularity) {
+      case GranularityEnum.Hour:
+        date = this.filterSingleDate;
+        if(date) {
+          //change dateLabel to be the next hour
+          const dateParts = dateLabel.split(":");
+          if(dateParts[0]) {
+            return date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + (parseInt(dateParts[0]) + 1) + ':' + dateParts[1];
+          }
+          else {
+            return "";
+          }
+        }
+        else {
+          return "";
+        }
+
+      case GranularityEnum.Day:
+        startDate = dateUtils.parseDate(dateLabel);
+        endDate = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate()+1);
+        return endDate.getFullYear() + "-" + (endDate.getMonth() + 1) + "-" + endDate.getDate();
+
+      case GranularityEnum.Month:
+        startDate = dateUtils.parseDate(dateLabel);
+        endDate = new Date(startDate.getFullYear(), startDate.getMonth() + 1, 0);
+        return endDate.getFullYear() + "-" + (endDate.getMonth() + 1) + "-" + endDate.getDate();
+
+      case GranularityEnum.Year:
+        return dateLabel + "-12-31";
     }
   }
 
@@ -683,8 +882,8 @@ export class ListeningTimeComponent extends SequenceComponentInit {
     */
   calculateFilters(newGranularity: GranularityEnum, selectedBarDateString: string) {
 
-    let dateParts = selectedBarDateString.split("-").map(Number);
-    let selectedBarDate: Date = new Date(dateParts.length > 0 ? dateParts[0] : 0,
+    const dateParts = selectedBarDateString.split("-").map(Number);
+    const selectedBarDate: Date = new Date(dateParts.length > 0 ? dateParts[0] : 0,
       dateParts.length > 1 ? dateParts[1] - 1 : 0,
       dateParts.length > 2 ? dateParts[2] : 1);
 
@@ -719,7 +918,8 @@ export class ListeningTimeComponent extends SequenceComponentInit {
 function onMouseOver(selectedGranularity: GranularityEnum, tooltip: d3.Selection<HTMLDivElement, unknown, HTMLElement, any>, currRect: SVGRectElement, data: { name: string, value: number, color: string }) {
   let html;
   if (selectedGranularity == GranularityEnum.Hour) {
-    html = tooltip.html(`${formatDisplayTime(data.value)}<br>`)
+    html = tooltip.html(`${formatDisplayTime(data.value)}<br><i>Click to see played songs.</i>`)
+    d3.select(currRect).style("cursor", "pointer");
   }
   else {
     html = tooltip.html(`${formatDisplayTime(data.value)}<br><i>Click to inspect.</i>`)

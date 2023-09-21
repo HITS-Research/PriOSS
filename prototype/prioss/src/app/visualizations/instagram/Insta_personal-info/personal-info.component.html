@@ -29,12 +29,20 @@
         </tr>
       </thead>
       <!--waits for the personal data to be loaded-->
-      <tbody *ngIf="personalInfo !== undefined && accountInfo !== undefined && professionalInfo !== undefined">
+      <tbody *ngIf="personalInfo !== undefined && accountInfo !== undefined && professionalInfo !== undefined && basedInInfo !== undefined">
         <tr *ngFor="let pair of getObjectPairs(personalInfo)">
           <td>{{ capitalizeAndPrettify(pair[0]) }}</td>
-          <td>{{ pair[1] }}</td>
+          <td>{{ convertTimestamp(pair[1]) }}</td>
         </tr>
         <tr *ngFor="let pair of getObjectPairs(accountInfo)">
+          <td>{{ capitalizeAndPrettify(pair[0]) }}</td>
+          <td>{{ convertTimestamp(pair[1]) }}</td>
+        </tr>
+        <tr *ngFor="let pair of getObjectPairs(basedInInfo)">
+          <td>{{ capitalizeAndPrettify(pair[0]) }}</td>
+          <td>{{ convertTimestamp(pair[1]) }}</td>
+        </tr>
+        <tr *ngFor="let pair of getObjectPairs(professionalInfo)">
           <td>{{ capitalizeAndPrettify(pair[0]) }}</td>
           <td>{{ convertTimestamp(pair[1]) }}</td>
         </tr>
@@ -42,6 +50,7 @@
     </nz-table>
     <br>
     <br>
+   
 
     <app-title-bar titleText="Profile Changes" tooltipText="The following table shows all profile changes that were made by the user over the course of the accounts lifetime." [includeButton]="false"></app-title-bar>
     <nz-table #basicTable [nzData]="profileChanges">
@@ -64,5 +73,14 @@
         </tr>
       </tbody>
     </nz-table>
+    <div>
+      <h4 nz-typography>Guidelines to make your Instagram Account Private,</h4>
+      <button nz-button nzType="primary" (click)="handleButtonClick1()">Click here</button>
+      <br> 
+      <br>
+      <h4 nz-typography>Guidelines to keep your Instagram account's Profile Information Private,</h4>
+      <button nz-button nzType="primary" (click)="handleButtonClick2()">Click here</button>
+    </div>
   </div>
-</div> 
+ </div>
+ 

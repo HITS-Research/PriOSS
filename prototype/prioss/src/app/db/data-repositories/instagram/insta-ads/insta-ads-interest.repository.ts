@@ -3,18 +3,32 @@ import { DBService } from "../../../../services/db/db.service";
 import { BulkAddCapableRepository } from "../../general/inferences/bulk-add-capable.repository";
 import * as sql from "./insta-ads-interest.sql"
 import { InstaAdsInterestInfo } from "src/app/models/Instagram/LikedAdsInfo/InstaAdsInterestInfo";
-import { SQLiteDBConnection } from "@capacitor-community/sqlite";
+import { SQLiteDBConnection} from "@capacitor-community/sqlite";
 
 /**
  * This repository component is responsible for providing functions to insert and request data from the
  * insta_ads_interest table that holds all data regarding ads that might be interesting for the user.
  * 
- * @author: Paul (pasch@mail.upb.de)
+ * @author: Mayank (mayank@mail.upb.de)
  */
 @Injectable()
 export class InstaAdsInterestRepository extends BulkAddCapableRepository {
     constructor(dbService: DBService) {
         super(sql.bulkAddInstaAdsInterestsBaseSQL, sql.bulkAddInstaAdsInterestsValuesSQL, sql.bulkAddValueConnector, dbService);
+    }
+
+    /**
+     * Add a single row to the DB.
+     * 
+     * @param interest the name of the interest that should be added to the Instagram ads interest table
+     * 
+     * @author: Mayank (mayank@mail.upb.de)
+     */
+    async addSingleAdInterestData(interest: string) {
+        await this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
+            const sqlStatement = sql.insertIntoInstaAdsInterestsSQL;
+            await db.run(sqlStatement, [interest]);
+        });
     }
 
     /**
@@ -24,9 +38,9 @@ export class InstaAdsInterestRepository extends BulkAddCapableRepository {
      * @param totalRowCount the total number of rows that should be added to the Instagram ads activity table in this bulk add run
      * @param targetBulkSize the number of rows that should be inserted in a single SQL query. The SQLite engine does not seem to support much more than 500 at a time
      * 
-     * @author: Paul (pasch@mail.upb.de)
+     * @author: Mayank (mayank@mail.upb.de)
      */
-    async startAdInterestBulkAdd(interest: string, totalRowCount: number, targetBulkSize: number = 500) {
+    async startAdInterestBulkAdd(interest: string, totalRowCount: number, targetBulkSize = 500) {
         this.startBulkAdd([interest], totalRowCount, targetBulkSize);
     }
 
@@ -35,7 +49,7 @@ export class InstaAdsInterestRepository extends BulkAddCapableRepository {
      * 
      * @param interest the name of the interest that should be added to the Instagram ads interest table
      *
-     * @author: Paul (pasch@mail.upb.de)
+     * @author: Mayank (mayank@mail.upb.de)
      */
     async addAdInterestBulkEntry(interest: string) : Promise<void> {
         return this.addBulkEntry([interest]);
@@ -52,7 +66,7 @@ export class InstaAdsInterestRepository extends BulkAddCapableRepository {
     {
         return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
 
-            let result = await db.query(sql.selectInstaAdsInterestSQL);
+            const result = await db.query(sql.selectInstaAdsInterestSQL);
             return result.values as InstaAdsInterestInfo[];
         });
     }

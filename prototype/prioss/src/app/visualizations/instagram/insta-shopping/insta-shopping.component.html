@@ -1,0 +1,168 @@
+<div [ngClass]="{'component-page': !previewMode}">
+
+  <!--only shows when visiting the page-->
+  <div *ngIf="!previewMode">
+    <!--Titlebar component -->
+    <app-title-bar titleText="Highlights" tooltipText="This are some important entrys in your data download regarding your shopping and wishlist items."></app-title-bar>
+  </div>
+
+    <!--This is the preview and the highlights section-->
+    <div>
+      <nz-row [nzGutter]="16">
+        <nz-col [nzSpan]="12">
+          <nz-statistic [nzValue]="(totalMerchants)!" [nzTitle]="'Number of Merchants In Shopping List'"></nz-statistic>
+        </nz-col>
+        <nz-col [nzSpan]="12">
+          <nz-statistic [nzValue]="(totalProducts)!" [nzTitle]="'Number of Products In Shopping List'"></nz-statistic>
+        </nz-col>
+        <nz-col [nzSpan]="12">
+          <nz-statistic [nzValue]="(totalWishlistMerchants)!" [nzTitle]="'Number of Merchants In Shopping WishList'"></nz-statistic>
+        </nz-col>
+        <nz-col [nzSpan]="12">
+          <nz-statistic [nzValue]="(totalWishlistProducts)!" [nzTitle]="'Number of Products In Shopping WishList'"></nz-statistic>
+        </nz-col>
+      </nz-row>
+    </div>
+
+    <!--only shows when visiting the page-->
+    <div *ngIf="!previewMode">
+      <br>
+      <app-title-bar titleText="Shopping" [includeButton]="false" tooltipText="The following tables shows the recently checked out and the wishlist data"></app-title-bar>
+      <nz-card style="width:100%;">
+        <nz-tabset nzType="card">
+          <nz-tab nzTitle="Shopping List">
+            <ng-template nz-tab>
+              <nz-demo-tab-content-lazy>
+                <!-- If Shopping Data present -->
+                <div *ngIf="shoppingData?.length">
+                  <p>The following table shows all the details about shopping products viewed.</p>
+                  <nz-table #shoppingTable [nzData]="listOfShoppingData">
+                    <thead>
+                      <tr>
+                        <th nzCustomFilter>
+                          Merchant name
+                          <nz-filter-trigger [(nzVisible)]="merchantVisible" [nzActive]="merchantSearchValue.length > 0" [nzDropdownMenu]="merchantmenu">
+                            <span nz-icon nzType="search"></span>
+                          </nz-filter-trigger>
+                        </th>
+                        <th nzCustomFilter>
+                          Product name
+                          <nz-filter-trigger [(nzVisible)]="productVisible" [nzActive]="productSearchValue.length > 0" [nzDropdownMenu]="productmenu">
+                            <span nz-icon nzType="search"></span>
+                          </nz-filter-trigger>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let data of shoppingTable.data">
+                        <td>{{ data.merchantName }}</td>
+                        <td>{{ data.productName }}</td>
+                      </tr>
+                    </tbody>
+                  </nz-table>
+                  <nz-dropdown-menu #merchantmenu="nzDropdownMenu">
+                    <div class="ant-table-filter-dropdown">
+                      <div class="search-box">
+                        <input type="text" nz-input placeholder="Search Merchant Name" [(ngModel)]="merchantSearchValue" />
+                        <button nz-button nzSize="small" nzType="primary" (click)="search('merchant')" class="search-button">Search</button>
+                        <button nz-button nzSize="small" (click)="reset('merchant')">Reset</button>
+                      </div>
+                    </div>
+                  </nz-dropdown-menu>
+                  <nz-dropdown-menu #productmenu="nzDropdownMenu">
+                    <div class="ant-table-filter-dropdown">
+                      <div class="search-box">
+                        <input type="text" nz-input placeholder="Search Product Name" [(ngModel)]="productSearchValue" />
+                        <button nz-button nzSize="small" nzType="primary" (click)="search('product')" class="search-button">Search</button>
+                        <button nz-button nzSize="small" (click)="reset('product')">Reset</button>
+                      </div>
+                    </div>
+                  </nz-dropdown-menu>
+                </div>
+                <!-- If No Shopping Data present -->
+                <div *ngIf="shoppingData?.length === 0">
+                  <nz-empty nzNotFoundImage="simple"></nz-empty>
+                </div>
+              </nz-demo-tab-content-lazy>
+            </ng-template>
+          </nz-tab>
+          <nz-tab nzTitle="Shopping Wishlist">
+            <ng-template nz-tab>
+              <nz-demo-tab-content-lazy>
+                <!-- If Shopping Data present -->
+                <div *ngIf="shoppingWishlistData?.length">
+                  <p>The following table shows all the details about shopping products wishlisted.</p>
+                  <nz-table #shoppingWishlistTable [nzData]="listOfShoppingWishlistData">
+                    <thead>
+                      <tr>
+                        <th nzCustomFilter>
+                          Merchant name
+                          <nz-filter-trigger [(nzVisible)]="wishlistMerchantVisible" [nzActive]="wishlistMerchantSearchValue.length > 0" [nzDropdownMenu]="wishlistMerchantmenu">
+                            <span nz-icon nzType="search"></span>
+                          </nz-filter-trigger>
+                        </th>
+                        <th nzCustomFilter>
+                          Product name
+                          <nz-filter-trigger [(nzVisible)]="wishlistProductVisible" [nzActive]="wishlistProductSearchValue.length > 0" [nzDropdownMenu]="wishlistProductmenu">
+                            <span nz-icon nzType="search"></span>
+                          </nz-filter-trigger>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let data of shoppingWishlistTable.data">
+                        <td>{{ data.merchantName }}</td>
+                        <td>{{ data.productName }}</td>
+                      </tr>
+                    </tbody>
+                  </nz-table>
+                  <nz-dropdown-menu #wishlistMerchantmenu="nzDropdownMenu">
+                    <div class="ant-table-filter-dropdown">
+                      <div class="search-box">
+                        <input type="text" nz-input placeholder="Search Merchant Name" [(ngModel)]="wishlistMerchantSearchValue" />
+                        <button nz-button nzSize="small" nzType="primary" (click)="search('wishlistMerchant')" class="search-button">Search</button>
+                        <button nz-button nzSize="small" (click)="reset('wishlistMerchant')">Reset</button>
+                      </div>
+                    </div>
+                  </nz-dropdown-menu>
+                  <nz-dropdown-menu #wishlistProductmenu="nzDropdownMenu">
+                    <div class="ant-table-filter-dropdown">
+                      <div class="search-box">
+                        <input type="text" nz-input placeholder="Search Product Name" [(ngModel)]="wishlistProductSearchValue" />
+                        <button nz-button nzSize="small" nzType="primary" (click)="search('wishlistProduct')" class="search-button">Search</button>
+                        <button nz-button nzSize="small" (click)="reset('wishlistProduct')">Reset</button>
+                      </div>
+                    </div>
+                  </nz-dropdown-menu>
+                </div>
+                <!-- If No Shopping Data present -->
+                <div *ngIf="shoppingWishlistData?.length === 0">
+                  <nz-empty nzNotFoundImage="simple"></nz-empty>
+                </div>
+              </nz-demo-tab-content-lazy>
+            </ng-template>
+          </nz-tab>
+        </nz-tabset>
+      </nz-card>
+    </div>
+
+
+
+      <!--Titlebar component -->
+      <!-- <app-title-bar titleText="Shopping" tooltipText="The following table shows all the details about shopping products viewed."></app-title-bar>
+      <nz-table #shoppingTable [nzData]="shoppingData">
+        <thead>
+          <tr>
+            <th>Merchant name</th>
+            <th>Product name</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of shoppingTable.data">
+            <td>{{ data.merchantName }}</td>
+            <td>{{ data.productName }}</td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </div>
+</div> -->

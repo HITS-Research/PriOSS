@@ -1,5 +1,5 @@
-import { Component, ViewChild } from '@angular/core';
-import { IntrojsService } from 'src/app/introjs/introjs.service';
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { IntrojsService } from 'src/app/page-sub-components/introjs/introjs.service';
 import { BaseDashboard } from '../base-dashboard.abstract';
 import { Insta_PersonalInfoComponent } from 'src/app/visualizations/instagram/Insta_personal-info/personal-info.component';
 import { InstaAdsComponent } from 'src/app/visualizations/instagram/insta-ads/insta-ads.component';
@@ -7,6 +7,10 @@ import { InstaAccountCreationLoginComponent } from 'src/app/visualizations/insta
 import { InstaFollowersComponent } from 'src/app/visualizations/instagram/insta-followers/insta-followers.component';
 import { InstaLikedContentComponent } from 'src/app/visualizations/instagram/insta-liked-content/insta-liked-content.component';
 import { InstaContactComponent } from 'src/app/visualizations/instagram/insta-contact/insta-contact.component';
+import { InstaSearchesComponent } from 'src/app/visualizations/instagram/insta-searches/insta-searches.component';
+import { InstaShoppingComponent } from 'src/app/visualizations/instagram/insta-shopping/insta-shopping.component';
+import { InstaYourTopicComponent } from 'src/app/visualizations/instagram/insta-your-topic/insta-your-topic.component';
+import { InstaMessagesComponent } from 'src/app/visualizations/instagram/insta-messages/insta-messages.component';
 
 /**
   * This component is the root component for instagram's dashboard page.
@@ -23,7 +27,7 @@ import { InstaContactComponent } from 'src/app/visualizations/instagram/insta-co
   templateUrl: './insta-dashboard.component.html',
   styleUrls: ['./insta-dashboard.component.less']
 })
-export class InstaDashboardComponent extends BaseDashboard{
+export class InstaDashboardComponent extends BaseDashboard implements AfterViewInit{
   current = 0;
   rectificationInstructionText="Choose your country.";
   rectificationInstructionPicture="/../../assets/images/insta-rectifcation/step1.png"
@@ -35,6 +39,10 @@ export class InstaDashboardComponent extends BaseDashboard{
   @ViewChild(InstaFollowersComponent) instaFollower : InstaFollowersComponent;
   @ViewChild(InstaLikedContentComponent) instaLikedContent: InstaLikedContentComponent;
   @ViewChild(InstaContactComponent) instaContact : InstaContactComponent;
+  @ViewChild(InstaSearchesComponent) instaSearches : InstaSearchesComponent;
+  @ViewChild(InstaShoppingComponent) instaShopping : InstaShoppingComponent;
+  @ViewChild(InstaYourTopicComponent) instaYourTopic : InstaYourTopicComponent;
+  @ViewChild(InstaMessagesComponent) instaMessages : InstaMessagesComponent;
 
   constructor( private introService: IntrojsService) { 
     super();
@@ -100,6 +108,10 @@ export class InstaDashboardComponent extends BaseDashboard{
     this.componentInitializationList.push(this.instaFollower);
     this.componentInitializationList.push(this.instaContact);
     this.componentInitializationList.push(this.instaLikedContent);
+    this.componentInitializationList.push(this.instaSearches);
+    this.componentInitializationList.push(this.instaShopping);
+    this.componentInitializationList.push(this.instaYourTopic);
+    this.componentInitializationList.push(this.instaMessages);
     
     //Start Component Initialization run
     this.startSequentialInitialization();

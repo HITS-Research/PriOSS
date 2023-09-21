@@ -1,0 +1,255 @@
+<div [ngClass]="{'component-page': !previewMode}">
+  <div *ngIf="previewMode">
+    <nz-row [nzGutter]="16">
+      <nz-col [nzSpan]="12">
+        <nz-statistic [nzValue]="locations.length" 
+                      [nzTitle]="'Login Locations'" 
+                      [nzPrefix]="location"
+                      [nzValueStyle]="{display: 'inline-flux'}">
+        </nz-statistic>
+        <ng-template #location>
+          <div class="container_class">
+            <span nz-icon nzType="environment"></span>
+          </div>
+        </ng-template>
+      </nz-col>
+      <nz-col [nzSpan]="12">
+        <nz-statistic [nzTitle]="'A/c Deactivated'"  
+                      [nzValue]="account_deactivated" 
+                      [nzPrefix]="deactivated"
+                      [nzValueStyle]="{display: 'inline-flux'}">
+        </nz-statistic>
+        <ng-template class="icon_class" #deactivated><span nz-icon nzType="stop"></span></ng-template>
+      </nz-col>
+      <nz-col [nzSpan]="12">
+        <span class="container_class">
+          <nz-statistic  [nzTitle]="'Password Changed'" 
+                        [nzValue]="PasswordChange"
+                        [nzPrefix]="PwdChange">
+          </nz-statistic>
+          <ng-template class="container_class" #PwdChange>
+            <!-- <span nz-icon nzType="redo"></span> -->
+            <span nz-icon nzType="rest" nzTheme="outline"></span>
+          </ng-template>
+        </span>
+      </nz-col>
+      <nz-col [nzSpan]="12">
+        <nz-statistic [nzTitle]="'Login & Logouts'"  
+                      [nzValue]="login_logouts"
+                      [nzPrefix]="Loginout">
+        </nz-statistic>
+        <ng-template class="container_class" #Loginout>
+          <span nz-icon nzType="retweet"></span>
+          <!-- <span nz-icon nzType="user-switch" nzTheme="outline"></span> -->
+        </ng-template>
+      </nz-col>
+    </nz-row>
+  </div>
+</div>
+
+<div *ngIf="!previewMode">
+    <app-title-bar titleText="Security and Login Data" tooltipText="Your login related data"></app-title-bar>
+    <nz-tabset class="margin-top-20">
+
+      <nz-tab nzTitle="Login Locations">
+        <br>
+        <!-- <div [ngClass]="{'logloc-tab': logloc_empty}">
+        <div data-bind="visible: !logloc_empty">
+          <nz-result class=".no_data" nzStatus="404" nzTitle="No Data" nzSubTitle="Sorry, your data does not exist.">
+            <div nz-result-extra>
+              <button nz-button nzType="primary">Back Home</button>
+            </div>
+          </nz-result>
+        </div> -->
+        <ng-container *ngIf="dataAvailableLoc; else noDataTemplate">
+        <nz-table [nzData]="loginLocationsData" #loginLocations>
+          <thead>
+            <tr>
+              <th nzCustomFilter class="tableCol">Location</th>
+              <th nzCustomFilter class="tableCol">Device</th>
+              <th nzCustomFilter class="tableCol">Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let eachRow of loginLocations.data">
+              <td> {{ eachRow.location }} </td>
+              <td> {{ eachRow.device}} </td>
+              <td> {{ eachRow.timestamp}} </td>
+            </tr>
+          </tbody>
+        </nz-table>
+        <br>
+        <button nz-button nzType="primary"> To Privacy Recommendations</button>
+      </ng-container>
+      <ng-template #noDataTemplate>
+        <nz-result nzStatus="403" nzTitle="No data available">
+        </nz-result>
+      </ng-template>
+      </nz-tab>
+
+      <nz-tab nzTitle="Login and Logouts">
+        <!-- <div [ngClass]="{'component-page': loginlogout_empty}">
+          <nz-result class=".no_data" nzStatus="404" nzTitle="No Data" nzSubTitle="Sorry, your data does not exist.">
+            <div nz-result-extra>
+              <button nz-button nzType="primary">Back Home</button>
+            </div>
+          </nz-result>
+        </div> -->
+        <ng-container *ngIf="dataAvailableLogOuts; else noDataTemplate">
+        <nz-row [nzGutter]="16">
+          <nz-col [nzSpan]="12">
+            <nz-statistic [nzValue]="(login_count | number)!" [nzTitle]="'Number of times you have logged in '"></nz-statistic>
+          </nz-col>
+          <nz-col [nzSpan]="12">
+            <nz-statistic [nzValue]="(logout_count | number)!" [nzTitle]="'Number of times you have logged out '"></nz-statistic>
+          </nz-col>
+        </nz-row>
+        <br>
+        <nz-table [nzData]="loginlogoutData" #loginLogouts>
+          <thead>
+            <tr>
+              <th nzCustomFilter class="tableCol">Action</th>
+              <th nzCustomFilter class="tableCol">Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let eachRow of loginLogouts.data">
+              <td> {{ eachRow.action }} </td>
+              <td> {{ eachRow.timestamp}} </td>
+            </tr>
+          </tbody>
+        </nz-table>
+        <br>
+        <button nz-button nzType="primary">To Privacy Recommendations</button>
+        </ng-container>
+        <ng-template #noDataTemplate>
+          <nz-result nzStatus="403" nzTitle="No data available">
+          </nz-result>
+        </ng-template>
+      </nz-tab>
+
+      <nz-tab nzTitle="Account Status Changes">
+        <!-- <div [ngClass]="{'component-page': accstatus_empty}">
+          <nz-result class=".no_data" nzStatus="404" nzTitle="No Data" nzSubTitle="Sorry, your data does not exist.">
+            <div nz-result-extra>
+              <button nz-button nzType="primary">Back Home</button>
+            </div>
+          </nz-result>
+        </div> -->
+        <ng-container *ngIf="dataAvailableStatusChange; else noDataTemplate">
+        <nz-row [nzGutter]="16">
+          <nz-col [nzSpan]="12">
+            <nz-statistic [nzValue]="(account_deactivated | number)!" [nzTitle]="'Number of times you have deactivated your account in '"></nz-statistic>
+          </nz-col>
+          <nz-col [nzSpan]="12">
+            <nz-statistic [nzValue]="(account_reactivated | number)!" [nzTitle]="'Number of times you have reactivated your account '"></nz-statistic>
+          </nz-col>
+        </nz-row>
+        <br>
+        <br>
+
+        <div class="visualization-card">
+          <br>
+          <br>
+          <nz-timeline nzMode="alternate">
+            <nz-timeline-item *ngFor="let eachRows of accStatusChangeData" [nzDot]="">
+            <ng-template #aTemplate>
+              <!-- <div class="a-timeline-item"
+                  [class.a-timeline-item-red] = "eachRows.status.fontsize"
+                  [class.a-timeline-item-green] = "eachRows.status.fontcolor"
+                  >
+              </div> -->
+              
+            </ng-template>
+            <b class="timeline-item-font">{{eachRows.status}}</b>  [on {{eachRows.timestamp}}]
+            </nz-timeline-item>
+          </nz-timeline>
+        </div>
+
+        <br>
+        <h6 class="note"> Tabular data can be accessed here! </h6>
+
+        <nz-table [nzData]="accStatusChangeData" #accStatusChange>
+          <thead>
+            <tr>
+              <th nzCustomFilter class="tableCol">Status</th>
+              <th nzCustomFilter class="tableCol">Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let eachRow of accStatusChange.data">
+              <td> {{ eachRow.status }} </td>
+              <td> {{ eachRow.timestamp}} </td>
+            </tr>
+          </tbody>
+        </nz-table>
+        <br>
+        <button nz-button nzType="primary">To Privacy Recommendations</button>
+        </ng-container>
+        <ng-template #noDataTemplate>
+          <nz-result nzStatus="403" nzTitle="No data available">
+          </nz-result>
+        </ng-template>
+      </nz-tab>
+
+      <nz-tab nzTitle="Activity Locations">
+        <br>
+        <!-- <div [ngClass]="{'component-page': accactivity_empty}">
+          <nz-result class=".no_data" nzStatus="404" nzTitle="No Data" nzSubTitle="Sorry, your data does not exist.">
+            <div nz-result-extra>
+              <button nz-button nzType="primary">Back Home</button>
+            </div>
+          </nz-result>
+        </div> -->
+        <ng-container *ngIf="dataAvailableActivities; else noDataTemplate">
+        <nz-row [nzGutter]="16">
+          <nz-col [nzSpan]="12">
+            <nz-statistic [nzValue]="(PasswordChange | number)!" [nzTitle]="'Password Changes '"></nz-statistic>
+          </nz-col>
+          <nz-col [nzSpan]="12">
+            <nz-statistic [nzValue]="(Login | number)!" [nzTitle]="' Login Activities '"></nz-statistic>
+          </nz-col>
+          <nz-col [nzSpan]="12">
+            <nz-statistic [nzValue]="(SessionUpdated | number)!" [nzTitle]="'Sessions Updated'"></nz-statistic>
+          </nz-col>
+          <nz-col [nzSpan]="12">
+            <nz-statistic [nzValue]="(terminatedSessions | number)!" [nzTitle]="'Sessions Terminated'"></nz-statistic>
+          </nz-col>
+        </nz-row>
+        <br>
+        <nz-table [nzData]="accActivitiesData" #accActivityData>
+          <thead>
+            <tr>
+              <th nzCustomFilter class="tableCol">Action</th>
+              <th nzCustomFilter class="tableCol">Time</th>
+              <th nzCustomFilter class="tableCol">City</th>
+              <th nzCustomFilter class="tableCol">Region</th>
+              <th nzCustomFilter class="tableCol">Country</th>
+              <th nzCustomFilter class="tableCol">Site</th>
+             
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let eachRow of accActivityData.data">
+              <td> {{ eachRow.action }} </td>
+              <td> {{ eachRow.timestamp}} </td>
+              <td> {{ eachRow.city}} </td>
+              <td> {{ eachRow.region}} </td>
+              <td> {{ eachRow.country}} </td>
+              <td> {{ eachRow.site_name}} </td>
+              
+            </tr>
+          </tbody>
+        </nz-table>
+        <br>
+        <button nz-button nzType="primary">To Privacy Recommendations</button>
+        </ng-container>
+        <ng-template #noDataTemplate>
+          <nz-result nzStatus="403" nzTitle="No data available">
+          </nz-result>
+        </ng-template>
+      </nz-tab>
+    </nz-tabset>
+
+</div>
+

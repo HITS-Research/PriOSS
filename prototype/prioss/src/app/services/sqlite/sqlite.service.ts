@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Capacitor } from '@capacitor/core';
-import { CapacitorSQLite, SQLiteDBConnection, SQLiteConnection, capSQLiteSet,
+import { CapacitorSQLite, SQLiteDBConnection, SQLiteConnection,
          capSQLiteChanges, capSQLiteValues, capEchoResult, capSQLiteResult,
          capNCDatabasePathResult } from '@capacitor-community/sqlite';
 
@@ -9,12 +9,13 @@ import { CapacitorSQLite, SQLiteDBConnection, SQLiteConnection, capSQLiteSet,
 
 export class SQLiteService {
     sqlite: SQLiteConnection;
-    isService: boolean = false;
+    isService = false;
     platform: string;
     sqlitePlugin: any;
-    native: boolean = false;
+    native = false;
 
     constructor() {
+        console.log('SQLite constructor');
     }
     /**
      * Plugin Initialization

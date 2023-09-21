@@ -1,12 +1,11 @@
-import { Component, Input, OnInit} from '@angular/core';
-import { NgxIndexedDBService } from 'ngx-indexed-db';
+import { ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
 import * as d3 from 'd3';
 import { Router } from '@angular/router';
-import { FacebookAdsInteractedRepository } from 'src/app/db/data-repositories/facebook/fb_ads_data/face_ads_interacted.repo';
+import { FacebookAdsInteractedRepository } from 'src/app/db/data-repositories/facebook/fb-ads-data/face-ads-interacted.repo';
 import { AdsInteractedModel } from "src/app/models/Facebook/adsInteracted";
-import { FacebookAppsWebsitesRepository } from 'src/app/db/data-repositories/facebook/fb_ads_data/face_apps_websites.repo';
+import { FacebookAppsWebsitesRepository } from 'src/app/db/data-repositories/facebook/fb-ads-data/face-apps-websites.repo';
 import { AppsAndWebsitesModel } from 'src/app/models/Facebook/appsAndWebsites';
-import { FacebookOffFacebookActivityRepository } from 'src/app/db/data-repositories/facebook/fb_ads_data/face_off_facebook_activity.repo';
+import { FacebookOffFacebookActivityRepository } from 'src/app/db/data-repositories/facebook/fb-ads-data/face-off-facebook-activity.repo';
 import { OffFacebookActivityModel } from 'src/app/models/Facebook/offfacebookactivity';
   @Component({
     selector: 'app-ads-related-data',
@@ -17,7 +16,7 @@ import { OffFacebookActivityModel } from 'src/app/models/Facebook/offfacebookact
   export class AdsRelatedDataComponent implements OnInit {
     
     @Input()
-    previewMode: boolean = false;
+    previewMode = false;
     appNames: string[] = [];
     adNames: string[] = [];
     appsByCategory: { inactive: any[], active: any[], removed: any[] } = { inactive: [], active: [], removed: [] };
@@ -29,17 +28,20 @@ import { OffFacebookActivityModel } from 'src/app/models/Facebook/offfacebookact
     inActiveWebsite = 0;
     removedWebsite = 0;
     defaultTabIndex = 0;
-    pageViewViewContentCount: number = 0;
-    initiateCheckoutCount: number = 0;
+    pageViewViewContentCount = 0;
+    initiateCheckoutCount = 0;
     totalWebsites = 0;
     totalOffsiteInteractions = 0;
     totalOffsiteCheckoutActivities =0;
     adsInteracted: AdsInteractedModel[] = [];
     apps_websites: AppsAndWebsitesModel[] = [];
-    activeTab: number = 0;
+    activeTab = 0;
     off_facebook_activity: OffFacebookActivityModel[] = [];
+    dataAvailable = false;
+    dataAvailableAdNames = false;
+    dataAvailableAWebsiteNames =  false;
     constructor(private router: Router,private faceAdsInteractedRepo: FacebookAdsInteractedRepository,private faceAppsAndWebsitesRepo: FacebookAppsWebsitesRepository,
-      private faceOffFacebookActivityRepo: FacebookOffFacebookActivityRepository) { }
+      private faceOffFacebookActivityRepo: FacebookOffFacebookActivityRepository,private cdr: ChangeDetectorRef) { }
       ngOnInit(): void {
         this.loadTabContent();
         this.getData();
@@ -49,10 +51,11 @@ import { OffFacebookActivityModel } from 'src/app/models/Facebook/offfacebookact
       * @author: Rishma (rishmamn@mail.uni-paderborn.de))
       *
       */
-      loadTabContent() {
-        this.activateTab(0);
-        this.activateTab(1);
+       async loadTabContent() {
+        await this.activateTab(0);
+        await this.activateTab(1);
       }
+      
      /**
       * This method is responsible to activate the respective link based on clicked events.
       * @author: Rishma (rishmamn@mail.uni-paderborn.de))
@@ -91,6 +94,7 @@ import { OffFacebookActivityModel } from 'src/app/models/Facebook/offfacebookact
     async getData() {
       this.faceAdsInteractedRepo.getAllFaceAdsInteracted().then((ads_interacted_with) => {
         this.adsInteracted = ads_interacted_with;
+        this.dataAvailableAdNames =  this.adsInteracted.length !== 0;
         for (let i = 0; i < this.adsInteracted.length; i++) {
           const name = this.adsInteracted[i].title;
           this.adNames.push(name);
@@ -102,30 +106,37 @@ import { OffFacebookActivityModel } from 'src/app/models/Facebook/offfacebookact
       });
       this.faceAppsAndWebsitesRepo.getAllFaceAppsAndWebsites().then((apps_websites) => {
         this.apps_websites = apps_websites;
-        const category = this.apps_websites[0].category;
-        if (apps_websites.length !== 0) {
-          for (let app of apps_websites) {
+        this.dataAvailableAWebsiteNames =  this.apps_websites.length !== 0;
+        const uniqueAppNames = new Set();
+    
+        for (const app of apps_websites) {
+            const category = app.category;
+            const appName = app.name;
+    
             if (category === 'inactive') {
-              //display unique apps checking the category and name
-              if (!category.includes(app.name)) {
-                this.appsByCategory.inactive.push(app.name);
-                this.inActiveWebsite++;
-              }
+                if (!uniqueAppNames.has(appName)) {
+                    this.appsByCategory.inactive.push(appName);
+                    uniqueAppNames.add(appName);
+                    this.inActiveWebsite++;
+                }
             } else if (category === 'active') {
-              if (!category.includes(app.name)) {
-                this.appsByCategory.active.push(app.name);
-                this.activeWebsite++;
-              }
+                if (!uniqueAppNames.has(appName)) {
+                    this.appsByCategory.active.push(appName);
+                    uniqueAppNames.add(appName);
+                    this.activeWebsite++;
+                }
             } else if (category === 'removed') {
-              if (!category.includes(app.name)) {
-                this.appsByCategory.removed.push(app.name);
-                this.removedWebsite++;
-              }
+                if (!uniqueAppNames.has(appName)) {
+                    this.appsByCategory.removed.push(appName);
+                    uniqueAppNames.add(appName);
+                    this.removedWebsite++;
+                }
             }
-          }
         }
-        this.totalWebsites =  this.inActiveWebsite + this.activeWebsite + this.removedWebsite;
-      });
+    
+        this.totalWebsites = this.inActiveWebsite + this.activeWebsite + this.removedWebsite;
+    });
+    
     }
 
     /**
@@ -137,11 +148,18 @@ import { OffFacebookActivityModel } from 'src/app/models/Facebook/offfacebookact
     *
     */
     generateBubbleChart(types: string[], chartId: string, xAxisLabel: string, yAxisLabel: string, title: string,selectedTab : number): void {
+      //reset the count when tab is clicked
+      if (selectedTab === 0) {
+        this.totalOffsiteInteractions = 0;
+      } else if (selectedTab === 1) {
+        this.totalOffsiteCheckoutActivities = 0;
+      }
       this.faceOffFacebookActivityRepo.getAllOffFacebookActivity().then((apps) => {
         this.off_facebook_activity = apps;
+        this.dataAvailable = this.off_facebook_activity.length !== 0;
+        this.cdr.detectChanges();
         if (this.off_facebook_activity.length !== 0) {
           const appCounts: { [key: string]: { [key: string]: number } } = {};
-
           for (let i = 0; i < this.off_facebook_activity.length; i++) {
             const app = this.off_facebook_activity[i];
             const appName = app.name;
@@ -159,7 +177,6 @@ import { OffFacebookActivityModel } from 'src/app/models/Facebook/offfacebookact
               }
             
               for (let j = 0; j < events.length; j++) {
-                const event = events[j];
                 if ((selectedTab === 0) && (eventType === 'PAGE_VIEW' || eventType === 'VIEW_CONTENT')) {
                   appCounts[appName][eventType] += 1;
                   this.totalOffsiteInteractions += 1; // Increment the total offsite interactions count
@@ -171,9 +188,6 @@ import { OffFacebookActivityModel } from 'src/app/models/Facebook/offfacebookact
               }
             }
           }
-
-          console.log("totalsite", this.totalOffsiteInteractions)
-          console.log("totalsite", this.totalOffsiteCheckoutActivities)
             // Convert the appCounts object into an array of objects and calculate total counts
              const appCountsArray = Object.entries(appCounts).map(([appName, counts]) => {
               const pageViewViewContentCount = counts['PAGE_VIEW'] + counts['VIEW_CONTENT'];
@@ -192,14 +206,14 @@ import { OffFacebookActivityModel } from 'src/app/models/Facebook/offfacebookact
             
 
     // Remove old bubble chart
-    let margin = 10;
-    let leftmargin = 330;
-    let rightMargin = 80; // Adjust the right margin value
-    let bottomMargin = 125;
-    let xAxisWidth = window.innerWidth - leftmargin - rightMargin;
-    let yAxisHeight = window.innerHeight - margin - bottomMargin;
+    const margin = 10;
+    const leftmargin = 330;
+    const rightMargin = 80; // Adjust the right margin value
+    const bottomMargin = 125;
+    const xAxisWidth = window.innerWidth - leftmargin - rightMargin;
+    const yAxisHeight = window.innerHeight - margin - bottomMargin;
 
-    let svg = d3
+    const svg = d3
       .select(`#${chartId}`)
       .append("svg")
       .attr("viewBox", `0 0 ${xAxisWidth + leftmargin + rightMargin} ${yAxisHeight + margin + bottomMargin}`)
@@ -208,7 +222,7 @@ import { OffFacebookActivityModel } from 'src/app/models/Facebook/offfacebookact
 
     svg.append("text")
       .attr("x", xAxisWidth / 2)
-      .attr("y", margin - 50)
+      .attr("y", margin - 10)
       .attr("text-anchor", "middle")
       .style("font-size", "35px")
       .style("font-weight","bold")
@@ -339,6 +353,17 @@ import { OffFacebookActivityModel } from 'src/app/models/Facebook/offfacebookact
   navigateToRectification(){
     this.router.navigate(['face/configure-off-facebook-activity']);
   }
+
+   /**
+  * This method is responsible to navigate to guidelines to hide ads 
+  *
+  * @author: Mukul (mukuls@mail.uni-paderborn.de)
+  *
+  */
+   navigateToAdsSettings(){
+    this.router.navigate(['face/guidelines-for-ads-settings']);
+  }
+
 /**
   * This method is responsible to navigate to apps and websites page.  
   *

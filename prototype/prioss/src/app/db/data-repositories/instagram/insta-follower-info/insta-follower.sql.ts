@@ -1,33 +1,33 @@
-export const insertIntoInstaFollowerInfoSQL: string = `
+export const insertIntoInstaFollowerInfoSQL = `
   insert into insta_follower_info
   (instaProfileURL, timestamp, instaAccountName)
   values 
   (?, ?, ?);
 `;
 
-export const selectFollowerInfo: string = `
+export const selectFollowerInfo = `
   select instaProfileURL,
         timestamp,
         instaAccountName        
     from insta_follower_info;
 `;
 
-export const insertIntoInstaFollowerSQL: string = `
+export const insertIntoInstaFollowerSQL = `
 insert into insta_follower_info
 (instaProfileURL, timestamp, instaAccountName)
 values 
 (?, ?, ?);
 `;
 
-export const bulkAddInstaFollowerBaseSQL: string = `
+export const bulkAddInstaFollowerBaseSQL = `
 insert into insta_follower_info
 (instaProfileURL, timestamp, instaAccountName)
 `;
 
-export const bulkAddInstaFollowerValuesSQL: string = `
+export const bulkAddInstaFollowerValuesSQL = `
 select ?, ?, ?
 `;
 
-export const bulkAddValueConnector: string = `
+export const bulkAddValueConnector = `
 union all
 `;

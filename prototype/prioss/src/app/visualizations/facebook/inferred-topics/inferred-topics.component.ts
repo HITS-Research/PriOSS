@@ -1,7 +1,7 @@
-import { Component, Input } from '@angular/core';
-import { NgxIndexedDBService } from 'ngx-indexed-db';
+import { Component, Input, OnInit } from '@angular/core';
 import { InferredTopicsRepository } from 'src/app/db/data-repositories/facebook/fb-inferred-data/face_inferred_topics.repo';
 import { InferredTopicsModel } from 'src/app/models/Facebook/inferredTopics';
+import { Router } from '@angular/router';
 
 /**
   * This component visualizes inferred topics in facebook.
@@ -17,15 +17,16 @@ import { InferredTopicsModel } from 'src/app/models/Facebook/inferredTopics';
   templateUrl: './inferred-topics.component.html',
   styleUrls: ['./inferred-topics.component.less']
 })
-export class InferredTopicsComponent {
+export class InferredTopicsComponent implements OnInit{
 
-  constructor( private inferredTopicsDataRepo: InferredTopicsRepository)
+  constructor( private inferredTopicsDataRepo: InferredTopicsRepository, private router: Router)
   {}
 
   @Input()
-  previewMode: boolean = false;
+  previewMode = false;
 
   inferredTopics: InferredTopicsModel[] = [];
+  dataAvailable = false;
 
   /**
   * This method gets all inferred topics on intialization of the component
@@ -37,7 +38,19 @@ export class InferredTopicsComponent {
   ngOnInit() {
     this.inferredTopicsDataRepo.getAllInferredTopics().then((topics) => {
       this.inferredTopics = topics;
+      this.dataAvailable = this.inferredTopics.length !== 0;
     });
+  }
+  /**
+  * This method navigates from inferred topics visualization to guidelines to manage inferred topics 
+  * 
+  *
+  * @author: Mukul (mukuls@mail.uni-paderborn.de)
+  *
+  */
+  navigateToYourTopics(){
+    this.router.navigate(['face/your-topics']);
+
   }
 
 }

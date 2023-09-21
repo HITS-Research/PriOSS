@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
-import { AppComponentMsg } from 'src/app/enum/app-component-msg.enum';
+import { AppComponentMsg } from 'src/app/utilities/enum/app-component-msg.enum';
 
 /**
  * A Service that can be used to send a message to the AppComponent from anywhere in the application out of a set of predefined messages.
