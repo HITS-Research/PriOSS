@@ -2,15 +2,30 @@
     <div *ngIf="previewMode">
         <nz-row [nzGutter]="16">
             <nz-col [nzSpan]="12">
-            <nz-statistic [nzValue]="(userSearches.length)!" [nzTitle]="'Number of User Searches'"></nz-statistic>
+                <nz-statistic [nzValue]="(userSearches.length)!" [nzTitle]="'Number of User Searches'" [nzPrefix]="user"></nz-statistic>
+                <ng-template #user>
+                    <div class="container_class">
+                        <span nz-icon nzType="user" nzTheme="outline"></span>
+                    </div>
+                </ng-template>
             </nz-col>
             <nz-col [nzSpan]="12">
-            <nz-statistic [nzValue]="(keywordSearches.length)!" [nzTitle]="'Number of Keyword Searches'"></nz-statistic>
+                <nz-statistic [nzValue]="(keywordSearches.length)!" [nzTitle]="'Number of Keyword Searches'" [nzPrefix]="key"></nz-statistic>
+                <ng-template #key>
+                    <div class="container_class">
+                        <span nz-icon nzType="key" nzTheme="outline"></span>
+                    </div>
+                </ng-template>
             </nz-col>
         </nz-row>
         <nz-row [nzGutter]="16">
             <nz-col [nzSpan]="12">
-                <nz-statistic [nzValue]="(tagSearches.length)!" [nzTitle]="'Number of Tag Searches'"></nz-statistic>
+                <nz-statistic [nzValue]="(tagSearches.length)!" [nzTitle]="'Number of Tag Searches'" [nzPrefix]="tag"></nz-statistic>
+                <ng-template #tag>
+                    <div class="container_class">
+                        <span nz-icon nzType="tag" nzTheme="outline"></span>
+                    </div>
+                </ng-template>
             </nz-col>
         </nz-row>
     </div>
@@ -19,15 +34,30 @@
         <app-title-bar titleText="Highlights" tooltipText="This are some important entrys in your data download regarding your searches."></app-title-bar>
         <nz-row [nzGutter]="16">
             <nz-col [nzSpan]="12">
-            <nz-statistic [nzValue]="(userSearches.length)!" [nzTitle]="'Number of User Searches'"></nz-statistic>
+                <nz-statistic [nzValue]="(userSearches.length)!" [nzTitle]="'Number of User Searches'" [nzPrefix]="user"></nz-statistic>
+                <ng-template #user>
+                    <div class="container_class">
+                        <span nz-icon nzType="user" nzTheme="outline"></span>
+                    </div>
+                </ng-template>
             </nz-col>
             <nz-col [nzSpan]="12">
-            <nz-statistic [nzValue]="(keywordSearches.length)!" [nzTitle]="'Number of Keyword Searches'"></nz-statistic>
+                <nz-statistic [nzValue]="(keywordSearches.length)!" [nzTitle]="'Number of Keyword Searches'" [nzPrefix]="key"></nz-statistic>
+                <ng-template #key>
+                    <div class="container_class">
+                        <span nz-icon nzType="key" nzTheme="outline"></span>
+                    </div>
+                </ng-template>
             </nz-col>
         </nz-row>
         <nz-row [nzGutter]="16">
             <nz-col [nzSpan]="12">
-                <nz-statistic [nzValue]="(tagSearches.length)!" [nzTitle]="'Number of Tag Searches'"></nz-statistic>
+                <nz-statistic [nzValue]="(tagSearches.length)!" [nzTitle]="'Number of Tag Searches'" [nzPrefix]="tag"></nz-statistic>
+                <ng-template #tag>
+                    <div class="container_class">
+                        <span nz-icon nzType="tag" nzTheme="outline"></span>
+                    </div>
+                </ng-template>
             </nz-col>
         </nz-row>
         <br>

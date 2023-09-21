@@ -4,10 +4,20 @@
   <div *ngIf="previewMode">
       <nz-row [nzGutter]="16">
           <nz-col [nzSpan]="12">
-            <nz-statistic [nzValue]="(liked_comments_amount|number)!" [nzTitle]="'Number of Liked Comments'"></nz-statistic>
+            <nz-statistic [nzValue]="(liked_comments_amount|number)!" [nzTitle]="'Number of Liked Comments'" [nzPrefix]="comment"></nz-statistic>
+            <ng-template #comment>
+              <div class="container_class">
+                <span nz-icon nzType="comment" nzTheme="outline"></span>
+              </div>
+            </ng-template>
           </nz-col>
           <nz-col [nzSpan]="12">
-            <nz-statistic [nzValue]="(liked_posts_amount|number)!" [nzTitle]="'Number of Liked Posts'"></nz-statistic>
+            <nz-statistic [nzValue]="(liked_posts_amount|number)!" [nzTitle]="'Number of Liked Posts'" [nzPrefix]="post"></nz-statistic>
+            <ng-template #post>
+              <div class="container_class">
+                <span nz-icon nzType="picture" nzTheme="outline"></span>
+              </div>
+            </ng-template>
           </nz-col>
         </nz-row>
   </div>
