@@ -2,16 +2,52 @@
   <div *ngIf="previewMode">
     <nz-row [nzGutter]="16">
       <nz-col [nzSpan]="16">
-        <nz-statistic [nzTitle]="'Ads Clicked'"  [nzValue]="totalCountClickedAds"></nz-statistic>
+        <nz-statistic [nzTitle]="'Ads Clicked'"  
+                      [nzValue]="totalCountClickedAds"
+                      [nzPrefix]="clicked"
+                      [nzValueStyle]="{display: 'inline-flux'}">
+        </nz-statistic>
+        <ng-template #clicked>
+          <div class="container_class">
+            <span nz-icon nzType="check-circle" nzTheme="outline"></span>
+          </div>
+        </ng-template>
       </nz-col>
       <nz-col [nzSpan]="16">
-        <nz-statistic  [nzTitle]="'Off-Site Interactions'" [nzValue]="totalOffsiteInteractions"></nz-statistic>
+        <nz-statistic  [nzTitle]="'Off-Site Interactions'" 
+                       [nzValue]="totalOffsiteInteractions"
+                       [nzPrefix]="offsite"
+                       [nzValueStyle]="{display: 'inline-flux'}">
+        </nz-statistic>
+        <ng-template #offsite>
+          <div class="container_class">
+            <span nz-icon nzType="cloud-sync" nzTheme="outline"></span>
+          </div>
+        </ng-template>
       </nz-col>
       <nz-col [nzSpan]="16">
-        <nz-statistic  [nzTitle]="'Checkout Activities'" [nzValue]="totalOffsiteCheckoutActivities"></nz-statistic> 
+        <nz-statistic  [nzTitle]="'Checkout Activities'" 
+                       [nzValue]="totalOffsiteCheckoutActivities"
+                       [nzPrefix]="checkout"
+                       [nzValueStyle]="{display: 'inline-flux'}">
+        </nz-statistic>
+        <ng-template #checkout>
+          <div class="container_class">
+            <span nz-icon nzType="shopping-cart" nzTheme="outline"></span>
+          </div>
+        </ng-template> 
       </nz-col>
       <nz-col [nzSpan]="16">
-        <nz-statistic  [nzTitle]="'Website Associations'" [nzValue]="totalWebsites"></nz-statistic>
+        <nz-statistic  [nzTitle]="'Website Associations'" 
+                       [nzValue]="totalWebsites"
+                       [nzPrefix]="websites"
+                       [nzValueStyle]="{display: 'inline-flux'}">
+        </nz-statistic>
+        <ng-template #websites>
+          <div class="container_class">
+            <span nz-icon nzType="global" nzTheme="outline"></span>
+          </div>
+        </ng-template>
       </nz-col>
     </nz-row>
   </div>
@@ -21,20 +57,17 @@
   <app-title-bar titleText="Advertisements Data" tooltipText="This visualization provides a comprehensive overview of data related to  Off-Facebook activities,  checkout activities,ad clicks and website associations,."></app-title-bar>
   <nz-tabset class="margin-top-20">
       <nz-tab nzTitle="Off-Site Interactions" (nzSelect)="activateTab(0)">
+        <ng-container *ngIf="dataAvailable; else noDataTemplate">
         <nz-row [nzGutter]="16">
           <nz-col [nzSpan]="12">
               <nz-statistic clas="stats" [nzValue]="totalOffsiteInteractions" [nzTitle]="'Total Off-Site Interactions'"></nz-statistic>
+              <h6>Note - Hovering over the bubble displays your website interaction count.</h6>
           </nz-col>
         </nz-row>
       <br>
       <div>
-        <ng-container *ngIf="dataAvailable; else noDataTemplate">
           <svg id="bubble-chart-interactions" class="chart"></svg>
           <div id="tooltip"></div>
-        </ng-container>
-        <ng-template #noDataTemplate>
-          <p>No data available</p>
-        </ng-template>
       </div>        
         <br>
         <br>
@@ -50,22 +83,26 @@
           <button nz-button nzType="primary" (click)="navigateToRectification()">Click here</button> 
           <b>  to manage ads based on data from Facebook's partners.</b>
         </div>
-        
+      </ng-container>
+        <ng-template #noDataTemplate>
+          <nz-result nzStatus="403" nzTitle="No data available">
+          </nz-result>
+        </ng-template>
       </nz-tab>
       <nz-tab nzTitle="Off-Site Checkout Activities" (nzSelect)="activateTab(1)">
+        <ng-container *ngIf="dataAvailable; else noDataTemplate">
         <nz-row [nzGutter]="16">
           <nz-col [nzSpan]="12">
               <nz-statistic clas="stats" [nzValue]="totalOffsiteCheckoutActivities" [nzTitle]="'Total Off-Site Checkout Activities '"></nz-statistic>
           </nz-col>
         </nz-row>
       <br>
-      <ng-container *ngIf="dataAvailable; else noDataTemplate">
         <svg id="bubble-chart-purchase-tracking" class="chart"></svg>
         <div id="tooltip"></div>
-      </ng-container>
-      <ng-template #noDataTemplate>
-        <p>No data available</p>
-      </ng-template>
+        <ng-template #noDataTemplate>
+          <nz-result nzStatus="403" nzTitle="No data available">
+          </nz-result>
+        </ng-template>
         <br>
         <br>
         <h4 nz-typography>What are Off-Site Checkout Activities?</h4>
@@ -74,9 +111,10 @@
           The Bubble chart below showcases applications based on your initiated checkout events.
         </div>
         <br>
+      </ng-container>
       </nz-tab>
       <nz-tab nzTitle="Clicked ads">
-        
+        <ng-container *ngIf="dataAvailableAdNames; else noDataTemplate">
         <!-- <h3 nz-typography>Here are the ads you clicked on while using Facebook.</h3> -->
         <nz-row [nzGutter]="16">
           <nz-col [nzSpan]="12">
@@ -100,15 +138,10 @@
             </tr>
         </thead>
           <tbody>
-            <ng-container *ngIf="dataAvailableAdNames; else noDataTemplate">
             <tr *ngFor="let eachRow of this.adNames">
             <!-- <tr *ngFor="let eachRow of eventsId.data"> -->
               <td>{{eachRow}}</td>
             </tr>
-            </ng-container>
-            <ng-template #noDataTemplate>
-              <p>No data available</p>
-            </ng-template>
           </tbody>
         </nz-table>
         <br>
@@ -124,9 +157,15 @@
           <button nz-button nzType="primary" (click)="navigateToAdsSettings()">Click here</button> 
           <b>  to hide ads you no longer want to see.</b>
         </div>
+      </ng-container>
+      <ng-template #noDataTemplate>
+        <nz-result nzStatus="403" nzTitle="No data available">
+        </nz-result>
+      </ng-template>
       </nz-tab>
 
       <nz-tab nzTitle="Website Associations" id="website-interactions">
+        <ng-container *ngIf="dataAvailableAWebsiteNames; else noDataTemplate">
         <nz-row [nzGutter]="16">
           <nz-col [nzSpan]="12">
               <nz-statistic clas="stats" [nzValue]="activeWebsite" [nzTitle]="'Total Active Website '"></nz-statistic>
@@ -182,6 +221,11 @@
           <button nz-button nzType="primary" (click)="redirectToFacebookSettings()">Click here</button>
           <b>  to manage such websites sharing information with Facebook. </b>
         </div>
+        </ng-container>
+        <ng-template #noDataTemplate>
+          <nz-result nzStatus="403" nzTitle="No data available">
+          </nz-result>
+        </ng-template>
       </nz-tab>
   </nz-tabset>
 </div>

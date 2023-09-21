@@ -3,24 +3,25 @@
 * 
 * @param title the type of the post.
 * @param timestamp the timestamp of the post.
+* @param post information
 *
 * @author: Rashida (rbharmal@mail.upb.de)
 */
 
 export const insertIntoFacePostsSQL = `
 insert into face_posts
-(timestamp,title)
+(timestamp,title,post)
 values 
-(?, ?);
+(?, ?, ?);
 `;
 
 export const bulkAddFacePostsBaseSQL = `
 insert into face_posts
-(timestamp,title)
+(timestamp,title,post)
 `;
 
 export const bulkAddFacePostsValuesSQL = `
-select ?, ?
+select ?, ?, ?
 `;
 
 export const bulkAddValueConnector = `
@@ -30,6 +31,7 @@ union all
 export const selectAllPostsData = `
  select id,
         timestamp,
-        title
+        title,
+        post
   from face_posts;
 `;

@@ -37,7 +37,7 @@
         </li>
         -->
         <!--this submenu is only shown when on a dashboard-->
-        <li *ngIf="isDashboard" nz-submenu nzOpen nzTitle="Dashboard" nzIcon="dashboard">
+        <li *ngIf="isDashboard" nz-submenu nzTitle="Dashboard" nzIcon="dashboard">
           <ul>
             <li nz-menu-item [nzSelected]="this.isSelected('')">
               <a (click)="navigateAndScroll(pRouter, serviceName + '/dashboard')">Introduction</a>
