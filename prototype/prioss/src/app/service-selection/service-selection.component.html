@@ -71,7 +71,7 @@
           <p *ngIf="selectedFileName.length > 0">Your selected file: {{selectedFileName}}</p>
         </div>
       </div>
-      <p class="file-upload-explanation">Where can I download my data ? <a routerLink="/serviceSelection/dataDownload">click here</a> for instructions</p>
+      <p class="file-upload-explanation">Where can I download my data ? <a routerLink="/serviceSelection/dataDownload" [queryParams]="{tab : selectedServiceName}" queryParamsHandling="merge">click here</a> for instructions</p>
     </ng-template>
 
     <ng-template #uploadDialogFooter>
@@ -96,7 +96,7 @@
 
       <p class="t-explanation">
         OR:<br>
-        Follow the <a routerLink="/serviceSelection/dataDownload" fragment="download-instructions">download instructions</a> to download your personal data as a ".zip"-file.<br>
+        Follow the <a routerLink="/serviceSelection/dataDownload" [queryParams]="{tab : selectedServiceName}" queryParamsHandling="merge">download instructions</a> to download your personal data as a ".zip"-file.<br>
         Afterwards, click 'Continue with personal data' and input your ".zip"-file in the popup.
       </p>
 

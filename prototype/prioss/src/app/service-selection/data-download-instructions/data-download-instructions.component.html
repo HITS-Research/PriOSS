@@ -4,8 +4,9 @@
 backButtonTextOverride="Back to Service Selection">
 </app-title-bar>
 
-<nz-tabset>
-  <nz-tab nzTitle="Instagram">
+<nz-tabset nzLinkRouter>
+  <nz-tab>
+    <a *nzTabLink nz-tab-link [routerLink]="['.']" [queryParams]="{ tab: 'Instagram' }" queryParamsHandling="merge">Instagram</a>
     <div class="instructions-content" id="instagram-instructions">
       <div class="selection-disclaimer">
         <div class="disclaimer-content">
@@ -61,7 +62,8 @@ backButtonTextOverride="Back to Service Selection">
       </div>
     </div>  
   </nz-tab>
-  <nz-tab nzTitle="Facebook">
+  <nz-tab>
+    <a *nzTabLink nz-tab-link [routerLink]="['.']" [queryParams]="{ tab: 'Facebook' }" queryParamsHandling="merge">Facebook</a>
     <div class="instructions-content" id="face-instructions">
       <div class="selection-disclaimer">
         <div class="disclaimer-content">
@@ -119,7 +121,8 @@ backButtonTextOverride="Back to Service Selection">
     </div>  
   </nz-tab>
 
-  <nz-tab nzTitle="Spotify">
+  <nz-tab>
+    <a *nzTabLink nz-tab-link [routerLink]="['.']" [queryParams]="{ tab: 'Spotify' }" queryParamsHandling="merge">Spotify</a>
     <div class="instructions-content" id="Spotify-instructions">
 
       <div class="steps">
