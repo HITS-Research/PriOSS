@@ -6,14 +6,14 @@
   Visualize your personal data in easily comprehensible way, and verify for its correctness in <b>Data Visualizations</b> section.<br>
   The Dashboard also gives you recommendations and instructions to enhance your privacy under <b> Rectification </b> and <b> Privacy Recommendations</b> sections. <br>
   Visit <b>Frequently Asked Questions</b> section if you have questions. Click on <b>Contact</b> on the side menu bar to contact us to know more.
-  </div> 
+  </div>
 <br>
 
 <!-- <details open>
   <summary id="yourInfo" class="collapsible-dashboard-section-title">Your Information</summary>
     <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
       <div  nz-col nzXs="24" nzXl="8">
-        <app-dash-card cardLink="/face/general-data" titleText="User Data" 
+        <app-dash-card cardLink="/face/general-data" titleText="User Data"
             tooltipText="This card shows your general user data like your email, gender, etc. which Facebook may not show in your public profile.">
           <app-general-data [previewMode]="false"></app-general-data>
         </app-dash-card>
@@ -27,14 +27,14 @@
   <summary id="visualization" class="collapsible-dashboard-section-title">Visualizations</summary>
     <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
       <div  nz-col nzXs="24" nzXl="8">
-        <app-dash-card cardLink="/face/general-data" titleText="User Data" 
+        <app-dash-card cardLink="/face/general-data" titleText="User Data"
             tooltipText="This card shows your general user data like your email, gender, etc. which Facebook may not show in your public profile.">
-          <app-general-data [previewMode]="false"></app-general-data>
+            <app-general-data [previewMode]="true"></app-general-data>
         </app-dash-card>
       </div>
 
       <div nz-col nzXs="24" nzXl="8">
-        <app-dash-card cardLink="/face/ads-related-data" titleText="Advertisements" 
+        <app-dash-card cardLink="/face/ads-related-data" titleText="Advertisements"
             tooltipText="This card gives you more information about your Ads-related data. Click More to see what information Facebook has been tracking related to your activities/interactions with Ads.">
             <app-ads-related-data [previewMode]="true"></app-ads-related-data>
         </app-dash-card>
@@ -92,7 +92,7 @@
         <app-groups-and-events-data [previewMode]="true"></app-groups-and-events-data>
         </app-dash-card>
       </div>
-  </div>                                                                                                                          
+  </div>
 </details>
 <br>
 
@@ -120,7 +120,7 @@
         alt=""
       />
       <nz-divider></nz-divider>
-      <p nz-typography class="rectification-steps">{{ rectificationText }}</p>  
+      <p nz-typography class="rectification-steps">{{ rectificationText }}</p>
     </div>
     <div class="steps-action">
       <button nz-button nzType="default" (click)="start()" *ngIf="current <= 4">
@@ -142,11 +142,11 @@
   <div id="fStep30">
   <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
     <div nz-col nzXs="24" nzXl="8">
-      <app-dash-card cardLink="" titleText="Privacy Settings Judge" 
+      <app-dash-card cardLink="" titleText="Privacy Settings Judge"
       tooltipText="In this card, you can check if your Facebook settings are setup to protect your privacy. Just answer the questions below to learn how you can improve your privacy through your Facebook account settings.">
         <app-settings-form [service]="'Facebook'"></app-settings-form>
       </app-dash-card>
-    </div> 
+    </div>
   </div>
   <br>
     <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
