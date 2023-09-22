@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 /**
  * This card unifies the styling of cards across dashboards.
@@ -22,5 +22,5 @@ export class DashCardComponent {
   @Input()
   tooltipText: string;
   @Input()
-  fillVerticalSpace: boolean = true;
+  fillVerticalSpace = true;
 }
