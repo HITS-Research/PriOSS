@@ -15,3 +15,69 @@ nz-progress {
     margin-left: 15px;
     margin-right: 5px;
 }
+
+// Empty space that is displayed when no advice is currently given (Has to have same height as speech bubbles default height)
+.talk-bubble-hidden {
+  margin: 20px;
+  margin-bottom: 10px;
+  display: inline-block;
+  position: relative;
+  height: 85px;
+  visibility: hidden;
+}
+
+// Talk Bubble that is displayed when advice is given
+.talk-bubble {
+	margin: 20px;
+  margin-bottom: 10px;
+  display: inline-block;
+  position: relative;
+	max-width: 400px;
+  min-height: 85px;
+	height: auto;
+	background-color: #dcdcdc; //#fafafa
+}
+.round{
+    border-radius: 30px;
+      -webkit-border-radius: 30px;
+      -moz-border-radius: 30px;
+}
+.tri-right.border.left-in:before {
+	content: ' ';
+	position: absolute;
+	width: 0;
+	height: 0;
+  left: -40px;
+	right: auto;
+  top: 30px;
+	bottom: auto;
+	border: 20px solid;
+	border-color: #dcdcdc #dcdcdc transparent transparent;
+}
+.tri-right.left-in:after{
+	content: ' ';
+	position: absolute;
+	width: 0;
+	height: 0;
+  left: -20px;
+	right: auto;
+  top: 38px;
+	bottom: auto;
+	border: 12px solid;
+	border-color: #dcdcdc #dcdcdc transparent transparent;
+}
+// content of talk bubble
+.bubbletext{
+    margin-left: 5px;
+    margin-right: 5px;
+    padding: 1em;
+      text-align: left;
+    line-height: 1.5em;
+  }
+
+//CSS-rules that are only used on very small mobile screens
+@media only screen and (max-width: 400px) {
+  [nz-button]{
+    max-width: 100px;
+  }
+}
