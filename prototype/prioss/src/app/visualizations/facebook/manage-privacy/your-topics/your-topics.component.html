@@ -8,9 +8,42 @@
                       <h4>Important!</h4>
                       <p> 
                         Following these steps, the changes that you make will apply to all the Facebook and Instagram accounts in the same Accounts Centre. Although, the inferred topics will be different in Facebook as compared to Instagram but the changes will apply to both the accounts.
-                       </p>
+                      </p>
                     </div>
-                </div>
+                </div>    
+                    <div class="steps">
+      
+                        <nz-steps [nzCurrent]="FaceTopicsGuidelines">
+                        <nz-step nzTitle="Step 1"></nz-step>
+                        <nz-step nzTitle="Step 2"></nz-step>
+                        <nz-step nzTitle="Step 3"></nz-step>
+                        <nz-step nzTitle="Step 4"></nz-step>
+                        <nz-step nzTitle="Step 4"></nz-step>
+                        </nz-steps>
+                      </div>
+                  
+                      <div class="steps-content">
+                        <p><strong> </strong></p>
+                        <img
+                          nz-image
+                          height="320px"
+                          nzSrc={{instructionPictureFaceTopicsGuidelines}}
+                          alt=""
+                        />
+                        <nz-divider></nz-divider>
+                        <p nz-typography>{{ instructionTextFaceTopicsGuidelines }}</p>
+                      </div>
+                      <div class="steps-action">
+                        <button nz-button nzType="default" (click)="preFaceTopicsGuidelines()" [disabled]="FaceTopicsGuidelines <= 0">
+                          <span>Previous</span>
+                        </button>
+                        <button nz-button nzType="default" (click)="nextFaceTopicsGuidelines()" [disabled]="FaceTopicsGuidelines >= 5">
+                          <span>Next</span>
+                        </button>
+                      </div>
+                    
+                
+                <!--
                 <h6 class ="steps">Step 1 - Click on this <a href="https://accountscenter.facebook.com/ad_preferences">link</a> to go to Facebook's Accounts center and follow the next steps.</h6>
                 <br>
                 <h6 class ="steps">Step 2 – Click on <strong>Ad Topics</strong>.</h6>
@@ -25,7 +58,8 @@
                 <h6 class ="steps">Step 5 – Then select <strong>See less</strong> to see less ads about that particular topic in future.</h6>
                 <img class ="your-topics"src="../../assets/images/Your-topics/t4.png">
                 
-
+            -->
+            
             </div>
         </nz-tab>
     </nz-tabset>

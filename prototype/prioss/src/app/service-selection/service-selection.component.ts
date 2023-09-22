@@ -534,7 +534,7 @@ export class ServiceSelectionComponent implements AfterViewInit {
           );
         }
         console.log('data', offfacebookActivityData);
-      } else if (filename === 'friend_requests_received.json') {
+      } else if (filename === 'received_friend_requests.json') {
         console.log('fileoff---', filename);
         const jsonData = JSON.parse(content);
         const friendRequestsRecieved = jsonData.received_requests_v2;

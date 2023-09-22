@@ -71,17 +71,16 @@
           <p *ngIf="selectedFileName.length > 0">Your selected file: {{selectedFileName}}</p>
         </div>
       </div>
-
+      
       <nz-alert *ngIf="errorMsg.length > 0"
         nzType="error"
         nzCloseable
         nzMessage="Error"
         nzDescription="{{errorMsg}}"
         (nzOnClose)="afterCloseErrorMsg()"
-
       ></nz-alert>
 
-      <p class="file-upload-explanation">Where can I download my data ? <a routerLink="/serviceSelection/dataDownload">Click here</a> for instructions</p>
+      <p class="file-upload-explanation">Where can I download my data ? <a routerLink="/serviceSelection/dataDownload" [queryParams]="{tab : selectedServiceName}" queryParamsHandling="merge">click here</a> for instructions</p>
     </ng-template>
 
     <ng-template #uploadDialogFooter>
@@ -109,7 +108,7 @@
         
         <span nz-icon class="centered-icon" nzType="download" nzTheme="outline"></span> 
         <span class="centered-icon line-break">
-          <a routerLink="/serviceSelection/dataDownload" fragment="download-instructions">
+          <a routerLink="/serviceSelection/dataDownload" [queryParams]="{tab : selectedServiceName}" queryParamsHandling="merge">
             Download your personal data (click here) 
           </a> 
           as a ".zip"-file

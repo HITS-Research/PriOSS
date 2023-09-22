@@ -3,6 +3,37 @@
     <nz-tabset>
         <nz-tab nzTitle="Web Application">
             <div>
+                <div class="steps">
+      
+                    <nz-steps [nzCurrent]="FaceAdsGuidelines">
+                    <nz-step nzTitle="Step 1"></nz-step>
+                    <nz-step nzTitle="Step 2"></nz-step>
+                    <nz-step nzTitle="Step 3"></nz-step>
+                    <nz-step nzTitle="Step 4"></nz-step>
+                    <nz-step nzTitle="Step 5"></nz-step>
+                    <nz-step nzTitle="Step 6"></nz-step>
+                    </nz-steps>
+                  </div>
+              
+                  <div class="steps-content">
+                    <img
+                      nz-image
+                      height="320px"
+                      nzSrc={{instructionPictureFaceAdsGuidelines}}
+                      alt=""
+                    />
+                    <nz-divider></nz-divider>
+                    <p nz-typography>{{ instructionTextFaceAdsGuidelines }}</p>
+                  </div>
+                  <div class="steps-action">
+                    <button nz-button nzType="default" (click)="preFaceAdsGuidelines()" [disabled]="FaceAdsGuidelines <= 0">
+                      <span>Previous</span>
+                    </button>
+                    <button nz-button nzType="default" (click)="nextFaceAdsGuidelines()" [disabled]="FaceAdsGuidelines >= 5">
+                      <span>Next</span>
+                    </button>
+                  </div>
+                <!--
                 
                 <h6 class ="steps">Step 1 - Click on <strong>Account</strong> on the top right corner of the page.</h6>
                 <img class ="ads-settings" src="../../assets/images/ads-settings/1ads.png">
@@ -21,7 +52,7 @@
                 <br>
                 <h6 class ="steps">Step 6 – Choose the advertiser whose ads you want to hide and click <strong>hide ads</strong>.</h6>
                 <img class ="ads-settings"src="../../assets/images/ads-settings/6ads.png">
-
+                -->
             </div>
         </nz-tab>
     </nz-tabset>
