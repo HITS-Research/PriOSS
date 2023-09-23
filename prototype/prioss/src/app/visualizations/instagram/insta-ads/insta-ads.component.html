@@ -3,18 +3,38 @@
     <div *ngIf="previewMode">
         <nz-row [nzGutter]="16">
             <nz-col [nzSpan]="12">
-            <nz-statistic [nzValue]="(ads_activity.length|number)!" [nzTitle]="'Number of advertisment activities'"></nz-statistic>
+            <nz-statistic [nzValue]="(ads_activity.length|number)!" [nzTitle]="'Number of advertisment activities'" [nzPrefix]="active"></nz-statistic>
+            <ng-template #active>
+                <div class="container_class">
+                    <span nz-icon nzType="stock" nzTheme="outline"></span>
+                </div>
+            </ng-template>
             </nz-col>
             <nz-col [nzSpan]="12">
-            <nz-statistic [nzValue]="(ads_clicked.length| number)!" [nzTitle]="'Number of advertisments clicked'"></nz-statistic>
+            <nz-statistic [nzValue]="(ads_clicked.length| number)!" [nzTitle]="'Number of advertisments clicked'" [nzPrefix]="clicked"></nz-statistic>
+            <ng-template #clicked>
+                <div class="container_class">
+                  <span nz-icon nzType="check-circle" nzTheme="outline"></span>
+                </div>
+            </ng-template>
             </nz-col>
         </nz-row>
         <nz-row [nzGutter]="16">
             <nz-col [nzSpan]="12">
-                <nz-statistic [nzValue]="(ads_interests.length | number)!" [nzTitle]="'Number of advertisment interests'"></nz-statistic>
+                <nz-statistic [nzValue]="(ads_interests.length | number)!" [nzTitle]="'Number of advertisment interests'" [nzPrefix]="interest"></nz-statistic>
+                <ng-template #interest>
+                    <div class="container_class">
+                        <span nz-icon nzType="alert" nzTheme="outline"></span>
+                    </div>
+                </ng-template>
             </nz-col>
             <nz-col [nzSpan]="12">
-                <nz-statistic [nzValue]="(ads_viewed.length| number)!" [nzTitle]="'Number of advertisments viewed'"></nz-statistic>
+                <nz-statistic [nzValue]="(ads_viewed.length| number)!" [nzTitle]="'Number of advertisments viewed'" [nzPrefix]="viewed"></nz-statistic>
+                <ng-template #viewed>
+                    <div class="container_class">
+                        <span nz-icon nzType="youtube" nzTheme="outline"></span>
+                    </div>
+                </ng-template>
             </nz-col>
         </nz-row>
     </div>
@@ -24,19 +44,39 @@
         <app-title-bar titleText="Highlights" tooltipText="The below displays the advertisment highlights for your Instagram data."></app-title-bar>
         <nz-row [nzGutter]="16">
             <nz-col [nzSpan]="12">
-            <nz-statistic [nzValue]="(ads_activity.length|number)!" [nzTitle]="'Number of advertisment activities'"></nz-statistic>
-            </nz-col>
-            <nz-col [nzSpan]="12">
-            <nz-statistic [nzValue]="(ads_clicked.length| number)!" [nzTitle]="'Number of advertisments clicked'"></nz-statistic>
-            </nz-col>
-        </nz-row>
-        <nz-row [nzGutter]="16">
-            <nz-col [nzSpan]="12">
-                <nz-statistic [nzValue]="(ads_interests.length | number)!" [nzTitle]="'Number of advertisment interests'"></nz-statistic>
-            </nz-col>
-            <nz-col [nzSpan]="12">
-                <nz-statistic [nzValue]="(ads_viewed.length| number)!" [nzTitle]="'Number of advertisments viewed'"></nz-statistic>
-            </nz-col>
+                <nz-statistic [nzValue]="(ads_activity.length|number)!" [nzTitle]="'Number of advertisment activities'" [nzPrefix]="active"></nz-statistic>
+                <ng-template #active>
+                    <div class="container_class">
+                        <span nz-icon nzType="stock" nzTheme="outline"></span>
+                    </div>
+                </ng-template>
+                </nz-col>
+                <nz-col [nzSpan]="12">
+                <nz-statistic [nzValue]="(ads_clicked.length| number)!" [nzTitle]="'Number of advertisments clicked'" [nzPrefix]="clicked"></nz-statistic>
+                <ng-template #clicked>
+                    <div class="container_class">
+                      <span nz-icon nzType="check-circle" nzTheme="outline"></span>
+                    </div>
+                </ng-template>
+                </nz-col>
+            </nz-row>
+            <nz-row [nzGutter]="16">
+                <nz-col [nzSpan]="12">
+                    <nz-statistic [nzValue]="(ads_interests.length | number)!" [nzTitle]="'Number of advertisment interests'" [nzPrefix]="interest"></nz-statistic>
+                    <ng-template #interest>
+                        <div class="container_class">
+                            <span nz-icon nzType="alert" nzTheme="outline"></span>
+                        </div>
+                    </ng-template>
+                </nz-col>
+                <nz-col [nzSpan]="12">
+                    <nz-statistic [nzValue]="(ads_viewed.length| number)!" [nzTitle]="'Number of advertisments viewed'" [nzPrefix]="viewed"></nz-statistic>
+                    <ng-template #viewed>
+                        <div class="container_class">
+                            <span nz-icon nzType="youtube" nzTheme="outline"></span>
+                        </div>
+                    </ng-template>
+                </nz-col>
         </nz-row>
         <br>
        

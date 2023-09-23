@@ -3,7 +3,12 @@
     <div *ngIf="previewMode">
       <nz-row [nzGutter]="16">
           <nz-col [nzSpan]="12">
-              <nz-statistic [nzValue]="(yourTopics.length | number)!" [nzTitle]="'Number of Your Topics'"></nz-statistic>
+              <nz-statistic [nzValue]="(yourTopics.length | number)!" [nzTitle]="'Number of Your Topics'" [nzPrefix]="topic"></nz-statistic>
+              <ng-template #topic>
+                <div class="container_class">
+                  <span nz-icon nzType="aim" nzTheme="outline"></span>
+                </div>
+              </ng-template>
           </nz-col>
       </nz-row>
     </div>

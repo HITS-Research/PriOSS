@@ -7,27 +7,52 @@
     <!-- <div *ngIf="personalInfo !== undefined"> -->
     <nz-row [nzGutter]="16">
         <nz-col [nzSpan]="12">
-            <nz-statistic [nzValue]="(chatData.length)!" [nzTitle]="'Total number of chats'"></nz-statistic>
+            <nz-statistic [nzValue]="(chatData.length)!" [nzTitle]="'Total number of chats'" [nzPrefix]="chat"></nz-statistic>
+            <ng-template #chat>
+                <div class="container_class">
+                    <span nz-icon nzType="wechat" nzTheme="outline"></span>
+                </div>
+            </ng-template>
         </nz-col>
         <nz-col [nzSpan]="12">
             <nz-statistic [nzValue]="(chatData.length-totalGroupChats)!"
-                [nzTitle]="'Number of one-on-ones chats'"></nz-statistic>
+                [nzTitle]="'Number of one-on-ones chats'" [nzPrefix]="one"></nz-statistic>
+            <ng-template #one>
+                <div class="container_class">
+                    <span nz-icon nzType="user-switch" nzTheme="outline"></span>
+                </div>
+            </ng-template>
         </nz-col>
     </nz-row>
     <nz-row [nzGutter]="16">
         <nz-col [nzSpan]="12">
-            <nz-statistic [nzValue]="(totalSentMessages)!" [nzTitle]="'Total number of sent messages'"></nz-statistic>
+            <nz-statistic [nzValue]="(totalSentMessages)!" [nzTitle]="'Total number of sent messages'" [nzPrefix]="send"></nz-statistic>
+            <ng-template #send>
+                <div class="container_class">
+                    <span nz-icon nzType="send" nzTheme="outline"></span>
+                </div>
+            </ng-template>
         </nz-col>
         <nz-col [nzSpan]="12">
             <nz-statistic [nzValue]="(totalReceivedMessages)!"
-                [nzTitle]="'Total number of received messages'"></nz-statistic>
+                [nzTitle]="'Total number of received messages'" [nzPrefix]="received"></nz-statistic>
+            <ng-template #received>
+                <div class="container_class">
+                    <span nz-icon nzType="message" nzTheme="outline"></span>
+                </div>
+            </ng-template>
         </nz-col>
     </nz-row>
     <!--when not in previewmode the whole page is rendered-->
     <div *ngIf="!previewMode">
         <nz-row [nzGutter]="16">
             <nz-col [nzSpan]="12">
-                <nz-statistic [nzValue]="(totalGroupChats)!" [nzTitle]="'Number of group chats'"></nz-statistic>
+                <nz-statistic [nzValue]="(totalGroupChats)!" [nzTitle]="'Number of group chats'" [nzPrefix]="group"></nz-statistic>
+            <ng-template #group>
+                <div class="container_class">
+                    <span nz-icon nzType="team" nzTheme="outline"></span>
+                </div>
+            </ng-template>
             </nz-col>
             <nz-col [nzSpan]="12">
             </nz-col>
