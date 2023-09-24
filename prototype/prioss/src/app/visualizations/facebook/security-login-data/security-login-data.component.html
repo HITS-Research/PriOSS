@@ -154,14 +154,14 @@
           <nz-timeline nzMode="alternate">
             <nz-timeline-item *ngFor="let eachRows of accStatusChangeData" [nzDot]="">
             <ng-template #aTemplate>
-              <!-- <div class="a-timeline-item"
+              <div class="a-timeline-item"
                   [class.a-timeline-item-red] = "eachRows.status.fontsize"
                   [class.a-timeline-item-green] = "eachRows.status.fontcolor"
                   >
-              </div> -->
+              </div>
               
             </ng-template>
-            <b class="timeline-item-font">{{eachRows.status}}</b>  [on {{eachRows.timestamp}}]
+            <b class="timeline-item-font">{{eachRows.status}}</b> <br> on {{eachRows.timestamp}}
             </nz-timeline-item>
           </nz-timeline>
         </div>
