@@ -1,5 +1,5 @@
 <a [routerLink]="cardLink.length > 0 ? cardLink : null">
-  <nz-card nzTitle="{{titleText}}" nzHoverable [nzExtra]="extraTemplate" class="card">
+  <nz-card nzTitle="{{titleText}}" nzHoverable [nzExtra]="extraTemplate" [ngClass]="{'max-card-height': fillVerticalSpace}">
     <ng-content></ng-content>
   </nz-card>  
 </a>

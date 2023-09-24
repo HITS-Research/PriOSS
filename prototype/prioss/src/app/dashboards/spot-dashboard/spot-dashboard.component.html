@@ -14,15 +14,16 @@
   <details open id="visualization">
     <summary class="collapsible-dashboard-section-title">Visualization</summary>
     <div nz-row [nzGutter]="[{ xs: 8, xl: 20}, {xs: 8, xl: 40}]">
+      
       <div id="step1" nz-col nzXs="24" nzXl="8">
-        <app-dash-card cardLink="/spot/general-data" titleText="User Data"
+        <app-dash-card [fillVerticalSpace]="false" cardLink="/spot/general-data" titleText="User Data"
           tooltipText="This card shows your general user data like your email, gender, postal address etc. Click to find out more.">
           <app-general-data [previewMode]="true"></app-general-data>
         </app-dash-card>
       </div>
 
       <div id="step3" nz-col nzXs="24" nzXl="16">
-        <app-dash-card cardLink="/spot/listening-time" titleText="Listening Time"
+        <app-dash-card [fillVerticalSpace]="false"  cardLink="/spot/listening-time" titleText="Listening Time"
           tooltipText="This card shows for how long you have listened to spotify at what times. You can customize the shown timeframe as you wish. Click to find out more.">
           <spot-listening-time [previewMode]="true"></spot-listening-time>
         </app-dash-card>
@@ -31,21 +32,21 @@
 
     <div nz-row [nzGutter]="[{ xs: 8, xl: 20}, {xs: 8, xl: 40}]">
       <div id="step4" nz-col nzXs="24" nzXl="8">
-        <app-dash-card cardLink="/spot/top-artists" titleText="Top Artists"
+        <app-dash-card [fillVerticalSpace]="true"  cardLink="/spot/top-artists" titleText="Top Artists"
           tooltipText="This card shows your most played artists. You can customize the timeframe over which this is calculated. Click to find out more.">
           <spot-top-artists [previewMode]="true"></spot-top-artists>
         </app-dash-card>
       </div>
 
       <div nz-col nzXs="24" nzXl="8">
-        <app-dash-card cardLink="/spot/top-songs" titleText="Top Songs"
+        <app-dash-card [fillVerticalSpace]="true"  cardLink="/spot/top-songs" titleText="Top Songs"
           tooltipText="This card shows your most played songs. You can customize the timeframe over which this is calculated. Click to find out more.">
           <spot-top-songs [previewMode]="true"></spot-top-songs>
         </app-dash-card>
       </div>
       
       <div nz-col nzXs="24" nzXl="8">
-        <app-dash-card cardLink="/spot/mood" titleText="Average Mood of Songs"
+        <app-dash-card [fillVerticalSpace]="true"  cardLink="/spot/mood" titleText="Average Mood of Songs"
           tooltipText="This card shows your mood. You can customize the timeframe over which this is calculated. Click to find out more.">
           <spot-mood [previewMode]="true">
           </spot-mood>
@@ -58,7 +59,7 @@
   <details open id="rectification">
     <summary class="collapsible-dashboard-section-title">Rectification</summary>
     <div id="step-inferences" nz-col nzXs="24" nzXl="8">
-      <app-dash-card cardLink="/spot/inference" titleText="Inferences"
+      <app-dash-card [fillVerticalSpace]="true"  cardLink="/spot/inference" titleText="Inferences"
         tooltipText="This card shows the interests you have and groups you belong to according to Spotify. You can let Spotify delete them, if you think they are incorrect. Click to find out more.">
         <spot-inferences [previewMode]="true"></spot-inferences>
       </app-dash-card>
@@ -72,7 +73,7 @@
     <div id="stepX">
       <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
         <div nz-col nzXs="24" nzXl="8">
-          <app-dash-card cardLink="" titleText="Privacy Settings Judge"
+          <app-dash-card [fillVerticalSpace]="true"  cardLink="" titleText="Privacy Settings Judge"
             tooltipText="In this card, you can check if your Spotify settings are setup to protect your privacy. Just answer the questions below to learn how you can improve your privacy through your Spotifyaccount's settings.">
             <app-settings-form [service]="'Spotify'"></app-settings-form>
           </app-dash-card>

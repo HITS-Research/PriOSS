@@ -104,7 +104,8 @@ const routes: Routes = [
   { path: 'face/posts' ,component: PostsComponent},
   { path: 'face/messages-info' , component: MessagesComponent},
   { path: 'insta/activity-hidden' , component: InstaActivityStatusHiddenComponent},
-  { path: 'insta/disable-cookies' , component: InstaDisableCookiesComponent}
+  { path: 'insta/disable-cookies' , component: InstaDisableCookiesComponent},
+  { path: 'face/general-data', component: GeneralDataComponent }
 ];
 
 @NgModule({
