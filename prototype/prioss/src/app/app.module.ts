@@ -137,7 +137,7 @@ import { NzResultModule } from 'ng-zorro-antd/result';
 import { InstaActivityStatusHiddenComponent } from './rectification/instagram/insta-activity-status-hidden/insta-activity-status-hidden.component';
 import { SearchHistoryComponent } from './visualizations/spotify/search-history/search-history.component';
 import { InstaDisableCookiesComponent } from './rectification/instagram/insta-disable-cookies/insta-disable-cookies.component';
-import { SpotSearchHistoryRepository } from './db/data-repositories/spotify/spot-serach-history/spot-search-history.repository';
+import { SpotSearchHistoryRepository } from './db/data-repositories/spotify/spot-search-history/spot-search-history.repository';
 
 import { InstaPurposesComponent } from './visualizations/instagram/insta-purposes/insta-purposes.component';
 

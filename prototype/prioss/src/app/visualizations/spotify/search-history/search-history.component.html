@@ -1,0 +1,34 @@
+<div [ngClass]="{'component-page': !previewMode}">
+    <!--in previewmode only a small table with personal information is shown-->
+    
+    <div *ngIf="previewMode">
+      <div *ngIf="searchHistory !== undefined">
+        <nz-row [nzGutter]="16">
+          <nz-col [nzSpan]="12">
+            <nz-statistic [nzValue]="(searchHistory.length)!" [nzTitle]="'Number of Search Queries'"></nz-statistic>
+          </nz-col>
+        </nz-row>
+        <nz-row [nzGutter]="16">
+          <nz-col [nzSpan]="12">
+            <nz-statistic [nzValue]="(latestSearchQuery)!" [nzTitle]="'Latest Search Query'"></nz-statistic>
+          </nz-col>
+        </nz-row>
+      </div>
+    </div>
+    
+    <div *ngIf="!previewMode">
+      <app-title-bar titleText="Search History" tooltipText="This table shows the search History the service has collected about you.">
+      </app-title-bar>
+      <p>Total Search Queries: {{searchHistory.length}}</p>
+      <!--
+      <nz-table nzTemplateMode>
+      <tbody>
+        <tr *ngFor="let pair of getObjectPairsNotNull(userdata)" >
+          <td *ngIf="pair[1]" rowSpan="1">{{ capitalize(pair[0]) }}</td>
+          <td *ngIf="pair[1]" rowSpan="1">{{ pair[1] }}</td>
+        </tr>
+      </tbody>
+      </nz-table> -->
+    </div>
+  </div>
+  

@@ -35,7 +35,7 @@ export const selectAllSpotSearchHistory = `
       platform,
       searchTime,
       searchQuery
-   from spot_serach_history;
+   from spot_search_history;
 `;
 
 export const getQueryCount = `
@@ -45,6 +45,6 @@ export const getQueryCount = `
 
 export const selectAllFromSpotSearches = `
 select *
-  from spot_serach_history
+  from spot_search_history
  order by searchTime desc;
 `

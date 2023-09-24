@@ -62,7 +62,7 @@ import { FaceBookGroupMessagesInfoRepository } from '../db/data-repositories/fac
 import { FacebookAddressBookRepository } from '../db/data-repositories/facebook/fb-other-personal-info/face-address-book.repo';
 import { FacebookSearchHistoryRepository } from '../db/data-repositories/facebook/fb-other-personal-info/face-search-history.repo';
 import { InstaTopicsRepository } from '../db/data-repositories/instagram/insta-your-topics/insta-topics.repository';
-import { SpotSearchHistoryRepository } from '../db/data-repositories/spotify/spot-serach-history/spot-search-history.repository';
+import { SpotSearchHistoryRepository } from '../db/data-repositories/spotify/spot-search-history/spot-search-history.repository';
 import {
   InstaChatData,
   InstaChatPartnerData,

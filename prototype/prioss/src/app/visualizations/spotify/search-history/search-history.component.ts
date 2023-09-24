@@ -1,9 +1,7 @@
 import {AfterViewInit, Component, Input} from '@angular/core';
-import * as utilities from 'src/app/utilities/generalUtilities.functions'
-import { SpotSearchHistoryRepository } from 'src/app/db/data-repositories/spotify/spot-serach-history/spot-search-history.repository';
+import { SpotSearchHistoryRepository } from 'src/app/db/data-repositories/spotify/spot-search-history/spot-search-history.repository';
 import { SequenceComponentInit } from '../../sequence-component-init.abstract';
 import { SpotSearchHistory } from 'src/app/models/Spotify/SearchHistory/SpotSearchHistory';
-
 
 /**
   * This component visualizes the search history of a user
@@ -20,16 +18,17 @@ import { SpotSearchHistory } from 'src/app/models/Spotify/SearchHistory/SpotSear
   styleUrls: ['./search-history.component.less']
 })
 export class SearchHistoryComponent extends SequenceComponentInit implements AfterViewInit{
+  searchHistory: SpotSearchHistory[] = [];
+  listOfsearchHistory: SpotSearchHistory[] = [];
+  latestSearchQuery: string = ""
+
+  @Input()
+  previewMode = false;
 
   constructor(private spotSearchHistoryRepo: SpotSearchHistoryRepository) {
     super();
-    this.initComponent();
   }
- 
-  @Input()
-  previewMode = false;
-  searchHistory: SpotSearchHistory[] = [];
-  listOfsearchHistory: SpotSearchHistory[] = [];
+
 
   /**
     * A Callback called by angular when the views have been initialized
@@ -47,13 +46,14 @@ export class SearchHistoryComponent extends SequenceComponentInit implements Aft
 
   /**
   * @see-super-class
-  * @author: Simon (scg@mail.upb.de)
+  * @author: Max (maxy@mail.upb.de)
   */
   override async initComponent(): Promise<void> {
-    console.log("--- Initializing Component: Search-History");
+    console.log("--- Initializing Component 5: Search-History");
     await this.spotSearchHistoryRepo.getUserSearches().then((searchHistory) => {
       this.searchHistory = searchHistory;
       this.listOfsearchHistory = [...this.searchHistory];
+      this.latestSearchQuery = searchHistory[searchHistory.length-1].searchQuery;
     });
   }
 }
