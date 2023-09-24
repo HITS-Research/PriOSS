@@ -436,8 +436,8 @@ function makeRadarChart(audiofeatures: any, componentInstance: MoodComponent) {
       // Append a rectangle for the background
       const backgroundRect = additionalTextGroup
         .append("rect")
-        .attr("fill", "lightgrey")
-        .attr("stroke", "black")
+        .attr("fill", "#3C3D3E")
+        .attr("stroke", "#3C3D3E")
         .attr("stroke-width", 1)
         .attr("rx", 5)
         .style("opacity", 0); // Initially hide it // Optional: Add rounded corners
@@ -449,11 +449,11 @@ function makeRadarChart(audiofeatures: any, componentInstance: MoodComponent) {
         .attr("y", 25) // Adjust the position as needed
         .text(d.name.additionalText) // Replace with the desired additional text
         .attr("class", "additional-text")
-        .style("fill", "black")
+        .style("fill", "white")
         .style("font-size", "12px")
         .style("font-weight", "normal")
         .style("pointer-events", "none")
-        .style("opacity", 0); // Initially hide it // This prevents the background from blocking mouse events
+        .style("opacity", 0); // Initially hide it. This prevents the background from blocking mouse events
 
       // Calculate and set the background rectangle's dimensions based on the text's size
       const textBoundingBox = textElement.node().getBBox();
