@@ -8,7 +8,7 @@ const CLIENT_ID = environment.CLIENT_ID;
 const CLIENT_SECRET = environment.CLIENT_SECRET;
 let token: string;
 let withdate: any;
-const spotifyGreen: string = "#1DB954"
+const spotifyGreen = "#1DB954";
 let startDateInput: any = null;
 let endDateInput: any = null;
 
@@ -34,8 +34,8 @@ export class MoodComponent {
   @Input()
   selectedRange = [new Date('2021-11-01'), new Date('2021-11-30')]; // Set specific default dates
   @Input()
-  mood: string = '';
-  isLoading: boolean = false;
+  mood = '';
+  isLoading = false;
   files: any[] = [];
   queriedSongs = 0;
   allSongsNumber = 0;
