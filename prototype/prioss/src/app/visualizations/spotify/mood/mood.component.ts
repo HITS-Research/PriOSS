@@ -49,7 +49,7 @@ export class MoodComponent {
     this.mood = mood;
   }
 
-  
+
   /*
   * This is a helper function to redraw the diagramm without calling the Spotify API again.
   *
@@ -126,7 +126,7 @@ export class MoodComponent {
       if (start >= timestamp.toUTCString() && timestamp.toUTCString() <= end) timed.push(d);
     });
     console.log(timed);
-    makeRadarChart(timed,this);
+    makeRadarChart(timed, this);
   }
 
 
