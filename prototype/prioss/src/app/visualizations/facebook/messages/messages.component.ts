@@ -22,7 +22,7 @@ export class MessagesComponent implements OnInit {
   data: { label: string; value: any; }[];
   dataAvailableIn = false;
   dataAvailableGroup = false;
-  searchText: string = '';
+  searchText = '';
   filteredGroupMessages: GroupMessagesModel[] = [];
   filteredMessages: MessagesModel[] = [];
   totalContactNumbers = 0;
@@ -77,6 +77,7 @@ export class MessagesComponent implements OnInit {
  */
 
   filterGroupMessagesItems(searchText: string): void {
+
     const freshData = this.groupMessagesData.slice();
     this.filteredGroupMessages = freshData.filter(item =>
       item.name.toLowerCase().includes(this.searchText.toLowerCase()) ||
