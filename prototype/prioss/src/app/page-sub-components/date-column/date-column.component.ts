@@ -9,5 +9,5 @@ export class DateColumnComponent {
   @Input()
   timestamp: string;
 
-  formatString: string = 'd MMM y, h:mm a';
+  formatString = 'd MMM y, h:mm a';
 }

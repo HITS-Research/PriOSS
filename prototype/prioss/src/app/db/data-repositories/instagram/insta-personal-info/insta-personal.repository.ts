@@ -6,6 +6,7 @@ import { InstaPersonalInfo } from 'src/app/models/Instagram/PersonalInfo/InstaPe
 import { InstaAccountInfo } from 'src/app/models/Instagram/PersonalInfo/InstaAccountInfo';
 import { InstaProfessionalInfo } from 'src/app/models/Instagram/PersonalInfo/InstaProfessionalInfo';
 import { InstaProfileChange } from 'src/app/models/Instagram/PersonalInfo/InstaProfileChange';
+import { InstaBasedInInfo } from "src/app/models/Instagram/PersonalInfo/InstaBasedInInfo";
 
 /**
  * This class handles all communication with the database tables that are used in the InstaPersonalInformation Component.
@@ -32,10 +33,10 @@ export class InstaPersonalRepository {
     async addPersonalInformation(username: string, email: string, birthdate: string, gender: string) {
         await this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
 
-            let sqlStatement = sql.insertIntoInstaPersonalInfoSQL;
-            let values = [username, email,  birthdate, gender];
+            const sqlStatement = sql.insertIntoInstaPersonalInfoSQL;
+            const values = [username, email,  birthdate, gender];
       
-            let ret: capSQLiteChanges = await db.run(sqlStatement, values);
+            await db.run(sqlStatement, values);
           });
     }
 
@@ -56,10 +57,10 @@ export class InstaPersonalRepository {
     async addAccountInformation(contactSyncing: string, firstCountryCode: string, hasSharedLiveVideo: string, lastLogin: string, lastLogout: string, firstStoryTime: string, lastStoryTime: string, firstCloseFriendsStoryTime: string) {
         await this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
 
-            let sqlStatement = sql.insertIntoInstaAccountInfoSQL;
-            let values = [contactSyncing, firstCountryCode, hasSharedLiveVideo, lastLogin, lastLogout, firstStoryTime, lastStoryTime, firstCloseFriendsStoryTime];
+            const sqlStatement = sql.insertIntoInstaAccountInfoSQL;
+            const values = [contactSyncing, firstCountryCode, hasSharedLiveVideo, lastLogin, lastLogout, firstStoryTime, lastStoryTime, firstCloseFriendsStoryTime];
       
-            let ret: capSQLiteChanges = await db.run(sqlStatement, values);
+            await db.run(sqlStatement, values);
           });
     }
 
@@ -73,10 +74,27 @@ export class InstaPersonalRepository {
     async addProfessionalInformation(title:string) {
         await this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
 
-            let sqlStatement = sql.insertIntoInstaProfessionalInfoSQL;
-            let values = [title];
+            const sqlStatement = sql.insertIntoInstaProfessionalInfoSQL;
+            const values = [title];
       
-            let ret: capSQLiteChanges = await db.run(sqlStatement, values);
+            await db.run(sqlStatement, values);
+          });
+    }
+
+    /**
+     * This async method adds based in information to the insta_based_in table.
+     * 
+     * @param basedIn the value of the location that should be added to the insta based in table
+     * 
+     * @author: Paul (pasch@mail.upb.de)
+     */
+    async addBasedInInfo(basedIn:string) {
+        await this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
+
+            const sqlStatement = sql.insertIntoBasedIn;
+            const values = [basedIn];
+      
+            await db.run(sqlStatement, values);
           });
     }
 
@@ -94,10 +112,10 @@ export class InstaPersonalRepository {
     async addProfileChanges(title: string, changed: string, previous_value: string, new_value: string, change_date: string) {
         await this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
 
-            let sqlStatement = sql.insertIntoInstaProfileChangesSQL;
-            let values = [title, changed, previous_value, new_value, change_date];
+            const sqlStatement = sql.insertIntoInstaProfileChangesSQL;
+            const values = [title, changed, previous_value, new_value, change_date];
       
-            let ret: capSQLiteChanges = await db.run(sqlStatement, values);
+            const ret: capSQLiteChanges = await db.run(sqlStatement, values);
             console.log("cahnges" + ret.changes);
           });
     }
@@ -113,7 +131,7 @@ export class InstaPersonalRepository {
     {
         return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
 
-            let result = await db.query(sql.selectPersonalInfo);
+            const result = await db.query(sql.selectPersonalInfo);
             return result.values as InstaPersonalInfo[];
         });
     }
@@ -129,7 +147,7 @@ export class InstaPersonalRepository {
     {
         return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
 
-            let result = await db.query(sql.selectProfessionalInfo);
+            const result = await db.query(sql.selectProfessionalInfo);
             return result.values as InstaProfessionalInfo[];
         });
     }
@@ -145,8 +163,24 @@ export class InstaPersonalRepository {
     {
         return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
 
-            let result = await db.query(sql.selectAccountInfo);
+            const result = await db.query(sql.selectAccountInfo);
             return result.values as InstaAccountInfo[];
+        });
+    }
+
+    /**
+     * This async method selects all entries from the insta_based_in table
+     * 
+     * @returns an array of InstaBasedInInfos
+     * 
+     * @author: Paul (pasch@mail.upb.de)
+     */
+    async getBasedIn(): Promise<InstaBasedInInfo[]>
+    {
+        return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
+
+            const result = await db.query(sql.selectBasedIn);
+            return result.values as InstaBasedInInfo[];
         });
     }
 
@@ -161,7 +195,7 @@ export class InstaPersonalRepository {
     {
         return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
 
-            let result = await db.query(sql.selectProfileChanges);
+            const result = await db.query(sql.selectProfileChanges);
             return result.values as InstaProfileChange[];
         });
     }

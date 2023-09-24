@@ -1,5 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { AfterViewInit, Component, Input } from '@angular/core';
 import { SequenceComponentInit } from '../../sequence-component-init.abstract';
+import { Router } from '@angular/router';
 
 import { InstaAdsActivityRepository } from 'src/app/db/data-repositories/instagram/insta-ads/insta-ads-activity.repository';
 import { InstaAdsClickedRepository } from 'src/app/db/data-repositories/instagram/insta-ads/insta-ads-clicked.repository';
@@ -11,7 +12,6 @@ import { InstaAdsClickedInfo } from 'src/app/models/Instagram/LikedAdsInfo/Insta
 import { InstaAdsInterestInfo } from 'src/app/models/Instagram/LikedAdsInfo/InstaAdsInterestInfo';
 import { InstaAdsViewedInfo } from 'src/app/models/Instagram/LikedAdsInfo/InstaAdsViewedInfo';
 
-import * as generalUtils from "../../../utilities/generalUtilities.functions";
 
 /**
  * This component is fsor instagram's advertisement page.
@@ -25,10 +25,10 @@ import * as generalUtils from "../../../utilities/generalUtilities.functions";
   templateUrl: './insta-ads.component.html',
   styleUrls: ['./insta-ads.component.less']
 })
-export class InstaAdsComponent extends SequenceComponentInit{
+export class InstaAdsComponent extends SequenceComponentInit implements AfterViewInit{
 
   @Input()
-  previewMode: boolean = false;
+  previewMode = false;
   activitySearchValue = '';
   clickedSearchValue = '';
   viewedSearchValue = '';
@@ -47,7 +47,7 @@ export class InstaAdsComponent extends SequenceComponentInit{
   ads_viewed: InstaAdsViewedInfo[] = [];
   listOfAdsViewed: InstaAdsViewedInfo[] = [];
 
-  constructor(private instaAdsActivityRepo: InstaAdsActivityRepository,
+  constructor(private router: Router, private instaAdsActivityRepo: InstaAdsActivityRepository,
     private instaAdsClickedRepo: InstaAdsClickedRepository,
     private instaAdsInterestRepo: InstaAdsInterestRepository,
     private instaAdsViewedRepo: InstaAdsViewedRepository){
@@ -76,25 +76,25 @@ export class InstaAdsComponent extends SequenceComponentInit{
 
     // Ads Data fetched from SQlite
     
-    let ads_activity = await this.instaAdsActivityRepo.getAllInstaAdsActivity();
+    const ads_activity = await this.instaAdsActivityRepo.getAllInstaAdsActivity();
     if(ads_activity.length > 0) {
       this.ads_activity = ads_activity;
       this.listOfAdsActivity = [...this.ads_activity];
     }
 
-    let ads_clicked = await this.instaAdsClickedRepo.getAllInstaAdsClicked();
+    const ads_clicked = await this.instaAdsClickedRepo.getAllInstaAdsClicked();
     if(ads_clicked.length > 0) {
       this.ads_clicked = ads_clicked;
       this.listOfAdsClicked = [...this.ads_clicked];
     }
 
-    let ads_interests = await this.instaAdsInterestRepo.getAllInstaAdsInterested();
+    const ads_interests = await this.instaAdsInterestRepo.getAllInstaAdsInterested();
     if(ads_interests.length > 0) {
       this.ads_interests = ads_interests;
       this.listOfAdsInterests = [...this.ads_interests];
     }
 
-    let ads_viewed = await this.instaAdsViewedRepo.getAllInstaAdsViewed();
+    const ads_viewed = await this.instaAdsViewedRepo.getAllInstaAdsViewed();
     if(ads_viewed.length > 0) {
       this.ads_viewed = ads_viewed;
       this.listOfAdsViewed = [...this.ads_viewed];
@@ -157,4 +157,17 @@ export class InstaAdsComponent extends SequenceComponentInit{
         break;
     }
   }
+  
+
+  /** 
+  * This method is responsible to navigate to guidelines to control which advertisements show on your Instagram account.
+  *
+  * @author: Aayushma (aayushma@mail.uni-paderborn.de)
+  *
+  */
+  navigateToRectification(){
+    window.open('insta/add-manager', '_blank');
+  }
+
+ 
 }

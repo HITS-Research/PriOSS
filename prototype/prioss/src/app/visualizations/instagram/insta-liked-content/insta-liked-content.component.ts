@@ -1,9 +1,7 @@
-import { Component, Input } from '@angular/core';
+import { AfterViewInit, Component, Input } from '@angular/core';
 import { SequenceComponentInit } from '../../sequence-component-init.abstract';
 import * as d3 from 'd3';
-import {NotificationService} from "../../../notification/notification.component";
-
-import * as generalUtils from "../../../utilities/generalUtilities.functions";
+import {NotificationService} from "../../../utilities/notification/notification.component";
 
 import { InstaLikedCommentsRepository } from 'src/app/db/data-repositories/instagram/insta-liked-content/insta-likedcomments.repository';
 import { InstaLikedPostsRepository } from 'src/app/db/data-repositories/instagram/insta-liked-content/insta-likedposts.repository';
@@ -26,17 +24,17 @@ import { InstaLikedPostsInfo } from 'src/app/models/Instagram/LikedCommentsAndPo
   templateUrl: './insta-liked-content.component.html',
   styleUrls: ['./insta-liked-content.component.less']
 })
-export class InstaLikedContentComponent extends SequenceComponentInit {
+export class InstaLikedContentComponent extends SequenceComponentInit implements AfterViewInit{
 
   @Input()
-  previewMode: boolean = false;
+  previewMode = false;
 
   readonly color: string = "#DD2A7B";
 
   liked_comments_with_count: InstaLikedCommentsWithCount[] = [];
   liked_posts_with_count: InstaLikedPostsWithCount[] = [];
-  liked_comments_amount: number=0;
-  liked_posts_amount: number=0;
+  liked_comments_amount=0;
+  liked_posts_amount=0;
 
   liked_comments: InstaLikedCommentsInfo[] = [];
   liked_posts: InstaLikedPostsInfo[] = [];
@@ -176,7 +174,7 @@ export class InstaLikedContentComponent extends SequenceComponentInit {
       .style("text-anchor", "end");
 
     // add Y axis
-    var yScale: any = d3.scaleBand()
+    const yScale: any = d3.scaleBand()
       .range([0, height])
       .domain(data.map(d => d.user))
       .padding(.2);
@@ -198,6 +196,7 @@ export class InstaLikedContentComponent extends SequenceComponentInit {
         tooltip.html(data.counts.toString()).style("visibility", "visible");
       })
       //Mouse moved: change tooltip position
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       .on("mousemove", function (event) {
         tooltip
           .style("top", (screenY) + "px")
@@ -229,7 +228,7 @@ export class InstaLikedContentComponent extends SequenceComponentInit {
   }
 
   getMaxCounts(arr: any[]): number {
-    var maxCount = 0;
+    let maxCount = 0;
     arr.forEach(function(item) {
       if (item.counts > maxCount) {
         maxCount = item.counts;

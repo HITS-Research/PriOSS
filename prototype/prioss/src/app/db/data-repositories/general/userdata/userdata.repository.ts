@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { SQLiteDBConnection, capSQLiteChanges } from "@capacitor-community/sqlite";
+import { SQLiteDBConnection} from "@capacitor-community/sqlite";
 import { DBService } from "../../../../services/db/db.service";
 import * as sql from "./userdata.sql";
 import { insertIntoUserdata } from "./userdata.sql";
@@ -36,10 +36,10 @@ export class UserdataRepository {
     async addUserdata(username: string, email: string, country: string, birthdate: string, gender: string, postalCode: number, mobileNumber: number, mobileOperator: string, mobileBrand: string, creationTime: string) {
         await this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
 
-            let sqlStatement = insertIntoUserdata;
-            let values = [username, email, country, birthdate, gender, postalCode, mobileNumber, mobileOperator, mobileBrand, creationTime];
+            const sqlStatement = insertIntoUserdata;
+            const values = [username, email, country, birthdate, gender, postalCode, mobileNumber, mobileOperator, mobileBrand, creationTime];
        
-            let ret: capSQLiteChanges = await db.run(sqlStatement, values);
+            await db.run(sqlStatement, values);
           });
     }
 
@@ -52,7 +52,7 @@ export class UserdataRepository {
     async getAllUserdata() : Promise<UserdataEntry[]> {
       return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
   
-        let result = await db.query(sql.selectAllUserdata);
+        const result = await db.query(sql.selectAllUserdata);
         return result.values as UserdataEntry[];
   
       });

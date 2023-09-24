@@ -9,26 +9,26 @@
 *
 */
 
-export const insertIntoFaceLoginLocationsSQL: string = `
+export const insertIntoFaceLoginLocationsSQL = `
 insert into face_login_locations
 (location, device, timestamp)
 values 
 (?, ?, ?);
 `;
 
-export const bulkAddFaceLoginLocationsBaseSQL: string = `
+export const bulkAddFaceLoginLocationsBaseSQL = `
 insert into face_login_locations
 (location, device, timestamp)
 `;
 
-export const bulkAddFaceLoginLocationsValuesSQL: string = `
+export const bulkAddFaceLoginLocationsValuesSQL = `
 select ?, ?, ?
 `;
 
-export const bulkAddValueConnector: string = `
+export const bulkAddValueConnector = `
 union all
 `;
 
-export const selectAllLoginLocations: string = `
+export const selectAllLoginLocations = `
 select id, location, device, timestamp from face_login_locations
 `;

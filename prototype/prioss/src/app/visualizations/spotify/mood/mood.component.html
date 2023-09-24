@@ -1,7 +1,7 @@
 <div [ngClass]="{'component-page': !previewMode}">
     <div *ngIf="previewMode">
-        <div>This visualization requires a connection to Spotify. The connection to Spotify is only
-            established when you click on this card and start the visualization.</div>
+        <div>This visualization requires a connection to Spotify to get the mood-values for the songs you have listened to. The connection to Spotify is only
+            established when you click on this card and start the visualization. </div>
     </div>
     <div *ngIf="!previewMode">
         <app-title-bar titleText="Average Mood of Songs"

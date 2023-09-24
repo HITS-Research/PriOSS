@@ -1,6 +1,6 @@
 //import { capSQLiteSet } from '@capacitor-community/sqlite';
 
-export const createSchema: string = `
+export const createSchema = `
 CREATE TABLE IF NOT EXISTS spot_history (
     id INTEGER PRIMARY KEY,
     endTime TEXT NOT NULL,
@@ -50,7 +50,12 @@ CREATE TABLE IF NOT EXISTS insta_account_info (
 
 CREATE TABLE IF NOT EXISTS insta_professional_info (
     id INTEGER PRIMARY KEY,
-    title TEXT NOT NULL
+    business_information TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS insta_based_in (
+    id INTEGER PRIMARY KEY,
+    account_based_in TEXT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS insta_profile_changes (
@@ -178,6 +183,18 @@ CREATE TABLE IF NOT EXISTS insta_blocked_info (
     timestamp INTEGER NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS insta_shopping (
+    id INTEGER PRIMARY KEY,
+    merchantName TEXT NOT NULL,
+    productName TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS insta_shopping_wishlist (
+    id INTEGER PRIMARY KEY,
+    merchantName TEXT NOT NULL,
+    productName TEXT NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS insta_recent_follow_info (
     id INTEGER PRIMARY KEY,
     instaProfileURL TEXT NOT NULL,
@@ -213,6 +230,43 @@ CREATE TABLE IF NOT EXISTS insta_received_follow_request_info (
     timestamp INTEGER NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS insta_your_topics(
+    id INTEGER PRIMARY KEY,
+    topic TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS insta_chat_data_info(
+    id INTEGER PRIMARY KEY,
+    chat TEXT NOT NULL,
+    yourMessages INTEGER NOT NULL,
+    monday INTEGER NOT NULL,
+    tuesday INTEGER NOT NULL,
+    wednesday INTEGER NOT NULL,
+    thursday INTEGER NOT NULL,
+    friday INTEGER NOT NULL,
+    saturday INTEGER NOT NULL,
+    sunday INTEGER NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS insta_chat_partner_data_info(
+    id INTEGER PRIMARY KEY,
+    sender TEXT NOT NULL,
+    messages INTEGER NOT NULL,
+    avg REAL NOT NULL,
+    text INTEGER NOT NULL,
+    share INTEGER NOT NULL,
+    audio INTEGER NOT NULL,
+    photos INTEGER NOT NULL,
+    monday INTEGER NOT NULL,
+    tuesday INTEGER NOT NULL,
+    wednesday INTEGER NOT NULL,
+    thursday INTEGER NOT NULL,
+    friday INTEGER NOT NULL,
+    saturday INTEGER NOT NULL,
+    sunday INTEGER NOT NULL,
+    chat_id INTEGER NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS face_ads_interacted (
     id INTEGER PRIMARY KEY,
     title TEXT NOT NULL,
@@ -236,41 +290,11 @@ CREATE TABLE IF NOT EXISTS face_off_facebook_activity (
     type TEXT NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS face_friend_requests_received (
-    id INTEGER PRIMARY KEY,
-    name TEXT NOT NULL,
-    timestamp TEXT NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS face_friend_requests_sent (
-    id INTEGER PRIMARY KEY,
-    name TEXT NOT NULL,
-    timestamp TEXT NOT NULL
-);
-
 CREATE TABLE IF NOT EXISTS face_friends (
     id INTEGER PRIMARY KEY,
     name TEXT NOT NULL,
     timestamp INTEGER NOT NULL,
     type TEXT NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS face_rejected_friend_requests (
-    id INTEGER PRIMARY KEY,
-    name TEXT NOT NULL,
-    timestamp TEXT NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS face_removed_friends (
-    id INTEGER PRIMARY KEY,
-    name TEXT NOT NULL,
-    timestamp TEXT NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS face_who_you_follow (
-    id INTEGER PRIMARY KEY,
-    name TEXT NOT NULL,
-    timestamp TEXT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS face_inferred_topics (
@@ -321,7 +345,8 @@ CREATE TABLE IF NOT EXISTS face_search_history (
 CREATE TABLE IF NOT EXISTS face_messages (
     id INTEGER PRIMARY KEY,
     name TEXT,
-    timestamp STRING
+    timestamp NUMBER,
+    uri TEXT
 );
 CREATE TABLE IF NOT EXISTS face_group_messages (
     id INTEGER PRIMARY KEY,
@@ -329,6 +354,12 @@ CREATE TABLE IF NOT EXISTS face_group_messages (
     value STRING
 );
 
+CREATE TABLE IF NOT EXISTS face_posts (
+    id INTEGER PRIMARY KEY,
+    timestamp INTEGER,
+    title STRING,
+    post STRING
+);
 CREATE TABLE IF NOT EXISTS face_groups (
     id INTEGER PRIMARY KEY,
     name TEXT,
@@ -350,7 +381,7 @@ CREATE TABLE IF NOT EXISTS face_events (
  * 
  */
 
-export const dropSchema: string =`
+export const dropSchema =`
 DROP TABLE IF EXISTS spot_history;
 DROP TABLE IF EXISTS insta_personal_info;
 DROP TABLE IF EXISTS insta_account_info;
@@ -374,20 +405,20 @@ DROP TABLE IF EXISTS userdata;
 DROP TABLE IF EXISTS insta_follower_info;
 DROP TABLE IF EXISTS insta_following_info;
 DROP TABLE IF EXISTS insta_blocked_info;
+DROP TABLE IF EXISTS insta_shopping;
+DROP TABLE IF EXISTS insta_shopping_wishlist;
 DROP TABLE IF EXISTS insta_recent_follow_info;
 DROP TABLE IF EXISTS insta_pending_follow_request_info;
 DROP TABLE IF EXISTS insta_recently_unfollowed_accounts_info;
 DROP TABLE IF EXISTS insta_removed_suggestion_info;
 DROP TABLE IF EXISTS insta_received_follow_request_info;
+DROP TABLE IF EXISTS insta_your_topics;
+DROP TABLE IF EXISTS insta_chat_data_info;
+DROP TABLE IF EXISTS insta_chat_partner_data_info;
 DROP TABLE IF EXISTS face_ads_interacted;
 DROP TABLE IF EXISTS face_apps_websites;
 DROP TABLE IF EXISTS face_off_facebook_activity;
-DROP TABLE IF EXISTS face_friend_requests_received;
-DROP TABLE IF EXISTS face_friend_requests_sent;
 DROP TABLE IF EXISTS face_friends;
-DROP TABLE IF EXISTS face_rejected_friend_requests;
-DROP TABLE IF EXISTS face_removed_friends;
-DROP TABLE IF EXISTS face_who_you_follow;
 DROP TABLE IF EXISTS face_inferred_topics;
 DROP TABLE IF EXISTS face_login_locations;
 DROP TABLE IF EXISTS face_login_logouts;
@@ -395,6 +426,7 @@ DROP TABLE IF EXISTS face_account_status_changes;
 DROP TABLE IF EXISTS face_account_activity;
 DROP TABLE IF EXISTS face_address_book;
 DROP TABLE IF EXISTS face_search_history;
+DROP TABLE IF EXISTS face_posts;
 DROP TABLE IF EXISTS face_groups;
 DROP TABLE IF EXISTS face_events;
 DROP TABLE IF EXISTS face_messages;

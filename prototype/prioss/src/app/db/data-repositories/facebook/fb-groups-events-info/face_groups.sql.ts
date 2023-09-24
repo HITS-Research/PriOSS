@@ -8,27 +8,27 @@
 *
 */
 
-export const insertIntoFaceGroupsSQL: string = `
+export const insertIntoFaceGroupsSQL = `
 insert into face_groups
 (name, timestamp)
 values 
 (?, ?);
 `;
 
-export const bulkAddFaceGroupsBaseSQL: string = `
+export const bulkAddFaceGroupsBaseSQL = `
 insert into face_groups
 (name, timestamp)
 `;
 
-export const bulkAddFaceGroupsValuesSQL: string = `
+export const bulkAddFaceGroupsValuesSQL = `
 select ?, ?
 `;
 
-export const bulkAddValueConnector: string = `
+export const bulkAddValueConnector = `
 union all
 `;
 
-export const selectAllGroups: string = `
+export const selectAllGroups = `
 select * from face_groups
 `;
 

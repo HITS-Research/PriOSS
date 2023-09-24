@@ -7,26 +7,26 @@
 * @author: Rishma (rishmamn@mail.upb.de)
 */
 
-export const insertIntoFaceGroupMessagesInfoSQL: string = `
+export const insertIntoFaceGroupMessagesInfoSQL = `
 insert into face_group_messages
 (name,value)
 values 
 (?, ?);
 `;
 
-export const bulkAddFaceGroupMessagesInfoBaseSQL: string = `
+export const bulkAddFaceGroupMessagesInfoBaseSQL = `
 insert into face_group_messages
 (name,value)
 `;
 
-export const bulkAddFaceGroupMessagesInfoValuesSQL: string = `
+export const bulkAddFaceGroupMessagesInfoValuesSQL = `
 select ?, ?
 `;
 
-export const bulkAddValueConnector: string = `
+export const bulkAddValueConnector = `
 union all
 `;
-export const selectAllFaceGroupMessagesInfoData: string = `
+export const selectAllFaceGroupMessagesInfoData = `
  select id,
         name,
         value

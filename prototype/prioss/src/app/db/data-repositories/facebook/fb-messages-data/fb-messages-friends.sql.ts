@@ -7,28 +7,29 @@
 * @author: Rishma (rishmamn@mail.upb.de)
 */
 
-export const insertIntoFaceMessagesInfoSQL: string = `
+export const insertIntoFaceMessagesInfoSQL = `
 insert into face_messages
-(name,timestamp)
+(name,timestamp,uri)
 values 
 (?, ?);
 `;
 
-export const bulkAddFaceMessagesInfoBaseSQL: string = `
+export const bulkAddFaceMessagesInfoBaseSQL = `
 insert into face_messages
-(name,timestamp)
+(name,timestamp,uri)
 `;
 
-export const bulkAddFaceMessagesInfoValuesSQL: string = `
-select ?, ?
+export const bulkAddFaceMessagesInfoValuesSQL = `
+select ?, ?, ?
 `;
 
-export const bulkAddValueConnector: string = `
+export const bulkAddValueConnector = `
 union all
 `;
-export const selectAllFaceMessagesInfoData: string = `
+export const selectAllFaceMessagesInfoData = `
  select id,
         name,
-        timestamp
+        timestamp,
+        uri
   from face_messages;
 `;

@@ -4,17 +4,20 @@
     <p nz-typography>
       Welcome to the dashboard for the Instagram specific data. This page will offer you all the information you need, to fully understand the data that
       is collected about you and what steps you can take to increase your personal privacy.<br>
-      In the first section you will be presented with different visualizations of your personal data.<br>
+      The cards below show different interactive visualizations and explanations about the data Instagram has collected about you. If you are unsure what something means, hover over the (?)-Icons for explanations.
+      You can click on each of the white cards that contains a visualization to explore the visualization in more detail and unlock it's interactivity, try it!
+      <br>
       All the following sections will help you to understand the purpose of this application as well as the legal basis of the data collection and your rights
       regarding your data.
     </p>
   </div>
+  <br>
 
   <details open id="visualization">
     <summary class="collapsible-dashboard-section-title">Visualization</summary>
     <p nz-typography>
       In this section you will be presented with different visualizations of the data you put in before. Every card shows a preview of the data from a specific 
-      topic. By clicking on 'More' you will be redirected to a page with a more precise visualization and description of the specific topic.
+      topic. By clicking on card you will be redirected to a page with a more precise visualization and description of the specific topic.
     </p>
 
     <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
@@ -73,6 +76,35 @@
         <app-insta-searches [previewMode]="true"></app-insta-searches>
       </app-dash-card>
     </div>
+    <div nz-col nzXs="24" nzXl="8">
+      <!--card for visualizing for shopping data-->
+      <app-dash-card cardLink="/insta/shopping" titleText="Shopping"
+            tooltipText="This card shows all items in recently viewed and wishlist shopping cart. Click to find out more.">
+          <app-insta-shopping [previewMode]="true"></app-insta-shopping>
+      </app-dash-card>
+    </div>
+    <div nz-col nzXs="24" nzXl="8">
+      <!--card for visualizing for your topic-->
+      <app-dash-card cardLink="/insta/your-topic" titleText="Your topic"
+            tooltipText="This card shows all topics instagram thinks you are interested. Click to find out more.">
+          <app-insta-your-topic [previewMode]="true"></app-insta-your-topic>
+      </app-dash-card>
+    </div>
+  </div>
+
+  <br>
+  <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
+    <div nz-col nzXs="24" nzXl="8">
+      <!--card for visualizing for messages-->
+      <app-dash-card cardLink="/insta/messages" titleText="Messages"
+          tooltipText="This card shows more information about exchanged messages on Instagram. Click to find out more.">
+        <app-insta-messages [previewMode]="true"></app-insta-messages>
+      </app-dash-card>
+    </div>
+    <div nz-col nzXs="24" nzXl="8">
+    </div>
+    <div nz-col nzXs="24" nzXl="8">
+    </div>
   </div>
   <br>
   </details>
@@ -113,7 +145,7 @@
   </details>
   <br>
 
- <details open id="Manage-Privacy">
+ <details open id="recommendation">
   <summary class="collapsible-dashboard-section-title">
     Privacy Recommendations
   </summary>
@@ -126,14 +158,14 @@
           </app-dash-card>
     </div>
 
-    <div nz-col nzXs="24" nzXl="8"><!--card for privacy recommendation - How to block folllowers-->
+    <div nz-col nzXs="24" nzXl="8" class="column"><!--card for privacy recommendation - How to block folllowers-->
        <app-dash-card cardLink="/insta/block-followers" titleText="How to Block Followers"
             tooltipText="This card provides guidelines that helps you to block followers for your Instagram account. The guidelines are provided for Web Browser user as well as Mobile Application user. Click to find out more.">
             <p nz-typography>This section provides you guidelines to block followers for Instagram.</p>
         </app-dash-card>
     </div>
 
-    <div nz-col nzXs="24" nzXl="8"><!--card for privacy recommendation- How to hide Instagram Stories and live videos from specific people -->
+    <div nz-col nzXs="24" nzXl="8" class="column"><!--card for privacy recommendation- How to hide Instagram Stories and live videos from specific people -->
       <app-dash-card cardLink="/insta/hide-stories" titleText="How to Hide Instagram Stories"
             tooltipText="This card provides guidelines that helps you to hide Instagram stories and live videos from specific people. The guidelines are provided for Mobile Application user. Click to find out more.">
             <p nz-typography>This section provides you guidelines to hide Instagram Stories and live videos from specific people.</p>
@@ -143,10 +175,19 @@
  </details>
  <br>
 
+  <app-gdpr id="gdpr"></app-gdpr>
+  <br>
+  
+  <p nz-topography> <app-insta-purposes></app-insta-purposes> </p>
+  <br>
+
+  <!--
   <details open id="purpose">
     <summary class="collapsible-dashboard-section-title">Purposes - Why Instagram collects your data? </summary>
     <p nz-typography>
-      The following purposes should give an example of Instagram's reasoning in regards to data collection. To Get a full list of their reasons you can check out Instagram's privacy policy <span nz-icon nzType="link"><a target="_blank" href="https://privacycenter.instagram.com/policy/?section_id=0-WhatIsThePrivacy">privacy policy</a></span>
+      The following purposes should give an example of Instagram's reasoning in regards to data collection. To Get a full list of their reasons you can check out Instagram's <span nz-icon nzType="link"><a target="_blank" href="https://privacycenter.instagram.com/policy/?section_id=0-WhatIsThePrivacy">privacy policy</a></span>
+      <br>
+      <br>
       <nz-table nzTemplateMode>
         <thead>
           <tr>
@@ -174,29 +215,8 @@
         </tbody>
       </nz-table>
   </details>
-    
-    <details open id="gdpr">
-      <summary class="collapsible-dashboard-section-title">GDPR Rights</summary>
-      <div>
-        <p nz-typography>
-        The General Data Protection Regulation (GDPR) is a data privacy regulation that came into effect in May 2018. It was created by the European Union (EU) to regulate the collection, processing, and storage of personal data of individuals residing in the EU.
-        The most important points of the GDPR are: </p>
-       <ol nz-typography>
-        <li><b>Consent:</b> Companies must obtain explicit and informed consent from individuals to collect, process, and store their personal data.</li>
-        <li><b>Right to Access:</b> Individuals have the right to access their personal data that has been collected and stored by companies.</li>
-        <li><b>Right to be Forgotten:</b> Individuals have the right to request the deletion of their personal data.</li>
-        <li><b>Data Portability:</b> Individuals have the right to receive their personal data in a format that is easily transferable to another organization.</li>
-        <li><b>Data Protection Officers (DPOs):</b> Companies that process large amounts of personal data or sensitive personal data must appoint a DPO.</li>
-        <li><b>Data Breach Notification:</b> Companies must notify individuals and the relevant authorities within 72 hours of a data breach.</li>
-        <li><b>Penalties:</b> Non-compliance with the GDPR can result in fines of up to 4% of a company's annual global revenue or €20 million (whichever is greater).</li>
-       </ol>
-       <p nz-typography>
-        The GDPR aims to protect the privacy and personal data of individuals within the EU, and has had a significant impact on the way that companies handle and store personal data. More information can be found under <span nz-icon nzType="link"><a target="_blank" href="https://gdpr.eu/">GDPR</a></span>.
-       </p>
-      </div>
-    </details>
+-->
 
-<app-gdpr></app-gdpr>
   <app-faq serviceName="insta"></app-faq>
   <app-help-button (startTourClick)="startTour()">
     <h2 nz-typography id="introduction">Introduction</h2>

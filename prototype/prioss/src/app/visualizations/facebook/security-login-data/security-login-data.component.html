@@ -1,18 +1,48 @@
 <div [ngClass]="{'component-page': !previewMode}">
   <div *ngIf="previewMode">
     <nz-row [nzGutter]="16">
-      <nz-col [nzSpan]="14">
-        <nz-statistic [nzTitle]="'Login Lcations'"  [nzValue]="locations.length"></nz-statistic>
+      <nz-col [nzSpan]="12">
+        <nz-statistic [nzValue]="locations.length" 
+                      [nzTitle]="'Login Locations'" 
+                      [nzPrefix]="location"
+                      [nzValueStyle]="{display: 'inline-flux'}">
+        </nz-statistic>
+        <ng-template #location>
+          <div class="container_class">
+            <span nz-icon nzType="environment"></span>
+          </div>
+        </ng-template>
       </nz-col>
-      <nz-row [nzSpan]="14">
-        <nz-statistic [nzTitle]="'Account Deactivated'"  [nzValue]="account_deactivated"></nz-statistic>
-      </nz-row>
-      <nz-col [nzSpan]="14">
-        <nz-statistic  [nzTitle]="'Password Changed'" [nzValue]="PasswordChange"></nz-statistic>
+      <nz-col [nzSpan]="12">
+        <nz-statistic [nzTitle]="'A/c Deactivated'"  
+                      [nzValue]="account_deactivated" 
+                      [nzPrefix]="deactivated"
+                      [nzValueStyle]="{display: 'inline-flux'}">
+        </nz-statistic>
+        <ng-template class="icon_class" #deactivated><span nz-icon nzType="stop"></span></ng-template>
       </nz-col>
-      <nz-row [nzSpan]="14">
-        <nz-statistic [nzTitle]="'Login & Lgouts'"  [nzValue]="login_logouts"></nz-statistic>
-      </nz-row>
+      <nz-col [nzSpan]="12">
+        <span class="container_class">
+          <nz-statistic  [nzTitle]="'Password Changed'" 
+                        [nzValue]="PasswordChange"
+                        [nzPrefix]="PwdChange">
+          </nz-statistic>
+          <ng-template class="container_class" #PwdChange>
+            <!-- <span nz-icon nzType="redo"></span> -->
+            <span nz-icon nzType="rest" nzTheme="outline"></span>
+          </ng-template>
+        </span>
+      </nz-col>
+      <nz-col [nzSpan]="12">
+        <nz-statistic [nzTitle]="'Login & Logouts'"  
+                      [nzValue]="login_logouts"
+                      [nzPrefix]="Loginout">
+        </nz-statistic>
+        <ng-template class="container_class" #Loginout>
+          <span nz-icon nzType="retweet"></span>
+          <!-- <span nz-icon nzType="user-switch" nzTheme="outline"></span> -->
+        </ng-template>
+      </nz-col>
     </nz-row>
   </div>
 </div>
@@ -31,7 +61,7 @@
             </div>
           </nz-result>
         </div> -->
-
+        <ng-container *ngIf="dataAvailableLoc; else noDataTemplate">
         <nz-table [nzData]="loginLocationsData" #loginLocations>
           <thead>
             <tr>
@@ -49,7 +79,12 @@
           </tbody>
         </nz-table>
         <br>
-        <button nz-button nzType="primary"> To Privacy Recommendations</button>
+        <!-- <button nz-button nzType="primary"> To Privacy Recommendations</button> -->
+      </ng-container>
+      <ng-template #noDataTemplate>
+        <nz-result nzStatus="403" nzTitle="No data available">
+        </nz-result>
+      </ng-template>
       </nz-tab>
 
       <nz-tab nzTitle="Login and Logouts">
@@ -60,6 +95,7 @@
             </div>
           </nz-result>
         </div> -->
+        <ng-container *ngIf="dataAvailableLogOuts; else noDataTemplate">
         <nz-row [nzGutter]="16">
           <nz-col [nzSpan]="12">
             <nz-statistic [nzValue]="(login_count | number)!" [nzTitle]="'Number of times you have logged in '"></nz-statistic>
@@ -84,7 +120,12 @@
           </tbody>
         </nz-table>
         <br>
-        <button nz-button nzType="primary">To Privacy Recommendations</button>
+        <!-- <button nz-button nzType="primary">To Privacy Recommendations</button> -->
+        </ng-container>
+        <ng-template #noDataTemplate>
+          <nz-result nzStatus="403" nzTitle="No data available">
+          </nz-result>
+        </ng-template>
       </nz-tab>
 
       <nz-tab nzTitle="Account Status Changes">
@@ -95,6 +136,7 @@
             </div>
           </nz-result>
         </div> -->
+        <ng-container *ngIf="dataAvailableStatusChange; else noDataTemplate">
         <nz-row [nzGutter]="16">
           <nz-col [nzSpan]="12">
             <nz-statistic [nzValue]="(account_deactivated | number)!" [nzTitle]="'Number of times you have deactivated your account in '"></nz-statistic>
@@ -142,7 +184,12 @@
           </tbody>
         </nz-table>
         <br>
-        <button nz-button nzType="primary">To Privacy Recommendations</button>
+        <!-- <button nz-button nzType="primary">To Privacy Recommendations</button> -->
+        </ng-container>
+        <ng-template #noDataTemplate>
+          <nz-result nzStatus="403" nzTitle="No data available">
+          </nz-result>
+        </ng-template>
       </nz-tab>
 
       <nz-tab nzTitle="Activity Locations">
@@ -154,6 +201,7 @@
             </div>
           </nz-result>
         </div> -->
+        <ng-container *ngIf="dataAvailableActivities; else noDataTemplate">
         <nz-row [nzGutter]="16">
           <nz-col [nzSpan]="12">
             <nz-statistic [nzValue]="(PasswordChange | number)!" [nzTitle]="'Password Changes '"></nz-statistic>
@@ -194,9 +242,13 @@
           </tbody>
         </nz-table>
         <br>
-        <button nz-button nzType="primary">To Privacy Recommendations</button>
+        <!-- <button nz-button nzType="primary">To Privacy Recommendations</button> -->
+        </ng-container>
+        <ng-template #noDataTemplate>
+          <nz-result nzStatus="403" nzTitle="No data available">
+          </nz-result>
+        </ng-template>
       </nz-tab>
-
     </nz-tabset>
 
 </div>

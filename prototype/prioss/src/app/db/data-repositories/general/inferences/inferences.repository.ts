@@ -19,7 +19,7 @@ export class InferencesRepository extends BulkAddCapableRepository {
     super(sql.bulkAddInferencesBaseSQL, sql.bulkAddInferencesValuesSQL, sql.bulkAddValueConnector, dbService);
   }
 
-  async startInferencesBulkAdd(inference: string, totalRowCount: number, targetBulkSize: number = 500) : Promise<void>{
+  async startInferencesBulkAdd(inference: string, totalRowCount: number, targetBulkSize = 500) : Promise<void>{
     return this.startBulkAdd([inference], totalRowCount, targetBulkSize);
   }
 
@@ -30,7 +30,7 @@ export class InferencesRepository extends BulkAddCapableRepository {
   async getAllInferences() : Promise<InferencesEntry[]> {
     return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
 
-      let result = await db.query(sql.selectAllInferences);
+      const result = await db.query(sql.selectAllInferences);
       return result.values as InferencesEntry[];
 
     });

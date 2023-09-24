@@ -24,8 +24,8 @@ export class InferredTopicsRepository extends BulkAddCapableRepository {
      * 
      * @param topic: array of inferred topics
      */
-    async addInferredTopics(topic: string,totalRowCount: number, targetBulkSize: number = 500) {
-        await this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
+    async addInferredTopics(topic: string,totalRowCount: number, targetBulkSize = 500) {
+        await this.dbService.executeQuery<any>(async () => {
             this.startBulkAdd([topic],totalRowCount,targetBulkSize);
             
           });
@@ -44,7 +44,7 @@ export class InferredTopicsRepository extends BulkAddCapableRepository {
     async getAllInferredTopics() : Promise<InferredTopicsModel[]> {
       return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
   
-        let result = await db.query(sql.selectAllInferredTopics);
+        const result = await db.query(sql.selectAllInferredTopics);
         return result.values as InferredTopicsModel[];
       });
     }

@@ -7,26 +7,26 @@
 * @author: Rishma (rishmamn@mail.upb.de)
 */
 
-export const insertIntoFaceSearchHistorySQL: string = `
+export const insertIntoFaceSearchHistorySQL = `
 insert into face_search_history
 (text,timestamp)
 values 
 (?, ?);
 `;
 
-export const bulkAddFaceSearchHistoryBaseSQL: string = `
+export const bulkAddFaceSearchHistoryBaseSQL = `
 insert into face_search_history
 (text,timestamp)
 `;
 
-export const bulkAddFaceSearchHistoryValuesSQL: string = `
+export const bulkAddFaceSearchHistoryValuesSQL = `
 select ?, ?
 `;
 
-export const bulkAddValueConnector: string = `
+export const bulkAddValueConnector = `
 union all
 `;
-export const selectAllSearchHistoryData: string = `
+export const selectAllSearchHistoryData = `
  select id,
         text,
         timestamp

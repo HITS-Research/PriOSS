@@ -1,24 +1,24 @@
-export const insertIntoSpotHistorySQL: string = `
+export const insertIntoSpotHistorySQL = `
   insert into spot_history
   (endTime, artistName, trackName, msPlayed)
   values
   (?, ?, ?, ?);
 `;
 
-export const bulkAddSpotHistoryBaseSQL: string = `
+export const bulkAddSpotHistoryBaseSQL = `
   insert into spot_history
   (endTime, artistName, trackName, msPlayed)
 `;
 
-export const bulkAddSpotHistoryValuesSQL: string = `
+export const bulkAddSpotHistoryValuesSQL = `
   select ?, ?, ?, ?
 `;
 
-export const bulkAddValueConnector: string = `
+export const bulkAddValueConnector = `
 union all
 `;
 
-export const insertTestHistory: string = `
+export const insertTestHistory = `
 insert into spot_history
 (endTime, artistName, trackName, msPlayed)
 values
@@ -30,7 +30,7 @@ values
 ('2021-11-19 13:07', 'CRO', 'DIAMONDS', 83085);
 `;
 
-export const selectAllSpotHistory: string = `
+export const selectAllSpotHistory = `
  select id,
         endTime,
         artistName,
@@ -39,7 +39,7 @@ export const selectAllSpotHistory: string = `
    from spot_history;
 `;
 
-export const spotMinListenedToArtistSQL: string = `
+export const spotMinListenedToArtistSQL = `
  select artistName, sum(msPlayed)/60000 as minPlayed
  from spot_history
  where (? <= strftime('%Y-%m-%d', endtime) and strftime('%Y-%m-%d', endtime) <= ?)
@@ -48,14 +48,14 @@ export const spotMinListenedToArtistSQL: string = `
  order by minPlayed desc;
 `;
 
-export const spotListeningHistoryOfArtistSQL: string = `
+export const spotListeningHistoryOfArtistSQL = `
  select endTime, trackName, msPlayed/1000 as secPlayed
  from spot_history
  where (? <= strftime('%Y-%m-%d', endtime) and strftime('%Y-%m-%d', endtime) <= ? and artistName = ? and secPlayed > 10)
  order by endTime asc;
 `;
 
-export const spotMinListenedToSongSQL: string = `
+export const spotMinListenedToSongSQL = `
  select artistName, trackName, sum(msPlayed)/60000 as minPlayed
  from spot_history
  where (? <= strftime('%Y-%m-%d', endtime) and strftime('%Y-%m-%d', endtime) <= ?)
@@ -64,14 +64,14 @@ export const spotMinListenedToSongSQL: string = `
  order by minPlayed desc;
 `;
 
-export const spotListeningHistoryOfSongSQL: string = `
+export const spotListeningHistoryOfSongSQL = `
  select endTime, msPlayed/1000 as secPlayed
  from spot_history
  where (? <= strftime('%Y-%m-%d', endtime) and strftime('%Y-%m-%d', endtime) <= ? and artistName = ? and trackName = ? and secPlayed > 10)
  order by endTime asc;
 `;
 
-export const spotHistoryByYearSQL: string = `
+export const spotHistoryByYearSQL = `
  with years as (select min(cast(strftime('%Y', endTime) as INTEGER)) year
                   from spot_history
                  union
@@ -88,7 +88,7 @@ export const spotHistoryByYearSQL: string = `
   order by year asc;
 `;
 
-export const spotHistoryByMonthSQL: string = `
+export const spotHistoryByMonthSQL = `
 with months as (select 1 month
                  union
                 select month+1
@@ -114,7 +114,7 @@ with months as (select 1 month
   order by year asc, month ASC;
 `;
 
-export const spotHistoryByDaySQL: string = `
+export const spotHistoryByDaySQL = `
 with days as (select 1 day
                union
               select day+1
@@ -153,7 +153,7 @@ years as (select min(cast(strftime('%Y', endTime) as INTEGER)) year
   order by year asc, month asc, day asc;
 `;
 
-export const spotHistoryByHourSQL: string = `
+export const spotHistoryByHourSQL = `
 with hours as (select 0 hour
                  from spot_history
                 union
@@ -171,7 +171,7 @@ with hours as (select 0 hour
   order by hour asc;
 `;
 
-export const spotHistoryForSingleHourSQL: string = `
+export const spotHistoryForSingleHourSQL = `
  select trackName,
         artistName,
         --strftime('%Y-%m-%d %H:%M:%f', endTime) endTime,
@@ -189,12 +189,12 @@ export const spotHistoryForSingleHourSQL: string = `
   order by startTimeMs asc;
 `;
 
-export const spotHistoryMostRecentDaySQL: string = `
+export const spotHistoryMostRecentDaySQL = `
 select max(strftime('%Y-%m-%d', endTime)) date
   from spot_history
 `;
 
-export const spotHistoryFirstDaySQL: string = `
+export const spotHistoryFirstDaySQL = `
 select min(strftime('%Y-%m-%d', endTime)) date
   from spot_history
 `;

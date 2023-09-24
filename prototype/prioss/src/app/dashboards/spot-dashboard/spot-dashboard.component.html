@@ -1,22 +1,29 @@
 <div class="dashboard-page dashboard-container">
   <h1 nz-typography>PriOSS - Spotify</h1>
+  <div id="introduction" class="dashboard-intro">
+    Welcome to the Spotify Dashboard where you can view your personal Spotify data.<br>
+    The cards below show different interactive visualizations and explanations about the data Spotify has collected about you.
+    If you are unsure what something means, hover over the (?)-Icons for explanations.<br>
+    You can click on each of the white cards that contains a visualization to explore the visualization in more detail and unlock it's interactivity, try it!
+  </div> 
 
   <ng-template #extraTemplate>
     <a>More</a>
   </ng-template>
 
   <details open id="visualization">
-    <summary class="collapsible-dashboard-section-title">Your Data</summary>
+    <summary class="collapsible-dashboard-section-title">Visualization</summary>
     <div nz-row [nzGutter]="[{ xs: 8, xl: 20}, {xs: 8, xl: 40}]">
+      
       <div id="step1" nz-col nzXs="24" nzXl="8">
-        <app-dash-card cardLink="/spot/general-data" titleText="User Data"
+        <app-dash-card [fillVerticalSpace]="false" cardLink="/spot/general-data" titleText="User Data"
           tooltipText="This card shows your general user data like your email, gender, postal address etc. Click to find out more.">
           <app-general-data [previewMode]="true"></app-general-data>
         </app-dash-card>
       </div>
 
       <div id="step3" nz-col nzXs="24" nzXl="16">
-        <app-dash-card cardLink="/spot/listening-time" titleText="Listening Time"
+        <app-dash-card [fillVerticalSpace]="false"  cardLink="/spot/listening-time" titleText="Listening Time"
           tooltipText="This card shows for how long you have listened to spotify at what times. You can customize the shown timeframe as you wish. Click to find out more.">
           <spot-listening-time [previewMode]="true"></spot-listening-time>
         </app-dash-card>
@@ -24,36 +31,22 @@
     </div>
 
     <div nz-row [nzGutter]="[{ xs: 8, xl: 20}, {xs: 8, xl: 40}]">
-      <div id="step2" nz-col nzXs="24" nzXl="8">
-        <app-dash-card cardLink="/spot/inference" titleText="Inferences"
-          tooltipText="This card shows the interests you have and groups you belong to according to Spotify. You can let Spotify delete them, if you think they are incorrect. Click to find out more.">
-          <spot-inferences [previewMode]="true"></spot-inferences>
-        </app-dash-card>
-      </div>
-      <!-- 
-    </div>
-    <h3 nz-typography>Songs and Artists</h3>
-    <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
-    -->
-
       <div id="step4" nz-col nzXs="24" nzXl="8">
-        <app-dash-card cardLink="/spot/top-artists" titleText="Top Artists"
+        <app-dash-card [fillVerticalSpace]="true"  cardLink="/spot/top-artists" titleText="Top Artists"
           tooltipText="This card shows your most played artists. You can customize the timeframe over which this is calculated. Click to find out more.">
           <spot-top-artists [previewMode]="true"></spot-top-artists>
         </app-dash-card>
       </div>
 
       <div nz-col nzXs="24" nzXl="8">
-        <app-dash-card cardLink="/spot/top-songs" titleText="Top Songs"
+        <app-dash-card [fillVerticalSpace]="true"  cardLink="/spot/top-songs" titleText="Top Songs"
           tooltipText="This card shows your most played songs. You can customize the timeframe over which this is calculated. Click to find out more.">
           <spot-top-songs [previewMode]="true"></spot-top-songs>
         </app-dash-card>
       </div>
-    </div>
-
-    <div nz-row [nzGutter]="[{ xs: 8, xl: 20}, {xs: 8, xl: 40}]">
+      
       <div nz-col nzXs="24" nzXl="8">
-        <app-dash-card cardLink="/spot/mood" titleText="Average Mood of Songs"
+        <app-dash-card [fillVerticalSpace]="true"  cardLink="/spot/mood" titleText="Average Mood of Songs"
           tooltipText="This card shows your mood. You can customize the timeframe over which this is calculated. Click to find out more.">
           <spot-mood [previewMode]="true">
           </spot-mood>
@@ -63,12 +56,24 @@
   </details>
 
   <br>
+  <details open id="rectification">
+    <summary class="collapsible-dashboard-section-title">Rectification</summary>
+    <div id="step-inferences" nz-col nzXs="24" nzXl="8">
+      <app-dash-card [fillVerticalSpace]="true"  cardLink="/spot/inference" titleText="Inferences"
+        tooltipText="This card shows the interests you have and groups you belong to according to Spotify. You can let Spotify delete them, if you think they are incorrect. Click to find out more.">
+        <spot-inferences [previewMode]="true"></spot-inferences>
+      </app-dash-card>
+    </div>
+  </details>
+  <br>
+
+
   <details open id="recommendation">
-    <summary class="collapsible-dashboard-section-title">Manage-Privacy</summary>
+    <summary class="collapsible-dashboard-section-title">Privacy Recommendations</summary>
     <div id="stepX">
       <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
         <div nz-col nzXs="24" nzXl="8">
-          <app-dash-card cardLink="" titleText="Privacy Settings Judge"
+          <app-dash-card [fillVerticalSpace]="true"  cardLink="" titleText="Privacy Settings Judge"
             tooltipText="In this card, you can check if your Spotify settings are setup to protect your privacy. Just answer the questions below to learn how you can improve your privacy through your Spotifyaccount's settings.">
             <app-settings-form [service]="'Spotify'"></app-settings-form>
           </app-dash-card>
@@ -81,58 +86,7 @@
   <app-gdpr></app-gdpr>
 
   <br>
-  <details open id="purpose">
-    <summary class="collapsible-dashboard-section-title">Purposes - Why does Spotify collect your data ?</summary>
-    <div id="step6">
-      <nz-card nzTitle="Exemplary Purposes" nzHoverable>
-        <p>
-          The following purposes should give an example of Spotify's reasoning in regards to why they collect your data.
-          To get a full list of their reasons you can check out Spotify's <a target="_blank"
-            href="https://www.spotify.com/us/legal/privacy-policy/">privacy policy</a><span nz-icon
-            nzType="link"></span>
-        </p>
-        <br>
-        <nz-table nzTemplateMode>
-          <thead>
-            <tr>
-              <th>Purpose</th>
-              <th>Data Collected</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>To provide the Spotify Service in accordance with the contract with the user (E.g. personalize your
-                account)</td>
-              <td>User Data, Street Address Data, Usage Data, Voice Data, Payment and Purchase Data.</td>
-            </tr>
-            <tr>
-              <td>To provide certain additional voluntary features of the Spotify Service (In this case explicit consent
-                will be requested from Spotify)</td>
-              <td>User Data, Usage Data, Survey and Research Data, Payment and Purchase Data</td>
-            </tr>
-            <tr>
-              <td>To diagnose, troubleshoot, and fix issues with the Spotify Service</td>
-              <td>User Data, Usage Data</td>
-            </tr>
-            <tr>
-              <td>For marketing, promotion and advertising purposes </td>
-              <td>User Data, Street Address Data, Usage Data, Voice Data, Payment and Purchase Data, Survey and Research
-                Data</td>
-            </tr>
-            <tr>
-              <td>To comply with requests from law enforcement, courts, or other competent authorities</td>
-              <td>User Data, Street Address Data, Usage Data, Voice Data, Payment and Purchase Data, Survey and Research
-                Data</td>
-            </tr>
-            <tr>
-              <td>To conduct business planning, reporting, and forecasting</td>
-              <td>User Data, Usage Data, Payment and Purchase Data</td>
-            </tr>
-          </tbody>
-        </nz-table>
-      </nz-card>
-    </div>
-  </details>
+  <app-purposes></app-purposes>
 
   <br>
   <!-- <div id="step7">

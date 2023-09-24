@@ -1,0 +1,16 @@
+<nz-modal [(nzVisible)]="isVisible" nzTitle="Rectify Inferences" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()" nzCentered>
+    <ng-container *nzModalContent>
+        <p>Please click on the 'Copy Inferences' button below to copy the list of your selected inferences to your clipboard.</p>
+        <p>Then click the 'Write Email' button below to open your email program with a new email addressed to Spotify for rectifying your inferences and paste your inferences 
+        by right-clicking after the email text in your mail program and clicking on "Paste" in the context menu that shows up.</p>
+        <button id="copy-btn" nz-button nzType="primary" class="icon-button" block="false" (click)="copyInferencesToClipboard()">
+            <span id="copy-icon" nz-icon nzType="copy" nzTheme="outline"></span>
+            <span id="copied-icon" nz-icon style="display:none"  nzType="check" nzTheme="outline"></span>
+            Copy Inferences
+        </button>
+        <button nz-button class="icon-button" block="false" (click)="writeEmail()">
+            <span nz-icon nzType="mail" nzTheme="outline"></span>
+            Write Email
+        </button>
+    </ng-container>
+</nz-modal>

@@ -3,7 +3,14 @@
 ## Startup Guidelines
 - It is recommended to use Visual studio code for development with angular. You can download it from here https://code.visualstudio.com/download.
 - Install nodejs before installing Angular. Download from https://nodejs.org/en/download/ and recommend version for node is 18.14.0
+  - After the installation you can verify that node is correctly installed by running `node --version` and `npm --version` in a terminal, for example from inside visual studio code.
+
 - To install angular please follow this link  https://code.visualstudio.com/docs/nodejs/angular-tutorial. Recommend version for angular is 15.1.0
+- After angular is installed, open a terminal (if you don't have one open already), navigate inside the `prioss/prototype/prioss` folder and run `npm install` to install all necessary packages for the project
+- After that, run `ng serve` to compile the project and start a development server for testing under localhost
+  - If you get an error, saying that you can't execute a script called ng.ps1, you have to edit your execution policies, like shown here: https://stackoverflow.com/questions/68178101/angular-ng-ps1-cannot-be-loaded-because-running-scripts-is-disabled-on-this-sy
+
+- When ng serve succeeds, it should print to the console under which URL you can reach your development server. By default this should be  http://localhost:4200/
 
 The Angular CLI is a command-line interface tool that is used to initialize, develop, scaffold, maintain, and even test and debug Angular applications.
 - ng new -  To create a new project in angular

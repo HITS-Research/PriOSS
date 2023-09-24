@@ -12,8 +12,8 @@ export function formatDisplayTime(ms: number) {
   const hours = Math.floor(daysms / (60 * 60 * 1000));
   const hoursms = ms % (60 * 60 * 1000);
   const minutes = Math.floor(hoursms / (60 * 1000));
-  const minutesms = ms % (60 * 1000);
-  const sec = Math.floor(minutesms / 1000);
+  //const minutesms = ms % (60 * 1000);
+  //const sec = Math.floor(minutesms / 1000);
 
   return days + "d " + String(hours).padStart(2, '0') + "h " + String(minutes).padStart(2, '0') + "m";
 /*
