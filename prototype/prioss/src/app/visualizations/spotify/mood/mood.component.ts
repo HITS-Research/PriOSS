@@ -3,6 +3,7 @@ import { environment } from '../../../../environments/environment.prod';
 import * as d3 from 'd3';
 import { SpotHistoryRepository } from 'src/app/db/data-repositories/spotify/spot-history/spot-history.repository';
 import { endOfMonth } from 'date-fns';
+import * as sampleData from './samplesongsformood.json';
 
 const CLIENT_ID = environment.CLIENT_ID;
 const CLIENT_SECRET = environment.CLIENT_SECRET;
@@ -27,6 +28,7 @@ let endDateInput: any = null;
   styleUrls: ['./mood.component.less']
 })
 export class MoodComponent {
+  offlineLoading: boolean = true; //load from jsonfile 
   @Input()
   previewMode = false;
   @Input()
@@ -49,7 +51,23 @@ export class MoodComponent {
     this.mood = mood;
   }
 
-  
+  /* 
+   * This function starts the drawing of the Radarchart. If offlineLoading is true the json file is loaded.
+   * If false the songIds for the given data download are requested.
+   * 
+   * @author: Sven (svenf@mail.uni-paderborn.de)
+  */
+  startRadarChart() {
+    if (this.offlineLoading) {
+      withdate = Object.values(JSON.parse(JSON.stringify(sampleData))).slice(0,500);
+      this.updateRadarChart();
+      this.firstRun = true;
+    } else {
+      this.getSongIds();
+    }
+  }
+
+
   /*
   * This is a helper function to redraw the diagramm without calling the Spotify API again.
   *
@@ -84,30 +102,30 @@ export class MoodComponent {
    * @author Sven
    */
   async getSongIds() {
-    this.isLoading = true;
-    this.firstRun = true;
-    const spotHistory = await this.spotHistoryRepo.getSpotHistory();
-    this.allSongsNumber = spotHistory.length;
-    const trackIds: string[] = [];
-    const names: string[] = [];
-    const limit = 100;
+      this.isLoading = true;
+      this.firstRun = true;
+      const spotHistory = await this.spotHistoryRepo.getSpotHistory();
+      this.allSongsNumber = spotHistory.length;
+      const trackIds: string[] = [];
+      const names: string[] = [];
+      const limit = 500;
 
-    for (const entry of spotHistory) {
+      for (const entry of spotHistory) {
 
-      if (this.queriedSongs >= limit) {
-        break;
+        if (this.queriedSongs >= limit) {
+          break;
+        }
+        names.push(entry.trackName);
+        const trackId = await this.getTrackId(entry.trackName);
+        trackIds.push(trackId);
+        this.queriedSongs++;
       }
-      names.push(entry.trackName);
-      const trackId = await this.getTrackId(entry.trackName);
-      trackIds.push(trackId);
-      this.queriedSongs++;
-    }
-    const audiofeatures: any = await this.getAudioFeaturesInBulk(trackIds);
-    const flattend = makeOneArray(audiofeatures);
-    withdate = addListeningDateToAudiofeatures(flattend, names, spotHistory);
-    this.isLoading = false;
-    this.updateRadarChart();
-    //makeRadarChart(flattend);
+      const audiofeatures: any = await this.getAudioFeaturesInBulk(trackIds);
+      const flattend = makeOneArray(audiofeatures);
+      withdate = addListeningDateToAudiofeatures(flattend, names, spotHistory);
+      this.isLoading = false;
+      this.updateRadarChart();
+    
   }
 
   /**
@@ -118,15 +136,13 @@ export class MoodComponent {
   */
   updateRadarChart() {
     const timed: any = [];
-    console.log(withdate);
     withdate.forEach((d: any) => {
       const timestamp = new Date(d.time);
       const start = new Date(startDateInput).toUTCString();
       const end = new Date(endDateInput).toUTCString();
       if (start >= timestamp.toUTCString() && timestamp.toUTCString() <= end) timed.push(d);
     });
-    console.log(timed);
-    makeRadarChart(timed,this);
+    makeRadarChart(timed, this);
   }
 
 
