@@ -373,6 +373,13 @@ CREATE TABLE IF NOT EXISTS face_events (
     end_timestamp TEXT
 );
 
+CREATE TABLE IF NOT EXISTS spot_search_history (
+    id INTEGER PRIMARY KEY,
+    platform TEXT,
+    searchTime TEXT,
+    searchQuery TEXT
+);
+
 `;
 //PRAGMA user_version = 1;
 
@@ -431,4 +438,5 @@ DROP TABLE IF EXISTS face_groups;
 DROP TABLE IF EXISTS face_events;
 DROP TABLE IF EXISTS face_messages;
 DROP TABLE IF EXISTS face_group_messages;
+DROP TABLE IF EXISTS spot_search_history;
 `;
