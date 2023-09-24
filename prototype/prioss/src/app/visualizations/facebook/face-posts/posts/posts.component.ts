@@ -3,6 +3,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import * as d3 from 'd3';
 import { FacebookPostsRepository } from 'src/app/db/data-repositories/facebook/fb-posts/face-posts.repo';
 import { PostsModel } from 'src/app/models/Facebook/posts';
+import { scrollToTop } from 'src/app/utilities/generalUtilities.functions';
 
 @Component({
   selector: 'app-posts',
@@ -29,6 +30,7 @@ export class PostsComponent implements OnInit{
   ) {}
 
   ngOnInit() {
+    scrollToTop();
     this.facePostsRepo.getAllPosts().then(posts => {
         this.posts = posts;
         this.createYearData();
