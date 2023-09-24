@@ -48,7 +48,7 @@ import { InstaYourTopicComponent } from './visualizations/instagram/insta-your-t
 import { DataDownloadInstructionsComponent } from './service-selection/data-download-instructions/data-download-instructions.component';
 import { InstaActivityStatusHiddenComponent } from './rectification/instagram/insta-activity-status-hidden/insta-activity-status-hidden.component';
 import { InstaDisableCookiesComponent } from './rectification/instagram/insta-disable-cookies/insta-disable-cookies.component';
-
+import { FacePurposesComponent } from './visualizations/facebook/face-purposes/face-purposes.component';
 import { InstaPurposesComponent } from './visualizations/instagram/insta-purposes/insta-purposes.component';
 
 const routes: Routes = [
@@ -105,7 +105,8 @@ const routes: Routes = [
   { path: 'face/messages-info' , component: MessagesComponent},
   { path: 'insta/activity-hidden' , component: InstaActivityStatusHiddenComponent},
   { path: 'insta/disable-cookies' , component: InstaDisableCookiesComponent},
-  { path: 'face/general-data', component: GeneralDataComponent }
+  { path: 'face/general-data', component: GeneralDataComponent },
+  { path: 'face/purposes', component: FacePurposesComponent}
 ];
 
 @NgModule({
