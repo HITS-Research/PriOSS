@@ -1038,7 +1038,7 @@ export class ServiceSelectionComponent implements AfterViewInit {
 
         await this.spotSearchHistoryRepo.startSearchHistoryBulkAdd(
           jsonData[0].platform,
-          jsonData[0].searchtime,
+          jsonData[0].searchTime,
           jsonData[0].searchQuery,
           //jsonData[0].searchinteractionURIs,
           jsonData.length
@@ -1047,7 +1047,7 @@ export class ServiceSelectionComponent implements AfterViewInit {
         for (let i = 1; i < jsonData.length; i++) {
           await this.spotSearchHistoryRepo.addBulkSearchHistoryEntry(
             jsonData[i].platform,
-            jsonData[i].searchtime,
+            jsonData[i].searchTime,
             jsonData[i].searchQuery,
           );
         }

@@ -22,6 +22,12 @@ export class SearchHistoryComponent extends SequenceComponentInit implements Aft
   listOfsearchHistory: SpotSearchHistory[] = [];
   latestSearchQuery: string = ""
 
+  visible = false;
+  checked = false;
+  indeterminate = false;
+  setOfCheckedId = new Set<number>();
+  searchValue = '';
+
   @Input()
   previewMode = false;
 
@@ -53,7 +59,57 @@ export class SearchHistoryComponent extends SequenceComponentInit implements Aft
     await this.spotSearchHistoryRepo.getUserSearches().then((searchHistory) => {
       this.searchHistory = searchHistory;
       this.listOfsearchHistory = [...this.searchHistory];
-      this.latestSearchQuery = searchHistory[searchHistory.length-1].searchQuery;
+      this.latestSearchQuery = searchHistory[0].searchQuery;
     });
   }
+
+  /**
+  * Function to convert a UTC date string into a Human readable format
+  * 
+  * @author: Max (maxy@mail.upb.de)
+  */
+  formatUtcDateToHumanReadable(utcDateString: string): string {
+    const date = new Date(utcDateString);
+  
+    // Options for formatting the date to a human-readable format
+    const options: Intl.DateTimeFormatOptions = {
+      year: 'numeric',
+      month: 'short',
+      day: '2-digit',
+      hour: 'numeric',
+      minute: 'numeric',
+      second: '2-digit',
+    };
+  
+    return date.toLocaleDateString('en-US', options);
+  }
+
+  /**
+   * Searches the given list for the current searchValue.
+   * 
+   * @param searchList the list that should be searched.
+   * 
+   * @author: Max (maxy@mail.upb.de)
+   */
+    search(searchList: string): void {
+      this.visible = false;
+
+      this.listOfsearchHistory = this.searchHistory.filter((item: SpotSearchHistory) => item.searchQuery.toLowerCase().indexOf(this.searchValue.toLowerCase()) !== -1);
+
+      }
+
+  /**
+   * Resets the given searchvalue.
+   * 
+   * @param searchList the list that should be resetted.
+   * 
+   * @author: Max (maxy@mail.upb.de)
+   */
+  reset(searchList: string): void {
+    this.searchValue = '';
+    this.search(searchList);
+  }
+
 }
+
+
