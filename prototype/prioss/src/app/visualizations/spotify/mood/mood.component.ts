@@ -9,7 +9,7 @@ const CLIENT_ID = environment.CLIENT_ID;
 const CLIENT_SECRET = environment.CLIENT_SECRET;
 let token: string;
 let withdate: any;
-const spotifyGreen = "#1DB954"
+const spotifyGreen = "#1DB954";
 let startDateInput: any = null;
 let endDateInput: any = null;
 
@@ -66,7 +66,6 @@ export class MoodComponent {
       this.getSongIds();
     }
   }
-
 
   /*
   * This is a helper function to redraw the diagramm without calling the Spotify API again.
@@ -142,6 +141,7 @@ export class MoodComponent {
       const end = new Date(endDateInput).toUTCString();
       if (start >= timestamp.toUTCString() && timestamp.toUTCString() <= end) timed.push(d);
     });
+    console.log(timed);
     makeRadarChart(timed, this);
   }
 
