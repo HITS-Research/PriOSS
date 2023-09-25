@@ -1,0 +1,68 @@
+<div [ngClass]="{'component-page': !previewMode}">
+    <!--in previewmode only a small table with personal information is shown-->
+    
+    <div *ngIf="previewMode">
+      <div *ngIf="searchHistory !== undefined">
+        <nz-row [nzGutter]="16">
+          <nz-col [nzSpan]="12">
+            <nz-statistic [nzValue]="(searchHistory.length)!" [nzTitle]="'Number of Search Queries'"></nz-statistic>
+          </nz-col>
+        </nz-row>
+        <nz-row [nzGutter]="16">
+          <nz-col [nzSpan]="12">
+            <nz-statistic [nzValue]="(latestSearchQuery)!" [nzTitle]="'Latest Search Query'"></nz-statistic>
+          </nz-col>
+        </nz-row>
+      </div>
+    </div>
+    
+    <div *ngIf="!previewMode">
+      <app-title-bar titleText="Search History" tooltipText="This table shows the search History the service has collected about you.">
+      </app-title-bar>
+      <!-- If user search data present -->
+      <div *ngIf="searchHistory?.length">
+        <br>
+          <nz-table #rowSelectionTable [nzData]="listOfsearchHistory" [nzPageSize]="50000"
+            [nzScroll]="{ y: 'calc(100vh - 369px)' }" [nzShowPagination]="false">
+              <thead>
+                  <tr>
+                      <th nzCustomFilter>
+                        <span nz-tooltip
+                        nzTooltipTitle="This column list the exact search query that was entered">
+                          Search Query
+                        </span>
+                          <nz-filter-trigger [(nzVisible)]="visible" [nzActive]="searchHistory.length > 0" [nzDropdownMenu]="menu">
+                            <span nz-icon nzType="search"></span>
+                          </nz-filter-trigger>
+                      </th>
+                      <th><span nz-tooltip
+                        nzTooltipTitle="This column list the date at which the search query was entered">
+                          Date </span>
+                      </th>
+                      
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr *ngFor="let data of rowSelectionTable.data">
+                      <td>{{  data.searchQuery }}</td>
+                      <td>{{ formatUtcDateToHumanReadable(data.searchTime.slice(0, -5)) }}</td>
+                  </tr>
+              </tbody>
+          </nz-table>
+          <nz-dropdown-menu #menu="nzDropdownMenu">
+              <div class="ant-table-filter-dropdown">
+                <div class="search-box">
+                  <input type="text" nz-input placeholder="Search name" [(ngModel)]="searchValue" />
+                  <button nz-button nzSize="small" nzType="primary" (click)="search('user')" class="search-button">Search</button>
+                  <button nz-button nzSize="small" (click)="reset('user')">Reset</button>
+                </div>
+              </div>
+          </nz-dropdown-menu>
+      </div>
+      <!-- If no user search data present -->
+      <div *ngIf="searchHistory?.length === 0">
+          <nz-empty nzNotFoundImage="simple"></nz-empty>
+      </div>
+    </div>
+
+</div>

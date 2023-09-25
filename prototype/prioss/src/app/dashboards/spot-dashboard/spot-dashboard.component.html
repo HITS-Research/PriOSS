@@ -53,6 +53,17 @@
         </app-dash-card>
       </div>
     </div>
+
+    
+    <div nz-row [nzGutter]="[{ xs: 8, xl: 20}, {xs: 8, xl: 40}]">
+      <div nz-col nzXs="24" nzXl="8">
+        <app-dash-card [fillVerticalSpace]="true"  cardLink="/spot/search-history" titleText="Search History"
+          tooltipText="This card shows information about your Spotify search history. You can discover a full list of your search history upon clicking the card.">
+          <app-search-history [previewMode]="true"></app-search-history>
+        </app-dash-card>
+      </div>
+    </div>
+
   </details>
 
   <br>

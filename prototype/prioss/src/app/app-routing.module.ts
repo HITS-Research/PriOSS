@@ -50,6 +50,7 @@ import { InstaActivityStatusHiddenComponent } from './rectification/instagram/in
 import { InstaDisableCookiesComponent } from './rectification/instagram/insta-disable-cookies/insta-disable-cookies.component';
 import { FacePurposesComponent } from './visualizations/facebook/face-purposes/face-purposes.component';
 import { InstaPurposesComponent } from './visualizations/instagram/insta-purposes/insta-purposes.component';
+import { SearchHistoryComponent } from './visualizations/spotify/search-history/search-history.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -106,6 +107,7 @@ const routes: Routes = [
   { path: 'insta/activity-hidden' , component: InstaActivityStatusHiddenComponent},
   { path: 'insta/disable-cookies' , component: InstaDisableCookiesComponent},
   { path: 'face/general-data', component: GeneralDataComponent },
+  { path: 'spot/search-history', component: SearchHistoryComponent },
   { path: 'face/purposes', component: FacePurposesComponent}
 ];
 

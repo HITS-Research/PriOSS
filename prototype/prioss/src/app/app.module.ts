@@ -135,8 +135,9 @@ import { DataDownloadInstructionsComponent } from './service-selection/data-down
 import { InferencesMailComponent } from './visualizations/spotify/inferences/inferences-mail/inferences-mail.component';
 import { NzResultModule } from 'ng-zorro-antd/result';
 import { InstaActivityStatusHiddenComponent } from './rectification/instagram/insta-activity-status-hidden/insta-activity-status-hidden.component';
-
+import { SearchHistoryComponent } from './visualizations/spotify/search-history/search-history.component';
 import { InstaDisableCookiesComponent } from './rectification/instagram/insta-disable-cookies/insta-disable-cookies.component';
+import { SpotSearchHistoryRepository } from './db/data-repositories/spotify/spot-search-history/spot-search-history.repository';
 import { FacePurposesComponent } from './visualizations/facebook/face-purposes/face-purposes.component';
 import { InstaPurposesComponent } from './visualizations/instagram/insta-purposes/insta-purposes.component';
 
@@ -205,6 +206,7 @@ registerLocaleData(de);
     InstaActivityStatusHiddenComponent,
     InstaDisableCookiesComponent,
     InstaPurposesComponent,
+    SearchHistoryComponent,
     FacePurposesComponent
 ,
   ],
@@ -288,6 +290,7 @@ registerLocaleData(de);
     FaceBookGroupMessagesInfoRepository,
     FacebookGroupsRepository,
     FacebookEventsRepository,
+    SpotSearchHistoryRepository,
     { provide: NZ_I18N, useValue: de_DE },
   ],
   bootstrap: [AppComponent],

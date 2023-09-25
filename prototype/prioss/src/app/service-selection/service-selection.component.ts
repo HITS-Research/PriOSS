@@ -62,6 +62,7 @@ import { FaceBookGroupMessagesInfoRepository } from '../db/data-repositories/fac
 import { FacebookAddressBookRepository } from '../db/data-repositories/facebook/fb-other-personal-info/face-address-book.repo';
 import { FacebookSearchHistoryRepository } from '../db/data-repositories/facebook/fb-other-personal-info/face-search-history.repo';
 import { InstaTopicsRepository } from '../db/data-repositories/instagram/insta-your-topics/insta-topics.repository';
+import { SpotSearchHistoryRepository } from '../db/data-repositories/spotify/spot-search-history/spot-search-history.repository';
 import {
   InstaChatData,
   InstaChatPartnerData,
@@ -124,6 +125,7 @@ export class ServiceSelectionComponent implements AfterViewInit {
     private router: Router,
     //private notifyService: NotificationService,
     private spotHistoryRepo: SpotHistoryRepository,
+    private spotSearchHistoryRepo: SpotSearchHistoryRepository,
     private inferencesRepo: InferencesRepository,
     private UserdataRepo: UserdataRepository,
     private instaPersonalRepo: InstaPersonalRepository,
@@ -1034,6 +1036,25 @@ export class ServiceSelectionComponent implements AfterViewInit {
             jsonData[i].artistName,
             jsonData[i].trackName,
             jsonData[i].msPlayed
+          );
+        }
+      }
+      else if(filename.startsWith('SearchQueries')) {
+        const jsonData = JSON.parse(content);
+
+        await this.spotSearchHistoryRepo.startSearchHistoryBulkAdd(
+          jsonData[0].platform,
+          jsonData[0].searchTime,
+          jsonData[0].searchQuery,
+          //jsonData[0].searchinteractionURIs,
+          jsonData.length
+        );
+
+        for (let i = 1; i < jsonData.length; i++) {
+          await this.spotSearchHistoryRepo.addBulkSearchHistoryEntry(
+            jsonData[i].platform,
+            jsonData[i].searchTime,
+            jsonData[i].searchQuery,
           );
         }
       }

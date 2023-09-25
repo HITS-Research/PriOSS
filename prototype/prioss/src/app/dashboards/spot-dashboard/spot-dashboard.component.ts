@@ -7,6 +7,7 @@ import { ListeningTimeComponent } from 'src/app/visualizations/spotify/listening
 import { BaseDashboard } from '../base-dashboard.abstract';
 import { TopArtistsComponent } from 'src/app/visualizations/spotify/top-artists/top-artists.component';
 import { TopSongsComponent } from 'src/app/visualizations/spotify/top-songs/top-songs.component';
+import { SearchHistoryComponent } from 'src/app/visualizations/spotify/search-history/search-history.component';
 
 /**
   * This component is the root component for spotify's dashboard page.
@@ -55,6 +56,7 @@ export class SpotDashboardComponent extends BaseDashboard implements AfterViewIn
   @ViewChild(ListeningTimeComponent) spotListeningTime : ListeningTimeComponent;
   @ViewChild(TopArtistsComponent) spotTopArtists : TopArtistsComponent;
   @ViewChild(TopSongsComponent) spotTopSongs : TopSongsComponent;
+  @ViewChild(SearchHistoryComponent) spotSearchHistory : SearchHistoryComponent;
 
   constructor( private router: Router, private introService: IntrojsService) {
     super();
@@ -83,6 +85,7 @@ export class SpotDashboardComponent extends BaseDashboard implements AfterViewIn
     this.componentInitializationList.push(this.spotListeningTime);
     this.componentInitializationList.push(this.spotTopArtists);
     this.componentInitializationList.push(this.spotTopSongs);
+    this.componentInitializationList.push(this.spotSearchHistory);
     //Start Component Initialization run
     this.startSequentialInitialization();
   }
