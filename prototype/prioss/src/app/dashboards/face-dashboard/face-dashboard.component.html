@@ -24,7 +24,7 @@
 <br>
 
 <details open>
-  <summary id="visualization" class="collapsible-dashboard-section-title">Visualizations</summary>
+  <summary id="visualization" class="collapsible-dashboard-section-title">Visualization</summary>
     <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
       <div  nz-col nzXs="24" nzXl="8">
         <app-dash-card cardLink="/face/general-data" titleText="User Data"
@@ -178,8 +178,10 @@
 <br>
 <br>
 
-<details open>
-  <summary class="collapsible-dashboard-section-title" id="purpose">Purpose for Data Collection</summary>
+<p nz-topography> <app-face-purposes></app-face-purposes> </p>
+<br>
+<!-- <details open>
+  <summary class="collapsible-dashboard-section-title" id="purpose">Why does Facebook collect your data?</summary>
   <div class="dashboard-intro">
     <p nz-typography>
       The following purposes should give an example of Facebook's purpose to collect personal data. To Get a full list of their reasons you can check out Facebook's <span nz-icon nzType="link"><a target="_blank" href="https://www.facebook.com/privacy/policy">privacy policy</a></span>
@@ -217,7 +219,7 @@
     </nz-table>
   </div>
 </details>
-<br>
+<br> -->
 <br>
 
   <!-- <div id="faq"></div> -->

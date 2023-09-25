@@ -782,15 +782,21 @@ export class ServiceSelectionComponent implements AfterViewInit {
         const groups_joined = jsonData.groups_joined_v2;
 
         await this.faceGroupsRepo.startAdActivityBulkAdd(
-          groups_joined[0].data[0].name,
-          groups_joined[0].timestamp,
+          groups_joined[0].data[0].name, 
+          groups_joined[0].timestamp, 
           groups_joined.length
         );
-        for (let i = 1; i < groups_joined.length; i++) {
-          await this.faceGroupsRepo.addAdActivityBulkEntry(
-            groups_joined[i].data[0].name,
-            groups_joined[i].timestamp
-          );
+
+        for(let i = 1; i < groups_joined.length; i++) {
+          const groupName = groups_joined[i]?.data?.[0]?.name || '';
+
+          if (groupName) {
+            await this.faceGroupsRepo.addAdActivityBulkEntry(
+              groupName, 
+              groups_joined[i]?.timestamp);
+          } else {
+            console.log("groupName is either null or empty. Handling it with an empty string.");
+          }
         }
       } else if (filename === 'account_status_changes.json') {
         const jsonData = JSON.parse(content);

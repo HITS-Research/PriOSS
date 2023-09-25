@@ -137,7 +137,7 @@ import { NzResultModule } from 'ng-zorro-antd/result';
 import { InstaActivityStatusHiddenComponent } from './rectification/instagram/insta-activity-status-hidden/insta-activity-status-hidden.component';
 
 import { InstaDisableCookiesComponent } from './rectification/instagram/insta-disable-cookies/insta-disable-cookies.component';
-
+import { FacePurposesComponent } from './visualizations/facebook/face-purposes/face-purposes.component';
 import { InstaPurposesComponent } from './visualizations/instagram/insta-purposes/insta-purposes.component';
 
 registerLocaleData(de);
@@ -204,7 +204,8 @@ registerLocaleData(de);
     InferencesMailComponent,
     InstaActivityStatusHiddenComponent,
     InstaDisableCookiesComponent,
-    InstaPurposesComponent
+    InstaPurposesComponent,
+    FacePurposesComponent
 ,
   ],
   imports: [
