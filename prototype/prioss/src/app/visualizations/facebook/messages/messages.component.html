@@ -73,7 +73,7 @@
         </nz-row>
         <br>
         <div class="search-bar">
-          <input type="text" [(ngModel)]="searchText" placeholder="Search..." (input)="filterMessagesItems(searchText)">
+          <input type="text" [(ngModel)]="searchText" placeholder="Search..." (input)="filterMessagesItems()">
           <button class="clear-button" (click)="clearFilterMessages()">Clear</button>
         </div>
         <nz-table [nzData]="filteredMessages" #basicTable>
@@ -121,7 +121,7 @@
           <h2>Group Interaction List</h2>
           <div class="search-bar">
             <input type="text" [(ngModel)]="searchText" placeholder="Search..."
-              (input)="filterGroupMessagesItems(searchText)">
+              (input)="filterGroupMessagesItems()">
             <button class="clear-button" (click)="clearFilterGroupMessages()">Clear</button>
           </div>
           <ul>
