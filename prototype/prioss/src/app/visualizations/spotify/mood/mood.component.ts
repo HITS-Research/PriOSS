@@ -9,7 +9,7 @@ const CLIENT_ID = environment.CLIENT_ID;
 const CLIENT_SECRET = environment.CLIENT_SECRET;
 let token: string;
 let withdate: any;
-const spotifyGreen: string = "#1DB954"
+const spotifyGreen = "#1DB954"
 let startDateInput: any = null;
 let endDateInput: any = null;
 
@@ -28,7 +28,7 @@ let endDateInput: any = null;
   styleUrls: ['./mood.component.less']
 })
 export class MoodComponent {
-  offlineLoading: boolean = true; //load from jsonfile 
+  offlineLoading = true; //load from jsonfile 
   @Input()
   previewMode = false;
   @Input()
@@ -36,8 +36,8 @@ export class MoodComponent {
   @Input()
   selectedRange = [new Date('2021-11-01'), new Date('2021-11-30')]; // Set specific default dates
   @Input()
-  mood: string = '';
-  isLoading: boolean = false;
+  mood = '';
+  isLoading = false;
   files: any[] = [];
   queriedSongs = 0;
   allSongsNumber = 0;
@@ -59,7 +59,7 @@ export class MoodComponent {
   */
   startRadarChart() {
     if (this.offlineLoading) {
-      withdate = Object.values(JSON.parse(JSON.stringify(sampleData))).slice(0,500);
+      withdate = Object.values(JSON.parse(JSON.stringify(sampleData))).slice(0, 500);
       this.updateRadarChart();
       this.firstRun = true;
     } else {
@@ -102,30 +102,30 @@ export class MoodComponent {
    * @author Sven
    */
   async getSongIds() {
-      this.isLoading = true;
-      this.firstRun = true;
-      const spotHistory = await this.spotHistoryRepo.getSpotHistory();
-      this.allSongsNumber = spotHistory.length;
-      const trackIds: string[] = [];
-      const names: string[] = [];
-      const limit = 500;
+    this.isLoading = true;
+    this.firstRun = true;
+    const spotHistory = await this.spotHistoryRepo.getSpotHistory();
+    this.allSongsNumber = spotHistory.length;
+    const trackIds: string[] = [];
+    const names: string[] = [];
+    const limit = 500;
 
-      for (const entry of spotHistory) {
+    for (const entry of spotHistory) {
 
-        if (this.queriedSongs >= limit) {
-          break;
-        }
-        names.push(entry.trackName);
-        const trackId = await this.getTrackId(entry.trackName);
-        trackIds.push(trackId);
-        this.queriedSongs++;
+      if (this.queriedSongs >= limit) {
+        break;
       }
-      const audiofeatures: any = await this.getAudioFeaturesInBulk(trackIds);
-      const flattend = makeOneArray(audiofeatures);
-      withdate = addListeningDateToAudiofeatures(flattend, names, spotHistory);
-      this.isLoading = false;
-      this.updateRadarChart();
-    
+      names.push(entry.trackName);
+      const trackId = await this.getTrackId(entry.trackName);
+      trackIds.push(trackId);
+      this.queriedSongs++;
+    }
+    const audiofeatures: any = await this.getAudioFeaturesInBulk(trackIds);
+    const flattend = makeOneArray(audiofeatures);
+    withdate = addListeningDateToAudiofeatures(flattend, names, spotHistory);
+    this.isLoading = false;
+    this.updateRadarChart();
+
   }
 
   /**
