@@ -53,7 +53,7 @@ export class MessagesComponent implements OnInit {
       this.dataAvailableIn = this.messagesData.length !== 0;
       // Calculate total friends messages
       this.totalPeopleMessages = this.messagesData.length;
-      this.filterMessagesItems(this.searchText);
+      this.filterMessagesItems();
 
 
     });
@@ -65,7 +65,7 @@ export class MessagesComponent implements OnInit {
       // Calculate total group messages
       this.totalGroupMessages = this.groupMessagesData.length;
       this.groupTotalPages = Math.ceil(this.groupMessagesData.length / this.pageSize);
-      this.filterGroupMessagesItems(this.searchText);
+      this.filterGroupMessagesItems();
 
     });
   }
@@ -76,7 +76,7 @@ export class MessagesComponent implements OnInit {
  * @author: Ugur (ugurye@mail.uni-paderborn.de)
  */
 
-  filterGroupMessagesItems(searchText: string): void {
+  filterGroupMessagesItems(): void {
 
     const freshData = this.groupMessagesData.slice();
     this.filteredGroupMessages = freshData.filter(item =>
@@ -91,7 +91,7 @@ export class MessagesComponent implements OnInit {
  * @author: Ugur (ugurye@mail.uni-paderborn.de)
  */
 
-  filterMessagesItems(searchText: string): void {
+  filterMessagesItems(): void {
     const freshData = this.messagesData.slice();
     this.filteredMessages = freshData.filter(item =>
       item.name.toLowerCase().includes(this.searchText.toLowerCase()));
@@ -129,7 +129,7 @@ export class MessagesComponent implements OnInit {
 
   clearFilterMessages() {
     this.searchText = '';
-    this.filterMessagesItems('');
+    this.filterMessagesItems();
 
   }
 
@@ -140,7 +140,7 @@ export class MessagesComponent implements OnInit {
 
   clearFilterGroupMessages() {
     this.searchText = '';
-    this.filterGroupMessagesItems('');
+    this.filterGroupMessagesItems();
 
   }
 

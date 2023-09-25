@@ -3,7 +3,6 @@ import { ViewportScroller } from '@angular/common';
 import { faCircleRight } from '@fortawesome/free-regular-svg-icons';
 import { faArrowRotateRight } from '@fortawesome/free-solid-svg-icons';
 import { Router } from '@angular/router';
-import { NotificationService } from '../utilities/notification/notification.component';
 import { AppType } from '../utilities/enum/app-type';
 
 import { SpotHistoryRepository } from '../db/data-repositories/spotify/spot-history/spot-history.repository';

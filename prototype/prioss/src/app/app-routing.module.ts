@@ -96,6 +96,7 @@ const routes: Routes = [
   { path: 'insta/searches', component: InstaSearchesComponent},
   { path: 'insta/shopping', component: InstaShoppingComponent},
   { path: 'insta/your-topic', component: InstaYourTopicComponent},
+  { path: 'insta/purposes', component: InstaPurposesComponent},
   { path: 'face/other-personal-info' ,component:OtherPersonalInfoComponent},
   { path: 'face/groups-and-events-data' , component: GroupsAndEventsDataComponent},
   { path: 'face/your-topics', component: YourTopicsComponent},

@@ -87,11 +87,9 @@ export class SearchHistoryComponent extends SequenceComponentInit implements Aft
   /**
    * Searches the given list for the current searchValue.
    * 
-   * @param searchList the list that should be searched.
-   * 
    * @author: Max (maxy@mail.upb.de)
    */
-    search(searchList: string): void {
+    search(): void {
       this.visible = false;
 
       this.listOfsearchHistory = this.searchHistory.filter((item: SpotSearchHistory) => item.searchQuery.toLowerCase().indexOf(this.searchValue.toLowerCase()) !== -1);
@@ -101,13 +99,11 @@ export class SearchHistoryComponent extends SequenceComponentInit implements Aft
   /**
    * Resets the given searchvalue.
    * 
-   * @param searchList the list that should be resetted.
-   * 
    * @author: Max (maxy@mail.upb.de)
    */
-  reset(searchList: string): void {
+  reset(): void {
     this.searchValue = '';
-    this.search(searchList);
+    this.search();
   }
 
 }
