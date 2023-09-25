@@ -9,7 +9,7 @@ interface SQLiteDBConnectionCallback<T> { (myArguments: SQLiteDBConnection): T }
 @Injectable()
 export class DBService {
 
-  dbVersion: number = 1;
+  dbVersion = 1;
 
   constructor(private sqlite: SQLiteService) {
   }
@@ -24,7 +24,8 @@ export class DBService {
    * 
    * @author: https://github.com/jepiqueau, Simon (scg@mail.upb.de)
    */
-  async executeQuery<T>(callback: SQLiteDBConnectionCallback<T>, databaseName: string = environment.databaseName, debug_info: string = ''): Promise<T> {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  async executeQuery<T>(callback: SQLiteDBConnectionCallback<T>, databaseName: string = environment.databaseName, debug_info = ''): Promise<T> {
 
     await customElements.whenDefined('jeep-sqlite');
     const jeepSqliteEl = document.querySelector('jeep-sqlite');
@@ -33,7 +34,7 @@ export class DBService {
     }
 
     try {
-      let isConnection = await this.sqlite.isConnection(databaseName);
+      const isConnection = await this.sqlite.isConnection(databaseName);
       //console.log('executing query, isConnection: ' + isConnection.result);
 
       if(isConnection.result) {
@@ -67,7 +68,7 @@ export class DBService {
         console.log('>>> RETRY: DB open: ' + dbOpen.result);
       }
    
-      let cb = await callback(db);
+      const cb = await callback(db);
 
       //console.log('closing Connection');
       await this.sqlite.closeConnection(databaseName);
@@ -88,9 +89,10 @@ export class DBService {
     console.log("> Start Rebuilding Database");
 
     //wait for db service to initialize
-    let result: any = await this.sqlite.echo('Hello World');
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const result: any = await this.sqlite.echo('Hello World');
 
-    let db: SQLiteDBConnection = await this.sqlite.createConnection(
+    const db: SQLiteDBConnection = await this.sqlite.createConnection(
       environment.databaseName,
       false,
       'no-encryption',

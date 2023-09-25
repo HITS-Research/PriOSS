@@ -28,7 +28,7 @@ export class FacebookSearchHistoryRepository extends BulkAddCapableRepository {
      * 
      * @author: Rishma (rishmamn@mail.upb.de)
      */
-       async startSearchHistoryBulkAdd(text: string, timestamp: number, totalRowCount: number, targetBulkSize: number = 500) {
+       async startSearchHistoryBulkAdd(text: string, timestamp: number, totalRowCount: number, targetBulkSize = 500) {
         this.startBulkAdd([text, timestamp], totalRowCount, targetBulkSize);
     }
 
@@ -53,7 +53,7 @@ export class FacebookSearchHistoryRepository extends BulkAddCapableRepository {
        async getAllFaceSearchHistory() : Promise<[SearchHistoryModel]> {
         return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
     
-          let result = await db.query(sql.selectAllSearchHistoryData);
+          const result = await db.query(sql.selectAllSearchHistoryData);
           return result.values as SearchHistoryModel[];
         });
       }

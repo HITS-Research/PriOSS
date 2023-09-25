@@ -1,14 +1,13 @@
-import { Component, ViewChild } from '@angular/core';
-import { NgxIndexedDBService } from 'ngx-indexed-db';
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { GeneralDataComponent } from 'src/app/visualizations/all/general-data/general-data.component';
-import { MoodComponent } from 'src/app/visualizations/spotify/mood/mood.component';
 import { InferencesComponent } from 'src/app/visualizations/spotify/inferences/inferences.component';
-import { IntrojsService } from 'src/app/introjs/introjs.service';
+import { IntrojsService } from 'src/app/page-sub-components/introjs/introjs.service';
 import { ListeningTimeComponent } from 'src/app/visualizations/spotify/listening-time/listening-time.component';
 import { BaseDashboard } from '../base-dashboard.abstract';
 import { TopArtistsComponent } from 'src/app/visualizations/spotify/top-artists/top-artists.component';
 import { TopSongsComponent } from 'src/app/visualizations/spotify/top-songs/top-songs.component';
+import { SearchHistoryComponent } from 'src/app/visualizations/spotify/search-history/search-history.component';
 
 /**
   * This component is the root component for spotify's dashboard page.
@@ -25,7 +24,7 @@ import { TopSongsComponent } from 'src/app/visualizations/spotify/top-songs/top-
   templateUrl: './spot-dashboard.component.html',
   styleUrls: ['./spot-dashboard.component.less']
 })
-export class SpotDashboardComponent extends BaseDashboard {
+export class SpotDashboardComponent extends BaseDashboard implements AfterViewInit{
   
   thirdPartyConnection = false;
   purposes = [
@@ -57,8 +56,9 @@ export class SpotDashboardComponent extends BaseDashboard {
   @ViewChild(ListeningTimeComponent) spotListeningTime : ListeningTimeComponent;
   @ViewChild(TopArtistsComponent) spotTopArtists : TopArtistsComponent;
   @ViewChild(TopSongsComponent) spotTopSongs : TopSongsComponent;
+  @ViewChild(SearchHistoryComponent) spotSearchHistory : SearchHistoryComponent;
 
-  constructor(private dbService: NgxIndexedDBService, private router: Router, private introService: IntrojsService) {
+  constructor( private router: Router, private introService: IntrojsService) {
     super();
   }
 
@@ -85,6 +85,7 @@ export class SpotDashboardComponent extends BaseDashboard {
     this.componentInitializationList.push(this.spotListeningTime);
     this.componentInitializationList.push(this.spotTopArtists);
     this.componentInitializationList.push(this.spotTopSongs);
+    this.componentInitializationList.push(this.spotSearchHistory);
     //Start Component Initialization run
     this.startSequentialInitialization();
   }

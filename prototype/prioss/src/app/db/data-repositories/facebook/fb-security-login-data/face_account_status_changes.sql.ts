@@ -8,26 +8,26 @@
 *
 */
 
-export const insertIntoFaceStatusChangesSQL: string = `
+export const insertIntoFaceStatusChangesSQL = `
 insert into face_account_status_changes
 (status, timestamp)
 values 
 (?, ?);
 `;
 
-export const bulkAddFaceStatusChangesBaseSQL: string = `
+export const bulkAddFaceStatusChangesBaseSQL = `
 insert into face_account_status_changes
 (status, timestamp)
 `;
 
-export const bulkAddFaceStatusChangesValuesSQL: string = `
+export const bulkAddFaceStatusChangesValuesSQL = `
 select ?, ?
 `;
 
-export const bulkAddValueConnector: string = `
+export const bulkAddValueConnector = `
 union all
 `;
 
-export const selectAllStatusChanges: string = `
+export const selectAllStatusChanges = `
 select id, status, timestamp from face_account_status_changes
 `;

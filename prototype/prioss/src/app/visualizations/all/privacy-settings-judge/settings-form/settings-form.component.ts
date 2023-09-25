@@ -1,20 +1,28 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit} from '@angular/core';
 import { FormBuilder, UntypedFormGroup } from '@angular/forms';
 import { SpotPrivacySettingsService } from '../spot-privacy-settings.service';
 import { InstaPrivacySettingsService } from '../insta-privacy-settings.service';
 import { FacePrivacySettingsService } from '../face-privacy-settings.service';
 
-
+/**
+ * This component displayes the currently named "privacy judge" in a tile on the dashbooard. This tile first displays a question to the user.
+ * Based on these questions a "How to Check" Tutorial is displayed so the user can answer the question. 
+ * Below that, a user can choose an answer and receive advice that corresponds to the initial question and the user's answer. 
+ * The Data for this component is loaded thorugh the face/insta/spot-privacy-settings.service.ts files in the parent directory.
+ * 
+ * @author: Maximilian (maxy@mail.upb.de)
+ *
+ */
 @Component({
   selector: 'app-settings-form',
   templateUrl: './settings-form.component.html',
   styleUrls: ['./settings-form.component.less']
 })
-export class SettingsFormComponent {
+export class SettingsFormComponent implements OnInit{
   settingsForm: UntypedFormGroup;
   index = 0
   panel = {name: "How to Check ?"}
-  @Input("service") service: string;
+  @Input() service: string;
 
   settings = [
     {

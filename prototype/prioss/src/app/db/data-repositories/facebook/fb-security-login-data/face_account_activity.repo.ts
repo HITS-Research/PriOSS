@@ -35,7 +35,7 @@ export class FacebookAccountActivityRepository extends BulkAddCapableRepository 
      * @author: Deepa (dbelvi@mail.upb.de)
     */
 
-    async startAdActivityBulkAdd(action: string, timestamp: string, city: string, region: string, country: string, site_name: string, totalRowCount: number, targetBulkSize: number = 500) {
+    async startAdActivityBulkAdd(action: string, timestamp: string, city: string, region: string, country: string, site_name: string, totalRowCount: number, targetBulkSize = 500) {
         this.startBulkAdd([action, timestamp, city, region, country, site_name], totalRowCount, targetBulkSize);
     }
 
@@ -58,7 +58,7 @@ export class FacebookAccountActivityRepository extends BulkAddCapableRepository 
 
     async getAllAccountActivities() : Promise<AccountActivitiesModel[]> {
         return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
-          let result = await db.query(sql.selectAllAccountActivity);
+          const result = await db.query(sql.selectAllAccountActivity);
           return result.values as AccountActivitiesModel[];
         });
     }

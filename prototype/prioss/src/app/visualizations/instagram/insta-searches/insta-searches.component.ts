@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { AfterViewInit, Component, Input } from '@angular/core';
 import { SequenceComponentInit } from '../../sequence-component-init.abstract';
 import { InstaUserSearchesRepository } from 'src/app/db/data-repositories/instagram/insta-searches/insta-user-searches.repository';
 import { InstaKeywordSearchesRepository } from 'src/app/db/data-repositories/instagram/insta-searches/insta-keyword-searches.repository';
@@ -20,10 +20,10 @@ import { InstaTagSearch } from 'src/app/models/Instagram/Searches/InstaTagSearch
   templateUrl: './insta-searches.component.html',
   styleUrls: ['./insta-searches.component.less']
 })
-export class InstaSearchesComponent extends SequenceComponentInit{
+export class InstaSearchesComponent extends SequenceComponentInit implements AfterViewInit{
 
   @Input()
-  previewMode: boolean = false;
+  previewMode = false;
   userSearchValue = '';
   keywordSearchValue = '';
   tagSearchValue = '';
@@ -118,13 +118,13 @@ export class InstaSearchesComponent extends SequenceComponentInit{
 
     switch (searchList) {
       case 'user':
-        this.listOfUserSearches = this.userSearches.filter((item: InstaUserSearch) => item.search.indexOf(this.userSearchValue) !== -1);
+        this.listOfUserSearches = this.userSearches.filter((item: InstaUserSearch) => item.search.toLowerCase().indexOf(this.userSearchValue.toLowerCase()) !== -1);
         break;
       case 'keyword':
-        this.listOfKeywordSearches = this.keywordSearches.filter((item: InstaKeywordSearch) => item.search.indexOf(this.keywordSearchValue) !== -1);
+        this.listOfKeywordSearches = this.keywordSearches.filter((item: InstaKeywordSearch) => item.search.toLowerCase().indexOf(this.keywordSearchValue.toLowerCase()) !== -1);
         break;
       case 'tag':
-        this.listOfTagSearches = this.tagSearches.filter((item: InstaTagSearch) => item.search.indexOf(this.tagSearchValue) !== -1);
+        this.listOfTagSearches = this.tagSearches.filter((item: InstaTagSearch) => item.search.toLowerCase().indexOf(this.tagSearchValue.toLowerCase()) !== -1);
         break;
       default:
         break;

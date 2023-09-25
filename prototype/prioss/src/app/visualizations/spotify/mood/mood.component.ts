@@ -3,13 +3,13 @@ import { environment } from '../../../../environments/environment.prod';
 import * as d3 from 'd3';
 import { SpotHistoryRepository } from 'src/app/db/data-repositories/spotify/spot-history/spot-history.repository';
 import { endOfMonth } from 'date-fns';
+import * as sampleData from './samplesongsformood.json';
 
 const CLIENT_ID = environment.CLIENT_ID;
 const CLIENT_SECRET = environment.CLIENT_SECRET;
 let token: string;
 let withdate: any;
-const spotifyGreen: string = "#1DB954"
-let savedValues: any[] = [];
+const spotifyGreen = "#1DB954";
 let startDateInput: any = null;
 let endDateInput: any = null;
 
@@ -28,15 +28,16 @@ let endDateInput: any = null;
   styleUrls: ['./mood.component.less']
 })
 export class MoodComponent {
+  offlineLoading = true; //load from jsonfile 
   @Input()
-  previewMode: boolean = false;
+  previewMode = false;
   @Input()
-  firstRun: boolean = false;
+  firstRun = false;
   @Input()
   selectedRange = [new Date('2021-11-01'), new Date('2021-11-30')]; // Set specific default dates
-
-
-  isLoading: boolean = false;
+  @Input()
+  mood = '';
+  isLoading = false;
   files: any[] = [];
   queriedSongs = 0;
   allSongsNumber = 0;
@@ -44,8 +45,29 @@ export class MoodComponent {
 
   constructor(private spotHistoryRepo: SpotHistoryRepository) {
     this.setToken();
-    console.log(token);
   }
+
+  setMood = (mood: string) => {
+    this.mood = mood;
+  }
+
+  /* 
+   * This function starts the drawing of the Radarchart. If offlineLoading is true the json file is loaded.
+   * If false the songIds for the given data download are requested.
+   * The Spotify API rate limit is already for one user to slow to hande many requests. Therefore, we decided for now to only use sampledata for this component.
+   * 
+   * @author: Sven (svenf@mail.uni-paderborn.de)
+  */
+  startRadarChart() {
+    if (this.offlineLoading) {
+      withdate = Object.values(JSON.parse(JSON.stringify(sampleData))).slice(0, 500);
+      this.updateRadarChart();
+      this.firstRun = true;
+    } else {
+      this.getSongIds();
+    }
+  }
+
   /*
   * This is a helper function to redraw the diagramm without calling the Spotify API again.
   *
@@ -82,11 +104,11 @@ export class MoodComponent {
   async getSongIds() {
     this.isLoading = true;
     this.firstRun = true;
-    let spotHistory = await this.spotHistoryRepo.getSpotHistory();
+    const spotHistory = await this.spotHistoryRepo.getSpotHistory();
     this.allSongsNumber = spotHistory.length;
     const trackIds: string[] = [];
     const names: string[] = [];
-    const limit = 100;
+    const limit = 500;
 
     for (const entry of spotHistory) {
 
@@ -98,12 +120,12 @@ export class MoodComponent {
       trackIds.push(trackId);
       this.queriedSongs++;
     }
-    let audiofeatures: any = await this.getAudioFeaturesInBulk(trackIds);
-    let flattend = makeOneArray(audiofeatures);
+    const audiofeatures: any = await this.getAudioFeaturesInBulk(trackIds);
+    const flattend = makeOneArray(audiofeatures);
     withdate = addListeningDateToAudiofeatures(flattend, names, spotHistory);
     this.isLoading = false;
     this.updateRadarChart();
-    //makeRadarChart(flattend);
+
   }
 
   /**
@@ -113,16 +135,15 @@ export class MoodComponent {
   *
   */
   updateRadarChart() {
-    let timed: any = [];
-    console.log(withdate);
+    const timed: any = [];
     withdate.forEach((d: any) => {
-      let timestamp = new Date(d.time);
-      let start = new Date(startDateInput).toUTCString();
-      let end = new Date(endDateInput).toUTCString();
+      const timestamp = new Date(d.time);
+      const start = new Date(startDateInput).toUTCString();
+      const end = new Date(endDateInput).toUTCString();
       if (start >= timestamp.toUTCString() && timestamp.toUTCString() <= end) timed.push(d);
     });
     console.log(timed);
-    makeRadarChart(timed);
+    makeRadarChart(timed, this);
   }
 
 
@@ -147,7 +168,7 @@ export class MoodComponent {
     })
     const json = await response.json();
     token = json.access_token;
-  };
+  }
 
   /**
   * This function queries the Spotify Web API endpoint search to retrieve a song id. The assumption here is that the first song provided by the API is the correct one.
@@ -195,7 +216,7 @@ export class MoodComponent {
   async getAudioFeaturesInBulk(ids: string[]): Promise<string[]> {
     const spotifyUrl = 'https://api.spotify.com/v1/audio-features?ids=';
     const batchSize = 100;
-    let valenceArray = [];
+    const valenceArray = [];
 
     for (let start = 0; start < ids.length; start += batchSize) {
       const end = Math.min(start + batchSize, ids.length);
@@ -228,7 +249,7 @@ function makeBulkRequestUrl(trackIds: string[], spotifyUrl: string): string {
     url += trackIds[i] + '%2C';
   }
   return url;
-};
+}
 
 
 /**
@@ -246,7 +267,7 @@ function makeBulkRequestUrl(trackIds: string[], spotifyUrl: string): string {
 function addListeningDateToAudiofeatures(audiofeatures: any, names: string[], original: any): any {
   let counter = 0;
   for (let i = 0; i < original.length; i++) {
-    let key = original[i];
+    const key = original[i];
     if (names.includes(key.trackName)) {
       audiofeatures[counter].time = key.endTime;
       counter++;
@@ -262,17 +283,15 @@ function addListeningDateToAudiofeatures(audiofeatures: any, names: string[], or
 * Creates radar chart for spotify audio values
 * @author Sven Feldmann
 */
-function makeRadarChart(audiofeatures: any) {
+function makeRadarChart(audiofeatures: any, componentInstance: MoodComponent) {
   d3.select("#bar-chart").selectAll("*").remove();
-
-  savedValues = audiofeatures;
   let danceabilitySum = 0;
   let energySum = 0;
   let loudnessSum = 0;
   let valenceSum = 0;
   let tempoSum = 0;
   let accousticnessSum = 0;
-  let count = audiofeatures.length;
+  const count = audiofeatures.length;
 
   audiofeatures.forEach((key: any) => {
     danceabilitySum += key.danceability;
@@ -283,36 +302,52 @@ function makeRadarChart(audiofeatures: any) {
     accousticnessSum += key.acousticness;
   })
 
-  let avgDance = danceabilitySum / count * 100;
-  let avgEnergy = energySum / count * 100;
-  let avgLoudness = loudnessSum / count;
-  let avgVal = valenceSum / count * 100;
-  let avgTempo = tempoSum / count;
-  let avgAccousticness = accousticnessSum / count * 100;
+  const avgDance = danceabilitySum / count * 100;
+  const avgEnergy = energySum / count * 100;
+  const avgLoudness = loudnessSum / count;
+  const avgVal = valenceSum / count * 100;
+  const avgTempo = tempoSum / count;
+  const avgAccousticness = accousticnessSum / count * 100;
+
+  // Define criteria for each mood. Here could a more profound machine learning be applied to analyse what mood is indicated be the values
+  const danceabilityThreshold = 0.6;  // Adjust as needed
+  const energyThreshold = 0.6;        // Adjust as needed
+  const valenceThreshold = 0.6;       // Adjust as needed
+  const acousticnessThreshold = 0.4;
+  if (avgDance >= danceabilityThreshold && avgEnergy >= energyThreshold) {
+    if (avgVal >= valenceThreshold) {
+      componentInstance.setMood('happy');
+    } else {
+      componentInstance.setMood('energetic');
+
+    }
+  } else {
+    if (avgVal >= valenceThreshold) {
+      componentInstance.setMood('calm');
+    } else if (avgAccousticness >= acousticnessThreshold) {
+      componentInstance.setMood('sad');
+    }
+  }
 
 
-  let data: any = [
+  const data: any = [
     { feature: "Valence", value: avgVal, additionalText: "Tracks with high valence sound more positive (e.g. happy, cheerful, euphoric), while tracks with low valence sound more negative (e.g. sad, depressed, angry)." },
     { feature: "Energy", value: avgEnergy, additionalText: "represents a perceptual measure of intensity and activity" },
-    //{ name: "Loudness", value: avgLoudness, color: "#533a84" },
     { feature: "Dancebility", value: avgDance, additionalText: "describes how suitable a track is for dancing" },
-    // { name: "Tempo", value: avgTempo, color: "#296E01" }
     { feature: "Loudness", value: avgLoudness, additionalText: "is the quality of a sound that is the primary psychological correlate of physical strength (amplitude)" },
     { feature: "Tempo", value: avgTempo, additionalText: "is the speed or pace of a given piece and derives directly from the average beat duration" },
-    //{ name: "Loudness", value: avgLoudness, color: "#533a84" },
     { feature: "Accousticness", value: avgAccousticness, additionalText: "High acoustic values represents  high confidence the track is acoustic" }
   ];
-  console.log(data);
 
-  let margin = 100;
-  let leftmargin = 150;
-  let bottomMargin = 125;
-  let xAxisWidth = window.innerWidth - margin * 2;
-  let yAxisHeight = window.innerHeight * 0.90 - margin * 2
-
+  const margin = 100;
+  const leftmargin = 150;
+  const bottomMargin = 125;
+  const xAxisWidth = window.innerWidth - margin * 2;
+  const yAxisHeight = window.innerHeight * 0.90 - margin * 2
 
 
-  let svg = d3.select("#bar-chart").append("svg")
+
+  const svg = d3.select("#bar-chart").append("svg")
     .attr(
       "viewBox",
       `0 0 ${xAxisWidth + margin * 2} ${yAxisHeight + bottomMargin}`
@@ -322,10 +357,10 @@ function makeRadarChart(audiofeatures: any) {
     .attr("transform", "translate(" + leftmargin + "," + 0 + ")");
 
 
-  let radialScale = d3.scaleLinear()
+  const radialScale = d3.scaleLinear()
     .domain([0, 100])
     .range([0, 250]);
-  let ticks = [20, 40, 60, 80, 100];
+  const ticks = [20, 40, 60, 80, 100];
 
   svg.selectAll("circle")
     .data(ticks)
@@ -348,8 +383,8 @@ function makeRadarChart(audiofeatures: any) {
         .text(d => d.toString())
     );
 
-  let featureData = data.map((f: any, i: any) => {
-    let angle = (Math.PI / 2) + (2 * Math.PI * i / data.length);
+  const featureData = data.map((f: any, i: any) => {
+    const angle = (Math.PI / 2) + (2 * Math.PI * i / data.length);
     return {
       "name": f,
       "angle": angle,
@@ -406,35 +441,52 @@ function makeRadarChart(audiofeatures: any) {
         .style("font-weight", "bold")
         .style("font-size", "10px");
 
+      const additionalTextGroup = group.append("g"); // Create a group for background and text
+      const backgroundRect = additionalTextGroup
+        .append("rect")
+        .attr("fill", "#3C3D3E")
+        .attr("stroke", "#3C3D3E")
+        .attr("stroke-width", 1)
+        .attr("rx", 5)
+        .style("opacity", 0); 
 
-
-      const additionalText = group.append("text")
-        .attr("x", 15)
-        .attr("y", 20) // Adjust the y-coordinate for the additional text
+      // Append the text element
+      const textElement: any = additionalTextGroup
+        .append("text")
+        .attr("x", 10) // Adjust the position as needed
+        .attr("y", 25) // Adjust the position as needed
         .text(d.name.additionalText) // Replace with the desired additional text
         .attr("class", "additional-text")
-        .style("opacity", 0)
-        .style("fill", "black")
-        .style("background-color", "lightgrey")
-        .style("border", "1px solid grey")
+        .style("fill", "white")
         .style("font-size", "12px")
         .style("font-weight", "normal")
-        .style("padding", "4px");
+        .style("pointer-events", "none")
+        .style("opacity", 0); // Initially hide it. This prevents the background from blocking mouse events
 
+      // Calculate and set the background rectangle's dimensions based on the text's size
+      const textBoundingBox = textElement.node().getBBox();
+      backgroundRect.attr("width", textBoundingBox.width + 20); // Adjust the padding as needed
+      backgroundRect.attr("height", textBoundingBox.height + 20); // Adjust the padding as needed
+
+
+
+      // Add event handlers to show/hide on mouseover/mouseout
       group.on("mouseover", function () {
-        additionalText.style("opacity", 1);
-      })
-        .on("mouseout", function () {
-          additionalText.style("opacity", 0);
-        });
+        backgroundRect.style("opacity", 1); // Show the background
+        textElement.style("opacity", 1); // Show the text
+      }).on("mouseout", function () {
+        backgroundRect.style("opacity", 0); // Hide the background
+        textElement.style("opacity", 0); // Hide the text
+      });
+
     });
 
 
 
-  let line = d3.line()
+  const line = d3.line()
     .x((d: any) => d.x)
     .y((d: any) => d.y);
-  let colors = [spotifyGreen];
+  const colors = [spotifyGreen];
   /*
   * This is a helper function ro calculate the path coordinates
   *
@@ -442,9 +494,9 @@ function makeRadarChart(audiofeatures: any) {
   *
   */
   function getPathCoordinates() {
-    let coordinates = [];
-    for (var i = 0; i < data.length; i++) {
-      let angle = (Math.PI / 2) + (2 * Math.PI * i / data.length);
+    const coordinates = [];
+    for (let i = 0; i < data.length; i++) {
+      const angle = (Math.PI / 2) + (2 * Math.PI * i / data.length);
       coordinates.push(angleToCoordinate(angle, data[i].value));
     }
 
@@ -472,8 +524,8 @@ function makeRadarChart(audiofeatures: any) {
   *
   */
   function angleToCoordinate(angle: number, value: number) {
-    let x = Math.cos(angle) * radialScale(value);
-    let y = Math.sin(angle) * radialScale(value);
+    const x = Math.cos(angle) * radialScale(value);
+    const y = Math.sin(angle) * radialScale(value);
     return { "x": xAxisWidth / 2 + x, "y": yAxisHeight / 2 - y };
   }
 }
@@ -488,7 +540,7 @@ function makeRadarChart(audiofeatures: any) {
 *
 */
 function makeOneArray(arrayOfArrays: any): any {
-  let flattenedArray: any = []
+  const flattenedArray: any = []
   arrayOfArrays.forEach((array: any) => {
     array.audio_features.forEach((element: any) => {
       if (element != null) {
@@ -515,5 +567,7 @@ function normalizeTempo(originalValue: number): number {
 
   return normalizedValue;
 }
+
+
 
 

@@ -10,16 +10,36 @@
     <div>
       <nz-row [nzGutter]="16">
         <nz-col [nzSpan]="12">
-          <nz-statistic [nzValue]="(totalMerchants)!" [nzTitle]="'Number of Merchants In Shopping List'"></nz-statistic>
+          <nz-statistic [nzValue]="(totalMerchants)!" [nzTitle]="'Number of Merchants In Shopping List'" [nzPrefix]="shop"></nz-statistic>
+          <ng-template #shop>
+            <div class="container_class">
+              <span nz-icon nzType="shop" nzTheme="outline"></span>
+            </div>
+          </ng-template>
         </nz-col>
         <nz-col [nzSpan]="12">
-          <nz-statistic [nzValue]="(totalProducts)!" [nzTitle]="'Number of Products In Shopping List'"></nz-statistic>
+          <nz-statistic [nzValue]="(totalProducts)!" [nzTitle]="'Number of Products In Shopping List'" [nzPrefix]="product"></nz-statistic>
+          <ng-template #product>
+            <div class="container_class">
+              <span nz-icon nzType="shopping-cart" nzTheme="outline"></span>
+            </div>
+          </ng-template>
         </nz-col>
         <nz-col [nzSpan]="12">
-          <nz-statistic [nzValue]="(totalWishlistMerchants)!" [nzTitle]="'Number of Merchants In Shopping WishList'"></nz-statistic>
+          <nz-statistic [nzValue]="(totalWishlistMerchants)!" [nzTitle]="'Number of Merchants In Shopping WishList'" [nzPrefix]="shopWish"></nz-statistic>
+          <ng-template #shopWish>
+            <div class="container_class">
+              <span nz-icon nzType="shop" nzTheme="outline"></span>
+            </div>
+          </ng-template>
         </nz-col>
         <nz-col [nzSpan]="12">
-          <nz-statistic [nzValue]="(totalWishlistProducts)!" [nzTitle]="'Number of Products In Shopping WishList'"></nz-statistic>
+          <nz-statistic [nzValue]="(totalWishlistProducts)!" [nzTitle]="'Number of Products In Shopping WishList'" [nzPrefix]="productWish"></nz-statistic>
+          <ng-template #productWish>
+            <div class="container_class">
+              <span nz-icon nzType="shopping-cart" nzTheme="outline"></span>
+            </div>
+          </ng-template>
         </nz-col>
       </nz-row>
     </div>

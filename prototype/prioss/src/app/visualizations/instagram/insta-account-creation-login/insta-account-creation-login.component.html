@@ -4,13 +4,28 @@
   <div *ngIf="previewMode">
     <nz-row [nzGutter]="16">
       <nz-col [nzSpan]="12">
-        <nz-statistic [nzValue]="(login_amount|number)!" [nzTitle]="'Number of logins'"></nz-statistic>
+        <nz-statistic [nzValue]="(login_amount|number)!" [nzTitle]="'Number of logins'" [nzPrefix]="login"></nz-statistic>
+        <ng-template #login>
+          <div class="container_class">
+            <span nz-icon nzType="login" nzTheme="outline"></span>
+          </div>
+        </ng-template>
       </nz-col>
       <nz-col [nzSpan]="12">
-        <nz-statistic [nzValue]="(logout_amount|number)!" [nzTitle]="'Number of logouts'"></nz-statistic>
+        <nz-statistic [nzValue]="(logout_amount|number)!" [nzTitle]="'Number of logouts'" [nzPrefix]="logout"></nz-statistic>
+        <ng-template #logout>
+          <div class="container_class">
+            <span nz-icon nzType="logout" nzTheme="outline"></span>
+          </div>
+        </ng-template>
       </nz-col>
       <nz-col [nzSpan]="12">
-        <nz-statistic [nzValue]="most_used_device" [nzTitle]="'Most used device'"></nz-statistic>
+        <nz-statistic [nzValue]="most_used_device" [nzTitle]="'Most used device'" [nzPrefix]="device"></nz-statistic>
+        <ng-template #device>
+          <div class="container_class">
+            <span nz-icon nzType="desktop" nzTheme="outline"></span>
+          </div>
+        </ng-template>
       </nz-col>
     </nz-row>
 </div>
@@ -21,17 +36,32 @@
   <app-title-bar titleText="Account Creation and Login" tooltipText="The timeline below displays the timeline for account creation, login and logout activity of your instagram account."></app-title-bar>
 
   <!-- Showcasing signup information and login and logout information if data is present -->
-  <div *ngIf="login_logout_activities?.length && signup_information != null">
+  <div *ngIf="login_logout_activities?.length && signup_information !== null">
     <h3 nz-typography>Highlights</h3>
     <nz-row [nzGutter]="16">
-      <nz-col [nzSpan]="8">
-        <nz-statistic [nzValue]="(login_amount|number)!" [nzTitle]="'Number of logins'"></nz-statistic>
+      <nz-col [nzSpan]="12">
+        <nz-statistic [nzValue]="(login_amount|number)!" [nzTitle]="'Number of logins'" [nzPrefix]="login"></nz-statistic>
+        <ng-template #login>
+          <div class="container_class">
+            <span nz-icon nzType="login" nzTheme="outline"></span>
+          </div>
+        </ng-template>
       </nz-col>
-      <nz-col [nzSpan]="8">
-        <nz-statistic [nzValue]="(logout_amount|number)!" [nzTitle]="'Number of logouts'"></nz-statistic>
+      <nz-col [nzSpan]="12">
+        <nz-statistic [nzValue]="(logout_amount|number)!" [nzTitle]="'Number of logouts'" [nzPrefix]="logout"></nz-statistic>
+        <ng-template #logout>
+          <div class="container_class">
+            <span nz-icon nzType="logout" nzTheme="outline"></span>
+          </div>
+        </ng-template>
       </nz-col>
-      <nz-col [nzSpan]="8">
-        <nz-statistic [nzValue]="most_used_device" [nzTitle]="'Most used device'"></nz-statistic>
+      <nz-col [nzSpan]="12">
+        <nz-statistic [nzValue]="most_used_device" [nzTitle]="'Most used device'" [nzPrefix]="device"></nz-statistic>
+        <ng-template #device>
+          <div class="container_class">
+            <span nz-icon nzType="desktop" nzTheme="outline"></span>
+          </div>
+        </ng-template>
       </nz-col>
     </nz-row>
     <br>
@@ -67,18 +97,18 @@
           <!-- Creating a template for each row based on activity type -->
           <ng-template #dotTemplate>
             <div class="ant-timeline-item-head" 
-            [class.ant-timeline-item-head-red]="activity.color == 'red'" 
-            [class.ant-timeline-item-head-green]="activity.color == 'green'"
-            [class.ant-timeline-item-head-blue]="activity.color == 'blue'"
+            [class.ant-timeline-item-head-red]="activity.color === 'red'" 
+            [class.ant-timeline-item-head-green]="activity.color === 'green'"
+            [class.ant-timeline-item-head-blue]="activity.color === 'blue'"
             nz-button nz-popover nzType="primary" [nzPopoverContent]="contentTemplate" 
-            [nzPopoverPlacement]="i%2==0?'rightTop':'leftTop'">
+            [nzPopoverPlacement]="i%2===0?'rightTop':'leftTop'">
             </div>
           </ng-template>
 
           <!-- Creating a template for each row popup to show additional data -->
           <ng-template #contentTemplate>
             <strong>IP Address</strong> : {{activity.ip_address}}<br>
-            <div *ngIf="activity.user_agent != ''">
+            <div *ngIf="activity.user_agent !== ''">
               <strong>User Agent</strong> : {{activity.user_agent}}
             </div>
           </ng-template>
@@ -91,7 +121,7 @@
   </div>
 
   <!-- Showcasing default value if no data is present -->
-  <div *ngIf="login_logout_activities?.length === 0 && signup_information == null">
+  <div *ngIf="login_logout_activities?.length === 0 && signup_information === null">
     <p>No Account Creation, Login and Logout activity present</p>
   </div>
 </div>

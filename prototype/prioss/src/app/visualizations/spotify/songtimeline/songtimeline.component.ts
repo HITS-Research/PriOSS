@@ -52,10 +52,10 @@ export class SongtimelineComponent {
   * @author: Simon (scg@mail.upb.de)
   */
   async recreateVisualization() {
-    let data = await this.createData();
+    const data = await this.createData();
 
-    let startHour = dateUtils.trimDate(this.filterDateTime, GranularityEnum.Hour);
-    let endHour = dateUtils.trimDate(startHour, GranularityEnum.Hour);
+    const startHour = dateUtils.trimDate(this.filterDateTime, GranularityEnum.Hour);
+    const endHour = dateUtils.trimDate(startHour, GranularityEnum.Hour);
     startHour.setUTCHours(startHour.getHours());
     endHour.setUTCHours(endHour.getHours()+1);
 
@@ -70,7 +70,7 @@ export class SongtimelineComponent {
   * @author: Simon (scg@mail.upb.de)
   */
   async createData() {
-    let dataArray : TimelineData[] | null = [];
+    const dataArray : TimelineData[] | null = [];
 
     //Show nothing unless filter is set
     if (this.filterDateTime == null) {
@@ -79,7 +79,7 @@ export class SongtimelineComponent {
     console.log("Date filter:");
     console.log(this.filterDateTime);
 
-    let spotSongs = await this.spotHistoryRepo.getHistoryForSingleHour(this.filterDateTime);
+    const spotSongs = await this.spotHistoryRepo.getHistoryForSingleHour(this.filterDateTime);
     console.log(spotSongs);
     for(let i = 0; i < spotSongs.length; i++) {
       dataArray.push(
@@ -108,7 +108,7 @@ export class SongtimelineComponent {
     //remove old barchart
     d3.select("#songtimeline-chart").selectAll("*").remove();
 
-    var chart = d3Timelines.timelines()
+    const chart = d3Timelines.timelines()
       .beginning(startHour)
       .ending(endHour)
       .stack()
@@ -120,13 +120,13 @@ export class SongtimelineComponent {
         }
       );
 
-    let margin = 100;
-    let leftmargin = 150;
-    let bottomMargin = 125;
-    let xAxisWidth = window.innerWidth - margin * 2;
-    let yAxisHeight = window.innerHeight*0.85 - margin * 2;
+    const margin = 100;
+    const leftmargin = 150;
+    const bottomMargin = 125;
+    const xAxisWidth = window.innerWidth - margin * 2;
+    const yAxisHeight = window.innerHeight*0.85 - margin * 2;
 
-    var svg = d3.select("#songtimeline-chart")
+    d3.select("#songtimeline-chart")
       .append("svg")
       .attr(
         "viewBox",
@@ -146,8 +146,8 @@ export class SongtimelineComponent {
    * @author: Simon (scg@mail.upb.de)
    */
   returnToListeningTime() {
-    let listeningTimePage = document.getElementById('listeningtime-page');
-    let songtimelinePage = document.getElementById('songtimeline-page');
+    const listeningTimePage = document.getElementById('listeningtime-page');
+    const songtimelinePage = document.getElementById('songtimeline-page');
   
     if(songtimelinePage && listeningTimePage) {
       listeningTimePage.style.display='block';

@@ -1,9 +1,7 @@
-import { Component, Input } from '@angular/core';
+import { AfterViewInit, Component, Input } from '@angular/core';
 import { SequenceComponentInit } from '../../sequence-component-init.abstract';
 import * as d3 from 'd3';
-import {NotificationService} from "../../../notification/notification.component";
-
-import * as generalUtils from "../../../utilities/generalUtilities.functions";
+import {NotificationService} from "../../../utilities/notification/notification.component";
 
 import { InstaLikedCommentsRepository } from 'src/app/db/data-repositories/instagram/insta-liked-content/insta-likedcomments.repository';
 import { InstaLikedPostsRepository } from 'src/app/db/data-repositories/instagram/insta-liked-content/insta-likedposts.repository';
@@ -26,17 +24,17 @@ import { InstaLikedPostsInfo } from 'src/app/models/Instagram/LikedCommentsAndPo
   templateUrl: './insta-liked-content.component.html',
   styleUrls: ['./insta-liked-content.component.less']
 })
-export class InstaLikedContentComponent extends SequenceComponentInit {
+export class InstaLikedContentComponent extends SequenceComponentInit implements AfterViewInit{
 
   @Input()
-  previewMode: boolean = false;
+  previewMode = false;
 
   readonly color: string = "#DD2A7B";
 
   liked_comments_with_count: InstaLikedCommentsWithCount[] = [];
   liked_posts_with_count: InstaLikedPostsWithCount[] = [];
-  liked_comments_amount: number=0;
-  liked_posts_amount: number=0;
+  liked_comments_amount=0;
+  liked_posts_amount=0;
 
   liked_comments: InstaLikedCommentsInfo[] = [];
   liked_posts: InstaLikedPostsInfo[] = [];
@@ -126,14 +124,15 @@ export class InstaLikedContentComponent extends SequenceComponentInit {
     d3.select(divId).selectAll("*").remove();
 
     if (this.liked_comments.length === 0) {
-      //this.notificationService.showNotification("You did not liked any comment in the selected filter options.");
       return;
     }
 
     // set the dimensions and margins of the graph
-    const margin = {top: 20, right: 30, bottom: 50, left: 100},
-      width = (460 - margin.left - margin.right)/2,
-      height = ((data.length + 5) * 15) - margin.top - margin.bottom;
+    const margin = {top: 20, right: 30, bottom: 50, left: 100};
+    const width = (460 - margin.left - margin.right)/2;
+    const screenHeight = window.innerHeight;
+    const height = screenHeight/2 - margin.top - margin.bottom;
+    // const height = ((data.length + 5) * 15) - margin.top - margin.bottom;
 
     // append the svg object to the body of the page
     const svg = d3.select(divId)
@@ -142,19 +141,6 @@ export class InstaLikedContentComponent extends SequenceComponentInit {
       .attr("height", height + margin.top + margin.bottom)
       .append("g")
       .attr("transform", `translate(${margin.left}, ${margin.top})`);
-
-    // create tooltip
-    const tooltip = d3.select(divId)
-      .append("div")
-      .attr("class", "d3-tooltip")
-      .style("position", "absolute")
-      .style("z-index", "10")
-      .style("visibility", "hidden")
-      .style("padding", "15px")
-      .style("background", "rgba(0,0,0,0.6)")
-      .style("border-radius", "5px")
-      .style("color", "#fff")
-      .text("a simple tooltip");
 
     // add X axis
     const xScale = d3.scaleLinear()
@@ -176,7 +162,7 @@ export class InstaLikedContentComponent extends SequenceComponentInit {
       .style("text-anchor", "end");
 
     // add Y axis
-    var yScale: any = d3.scaleBand()
+    const yScale: any = d3.scaleBand()
       .range([0, height])
       .domain(data.map(d => d.user))
       .padding(.2);
@@ -191,22 +177,7 @@ export class InstaLikedContentComponent extends SequenceComponentInit {
       .attr("y", d => yScale(d.user))
       .attr("width", d => xScale(d.counts))
       .attr("height", yScale.bandwidth())
-      .attr("fill", this.color)
-
-      //Mouse Hover
-      .on("mouseover", function (event, data) {
-        tooltip.html(data.counts.toString()).style("visibility", "visible");
-      })
-      //Mouse moved: change tooltip position
-      .on("mousemove", function (event) {
-        tooltip
-          .style("top", (screenY) + "px")
-          .style("left", (screenX) + "px");
-      })
-      //Mouse not hovering: hide tooltip
-      .on("mouseout", function () {
-        tooltip.html(``).style("visibility", "hidden");
-      });
+      .attr("fill", this.color);
 
       if(divId == ".bar_chart_liked_comments") {
         svg.append("text")
@@ -229,7 +200,7 @@ export class InstaLikedContentComponent extends SequenceComponentInit {
   }
 
   getMaxCounts(arr: any[]): number {
-    var maxCount = 0;
+    let maxCount = 0;
     arr.forEach(function(item) {
       if (item.counts > maxCount) {
         maxCount = item.counts;

@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {AfterViewInit, Component, Input} from '@angular/core';
 import * as utilities from 'src/app/utilities/generalUtilities.functions'
 import { UserdataRepository } from 'src/app/db/data-repositories/general/userdata/userdata.repository';
 import { UserdataEntry } from 'src/app/models/General/userdata/userdataEntry';
@@ -17,24 +17,16 @@ import { SequenceComponentInit } from '../../sequence-component-init.abstract';
   templateUrl: './general-data.component.html',
   styleUrls: ['./general-data.component.less']
 })
-export class GeneralDataComponent extends SequenceComponentInit {
-
-
-  // userdata: object = {}
-  userdata: readonly UserdataEntry[] = [];
-  getObjectPairs: (obj: object) => [string, any][] = utilities.getObjectPairs;
+export class GeneralDataComponent extends SequenceComponentInit implements AfterViewInit{
+  userdata: UserdataEntry;
   getObjectPairsNotNull: (obj: object) => [string, any][] = utilities.getObjectPairsNotNull
   capitalize: (str: string) => string = utilities.capitalize
-  isSpotify = false;
   @Input()
-  previewMode: boolean = false;
+  previewMode = false;
 
   constructor(private userdataRepo: UserdataRepository) {
     super();
-
-    if (window.location.href.includes('/spot/')) {
-      this.isSpotify = true;
-    }    
+    this.initComponent();
   }
 
 /**
@@ -47,18 +39,17 @@ export class GeneralDataComponent extends SequenceComponentInit {
   {
     console.log("--- Preview Mode: " + this.previewMode);
     if(!this.previewMode) {
-      
       this.initComponent();
     }
   }
 
 /**
   * @see-super-class
-  * @author: Simon (scg@mail.upb.de) 
+  * @author: Simon (scg@mail.upb.de)
   */
   override async initComponent(): Promise<void> {
     console.log("--- Initializing Component 0: GeneralData");
-    let userdata = await this.userdataRepo.getAllUserdata()
-    this.userdata = userdata;
+    const userdata = await this.userdataRepo.getAllUserdata()
+    this.userdata = userdata[0];
   }
 }

@@ -28,8 +28,8 @@ export class InstaAdsClickedRepository extends BulkAddCapableRepository {
      */
     async addSingleAdClickedData(title: string, timestamp: string) {
         await this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
-            let sqlStatement = sql.insertIntoInstaAdsClickedSQL;
-            let values = [title, timestamp];
+            const sqlStatement = sql.insertIntoInstaAdsClickedSQL;
+            const values = [title, timestamp];
             await db.run(sqlStatement, values);
         });
     }
@@ -44,7 +44,7 @@ export class InstaAdsClickedRepository extends BulkAddCapableRepository {
      * 
      * @author: Mayank (mayank@mail.upb.de)
      */
-    async startAdsClickedBulkAdd(title: string, timestamp: string, totalRowCount: number, targetBulkSize: number = 500) {
+    async startAdsClickedBulkAdd(title: string, timestamp: string, totalRowCount: number, targetBulkSize = 500) {
         this.startBulkAdd([title, timestamp], totalRowCount, targetBulkSize);
     }
 
@@ -71,7 +71,7 @@ export class InstaAdsClickedRepository extends BulkAddCapableRepository {
     {
         return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
 
-            let result = await db.query(sql.selectInstaAdsClickedSQL);
+            const result = await db.query(sql.selectInstaAdsClickedSQL);
             return result.values as InstaAdsClickedInfo[];
         });
     }

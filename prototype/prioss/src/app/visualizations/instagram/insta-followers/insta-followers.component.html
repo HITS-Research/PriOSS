@@ -9,42 +9,82 @@
         <nz-row [nzGutter]="16">
             <nz-col [nzSpan]="12">
                 <nz-statistic [nzValue]="(followerInfo.length|number)!"
-                    [nzTitle]="'Number of followers'"></nz-statistic>
+                    [nzTitle]="'Number of followers'" [nzPrefix]="followers"></nz-statistic>
+                <ng-template #followers>
+                    <div class="container_class">
+                        <span nz-icon nzType="heart"></span>
+                    </div>
+                </ng-template> 
             </nz-col>
             <nz-col [nzSpan]="12">
                 <nz-statistic [nzValue]="(followingInfo.length| number)!"
-                    [nzTitle]="'Number of following accounts'"></nz-statistic>
+                    [nzTitle]="'Number of following accounts'" [nzPrefix]="following"></nz-statistic>
+                <ng-template #following>
+                    <div class="container_class">
+                        <span nz-icon nzType="team"></span>
+                    </div>
+                </ng-template> 
             </nz-col>
         </nz-row>
         <nz-row [nzGutter]="16">
             <nz-col [nzSpan]="12">
                 <nz-statistic [nzValue]="(blockedInfo.length | number)!"
-                    [nzTitle]="'Number of blocked accounts'"></nz-statistic>
+                    [nzTitle]="'Number of blocked accounts'" [nzPrefix]="blocked"></nz-statistic>
+                <ng-template #blocked>
+                    <div class="container_class">
+                        <span nz-icon nzType="stop" nzTheme="outline"></span>
+                    </div>
+                </ng-template> 
             </nz-col>
             <nz-col [nzSpan]="12">
                 <nz-statistic [nzValue]="(recentFollowInfo.length| number)!" 
-                    [nzTitle]="'Number of recent follow requests'"></nz-statistic>
+                    [nzTitle]="'Number of recent follow requests'" [nzPrefix]="recent"></nz-statistic>
+                <ng-template #recent>
+                    <div class="container_class">
+                        <span nz-icon nzType="user-add" nzTheme="outline"></span>
+                    </div>
+                </ng-template> 
             </nz-col>
         </nz-row>
         <div [class.hidden]="previewMode">
             <nz-row [nzGutter]="16">
                 <nz-col [nzSpan]="12">
                     <nz-statistic [nzValue]="(receivedFollowRequestInfo.length | number)!"
-                        [nzTitle]="'Number of received follow request'"></nz-statistic>
+                        [nzTitle]="'Number of received follow request'" [nzPrefix]="receive"></nz-statistic>
+                    <ng-template #receive>
+                        <div class="container_class">
+                            <span nz-icon nzType="usergroup-add" nzTheme="outline"></span>
+                        </div>
+                    </ng-template> 
                 </nz-col>
                 <nz-col [nzSpan]="12">
                     <nz-statistic [nzValue]="(pendingFollowRequestInfo.length| number)!" 
-                        [nzTitle]="'Number of pending follow requests'"></nz-statistic>
+                        [nzTitle]="'Number of pending follow requests'" [nzPrefix]="pending"></nz-statistic>
+                    <ng-template #pending>
+                        <div class="container_class">
+                            <span nz-icon nzType="user-switch"></span>
+                        </div>
+                    </ng-template> 
                 </nz-col>
             </nz-row>
             <nz-row [nzGutter]="16">
                 <nz-col [nzSpan]="12">
                     <nz-statistic [nzValue]="(removedSuggestionInfo.length | number)!"
-                        [nzTitle]="'Number of removed suggestions'"></nz-statistic>
+                        [nzTitle]="'Number of removed suggestions'" [nzPrefix]="removed"></nz-statistic>
+                    <ng-template #removed>
+                        <div class="container_class">
+                            <span nz-icon nzType="minus" nzTheme="outline"></span>
+                        </div>
+                    </ng-template> 
                 </nz-col>
                 <nz-col [nzSpan]="12">
                     <nz-statistic [nzValue]="(recentlyUnfollowedAccountInfo.length| number)!" 
-                        [nzTitle]="'Number of recently unfollowed accounts'"></nz-statistic>
+                        [nzTitle]="'Number of recently unfollowed accounts'" [nzPrefix]="unfollow"></nz-statistic>
+                    <ng-template #unfollow>
+                        <div class="container_class">
+                            <span nz-icon nzType="user-delete" nzTheme="outline"></span>
+                        </div>
+                    </ng-template> 
                 </nz-col>
             </nz-row>
         </div>
@@ -137,8 +177,8 @@
                                     <div class="ant-table-filter-dropdown">
                                       <div class="search-box">
                                         <input type="text" nz-input placeholder="Search following" [(ngModel)]="followingSearchValue" />
-                                        <button nz-button nzSize="small" nzType="primary" (click)="search('followering')" class="search-button">Search</button>
-                                        <button nz-button nzSize="small" (click)="reset('followering')">Reset</button>
+                                        <button nz-button nzSize="small" nzType="primary" (click)="search('following')" class="search-button">Search</button>
+                                        <button nz-button nzSize="small" (click)="reset('following')">Reset</button>
                                       </div>
                                     </div>
                                 </nz-dropdown-menu>

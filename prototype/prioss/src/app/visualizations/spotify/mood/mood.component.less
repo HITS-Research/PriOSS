@@ -6,6 +6,26 @@
   /* Adjust the height as needed */
 }
 
+.visualization-container {
+  display: flex;
+  align-items: flex-start;
+}
+
+.mood-card {
+  margin-top: 1em;
+  flex: 1;
+  margin-right: 10px;
+  /* Adjust the spacing between mood and bar chart */
+}
+
+.bar-chart-card {
+  margin-top: 1em;
+  flex: 2;
+  /* Adjust the width of the bar chart card */
+}
+
+
+
 .spinner-wrapper {
   display: flex;
   justify-content: center;
@@ -18,6 +38,107 @@
   fill: #999; // Adjust the color as needed
 }
 
-::ng-deep .additional-text {
-  transition: opacity 0.3s ease-in-out;
+.mood-content {
+  text-align: center;
+  /* Center-align the content horizontally */
+}
+
+.icon-container {
+  display: flex;
+  align-items: center;
+  /* Center the icons vertically */
+  margin-right: 10px;
+  /* Adjust spacing between icons */
+}
+
+.t-inline-spacer-small {
+  margin-inline: 1em;
+}
+
+.t-filter-container {
+  display: flex;
+
+  .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50vh;
+    /* Adjust the height as needed */
+  }
+
+  .visualization-container {
+    display: flex;
+    align-items: center;
+    /* Center vertically */
+    flex-direction: column;
+    /* Stack elements vertically */
+  }
+
+  .mood-card {
+    margin-top: 1em;
+    flex: 1;
+    margin-bottom: 1em;
+    /* Add space below Mood section */
+  }
+
+  .bar-chart-card {
+    margin-top: 1em;
+    flex: 2;
+  }
+
+  .spinner-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .info-icon {
+    font-size: 14px;
+    cursor: pointer;
+    fill: #999;
+  }
+
+
+
+
+  .mood-content {
+    text-align: center;
+  }
+
+  .icon-container {
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+  }
+
+  .t-inline-spacer-small {
+    margin-inline: 1em;
+  }
+
+  .t-filter-container {
+    display: flex;
+    align-items: center;
+  }
+
+  #bar-chart {
+    padding: 1vmin;
+  }
+
+  #startButton {
+    margin-top: 1em;
+  }
+
+  .visualization-card {
+    margin-top: 1em;
+  }
+
+  align-items: center;
+}
+
+#startButton {
+  margin-top: 1em;
+}
+
+.visualization-card {
+  margin-top: 1em;
 }

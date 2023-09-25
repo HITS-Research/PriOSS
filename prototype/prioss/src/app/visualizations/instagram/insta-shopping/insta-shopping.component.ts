@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { AfterViewInit, Component, Input } from '@angular/core';
 import { SequenceComponentInit } from '../../sequence-component-init.abstract';
 import { InstaShoppingRepository } from 'src/app/db/data-repositories/instagram/insta-shopping/insta-shopping.repository';
 import { InstaShoppingWishlistRepository } from 'src/app/db/data-repositories/instagram/insta-shopping/insta-shopping_wishlist.repository';
@@ -10,15 +10,15 @@ import { InstaShoppingWishlistInfo } from 'src/app/models/Instagram/ShoppingInfo
   templateUrl: './insta-shopping.component.html',
   styleUrls: ['./insta-shopping.component.less']
 })
-export class InstaShoppingComponent extends SequenceComponentInit{
+export class InstaShoppingComponent extends SequenceComponentInit implements AfterViewInit{
 
   @Input()
-  previewMode: boolean = false;
+  previewMode = false;
 
-  totalMerchants: number = 0;
-  totalProducts: number = 0;
-  totalWishlistMerchants: number = 0;
-  totalWishlistProducts: number = 0;
+  totalMerchants = 0;
+  totalProducts = 0;
+  totalWishlistMerchants = 0;
+  totalWishlistProducts = 0;
 
   shoppingData: InstaShoppingInfo[] = [];
   shoppingWishlistData: InstaShoppingWishlistInfo[] = [];

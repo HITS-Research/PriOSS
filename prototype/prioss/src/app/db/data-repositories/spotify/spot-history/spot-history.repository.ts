@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { SQLiteDBConnection, capSQLiteChanges } from "@capacitor-community/sqlite";
+import { SQLiteDBConnection} from "@capacitor-community/sqlite";
 import { DBService } from "../../../../services/db/db.service";
 import { SpotListenHistoryEntry } from "src/app/models/Spotify/ListeningHistory/SpotListenHistoryEntry";
 import { SpotYearlyListening } from "src/app/models/Spotify/ListeningHistory/SpotYearlyListening";
@@ -44,7 +44,7 @@ export class SpotHistoryRepository extends BulkAddCapableRepository{
   * @author: Simon (scg@mail.upb.de)
   *
   */
-  async startHistoryBulkAdd(endTime: string, artistName: string, trackName: string, msPlayed: number, totalRowCount: number, targetBulkSize: number = 500)
+  async startHistoryBulkAdd(endTime: string, artistName: string, trackName: string, msPlayed: number, totalRowCount: number, targetBulkSize = 500)
   {
     this.startBulkAdd([endTime, artistName, trackName, msPlayed], totalRowCount, targetBulkSize);
   }
@@ -74,7 +74,7 @@ export class SpotHistoryRepository extends BulkAddCapableRepository{
   {
     return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
 
-      let result = await db.query(sql.selectAllSpotHistory);
+      const result = await db.query(sql.selectAllSpotHistory);
       return result.values as SpotListenHistoryEntry[];
 
     });
@@ -90,7 +90,7 @@ export class SpotHistoryRepository extends BulkAddCapableRepository{
   {
     return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
 
-      let result = await db.query(sql.spotHistoryByYearSQL);
+      const result = await db.query(sql.spotHistoryByYearSQL);
       return result.values as SpotYearlyListening[];
 
     });
@@ -106,7 +106,7 @@ export class SpotHistoryRepository extends BulkAddCapableRepository{
   {
     return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
 
-      let result = await db.query(sql.spotHistoryByMonthSQL);
+      const result = await db.query(sql.spotHistoryByMonthSQL);
       return result.values as SpotMonthlyListening[];
 
     });
@@ -122,8 +122,8 @@ export class SpotHistoryRepository extends BulkAddCapableRepository{
   {
     return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
 
-      let values = [dateUtils.getDisplayDateString(fromDate),dateUtils.getDisplayDateString(toDate)];
-      let result = await db.query(sql.spotHistoryByDaySQL, values);
+      const values = [dateUtils.getDisplayDateString(fromDate),dateUtils.getDisplayDateString(toDate)];
+      const result = await db.query(sql.spotHistoryByDaySQL, values);
       return result.values as SpotDailyListening[];
 
     });
@@ -142,8 +142,8 @@ export class SpotHistoryRepository extends BulkAddCapableRepository{
   {
     return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
 
-      let values = [dateUtils.getDisplayDateString(fromDate),dateUtils.getDisplayDateString(toDate)];
-      let result = await db.query(sql.spotMinListenedToArtistSQL, values);
+      const values = [dateUtils.getDisplayDateString(fromDate),dateUtils.getDisplayDateString(toDate)];
+      const result = await db.query(sql.spotMinListenedToArtistSQL, values);
       return result.values as SpotMinListenedToArtist[];
     });
   }
@@ -161,8 +161,8 @@ export class SpotHistoryRepository extends BulkAddCapableRepository{
   {
     return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
 
-      let values = [dateUtils.getDisplayDateString(fromDate),dateUtils.getDisplayDateString(toDate)];
-      let result = await db.query(sql.spotMinListenedToSongSQL, values);
+      const values = [dateUtils.getDisplayDateString(fromDate),dateUtils.getDisplayDateString(toDate)];
+      const result = await db.query(sql.spotMinListenedToSongSQL, values);
       return result.values as SpotMinListenedToSong[];
     });
   }
@@ -181,8 +181,8 @@ export class SpotHistoryRepository extends BulkAddCapableRepository{
   {
     return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
 
-      let values = [dateUtils.getDisplayDateString(fromDate),dateUtils.getDisplayDateString(toDate), artistName];
-      let result = await db.query(sql.spotListeningHistoryOfArtistSQL, values);
+      const values = [dateUtils.getDisplayDateString(fromDate),dateUtils.getDisplayDateString(toDate), artistName];
+      const result = await db.query(sql.spotListeningHistoryOfArtistSQL, values);
       return result.values as SpotListeningHistoryOfArtist[];
     });
   }
@@ -202,8 +202,8 @@ export class SpotHistoryRepository extends BulkAddCapableRepository{
   {
     return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
 
-      let values = [dateUtils.getDisplayDateString(fromDate),dateUtils.getDisplayDateString(toDate), artistName, trackName];
-      let result = await db.query(sql.spotListeningHistoryOfSongSQL, values);
+      const values = [dateUtils.getDisplayDateString(fromDate),dateUtils.getDisplayDateString(toDate), artistName, trackName];
+      const result = await db.query(sql.spotListeningHistoryOfSongSQL, values);
       return result.values as SpotListeningHistoryOfSong[];
     });
   }
@@ -219,8 +219,8 @@ export class SpotHistoryRepository extends BulkAddCapableRepository{
   {
     return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
 
-      let dateString: string = dateUtils.getDisplayDateString(day);
-      let result = await db.query(sql.spotHistoryByHourSQL, [dateString]);
+      const dateString: string = dateUtils.getDisplayDateString(day);
+      const result = await db.query(sql.spotHistoryByHourSQL, [dateString]);
       return result.values as SpotHourlyListening[];
     });
   }
@@ -236,15 +236,15 @@ export class SpotHistoryRepository extends BulkAddCapableRepository{
     return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
 
       startHour = dateUtils.trimDate(startHour, GranularityEnum.Hour);
-      let endHour = dateUtils.trimDate(startHour, GranularityEnum.Hour);
+      const endHour = dateUtils.trimDate(startHour, GranularityEnum.Hour);
       startHour.setUTCHours(startHour.getHours());//ignore timezone
       endHour.setUTCHours(endHour.getHours()+1);
 
       console.log(startHour);
       console.log(endHour);
       
-      let values = [startHour.getTime(), endHour.getTime()];
-      let result = await db.query(sql.spotHistoryForSingleHourSQL, values);
+      const values = [startHour.getTime(), endHour.getTime()];
+      const result = await db.query(sql.spotHistoryForSingleHourSQL, values);
       return result.values as SpotHistoryBySong[];
     });
   }
@@ -258,11 +258,16 @@ export class SpotHistoryRepository extends BulkAddCapableRepository{
   {
     return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
 
-      let result = await db.query(sql.spotHistoryMostRecentDaySQL);
+      const result = await db.query(sql.spotHistoryMostRecentDaySQL);
       if(result.values)
       {
-        let dateString: string = result.values[0].date;
-        return dateUtils.parseDate(dateString) as Date;
+        const dateString: string = result.values[0].date;
+        if (!dateString) {
+          return null;
+        }
+        else {
+          return dateUtils.parseDate(dateString) as Date;
+        }
       }
       else
       {
@@ -280,11 +285,16 @@ export class SpotHistoryRepository extends BulkAddCapableRepository{
   {
     return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
 
-      let result = await db.query(sql.spotHistoryFirstDaySQL);
+      const result = await db.query(sql.spotHistoryFirstDaySQL);
       if(result.values)
       {
-        let dateString: string = result.values[0].date;
-        return dateUtils.parseDate(dateString) as Date;
+        const dateString: string = result.values[0].date;
+        if (!dateString) {
+          return null;
+        }
+        else {
+          return dateUtils.parseDate(dateString) as Date;
+        }
       }
       else
       {

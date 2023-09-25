@@ -3,7 +3,12 @@
   <div *ngIf="previewMode">
     <nz-row [nzGutter]="16">
         <nz-col [nzSpan]="12">
-            <nz-statistic [nzValue]="(contacts.length | number)!" [nzTitle]="'Number of contacts'"></nz-statistic>
+            <nz-statistic [nzValue]="(contacts.length | number)!" [nzTitle]="'Number of contacts'" [nzPrefix]="contact"></nz-statistic>
+            <ng-template #contact>
+              <div class="container_class">
+                <span nz-icon nzType="contacts" nzTheme="outline"></span>
+              </div>
+            </ng-template>
         </nz-col>
     </nz-row>
   </div>

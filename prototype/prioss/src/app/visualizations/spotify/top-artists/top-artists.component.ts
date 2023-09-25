@@ -1,11 +1,11 @@
-import {Component, Input} from '@angular/core';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import {AfterViewInit, Component, Input} from '@angular/core';
 import * as d3 from 'd3';
 import {SpotHistoryRepository} from "../../../db/data-repositories/spotify/spot-history/spot-history.repository";
-import {NotificationService} from "../../../notification/notification.component";
+import {NotificationService} from "../../../utilities/notification/notification.component";
 import { SpotMinListenedToArtist } from 'src/app/models/Spotify/TopArtist/SpotMinListenedToArtist';
 import { SequenceComponentInit } from '../../sequence-component-init.abstract';
 import { ActivatedRoute } from '@angular/router';
-import * as dateUtils from '../../../utilities/dateUtils.functions'
 
 /**
  * This component visualizes how many songs from an artist were listened to
@@ -19,22 +19,23 @@ import * as dateUtils from '../../../utilities/dateUtils.functions'
   templateUrl: './top-artists.component.html',
   styleUrls: ['./top-artists.component.less']
 })
-export class TopArtistsComponent extends SequenceComponentInit {
+export class TopArtistsComponent extends SequenceComponentInit implements AfterViewInit{
 
   readonly spotifyGreen: string = "#1DB954";
+  readonly textSize = "20px";
   @Input()
-  previewMode: boolean = false;
+  previewMode = false;
   @Input()
-  calledFromListeningtime: boolean = false;
+  calledFromListeningtime = false;
 
-  showArtistHistoy : boolean  = false;
+  showArtistHistoy   = false;
 
   filterFromDate: Date | null;
   filterToDate: Date | null;
 
   minListenedToArtist : any[];
-  activeTabIndex: number = 0;
-  selectedArtistName : string = "";
+  activeTabIndex = 0;
+  selectedArtistName  = "";
   selectedArtistHistory : any[];
 
   constructor(private spothistoryRepo: SpotHistoryRepository, private notifyService: NotificationService, private route: ActivatedRoute) {
@@ -70,11 +71,16 @@ export class TopArtistsComponent extends SequenceComponentInit {
     if(!this.filterToDate) {
       this.filterToDate = await this.spothistoryRepo.getMostRecentDay();
     }
-    
-    let result: SpotMinListenedToArtist[] = await this.spothistoryRepo.getMinListenedToArtists(this.filterFromDate, this.filterToDate)
-    this.minListenedToArtist = result;
-    this.makeBarChart(result.slice(0, 10));
-    
+
+    if(this.filterFromDate && this.filterToDate) {
+      const result: SpotMinListenedToArtist[] = await this.spothistoryRepo.getMinListenedToArtists(this.filterFromDate, this.filterToDate)
+      this.minListenedToArtist = result;
+      this.makeBarChart(result.slice(0, 10));
+    }
+    else {
+      this.makeBarChart([]);
+    }
+
   }
 
   /**
@@ -126,25 +132,39 @@ export class TopArtistsComponent extends SequenceComponentInit {
     //remove old barchart
     d3.select(".bar_chart_top_artists").selectAll("*").remove();
 
-    if (data.length === 0) {
-      this.notifyService.showNotification("You did not listen to any music in the selected time period.");
+    if (data.length === 0
+        //If SQLite does not find any data it still returns an array with one entry, but the "artistName" portion in the entry is "null" (string, not nulltype)
+        || (data.length == 1 && data[0].artistName == "null")) {
+
+      data = [];
+
+      d3.select(".bar_chart_top_artists")
+        .append("div")
+        .text("There is no listening history data in your data-download.");
+
+      //this.notifyService.showNotification("You did not listen to any music in the selected time period.");
+
       return;
     }
 
-    let hoveringBarName: string = "";
+    let hoveringBarName = "";
 
     // set the dimensions and margins of the graph
-    const margin = {top: 20, right: 30, bottom: 50, left: 100},
-      width = 460 - margin.left - margin.right,
-      height = 400 - margin.top - margin.bottom;
+    const margin = 100;
+    const leftmargin = 200;
+    const bottomMargin = 125;
+    const xAxisWidth = window.innerWidth - margin * 2;
+    const yAxisHeight = window.innerHeight*0.90 - margin * 2;
 
     // append the svg object to the body of the page
     const svg = d3.select(".bar_chart_top_artists")
       .append("svg")
-      .attr("width", width + margin.left + margin.right)
-      .attr("height", height + margin.top + margin.bottom)
+      .attr(
+        "viewBox",
+        `0 0 ${xAxisWidth + margin * 2 + 25} ${yAxisHeight + bottomMargin}`
+      )
       .append("g")
-      .attr("transform", `translate(${margin.left}, ${margin.top})`);
+      .attr("transform", "translate(" + leftmargin + "," + 0 + ")");
 
     // create tooltip
     const tooltip = d3.select(".bar_chart_top_artists")
@@ -162,21 +182,42 @@ export class TopArtistsComponent extends SequenceComponentInit {
     // add X axis
     const xScale = d3.scaleLinear()
       .domain([0, data[0].minPlayed]) // maximum
-      .range([0, width]);
+      .range([0, xAxisWidth]);
     svg.append("g")
-      .attr("transform", `translate(0, ${height})`)
+      .attr("transform", `translate(0, ${yAxisHeight})`)
       .call(d3.axisBottom(xScale).tickSizeOuter(0))
       .selectAll("text")
       .attr("transform", "translate(-10,0)rotate(-45)")
-      .style("text-anchor", "end");
+      .style("text-anchor", "end")
+      .style("font-size", this.textSize);
 
     // Y axis
-    var yScale: any = d3.scaleBand()
-      .range([0, height])
+    const yScale: any = d3.scaleBand()
+      .range([0, yAxisHeight])
       .domain(data.map(d => d.artistName))
       .padding(.1);
-    svg.append("g")
+    const yAxis = svg.append("g")
       .call(d3.axisLeft(yScale).tickSize(0));
+
+    yAxis.selectAll<SVGTextElement, string>("text") // Specify the type for text elements and the data type
+      .style("font-size", this.textSize)
+      .text(function(d: string) {
+        const shortTrackName = d.replace(/\(feat\..*?\)/i, ''); // Remove "(feat." and everything after it
+        return (shortTrackName.length > 18) ? shortTrackName.substring(0, 15) + "..." : shortTrackName;
+      });
+
+    yAxis.selectAll<SVGTextElement, string>("text")
+      .on("mouseover", function(event, d) {
+        const tooltipContent = d;
+        tooltip.style("visibility", "visible")
+          .html(tooltipContent)
+          .style("top", (event.pageY - 10) + "px")
+          .style("left", (event.pageX + 10) + "px");
+      })
+      .on("mouseout", function() {
+        tooltip.style("visibility", "hidden");
+      });
+
 
     // bars
     svg.selectAll("myRect")
@@ -205,13 +246,19 @@ export class TopArtistsComponent extends SequenceComponentInit {
       .on("mouseout", function () {
         hoveringBarName = "";
         tooltip.html(``).style("visibility", "hidden");
-      });
+      })
+      //Add bar rising transition
+      .attr("width", 0)
+      .transition()
+      .duration(1000)
+      .attr("width", (d) => xScale(d.minPlayed));
 
     svg.append("text")
       .attr("text-anchor", "end")
-      .attr("x", width)
-      .attr("y", height + margin.top + 20)
-      .text("Minutes listened");
+      .attr("x", xAxisWidth - 20)
+      .attr("y", yAxisHeight + margin)
+      .text("Minutes listened")
+      .style("font-size", "25px");
   }
 
   /**
@@ -244,15 +291,15 @@ export class TopArtistsComponent extends SequenceComponentInit {
 
   /**
    * A callback function that hides this visualization and replaces it with the listeningtime visualization.
-   * by doing the replacement this way, instead of displaying this component on a seperate page apart from the listening time, 
+   * by doing the replacement this way, instead of displaying this component on a seperate page apart from the listening time,
    * the listeningtime visualization's filter history is preserved when navigating back to it.
-   * 
+   *
    * @author: Simon (scg@mail.upb.de)
    */
   returnToListeningTime() {
-    let listeningTimePage = document.getElementById('listeningtime-page');
-    let topArtistsPage = document.getElementById('topartists-page');
-  
+    const listeningTimePage = document.getElementById('listeningtime-page');
+    const topArtistsPage = document.getElementById('topartists-page');
+
     if(topArtistsPage && listeningTimePage) {
       listeningTimePage.style.display='block';
       topArtistsPage.style.display='none';

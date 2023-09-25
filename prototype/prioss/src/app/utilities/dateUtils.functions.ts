@@ -11,10 +11,10 @@ import { GranularityEnum } from "../visualizations/spotify/listening-time/granul
  * @author: Simon (scg@mail.upb.de)
  */
 export function trimDate(date: Date, trimTo: GranularityEnum) {
-  let dateYear: number = date.getFullYear();
-  let dateMonth: number = date.getMonth();
-  let dateDay: number = date.getDate();
-  let dateHour: number = date.getHours();
+  const dateYear: number = date.getFullYear();
+  const dateMonth: number = date.getMonth();
+  const dateDay: number = date.getDate();
+  const dateHour: number = date.getHours();
 
   let resultDate: Date = new Date();
 
@@ -47,12 +47,12 @@ export function trimDate(date: Date, trimTo: GranularityEnum) {
 * @author: Simon (scg@mail.upb.de)
 */
 export function parseDate(dateString: string) {
-
-  let dateParts = dateString.split(" ");
-  let date = dateParts[0].split("-");
+  
+  const dateParts = dateString.split(" ");
+  const date = dateParts[0].split("-");
   if(dateParts[1])
   {
-    let time = dateParts[1].split(":");
+    const time = dateParts[1].split(":");
     //Month is decremented by one because in a date object, the month is 0-indexed
     return new Date(parseInt(date[0]), parseInt(date[1]) - 1, parseInt(date[2]), parseInt(time[0]), parseInt(time[1]));
   }

@@ -1,17 +1,17 @@
-export const bulkAddInferencesBaseSQL: string = `
+export const bulkAddInferencesBaseSQL = `
   insert into inferences 
   (inference)
 `;
 
-export const bulkAddInferencesValuesSQL: string = `
+export const bulkAddInferencesValuesSQL = `
   select ?
 `;
 
-export const bulkAddValueConnector: string = `
+export const bulkAddValueConnector = `
 union all
 `;
 
-export const selectAllInferences: string = `
+export const selectAllInferences = `
  select id,
         inference
    from inferences;

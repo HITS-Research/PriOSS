@@ -14,3 +14,7 @@ In ``documentation/dev-guidelines/Startup and Coding guidelines`` are some usefu
 
 We use git large file support to track large binary files, for example images. To enable it you only have to run the command ```git lfs install``` once on your system. 
 If you have done so before for a previous project, you shouldn't have to run it again. Everything should work as normal after that.
+
+## Maintenance
+
+The apps frequently update their data download structure so it is recommended to check the updated download regularly and make the necessary changes in the application with respect to that. Also please update the sample data according to the new structures when required.

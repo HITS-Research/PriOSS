@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { AppComponentMsg } from 'src/app/enum/app-component-msg.enum';
+import { AppComponentMsg } from 'src/app/utilities/enum/app-component-msg.enum';
 import { AppComponentMsgService } from 'src/app/services/app-component-msg/app-component-msg.service';
 
 /**
@@ -16,28 +16,29 @@ import { AppComponentMsgService } from 'src/app/services/app-component-msg/app-c
 export class TitleBarComponent {
 
   @Input()
-  titleText: string = "Default Title";
+  titleText = "Default Title";
   @Input()
-  tooltipText: string = "";
+  tooltipText = "";
   @Input()
-  includeButton: boolean = true;
+  includeButton = true;
   /**
    * Hook a function up to this Event Emitter and set overrideBackButtonFunction to true via html attributes 
    * to change the functionality of the back button above the title
    */
   @Output() 
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   onButtonClickedEventOverride: EventEmitter<any> = new EventEmitter()
   /**
    * If this is set to true, the onButtonClickedEventOverride event emitter emits an event when the back button is clicked 
    * and the component does not navigate back to the dashboard
    */
   @Input()
-  overrideBackButtonFunction: boolean = false;
+  overrideBackButtonFunction = false;
   /**
    * Pass a text to this variable via a html attribute to change the text that is displayed in the back button above the title
    */
   @Input()
-  backButtonTextOverride: string = "";
+  backButtonTextOverride = "";
 
   constructor(private appMsgService: AppComponentMsgService) {
 
