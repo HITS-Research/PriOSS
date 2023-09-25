@@ -54,6 +54,7 @@ export class MoodComponent {
   /* 
    * This function starts the drawing of the Radarchart. If offlineLoading is true the json file is loaded.
    * If false the songIds for the given data download are requested.
+   * The Spotify API rate limit is already for one user to slow to hande many requests. Therefore, we decided for now to only use sampledata for this component.
    * 
    * @author: Sven (svenf@mail.uni-paderborn.de)
   */
@@ -308,7 +309,7 @@ function makeRadarChart(audiofeatures: any, componentInstance: MoodComponent) {
   const avgTempo = tempoSum / count;
   const avgAccousticness = accousticnessSum / count * 100;
 
-  // Define criteria for each mood
+  // Define criteria for each mood. Here could a more profound machine learning be applied to analyse what mood is indicated be the values
   const danceabilityThreshold = 0.6;  // Adjust as needed
   const energyThreshold = 0.6;        // Adjust as needed
   const valenceThreshold = 0.6;       // Adjust as needed
@@ -440,20 +441,14 @@ function makeRadarChart(audiofeatures: any, componentInstance: MoodComponent) {
         .style("font-weight", "bold")
         .style("font-size", "10px");
 
-
-
-      // Inside your D3.js code where you handle the additional text:
-      // Inside your D3.js code where you handle the additional text:
       const additionalTextGroup = group.append("g"); // Create a group for background and text
-
-      // Append a rectangle for the background
       const backgroundRect = additionalTextGroup
         .append("rect")
         .attr("fill", "#3C3D3E")
         .attr("stroke", "#3C3D3E")
         .attr("stroke-width", 1)
         .attr("rx", 5)
-        .style("opacity", 0); // Initially hide it // Optional: Add rounded corners
+        .style("opacity", 0); 
 
       // Append the text element
       const textElement: any = additionalTextGroup
