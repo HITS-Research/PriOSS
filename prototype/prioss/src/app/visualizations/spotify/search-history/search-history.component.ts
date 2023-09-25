@@ -20,7 +20,7 @@ import { SpotSearchHistory } from 'src/app/models/Spotify/SearchHistory/SpotSear
 export class SearchHistoryComponent extends SequenceComponentInit implements AfterViewInit{
   searchHistory: SpotSearchHistory[] = [];
   listOfsearchHistory: SpotSearchHistory[] = [];
-  latestSearchQuery: string = ""
+  latestSearchQuery = ""
 
   visible = false;
   checked = false;
