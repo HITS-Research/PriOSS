@@ -138,7 +138,7 @@ import { InstaActivityStatusHiddenComponent } from './rectification/instagram/in
 import { SearchHistoryComponent } from './visualizations/spotify/search-history/search-history.component';
 import { InstaDisableCookiesComponent } from './rectification/instagram/insta-disable-cookies/insta-disable-cookies.component';
 import { SpotSearchHistoryRepository } from './db/data-repositories/spotify/spot-search-history/spot-search-history.repository';
-
+import { FacePurposesComponent } from './visualizations/facebook/face-purposes/face-purposes.component';
 import { InstaPurposesComponent } from './visualizations/instagram/insta-purposes/insta-purposes.component';
 
 registerLocaleData(de);
@@ -206,7 +206,8 @@ registerLocaleData(de);
     InstaActivityStatusHiddenComponent,
     InstaDisableCookiesComponent,
     InstaPurposesComponent,
-    SearchHistoryComponent
+    SearchHistoryComponent,
+    FacePurposesComponent
 ,
   ],
   imports: [

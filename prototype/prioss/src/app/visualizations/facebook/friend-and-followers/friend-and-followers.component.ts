@@ -3,6 +3,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import * as d3 from 'd3';
 import { FacebookFriendsRepository } from 'src/app/db/data-repositories/facebook/fb-friends-data/face_friends.repo';
 import { FacebookFriendsModel } from 'src/app/models/Facebook/faceFriends';
+import { scrollToTop } from 'src/app/utilities/generalUtilities.functions';
 
 export class chartData{
   year: number;
@@ -47,6 +48,7 @@ export class FriendAndFollowersComponent implements OnInit{
   constructor(private faceFriendsRepo: FacebookFriendsRepository){}
 
   ngOnInit() {
+    scrollToTop();
     this.getData();
   }
 

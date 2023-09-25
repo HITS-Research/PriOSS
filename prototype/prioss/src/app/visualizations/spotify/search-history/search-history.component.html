@@ -21,7 +21,7 @@
       </app-title-bar>
       <!-- If user search data present -->
       <div *ngIf="searchHistory?.length">
-          <p>The table below displays the user searches that were performed by your Spotify account.</p>
+        <br>
           <nz-table #rowSelectionTable [nzData]="listOfsearchHistory" [nzPageSize]="50000"
             [nzScroll]="{ y: 'calc(100vh - 369px)' }" [nzShowPagination]="false">
               <thead>
