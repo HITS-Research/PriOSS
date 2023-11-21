@@ -1,5 +1,5 @@
 import { SQLiteDBConnection} from "@capacitor-community/sqlite";
-import { DBService } from "src/app/services/db/db.service";
+import { DBService } from "src/app/db/db.service";
 
 /**
   * This repository component is responsible for providing methods for bulk-adding data to a SQLite table
@@ -10,11 +10,11 @@ import { DBService } from "src/app/services/db/db.service";
   */
 export class BulkAddCapableRepository {
 
-  /* 
+  /*
    * Variables needed for bulk add feature
    */
   private bulkAddSQL = "";//The SQL command as a prepared statement (values have placeholders: '?')
-  private bulkAddValues: any[] = [];//the values to fill the placeholders in the prepared statement with 
+  private bulkAddValues: any[] = [];//the values to fill the placeholders in the prepared statement with
   private currBulkSize = 0;//use to detect if the target bulk size is reached and a SQL command has to be run
   private targetBulkSize = 500;//the number of rows that should be inserted in a single SQL query. The SQLite engine does not seem to support much more than 500 at a time
   private totalRemainingBulkAddRowCount = 0;//the total number of rows remaining that should be added across all bulks inside this bulk add run
@@ -116,7 +116,7 @@ export class BulkAddCapableRepository {
 
     return Promise.resolve();
   }
-  
+
   async finishBulkEntry(){
     if(this.bulkAddValues.length > 0){
       //run the query without the newly passed row

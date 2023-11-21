@@ -1,16 +1,16 @@
 import { Injectable } from "@angular/core";
 import { SQLiteDBConnection } from "@capacitor-community/sqlite";
-import { DBService } from "../../../../services/db/db.service";
+import { DBService } from "../../../db.service";
 import { BulkAddCapableRepository } from "../../general/inferences/bulk-add-capable.repository";
 import * as sql from "./face_account_status_changes.sql";
-import { AccountStatusChangesModel } from "../../../../models/Facebook/accountStatusChanges";
+import { AccountStatusChangesModel } from "../../../../facebook/models/accountStatusChanges";
 
 /**
  * This repository component is responsible for providing functions to insert and request data from the
  * face_status_changes table that holds all data regarding locations where user has logged in and the device(s) used to login.
- * 
+ *
  * @author: Deepa (dbelvi@mail.upb.de)
- * 
+ *
  */
 
 @Injectable()
@@ -22,7 +22,7 @@ export class FacebookAccountStatusChangesRepository extends BulkAddCapableReposi
     /**
      * Starts a bulk-add run that adds multiple rows from subsequent addAdActivityBulkEntry-Calls to the DB in a single SQL statement.
      *
-     * @param status status changes data, to be added to face_status_changes table. 
+     * @param status status changes data, to be added to face_status_changes table.
      * @param timestamp timestamp to be added to the face_status_changes table
      * @param totalRowCount the total number of rows that should be added to the table in this bulk add run
      * @param targetBulkSize the number of rows that should be inserted in a single SQL query. The SQLite engine does not seem to support much more than 500 at a time
@@ -36,7 +36,7 @@ export class FacebookAccountStatusChangesRepository extends BulkAddCapableReposi
 
     /**
      * Adds a row to the Facebook face_status_changes table as part of a bulk-add run
-     * 
+     *
      * @author: Deepa (dbelvi@mail.upb.de)
     */
 
@@ -46,9 +46,9 @@ export class FacebookAccountStatusChangesRepository extends BulkAddCapableReposi
 
     /**
      * This async method fetches all entries from the face_status_changes table.
-     * 
+     *
      * @author: Deepa (dbelvi@mail.upb.de)
-     * 
+     *
     */
 
     async getAllAccStatusChanges() : Promise<AccountStatusChangesModel[]> {

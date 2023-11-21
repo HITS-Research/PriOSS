@@ -1,14 +1,14 @@
 import { Injectable } from "@angular/core";
-import { DBService } from "../../../../services/db/db.service";
+import { DBService } from "../../../db.service";
 import { BulkAddCapableRepository } from "../../general/inferences/bulk-add-capable.repository";
 import * as sql from "./insta-contacts.sql";
-import { InstaContactInfo } from "src/app/models/Instagram/ContactInfo/InstaContactInfo";
+import { InstaContactInfo } from "src/app/instagram/models/ContactInfo/InstaContactInfo";
 import { SQLiteDBConnection } from "@capacitor-community/sqlite";
 
 /**
  * This repository component is responsible for providing functions to insert and request data from the
  * insta_contacts table that holds all data regarding instagram contacts.
- * 
+ *
  * @author: Durva & Mayank (dghurye@mail.upb.de & mayank@mail.upb.de)
  */
 @Injectable()
@@ -19,13 +19,13 @@ export class InstaContactsRepository extends BulkAddCapableRepository {
 
     /**
      * Starts a bulk-add run that adds multiple rows from subsequent addAdActivityBulkEntry-Calls to the DB in a single SQL statement.
-     * 
+     *
      * @param firstName the first name of the contact
      * @param surname the value for surname of the contact
      * @param contactInformation the value for the contact information
      * @param totalRowCount the total number of rows that should be added to the Instagram ads activity table in this bulk add run
      * @param targetBulkSize the number of rows that should be inserted in a single SQL query. The SQLite engine does not seem to support much more than 500 at a time
-     * 
+     *
      * @author: Durva & Mayank (dghurye@mail.upb.de & mayank@mail.upb.de)
      */
     async startContactBulkAdd(firstName: string, surname: string, contactInformation: string, totalRowCount: number, targetBulkSize = 500) {
@@ -34,11 +34,11 @@ export class InstaContactsRepository extends BulkAddCapableRepository {
 
     /**
      * Adds a row to the Instagram ads activity table as part of a bulk-add run
-     * 
+     *
      * @param firstName the first name of the contact
      * @param surname the value for surname of the contact
      * @param contactInformation the value for the contact information
-     * 
+     *
      * @author: Durva & Mayank (dghurye@mail.upb.de & mayank@mail.upb.de)
      */
     async addContactsBulkEntry(firstName: string, surname: string, contactInformation: string) : Promise<void> {
@@ -47,9 +47,9 @@ export class InstaContactsRepository extends BulkAddCapableRepository {
 
     /**
      * This async method selects all entries from the Insta_Contacts table
-     * 
+     *
      * @returns an array of InstaContactInfo
-     * 
+     *
      * @author: Durva & Mayank (dghurye@mail.upb.de & mayank@mail.upb.de)
      */
     async getAllContacts(): Promise<InstaContactInfo[]>

@@ -1,15 +1,15 @@
 import { Injectable } from "@angular/core";
-import { DBService } from "../../../../services/db/db.service";
+import { DBService } from "../../../db.service";
 import { BulkAddCapableRepository } from "../../general/inferences/bulk-add-capable.repository";
 import * as sql from "./face-off-facebook-activity.sql";
-import { OffFacebookActivityModel } from "src/app/models/Facebook/offfacebookactivity";
+import { OffFacebookActivityModel } from "src/app/facebook/models/offfacebookactivity";
 import { SQLiteDBConnection } from "@capacitor-community/sqlite";
 
 
 /**
  * This repository component is responsible for providing functions to insert and request data from the
  * face_off_facebook_activity table that holds all data regarding off facebook activity of the user.
- * 
+ *
  * @author: Deepa (dbelvi@mail.upb.de)
  */
 @Injectable()
@@ -37,7 +37,7 @@ export class FacebookOffFacebookActivityRepository extends BulkAddCapableReposit
 
     /**
      * Adds a row to the Facebook Off-Facebook-Activity table as part of a bulk-add run
-     * 
+     *
      * @author: Deepa (dbelvi@mail.upb.de)
      */
     async addAdActivityBulkEntry(name: string, events: string,  type: string) : Promise<void> {
@@ -45,13 +45,13 @@ export class FacebookOffFacebookActivityRepository extends BulkAddCapableReposit
     }
      /**
      * This async method fetches all entries from the off facebook activity  table.
-     * 
+     *
      * @author: @author: rishmamn@campus.uni-paderborn.de
-     * 
+     *
      */
      async getAllOffFacebookActivity() : Promise<OffFacebookActivityModel[]> {
         return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
-    
+
           const result = await db.query(sql.selectAllFaceOffFacebookActivity);
           return result.values as OffFacebookActivityModel[];
         });

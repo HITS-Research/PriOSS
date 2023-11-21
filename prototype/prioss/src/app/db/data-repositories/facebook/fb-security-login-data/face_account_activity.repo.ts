@@ -1,17 +1,17 @@
 import { Injectable } from "@angular/core";
 import { SQLiteDBConnection } from "@capacitor-community/sqlite";
-import { DBService } from "../../../../services/db/db.service";
+import { DBService } from "../../../db.service";
 import { BulkAddCapableRepository } from "../../general/inferences/bulk-add-capable.repository";
-import { AccountActivitiesModel } from "../../../../models/Facebook/accountActivities";
+import { AccountActivitiesModel } from "../../../../facebook/models/accountActivities";
 import * as sql from "./face_account_activity.sql";
 
 /**
  * This repository component is responsible for providing functions to insert and request data from the
- * face_account_activity table that holds all data about all use activities such as 
+ * face_account_activity table that holds all data about all use activities such as
  * Login, Session updated, Web Session Terminated, Password Change, Mobile Session Terminated to be added to the table.
- * 
+ *
  * @author: Deepa (dbelvi@mail.upb.de)
- * 
+ *
  */
 
 @Injectable()
@@ -23,7 +23,7 @@ export class FacebookAccountActivityRepository extends BulkAddCapableRepository 
     /**
      * Starts a bulk-add run that adds multiple rows from subsequent addAdActivityBulkEntry-Calls to the DB in a single SQL statement.
      *
-     * @param action action data, to be added to face_account_activity table. 
+     * @param action action data, to be added to face_account_activity table.
      * @param timestamp timestamp to be added to the face_account_activity table
      * @param city city in which the action was performed, to be added to face_account_activity table.
      * @param region region of the city, to be added to face_account_activity table.
@@ -41,7 +41,7 @@ export class FacebookAccountActivityRepository extends BulkAddCapableRepository 
 
     /**
      * Adds a row to the Facebook face_account_activity table as part of a bulk-add run
-     * 
+     *
      * @author: Deepa (dbelvi@mail.upb.de)
     */
 
@@ -51,9 +51,9 @@ export class FacebookAccountActivityRepository extends BulkAddCapableRepository 
 
     /**
      * This async method fetches all entries from the face_account_activity table.
-     * 
+     *
      * @author: Deepa (dbelvi@mail.upb.de)
-     * 
+     *
     */
 
     async getAllAccountActivities() : Promise<AccountActivitiesModel[]> {

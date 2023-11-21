@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
-import * as utilities from 'src/app/utilities/generalUtilities.functions'
-import { SQLiteService } from './services/sqlite/sqlite.service';
-import { AppComponentMsgService } from './services/app-component-msg/app-component-msg.service';
-import { AppComponentMsg } from './utilities/enum/app-component-msg.enum';
+import * as utilities from 'src/app/features/utils/generalUtilities.functions'
+import { SQLiteService } from './db/sqlite/sqlite.service';
+import { AppComponentMsgService } from './features/messaging/app-component-msg/app-component-msg.service';
+import { AppComponentMsg } from './features/messaging/app-component-msg/app-component-msg.enum';
 
 /**
  * This is the base component of the application that is always shown. It includes the side menu and the router outlet,
  * which gets replaced by the page component that the user currently navigated to
- * 
+ *
  * authors: Paul (pasch@mail.upb.de), Simon (scg@mail.upb.de)
  */
 @Component({
@@ -105,13 +105,13 @@ export class AppComponent implements OnInit {
 
   /**
    * This method checks if the current url contains a specific fragment
-   * 
+   *
    * @param fragment the fragment or section to be checked
    * @returns true, if the fragment is contained in the dashboard url
    *          false, if not
    *
    * @author: Paul (pasch@mail.upb.de)
-   * 
+   *
    */
   isSelected(fragment: string): boolean {
     return this.router.url === '/' + this.serviceName + '/dashboard' + fragment;
@@ -119,9 +119,9 @@ export class AppComponent implements OnInit {
 
   /**
    * This method navigates to the current Dashboard.
-   * 
+   *
    * @author: Paul (pasch@mail.upb.de)
-   * 
+   *
    */
   routeToDashboard(): void {
     this.router.navigateByUrl('/' + this.serviceName + '/dashboard');
@@ -129,9 +129,9 @@ export class AppComponent implements OnInit {
 
   /**
    * Reacts to messages received from the app component msg service
-   * 
+   *
    * @param msg The message received from the msg service
-   * 
+   *
    * @author: Simon (scg@mail.upb.de)
    */
   parseAppMsg(msg: AppComponentMsg): void {
@@ -148,7 +148,7 @@ export class AppComponent implements OnInit {
 
   /**
    * This method is responsible for setting the variables that determine if the navbar is closed and buttons should be shown.
-   * 
+   *
    * @author: Paul (pasch@mail.upb.de)
    */
   handleNavbarFold(): void {
@@ -158,11 +158,11 @@ export class AppComponent implements OnInit {
 
   /**
    * Caclulates whether the Switch Service Button should be shown and writes the result in this.showServiceButton
-   * 
+   *
    * @author: Simon (scg@mail.upb.de)
    */
   recalculateShowServiceButton(): void {
-    this.showServiceButton = !this.router.url.includes('contact') && !this.router.url.includes('about') && !this.router.url.includes('known-issues') 
+    this.showServiceButton = !this.router.url.includes('contact') && !this.router.url.includes('about') && !this.router.url.includes('known-issues')
                               && !this.router.url.includes('serviceSelection') && !this.router.url.includes('home');
   }
 }

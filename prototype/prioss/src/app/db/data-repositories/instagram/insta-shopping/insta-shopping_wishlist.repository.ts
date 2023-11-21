@@ -1,32 +1,32 @@
 import { Injectable } from "@angular/core";
 import { SQLiteDBConnection} from "@capacitor-community/sqlite";
-import { DBService } from "../../../../services/db/db.service";
+import { DBService } from "../../../db.service";
 import * as sql from "./insta-shopping_wishlist.sql";
-import { InstaShoppingWishlistInfo } from "src/app/models/Instagram/ShoppingInfo/InstaShoppingWishlistInfo";
+import { InstaShoppingWishlistInfo } from "src/app/instagram/models/ShoppingInfo/InstaShoppingWishlistInfo";
 import { BulkAddCapableRepository } from "../../general/inferences/bulk-add-capable.repository";
 
 
 /**
  * This class handles all communication with the database tables that are used in the InstaShopping Component.
- * 
+ *
  * @author: Mayank (mayank@mail.upb.de)
  */
 @Injectable()
 export class InstaShoppingWishlistRepository extends BulkAddCapableRepository{
-    
+
     constructor(dbService: DBService){
-        super(sql.bulkAddInstaShoppingWishlistBaseSQL, 
-            sql.bulkAddInstaShoppingWishlistValuesSQL, 
-            sql.bulkAddValueConnectorForShoppingWishlist, 
+        super(sql.bulkAddInstaShoppingWishlistBaseSQL,
+            sql.bulkAddInstaShoppingWishlistValuesSQL,
+            sql.bulkAddValueConnectorForShoppingWishlist,
             dbService);
     }
 
     /**
      * This async method adds shopping information to the insta_shopping_wishlist table.
-     * 
-     * @param merchantName the merchant/brand selling the product 
+     *
+     * @param merchantName the merchant/brand selling the product
      * @param productName the name of the product being sold
-     * 
+     *
      * @author: Mayank (mayank@mail.upb.de)
      */
     async addShoppingWishlistInformation(merchantName: string, productName: string) {
@@ -39,10 +39,10 @@ export class InstaShoppingWishlistRepository extends BulkAddCapableRepository{
 
     /**
      * Starts a bulk-add run that adds multiple rows from subsequent addShoppingBulkEntry-Calls to the DB in a single SQL statement.
-     * 
-     * @param merchantName the merchant/brand selling the product 
+     *
+     * @param merchantName the merchant/brand selling the product
      * @param productName the name of the product being sold
-     * 
+     *
      * @author: Mayank (mayank@mail.upb.de)
      */
     async startShoppingWishlistBulkAdd(merchantName: string, productName: string, totalRowCount: number, targetBulkSize = 500) {
@@ -51,10 +51,10 @@ export class InstaShoppingWishlistRepository extends BulkAddCapableRepository{
 
     /**
      * Adds a row to the Instagram Shopping table as part of a bulk-add run
-     * 
-     * @param merchantName the merchant/brand selling the product 
+     *
+     * @param merchantName the merchant/brand selling the product
      * @param productName the name of the product being sold
-     * 
+     *
      * @author: Mayank (mayank@mail.upb.de)
      */
     async addShoppingWishlistBulkEntry(merchantName: string, productName: string) : Promise<void> {
@@ -63,9 +63,9 @@ export class InstaShoppingWishlistRepository extends BulkAddCapableRepository{
 
     /**
      * This async method selects all entries from the insta_shopping_wishlist table
-     * 
+     *
      * @returns an array of InstaShoppingInfos
-     * 
+     *
      * @author: Mayank (mayank@mail.upb.de)
      */
     async getAllShoppingWishlistInfo(): Promise<InstaShoppingWishlistInfo[]>

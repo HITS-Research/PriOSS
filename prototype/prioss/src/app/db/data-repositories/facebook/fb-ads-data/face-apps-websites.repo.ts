@@ -1,15 +1,15 @@
 import { Injectable } from "@angular/core";
-import { DBService } from "../../../../services/db/db.service";
+import { DBService } from "../../../db.service";
 import { BulkAddCapableRepository } from "../../general/inferences/bulk-add-capable.repository";
 import * as sql from "./face-apps-websites.sql";
-import { AppsAndWebsitesModel } from "src/app/models/Facebook/appsAndWebsites";
+import { AppsAndWebsitesModel } from "src/app/facebook/models/appsAndWebsites";
 import { SQLiteDBConnection } from "@capacitor-community/sqlite";
 
 
 /**
  * This repository component is responsible for providing functions to insert and request data from the
  * face_apps_websites table that holds all data regarding facebook websites and/or application interactions.
- * 
+ *
  * @author: Deepa (dbelvi@mail.upb.de)
  */
 @Injectable()
@@ -36,7 +36,7 @@ export class FacebookAppsWebsitesRepository extends BulkAddCapableRepository {
 
     /**
      * Adds a row to the Facebook web-app activity table as part of a bulk-add run
-     * 
+     *
      * @author: Deepa (dbelvi@mail.upb.de)
      */
     async addAdActivityBulkEntry(name: string, added_timestamp: number, user_app_scoped_id: number, category: string, removed_timestamp: number) : Promise<void> {
@@ -45,13 +45,13 @@ export class FacebookAppsWebsitesRepository extends BulkAddCapableRepository {
 
      /**
      * This async method fetches all entries from the off facebook apps and websites  table.
-     * 
+     *
      * @author: @author: rishmamn@campus.uni-paderborn.de
-     * 
+     *
      */
      async getAllFaceAppsAndWebsites() : Promise<AppsAndWebsitesModel[]> {
         return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
-    
+
           const result = await db.query(sql.selectAllFaceAppsAndWebsites);
           return result.values as AppsAndWebsitesModel[];
         });

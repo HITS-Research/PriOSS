@@ -1,30 +1,30 @@
 import { Injectable } from "@angular/core";
 import { SQLiteDBConnection} from "@capacitor-community/sqlite";
-import { DBService } from "../../../../services/db/db.service";
+import { DBService } from "../../../db.service";
 import * as sql from "./insta-accountcreation-login.sql";
-import { InstaLogoutInfo } from "src/app/models/Instagram/InstaAccountCreationAndLoginInfo/InstaLogoutInfo"; 
+import { InstaLogoutInfo } from "src/app/instagram/models/InstaAccountCreationAndLoginInfo/InstaLogoutInfo";
 import { BulkAddCapableRepository } from "../../general/inferences/bulk-add-capable.repository";
-import * as devicetypeUtils from "../../../../utilities/devicetype.functions";
+import * as devicetypeUtils from "../../../../features/utils/devicetype.functions";
 
 /**
  * This class handles all communication with the database tables that are used in the InstaAccountCreationAndLogin Component.
- * 
+ *
  * @author: Mayank (mayank@mail.upb.de)
  */
 @Injectable()
 export class InstaLogoutRepository extends BulkAddCapableRepository{
-    
+
     constructor(dbService: DBService){
         super(sql.bulkAddInstaLogoutBaseSQL, sql.bulkAddInstaLogoutValuesSQL, sql.bulkAddValueConnectorForLogout, dbService);
     }
 
     /**
      * This async method adds liked comments information to the insta_liked_comments table.
-     * 
+     *
      * @param ip_address the ip address used to logout in the account
      * @param timestamp the time value when the comment was liked
      * @param user_agent the user agent used to logout in the account
-     * 
+     *
      * @author: Mayank (mayank@mail.upb.de)
      */
     async addLogoutInformation(ip_address: string, timestamp: number, user_agent: string) {
@@ -38,11 +38,11 @@ export class InstaLogoutRepository extends BulkAddCapableRepository{
 
     /**
      * Starts a bulk-add run that adds multiple rows from subsequent addLikedCommentsBulkEntry-Calls to the DB in a single SQL statement.
-     * 
+     *
      * @param ip_address the ip address used to logout in the account
      * @param timestamp the time value when the comment was liked
      * @param user_agent the user agent used to logout in the account
-     * 
+     *
      * @author: Mayank (mayank@mail.upb.de)
      */
     async startLogoutBulkAdd(ip_address: string, timestamp: number, user_agent: string, totalRowCount: number, targetBulkSize = 500) {
@@ -52,11 +52,11 @@ export class InstaLogoutRepository extends BulkAddCapableRepository{
 
     /**
      * Adds a row to the Instagram ads activity table as part of a bulk-add run
-     * 
+     *
      * @param ip_address the ip address used to logout in the account
      * @param timestamp the time value when the comment was liked
      * @param user_agent the user agent used to logout in the account
-     * 
+     *
      * @author: Mayank (mayank@mail.upb.de)
      */
     async addLogoutBulkEntry(ip_address: string, timestamp: number, user_agent: string) : Promise<void> {
@@ -66,9 +66,9 @@ export class InstaLogoutRepository extends BulkAddCapableRepository{
 
     /**
      * This async method selects all entries from the insta_logout_information table
-     * 
+     *
      * @returns an array of InstaLogoutInfos
-     * 
+     *
      * @author: Mayank (mayank@mail.upb.de)
      */
     async getLogoutInfo(): Promise<InstaLogoutInfo[]>
