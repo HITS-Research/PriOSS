@@ -1,32 +1,32 @@
 import { Injectable } from "@angular/core";
 import { SQLiteDBConnection} from "@capacitor-community/sqlite";
-import { DBService } from "../../../../services/db/db.service";
-import * as dateUtils from "../../../../utilities/dateUtils.functions";
+import { DBService } from "../../../db.service";
+import * as dateUtils from "../../../../features/utils/dateUtils.functions";
 import * as sql from "./insta-liked-content.sql";
-import { InstaLikedCommentsInfo } from "src/app/models/Instagram/LikedCommentsAndPostsInfo/InstaLikedCommentsInfo";
+import { InstaLikedCommentsInfo } from "src/app/instagram/models/LikedCommentsAndPostsInfo/InstaLikedCommentsInfo";
 import { BulkAddCapableRepository } from "../../general/inferences/bulk-add-capable.repository";
-import { InstaLikedCommentsWithCount } from "src/app/models/Instagram/LikedCommentsAndPostsInfo/InstaLikedCommentsWithCount";
+import { InstaLikedCommentsWithCount } from "src/app/instagram/models/LikedCommentsAndPostsInfo/InstaLikedCommentsWithCount";
 
 
 /**
  * This class handles all communication with the database tables that are used in the InstaLikesInformation Component.
- * 
+ *
  * @author: Mayank (mayank@mail.upb.de)
  */
 @Injectable()
 export class InstaLikedCommentsRepository extends BulkAddCapableRepository{
-    
+
     constructor(dbService: DBService){
         super(sql.bulkAddInstaLikedCommentsBaseSQL, sql.bulkAddInstaLikedCommentsValuesSQL, sql.bulkAddValueConnectorForLikedComments, dbService);
     }
 
     /**
      * This async method adds liked comments information to the insta_liked_comments table.
-     * 
+     *
      * @param user the user who liked the comment that was liked
      * @param href_link the link of the comment which was liked
      * @param timestamp the time value when the comment was liked
-     * 
+     *
      * @author: Mayank (mayank@mail.upb.de)
      */
     async addLikedCommentsInformation(user: string, href_link: string, timestamp: string) {
@@ -34,18 +34,18 @@ export class InstaLikedCommentsRepository extends BulkAddCapableRepository{
 
             const sqlStatement = sql.insertIntoInstaLikedCommentsSQL;
             const values = [user, href_link, timestamp];
-      
+
             await db.run(sqlStatement, values);
           });
     }
 
     /**
      * Starts a bulk-add run that adds multiple rows from subsequent addLikedCommentsBulkEntry-Calls to the DB in a single SQL statement.
-     * 
+     *
      * @param user the user who liked the comment that was liked
      * @param href_link the link of the comment which was liked
      * @param timestamp the time value when the comment was liked
-     * 
+     *
      * @author: Mayank (mayank@mail.upb.de)
      */
     async startLikedCommentsBulkAdd(user: string, href_link: string, timestamp: string, totalRowCount: number, targetBulkSize = 500) {
@@ -54,11 +54,11 @@ export class InstaLikedCommentsRepository extends BulkAddCapableRepository{
 
     /**
      * Adds a row to the Instagram ads activity table as part of a bulk-add run
-     * 
+     *
      * @param user the user who liked the comment that was liked
      * @param href_link the link of the comment which was liked
      * @param timestamp the time value when the comment was liked
-     * 
+     *
      * @author: Mayank (mayank@mail.upb.de)
      */
     async addLikedCommentsBulkEntry(user: string, href_link: string, timestamp: string,) : Promise<void> {
@@ -67,9 +67,9 @@ export class InstaLikedCommentsRepository extends BulkAddCapableRepository{
 
     /**
      * This async method selects all entries from the insta_liked_comments table
-     * 
+     *
      * @returns an array of InstaLikedCommentInfos
-     * 
+     *
      * @author: Mayank (mayank@mail.upb.de)
      */
     async getLikedCommentsInfo(): Promise<InstaLikedCommentsInfo[]>
@@ -153,7 +153,7 @@ export class InstaLikedCommentsRepository extends BulkAddCapableRepository{
 
     /**
      * This async method selects all entries within the Date Range and for particular user from the insta_liked_comments table
-     * @returns An array of InstaLikedCommentsWithCount within the Date Range and for particular user 
+     * @returns An array of InstaLikedCommentsWithCount within the Date Range and for particular user
      *
      * @author: Mayank (mayank@mail.upb.de)
      */

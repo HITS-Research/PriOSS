@@ -1,20 +1,20 @@
 import { Injectable } from "@angular/core";
 import { SQLiteDBConnection} from "@capacitor-community/sqlite";
-import { DBService } from "../../../../services/db/db.service";
-import { SpotListenHistoryEntry } from "src/app/models/Spotify/ListeningHistory/SpotListenHistoryEntry";
-import { SpotYearlyListening } from "src/app/models/Spotify/ListeningHistory/SpotYearlyListening";
-import { SpotMonthlyListening } from "src/app/models/Spotify/ListeningHistory/SpotMonthlyListening";
-import { SpotDailyListening } from "src/app/models/Spotify/ListeningHistory/SpotDailyListening";
-import { SpotHourlyListening } from "src/app/models/Spotify/ListeningHistory/SpotHourlyListening";
-import { SpotMinListenedToArtist } from "src/app/models/Spotify/TopArtist/SpotMinListenedToArtist";
-import { SpotListeningHistoryOfArtist } from "src/app/models/Spotify/TopArtist/SpotListeningHistoryOfArtist";
-import * as dateUtils from "../../../../utilities/dateUtils.functions";
+import { DBService } from "../../../db.service";
+import { SpotListenHistoryEntry } from "src/app/spotify/models/ListeningHistory/SpotListenHistoryEntry";
+import { SpotYearlyListening } from "src/app/spotify/models/ListeningHistory/SpotYearlyListening";
+import { SpotMonthlyListening } from "src/app/spotify/models/ListeningHistory/SpotMonthlyListening";
+import { SpotDailyListening } from "src/app/spotify/models/ListeningHistory/SpotDailyListening";
+import { SpotHourlyListening } from "src/app/spotify/models/ListeningHistory/SpotHourlyListening";
+import { SpotMinListenedToArtist } from "src/app/spotify/models/TopArtist/SpotMinListenedToArtist";
+import { SpotListeningHistoryOfArtist } from "src/app/spotify/models/TopArtist/SpotListeningHistoryOfArtist";
+import * as dateUtils from "../../../../features/utils/dateUtils.functions";
 import * as sql from "./spot-history.sql";
 import { BulkAddCapableRepository } from "../../general/inferences/bulk-add-capable.repository";
-import {SpotMinListenedToSong} from "../../../../models/Spotify/TopSong/SpotMinListenedToSong";
-import {SpotListeningHistoryOfSong} from "../../../../models/Spotify/TopSong/SpotListeningHistoryOfSong";
-import { SpotHistoryBySong } from "src/app/models/Spotify/ListeningHistory/SpotHistoryBySong";
-import { GranularityEnum } from "src/app/visualizations/spotify/listening-time/granularity.enum";
+import {SpotMinListenedToSong} from "../../../../spotify/models/TopSong/SpotMinListenedToSong";
+import {SpotListeningHistoryOfSong} from "../../../../spotify/models/TopSong/SpotListeningHistoryOfSong";
+import { SpotHistoryBySong } from "src/app/spotify/models/ListeningHistory/SpotHistoryBySong";
+import { GranularityEnum } from "src/app/spotify/pages/listening-time/granularity.enum";
 
 /**
   * This repository component is responsible for providing functions to insert and request data from the spot_history table
@@ -242,7 +242,7 @@ export class SpotHistoryRepository extends BulkAddCapableRepository{
 
       console.log(startHour);
       console.log(endHour);
-      
+
       const values = [startHour.getTime(), endHour.getTime()];
       const result = await db.query(sql.spotHistoryForSingleHourSQL, values);
       return result.values as SpotHistoryBySong[];

@@ -1,8 +1,8 @@
 import { Injectable } from "@angular/core";
 import { BulkAddCapableRepository } from "./bulk-add-capable.repository";
 import * as sql from "./inferences.sql";
-import { DBService } from "src/app/services/db/db.service";
-import { InferencesEntry } from "src/app/models/General/Inferences/InferencesEntry";
+import { DBService } from "src/app/db/db.service";
+import { InferencesEntry } from "src/app/framework/models/Inferences/InferencesEntry";
 import { SQLiteDBConnection } from "@capacitor-community/sqlite";
 
 /**

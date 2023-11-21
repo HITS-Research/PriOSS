@@ -1,16 +1,16 @@
 import { Injectable } from "@angular/core";
 import { SQLiteDBConnection } from "@capacitor-community/sqlite";
-import { DBService } from "../../../../services/db/db.service";
+import { DBService } from "../../../db.service";
 import { BulkAddCapableRepository } from "../../general/inferences/bulk-add-capable.repository";
-import { LoginLocationsModel } from "../../../../models/Facebook/loginLocations";
+import { LoginLocationsModel } from "../../../../facebook/models/loginLocations";
 import * as sql from "./face_login_locations.sql";
 
 /**
  * This repository component is responsible for providing functions to insert and request data from the
  * face_login_locations table that holds all data regarding locations where user has logged in and the device(s) used to login.
- * 
+ *
  * @author: Deepa (dbelvi@mail.upb.de)
- * 
+ *
  */
 
 @Injectable()
@@ -22,7 +22,7 @@ export class FacebookLoginLocationsRepository extends BulkAddCapableRepository {
     /**
      * Starts a bulk-add run that adds multiple rows from subsequent addAdActivityBulkEntry-Calls to the DB in a single SQL statement.
      *
-     * @param location location of the login activity, to be added to face_login_locations table. 
+     * @param location location of the login activity, to be added to face_login_locations table.
      * @param device name of the device of the user, to be added to the face_login_locations table.
      * @param timestamp timestamp to be added to the face_login_locations table
      * @param totalRowCount the total number of rows that should be added to the table in this bulk add run
@@ -37,7 +37,7 @@ export class FacebookLoginLocationsRepository extends BulkAddCapableRepository {
 
     /**
      * Adds a row to the Facebook face_login_locations table as part of a bulk-add run
-     * 
+     *
      * @author: Deepa (dbelvi@mail.upb.de)
     */
 
@@ -47,14 +47,14 @@ export class FacebookLoginLocationsRepository extends BulkAddCapableRepository {
 
     /**
      * This async method fetches all entries from the face_login_locations table.
-     * 
+     *
      * @author: Deepa (dbelvi@mail.upb.de)
-     * 
+     *
     */
 
     async getAllLoginLocations() : Promise<LoginLocationsModel[]> {
         return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
-    
+
           const result = await db.query(sql.selectAllLoginLocations);
           return result.values as LoginLocationsModel[];
         });

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { SQLiteDBConnection } from '@capacitor-community/sqlite';
-import { DBService } from '../../../../services/db/db.service';
+import { DBService } from '../../../db.service';
 import * as sql from './insta-chat-partner-data.sql';
-import { InstaChatPartnerData } from 'src/app/models/Instagram/MessageInfo/InstaChatData';
+import { InstaChatPartnerData } from 'src/app/instagram/models/MessageInfo/InstaChatData';
 import { BulkAddCapableRepository } from '../../general/inferences/bulk-add-capable.repository';
 /**
  * This class handles all communication with the database tables that are used in the InstaFollower Component.

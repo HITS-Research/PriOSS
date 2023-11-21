@@ -1,16 +1,16 @@
 import { Injectable } from "@angular/core";
 import { SQLiteDBConnection } from "@capacitor-community/sqlite";
-import { DBService } from "../../../../services/db/db.service";
+import { DBService } from "../../../db.service";
 import { BulkAddCapableRepository } from "../../general/inferences/bulk-add-capable.repository";
-import { LoginLogoutsModel } from "../../../../models/Facebook/loginlogouts";
+import { LoginLogoutsModel } from "../../../../facebook/models/loginlogouts";
 import * as sql from "./face_login_logouts.sql";
 
 /**
  * This repository component is responsible for providing functions to insert and request data from the
  * face_login_logouts.sql table that holds all data regarding login and logout actions along witht their timestamp.
- * 
+ *
  * @author: Deepa (dbelvi@mail.upb.de)
- * 
+ *
  */
 
 @Injectable()
@@ -36,7 +36,7 @@ export class FacebookLoginLogoutsRepository extends BulkAddCapableRepository {
 
     /**
      * Adds a row to the Facebook face_login_logouts table as part of a bulk-add run
-     * 
+     *
      * @author: Deepa (dbelvi@mail.upb.de)
     */
 
@@ -46,9 +46,9 @@ export class FacebookLoginLogoutsRepository extends BulkAddCapableRepository {
 
     /**
      * This async method fetches all entries from the face_login_logouts table.
-     * 
+     *
      * @author: Deepa (dbelvi@mail.upb.de)
-     * 
+     *
     */
 
     async getAllLoginLogouts() : Promise<LoginLogoutsModel[]> {

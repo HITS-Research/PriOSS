@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { SQLiteDBConnection } from "@capacitor-community/sqlite";
-import { FacebookFriendsModel } from "src/app/models/Facebook/faceFriends";
-import { DBService } from "../../../../services/db/db.service";
+import { FacebookFriendsModel } from "src/app/facebook/models/faceFriends";
+import { DBService } from "../../../db.service";
 import { BulkAddCapableRepository } from "../../general/inferences/bulk-add-capable.repository";
 import * as sql from "./face_friends.sql";
 
@@ -9,7 +9,7 @@ import * as sql from "./face_friends.sql";
 /**
  * This repository component is responsible for providing functions to insert and request data from the
  * face_friends table that holds all data regarding total number of friends of the user.
- * 
+ *
  * @author: rbharmal (rbharmal@mail.upb.de)
  */
 
@@ -37,23 +37,23 @@ export class FacebookFriendsRepository extends BulkAddCapableRepository {
 
     /**
      * Adds a row to the Facebook face_friends table as part of a bulk-add run
-     * 
+     *
      * @author: rbharmal (rbharmal@mail.upb.de)
      */
-    
+
     async addAdActivityBulkEntry(name: string, timestamp: string, type: string) : Promise<void> {
         return this.addBulkEntry([name, timestamp, type]);
     }
 
      /**
      * This async method fetches all entries from the face friends table.
-     * 
+     *
      * @author: Rashida (rbharmal@mail.upb.de)
-     * 
+     *
      */
       async getAllFacebookFriends() : Promise<FacebookFriendsModel[]> {
         return this.dbService.executeQuery<any>(async (db: SQLiteDBConnection) => {
-    
+
           const result = await db.query(sql.selectAllFacebookFriends);
           return result.values as FacebookFriendsModel[];
         });
