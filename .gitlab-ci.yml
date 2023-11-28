@@ -10,7 +10,7 @@ build-job:
     - shared
   before_script:
     - cd prototype/prioss
-    - npm ci --force
+    - npm ci
   script:
     - npm run build
 
@@ -20,6 +20,6 @@ lint-job:
     - shared
   before_script:
     - cd prototype/prioss
-    - npm ci --force
+    - npm ci
   script:
     - npm run lint
