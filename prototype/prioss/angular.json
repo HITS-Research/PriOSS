@@ -7,12 +7,15 @@
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
-          "style": "less"
+          "style": "less",
+          "prefix": "prioss",
+          "changeDetection": "OnPush",
+          "standalone": true
         }
       },
       "root": "",
       "sourceRoot": "src",
-      "prefix": "app",
+      "prefix": "prioss",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
