@@ -1,13 +1,12 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { AfterViewInit, Component, ViewChild, inject } from '@angular/core';
 import { GeneralDataComponent } from 'src/app/facebook/pages/general-data/general-data.component';
-import { IntrojsService } from 'src/app/features/introjs/introjs.service';
+import { BaseDashboard } from 'src/app/features/utils/base-dashboard.abstract';
 import { InferencesComponent } from 'src/app/spotify/pages/inferences/inferences.component';
 import { ListeningTimeComponent } from 'src/app/spotify/pages/listening-time/listening-time.component';
 import { SearchHistoryComponent } from 'src/app/spotify/pages/search-history/search-history.component';
 import { TopArtistsComponent } from 'src/app/spotify/pages/top-artists/top-artists.component';
 import { TopSongsComponent } from 'src/app/spotify/pages/top-songs/top-songs.component';
-import { BaseDashboard } from 'src/app/features/utils/base-dashboard.abstract';
+import { SpotifyDashboardIntroductionService } from '../../features/dashboard-introduction/spotify-dashboard-introduction.service';
 
 /**
   * This component is the root component for spotify's dashboard page.
@@ -24,9 +23,12 @@ import { BaseDashboard } from 'src/app/features/utils/base-dashboard.abstract';
   templateUrl: './spot-dashboard.component.html',
   styleUrls: ['./spot-dashboard.component.less']
 })
-export class SpotDashboardComponent extends BaseDashboard implements AfterViewInit{
+export class SpotDashboardComponent extends BaseDashboard implements AfterViewInit {
+
+  #introductionService = inject(SpotifyDashboardIntroductionService);
 
   thirdPartyConnection = false;
+
   purposes = [
     {
       active: false,
@@ -51,14 +53,19 @@ export class SpotDashboardComponent extends BaseDashboard implements AfterViewIn
   ];
 
   //Components to Initialize Sequentially
-  @ViewChild(GeneralDataComponent) spotGeneralData : GeneralDataComponent;
-  @ViewChild(InferencesComponent) spotInferences : InferencesComponent;
-  @ViewChild(ListeningTimeComponent) spotListeningTime : ListeningTimeComponent;
-  @ViewChild(TopArtistsComponent) spotTopArtists : TopArtistsComponent;
-  @ViewChild(TopSongsComponent) spotTopSongs : TopSongsComponent;
-  @ViewChild(SearchHistoryComponent) spotSearchHistory : SearchHistoryComponent;
+  @ViewChild(GeneralDataComponent) spotGeneralData: GeneralDataComponent;
 
-  constructor( private router: Router, private introService: IntrojsService) {
+  @ViewChild(InferencesComponent) spotInferences: InferencesComponent;
+
+  @ViewChild(ListeningTimeComponent) spotListeningTime: ListeningTimeComponent;
+
+  @ViewChild(TopArtistsComponent) spotTopArtists: TopArtistsComponent;
+
+  @ViewChild(TopSongsComponent) spotTopSongs: TopSongsComponent;
+
+  @ViewChild(SearchHistoryComponent) spotSearchHistory: SearchHistoryComponent;
+
+  constructor() {
     super();
   }
 
@@ -71,11 +78,8 @@ export class SpotDashboardComponent extends BaseDashboard implements AfterViewIn
    *
    * @author: Sven (svenf@mail.upb.de), Simon (scg@mail.upb.de)
    */
-  ngAfterViewInit(): void  {
-    if (this.introService.isSpotifyTourCompleted() == false) {
-      this.introService.spotifyDashboardTour();
-      this.introService.setSpotifyTourCompleted(true);
-    }
+  ngAfterViewInit(): void {
+    this.#introductionService.start();
 
     //Component initialization
     //Add components to component Initialization list from BaseDashboard
@@ -94,7 +98,7 @@ export class SpotDashboardComponent extends BaseDashboard implements AfterViewIn
    * This method is called on button click and starts the tour.
    */
   startTour() {
-    this.introService.spotifyDashboardTour();
+    this.#introductionService.start(true);
   }
 
 }
