@@ -1,6 +1,6 @@
-import { AfterViewInit, Component } from '@angular/core';
-import { ActivatedRoute, Router } from "@angular/router";
-import { IntrojsService } from 'src/app/features/introjs/introjs.service';
+import { AfterViewInit, Component, inject } from '@angular/core';
+import { Router } from "@angular/router";
+import { FacebookDashboardIntroductionService } from '../../features/dashboard-introduction/facebook-dashboard-introduction.service';
 
 /**
   * This component is the root component for facebook's dashboard page.
@@ -19,11 +19,10 @@ import { IntrojsService } from 'src/app/features/introjs/introjs.service';
 })
 
 export class FaceDashboardComponent implements AfterViewInit{
-  constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-    private introService: IntrojsService,
-  ) { }
+
+  #introductionService = inject(FacebookDashboardIntroductionService);
+
+  #router = inject(Router)
 
   /**
    * Rectification instruction steps.
@@ -160,7 +159,7 @@ export class FaceDashboardComponent implements AfterViewInit{
     *
   */
   adsData() {
-    this.router.navigate(['face/ads-related-data']);
+    this.#router.navigate(['face/ads-related-data']);
   }
 
   /**
@@ -169,7 +168,7 @@ export class FaceDashboardComponent implements AfterViewInit{
   *
  */
   navigateToInferredTopics() {
-    this.router.navigate(['face/inferred-topics']);
+    this.#router.navigate(['face/inferred-topics']);
   }
 
   /**
@@ -178,7 +177,7 @@ export class FaceDashboardComponent implements AfterViewInit{
   *
  */
   navigateToFriendsAndFollowers() {
-    this.router.navigate(['face/connections']);
+    this.#router.navigate(['face/connections']);
   }
 /**
     * This  method is responsible to navigate to Off-Facebook Activity Guidelines page.
@@ -186,29 +185,20 @@ export class FaceDashboardComponent implements AfterViewInit{
     *
    */
   navigateToOFA() {
-      this.router.navigate(['face/configure-off-facebook-activity']);
+      this.#router.navigate(['face/configure-off-facebook-activity']);
   }
 
-/**
-  * This method starts the tour and sets @param tourCompleted in the @service introjs to true.
-  * The boolean is set so not every time the page is navigated to, the tour starts again.
-  *
-  * @author: Deepa (dbelvi@mail.upb.de)
+ /**
+  * Starts the initial dashboard-tour.
   */
   ngAfterViewInit(): void  {
-    if (this.introService.isFacebookTourCompleted() == false) {
-      this.introService.facebookDashboardTour();
-      this.introService.setFacebookTourCompleted(true);
-    }
-
+    this.#introductionService.start();
   }
 
   /**
-   * This method is called on button click and starts the tour.
-   *
-   * @author: Deepa (dbelvi@mail.upb.de)
+   * Restarts the dashboard-tour.
    */
   startTour() {
-    this.introService.facebookDashboardTour();
+    this.#introductionService.start(true);
   }
 }

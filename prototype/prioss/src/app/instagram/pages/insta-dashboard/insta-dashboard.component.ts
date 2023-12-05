@@ -1,16 +1,16 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
-import { IntrojsService } from 'src/app/features/introjs/introjs.service';
+import { AfterViewInit, Component, ViewChild, inject } from '@angular/core';
 import { BaseDashboard } from 'src/app/features/utils/base-dashboard.abstract';
 import { Insta_PersonalInfoComponent } from 'src/app/instagram/pages/Insta_personal-info/personal-info.component';
-import { InstaAdsComponent } from 'src/app/instagram/pages/insta-ads/insta-ads.component';
 import { InstaAccountCreationLoginComponent } from 'src/app/instagram/pages/insta-account-creation-login/insta-account-creation-login.component';
+import { InstaAdsComponent } from 'src/app/instagram/pages/insta-ads/insta-ads.component';
+import { InstaContactComponent } from 'src/app/instagram/pages/insta-contact/insta-contact.component';
 import { InstaFollowersComponent } from 'src/app/instagram/pages/insta-followers/insta-followers.component';
 import { InstaLikedContentComponent } from 'src/app/instagram/pages/insta-liked-content/insta-liked-content.component';
-import { InstaContactComponent } from 'src/app/instagram/pages/insta-contact/insta-contact.component';
+import { InstaMessagesComponent } from 'src/app/instagram/pages/insta-messages/insta-messages.component';
 import { InstaSearchesComponent } from 'src/app/instagram/pages/insta-searches/insta-searches.component';
 import { InstaShoppingComponent } from 'src/app/instagram/pages/insta-shopping/insta-shopping.component';
 import { InstaYourTopicComponent } from 'src/app/instagram/pages/insta-your-topic/insta-your-topic.component';
-import { InstaMessagesComponent } from 'src/app/instagram/pages/insta-messages/insta-messages.component';
+import { InstagramDashboardIntroductionService } from '../../features/dashboard-introduction/instagram-dashboard-introduction.service';
 
 /**
   * This component is the root component for instagram's dashboard page.
@@ -44,7 +44,9 @@ export class InstaDashboardComponent extends BaseDashboard implements AfterViewI
   @ViewChild(InstaYourTopicComponent) instaYourTopic : InstaYourTopicComponent;
   @ViewChild(InstaMessagesComponent) instaMessages : InstaMessagesComponent;
 
-  constructor( private introService: IntrojsService) {
+  #introductionService = inject(InstagramDashboardIntroductionService);
+
+  constructor() {
     super();
   }
 
@@ -94,10 +96,7 @@ export class InstaDashboardComponent extends BaseDashboard implements AfterViewI
     * @author: Melina (kleber@mail.uni-paderborn.de), Paul (pasch@mail.upb.de)
     */
   ngAfterViewInit(): void  {
-    if (this.introService.isInstagramTourCompleted() == false) {
-      this.introService.instagramDashboardTour();
-      this.introService.setInstagramTourCompleted(true);
-    }
+    this.#introductionService.start();
 
     //Component initialization
     //Add components to component Initialization list from BaseDashboard
@@ -121,7 +120,7 @@ export class InstaDashboardComponent extends BaseDashboard implements AfterViewI
   * This method is called on button click and starts the tour.
   */
   startTour() {
-    this.introService.instagramDashboardTour();
+    this.#introductionService.start(true);
   }
 
   /**

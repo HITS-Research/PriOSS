@@ -5,7 +5,7 @@
     The cards below show different interactive visualizations and explanations about the data Spotify has collected about you.
     If you are unsure what something means, hover over the (?)-Icons for explanations.<br>
     You can click on each of the white cards that contains a visualization to explore the visualization in more detail and unlock it's interactivity, try it!
-  </div> 
+  </div>
 
   <ng-template #extraTemplate>
     <a>More</a>
@@ -14,7 +14,7 @@
   <details open id="visualization">
     <summary class="collapsible-dashboard-section-title">Visualization</summary>
     <div nz-row [nzGutter]="[{ xs: 8, xl: 20}, {xs: 8, xl: 40}]">
-      
+
       <div id="step1" nz-col nzXs="24" nzXl="8">
         <app-dash-card [fillVerticalSpace]="false" cardLink="/spot/general-data" titleText="User Data"
           tooltipText="This card shows your general user data like your email, gender, postal address etc. Click to find out more.">
@@ -44,7 +44,7 @@
           <spot-top-songs [previewMode]="true"></spot-top-songs>
         </app-dash-card>
       </div>
-      
+
       <div nz-col nzXs="24" nzXl="8">
         <app-dash-card [fillVerticalSpace]="true"  cardLink="/spot/mood" titleText="Average Mood of Songs"
           tooltipText="This card shows your mood. You can customize the timeframe over which this is calculated. Click to find out more.">
@@ -54,7 +54,7 @@
       </div>
     </div>
 
-    
+
     <div nz-row [nzGutter]="[{ xs: 8, xl: 20}, {xs: 8, xl: 40}]">
       <div nz-col nzXs="24" nzXl="8">
         <app-dash-card [fillVerticalSpace]="true"  cardLink="/spot/search-history" titleText="Search History"
