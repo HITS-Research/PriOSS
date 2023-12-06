@@ -1,14 +1,15 @@
-import { AfterViewInit, Component, Input } from '@angular/core';
+import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
 import { SequenceComponentInit } from '../../../features/utils/sequence-component-init.abstract';
-import { InstaContactsRepository } from 'src/app/db/data-repositories/instagram/insta-contacts/insta-contacts.repository';
 import { InstaContactInfo } from 'src/app/instagram/models/ContactInfo/InstaContactInfo';
+import {Store} from "@ngxs/store";
+import {InstaState} from "../../state/insta.state";
 
 @Component({
   selector: 'app-insta-contact',
   templateUrl: './insta-contact.component.html',
   styleUrls: ['./insta-contact.component.less']
 })
-export class InstaContactComponent extends SequenceComponentInit implements AfterViewInit{
+export class InstaContactComponent extends SequenceComponentInit implements AfterViewInit, OnInit{
 
   @Input()
   previewMode = false;
@@ -22,8 +23,13 @@ export class InstaContactComponent extends SequenceComponentInit implements Afte
   contacts: InstaContactInfo[] = [];
   listOfContacts: InstaContactInfo[] = [];
 
-  constructor(private instaContactsRepo: InstaContactsRepository){
+  constructor(private store: Store){
     super();
+  }
+
+  ngOnInit() {
+    this.contacts = this.store.selectSnapshot(InstaState.getUserContacts);
+    this.listOfContacts = [...this.contacts];
   }
 
   /**
@@ -44,11 +50,6 @@ export class InstaContactComponent extends SequenceComponentInit implements Afte
   */
   override async initComponent(): Promise<void> {
     console.log("--- Initializing Component 4: Contacts");
-    // Contacts fetched from SQlite
-    await this.instaContactsRepo.getAllContacts().then((contacts) => {
-      this.contacts = contacts;
-      this.listOfContacts = [...this.contacts];
-    });
   }
 
   /**

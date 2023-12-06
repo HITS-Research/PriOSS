@@ -1,10 +1,10 @@
-import { AfterViewInit, Component, Input } from '@angular/core';
+import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
 import * as d3 from 'd3';
-import { SequenceComponentInit } from '../../../features/utils/sequence-component-init.abstract';
-import { InstaChatData } from 'src/app/instagram/models/MessageInfo/InstaChatData';
-import { InstaChatDataRepository } from 'src/app/db/data-repositories/instagram/insta-messages/insta-chat-data.repository';
-import { InstaChatPartnerData } from 'src/app/instagram/models/MessageInfo/InstaChatData';
-import { InstaChatPartnerDataRepository } from 'src/app/db/data-repositories/instagram/insta-messages/insta-chat-partner-data.repository';
+import {SequenceComponentInit} from '../../../features/utils/sequence-component-init.abstract';
+import {InstaChatData} from 'src/app/instagram/models/MessageInfo/InstaChatData';
+import {InstaChatPartnerData} from 'src/app/instagram/models/MessageInfo/InstaChatData'
+import {Store} from "@ngxs/store";
+import {InstaState} from "../../state/insta.state";
 
 const weekday = [
   'Sunday',
@@ -15,15 +15,18 @@ const weekday = [
   'Friday',
   'Saturday',
 ];
+
 interface UserMessages {
   chat: string;
   messages: number;
 }
+
 interface UserInOutMessages {
   weekday: string;
   ingoing: number;
   outgoing: number;
 }
+
 interface ChatData {
   chat: string;
   yourMessages: number;
@@ -51,8 +54,7 @@ interface ChatData {
 })
 export class InstaMessagesComponent
   extends SequenceComponentInit
-  implements AfterViewInit
-{
+  implements AfterViewInit, OnInit {
   @Input()
   previewMode = false;
 
@@ -66,13 +68,13 @@ export class InstaMessagesComponent
 
   // Variables for the grouped bar chart
   userInOutMessages: UserInOutMessages[] = [
-    { weekday: weekday[1], outgoing: 0, ingoing: 0 },
-    { weekday: weekday[2], outgoing: 0, ingoing: 0 },
-    { weekday: weekday[3], outgoing: 0, ingoing: 0 },
-    { weekday: weekday[4], outgoing: 0, ingoing: 0 },
-    { weekday: weekday[5], outgoing: 0, ingoing: 0 },
-    { weekday: weekday[6], outgoing: 0, ingoing: 0 },
-    { weekday: weekday[0], outgoing: 0, ingoing: 0 },
+    {weekday: weekday[1], outgoing: 0, ingoing: 0},
+    {weekday: weekday[2], outgoing: 0, ingoing: 0},
+    {weekday: weekday[3], outgoing: 0, ingoing: 0},
+    {weekday: weekday[4], outgoing: 0, ingoing: 0},
+    {weekday: weekday[5], outgoing: 0, ingoing: 0},
+    {weekday: weekday[6], outgoing: 0, ingoing: 0},
+    {weekday: weekday[0], outgoing: 0, ingoing: 0},
   ];
 
   // Variables for the blue horizontal bar chart
@@ -91,32 +93,16 @@ export class InstaMessagesComponent
   //Chat data used to fill the collapsable
   chatData: ChatData[] = [];
 
-  constructor(
-    private instaChatDataRepository: InstaChatDataRepository,
-    private instaChatPartnerDataRepository: InstaChatPartnerDataRepository
-  ) {
+  constructor(private store: Store) {
     super();
   }
 
-  /**
-   * Stores all needed data from the different tables into the corresponding interface variables.
-   *
-   * @author: Melina (kleber@mail.uni-paderborn.de)
-   */
-  async collectData() {
-    this.instaChatPartnerData =
-      await this.instaChatPartnerDataRepository.getChatPartnerData();
-    this.instaChatData = await this.instaChatDataRepository.getChatData();
 
-    //Fill chatData
-    this.instaChatData = this.instaChatData.map((chat) => {
-      return {
-        ...chat,
-        otherMessages: this.instaChatPartnerData.filter((chatPartner) => {
-          return chatPartner.chat_id === chat.id;
-        }),
-      };
-    });
+  ngOnInit() {
+    this.instaChatData = this.store.selectSnapshot(InstaState.getUserChatData);
+    this.instaChatData.forEach((data: InstaChatData) => {
+      this.instaChatPartnerData.push(...data.otherMessages);
+    })
     this.chatData = this.instaChatData.map((chat) => {
       return {
         chat: chat.chat,
@@ -134,7 +120,6 @@ export class InstaMessagesComponent
         }),
       };
     });
-
     this.instaChatData.forEach((chat) => {
       this.userInOutMessages[0].outgoing += chat.monday;
       this.userInOutMessages[1].outgoing += chat.tuesday;
@@ -158,7 +143,7 @@ export class InstaMessagesComponent
         this.userInOutMessages[6].ingoing += otherMessage.sunday;
         inMessages += otherMessage.messages;
       });
-      this.userInMessages.push({ chat: chat.chat, messages: inMessages });
+      this.userInMessages.push({chat: chat.chat, messages: inMessages});
     });
 
     this.userInMessages.forEach((data) => {
@@ -172,6 +157,14 @@ export class InstaMessagesComponent
         this.totalGroupChats++;
       }
     });
+  }
+
+  /**
+   * Stores all needed data from the different tables into the corresponding interface variables.
+   *
+   * @author: Melina (kleber@mail.uni-paderborn.de)
+   */
+  async collectData() {
     this.makeGroupedBarChart(this.userInOutMessages);
     this.makeBarChart(
       this.userOutMessages,
@@ -214,16 +207,17 @@ export class InstaMessagesComponent
         [this.chatData[i]],
         this.trimWhitespace(this.chatData[i].chat) + '-barChart-container',
         this.trimWhitespace(this.chatData[i].chat) +
-          '-contextmenu-barChart-container'
+        '-contextmenu-barChart-container'
       );
       this.makeAverageMessageChart(
         this.chatData[i],
         this.trimWhitespace(this.chatData[i].chat) + '-avg-container',
         this.trimWhitespace(this.chatData[i].chat) +
-          '-contextmenu-avg-container'
+        '-contextmenu-avg-container'
       );
     }
   }
+
   /**
    * This function adds a small delay in loading the collapsable that the DOM elements are not null.
    *
@@ -234,7 +228,7 @@ export class InstaMessagesComponent
       !document.getElementById(
         this.trimWhitespace(this.chatData[0].chat) + '-barChart-container'
       )
-    ) {
+      ) {
       await new Promise((r) => setTimeout(r, 100));
     }
     this.initCollapsable();
@@ -274,7 +268,7 @@ export class InstaMessagesComponent
     tooltipContainer: string
   ) {
     // set the dimensions and margins of the graph
-    const margin = { top: 20, right: 30, bottom: 40, left: 90 },
+    const margin = {top: 20, right: 30, bottom: 40, left: 90},
       width = 460 - margin.left - margin.right,
       height = 400 - margin.top - margin.bottom;
 
@@ -301,8 +295,8 @@ export class InstaMessagesComponent
     const subgroups = Array.from(senders);
     const flattenedData: any[] = [];
     data.forEach((chatData: ChatData) => {
-      const myMessages: any = { chat: `Me to ${chatData.chat}` };
-      const otherMessages: any = { chat: chatData.chat };
+      const myMessages: any = {chat: `Me to ${chatData.chat}`};
+      const otherMessages: any = {chat: chatData.chat};
       subgroups.forEach((sender: string) => {
         myMessages[sender] = 0;
         otherMessages[sender] =
@@ -310,7 +304,7 @@ export class InstaMessagesComponent
             (otherMessage) => otherMessage.sender === sender
           )?.messages || 0;
       });
-      flattenedData.push({ ...myMessages, me: chatData.yourMessages });
+      flattenedData.push({...myMessages, me: chatData.yourMessages});
       flattenedData.push(otherMessages);
     });
     const groups = d3.map(flattenedData, (chatData) => {
@@ -366,7 +360,7 @@ export class InstaMessagesComponent
         return (
           this.colorFactory(subgroups.length)[
             subgroups.findIndex((sender) => sender === d.key)
-          ] ?? '#999999'
+            ] ?? '#999999'
         );
       })
       .selectAll('rect')
@@ -483,7 +477,7 @@ export class InstaMessagesComponent
     tooltipContainer: string
   ) {
     // set the dimensions and margins of the graph
-    const margin = { top: 20, right: 30, bottom: 40, left: 90 },
+    const margin = {top: 20, right: 30, bottom: 40, left: 90},
       width = 460 - margin.left - margin.right,
       height = 400 - margin.top - margin.bottom;
 
@@ -589,7 +583,7 @@ export class InstaMessagesComponent
     color: string
   ) {
     // set the dimensions and margins of the graph
-    const margin = { top: 20, right: 30, bottom: 40, left: 90 },
+    const margin = {top: 20, right: 30, bottom: 40, left: 90},
       width = 460 - margin.left - margin.right,
       height = 400 - margin.top - margin.bottom;
 
@@ -688,7 +682,7 @@ export class InstaMessagesComponent
     );
     const legendWidth = 70;
     // set the dimensions and margins of the graph
-    const margin = { top: 10, right: 30, bottom: 20, left: 50 },
+    const margin = {top: 10, right: 30, bottom: 20, left: 50},
       width = 550 - margin.left - margin.right,
       height = 400 - margin.top - margin.bottom;
     if (document.getElementById('inOutBar')?.innerHTML != '') {
@@ -761,8 +755,8 @@ export class InstaMessagesComponent
       })
       .selectAll('rect')
       .data((d) => [
-        { key: 'ingoing', value: d.ingoing },
-        { key: 'outgoing', value: d.outgoing },
+        {key: 'ingoing', value: d.ingoing},
+        {key: 'outgoing', value: d.outgoing},
       ])
       .enter()
       .append('rect')

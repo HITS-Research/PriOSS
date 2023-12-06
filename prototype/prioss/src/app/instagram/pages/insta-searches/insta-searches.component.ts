@@ -1,11 +1,10 @@
-import { AfterViewInit, Component, Input } from '@angular/core';
-import { SequenceComponentInit } from '../../../features/utils/sequence-component-init.abstract';
-import { InstaUserSearchesRepository } from 'src/app/db/data-repositories/instagram/insta-searches/insta-user-searches.repository';
-import { InstaKeywordSearchesRepository } from 'src/app/db/data-repositories/instagram/insta-searches/insta-keyword-searches.repository';
-import { InstaTagSearchesRepository } from 'src/app/db/data-repositories/instagram/insta-searches/insta-tag-searches.repository';
-import { InstaUserSearch } from 'src/app/instagram/models/Searches/InstaUserSearch';
-import { InstaKeywordSearch } from 'src/app/instagram/models/Searches/InstaKeywordSearch';
-import { InstaTagSearch } from 'src/app/instagram/models/Searches/InstaTagSearches';
+import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
+import {SequenceComponentInit} from '../../../features/utils/sequence-component-init.abstract';
+import {InstaUserSearch} from 'src/app/instagram/models/Searches/InstaUserSearch';
+import {InstaKeywordSearch} from 'src/app/instagram/models/Searches/InstaKeywordSearch';
+import {InstaTagSearch} from 'src/app/instagram/models/Searches/InstaTagSearches';
+import {Store} from "@ngxs/store";
+import {InstaState} from "../../state/insta.state";
 
 
 /**
@@ -20,7 +19,7 @@ import { InstaTagSearch } from 'src/app/instagram/models/Searches/InstaTagSearch
   templateUrl: './insta-searches.component.html',
   styleUrls: ['./insta-searches.component.less']
 })
-export class InstaSearchesComponent extends SequenceComponentInit implements AfterViewInit{
+export class InstaSearchesComponent extends SequenceComponentInit implements AfterViewInit, OnInit {
 
   @Input()
   previewMode = false;
@@ -40,44 +39,39 @@ export class InstaSearchesComponent extends SequenceComponentInit implements Aft
   tagSearches: InstaTagSearch[] = [];
   listOfTagSearches: InstaTagSearch[] = [];
 
-  constructor(private instaUserSearchRepo: InstaUserSearchesRepository,
-              private instaKeywordSearchRepo: InstaKeywordSearchesRepository,
-              private instaTagSearchRepo: InstaTagSearchesRepository) {
+  constructor(private store: Store) {
     super();
   }
 
+  ngOnInit() {
+    const {keywordSearch, tagSearch, userSearch} = this.store.selectSnapshot(InstaState.getUserSearchData);
+    this.userSearches = userSearch;
+    this.listOfUserSearches = [...this.userSearches];
+    this.keywordSearches = keywordSearch;
+    this.listOfKeywordSearches = [...this.keywordSearches];
+    this.tagSearches = tagSearch;
+    this.listOfTagSearches = [...this.tagSearches];
+  }
+
   /**
-  * A Callback called by angular when the views have been initialized
-  * It handles the initialization when the component is displayed on its own dedicated page.
-  *
-  * @author: Paul (pasch@mail.upb.de)
-  */
+   * A Callback called by angular when the views have been initialized
+   * It handles the initialization when the component is displayed on its own dedicated page.
+   *
+   * @author: Paul (pasch@mail.upb.de)
+   */
   ngAfterViewInit() {
-    if(!this.previewMode) {
+    if (!this.previewMode) {
       this.initComponent();
     }
   }
 
 
   /**
-  *
-  * @author: Paul (pasch@mail.upb.de)
-  */
+   *
+   * @author: Paul (pasch@mail.upb.de)
+   */
   override async initComponent(): Promise<void> {
     console.log("--- Initializing Component 6: Searches");
-
-    await this.instaUserSearchRepo.getUserSearches().then((userSearches) => {
-      this.userSearches = userSearches;
-      this.listOfUserSearches = [...this.userSearches];
-    });
-    await this.instaKeywordSearchRepo.getKeywordSearches().then((keywordSearches) => {
-      this.keywordSearches = keywordSearches;
-      this.listOfKeywordSearches = [...this.keywordSearches];
-    });
-    await this.instaTagSearchRepo.getTagSearches().then((tagSearches) => {
-      this.tagSearches = tagSearches;
-      this.listOfTagSearches = [...this.tagSearches];
-    });
   }
 
   /**

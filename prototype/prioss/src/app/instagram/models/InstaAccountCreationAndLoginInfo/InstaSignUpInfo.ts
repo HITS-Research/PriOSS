@@ -5,5 +5,5 @@ export interface InstaSignUpInfo {
     email: string,
     phone_number: string,
     device: string,
-    color: string
+    color?: string
 }
