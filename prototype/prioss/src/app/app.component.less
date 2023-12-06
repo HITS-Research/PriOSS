@@ -1,73 +1,73 @@
 :host {
-  display: flex;
+  // display: block;
+  // height: 100%;
+  // width: 100%;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-.menu-sidebar {
-  overflow: auto;
-  height: 100vh;
+nz-sider {
+  z-index: 2;
   position: sticky;
-  top: 0;
-  left: 0;
-  z-index: 10;
-  min-height: 100vh;
-  box-shadow: 2px 0 6px rgba(0,21,41,.35);
+  inset: 0 auto 0 0;
+  height: 100dvh;
+  box-shadow: 2px 0 6px rgba(0, 21, 41, .35);
   background: #fff;
-
-  //we are using the grid here, to make sure that the Change Service button is played at the bottom of the screen 
-  //but doesn't overlap with the other content of the menu when not enough vertical space is available for the menu on the screen
-  display: grid;
-  grid-template-columns: 100%;
-  //this makes the first two rows take up the minimum space according to their content, while the last row takes up the rest of the available space
-  grid-template-rows: auto auto 1fr;
-  //this makes sure, the auto rows are as small as possible while still containing their content
-  grid-auto-rows: min-content;
 }
 
-.header-trigger {
-  padding: 24px;
-  font-size: 20px;
-  text-align: center;
-  cursor: pointer;
-  transition: all .3s,padding 0s;
-  display: inline-block;
+.sider-content {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-content: stretch;
+  overflow: auto;
+
+  > :last-child {
+    flex-grow: 1;
+  }
 }
 
-.menu-items-list {
-  grid-row: span 1;//this makes the element take up one of the three rows in the grid
+header {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-content: stretch;
+  overflow: auto;
 }
 
-.navbar-btns-space {
+footer {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  align-items: center;
+  justify-content: end;
+  padding-bottom: 2em;
+}
+
+nz-header {
+  position: sticky;
+  inset: 0 0 auto;
+  overflow: auto;
+  z-index: 1;
+  padding: 0;
   display: flex;
   flex-direction: row;
-
-  justify-content: center;
-  align-items: center;
-  
-  grid-row: span 1;//this makes the element take up one of the three rows in the grid
+  gap: 1em;
+  align-items: stretch;
+  background: #fff;
+  box-shadow: 2px 0 6px rgba(0, 21, 41, .35);
 }
 
-.navbar-btns-container {
-  align-self: flex-end;
-  margin-bottom: 4vh;
-  margin-top: 1vh;
-}
+.sidebar-trigger {
+  font-size: 20px;
+  aspect-ratio: 1/1;
+  border: none;
+  background-color: transparent;
 
-.change-service-btn {
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.share-btns-vbox {
-  align-content: center;
-  text-align: center;
-}
-
-.header-trigger:hover {
-  color: #1890ff;
+  &:hover {
+    background-color: lightgray;
+  }
 }
 
 .sidebar-logo {
@@ -78,66 +78,34 @@
   line-height: 64px;
   background: #fff;
   transition: all .3s;
+  grid-row: span 1; //this makes the element take up one of the three rows in the grid
 
-  grid-row: span 1;//this makes the element take up one of the three rows in the grid
+  img {
+    display: inline-block;
+    height: 32px;
+    width: 32px;
+    vertical-align: middle;
+  }
+
+  h1 {
+    display: inline-block;
+    margin: 0 0 0 20px;
+    color: #000;
+    font-size: 20px;
+    // font-family: Avenir,Helvetica Neue,Arial,Helvetica,sans-serif;
+    vertical-align: middle;
+  }
 }
 
-.sidebar-logo img {
-  display: inline-block;
-  height: 32px;
-  width: 32px;
-  vertical-align: middle;
-}
-
-.sidebar-logo h1 {
-  display: inline-block;
-  margin: 0 0 0 20px;
-  color: #000;
-  font-size: 20px;
- // font-family: Avenir,Helvetica Neue,Arial,Helvetica,sans-serif;
-  vertical-align: middle;
-}
-
-nz-header {
-  position: fixed;
-  padding: 0;
-  width: 100%;
-  z-index: 2;
-}
-
-.app-header {
-  position: relative;
-  height: 68px;
-  padding: 0;
-  background: #fff;
-  box-shadow: 0 1px 4px rgba(0,21,41,.08);
+nz-content {
+  overflow: auto;
+  padding: 2rem;
 }
 
 nz-footer {
   text-align: center;
-}
-
-.inner-content {
-  margin-top: 64px;
-  //padding: 5vmin;
-  padding-inline: 5vmin;
-  padding-top: 5vmin;
-  height: 100%;
-}
-
-::ng-deep .anticon-check {
-  vertical-align: 0.125em;
-}
-
-.navigation-list {
-  padding: 0px !important;
-}
-
-.navigation-list a {
-  width: 100%;
-  padding-left: 24px !important;
-  padding-right: 16px !important;
-
-  display: inline-flex;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
   align-items: center;
 }

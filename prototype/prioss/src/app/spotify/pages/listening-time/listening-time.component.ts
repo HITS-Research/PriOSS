@@ -611,7 +611,7 @@ export class ListeningTimeComponent extends SequenceComponentInit implements Aft
       .attr("class", "d3-tooltip")
       .style("position", "absolute")
       .style("z-index", "10")
-      .style("visibility", "hidden")
+      .style("display", "none")
       .style("padding", "15px")
       .style("background", "rgba(0,0,0,0.6)")
       .style("border-radius", "5px")
@@ -644,7 +644,7 @@ export class ListeningTimeComponent extends SequenceComponentInit implements Aft
       .attr("fill", (d: any) => d.color)
       //Left CLick
       .on("click", function (event, data) {
-        tooltip.html(``).style("visibility", "hidden");
+        tooltip.html(``).style("display", "none");
         if (currentGranularity != GranularityEnum.Hour) {
           listeningTimeComponent.onBarClicked(data.name);
         }
@@ -659,16 +659,16 @@ export class ListeningTimeComponent extends SequenceComponentInit implements Aft
         //save the name of the bar that was rightcliced, so we can determine the date it represents later
         document.dispatchEvent(new CustomEvent('contextmenu-open',{detail: d.name}));
         //remove the tooltip, so it doesn't interfere with the new contextmenu
-        tooltip.html(``).style("visibility", "hidden");
+        tooltip.html(``).style("display", "none");
         //show the new context menu
-        contextMenu.style("visibility", "visible")
+        contextMenu.style("display", "block")
           .style("top", (event.pageY - 10) + "px")
           .style("left", (event.pageX + 10) + "px");
 
       })
       //Mouse Hover
       .on("mouseover", function (event, data) {
-        contextMenu.style("visibility", "hidden");
+        contextMenu.style("display", "none");
         onMouseOver(currentGranularity, tooltip, this, data);
       })
       //Mouse moved: change tooltip position
@@ -679,7 +679,7 @@ export class ListeningTimeComponent extends SequenceComponentInit implements Aft
       })
       //Mouse not hovering: hide tooltip
       .on("mouseout", function () {
-        tooltip.html(``).style("visibility", "hidden");
+        tooltip.html(``).style("display", "none");
         //d3.select(this).style("boxshadow", "none");
         //d3.select(this).style("cursor", "auto");
       })
@@ -759,7 +759,7 @@ export class ListeningTimeComponent extends SequenceComponentInit implements Aft
     if(topsongsPage && listeningTimePage) {
       listeningTimePage.style.display='none';
       topsongsPage.style.display='block';
-      d3.select("#contextmenu").style("visibility", "hidden");
+      d3.select("#contextmenu").style("display", "none");
 
       //set the correct input time in the visualization
       this.topSongsComponent.filterFromDate = dateUtils.parseDate(this.getStartDateFromLabel(this.rightClickedBarName));
@@ -787,7 +787,7 @@ export class ListeningTimeComponent extends SequenceComponentInit implements Aft
     if(topArtistsPage && listeningTimePage) {
       listeningTimePage.style.display='none';
       topArtistsPage.style.display='block';
-      d3.select("#contextmenu").style("visibility", "hidden");
+      d3.select("#contextmenu").style("display", "none");
 
       //set the correct input time in the visualization
       this.topArtistsComponent.filterFromDate = dateUtils.parseDate(this.getStartDateFromLabel(this.rightClickedBarName));
@@ -927,7 +927,7 @@ function onMouseOver(selectedGranularity: GranularityEnum, tooltip: d3.Selection
   }
 
   html
-    .style("visibility", "visible")
+    .style("display", "block")
     .style("text-align", "center");
 
 }

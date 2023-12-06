@@ -170,7 +170,7 @@ export class TopSongsComponent extends SequenceComponentInit implements AfterVie
       .attr("class", "d3-tooltip")
       .style("position", "absolute")
       .style("z-index", "10")
-      .style("visibility", "hidden")
+      .style("display", "none")
       .style("padding", "15px")
       .style("background", "rgba(0,0,0,0.6)")
       .style("border-radius", "5px")
@@ -210,14 +210,14 @@ export class TopSongsComponent extends SequenceComponentInit implements AfterVie
         const item = data.find(item => item.trackName === d);
         if (item) {
           const tooltipContent = `${item.trackName} by ${item.artistName}`;
-          tooltip.style("visibility", "visible")
+          tooltip.style("display", "block")
             .html(tooltipContent)
             .style("top", (event.pageY - 10) + "px")
             .style("left", (event.pageX + 10) + "px");
         }
       })
       .on("mouseout", function() {
-        tooltip.style("visibility", "hidden");
+        tooltip.style("display", "none");
       });
 
 
@@ -237,7 +237,7 @@ export class TopSongsComponent extends SequenceComponentInit implements AfterVie
       .on("mouseover", function (event, data) {
         hoveringArtistName = data.artistName;
         hoveringTrackName = data.trackName;
-        tooltip.html(data.minPlayed + " min").style("visibility", "visible");
+        tooltip.html(data.minPlayed + " min").style("display", "block");
       })
       //Mouse moved: change tooltip position
       .on("mousemove", function (event) {
@@ -249,7 +249,7 @@ export class TopSongsComponent extends SequenceComponentInit implements AfterVie
       .on("mouseout", function () {
         hoveringArtistName = "";
         hoveringTrackName = "";
-        tooltip.html(``).style("visibility", "hidden");
+        tooltip.html(``).style("display", "none");
       })
       //Add bar rising transition
       .attr("width", 0)

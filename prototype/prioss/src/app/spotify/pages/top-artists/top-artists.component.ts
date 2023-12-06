@@ -172,7 +172,7 @@ export class TopArtistsComponent extends SequenceComponentInit implements AfterV
       .attr("class", "d3-tooltip")
       .style("position", "absolute")
       .style("z-index", "10")
-      .style("visibility", "hidden")
+      .style("display", "none")
       .style("padding", "15px")
       .style("background", "rgba(0,0,0,0.6)")
       .style("border-radius", "5px")
@@ -209,13 +209,13 @@ export class TopArtistsComponent extends SequenceComponentInit implements AfterV
     yAxis.selectAll<SVGTextElement, string>("text")
       .on("mouseover", function(event, d) {
         const tooltipContent = d;
-        tooltip.style("visibility", "visible")
+        tooltip.style("display", "block")
           .html(tooltipContent)
           .style("top", (event.pageY - 10) + "px")
           .style("left", (event.pageX + 10) + "px");
       })
       .on("mouseout", function() {
-        tooltip.style("visibility", "hidden");
+        tooltip.style("display", "none");
       });
 
 
@@ -234,7 +234,7 @@ export class TopArtistsComponent extends SequenceComponentInit implements AfterV
       //Mouse Hover
       .on("mouseover", function (event, data) {
         hoveringBarName = data.artistName;
-        tooltip.html(data.minPlayed + " min").style("visibility", "visible");
+        tooltip.html(data.minPlayed + " min").style("display", "block");
       })
       //Mouse moved: change tooltip position
       .on("mousemove", function (event) {
@@ -245,7 +245,7 @@ export class TopArtistsComponent extends SequenceComponentInit implements AfterV
       //Mouse not hovering: hide tooltip
       .on("mouseout", function () {
         hoveringBarName = "";
-        tooltip.html(``).style("visibility", "hidden");
+        tooltip.html(``).style("display", "none");
       })
       //Add bar rising transition
       .attr("width", 0)

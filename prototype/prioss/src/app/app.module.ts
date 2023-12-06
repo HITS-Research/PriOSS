@@ -136,6 +136,7 @@ import { TopSongsComponent } from './spotify/pages/top-songs/top-songs.component
 import { PreviewTileComponent } from './unused-components/preview-tile/preview-tile.component';
 import { SettingsFormComponent } from './features/settings-form/settings-form.component';
 import { PurposesComponent } from './spotify/features/purposes/purposes.component';
+import { DashboardMenuComponent } from './framework/features/dashboard-menu/dashboard-menu.component';
 
 registerLocaleData(de);
 
@@ -207,6 +208,7 @@ registerLocaleData(de);
 ,
   ],
   imports: [
+    DashboardMenuComponent,
     BrowserModule,
     AppRoutingModule,
     FontAwesomeModule,

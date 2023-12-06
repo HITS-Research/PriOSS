@@ -1,29 +1,35 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
-import * as utilities from 'src/app/features/utils/generalUtilities.functions'
+import * as utilities from 'src/app/features/utils/generalUtilities.functions';
 import { SQLiteService } from './db/sqlite/sqlite.service';
 import { AppComponentMsgService } from './features/messaging/app-component-msg/app-component-msg.service';
 import { AppComponentMsg } from './features/messaging/app-component-msg/app-component-msg.enum';
 
 /**
- * This is the base component of the application that is always shown. It includes the side menu and the router outlet,
- * which gets replaced by the page component that the user currently navigated to
+ * This is the base component of the application that is always shown. It
+ * includes the side menu and the router outlet, which gets replaced by the
+ * page component that the user currently navigated to
  *
- * authors: Paul (pasch@mail.upb.de), Simon (scg@mail.upb.de)
+ * @author: Paul (pasch(at)mail.upb.de), Simon (scg(at)mail.upb.de)
  */
 @Component({
-  selector: 'app-root',
+  selector: 'prioss-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.less']
+  styleUrl: './app.component.less',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent implements OnInit {
   title = 'prioss';
+
   pRouter: Router;
+
   isCollapsed = false;
+
   serviceName: string | null;
-  isDashboard = false;
+
   showServiceButton = false;
+
   navigateAndScroll: (router: Router, url: string) => void = utilities.navigateAndScroll;
 
   /**
@@ -33,32 +39,29 @@ export class AppComponent implements OnInit {
   collapseWidth: number;
 
   public isWeb = false;
-  private initPlugin: boolean;
 
-  constructor(private router: Router, private sqlite: SQLiteService, private appComponentMsgService: AppComponentMsgService, public breakpointObserver: BreakpointObserver) {
+  constructor(
+    private router: Router,
+    private sqlite: SQLiteService,
+    private appComponentMsgService: AppComponentMsgService,
+    public breakpointObserver: BreakpointObserver
+  ) {
     this.pRouter = router;
 
-    appComponentMsgService.appMsg$.subscribe((msg) =>
-    {
+    appComponentMsgService.appMsg$.subscribe((msg) => {
       this.parseAppMsg(msg);
     });
 
-    this.sqlite.initializePlugin().then(async (ret) => {
-      this.initPlugin = ret;
-
-      if( this.sqlite.platform === "web") {
+    this.sqlite.initializePlugin().then(async () => {
+      if (this.sqlite.platform === "web") {
         this.isWeb = true;
         await customElements.whenDefined('jeep-sqlite');
         const jeepSqliteEl = document.querySelector('jeep-sqlite');
-        if(jeepSqliteEl != null) {
+        if (jeepSqliteEl != null) {
           await this.sqlite.initWebStore();
-          console.log(`>>>> isStoreOpen ${await jeepSqliteEl.isStoreOpen()}`);
-        } else {
-          console.log('>>>> jeepSqliteEl is null');
+          await jeepSqliteEl.isStoreOpen();
         }
       }
-
-      console.log('>>>> in App  this.initPlugin ' + this.initPlugin);
     });
   }
 
@@ -75,29 +78,27 @@ export class AppComponent implements OnInit {
   }
 
   /**
-  * This method sets the service name property depending on the current dashboard.
-  *
-  * @author: Paul (pasch@mail.upb.de)
-  *
-  */
+   * This method sets the service name property depending on the current dashboard.
+   *
+   * @author: Paul (pasch(at)mail.upb.de)
+   */
   setServiceName(): void {
     console.log(this.router.url);
-    switch ( this.router.url ) {
+    switch (this.router.url) {
       case '/face/dashboard':
         this.serviceName = 'face';
-        this.isDashboard = true;
         break;
+
       case '/insta/dashboard':
         this.serviceName = 'insta';
-        this.isDashboard = true;
         break;
+
       case '/spot/dashboard':
         this.serviceName = 'spot';
-        this.isDashboard = true;
         break;
+
       case '/serviceSelection':
         this.serviceName = null;
-        this.isDashboard = false;
         break;
     }
     this.recalculateShowServiceButton();
@@ -110,8 +111,7 @@ export class AppComponent implements OnInit {
    * @returns true, if the fragment is contained in the dashboard url
    *          false, if not
    *
-   * @author: Paul (pasch@mail.upb.de)
-   *
+   * @author: Paul (pasch(at)mail.upb.de)
    */
   isSelected(fragment: string): boolean {
     return this.router.url === '/' + this.serviceName + '/dashboard' + fragment;
@@ -120,7 +120,7 @@ export class AppComponent implements OnInit {
   /**
    * This method navigates to the current Dashboard.
    *
-   * @author: Paul (pasch@mail.upb.de)
+   * @author: Paul (pasch(at)mail.upb.de)
    *
    */
   routeToDashboard(): void {
@@ -132,10 +132,10 @@ export class AppComponent implements OnInit {
    *
    * @param msg The message received from the msg service
    *
-   * @author: Simon (scg@mail.upb.de)
+   * @author: Simon (scg(at)mail.upb.de)
    */
   parseAppMsg(msg: AppComponentMsg): void {
-    switch(msg) {
+    switch (msg) {
       case AppComponentMsg.backToDashboard:
         this.routeToDashboard();
         break;
@@ -147,9 +147,10 @@ export class AppComponent implements OnInit {
   }
 
   /**
-   * This method is responsible for setting the variables that determine if the navbar is closed and buttons should be shown.
+   * This method is responsible for setting the variables that determine if the
+   * navbar is closed and buttons should be shown.
    *
-   * @author: Paul (pasch@mail.upb.de)
+   * @author: Paul (pasch(at)mail.upb.de)
    */
   handleNavbarFold(): void {
     this.isCollapsed = !this.isCollapsed;
@@ -157,12 +158,13 @@ export class AppComponent implements OnInit {
   }
 
   /**
-   * Caclulates whether the Switch Service Button should be shown and writes the result in this.showServiceButton
+   * Caclulates whether the Switch Service Button should be shown and writes the
+   * result in this.showServiceButton
    *
-   * @author: Simon (scg@mail.upb.de)
+   * @author: Simon (scg(at)mail.upb.de)
    */
   recalculateShowServiceButton(): void {
     this.showServiceButton = !this.router.url.includes('contact') && !this.router.url.includes('about') && !this.router.url.includes('known-issues')
-                              && !this.router.url.includes('serviceSelection') && !this.router.url.includes('home');
+      && !this.router.url.includes('serviceSelection') && !this.router.url.includes('home');
   }
 }
