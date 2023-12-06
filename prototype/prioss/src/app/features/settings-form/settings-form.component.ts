@@ -47,7 +47,7 @@ export class SettingsFormComponent implements OnInit{
   optionList = this.settings[this.index]["options"]
   question = this.settings[this.index]["question"]
   howToCheck = this.settings[this.index]["howToCheck"]
-  selectedValue = { label: 'option 1', value: 'option1', advice: "" } // needed for clearing the forms options (choices)
+  selectedValue : { label: string, value: string, advice?: string } | null = { label: 'option 1', value: 'option1', advice: "" } // needed for clearing the forms options (choices)
 
   constructor(private fb: FormBuilder, private spotPrivacySettingsService: SpotPrivacySettingsService,
     private instaPrivacySettingsService: InstaPrivacySettingsService, private facePrivacySettingsService: FacePrivacySettingsService) {
