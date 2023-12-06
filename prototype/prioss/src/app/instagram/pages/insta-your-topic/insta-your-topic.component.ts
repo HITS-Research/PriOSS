@@ -1,14 +1,15 @@
-import { AfterViewInit, Component, Input } from '@angular/core';
+import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
 import { SequenceComponentInit } from '../../../features/utils/sequence-component-init.abstract';
-import { InstaTopicsRepository } from 'src/app/db/data-repositories/instagram/insta-your-topics/insta-topics.repository';
 import { InstaTopicsInfo } from 'src/app/instagram/models/YourTopicsInfo/InstaTopicsInfo';
+import {Store} from "@ngxs/store";
+import {InstaState} from "../../state/insta.state";
 
 @Component({
   selector: 'app-insta-your-topic',
   templateUrl: './insta-your-topic.component.html',
   styleUrls: ['./insta-your-topic.component.less']
 })
-export class InstaYourTopicComponent extends SequenceComponentInit implements AfterViewInit{
+export class InstaYourTopicComponent extends SequenceComponentInit implements AfterViewInit, OnInit{
 
   @Input()
   previewMode = false;
@@ -17,8 +18,13 @@ export class InstaYourTopicComponent extends SequenceComponentInit implements Af
   yourTopics: InstaTopicsInfo[] = [];
   listOfYourTopics: InstaTopicsInfo[] = [];
 
-  constructor(private instaTopicRepo: InstaTopicsRepository){
+  constructor(private store: Store){
     super();
+  }
+
+  ngOnInit() {
+    this.yourTopics = this.store.selectSnapshot(InstaState.getUserTopicData);
+    this.listOfYourTopics = [...this.yourTopics]
   }
 
   /**
@@ -39,13 +45,6 @@ export class InstaYourTopicComponent extends SequenceComponentInit implements Af
   */
   override async initComponent(): Promise<void> {
     console.log("--- Initializing Component 10: Your Topics");
-    // Your Topics fetched from SQlite
-    await this.instaTopicRepo.getAllTopics().then((yourTopics) => {
-      this.yourTopics = yourTopics;
-      this.listOfYourTopics = [...this.yourTopics];
-      console.log("Mayank check here");
-      console.log(yourTopics);
-    });
   }
 
   /**

@@ -1,14 +1,14 @@
-import { AfterViewInit, Component, Input } from '@angular/core';
-import { SequenceComponentInit } from '../../../features/utils/sequence-component-init.abstract';
+import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
+import {SequenceComponentInit} from '../../../features/utils/sequence-component-init.abstract';
 import * as d3 from 'd3';
-import { InstaLikedCommentsRepository } from 'src/app/db/data-repositories/instagram/insta-liked-content/insta-likedcomments.repository';
-import { InstaLikedPostsRepository } from 'src/app/db/data-repositories/instagram/insta-liked-content/insta-likedposts.repository';
-import { InstaLikedCommentsWithCount } from 'src/app/instagram/models/LikedCommentsAndPostsInfo/InstaLikedCommentsWithCount';
-import { InstaLikedPostsWithCount } from 'src/app/instagram/models/LikedCommentsAndPostsInfo/InstaLikedPostsWithCount';
-import { InstaLikedCommentsInfo } from 'src/app/instagram/models/LikedCommentsAndPostsInfo/InstaLikedCommentsInfo';
-import { InstaLikedPostsInfo } from 'src/app/instagram/models/LikedCommentsAndPostsInfo/InstaLikedPostsInfo';
-import { NotificationService } from 'src/app/features/notification/notification.service';
-
+import {
+  InstaLikedCommentsWithCount
+} from 'src/app/instagram/models/LikedCommentsAndPostsInfo/InstaLikedCommentsWithCount';
+import {InstaLikedPostsWithCount} from 'src/app/instagram/models/LikedCommentsAndPostsInfo/InstaLikedPostsWithCount';
+import {InstaLikedCommentsInfo} from 'src/app/instagram/models/LikedCommentsAndPostsInfo/InstaLikedCommentsInfo';
+import {InstaLikedPostsInfo} from 'src/app/instagram/models/LikedCommentsAndPostsInfo/InstaLikedPostsInfo';
+import {Store} from "@ngxs/store";
+import {InstaState} from "../../state/insta.state";
 
 
 /**
@@ -23,7 +23,7 @@ import { NotificationService } from 'src/app/features/notification/notification.
   templateUrl: './insta-liked-content.component.html',
   styleUrls: ['./insta-liked-content.component.less']
 })
-export class InstaLikedContentComponent extends SequenceComponentInit implements AfterViewInit{
+export class InstaLikedContentComponent extends SequenceComponentInit implements AfterViewInit, OnInit {
 
   @Input()
   previewMode = false;
@@ -32,8 +32,8 @@ export class InstaLikedContentComponent extends SequenceComponentInit implements
 
   liked_comments_with_count: InstaLikedCommentsWithCount[] = [];
   liked_posts_with_count: InstaLikedPostsWithCount[] = [];
-  liked_comments_amount=0;
-  liked_posts_amount=0;
+  liked_comments_amount = 0;
+  liked_posts_amount = 0;
 
   liked_comments: InstaLikedCommentsInfo[] = [];
   liked_posts: InstaLikedPostsInfo[] = [];
@@ -52,60 +52,55 @@ export class InstaLikedContentComponent extends SequenceComponentInit implements
   sortLikedCommentsDate = (a: InstaLikedCommentsInfo, b: InstaLikedCommentsInfo): number => +a.timestamp - +b.timestamp;
   sortLikedPostsDate = (a: InstaLikedPostsInfo, b: InstaLikedPostsInfo): number => +a.timestamp - +b.timestamp;
 
-  constructor(private instaLikedCommentsRepo: InstaLikedCommentsRepository,
-    private instaLikedPostsRepo: InstaLikedPostsRepository,
-    private notificationService: NotificationService) {
+  constructor(private store: Store) {
     super();
   }
 
+  ngOnInit() {
+    const {likedCommentsInfo, likedPostsInfo} = this.store.selectSnapshot(InstaState.getUserInteractions);
+    this.liked_comments_amount = likedCommentsInfo.length;
+    this.liked_comments = likedCommentsInfo;
+    this.listOfLikedComments = [...likedCommentsInfo]
+    this.liked_posts_amount = likedPostsInfo.length;
+    this.liked_posts = likedPostsInfo;
+    this.listOfLikedPosts = [...likedPostsInfo]
+  }
+
   /**
-  * A Callback called by angular when the views have been initialized
-  * It handles the initialization when the component is displayed on its own dedicated page.
-  *
-  * @author: Mayank (mayank@mail.upb.de)
-  */
+   * A Callback called by angular when the views have been initialized
+   * It handles the initialization when the component is displayed on its own dedicated page.
+   *
+   * @author: Mayank (mayank@mail.upb.de)
+   */
   ngAfterViewInit() {
-    if(!this.previewMode) {
+    if (!this.previewMode) {
       this.initComponent();
     }
   }
 
   /**
-  *
-  * @author: Mayank (mayank@mail.upb.de)
-  */
+   *
+   * @author: Mayank (mayank@mail.upb.de)
+   */
   override async initComponent(): Promise<void> {
     console.log("--- Initializing Component 5: Liked Comments and Posts");
 
-    // Fetch Count and Table Data for Liked Comments from Database
-    await this.instaLikedCommentsRepo.getLikedCommentsInfo().then((liked_comments) => {
-      this.liked_comments_amount = liked_comments.length;
-      this.liked_comments = liked_comments;
-      this.listOfLikedComments = [...liked_comments]
-    });
-
-    // Fetch Count and Table Data for Liked Posts from Database
-    await this.instaLikedPostsRepo.getLikedPostsInfo().then((liked_posts) => {
-      this.liked_posts_amount = liked_posts.length;
-      this.liked_posts = liked_posts;
-      this.listOfLikedPosts = [...liked_posts]
-    });
-
+    // TODO : refactor this part
     // Fetch data for Graph for Liked Comments from Database
-    await this.instaLikedCommentsRepo.getLikedCommentsWithCount().then((liked_comments_with_count) => {
-      this.liked_comments_with_count = liked_comments_with_count;
-      this.userListForComments = this.fetchUsernames(liked_comments_with_count)
-      this.userListForComments.unshift("None");
-      this.makeBarChart(liked_comments_with_count,".bar_chart_liked_comments");
-    });
+    // await this.instaLikedCommentsRepo.getLikedCommentsWithCount().then((liked_comments_with_count) => {
+    //   this.liked_comments_with_count = liked_comments_with_count;
+    //   this.userListForComments = this.fetchUsernames(liked_comments_with_count)
+    //   this.userListForComments.unshift("None");
+    //   this.makeBarChart(liked_comments_with_count, ".bar_chart_liked_comments");
+    // });
 
     // Fetch data for Graph for Liked Posts from Database
-    await this.instaLikedPostsRepo.getLikedPostsWithCount().then((liked_posts_with_count) => {
-      this.liked_posts_with_count = liked_posts_with_count;
-      this.userListForPosts = this.fetchUsernames(liked_posts_with_count);
-      this.userListForPosts.unshift("None");
-      this.makeBarChart(liked_posts_with_count,".bar_chart_liked_posts");
-    });
+    // await this.instaLikedPostsRepo.getLikedPostsWithCount().then((liked_posts_with_count) => {
+    //   this.liked_posts_with_count = liked_posts_with_count;
+    //   this.userListForPosts = this.fetchUsernames(liked_posts_with_count);
+    //   this.userListForPosts.unshift("None");
+    //   this.makeBarChart(liked_posts_with_count, ".bar_chart_liked_posts");
+    // });
 
   }
 
@@ -128,9 +123,9 @@ export class InstaLikedContentComponent extends SequenceComponentInit implements
 
     // set the dimensions and margins of the graph
     const margin = {top: 20, right: 30, bottom: 50, left: 100};
-    const width = (460 - margin.left - margin.right)/2;
+    const width = (460 - margin.left - margin.right) / 2;
     const screenHeight = window.innerHeight;
-    const height = screenHeight/2 - margin.top - margin.bottom;
+    const height = screenHeight / 2 - margin.top - margin.bottom;
     // const height = ((data.length + 5) * 15) - margin.top - margin.bottom;
 
     // append the svg object to the body of the page
@@ -147,10 +142,10 @@ export class InstaLikedContentComponent extends SequenceComponentInit implements
       .range([0, width]);
 
     let xAxis = d3.axisBottom(xScale).tickSizeOuter(0);
-    if(this.getMaxCounts(data) < 10) {
+    if (this.getMaxCounts(data) < 10) {
       xAxis = xAxis
-      .tickValues(d3.range(0, this.getMaxCounts(data)+1))
-      .tickFormat(d3.format(".0f"));
+        .tickValues(d3.range(0, this.getMaxCounts(data) + 1))
+        .tickFormat(d3.format(".0f"));
     }
 
     svg.append("g")
@@ -172,26 +167,25 @@ export class InstaLikedContentComponent extends SequenceComponentInit implements
     svg.selectAll("myRect")
       .data(data)
       .join("rect")
-      .attr("x", xScale(0) )
+      .attr("x", xScale(0))
       .attr("y", d => yScale(d.user))
       .attr("width", d => xScale(d.counts))
       .attr("height", yScale.bandwidth())
       .attr("fill", this.color);
 
-      if(divId == ".bar_chart_liked_comments") {
-        svg.append("text")
+    if (divId == ".bar_chart_liked_comments") {
+      svg.append("text")
         .attr("text-anchor", "end")
         .attr("x", width)
         .attr("y", height + margin.top + 20)
         .text("Number of comments liked per user");
-      }
-      else if (divId == ".bar_chart_liked_posts") {
-        svg.append("text")
+    } else if (divId == ".bar_chart_liked_posts") {
+      svg.append("text")
         .attr("text-anchor", "end")
         .attr("x", width)
         .attr("y", height + margin.top + 20)
         .text("Number of posts liked per user");
-      }
+    }
   }
 
   fetchUsernames(arr: any[]): string[] {
@@ -200,7 +194,7 @@ export class InstaLikedContentComponent extends SequenceComponentInit implements
 
   getMaxCounts(arr: any[]): number {
     let maxCount = 0;
-    arr.forEach(function(item) {
+    arr.forEach(function (item) {
       if (item.counts > maxCount) {
         maxCount = item.counts;
       }

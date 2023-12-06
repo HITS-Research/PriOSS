@@ -1,16 +1,16 @@
-import { AfterViewInit, Component, Input } from '@angular/core';
-import { SequenceComponentInit } from '../../../features/utils/sequence-component-init.abstract';
-import { InstaShoppingRepository } from 'src/app/db/data-repositories/instagram/insta-shopping/insta-shopping.repository';
-import { InstaShoppingWishlistRepository } from 'src/app/db/data-repositories/instagram/insta-shopping/insta-shopping_wishlist.repository';
-import { InstaShoppingInfo } from 'src/app/instagram/models/ShoppingInfo/InstaShoppingInfo';
-import { InstaShoppingWishlistInfo } from 'src/app/instagram/models/ShoppingInfo/InstaShoppingWishlistInfo';
+import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
+import {SequenceComponentInit} from '../../../features/utils/sequence-component-init.abstract';
+import {InstaShoppingInfo} from 'src/app/instagram/models/ShoppingInfo/InstaShoppingInfo';
+import {InstaShoppingWishlistInfo} from 'src/app/instagram/models/ShoppingInfo/InstaShoppingWishlistInfo';
+import {Store} from "@ngxs/store";
+import {InstaState} from "../../state/insta.state";
 
 @Component({
   selector: 'app-insta-shopping',
   templateUrl: './insta-shopping.component.html',
   styleUrls: ['./insta-shopping.component.less']
 })
-export class InstaShoppingComponent extends SequenceComponentInit implements AfterViewInit{
+export class InstaShoppingComponent extends SequenceComponentInit implements AfterViewInit, OnInit {
 
   @Input()
   previewMode = false;
@@ -35,46 +35,40 @@ export class InstaShoppingComponent extends SequenceComponentInit implements Aft
   wishlistProductSearchValue = '';
   listOfShoppingWishlistData: InstaShoppingWishlistInfo[] = [];
 
-  constructor(private instaShoppingRepo: InstaShoppingRepository,
-              private instaShoppingWishlistRepo : InstaShoppingWishlistRepository){
+  constructor(private store: Store) {
     super();
   }
 
+  ngOnInit() {
+    const {shoppingInfo, shoppingWishlistInfo} = this.store.selectSnapshot(InstaState.getUserShoppingData);
+    this.shoppingData = shoppingInfo;
+    this.listOfShoppingData = [...this.shoppingData]
+    this.totalMerchants = new Set(this.shoppingData.map(item => item.merchantName)).size;
+    this.totalProducts = new Set(this.shoppingData.map(item => item.productName)).size;
+    this.shoppingWishlistData = shoppingWishlistInfo;
+    this.listOfShoppingWishlistData = [...this.shoppingWishlistData]
+    this.totalWishlistMerchants = new Set(this.shoppingWishlistData.map(item => item.merchantName)).size;
+    this.totalWishlistProducts = new Set(this.shoppingWishlistData.map(item => item.productName)).size;
+  }
+
   /**
-  * A Callback called by angular when the views have been initialized
-  * It handles the initialization when the component is displayed on its own dedicated page.
-  *
-  * @author: Durva & Mayank (dghurye@mail.upb.de & mayank@mail.upb.de)
-  */
+   * A Callback called by angular when the views have been initialized
+   * It handles the initialization when the component is displayed on its own dedicated page.
+   *
+   * @author: Durva & Mayank (dghurye@mail.upb.de & mayank@mail.upb.de)
+   */
   ngAfterViewInit() {
-    if(!this.previewMode) {
+    if (!this.previewMode) {
       this.initComponent();
     }
   }
 
   /**
-  * @see-super-class
-  * @author Durva & Mayank (dghurye@mail.upb.de & mayank@mail.upb.de)
-  */
+   * @see-super-class
+   * @author Durva & Mayank (dghurye@mail.upb.de & mayank@mail.upb.de)
+   */
   override async initComponent(): Promise<void> {
     console.log("--- Initializing Component 9: Shopping");
-    // Shopping Data fetched from SQlite
-    await this.instaShoppingRepo.getAllShoppingInfo().then((shoppingData) => {
-      this.shoppingData = shoppingData;
-      this.listOfShoppingData = [...this.shoppingData]
-    });
-
-    this.totalMerchants = await this.instaShoppingRepo.getTotalMerchantCount();
-    this.totalProducts = await this.instaShoppingRepo.getTotalProductCount();
-
-     // Shopping Wishlist Data fetched from SQlite
-     await this.instaShoppingWishlistRepo.getAllShoppingWishlistInfo().then((shoppingWishlistData) => {
-      this.shoppingWishlistData = shoppingWishlistData;
-      this.listOfShoppingWishlistData = [...this.shoppingWishlistData]
-    });
-
-    this.totalWishlistMerchants = await this.instaShoppingWishlistRepo.getTotalMerchantCount();
-    this.totalWishlistProducts = await this.instaShoppingWishlistRepo.getTotalProductCount();
   }
 
   /**

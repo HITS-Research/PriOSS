@@ -1,5 +1,5 @@
 export interface InstaLogoutInfo {
-    title: string,
+    title?: string,
     ip_address: string,
     timestamp: number,
     user_agent: string,

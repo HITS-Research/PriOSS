@@ -1,11 +1,10 @@
-import { AfterViewInit, Component, Input } from '@angular/core';
+import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
 import { SequenceComponentInit } from '../../../features/utils/sequence-component-init.abstract';
 import { InstaSignUpInfo } from 'src/app/instagram/models/InstaAccountCreationAndLoginInfo/InstaSignUpInfo';
-import { InstaSignUpRepository } from 'src/app/db/data-repositories/instagram/insta-accountcreation-login/insta-signup.repository';
-import { InstaLoginRepository } from 'src/app/db/data-repositories/instagram/insta-accountcreation-login/insta-login.repository';
-import { InstaLogoutRepository } from 'src/app/db/data-repositories/instagram/insta-accountcreation-login/insta-logout.repository';
 import { InstaLoginInfo } from 'src/app/instagram/models/InstaAccountCreationAndLoginInfo/InstaLoginInfo';
 import { InstaLogoutInfo } from 'src/app/instagram/models/InstaAccountCreationAndLoginInfo/InstaLogoutInfo';
+import {Store} from "@ngxs/store";
+import {InstaState} from "../../state/insta.state";
 
 /**
  * This component is for instagram's account creation and login page.
@@ -19,7 +18,7 @@ import { InstaLogoutInfo } from 'src/app/instagram/models/InstaAccountCreationAn
   templateUrl: './insta-account-creation-login.component.html',
   styleUrls: ['./insta-account-creation-login.component.less']
 })
-export class InstaAccountCreationLoginComponent extends SequenceComponentInit implements AfterViewInit{
+export class InstaAccountCreationLoginComponent extends SequenceComponentInit implements AfterViewInit, OnInit{
   @Input()
   previewMode = false;
 
@@ -33,10 +32,24 @@ export class InstaAccountCreationLoginComponent extends SequenceComponentInit im
   most_used_device_amount=0;
   most_used_device="";
 
-  constructor(private instaSignUpRepo: InstaSignUpRepository,
-              private instaLoginRepo: InstaLoginRepository,
-              private instaLogoutRepo: InstaLogoutRepository) {
+  constructor(private store: Store) {
     super();
+  }
+
+  ngOnInit() {
+    const {
+      signUpInfo,
+      loginInfo,
+      logoutInfo
+    } = this.store.selectSnapshot(InstaState.getAuthenticationData);
+    this.signup_information = [signUpInfo];
+    this.login_activities = loginInfo;
+    this.logout_activities = logoutInfo
+    this.login_amount = this.login_activities.length;
+    this.logout_amount = this.logout_activities.length;
+    this.login_logout_activities = [...this.login_activities, ...this.logout_activities];
+    this.sortLoginLogoutData();
+    this.mostUsedDevice();
   }
 
   /**
@@ -57,34 +70,6 @@ export class InstaAccountCreationLoginComponent extends SequenceComponentInit im
   */
   override async initComponent(): Promise<void> {
     console.log("--- Initializing Component 2: AccountCreationAndLogin");
-    // SignUp Information fetched from SQLite
-    const signup_information = await this.instaSignUpRepo.getSignUpInfo();
-    if(signup_information.length > 0) {
-      this.signup_information = signup_information
-    }
-
-    // Login Activities fetched from SQLite
-    const login_activities = await this.instaLoginRepo.getLoginInfo();
-    this.login_amount = login_activities.length;
-    if(login_activities.length > 0) {
-      this.login_activities = login_activities;
-    }
-
-    // Logout Activities fetched from SQLite
-    const logout_activities = await this.instaLogoutRepo.getLogoutInfo();
-    this.logout_amount = logout_activities.length;
-    if(logout_activities.length > 0) {
-      this.logout_activities = logout_activities;
-    }
-
-    // Merging Login and Logout Activities into one array
-    this.login_logout_activities = [...this.login_activities, ...this.logout_activities]
-
-    // Sorting array of login and logout activities
-    this.sortLoginLogoutData();
-
-    // Finding the most used device
-    this.mostUsedDevice();
   }
 
   /**

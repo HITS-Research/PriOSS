@@ -14,7 +14,7 @@
                     <div class="container_class">
                         <span nz-icon nzType="heart"></span>
                     </div>
-                </ng-template> 
+                </ng-template>
             </nz-col>
             <nz-col [nzSpan]="12">
                 <nz-statistic [nzValue]="(followingInfo.length| number)!"
@@ -23,7 +23,7 @@
                     <div class="container_class">
                         <span nz-icon nzType="team"></span>
                     </div>
-                </ng-template> 
+                </ng-template>
             </nz-col>
         </nz-row>
         <nz-row [nzGutter]="16">
@@ -34,16 +34,16 @@
                     <div class="container_class">
                         <span nz-icon nzType="stop" nzTheme="outline"></span>
                     </div>
-                </ng-template> 
+                </ng-template>
             </nz-col>
             <nz-col [nzSpan]="12">
-                <nz-statistic [nzValue]="(recentFollowInfo.length| number)!" 
+                <nz-statistic [nzValue]="(recentFollowInfo.length| number)!"
                     [nzTitle]="'Number of recent follow requests'" [nzPrefix]="recent"></nz-statistic>
                 <ng-template #recent>
                     <div class="container_class">
                         <span nz-icon nzType="user-add" nzTheme="outline"></span>
                     </div>
-                </ng-template> 
+                </ng-template>
             </nz-col>
         </nz-row>
         <div [class.hidden]="previewMode">
@@ -55,16 +55,16 @@
                         <div class="container_class">
                             <span nz-icon nzType="usergroup-add" nzTheme="outline"></span>
                         </div>
-                    </ng-template> 
+                    </ng-template>
                 </nz-col>
                 <nz-col [nzSpan]="12">
-                    <nz-statistic [nzValue]="(pendingFollowRequestInfo.length| number)!" 
+                    <nz-statistic [nzValue]="(pendingFollowRequestInfo.length| number)!"
                         [nzTitle]="'Number of pending follow requests'" [nzPrefix]="pending"></nz-statistic>
                     <ng-template #pending>
                         <div class="container_class">
                             <span nz-icon nzType="user-switch"></span>
                         </div>
-                    </ng-template> 
+                    </ng-template>
                 </nz-col>
             </nz-row>
             <nz-row [nzGutter]="16">
@@ -75,16 +75,16 @@
                         <div class="container_class">
                             <span nz-icon nzType="minus" nzTheme="outline"></span>
                         </div>
-                    </ng-template> 
+                    </ng-template>
                 </nz-col>
                 <nz-col [nzSpan]="12">
-                    <nz-statistic [nzValue]="(recentlyUnfollowedAccountInfo.length| number)!" 
+                    <nz-statistic [nzValue]="(recentlyUnfollowedInfo.length| number)!"
                         [nzTitle]="'Number of recently unfollowed accounts'" [nzPrefix]="unfollow"></nz-statistic>
                     <ng-template #unfollow>
                         <div class="container_class">
                             <span nz-icon nzType="user-delete" nzTheme="outline"></span>
                         </div>
-                    </ng-template> 
+                    </ng-template>
                 </nz-col>
             </nz-row>
         </div>
@@ -366,7 +366,7 @@
 
         <app-title-bar titleText="Recently Unfollowed Accounts" [includeButton]="false"></app-title-bar>
         <!-- If Recently Unfollowed Accounts Data present -->
-        <div *ngIf="recentlyUnfollowedAccountInfo?.length">
+        <div *ngIf="recentlyUnfollowedInfo?.length">
             <nz-table #recentTable [nzData]="listOfRecentUnfollow">
                 <thead>
                     <tr>
@@ -401,7 +401,7 @@
             </nz-dropdown-menu>
         </div>
         <!-- If No Recently Unfollowed Account Data present -->
-        <div *ngIf="recentlyUnfollowedAccountInfo?.length === 0">
+        <div *ngIf="recentlyUnfollowedInfo?.length === 0">
             <nz-card><nz-empty nzNotFoundImage="simple"></nz-empty></nz-card>
         </div>
         <br>

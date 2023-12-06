@@ -137,6 +137,12 @@ import { PreviewTileComponent } from './unused-components/preview-tile/preview-t
 import { SettingsFormComponent } from './features/settings-form/settings-form.component';
 import { PurposesComponent } from './spotify/features/purposes/purposes.component';
 import { DashboardMenuComponent } from './framework/features/dashboard-menu/dashboard-menu.component';
+import {NgxsModule} from "@ngxs/store";
+import {NgxsStoragePluginModule} from "@ngxs/storage-plugin";
+import {AppState} from "./state/app.state";
+import {FbState} from "./facebook/state/fb.state";
+import {InstaState} from "./instagram/state/insta.state";
+import {SpotState} from "./spotify/state/spot.state";
 
 registerLocaleData(de);
 
@@ -237,7 +243,11 @@ registerLocaleData(de);
     NzSpaceModule,
     ReactiveFormsModule,
     NzFormModule,
-    NzResultModule
+    NzResultModule,
+    NgxsModule.forRoot([AppState, FbState, InstaState, SpotState]),
+    // Uncomment below dependency for debugging
+    // NgxsReduxDevtoolsPluginModule.forRoot(),
+    NgxsStoragePluginModule.forRoot(),
   ],
   providers: [
     SQLiteService,
