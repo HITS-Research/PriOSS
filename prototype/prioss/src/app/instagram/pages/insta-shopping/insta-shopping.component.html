@@ -3,7 +3,7 @@
   <!--only shows when visiting the page-->
   <div *ngIf="!previewMode">
     <!--Titlebar component -->
-    <app-title-bar titleText="Highlights" tooltipText="This are some important entrys in your data download regarding your shopping and wishlist items."></app-title-bar>
+    <app-title-bar titleText="Highlights" tooltipText="The following entries showcase summarized information regarding your shopping and wishlist items."></app-title-bar>
   </div>
 
     <!--This is the preview and the highlights section-->
@@ -47,7 +47,7 @@
     <!--only shows when visiting the page-->
     <div *ngIf="!previewMode">
       <br>
-      <app-title-bar titleText="Shopping" [includeButton]="false" tooltipText="The following tables shows the recently checked out and the wishlist data"></app-title-bar>
+      <app-title-bar titleText="Shopping" [includeButton]="false" tooltipText="The tables below present information regarding the items you have recently viewed and those you have added to your wishlist."></app-title-bar>
       <nz-card style="width:100%;">
         <nz-tabset nzType="card">
           <nz-tab nzTitle="Shopping List">
