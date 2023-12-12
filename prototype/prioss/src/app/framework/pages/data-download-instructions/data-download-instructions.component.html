@@ -1,177 +1,61 @@
-
-<app-title-bar titleText="Data Download Instructions"
-[overrideBackButtonFunction]="true" (onButtonClickedEventOverride)="returnToServiceSelection()"
-backButtonTextOverride="Back to Service Selection">
-</app-title-bar>
+<app-title-bar
+  titleText="Data Download Instructions"
+  [overrideBackButtonFunction]="true"
+  (onButtonClickedEventOverride)="returnToServiceSelection()"
+  backButtonTextOverride="Back to Service Selection"
+/>
 
 <nz-tabset nzLinkRouter>
+
   <nz-tab>
-    <a *nzTabLink nz-tab-link [routerLink]="['.']" [queryParams]="{ tab: 'Instagram' }" queryParamsHandling="merge">Instagram</a>
-    <div class="instructions-content" id="instagram-instructions">
-      <div class="selection-disclaimer">
-        <div class="disclaimer-content">
-          <h4>Disclaimer!</h4>
-
-          <p>Unfortunately it is impossible to use the data download option directly in the 'Instagram' app because it only allows
-            the user to download the data as an 'HTML' file. To visualize your data we need it packed into different 'json' files.<br>
-            Therefore please follow the upcomming instructions on how to download your data via an internet browser.</p>
-        </div>
-      </div>
-
-      <div class="steps">
-          <nz-steps [nzCurrent]="InstaDataDownload">
-          <nz-step nzTitle="Step 1"></nz-step>
-          <nz-step nzTitle="Step 2"></nz-step>
-          <nz-step nzTitle="Step 3"></nz-step>
-          <nz-step nzTitle="Step 4"></nz-step>
-          <nz-step nzTitle="Step 5"></nz-step>
-          <nz-step nzTitle="Step 6"></nz-step>
-          <nz-step nzTitle="Step 7"></nz-step>
-        </nz-steps>
-      </div>
-
-      <div class="steps-on-mobile">
-        <nz-steps [nzCurrent]="InstaDataDownload">
-          <nz-step></nz-step>
-          <nz-step></nz-step>
-          <nz-step></nz-step>
-          <nz-step></nz-step>
-          <nz-step></nz-step>
-          <nz-step></nz-step>
-          <nz-step></nz-step>
-        </nz-steps>
-      </div>
-
-      <div class="steps-content">
-        <img
-          nz-image
-          nzSrc={{instructionPictureInstaDataDownload}}
-          alt="" 
-          class="i-image"
-        />
-        <nz-divider></nz-divider>
-        <p nz-typography [innerHTML]="instructionTextInstaDataDownload"></p>
-      </div>
-      <div class="steps-action">
-        <button nz-button nzType="default" (click)="preInstaDataDownload()" [disabled]="InstaDataDownload <= 0">
-          <span>Previous</span>
-        </button>
-        <button nz-button nzType="default" (click)="nextInstaDataDownload()" [disabled]="InstaDataDownload >= 6">
-          <span>Next</span>
-        </button>
-      </div>
-    </div>  
-  </nz-tab>
-  <nz-tab>
-    <a *nzTabLink nz-tab-link [routerLink]="['.']" [queryParams]="{ tab: 'Facebook' }" queryParamsHandling="merge">Facebook</a>
-    <div class="instructions-content" id="face-instructions">
-      <div class="selection-disclaimer">
-        <div class="disclaimer-content">
-          <h4>Important!</h4>
-          <p>Use <a href="https://www.facebook.com/dyi/?referrer=yfi_settings" target="_blank">this link </a> to go to the Facebook data download page.  We can't see or access any of your personal information, like cookies or passwords, by using this link. If you're signed into Facebook, the link takes you directly to the download page. If not, it takes you to the login page, and then to the download page once you sign in. 
-           If the link fails, follow the instructions below. As Facebook's menu varies by country and language, you may need to navigate a bit to find the download page.
-           </p>
-        </div>
-      </div>
-
-      <div class="steps">
-          <nz-steps [nzCurrent]="FaceDataDownload">
-          <nz-step nzTitle="Step 1"></nz-step>
-          <nz-step nzTitle="Step 2"></nz-step>
-          <nz-step nzTitle="Step 3"></nz-step>
-          <nz-step nzTitle="Step 4"></nz-step>
-          <nz-step nzTitle="Step 5"></nz-step>
-          <nz-step nzTitle="Step 6"></nz-step>
-          <nz-step nzTitle="Step 7"></nz-step>
-          <nz-step nzTitle="Step 8"></nz-step>
-        </nz-steps>
-      </div>
-
-      <div class="steps-on-mobile">
-        <nz-steps [nzCurrent]="FaceDataDownload">
-          <nz-step></nz-step>
-          <nz-step></nz-step>
-          <nz-step></nz-step>
-          <nz-step></nz-step>
-          <nz-step></nz-step>
-          <nz-step></nz-step>
-          <nz-step></nz-step>
-          <nz-step></nz-step>
-        </nz-steps>
-      </div>
-
-      <div class="steps-content">
-        <img
-          nz-image
-          nzSrc={{instructionPictureFaceDataDownload}}
-          alt=""
-          class="i-image"
-        />
-        <nz-divider></nz-divider>
-        <p nz-typography [innerHTML]="instructionTextFaceDataDownload"></p>
-      </div>
-      <div class="steps-action">
-        <button nz-button nzType="default" (click)="preFaceDataDownload()" [disabled]="FaceDataDownload <= 0">
-          <span>Previous</span>
-        </button>
-        <button nz-button nzType="default" (click)="nextFaceDataDownload()" [disabled]="FaceDataDownload >= 7">
-          <span>Next</span>
-        </button>
-      </div>
-    </div>  
+    <a
+      *nzTabLink
+      nz-tab-link
+      [routerLink]="['.']"
+      [queryParams]="{ tab: 'Instagram' }"
+      queryParamsHandling="merge"
+    >
+      Instagram
+    </a>
+    <prioss-data-download-instagram />
   </nz-tab>
 
   <nz-tab>
-    <a *nzTabLink nz-tab-link [routerLink]="['.']" [queryParams]="{ tab: 'Spotify' }" queryParamsHandling="merge">Spotify</a>
-    <div class="instructions-content" id="Spotify-instructions">
-
-      <div class="steps">
-          <nz-steps [nzCurrent]="SpotDataDownload">
-          <nz-step nzTitle="Step 1"></nz-step>
-          <nz-step nzTitle="Step 2"></nz-step>
-          <nz-step nzTitle="Step 3"></nz-step>
-          <nz-step nzTitle="Step 4"></nz-step>
-          <nz-step nzTitle="Step 5"></nz-step>
-          <nz-step nzTitle="Step 6"></nz-step>
-        </nz-steps>
-      </div>
-
-      <div class="steps-on-mobile">
-        <nz-steps [nzCurrent]="SpotDataDownload">
-          <nz-step></nz-step>
-          <nz-step></nz-step>
-          <nz-step></nz-step>
-          <nz-step></nz-step>
-          <nz-step></nz-step>
-          <nz-step></nz-step>
-        </nz-steps>
-      </div>
-
-      <div class="steps-content">
-        <img
-          nz-image
-          nzSrc={{instructionPictureSpotDataDownload}}
-          alt=""
-          class="i-image"
-        />
-        <nz-divider></nz-divider>
-        <p nz-typography [innerHTML]="instructionTextSpotDataDownload"></p>
-      </div>
-      <div class="steps-action">
-        <button nz-button nzType="default" (click)="preSpotDataDownload()" [disabled]="SpotDataDownload <= 0">
-          <span>Previous</span>
-        </button>
-        <button nz-button nzType="default" (click)="nextSpotDataDownload()" [disabled]="SpotDataDownload >= 5">
-          <span>Next</span>
-        </button>
-      </div>
-    </div>  
+    <a
+      *nzTabLink
+      nz-tab-link
+      [routerLink]="['.']"
+      [queryParams]="{ tab: 'Facebook' }"
+      queryParamsHandling="merge"
+    >
+      Facebook
+    </a>
+    <prioss-data-download-facebook />
   </nz-tab>
+
+  <nz-tab>
+    <a
+      *nzTabLink
+      nz-tab-link
+      [routerLink]="['.']"
+      [queryParams]="{ tab: 'Spotify' }"
+      queryParamsHandling="merge"
+    >
+      Spotify
+    </a>
+    <prioss-data-download-spotify />
+  </nz-tab>
+
 </nz-tabset>
-<br>
-<br>
+
 <div class="button-box">
-  <button nz-button nzSize="default" nzType="primary" class="return-btn" (click)="returnToServiceSelection()">
-    Back to Service Selection 
+  <button
+    nz-button
+    nzSize="default"
+    nzType="primary"
+    class="return-btn"
+    (click)="returnToServiceSelection()"
+  >
+    Back to Service Selection
   </button>
 </div>

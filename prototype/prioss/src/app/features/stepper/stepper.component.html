@@ -1,0 +1,49 @@
+@if (vm$ | async; as vm) {
+  <nz-steps #stepsComponent [nzCurrent]="vm.stepIndex">
+    @for (step of vm.steps; track step.title) {
+      <nz-step
+        [nzTitle]="step.title"
+        [nzSubtitle]="step.subtitle ?? ''"
+      />
+    } @empty {
+      <nz-step nzTitle="No steps available" />
+    }
+  </nz-steps>
+
+  <div class="image-wrapper">
+    <img
+      [ngSrc]="vm.currentStep.imageUrl"
+      fill
+      alt="Image to the {{ vm.stepIndex + 1 }} step"
+      (load)="isLoading$$.next(false)"
+      [style.visibility]="vm.isLoading ? 'hidden' : ''"
+    >
+
+    <nz-skeleton-element
+      nzType="image"
+      [nzActive]="true"
+      [hidden]="!vm.isLoading"
+    />
+  </div>
+
+  <div class="action-buttons">
+    <button
+      nz-button
+      [disabled]="vm.stepIndex <= 0"
+      (click)="next$$.next(-1)"
+    >
+      Previous Step
+    </button>
+    <button
+      nz-button
+      [disabled]="vm.stepIndex >= vm.steps.length - 1"
+      (click)="next$$.next(1)"
+    >
+      Next Step
+    </button>
+  </div>
+
+  <hr>
+
+  <span [innerHTML]="vm.currentStep.description"></span>
+}
