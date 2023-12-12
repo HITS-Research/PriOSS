@@ -1,4 +1,7 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { NgIf } from '@angular/common';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { AppComponentMsg } from 'src/app/features/messaging/app-component-msg/app-component-msg.enum';
 import { AppComponentMsgService } from 'src/app/features/messaging/app-component-msg/app-component-msg.service';
 
@@ -11,7 +14,14 @@ import { AppComponentMsgService } from 'src/app/features/messaging/app-component
 @Component({
   selector: 'app-title-bar',
   templateUrl: './title-bar.component.html',
-  styleUrls: ['./title-bar.component.less']
+  styleUrl: './title-bar.component.less',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    NgIf,
+    NzButtonModule,
+    NzToolTipModule
+  ]
 })
 export class TitleBarComponent {
 
