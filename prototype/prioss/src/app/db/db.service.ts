@@ -28,11 +28,6 @@ export class DBService {
   async executeQuery<T>(callback: SQLiteDBConnectionCallback<T>, databaseName: string = environment.databaseName, debug_info = ''): Promise<T> {
 
     await customElements.whenDefined('jeep-sqlite');
-    const jeepSqliteEl = document.querySelector('jeep-sqlite');
-    if(jeepSqliteEl != null) {
-       // TODO: Toast : show the below message as Toast,
-      console.log(`>>DbService: isStoreOpen ${await jeepSqliteEl.isStoreOpen()}`);
-    }
 
     try {
       const isConnection = await this.sqlite.isConnection(databaseName);
