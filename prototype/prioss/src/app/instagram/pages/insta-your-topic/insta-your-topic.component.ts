@@ -44,7 +44,6 @@ export class InstaYourTopicComponent extends SequenceComponentInit implements Af
   * @author: Durva & Mayank (dghurye@mail.upb.de & mayank@mail.upb.de)
   */
   override async initComponent(): Promise<void> {
-    console.log("--- Initializing Component 10: Your Topics");
   }
 
   /**

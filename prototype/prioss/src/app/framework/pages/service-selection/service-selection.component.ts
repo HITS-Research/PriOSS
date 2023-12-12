@@ -172,7 +172,6 @@ export class ServiceSelectionComponent implements AfterViewInit {
   async abortDataParsing() {
     this.progressBarVisible = false;
     this.requestedAbortDataParsing = true;
-    console.log('ABORTING DATA-DOWNLOAD PARSING');
     await this.sqlDBService.rebuildDatabase();
     //this.router.navigate(["home"]);
   }
@@ -205,9 +204,7 @@ export class ServiceSelectionComponent implements AfterViewInit {
    *
    */
   onFileSelected(event: any) {
-    console.log('onFileSelected');
     this.uploadedFiles = event.target.files;
-
     this.validateFiles(this.selectedServiceName); //TODO: Pass selected File
   }
 
@@ -246,7 +243,6 @@ export class ServiceSelectionComponent implements AfterViewInit {
         }
       } else if (selectedApp == this.appType.Spotify) {
         const foundFile = zip.files[spotIDFilename]; //TODO: this file check does not work yet, look at jszip docs
-        //console.log(foundFile);
 
         if (foundFile == null) {
           this.errorMsg = 'Please select a valid zip-file that you downloaded from Spotify!';
@@ -275,7 +271,6 @@ export class ServiceSelectionComponent implements AfterViewInit {
    *
    */
   setSelectedFileName(filename: string) {
-    console.log('enabling file selection prompt: ' + filename);
     this.selectedFileName = filename;
   }
 
@@ -354,8 +349,6 @@ export class ServiceSelectionComponent implements AfterViewInit {
    *
    */
   async onClickedExploreData() {
-    console.log('Clicked explore data');
-
     this.isProcessingFile = true;
     this.uploadDialogVisible = false;
     await this.parseFile(this.selectedServiceName);
@@ -374,13 +367,10 @@ export class ServiceSelectionComponent implements AfterViewInit {
 
     //Handing over parsing to service specific parsing methods
     if (selectedApp == this.appType.Instagram) {
-      console.log('Parsing Instagram file...');
       await this.parseInstagramFileToSQLite();
     } else if (selectedApp == this.appType.Spotify) {
-      console.log('Parsing Spotify file...');
       await this.parseSpotifyFileToSQLite();
     } else if (selectedApp == this.appType.Facebook) {
-      console.log('Parsing Facebook file...');
       await this.parseFacebookFileToSQLite();
     }
   }
@@ -424,11 +414,8 @@ export class ServiceSelectionComponent implements AfterViewInit {
       if (!filename) {
         continue;
       }
-      console.log('Opening: ' + filename);
 
       if (filename === 'your_topics.json') {
-        console.log('Parsing: ' + filename);
-
         const jsonData = JSON.parse(content);
         const inferredTopics = jsonData.inferred_topics_v2;
         await this.inferredTopicsDataRepo.addInferredTopics(
@@ -442,7 +429,6 @@ export class ServiceSelectionComponent implements AfterViewInit {
           );
         }
       } else if (filename === "advertisers_you've_interacted_with.json") {
-        console.log('file---', filename);
         const jsonData = JSON.parse(content);
         const adsInteractedWithData = jsonData.history_v2;
 
@@ -459,9 +445,7 @@ export class ServiceSelectionComponent implements AfterViewInit {
             adsInteractedWithData[0].timestamp
           );
         }
-        console.log('repoads', this.faceAdsInteractedRepo);
       } else if (filename === 'apps_and_websites.json') {
-        console.log('fileapps---', filename);
         const jsonData = JSON.parse(content);
         const appsAndWebsiteData = jsonData.installed_apps_v2;
 
@@ -483,7 +467,6 @@ export class ServiceSelectionComponent implements AfterViewInit {
           );
         }
       } else if (filename === "connected_apps_and_websites.json") {
-        console.log("fileapps---", filename)
         const jsonData = JSON.parse(content);
         const appsAndWebsiteData = jsonData.installed_apps_v2;
 
@@ -492,7 +475,6 @@ export class ServiceSelectionComponent implements AfterViewInit {
           await this.faceAppsAndWebsitesRepo.addAdActivityBulkEntry(appsAndWebsiteData[i].name, appsAndWebsiteData[i].added_timestamp, appsAndWebsiteData[i].user_app_scoped_id, appsAndWebsiteData[i].category, appsAndWebsiteData[i].removed_timestamp);
         }
       } else if (filename === "your_off-facebook_activity.json") {
-        console.log("fileoff---", filename)
         const jsonData = JSON.parse(content);
         const offfacebookActivityData = jsonData.off_facebook_activity_v2;
 
@@ -509,9 +491,7 @@ export class ServiceSelectionComponent implements AfterViewInit {
             offfacebookActivityData[i].events[0].type
           );
         }
-        console.log('data', offfacebookActivityData);
       } else if (filename === 'received_friend_requests.json') {
-        console.log('fileoff---', filename);
         const jsonData = JSON.parse(content);
         const friendRequestsRecieved = jsonData.received_requests_v2;
 
@@ -529,7 +509,6 @@ export class ServiceSelectionComponent implements AfterViewInit {
           );
         }
       } else if (filename === "sent_friend_requests.json") {
-        console.log("fileoff---", filename)
         const jsonData = JSON.parse(content);
         const friendRequestsSent = jsonData.sent_requests_v2;
 
@@ -547,7 +526,6 @@ export class ServiceSelectionComponent implements AfterViewInit {
           );
         }
       } else if (filename === "your_friends.json") {
-        console.log("fileoff---", filename)
         const jsonData = JSON.parse(content);
         const friends = jsonData.friends_v2;
 
@@ -565,7 +543,6 @@ export class ServiceSelectionComponent implements AfterViewInit {
           );
         }
       } else if (filename === 'rejected_friend_requests.json') {
-        console.log('fileoff---', filename);
         const jsonData = JSON.parse(content);
         const rejectedFriends = jsonData.rejected_requests_v2;
 
@@ -583,7 +560,6 @@ export class ServiceSelectionComponent implements AfterViewInit {
           );
         }
       } else if (filename === 'removed_friends.json') {
-        console.log('fileoff---', filename);
         const jsonData = JSON.parse(content);
         const removedFriends = jsonData.deleted_friends_v2;
 
@@ -601,7 +577,6 @@ export class ServiceSelectionComponent implements AfterViewInit {
           );
         }
       } else if (filename === "who_you've_followed.json") {
-        console.log("fileoff---", filename)
         const jsonData = JSON.parse(content);
         const following = jsonData.following_v3;
 
@@ -690,9 +665,6 @@ export class ServiceSelectionComponent implements AfterViewInit {
       } else if (filename === 'where_you_re_logged_in.json') {
         const jsonData = JSON.parse(content);
         const login_locations = jsonData.active_sessions_v2;
-        console.log('Parsing ****************:', filename);
-        console.log('Parsing name to data ****************:', login_locations);
-        console.log(login_locations);
 
         await this.faceLoginLocationsRepo.startAdActivityBulkAdd(
           login_locations[0].location,
@@ -768,7 +740,8 @@ export class ServiceSelectionComponent implements AfterViewInit {
               groupName,
               groups_joined[i]?.timestamp);
           } else {
-            console.log("groupName is either null or empty. Handling it with an empty string.");
+             // TODO: Toast : show the below message as Toast,
+            // console.log("groupName is either null or empty. Handling it with an empty string.");
           }
         }
       } else if (filename === 'account_status_changes.json') {
@@ -892,8 +865,6 @@ export class ServiceSelectionComponent implements AfterViewInit {
    *
    */
   async parseSpotifyFileToSQLite() {
-    const start = Date.now();
-
     const file = this.uploadedFiles[0];
 
     const zip: JSZip = await this.loadZipFile(file);
@@ -924,10 +895,7 @@ export class ServiceSelectionComponent implements AfterViewInit {
         continue;
       }
 
-      console.log('Opening: ' + filename);
-
       if (filename == 'Userdata.json') {
-        console.log('Parsing: ' + filename);
 
         const jsonData = JSON.parse(content);
 
@@ -963,7 +931,6 @@ export class ServiceSelectionComponent implements AfterViewInit {
             //console.log(key);
           }); */
       } else if (filename == 'Inferences.json') {
-        console.log('Parsing: ' + filename);
         const jsonData = JSON.parse(content);
 
         const inferences = jsonData.inferences;
@@ -1034,23 +1001,10 @@ export class ServiceSelectionComponent implements AfterViewInit {
       return;
     }
 
-    const end = Date.now();
-    console.log(
-      `Data-download files parsed and data inserted in: ${end - start} ms`
-    );
-
     //Use this for testing what has been written into the DB
 
-    console.log('Start History Fetching');
-    this.spotHistoryRepo.getSpotHistory().then((history) => {
-      console.log('Read History:');
-      console.log(history);
-    });
-    console.log('Start Inferences Fetching');
-    this.inferencesRepo.getAllInferences().then((inferences) => {
-      console.log('Read Inferences:');
-      console.log(inferences);
-    });
+    this.spotHistoryRepo.getSpotHistory()
+    this.inferencesRepo.getAllInferences()
 
     this.progressBarPercent = 100;
     await delay(500);
@@ -1068,7 +1022,6 @@ export class ServiceSelectionComponent implements AfterViewInit {
   async parseInstagramFileToSQLite() {
     const userData: InstaUserDataModel = {} as InstaUserDataModel;
     userData.chatData = [];
-    const start = Date.now();
 
     const file = this.uploadedFiles[0];
 
@@ -1089,20 +1042,16 @@ export class ServiceSelectionComponent implements AfterViewInit {
       this.progressBarPercent = Math.round(100 * (i / filepaths.length));
 
       const filepath: string = filepaths[i];
-      console.log(filepath);
       const content: string = await zip.files[filepath].async('string');
       const filename: string | undefined = filepath
         .split('\\')
         .pop()
         ?.split('/')
         .pop();
-      console.log(filename);
-
+  
       if (!filename) {
         continue;
       }
-
-      console.log('Opening: ' + filename);
 
       //add personal information
       if (filename.startsWith('personal_information')) {
@@ -1695,12 +1644,6 @@ export class ServiceSelectionComponent implements AfterViewInit {
 
     this.store.dispatch(new UpdateInstaUserData(userData));
 
-
-    const end = Date.now();
-    console.log(
-      `Data-download files parsed and data inserted in: ${end - start} ms`
-    );
-
     this.progressBarPercent = 100;
     await delay(500);
 
@@ -1740,7 +1683,6 @@ export class ServiceSelectionComponent implements AfterViewInit {
       this.errorMsg = 'The file you selected is not a zip-file. Please select the zip file you downloaded from ' + this.selectedServiceName;
       this.uploadDialogVisible = true;
       this.isProcessingFile = false;
-      console.log('Filetype: ' + typeof file);
       throw Error('Selected File is not a .zip file!');
     }
   }

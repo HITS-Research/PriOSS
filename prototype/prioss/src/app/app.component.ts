@@ -83,7 +83,6 @@ export class AppComponent implements OnInit {
    * @author: Paul (pasch(at)mail.upb.de)
    */
   setServiceName(): void {
-    console.log(this.router.url);
     switch (this.router.url) {
       case '/face/dashboard':
         this.serviceName = 'face';

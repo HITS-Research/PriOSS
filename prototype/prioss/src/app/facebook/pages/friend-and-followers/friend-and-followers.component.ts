@@ -115,7 +115,6 @@ export class FriendAndFollowersComponent implements OnInit{
       data.push(abc);
     });
     this.drawChart(data, id, color)
-    console.log(data);
   }
 
 /**

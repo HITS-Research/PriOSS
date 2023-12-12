@@ -83,7 +83,6 @@ export class InstaLikedContentComponent extends SequenceComponentInit implements
    * @author: Mayank (mayank@mail.upb.de)
    */
   override async initComponent(): Promise<void> {
-    console.log("--- Initializing Component 5: Liked Comments and Posts");
 
     // TODO : refactor this part
     // Fetch data for Graph for Liked Comments from Database

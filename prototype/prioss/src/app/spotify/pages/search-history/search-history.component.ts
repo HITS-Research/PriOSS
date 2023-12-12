@@ -44,7 +44,6 @@ export class SearchHistoryComponent extends SequenceComponentInit implements Aft
     */
   ngAfterViewInit()
   {
-    console.log("--- Preview Mode: " + this.previewMode);
     if(!this.previewMode) {
       this.initComponent();
     }
@@ -55,7 +54,6 @@ export class SearchHistoryComponent extends SequenceComponentInit implements Aft
   * @author: Max (maxy@mail.upb.de)
   */
   override async initComponent(): Promise<void> {
-    console.log("--- Initializing Component 5: Search-History");
     await this.spotSearchHistoryRepo.getUserSearches().then((searchHistory) => {
       this.searchHistory = searchHistory;
       this.listOfsearchHistory = [...this.searchHistory];

@@ -54,7 +54,6 @@ export class InferencesComponent extends SequenceComponentInit implements AfterV
   * @author Simon (scg@mail.upb.de)
   */
   override async initComponent(): Promise<void> {
-    console.log("--- Initializing Component 1: Inferences");
     const inferences = await this.inferencesRepo.getAllInferences();
 
     this.inferences = inferences;
@@ -164,6 +163,7 @@ export class InferencesComponent extends SequenceComponentInit implements AfterV
     if (this.setOfCheckedId.size > 0) {
       this.inferencesMailDialogComponent.showModal(inferencesWithLinebreak);
     } else {
+       // TODO: Toast : show the below message as Toast,
       console.log("no inference selected")
     }
   }

@@ -37,7 +37,6 @@ export class GeneralDataComponent extends SequenceComponentInit implements After
   */
   ngAfterViewInit()
   {
-    console.log("--- Preview Mode: " + this.previewMode);
     if(!this.previewMode) {
       this.initComponent();
     }
@@ -48,7 +47,6 @@ export class GeneralDataComponent extends SequenceComponentInit implements After
   * @author: Simon (scg@mail.upb.de)
   */
   override async initComponent(): Promise<void> {
-    console.log("--- Initializing Component 0: GeneralData");
     const userdata = await this.userdataRepo.getAllUserdata()
     this.userdata = userdata[0];
   }

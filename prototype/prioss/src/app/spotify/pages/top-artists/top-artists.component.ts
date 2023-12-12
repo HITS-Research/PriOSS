@@ -40,7 +40,6 @@ export class TopArtistsComponent extends SequenceComponentInit implements AfterV
 
   constructor(private spothistoryRepo: SpotHistoryRepository, private notifyService: NotificationService, private route: ActivatedRoute) {
     super();
-    console.log('>> constructor artists visualization');
   }
 
 /**
@@ -63,8 +62,7 @@ export class TopArtistsComponent extends SequenceComponentInit implements AfterV
    */
   override async initComponent() {
     //await new Promise(f => setTimeout(f, 500));  // TODO: fix
-    console.log("--- Initializing Component 3: TopArtists");
-
+    
     if(!this.filterFromDate) {
       this.filterFromDate = await this.spothistoryRepo.getFirstDay();
     }

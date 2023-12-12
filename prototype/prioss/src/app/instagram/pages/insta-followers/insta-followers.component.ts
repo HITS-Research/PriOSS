@@ -213,7 +213,6 @@ export class InstaFollowersComponent extends SequenceComponentInit implements Af
   }
 
   override async initComponent(): Promise<void> {
-    console.log("--- Initializing Component 3: FollowerInfo");
     // TODO : Refactor logic of graph it's not workling on initial load
     this.prepareGraphData();
     this.initGraph();

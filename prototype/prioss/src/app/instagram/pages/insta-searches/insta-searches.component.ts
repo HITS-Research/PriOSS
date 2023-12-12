@@ -71,7 +71,6 @@ export class InstaSearchesComponent extends SequenceComponentInit implements Aft
    * @author: Paul (pasch@mail.upb.de)
    */
   override async initComponent(): Promise<void> {
-    console.log("--- Initializing Component 6: Searches");
   }
 
   /**

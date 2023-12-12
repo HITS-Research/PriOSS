@@ -68,7 +68,6 @@ export class InstaShoppingComponent extends SequenceComponentInit implements Aft
    * @author Durva & Mayank (dghurye@mail.upb.de & mayank@mail.upb.de)
    */
   override async initComponent(): Promise<void> {
-    console.log("--- Initializing Component 9: Shopping");
   }
 
   /**

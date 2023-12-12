@@ -62,8 +62,6 @@ export class TopSongsComponent extends SequenceComponentInit implements AfterVie
    */
   override async initComponent() {
     //await new Promise(f => setTimeout(f, 1000));  // TODO: fix
-    console.log("--- Initializing Component 4: TopSongs");
-
     if(!this.filterFromDate) {
       this.filterFromDate = await this.spotHistoryRepo.getFirstDay();
     }

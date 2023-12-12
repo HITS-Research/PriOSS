@@ -75,9 +75,6 @@ export class SecurityLoginDataComponent implements OnInit{
       this.loginLocationsData = allLoginLocations;
       this.dataAvailableLoc = this.loginLocationsData.length !== 0;
       if (this.loginLocationsData.length == 0) { this.logloc_empty = true}
-      console.log("this.loginLocationsData", this.loginLocationsData);
-      console.log("type of this.loginLocationsData", typeof(this.loginLocationsData));
-
       for(let i = 0; i < this.loginLocationsData.length; i++) {
         const loc = this.loginLocationsData[i].location;
 
@@ -112,7 +109,6 @@ export class SecurityLoginDataComponent implements OnInit{
       this.accStatusChangeData = allAccStatusChanges;
       this.dataAvailableStatusChange = this.accStatusChangeData.length !== 0;
       if (this.accStatusChangeData.length == 0) {this.accstatus_empty = true}
-      console.log("this.accStatusChangeData" + this.accStatusChangeData);
       for(let i = 0; i < this.accStatusChangeData.length; i++) {
         const unixTime: number  = +this.accStatusChangeData[i].timestamp;
         this.accStatusChangeData[i].timestamp = new Date(unixTime * 1000).toDateString();

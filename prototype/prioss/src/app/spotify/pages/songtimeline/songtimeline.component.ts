@@ -76,11 +76,8 @@ export class SongtimelineComponent {
     if (this.filterDateTime == null) {
       return null;
     }
-    console.log("Date filter:");
-    console.log(this.filterDateTime);
 
     const spotSongs = await this.spotHistoryRepo.getHistoryForSingleHour(this.filterDateTime);
-    console.log(spotSongs);
     for(let i = 0; i < spotSongs.length; i++) {
       dataArray.push(
         {label: "", times: [
@@ -88,9 +85,7 @@ export class SongtimelineComponent {
         }
       );
     }
-    console.log("Timeline Data:");
-    console.log(dataArray);
-
+    
     return dataArray;
   }
 

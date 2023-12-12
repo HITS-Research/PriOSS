@@ -225,13 +225,11 @@ export class PostsComponent implements OnInit{
         }
 
       });
-    console.log(this.postDataMonths);
     monthNames.forEach(month =>
       {
         const count = this.postDataMonths.filter(x => x.month == month).length;
         dataObject.push({month: month, count: count});
       })
-    console.log(dataObject);
     let maxCount = -Infinity;
     let minCount = Infinity;
 
