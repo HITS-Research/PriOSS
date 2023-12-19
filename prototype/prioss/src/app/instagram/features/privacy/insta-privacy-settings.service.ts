@@ -8,10 +8,10 @@ export class InstaPrivacySettingsService {
    * Interface for that is used for the settings variable, that may differ for the different services (Spotify, Facebook and Instragram)
    * For detailed information on the variable and on how to embed the privacy settings module to the Dashboard please refer to the documentation.
    * Documentation File: "Privacy-Settings Module information.md"
-   *  
+   *
    * Questions are in-line with the instructions provided in the Privacy Recommendations section.
    * More questions will be added as and when they are explored.
-   * 
+   *
    * @author: aayushma (aayushma@mail.uni-paderborn.de)
    *
    */
@@ -19,7 +19,7 @@ export class InstaPrivacySettingsService {
   settings = [
     {
       question : "Is your Instagram account private?",
-      howToCheck :"<strong>Text Guide:</strong> <br> 1. Open your <strong>Instagram account</strong>. <br> 2. Go to <strong>Settings</strong>. <br> 3. Tap on <Strong>Setings and privacy</Strong>. <br> 4. Click to check the box next to Private Account or under Account Privacy, toggle on <strong>Private Account</strong>. <br><br> <strong>Picture Guide:</strong><br> Please look <a  target='_blank' href=/insta/account-private><strong>here </a> </strong> for the picture guide to make your Instagram account private.",
+      howToCheck :"<strong>Text Guide:</strong> <br> 1. Open your <strong>Instagram account</strong>. <br> 2. Go to <strong>Settings</strong>. <br> 3. Tap on <Strong>Settings and privacy</Strong>. <br> 4. Click to check the box next to Private Account or under Account Privacy, toggle on <strong>Private Account</strong>. <br><br> <strong>Picture Guide:</strong><br> Please look <a  target='_blank' href=/insta/account-private><strong>here </a> </strong> for the picture guide to make your Instagram account private.",
         options : [
         { label: "Account is Private", value: "Yes", advice: "Great! Your account is set to private." },
         { label: "Account is not Private", value: "No", advice: "Maintaining privacy allows individulas to have better control over their online presence and choose who can view and interact with their content, enhancing their overall digital privacy and peace of mind." }
@@ -72,5 +72,5 @@ export class InstaPrivacySettingsService {
         { label: "Yes, non-essential cookies are disabled", value: "Yes", advice: "Great! Disabling non-essentail cookies is a good step towards privacy and security for your account."},
         { label: "No, non-essential cookies are not disabled", value: "No", advice: "Disabling non-essential cookies for an Instagram account is important because it helps protect user privacy and data security. Non-essential cookies are often used for tracking user behavior and collecting personal information for targeted advertising and analytics. By disabling these cookies, users can limit the amount of data being collected about them, reducing the risk of their information being shared with third parties without their consent. This measure promotes a more secure and private online experience for Instagram users."}
       ]
-    }] 
+    }]
 }
