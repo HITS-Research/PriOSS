@@ -18,7 +18,7 @@
       <div id="step1" nz-col nzXs="24" nzXl="8">
         <app-dash-card [fillVerticalSpace]="false" cardLink="/spot/general-data" titleText="User Data"
           tooltipText="This card shows your general user data like your email, gender, postal address etc. Click to find out more.">
-          <app-general-data [previewMode]="true"></app-general-data>
+          <prioss-spotify-user-data [preview]="true"/>
         </app-dash-card>
       </div>
 
@@ -59,7 +59,7 @@
       <div nz-col nzXs="24" nzXl="8">
         <app-dash-card [fillVerticalSpace]="true"  cardLink="/spot/search-history" titleText="Search History"
           tooltipText="This card shows information about your Spotify search history. You can discover a full list of your search history upon clicking the card.">
-          <app-search-history [previewMode]="true"></app-search-history>
+          <prioss-spotify-search-history [previewMode]="true" />
         </app-dash-card>
       </div>
     </div>

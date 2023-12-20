@@ -1,23 +1,17 @@
-import {AfterViewInit, Component, HostListener} from '@angular/core';
-import {ViewportScroller} from '@angular/common';
-import {faCircleRight} from '@fortawesome/free-regular-svg-icons';
-import {faArrowRotateRight} from '@fortawesome/free-solid-svg-icons';
-import {Router} from '@angular/router';
-import {AppType} from './app-type';
+import { ViewportScroller } from '@angular/common';
+import { AfterViewInit, Component, HostListener } from '@angular/core';
+import { Router } from '@angular/router';
+import { faCircleRight } from '@fortawesome/free-regular-svg-icons';
+import { faArrowRotateRight } from '@fortawesome/free-solid-svg-icons';
+import { AppType } from './app-type';
 
-import {SpotHistoryRepository} from '../../../db/data-repositories/spotify/spot-history/spot-history.repository';
-import {DBService} from '../../../db/db.service';
 import * as JSZip from 'jszip';
+import { DBService } from '../../../db/db.service';
 
+import { HttpClient } from '@angular/common/http';
 import * as utilities from '../../../features/utils/generalUtilities.functions';
-import {HttpClient} from '@angular/common/http';
 
-import {InferencesRepository} from '../../../db/data-repositories/general/inferences/inferences.repository';
 
-import {UserdataRepository} from '../../../db/data-repositories/general/userdata/userdata.repository';
-import {
-  InferredTopicsRepository
-} from '../../../db/data-repositories/facebook/fb-inferred-data/face_inferred_topics.repo';
 import {
   FacebookAdsInteractedRepository
 } from '../../../db/data-repositories/facebook/fb-ads-data/face-ads-interacted.repo';
@@ -27,25 +21,19 @@ import {
 import {
   FacebookOffFacebookActivityRepository
 } from '../../../db/data-repositories/facebook/fb-ads-data/face-off-facebook-activity.repo';
-import {FacebookFriendsRepository} from '../../../db/data-repositories/facebook/fb-friends-data/face_friends.repo';
-import {FacebookPostsRepository} from '../../../db/data-repositories/facebook/fb-posts/face-posts.repo';
+import { FacebookFriendsRepository } from '../../../db/data-repositories/facebook/fb-friends-data/face_friends.repo';
+import {
+  InferredTopicsRepository
+} from '../../../db/data-repositories/facebook/fb-inferred-data/face_inferred_topics.repo';
+import { FacebookPostsRepository } from '../../../db/data-repositories/facebook/fb-posts/face-posts.repo';
+import { UserdataRepository } from '../../../db/data-repositories/general/userdata/userdata.repository';
 
 // import { FacebookAddressBookRepository } from '../db/data-repositories/facebook/fb-other-personal-info/face_address_book.repo';
 // import { FacebookSearchHistoryRepository } from '../db/data-repositories/facebook/fb-other-personal-info/face_search_history.repo';
-import {FacebookEventsRepository} from '../../../db/data-repositories/facebook/fb-groups-events-info/face_events.repo';
-import {FacebookGroupsRepository} from '../../../db/data-repositories/facebook/fb-groups-events-info/face_groups.repo';
-import {
-  FacebookLoginLocationsRepository
-} from '../../../db/data-repositories/facebook/fb-security-login-data/face_login_locations.repo';
-import {
-  FacebookLoginLogoutsRepository
-} from '../../../db/data-repositories/facebook/fb-security-login-data/face_login_logouts.repo';
-import {
-  FacebookAccountStatusChangesRepository
-} from '../../../db/data-repositories/facebook/fb-security-login-data/face_account_status_changes.repo';
-import {
-  FacebookAccountActivityRepository
-} from '../../../db/data-repositories/facebook/fb-security-login-data/face_account_activity.repo';
+import { Store } from "@ngxs/store";
+import { SpotifyReadFromZip, SpotifyReset } from 'src/app/spotify/state/spotify.action';
+import { FacebookEventsRepository } from '../../../db/data-repositories/facebook/fb-groups-events-info/face_events.repo';
+import { FacebookGroupsRepository } from '../../../db/data-repositories/facebook/fb-groups-events-info/face_groups.repo';
 import {
   FaceBookMessagesInfoRepository
 } from '../../../db/data-repositories/facebook/fb-messages-data/fb-messages-friends.repo';
@@ -59,15 +47,22 @@ import {
   FacebookSearchHistoryRepository
 } from '../../../db/data-repositories/facebook/fb-other-personal-info/face-search-history.repo';
 import {
-  SpotSearchHistoryRepository
-} from '../../../db/data-repositories/spotify/spot-search-history/spot-search-history.repository';
+  FacebookAccountActivityRepository
+} from '../../../db/data-repositories/facebook/fb-security-login-data/face_account_activity.repo';
+import {
+  FacebookAccountStatusChangesRepository
+} from '../../../db/data-repositories/facebook/fb-security-login-data/face_account_status_changes.repo';
+import {
+  FacebookLoginLocationsRepository
+} from '../../../db/data-repositories/facebook/fb-security-login-data/face_login_locations.repo';
+import {
+  FacebookLoginLogoutsRepository
+} from '../../../db/data-repositories/facebook/fb-security-login-data/face_login_logouts.repo';
+import { ResetFbUserData } from "../../../facebook/state/fb.action";
 import * as devicetypeUtils from "../../../features/utils/devicetype.functions";
-import {Store} from "@ngxs/store";
+import { InstaChatData, InstaChatPartnerData } from "../../../instagram/models/MessageInfo/InstaChatData";
+import { ResetInstaUserData, UpdateInstaUserData } from "../../../instagram/state/insta.action";
 import InstaUserDataModel from "../../../instagram/state/models/insta-user-data-model.interface";
-import {InstaChatData, InstaChatPartnerData} from "../../../instagram/models/MessageInfo/InstaChatData";
-import {ResetInstaUserData, UpdateInstaUserData} from "../../../instagram/state/insta.action";
-import {ResetFbUserData} from "../../../facebook/state/fb.action";
-import {ResetSpotUserData} from "../../../spotify/state/spot.action";
 //service identifier filenames
 const instaIDFilename = 'TODO';
 const spotIDFilename = 'MyData/Read_Me_First.pdf';
@@ -124,9 +119,6 @@ export class ServiceSelectionComponent implements AfterViewInit {
   constructor(
     private router: Router,
     //private notifyService: NotificationService,
-    private spotHistoryRepo: SpotHistoryRepository,
-    private spotSearchHistoryRepo: SpotSearchHistoryRepository,
-    private inferencesRepo: InferencesRepository,
     private UserdataRepo: UserdataRepository,
     private sqlDBService: DBService,
     private http: HttpClient,
@@ -158,7 +150,7 @@ export class ServiceSelectionComponent implements AfterViewInit {
      *
      */
     async ngAfterViewInit() {
-        this.store.dispatch([new ResetInstaUserData(), new ResetFbUserData(), new ResetSpotUserData()])
+        this.store.dispatch([new ResetInstaUserData(), new ResetFbUserData(), new SpotifyReset()])
         await this.sqlDBService.rebuildDatabase();
     }
 
@@ -208,7 +200,7 @@ export class ServiceSelectionComponent implements AfterViewInit {
     console.log('onFileSelected');
     this.uploadedFiles = event.target.files;
 
-    this.validateFiles(this.selectedServiceName); //TODO: Pass selected File
+    // this.validateFiles(this.selectedServiceName); //TODO: Pass selected File
   }
 
   /**
@@ -246,8 +238,6 @@ export class ServiceSelectionComponent implements AfterViewInit {
         }
       } else if (selectedApp == this.appType.Spotify) {
         const foundFile = zip.files[spotIDFilename]; //TODO: this file check does not work yet, look at jszip docs
-        //console.log(foundFile);
-
         if (foundFile == null) {
           this.errorMsg = 'Please select a valid zip-file that you downloaded from Spotify!';
           this.uploadDialogVisible = true;
@@ -377,7 +367,6 @@ export class ServiceSelectionComponent implements AfterViewInit {
       console.log('Parsing Instagram file...');
       await this.parseInstagramFileToSQLite();
     } else if (selectedApp == this.appType.Spotify) {
-      console.log('Parsing Spotify file...');
       await this.parseSpotifyFileToSQLite();
     } else if (selectedApp == this.appType.Facebook) {
       console.log('Parsing Facebook file...');
@@ -887,176 +876,26 @@ export class ServiceSelectionComponent implements AfterViewInit {
 
   /**
    * Parses the uploaded Spotify data-download-zip file into the SQLite database
-   *
-   * @author: Simon (scg@mail.upb.de)
-   *
    */
   async parseSpotifyFileToSQLite() {
-    const start = Date.now();
-
-    const file = this.uploadedFiles[0];
-
-    const zip: JSZip = await this.loadZipFile(file);
-
-    this.isProcessingFile = true; //shows the processing icon on the button
-
     this.progressBarPercent = 0;
+    this.isProcessingFile = true;
     this.progressBarVisible = true;
 
-    const filepaths: string[] = Object.keys(zip.files);
-    for (let i = 0; i < filepaths.length; i++) {
-      if (this.requestedAbortDataParsing) {
-        this.requestedAbortDataParsing = false;
-        return;
-      }
-
-      this.progressBarPercent = Math.round(100 * (i / filepaths.length));
-
-      const filepath: string = filepaths[i];
-      const content: string = await zip.files[filepath].async('string');
-      const filename: string | undefined = filepath
-        .split('\\')
-        .pop()
-        ?.split('/')
-        .pop();
-
-      if (!filename) {
-        continue;
-      }
-
-      console.log('Opening: ' + filename);
-
-      if (filename == 'Userdata.json') {
-        console.log('Parsing: ' + filename);
-
-        const jsonData = JSON.parse(content);
-
-        await this.UserdataRepo.addUserdata(
-          jsonData.username,
-          jsonData.email,
-          jsonData.country,
-          jsonData.birthdate,
-          jsonData.gender,
-          jsonData.postalCode,
-          jsonData.mobileNumber,
-          jsonData.mobileOperator,
-          jsonData.mobileBrand,
-          jsonData.creationTime
-        );
-
-        /* await this.dbService.add("all/userdata",
-          {
-            username: jsonData.username,
-            email: jsonData.email,
-            //firstname: jsonData.firstname,
-            //lastname: jsonData.lastname,
-            country: jsonData.country,
-            birthdate: jsonData.birthdate,
-            gender: jsonData.gender,
-            postalCode: jsonData.postalCode,
-            mobileNumber: jsonData.mobileNumber,
-            mobileOperator: jsonData.mobileOperator,
-            mobileBrand: jsonData.mobileBrand,
-            creationTime: jsonData.creationTime,
-          }).subscribe((key) => {
-            //console.log("Userdata:")
-            //console.log(key);
-          }); */
-      } else if (filename == 'Inferences.json') {
-        console.log('Parsing: ' + filename);
-        const jsonData = JSON.parse(content);
-
-        const inferences = jsonData.inferences;
-        await this.inferencesRepo.startInferencesBulkAdd(
-          inferences[0],
-          inferences.length
-        );
-
-        for (let i = 1; i < inferences.length; i++) {
-          await this.inferencesRepo.addBulkInferencesEntry(inferences[i]);
-        }
-        /*
-        for (let i = 1; i < jsonData.length; i++) {
-         let inference: any = jsonData[i];
-          //console.log("Saving inference: " + inference);
-          await this.dbService.add("spot/inferences",
-            {
-              inference: inference,
-            }).subscribe((key) => {
-              //console.log("inference: ");
-              //console.log(key);
-            });
-        }*/
-      }
-      //Scan all streaming history files (multiple numbered files may exist in a download)
-      else if (filename.startsWith('StreamingHistory')) {
-        const jsonData = JSON.parse(content);
-
-        await this.spotHistoryRepo.startHistoryBulkAdd(
-          jsonData[0].endTime,
-          jsonData[0].artistName,
-          jsonData[0].trackName,
-          jsonData[0].msPlayed,
-          jsonData.length
-        );
-
-        for (let i = 1; i < jsonData.length; i++) {
-          await this.spotHistoryRepo.addBulkHistoryEntry(
-            jsonData[i].endTime,
-            jsonData[i].artistName,
-            jsonData[i].trackName,
-            jsonData[i].msPlayed
-          );
-        }
-      } else if (filename.startsWith('SearchQueries')) {
-        const jsonData = JSON.parse(content);
-
-        await this.spotSearchHistoryRepo.startSearchHistoryBulkAdd(
-          jsonData[0].platform,
-          jsonData[0].searchTime,
-          jsonData[0].searchQuery,
-          //jsonData[0].searchinteractionURIs,
-          jsonData.length
-        );
-
-        for (let i = 1; i < jsonData.length; i++) {
-          await this.spotSearchHistoryRepo.addBulkSearchHistoryEntry(
-            jsonData[i].platform,
-            jsonData[i].searchTime,
-            jsonData[i].searchQuery,
-          );
-        }
-      }
-    }
+    this.store.dispatch(
+      new SpotifyReadFromZip(
+        await this.loadZipFile(this.uploadedFiles[0])
+      )
+    );
 
     if (this.requestedAbortDataParsing) {
       this.requestedAbortDataParsing = false;
       return;
     }
 
-    const end = Date.now();
-    console.log(
-      `Data-download files parsed and data inserted in: ${end - start} ms`
-    );
-
-    //Use this for testing what has been written into the DB
-
-    console.log('Start History Fetching');
-    this.spotHistoryRepo.getSpotHistory().then((history) => {
-      console.log('Read History:');
-      console.log(history);
-    });
-    console.log('Start Inferences Fetching');
-    this.inferencesRepo.getAllInferences().then((inferences) => {
-      console.log('Read Inferences:');
-      console.log(inferences);
-    });
-
     this.progressBarPercent = 100;
-    await delay(500);
-
     this.progressBarVisible = false;
-    this.router.navigate(['spot/dashboard']);
+    this.router.navigate(['spot', 'dashboard']);
   }
 
   /**

@@ -46,10 +46,11 @@ import { InferencesComponent } from './spotify/pages/inferences/inferences.compo
 import { ListeningTimeComponent } from './spotify/pages/listening-time/listening-time.component';
 import { MoodComponent } from './spotify/pages/mood/mood.component';
 import { SpotPrivacyInstructionsComponent } from "./spotify/pages/privacy-instructions/spot-privacy-instructions.component";
-import { SearchHistoryComponent } from './spotify/pages/search-history/search-history.component';
+import { SpotifySearchHistoryComponent } from './spotify/pages/spotify-search-history/spotify-search-history.component';
 import { SongtimelineComponent } from './spotify/pages/songtimeline/songtimeline.component';
 import { TopArtistsComponent } from "./spotify/pages/top-artists/top-artists.component";
 import { TopSongsComponent } from "./spotify/pages/top-songs/top-songs.component";
+import { SpotifyUserDataComponent } from './spotify/pages/spotify-user-data/spotify-user-data.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -96,13 +97,13 @@ const routes: Routes = [
   { path: 'insta/two-factor-authentication', component: InstaTwoFactorAuthenticationComponent },
   { path: 'insta/your-topic', component: InstaYourTopicComponent },
   { path: 'spot/dashboard', component: SpotDashboardComponent },
-  { path: 'spot/general-data', component: GeneralDataComponent },
+  { path: 'spot/general-data', component: SpotifyUserDataComponent },
   { path: 'spot/inference', component: InferencesComponent },
   { path: 'spot/listening-time', component: ListeningTimeComponent },
   { path: 'spot/listening-time/songtimeline', component: SongtimelineComponent },
   { path: 'spot/mood', component: MoodComponent },
   { path: 'spot/privacy-instructions', component: SpotPrivacyInstructionsComponent },
-  { path: 'spot/search-history', component: SearchHistoryComponent },
+  { path: 'spot/search-history', component: SpotifySearchHistoryComponent },
   { path: 'spot/top-artists', component: TopArtistsComponent },
   { path: 'spot/top-artists/:start/:end', component: TopArtistsComponent },
   { path: 'spot/top-songs', component: TopSongsComponent },

@@ -1,9 +1,6 @@
 import { AfterViewInit, Component, ViewChild, inject } from '@angular/core';
-import { GeneralDataComponent } from 'src/app/facebook/pages/general-data/general-data.component';
 import { BaseDashboard } from 'src/app/features/utils/base-dashboard.abstract';
-import { InferencesComponent } from 'src/app/spotify/pages/inferences/inferences.component';
 import { ListeningTimeComponent } from 'src/app/spotify/pages/listening-time/listening-time.component';
-import { SearchHistoryComponent } from 'src/app/spotify/pages/search-history/search-history.component';
 import { TopArtistsComponent } from 'src/app/spotify/pages/top-artists/top-artists.component';
 import { TopSongsComponent } from 'src/app/spotify/pages/top-songs/top-songs.component';
 import { SpotifyDashboardIntroductionService } from '../../features/dashboard-introduction/spotify-dashboard-introduction.service';
@@ -53,17 +50,11 @@ export class SpotDashboardComponent extends BaseDashboard implements AfterViewIn
   ];
 
   //Components to Initialize Sequentially
-  @ViewChild(GeneralDataComponent) spotGeneralData: GeneralDataComponent;
-
-  @ViewChild(InferencesComponent) spotInferences: InferencesComponent;
-
   @ViewChild(ListeningTimeComponent) spotListeningTime: ListeningTimeComponent;
 
   @ViewChild(TopArtistsComponent) spotTopArtists: TopArtistsComponent;
 
   @ViewChild(TopSongsComponent) spotTopSongs: TopSongsComponent;
-
-  @ViewChild(SearchHistoryComponent) spotSearchHistory: SearchHistoryComponent;
 
   constructor() {
     super();
@@ -84,12 +75,10 @@ export class SpotDashboardComponent extends BaseDashboard implements AfterViewIn
     //Component initialization
     //Add components to component Initialization list from BaseDashboard
     this.componentInitializationList = [];
-    this.componentInitializationList.push(this.spotGeneralData);
-    this.componentInitializationList.push(this.spotInferences);
     this.componentInitializationList.push(this.spotListeningTime);
     this.componentInitializationList.push(this.spotTopArtists);
     this.componentInitializationList.push(this.spotTopSongs);
-    this.componentInitializationList.push(this.spotSearchHistory);
+    // this.componentInitializationList.push(this.spotSearchHistory);
     //Start Component Initialization run
     this.startSequentialInitialization();
   }
