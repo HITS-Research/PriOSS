@@ -45,7 +45,8 @@ export class InstaPrivacySettingsService {
       question : "Do you get tailored advertisements for your Instagram account ?",
       howToCheck : "<strong>Text Guide:</strong> <br> 1. Open your <strong>Instagram account</strong>. <br> 2. Go to <strong>Settings</strong>. <br> 3. Now click on <strong>Account Center</strong>. <br> 4. Choose the option <strong>Ad preferences</strong>. <br> 5. Now click on option <strong>Ad Topics</strong>. <br> 6. Now click on <strong>View and manage topics</strong>. <br> 7. Now you can sort and filter the advertisements. <br> <br> <strong>Picture Guide:</strong> <br>  Please look <a target='_blank' href=/insta/add-manager> <strong> here </a></strong> for the picture guide to manage advertisements for your Instagram account.",
       options : [
-        { label: "Yes", value: "Yes", advice: "Great! You get the advertisements according to your interest."},
+        { label: "Yes", value: "Yes", advice: "If you have concerns about tailored ads, we suggest adjusting your Instagram settings for enhanced privacy and content control."},
+
         { label: "No", value: "No", advice: "Managing advertisements for users on Instagram is important to ensure a relevant and engaging user experience while maximizing the effectiveness of ad campaigns."}
       ]
     },
