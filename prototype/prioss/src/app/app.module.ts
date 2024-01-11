@@ -145,6 +145,7 @@ import { SpotifyModule } from './spotify/spotify.module';
 import { AppState } from "./state/app.state";
 import { PreviewTileComponent } from './unused-components/preview-tile/preview-tile.component';
 import { SpotifyState } from './spotify/state/spotify.state';
+import { FeatureToggleService } from './features/feature-toggle/feature-toggle.service';
 
 registerLocaleData(de);
 
@@ -302,6 +303,7 @@ registerLocaleData(de);
     FacebookGroupsRepository,
     FacebookEventsRepository,
     SpotSearchHistoryRepository,
+    FeatureToggleService,
     { provide: NZ_I18N, useValue: de_DE },
   ],
   bootstrap: [AppComponent],
