@@ -1,5 +1,5 @@
 import { ViewportScroller } from '@angular/common';
-import { AfterViewInit, Component, HostListener } from '@angular/core';
+import { AfterViewInit, Component, HostListener, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { faCircleRight } from '@fortawesome/free-regular-svg-icons';
 import { faArrowRotateRight } from '@fortawesome/free-solid-svg-icons';
@@ -63,6 +63,7 @@ import * as devicetypeUtils from "../../../features/utils/devicetype.functions";
 import { InstaChatData, InstaChatPartnerData } from "../../../instagram/models/MessageInfo/InstaChatData";
 import { ResetInstaUserData, UpdateInstaUserData } from "../../../instagram/state/insta.action";
 import InstaUserDataModel from "../../../instagram/state/models/insta-user-data-model.interface";
+import { FeatureToggleService, Services } from 'src/app/features/feature-toggle/feature-toggle.service';
 //service identifier filenames
 const instaIDFilename = 'TODO';
 const spotIDFilename = 'MyData/Read_Me_First.pdf';
@@ -100,6 +101,8 @@ export class ServiceSelectionComponent implements AfterViewInit {
   uploadedFiles: File[] = [];
   selectedFileName = '';
   uploadDialogVisible = false;
+
+  #featureToggleService = inject(FeatureToggleService)
 
   progressBarPercent = 0;
   progressBarVisible = false;
@@ -867,6 +870,9 @@ export class ServiceSelectionComponent implements AfterViewInit {
     await delay(500);
 
     this.progressBarVisible = false;
+
+    this.#featureToggleService.enableService(Services.Facebook)
+
     this.router.navigate(['face/dashboard']);
   }
 
@@ -895,6 +901,10 @@ export class ServiceSelectionComponent implements AfterViewInit {
 
     this.progressBarPercent = 100;
     this.progressBarVisible = false;
+
+
+    this.#featureToggleService.enableService(Services.Spotify)
+
     this.router.navigate(['spot', 'dashboard']);
   }
 
@@ -1544,6 +1554,9 @@ export class ServiceSelectionComponent implements AfterViewInit {
     await delay(500);
 
     this.progressBarVisible = false;
+
+    this.#featureToggleService.enableService(Services.Instagram)
+
     this.router.navigate(['insta/dashboard']);
   }
 
