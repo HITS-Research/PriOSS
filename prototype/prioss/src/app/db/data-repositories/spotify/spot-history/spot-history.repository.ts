@@ -239,10 +239,7 @@ export class SpotHistoryRepository extends BulkAddCapableRepository{
       const endHour = dateUtils.trimDate(startHour, GranularityEnum.Hour);
       startHour.setUTCHours(startHour.getHours());//ignore timezone
       endHour.setUTCHours(endHour.getHours()+1);
-
-      console.log(startHour);
-      console.log(endHour);
-
+      
       const values = [startHour.getTime(), endHour.getTime()];
       const result = await db.query(sql.spotHistoryForSingleHourSQL, values);
       return result.values as SpotHistoryBySong[];

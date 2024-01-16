@@ -213,7 +213,6 @@ export class InstaFollowersComponent extends SequenceComponentInit implements Af
   }
 
   override async initComponent(): Promise<void> {
-    console.log("--- Initializing Component 3: FollowerInfo");
     await this.delay(10);
     this.prepareGraphData();
     this.initGraph();

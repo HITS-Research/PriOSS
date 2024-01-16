@@ -20,7 +20,6 @@ export abstract class SequenceComponentInit {
   * @author Simon (scg@mail.upb.de)
   */
   async initBaseComponent(parentDashboard: BaseDashboard, initID : number) {
-    console.log("--- Init Base Component "+ initID);
     await this.initComponent();
     parentDashboard.notifyInitializationComplete(initID);
   }

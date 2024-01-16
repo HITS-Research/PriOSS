@@ -85,7 +85,6 @@ export class InstaLikedContentComponent extends SequenceComponentInit implements
    * @author: Mayank (mayank@mail.upb.de)
    */
   override async initComponent(): Promise<void> {
-    console.log("--- Initializing Component 5: Liked Comments and Posts");
     this.userListForComments = this.fetchUsernames(this.liked_comments_with_count)
     this.userListForComments.unshift("None");
     this.makeBarChart(this.liked_comments_with_count, ".bar_chart_liked_comments");

@@ -59,7 +59,6 @@ export class OtherPersonalInfoComponent implements OnInit {
       this.searchHistoryData = searchHistoryData;
       this.dataAvailableSearchHistory = this.searchHistoryData.length !== 0;
       this.totalSearchedText= this.searchHistoryData.length;
-      console.log(this.totalSearchedText)
       this.totalPages = Math.ceil(this.searchHistoryData.length / this.pageSize);
       this.filterSearchHistoryItems(this.searchText);
 

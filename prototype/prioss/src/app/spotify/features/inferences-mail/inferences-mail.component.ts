@@ -61,7 +61,8 @@ export class InferencesMailComponent {
    */
   copyInferencesToClipboard() : void {
     navigator.clipboard.writeText(this.inferencesList + '\nKind Regards.').then(function() {
-        console.log('Copying to clipboard was successful!');
+      // TODO: Toast : show the below message as Toast,
+      console.log('Copying to clipboard was successful!');
         const copyIcon = document.getElementById("copy-icon");
         const copiedIcon = document.getElementById("copied-icon");
 
@@ -74,6 +75,7 @@ export class InferencesMailComponent {
         }
         
     }, function(err) {
+        // TODO: Toast : show the below message as Toast,
         console.error('Could not copy text: ', err);
     });
 

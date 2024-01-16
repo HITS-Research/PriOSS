@@ -250,7 +250,6 @@ export class InstaMessagesComponent
   }
 
   override async initComponent(): Promise<void> {
-    console.log('--- Initializing Component 10: Messages');
     await this.collectData();
   }
 

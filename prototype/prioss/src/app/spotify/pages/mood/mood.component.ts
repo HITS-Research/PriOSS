@@ -85,7 +85,6 @@ export class MoodComponent {
   * @author Sven (svenf@mail.uni-paderborn.de)
   */
   onChange(result: Date[]): void {
-    console.log('From: ', result[0], ', to: ', result[1]);
     if (result[0] == undefined) {
       startDateInput = new Date('1900-01-01');
       endDateInput = new Date('2023-07-19');
@@ -142,7 +141,6 @@ export class MoodComponent {
       const end = new Date(endDateInput).toUTCString();
       if (start >= timestamp.toUTCString() && timestamp.toUTCString() <= end) timed.push(d);
     });
-    console.log(timed);
     makeRadarChart(timed, this);
   }
 
@@ -199,6 +197,7 @@ export class MoodComponent {
 
       return json.tracks.items[0].id;
     } catch (error) {
+       // TODO: Toast : show the below message as Toast,
       console.error('An error occurred:', error);
       throw error;
     }

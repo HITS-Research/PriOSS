@@ -28,17 +28,11 @@ export class DBService {
   async executeQuery<T>(callback: SQLiteDBConnectionCallback<T>, databaseName: string = environment.databaseName, debug_info = ''): Promise<T> {
 
     await customElements.whenDefined('jeep-sqlite');
-    const jeepSqliteEl = document.querySelector('jeep-sqlite');
-    if(jeepSqliteEl != null) {
-      console.log(`>>DbService: isStoreOpen ${await jeepSqliteEl.isStoreOpen()}`);
-    }
 
     try {
       const isConnection = await this.sqlite.isConnection(databaseName);
-      //console.log('executing query, isConnection: ' + isConnection.result);
 
       if(isConnection.result) {
-        //console.log('closing previous Connection');
         await this.sqlite.closeConnection(databaseName);
       }
     } catch (error) {
@@ -47,30 +41,24 @@ export class DBService {
 
     try{
 
-      //console.log('creating connection');
       let db = await this.sqlite.createConnection(databaseName, false, "no-encryption", this.dbVersion);
       let consistency: capSQLiteResult = await  this.sqlite.checkConnectionsConsistency();
-      console.log('>>> Connection consistency: ' + consistency.result);
       while(!consistency.result)
       {
         db = await this.sqlite.createConnection(databaseName, false, "no-encryption", this.dbVersion);
         consistency = await this.sqlite.checkConnectionsConsistency();
-        console.log('>>> RETRY: consistency: ' + consistency.result);
       }
 
       await db.open();
       let dbOpen: capSQLiteResult = await db.isDBOpen();
-      console.log('>>> DB open: ' + dbOpen.result);
       while(!dbOpen.result)
       {
         await db.open();
         dbOpen = await db.isDBOpen();
-        console.log('>>> RETRY: DB open: ' + dbOpen.result);
       }
 
       const cb = await callback(db);
 
-      //console.log('closing Connection');
       await this.sqlite.closeConnection(databaseName);
       return cb;
 
@@ -86,7 +74,7 @@ export class DBService {
   *
   */
   async rebuildDatabase():Promise<void> {
-    console.log("> Start Rebuilding Database");
+
 
     //wait for db service to initialize
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -102,26 +90,22 @@ export class DBService {
     // open db
     await db.open();
 
-    console.log(">>> Dropping existing schema");
     let ret: any = await db.execute(dropSchema);
 
-    console.log(">>> Creating new schema");
     ret = await db.execute(createSchema);
     if (ret.changes.changes < 0) {
     return Promise.reject(new Error('Execute createSchema failed'));
     }
 
     /* The following is a simple example on how you can insert and query data from a created database table
-    console.log(">>> inserting test history");
+   
     ret = await db.execute(insertTestHistory);
     if (ret.changes.changes !== 2) {
     return Promise.reject(new Error('Execute inserTestHistory failed'));
     }
 
-    console.log(">>> Querying test history");
     // select whole history in db
     ret = await db.query('SELECT * FROM spot_history;');
-    console.log(ret.values);
     if (
     ret.values.length !== 2 ||
     ret.values[0].trackName !== 'NICE!' ||
@@ -133,7 +117,6 @@ export class DBService {
 
     await this.sqlite.closeConnection(environment.databaseName);
 
-    console.log("> DB Rebuilding finished");
     return Promise.resolve();
   }
 
