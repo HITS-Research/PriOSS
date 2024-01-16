@@ -324,7 +324,7 @@ export class InstaMessagesComponent
     );
 
     //Add X axis
-    const x = d3.scaleLinear().domain([0, maxValue]).range([0, width]);
+    const x = d3.scaleLinear().domain([0, maxValue>10?maxValue:10]).range([0, width]);
     svg
       .append('g')
       .attr('transform', 'translate(0,' + height + ')')
@@ -497,7 +497,7 @@ export class InstaMessagesComponent
     const maxValue = Math.max(...data.otherMessages.map((o) => o.avg));
 
     // Add X axis
-    const x = d3.scaleLinear().domain([0, maxValue]).range([0, width]);
+    const x = d3.scaleLinear().domain([0, maxValue>10?maxValue:10]).range([0, width]);
     svg
       .append('g')
       .attr('transform', 'translate(0,' + height + ')')
@@ -599,7 +599,7 @@ export class InstaMessagesComponent
     const maxValue = Math.max(...data.map((o) => o.messages));
 
     // Add X axis
-    const x = d3.scaleLinear().domain([0, maxValue]).range([0, width]);
+    const x = d3.scaleLinear().domain([0, maxValue>10?maxValue:10]).range([0, width]);
     svg
       .append('g')
       .attr('transform', 'translate(0,' + height + ')')
