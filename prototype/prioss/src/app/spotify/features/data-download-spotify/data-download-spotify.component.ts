@@ -31,28 +31,20 @@ export class DataDownloadSpotifyComponent {
   #steps: Step[] = [
     {
       title: 'Step 1',
-      description: 'Log in to your Spotify account. Click on your profile picture on the left. Select <b><i>Account</i></b>.',
+      description: 'Log in to your Spotify account. Click on your profile picture on the right. Select <b><i>Account</i></b>.',
       imageUrl: '../../assets/images/spot-instructions/spot-instruction1.png'
     }, {
       title: 'Step 2',
-      description: 'Select <b><i>Privacy settings.</i></b>',
+      description: 'Select <b><i>Privacy settings</i></b> in the <b><i>Security and privacy</i></b> section.',
       imageUrl: '../../assets/images/spot-instructions/spot-instruction2.png'
     }, {
       title: 'Step 3',
-      description: 'Choose <b><i>Select Account Data</i></b>. Leave Extended Streaming History and Technical Log Information unselected. Click on <b><i>Request Data</i></b> button.',
+      description: 'Scroll down to <b><i>Download your data</i></b>. Leave Extended Streaming History and Technical Log Information unselected. Then click on the <b><i>Request Data</i></b> button.',
       imageUrl: '../../assets/images/spot-instructions/spot-instruction3.png'
     }, {
       title: 'Step 4',
-      description: 'You will see a message to confirm your data download request. Check your e-mails to confirm.',
+      description: 'Spotify will now send you your data via the e-mail address that you provided to your account.',
       imageUrl: '../../assets/images/spot-instructions/spot-instruction4.png'
-    }, {
-      title: 'Step 5',
-      description: 'Check your e-mail from Spotify and <b><i>Confirm</i></b> via the link in the email.',
-      imageUrl: '../../assets/images/spot-instructions/spot-instruction5.png'
-    }, {
-      title: 'Step 6',
-      description: 'You will be re-directed to Spotify Privacy Settings page with a notification that your data is getting prepared. You will receive an e-mail from Spotify containing a link in the next few days. The link will redirect you to the Privacy Settings page where you will find a download button. Download the data to your computer.<br>Return to this website after you downloaded your data.',
-      imageUrl: '../../assets/images/spot-instructions/spot-instruction6.png'
     },
   ];
 
