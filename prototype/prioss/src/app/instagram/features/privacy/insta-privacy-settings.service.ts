@@ -22,7 +22,7 @@ export class InstaPrivacySettingsService {
       howToCheck :"<strong>Text Guide:</strong> <br> 1. Open your <strong>Instagram account</strong>. <br> 2. Go to <strong>Settings</strong>. <br> 3. Tap on <Strong>Setings and privacy</Strong>. <br> 4. Click to check the box next to Private Account or under Account Privacy, toggle on <strong>Private Account</strong>. <br><br> <strong>Picture Guide:</strong><br> Please look <a  target='_blank' href=/insta/account-private><strong>here </a> </strong> for the picture guide to make your Instagram account private.",
         options : [
         { label: "Account is Private", value: "Yes", advice: "Great! Your account is set to private." },
-        { label: "Account is not Private", value: "No", advice: "Maintaining privacy allows individulas to have better control over their online presence and choose who can view and interact with their content, enhancing their overall digital privacy and peace of mind." }
+        { label: "Account is not Private", value: "No", advice: "Maintaining privacy allows individuals to have better control over their online presence and choose who can view and interact with their content, enhancing their overall digital privacy and peace of mind." }
                 ]
     },
     {
