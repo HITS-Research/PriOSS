@@ -16,7 +16,8 @@ import { FacePrivacySettingsService } from '../../facebook/features/privacy/face
 @Component({
   selector: 'app-settings-form',
   templateUrl: './settings-form.component.html',
-  styleUrls: ['./settings-form.component.less']
+  styleUrls: ['./settings-form.component.less'],
+
 })
 export class SettingsFormComponent implements OnInit{
   settingsForm: UntypedFormGroup;
@@ -38,16 +39,15 @@ export class SettingsFormComponent implements OnInit{
       {
         question : "Good Job! You properly checked all your privacy settings",
         howToCheck : "",
-        options : [
-          { label: '', value: '', advice: "" },
-          { label: '', value: '', advice: "" }
-                  ]
+        options : []
       }]
 
-  optionList = this.settings[this.index]["options"]
+    isFinish = false
+
+  optionList = this.settings?.[this.index]["options"]
   question = this.settings[this.index]["question"]
   howToCheck = this.settings[this.index]["howToCheck"]
-  selectedValue : { label: string, value: string, advice?: string } | null = { label: 'option 1', value: 'option1', advice: "" } // needed for clearing the forms options (choices)
+  selectedValue : { label: string, value: string, advice?: string } | null = null // needed for clearing the forms options (choices)
 
   constructor(private fb: FormBuilder, private spotPrivacySettingsService: SpotPrivacySettingsService,
     private instaPrivacySettingsService: InstaPrivacySettingsService, private facePrivacySettingsService: FacePrivacySettingsService) {
@@ -73,7 +73,7 @@ export class SettingsFormComponent implements OnInit{
     this.optionList = this.settings[this.index]["options"]
     this.question = this.settings[this.index]["question"]
     this.howToCheck = this.settings[this.index]["howToCheck"]
-    this.selectedValue = { label: 'option 1', value: 'option1', advice: "" }
+    this.selectedValue = null
   }
 
 
@@ -92,13 +92,14 @@ export class SettingsFormComponent implements OnInit{
       this.optionList = this.finish[0]["options"]
       this.question = this.finish[0]["question"]
       this.howToCheck = this.finish[0]["howToCheck"]
-      this.selectedValue = { label: 'option 1', value: 'option1', advice: "" }
+      this.selectedValue = null
+      this.isFinish = true
     }
     else{
       this.optionList = this.settings[this.index]["options"]
       this.question = this.settings[this.index]["question"]
       this.howToCheck = this.settings[this.index]["howToCheck"]
-      this.selectedValue = { label: 'option 1', value: 'option1', advice: "" }
+      this.selectedValue = null
     }
 
   }
@@ -114,10 +115,14 @@ export class SettingsFormComponent implements OnInit{
     if(this.index > 0) {
       this.index--;
     }
+    if(this.index < this.settings.length) {
+      this.isFinish = false
+    }
     this.optionList = this.settings[this.index]["options"]
     this.question = this.settings[this.index]["question"]
     this.howToCheck = this.settings[this.index]["howToCheck"]
-    this.selectedValue = { label: 'option 1', value: 'option1', advice: "" }
+    this.selectedValue = null
+  
   }
 
 }

@@ -1,54 +1,64 @@
 <form nz-form nzLayout="vertical">
   <nz-form-item>
-     
     <nz-form-label> <img class="i-image" src="../../assets/images/icons/chatbot-icon.png">{{"&ldquo;"}}{{this.question}}{{"&rdquo;"}}</nz-form-label>
     <!-- Robot image from uxwing.com . This image was free to use in any personal and commercial projects without any attribution or credit.-->
     <br>
-    <nz-collapse>
-      <nz-collapse-panel
-      [nzHeader]="panel.name"
-     > 
-      <p [innerHTML]="howToCheck" style="margin:0;">
-      </p>
-      </nz-collapse-panel>
-    </nz-collapse>
-    <br>
-    <nz-form-control>
-      <nz-select
-      name="optionSelecter"
-      [(ngModel)]="selectedValue"
-      nzAllowClear
-      nzPlaceHolder="Choose"
-      >
-        <nz-option *ngFor="let option of optionList" [nzValue]="option" [nzLabel]="option.label"></nz-option>
-      </nz-select>
-    </nz-form-control>
-  <div *ngIf="!selectedValue?.advice" class="talk-bubble-hidden">
-    <div class="bubbletext">
-      <p></p>
+    <div *ngIf="!isFinish"> 
+      <nz-collapse  *ngIf="howToCheck?.length">
+        <nz-collapse-panel
+        [nzHeader]="panel.name"
+       > 
+        <p [innerHTML]="howToCheck" style="margin:0;">
+        </p>
+        </nz-collapse-panel>
+      </nz-collapse>
+      <br>
+      <nz-form-control>
+        <nz-select
+        *ngIf="optionList?.length"
+        name="optionSelecter"
+        [(ngModel)]="selectedValue"
+        nzAllowClear
+        nzPlaceHolder="Choose"
+        >
+          <nz-option *ngFor="let option of optionList" [nzValue]="option" [nzLabel]="option.label"></nz-option>
+        </nz-select>
+      </nz-form-control>
+      <div nz-row nzJustify="center"> 
+        <div *ngIf="!selectedValue?.advice" class="talk-bubble-hidden">
+          <div class="bubbletext">
+            <p></p>
+          </div>
+        </div>
+        <div *ngIf="selectedValue?.advice" class="talk-bubble tri-right round left-in">
+          <div class="bubbletext">
+              <p>{{selectedValue?.advice}}</p>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
-  <div *ngIf="selectedValue?.advice" class="talk-bubble tri-right round left-in">
-    <div class="bubbletext">
-        <p>{{selectedValue?.advice}}</p>
+    <div *ngIf="isFinish" nz-row nzJustify="center">
+      <span nz-icon nzType="check-circle" nzTheme="twotone" nzTwotoneColor="#52c41a" style="font-size: 100px"></span>
     </div>
-  </div>
   </nz-form-item>
-  <nz-form-item>
-    <nz-form-control>
-      <nz-button-group [nzSize]="'large'">
-        <button nz-button nzType="default" (click)="onPrev()" [disabled]="this.index === 0">
-          <span nz-icon nzType="left"></span>
-          Backward
-        </button>
-        <button *ngIf="this.index !== this.settings.length" class="no-click" nz-button nzType="default" disabled>Progress: {{this.index + "/" + this.settings.length}}</button>
-        <nz-progress *ngIf="this.index === this.settings.length" class="small-progress" [nzPercent]="100" nzSize="small"></nz-progress>
-        <button nz-button nzType="default" (click)="onNext()" [disabled]="this.index === this.settings.length">
-          Forward
-          <span nz-icon nzType="right"></span>
-        </button>
-      </nz-button-group>
-    </nz-form-control>
-</nz-form-item>
+  <div nz-row nzJustify="center">  
+    <nz-form-item>
+      <nz-form-control>
+        <nz-button-group [nzSize]="'large'">
+          <button nz-button nzType="default" (click)="onPrev()" [disabled]="this.index === 0">
+            <span nz-icon nzType="left"></span>
+            Backward
+          </button>
+          <button *ngIf="this.index !== this.settings.length" class="no-click" nz-button nzType="default" disabled>Progress: {{this.index + "/" + this.settings.length}}</button>
+          <nz-progress *ngIf="this.index === this.settings.length" class="small-progress" [nzPercent]="100" nzSize="small"></nz-progress>
+          <button nz-button nzType="default" (click)="onNext()" [disabled]="(this.index === this.settings.length) || (!selectedValue)">
+            Forward
+            <span nz-icon nzType="right"></span>
+          </button>
+        </nz-button-group>
+      </nz-form-control>
+  </nz-form-item> 
+  </div>
+
 </form>
   
