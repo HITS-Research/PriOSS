@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Component, Input, OnInit } from '@angular/core';
 import * as d3 from 'd3';
@@ -40,7 +41,13 @@ export class FriendAndFollowersComponent implements OnInit{
   whoYouFollowFilter = [...this.whoYouFollow];
   visibleWhoYouFollow = false
 
-  searchValue = '';
+  searchValueFriends = '';
+  searchValueRemovedFriends = '';
+  searchValueRequestsSent = '';
+  searchValueRequestsReceived = '';
+  searchValueRejectedFriends = '';
+  searchValueWhoYouFollow = '';
+
 
   @Input()
   previewMode = false;
@@ -64,27 +71,27 @@ export class FriendAndFollowersComponent implements OnInit{
     this.faceFriendsRepo.getAllFacebookFriends().then((friends) => {
         this.friendRequestReceived = friends.filter(x => x.type === "#requestsReceived");
         this.createData(this.friendRequestReceived,"#friendRequestReceived", "#FF9800");
-        this.searchRequestReceived();
+        this.friendRequestReceivedFilter = this.filterConnections(this.friendRequestReceived, '');
 
         this.friendRequestSent = friends.filter(x => x.type === "#requestsSent");
         this.createData(this.friendRequestSent,"#friendRequestSent", "#00C853");
-        this.searchRequestSent();
+        this.friendRequestSentFilter = this.filterConnections(this.friendRequestSent, '');
 
         this.friends = friends.filter(x=>x.type === "#friends");
         this.createData(this.friends, "#myFriends", "#1877F2");
-        this.searchFriends();
+        this.friendsFilter = this.filterConnections(this.friends, '');
 
         this.rejectedFriendRequests = friends.filter(x=>x.type === "#rejectedFriends");
         this.createData(this.rejectedFriendRequests,"#rejectedFriends", "#FF0000");
-        this.searchRejectedFriends();
+        this.rejectedFriendRequestsFilter = this.filterConnections(this.rejectedFriendRequests, '');
 
         this.removedFriends = friends.filter(x=>x.type === "#removedFriends");
         this.createData(this.removedFriends,"#removedFriends", "#808080");
-        this.searchRemovedFriends();
+        this.removedFriendsFilter = this.filterConnections(this.removedFriends, '');
 
         this.whoYouFollow = friends.filter(x=>x.type === "#following")
         this.createData(this.whoYouFollow,"#following", "#00BCD4");
-        this.searchWhoYouFollow();
+        this.whoYouFollowFilter = this.filterConnections(this.whoYouFollow, '');
     });
   }
 
@@ -214,86 +221,86 @@ export class FriendAndFollowersComponent implements OnInit{
     return new Date(timestamp*1000)
   }
 
-/**
-  * Searchs friends array according to the user input
-  *
-  * @author: Rashida (rbharmal@mail.upb.de)
-  *
-*/
-  searchFriends(): void {
-    this.visibleFriends = false;
-    this.friendsFilter = this.friends.filter((item: FacebookFriendsModel) => item.name.indexOf(this.searchValue) !== -1);
+  /**
+   * This method is used to search functionality in the friends and followers page
+   * @param tabName: The name of the tab in which the search is to be performed
+  **/
+  search(tabName: string): void {
+    switch (tabName) {
+      case 'friends':
+        this.visibleFriends = false;
+        this.friendsFilter = this.filterConnections(this.friends, this.searchValueFriends);
+        break;
+      case 'removedFriends':
+        this.visibleRemovedFriends = false;
+        this.removedFriendsFilter = this.filterConnections(this.removedFriends, this.searchValueRemovedFriends);
+        break;
+      case 'friendRequestSent':
+        this.visibleRequestsSent = false;
+        this.friendRequestSentFilter = this.filterConnections(this.friendRequestSent, this.searchValueRequestsSent);
+        break;
+      case 'friendRequestReceived':
+        this.visibleRequestsReceived = false;
+        this.friendRequestReceivedFilter = this.filterConnections(this.friendRequestReceived, this.searchValueRequestsReceived);
+        break;
+      case 'rejectedFriends':
+        this.visibleRejectedFriends = false;
+        this.rejectedFriendRequestsFilter = this.filterConnections(this.rejectedFriendRequests, this.searchValueRejectedFriends);
+        break;
+      case 'following':
+        this.visibleWhoYouFollow = false;
+        this.whoYouFollowFilter = this.filterConnections(this.whoYouFollow, this.searchValueWhoYouFollow);
+        break;
+    }
   }
 
   /**
-    * Searchs removed friends array according to the user input
-    *
-    * @author: Rashida (rbharmal@mail.upb.de)
-    *
-  */
-  searchRemovedFriends(): void {
-    this.visibleRemovedFriends = false;
-    this.removedFriendsFilter = this.removedFriends.filter((item: FacebookFriendsModel) => item.name.indexOf(this.searchValue) !== -1);
+   * This method is used to filter the connections based on the search value
+   * @param connectionsList: The list of connections that should be filtered
+   * @param searchValue: The search value based on which the connections should be filtered
+   * @returns: The filtered connections list
+   * */
+  private filterConnections(connectionsList: FacebookFriendsModel[], searchValue: string = ''): FacebookFriendsModel[] {
+    return connectionsList.filter((item: FacebookFriendsModel) => item.name.toLowerCase().indexOf(searchValue.toLowerCase()) !== -1);
   }
 
   /**
-    * Searchs friend requests sent array according to the user input
-    *
-    * @author: Rashida (rbharmal@mail.upb.de)
-    *
-  */
-  searchRequestSent(): void {
-    this.visibleRequestsSent = false;
-    this.friendRequestSentFilter = this.friendRequestSent.filter((item: FacebookFriendsModel) => item.name.indexOf(this.searchValue) !== -1);
-  }
-
-  /**
-    * Searchs friend requests received array according to the user input
-    *
-    * @author: Rashida (rbharmal@mail.upb.de)
-    *
-  */
-  searchRequestReceived(): void {
-    this.visibleRequestsReceived = false;
-    this.friendRequestReceivedFilter = this.friendRequestReceived.filter((item: FacebookFriendsModel) => item.name.indexOf(this.searchValue) !== -1);
-  }
-
-  /**
-    * Searchs rejected friends array according to the user input
-    *
-    * @author: Rashida (rbharmal@mail.upb.de)
-    *
-  */
-  searchRejectedFriends(): void {
-    this.visibleRejectedFriends = false;
-    this.rejectedFriendRequestsFilter = this.rejectedFriendRequests.filter((item: FacebookFriendsModel) => item.name.indexOf(this.searchValue) !== -1);
-  }
-
-  /**
-    * Searchs who you follow array according to the user input
-    *
-    * @author: Rashida (rbharmal@mail.upb.de)
-    *
-  */
-  searchWhoYouFollow(): void {
-    this.visibleWhoYouFollow = false;
-    this.whoYouFollowFilter = this.whoYouFollow.filter((item: FacebookFriendsModel) => item.name.indexOf(this.searchValue) !== -1);
-  }
-
-  /**
-    * Resets the search filter and shows all value for all the arrays
-    *
-    * @author: Rashida (rbharmal@mail.upb.de)
-    *
-  */
-  reset(): void {
-    this.searchValue = '';
-    this.searchFriends();
-    this.searchRejectedFriends();
-    this.searchRemovedFriends();
-    this.searchRequestReceived();
-    this.searchRequestSent();
-    this.searchWhoYouFollow();
+   * This method is used to reset the search functionality in the friends and followers page
+   * @param tabName: The name of the tab in which the search is to be reset
+   * */
+  reset(tabName: string): void {
+    switch (tabName) {
+      case 'friends':
+        this.visibleFriends = false;
+        this.searchValueFriends = '';
+        this.friendsFilter = [...this.friends];
+        break;
+      case 'removedFriends':
+        this.visibleRemovedFriends = false;
+        this.searchValueRemovedFriends = '';
+        this.removedFriendsFilter = [...this.removedFriends];
+        break;
+      case 'friendRequestSent':
+        this.visibleRequestsSent = false;
+        this.searchValueRequestsSent = '';
+        this.friendRequestSentFilter = [...this.friendRequestSent];
+        break;
+      case 'friendRequestReceived':
+        this.visibleRequestsReceived = false;
+        this.searchValueRequestsReceived = '';
+        this.friendRequestReceivedFilter = [...this.friendRequestReceived];
+        break;
+      case 'rejectedFriends':
+        this.visibleRejectedFriends = false;
+        this.searchValueRejectedFriends = '';
+        this.rejectedFriendRequestsFilter = [...this.rejectedFriendRequests];
+        break;
+      case 'following':
+        this.visibleWhoYouFollow = false;
+        this.searchValueWhoYouFollow = '';
+        this.whoYouFollowFilter = [...this.whoYouFollow];
+        break;
+    }
   }
 
 }
