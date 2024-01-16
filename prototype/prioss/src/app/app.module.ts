@@ -131,7 +131,6 @@ import { InstaState } from "./instagram/state/insta.state";
 import { NgZorroAntdModule } from './ng-zorro-antd.module';
 import { InferencesMailComponent } from './spotify/features/inferences-mail/inferences-mail.component';
 import { PurposesComponent } from './spotify/features/purposes/purposes.component';
-import { InferencesComponent } from './spotify/pages/inferences/inferences.component';
 import { ListeningTimeComponent } from './spotify/pages/listening-time/listening-time.component';
 import { MoodComponent } from './spotify/pages/mood/mood.component';
 import { SpotPrivacyInstructionsComponent } from './spotify/pages/privacy-instructions/spot-privacy-instructions.component';
@@ -145,6 +144,7 @@ import { SpotifyModule } from './spotify/spotify.module';
 import { AppState } from "./state/app.state";
 import { PreviewTileComponent } from './unused-components/preview-tile/preview-tile.component';
 import { SpotifyState } from './spotify/state/spotify.state';
+import { InferencesComponent } from './spotify/pages/inferences/inferences.component'
 import { FeatureToggleService } from './features/feature-toggle/feature-toggle.service';
 
 registerLocaleData(de);
@@ -164,9 +164,9 @@ registerLocaleData(de);
     GeneralDataComponent,
     PreviewTileComponent,
     ListeningTimeComponent,
-    InferencesComponent,
     TopArtistsComponent,
     TopSongsComponent,
+    InferencesComponent,
     AboutComponent,
     ContactComponent,
     FaqComponent,

@@ -1,170 +1,138 @@
-import { AfterViewInit, Component, Input, ViewChild } from '@angular/core';
-import { InferencesRepository } from 'src/app/db/data-repositories/general/inferences/inferences.repository';
-import { InferencesEntry } from 'src/app/framework/models/Inferences/InferencesEntry';
-import { SequenceComponentInit } from '../../../features/utils/sequence-component-init.abstract';
+import { ChangeDetectionStrategy, Component, Input, ViewChild, inject } from '@angular/core';
+import { Store } from '@ngxs/store';
+import { BehaviorSubject, Observable, Subject, combineLatest, filter, map, shareReplay, startWith, switchMap } from 'rxjs';
 import { InferencesMailComponent } from '../../features/inferences-mail/inferences-mail.component';
+import { SpotifyInferenceState } from '../../features/inferences/inference.state';
+import { Router } from '@angular/router';
 
 
 /**
-  * This component visualizes the inferences in the datadownload.
-  * It allows to directly open the email client with a template text to rectificate a inference.
-  *
-  * @author: Sven (svenf@mail.uni-paderborn.de)
-  *
-  */
+ * The ViewModel makes the inference data available to the html page.
+ */
+type ViewModel = {
+  checked: boolean;
+
+  dataCount: number;
+
+  filteredInferencesData: Inference[];
+
+  previewInferencesData: string[];
+
+}
+
+type Inference = { inference: string, checked: boolean };
+
+/**
+ * The Component processes the inferences, makes them searchable,
+ * assigns a checkbox to each item, and enables the user to send
+ * the inferences to Spotify support with a template to rectify selected inferences.
+ */
+
 @Component({
   selector: 'spot-inferences',
   templateUrl: './inferences.component.html',
-  styleUrls: ['./inferences.component.less']
+  styleUrls: ['./inferences.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class InferencesComponent extends SequenceComponentInit implements AfterViewInit{
+export class InferencesComponent {
+
+  #store = inject(Store)
+  #router = inject(Router);
 
   @Input()
-  previewMode = false;
+  previewMode: boolean;
 
   @ViewChild('InferencesMailComponent')
-  inferencesMailDialogComponent : InferencesMailComponent;
+  inferencesMailComponent: InferencesMailComponent
 
-  inferences: readonly InferencesEntry[] = [];
-  listOfInferences: InferencesEntry[] = [];
-  visible = false;
-  checked = false;
-  indeterminate = false;
-  setOfCheckedId = new Set<number>();
-  listOfInferencesToDelete: InferencesEntry[];
-
-  constructor(private inferencesRepo: InferencesRepository) {
-    super();
-  }
-
-/**
-  * A Callback called by angular when the views have been initialized
-  * It handles the initialization when the component is displayed on its own dedicated page.
-  *
-  * @author: Simon (scg@mail.upb.de)
-  */
-  ngAfterViewInit() {
-    if(!this.previewMode) {
-      this.initComponent();
-    }
-  }
-
-/**
-  * @see-super-class
-  * @author Simon (scg@mail.upb.de)
-  */
-  override async initComponent(): Promise<void> {
-    const inferences = await this.inferencesRepo.getAllInferences();
-
-    this.inferences = inferences;
-    this.listOfInferences = [...this.inferences];
-  }
+  checkAll$ = new BehaviorSubject<boolean>(false);
 
   /**
-   * The following five functions are taken from https://ng.ant.design/components/table/en#components-table-demo-row-selection-custom.
-   * Update the set of checked IDs based on the checked status.
-   * @param id
-   * @param checked
-   *
-   * @author: Sven (svenf@mail.uni-paderborn.de)
+   * The current inference data.
    */
-  updateCheckedSet(id: number, checked: boolean): void {
-    if (checked) {
-      this.setOfCheckedId.add(id);
-    } else {
-      this.setOfCheckedId.delete(id);
-    }
-  }
-
-  /**
-   * Handler for when an item's checked status changes.
-   * @param id
-   * @param checked
-   *
-   * @author: Sven (svenf@mail.uni-paderborn.de)
-   */
-  onItemChecked(id: number, checked: boolean): void {
-    this.updateCheckedSet(id, checked);
-    this.refreshCheckedStatus();
-  }
-
-
-  /**
-   * Handler for when the "Select All" checkbox is checked or unchecked
-   * @param value
-   *
-   * @author: Sven (svenf@mail.uni-paderborn.de)
-   */
-  onAllChecked(value: boolean): void {
-    this.listOfInferences.forEach(item => this.updateCheckedSet(item.id, value));
-    this.refreshCheckedStatus();
-  }
-
-  /**
-   * Handler for when the data of the current page changes.
-   * @param $event
-   *
-   * @author: Sven (svenf@mail.uni-paderborn.de)
-   */
-  onCurrentPageDataChange($event: InferencesEntry[]): void {
-    this.listOfInferences = $event;
-    this.refreshCheckedStatus();
-  }
-
-  /**
-   * Refresh the checked status of all items.
-   *
-   * @author: Sven (svenf@mail.uni-paderborn.de)
-   */
-  refreshCheckedStatus(): void {
-    this.checked = this.listOfInferences.every(item => this.setOfCheckedId.has(item.id));
-    this.indeterminate = this.listOfInferences.some(item => this.setOfCheckedId.has(item.id)) && !this.checked;
-  }
-
-  /**
-   * Filters the list of inferences based on the searchValue.
-   * https://ng.ant.design/components/table/en#components-table-demo-custom-filter-panel
-   *
-   * @author: Sven (svenf@mail.uni-paderborn.de)
-   */
-  search(searchValue: any): void {
-    this.visible = false;
-    this.listOfInferences = this.inferences.filter((item: InferencesEntry) =>
-      item.inference.toLowerCase().includes(searchValue.toLowerCase())
+  #inferenceData$: Observable<Inference[]> = this.#store.select(SpotifyInferenceState.inferences)
+    .pipe(
+      map(inferences => inferences.map(i => ({ inference: i, checked: false }))),
+      switchMap(inferences => this.checkAll$
+        .pipe(map(state => {
+          inferences.forEach(i => i.checked = state);
+          return inferences;
+        }))
+      ),
+      shareReplay({ refCount: true })
     );
 
-  }
+  /**
+   * The subject with the current filter value.
+   */
+  filter$ = new BehaviorSubject<string>('');
 
   /**
-   * This function resets the search value. Calls {@link search('')} which then displays all inferences as the searchvalue is empty
-   *
-   * @author: Sven (svenf@mail.uni-paderborn.de)
+   * The filtered inferences data, filtered by filter$.
    */
-  reset(): void {
-    const searchText = document.querySelector('input[nz-input]') as HTMLInputElement;
-    searchText.value = '';
-    this.search('');
-  }
+  #filteredInferencesData$: Observable<Inference[]> = this.#inferenceData$
+    .pipe(
+      filter(() => !this.previewMode),
+      switchMap(inferences => this.filter$
+        .pipe(
+          map(f => f.toLowerCase()),
+          map(
+            f => f.length > 0
+              ? inferences.filter(i => i.inference.toLowerCase().includes(f))
+              : inferences
+          )
+        )
+      ),
+      startWith([])
+    )
 
 
   /**
-   * Opens the standard email client from a user.
-   * Sets recipient, subject and body for the user. Adds the clicked on inference to the email.
-   *
-   * @author: Sven (svenf@mail.uni-paderborn.de)
+   *  Shows the first four inferences of the list in the preview page
    */
-  rectifyInferences(): void {
-    let inferencesWithLinebreak = "";
-    for (const inference of this.listOfInferences) {
-      if (this.setOfCheckedId.has(inference.id)) {
-        inferencesWithLinebreak += inference.inference + '\n';
-      }
-    }
-    if (this.setOfCheckedId.size > 0) {
-      this.inferencesMailDialogComponent.showModal(inferencesWithLinebreak);
-    } else {
-       // TODO: Toast : show the below message as Toast,
-      console.log("no inference selected")
-    }
+  #previewInferencesData$ = this.#inferenceData$
+    .pipe(
+      filter(() => this.previewMode),
+      map(inferences => inferences.map(i => i.inference)),
+      map(inferences => inferences.slice(0, 4)),
+      startWith([])
+    );
+  /**
+   * Checks if all inferences have been checked and sets the main checkbox accordingly
+   */
+  inferenceCheckClicked$ = new Subject<[Inference, boolean]>();
+  #allChecked$ = this.#inferenceData$
+    .pipe(
+      switchMap(inferences => this.inferenceCheckClicked$
+        .pipe(
+          startWith(undefined),
+          map(() => !inferences.some(i => !i.checked))
+        )
+      )
+    )
+  /**
+   * The Observable that makes the inferences externally accessible.
+   * It emits an update, when new data is pushed to one of the observable.
+   */
+  vm$: Observable<ViewModel> = combineLatest([
+    this.#allChecked$,
+    this.#inferenceData$,
+    this.#filteredInferencesData$,
+    this.#previewInferencesData$,
+  ])
+    .pipe(
+      map(([a, i, f, l]) => ({
+        checked: a,
+        dataCount: i.length,
+        filteredInferencesData: f,
+        previewInferencesData: l,
+      } as ViewModel))
+    );
+
+  /**
+ * Navigates to the dashboard of the current feature.
+ */
+  navigateToDashboard() {
+    this.#router.navigate(['dashboard']);
   }
 }

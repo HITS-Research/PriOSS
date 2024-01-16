@@ -1,12 +1,12 @@
 import { Injectable } from "@angular/core";
-import { Action, State, StateContext } from '@ngxs/store';
+import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { SpotifyReadInferencesFromZip, SpotifyResetInferences } from './inference.action';
 import { SpotifyInferenceStateModel } from './inference.statemodel';
 
 /**
  * The default values of this state.
  */
-const defaults: SpotifyInferenceStateModel = [];
+const defaults: SpotifyInferenceStateModel = { inferences: [] };
 
 /**
  * The state of inference data of the users zip file.
@@ -17,6 +17,15 @@ const defaults: SpotifyInferenceStateModel = [];
 })
 @Injectable()
 export class SpotifyInferenceState {
+
+  /**
+   * Isolates the 'inferences' property of SpotifyInferenceStateModel 
+   * so it can be accessed individually
+   */
+  @Selector()
+  static inferences(state: SpotifyInferenceStateModel): string[] {
+    return state.inferences;
+  }
 
   /**
    * Resets the Inference-State.
@@ -46,8 +55,8 @@ export class SpotifyInferenceState {
     const fileContent: SpotifyInferenceStateModel = JSON.parse(
       await file.async('string')
     );
-    if (Array.isArray(fileContent))
-      context.setState(fileContent.sort());
+    if (Array.isArray(fileContent.inferences))
+      context.setState(fileContent);
   }
 
 }
