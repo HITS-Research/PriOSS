@@ -15,7 +15,7 @@ import { NotificationService } from 'src/app/features/notification/notification.
  *
  */
 @Component({
-  selector: 'spot-top-artists',
+  selector: 'prioss-spotify-top-artists',
   templateUrl: './top-artists.component.html',
   styleUrls: ['./top-artists.component.less']
 })

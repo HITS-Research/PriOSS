@@ -25,7 +25,7 @@ interface TimelineData{
   *
   */
 @Component({
-  selector: 'app-songtimeline',
+  selector: 'prioss-spotify-songtimeline',
   templateUrl: './songtimeline.component.html',
   styleUrls: ['./songtimeline.component.less']
 })

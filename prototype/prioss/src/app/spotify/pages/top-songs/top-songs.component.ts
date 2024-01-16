@@ -13,7 +13,7 @@ import { SequenceComponentInit } from '../../../features/utils/sequence-componen
  *
  */
 @Component({
-  selector: 'spot-top-songs',
+  selector: 'prioss-spotify-top-songs',
   templateUrl: './top-songs.component.html',
   styleUrls: ['./top-songs.component.less']
 })

@@ -23,12 +23,12 @@ let endDateInput: any = null;
   *
   */
 @Component({
-  selector: 'spot-mood',
+  selector: 'prioss-spotify-mood',
   templateUrl: './mood.component.html',
   styleUrls: ['./mood.component.less']
 })
 export class MoodComponent {
-  offlineLoading = true; //load from jsonfile 
+  offlineLoading = true; //load from jsonfile
   @Input()
   previewMode = false;
   @Input()
@@ -51,11 +51,11 @@ export class MoodComponent {
     this.mood = mood;
   }
 
-  /* 
+  /*
    * This function starts the drawing of the Radarchart. If offlineLoading is true the json file is loaded.
    * If false the songIds for the given data download are requested.
    * The Spotify API rate limit is already for one user to slow to hande many requests. Therefore, we decided for now to only use sampledata for this component.
-   * 
+   *
    * @author: Sven (svenf@mail.uni-paderborn.de)
   */
   startRadarChart() {
@@ -97,7 +97,7 @@ export class MoodComponent {
 
   /**
    * This function gets all Song Ids (currently limited to 100). Also calls @makeRadarChart.
-   * 
+   *
    * @author Sven
    */
   async getSongIds() {
@@ -208,7 +208,7 @@ export class MoodComponent {
 
   /**
   * This function queries the Spotify Web API endpoint audio-features. To prevent timeouts a bulk request is performed. The Spotify Web API allows up to 100 song ids at once.
-  * 
+  *
   * @author: Sven (svenf@mail.uni-paderborn.de)
   *
   */
@@ -238,7 +238,7 @@ export class MoodComponent {
 
 /**
 * This function concats songids and a comma ('%2C') to the spotifyUrl to provide the bulk url.
-* 
+*
 * @author: Sven (svenf@mail.uni-paderborn.de)
 *
 */
@@ -253,12 +253,12 @@ function makeBulkRequestUrl(trackIds: string[], spotifyUrl: string): string {
 
 /**
 * A user provides his spotify data. This data contains among others the songname and the listening date. However, we query the Spotify API with the songname to get the songid.
-* Afterwards we query with the songid to get the audiofeatures (like valence). In this process, we lose listening date. However, it is needed for visualisation. Therefore, 
-* the current solution is to add it to the json object which is returned by the {@getValence} method. 
+* Afterwards we query with the songid to get the audiofeatures (like valence). In this process, we lose listening date. However, it is needed for visualisation. Therefore,
+* the current solution is to add it to the json object which is returned by the {@getValence} method.
 * Why can't we just map the initial data to the returned object. It is not possible because the listening history might contain, e.g., podcasts and these result in errors.
 * At the moment as there is no error handling this can be abused to do the function as it is now. Because names contains all the names which didnt result in an error by the API.
 * Therefore, we can just add the name to audiofeatures with no further checking as audiofeatures and names are ordered the same.
-* 
+*
 * @author: Sven (svenf@mail.uni-paderborn.de)
 *
 */
@@ -447,7 +447,7 @@ function makeRadarChart(audiofeatures: any, componentInstance: MoodComponent) {
         .attr("stroke", "#3C3D3E")
         .attr("stroke-width", 1)
         .attr("rx", 5)
-        .style("opacity", 0); 
+        .style("opacity", 0);
 
       // Append the text element
       const textElement: any = additionalTextGroup
@@ -554,7 +554,7 @@ function makeOneArray(arrayOfArrays: any): any {
 * This is a helper function to normalize the tempo values to 0-100.
 *
 * @author: Sven (svenf@mail.uni-paderborn.de)
-* @return normalizedValue 
+* @return normalizedValue
 */
 function normalizeTempo(originalValue: number): number {
   const minValue = 40;

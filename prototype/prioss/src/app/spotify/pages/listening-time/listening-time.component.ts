@@ -30,7 +30,7 @@ interface ListeningtimeFilterHistoryEntry {
   *
   */
 @Component({
-  selector: 'spot-listening-time',
+  selector: 'prioss-spotify-listening-time',
   templateUrl: './listening-time.component.html',
   styleUrls: ['./listening-time.component.less']
 })

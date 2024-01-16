@@ -7,7 +7,7 @@ import { StepperComponent } from 'src/app/features/stepper/stepper.component';
  * @author Alexander Nickel (nickela(at)mail.uni-paderborn.de)
  */
 @Component({
-  selector: 'prioss-data-download-spotify',
+  selector: 'prioss-spotify-data-download',
   template: `
     <prioss-stepper
       [stepIndex]="initialIndex"

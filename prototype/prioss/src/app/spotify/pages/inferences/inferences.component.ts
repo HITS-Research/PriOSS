@@ -29,7 +29,7 @@ type Inference = { inference: string, checked: boolean };
  */
 
 @Component({
-  selector: 'spot-inferences',
+  selector: 'prioss-spotify-inferences',
   templateUrl: './inferences.component.html',
   styleUrls: ['./inferences.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush
