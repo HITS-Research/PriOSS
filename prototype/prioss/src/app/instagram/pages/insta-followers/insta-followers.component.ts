@@ -214,7 +214,7 @@ export class InstaFollowersComponent extends SequenceComponentInit implements Af
 
   override async initComponent(): Promise<void> {
     console.log("--- Initializing Component 3: FollowerInfo");
-    // TODO : Refactor logic of graph it's not workling on initial load
+    await this.delay(10);
     this.prepareGraphData();
     this.initGraph();
     this.updateGraph();
@@ -227,7 +227,7 @@ export class InstaFollowersComponent extends SequenceComponentInit implements Af
    */
   async on_graph_page_enter() {
     while (!document.getElementById("cy")) {
-      await new Promise(r => setTimeout(r, 100));
+      await this.delay(100);
     }
     this.initGraph();
   }
@@ -330,5 +330,15 @@ export class InstaFollowersComponent extends SequenceComponentInit implements Af
       default:
         break;
     }
+  }
+
+  /**
+   * Introduces a delay to ensure proper rendering of the graph.
+   * The delay is needed to allow time for obtaining the required 'div' element
+   * for placing the graph. This ensures a smooth and accurate initialization process.
+   * @returns {Promise<void>}
+   */
+  private delay(ms: number): Promise<void> {
+    return new Promise(resolve => setTimeout(resolve, ms));
   }
 }
