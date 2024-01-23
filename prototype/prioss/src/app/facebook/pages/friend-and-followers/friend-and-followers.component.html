@@ -113,7 +113,7 @@
             <tr>
               <th nzCustomFilter>
                 Name
-                <nz-filter-trigger [(nzVisible)]="visibleFriends" [nzActive]="searchValue.length > 0" [nzDropdownMenu]="menu">
+                <nz-filter-trigger [(nzVisible)]="visibleFriends" [nzActive]="searchValueFriends.length > 0" [nzDropdownMenu]="menu">
                   <span nz-icon nzType="search"></span>
                 </nz-filter-trigger>
               </th>
@@ -130,9 +130,9 @@
         <nz-dropdown-menu #menu="nzDropdownMenu">
           <div class="ant-table-filter-dropdown">
             <div class="search-box">
-              <input type="text" nz-input placeholder="Search name" [(ngModel)]="searchValue" />
-              <button nz-button nzSize="small" nzType="primary" (click)="searchFriends()" class="search-button">Search</button>
-              <button nz-button nzSize="small" (click)="reset()">Reset</button>
+              <input type="text" nz-input placeholder="Search name" [(ngModel)]="searchValueFriends" />
+              <button nz-button nzSize="small" nzType="primary" (click)="search('friends')" class="search-button">Search</button>
+              <button nz-button nzSize="small" (click)="reset('friends')">Reset</button>
             </div>
           </div>
         </nz-dropdown-menu>
@@ -144,7 +144,7 @@
             <tr>
               <th nzCustomFilter>
                 Name
-                <nz-filter-trigger [(nzVisible)]="visibleWhoYouFollow" [nzActive]="searchValue.length > 0" [nzDropdownMenu]="menu2">
+                <nz-filter-trigger [(nzVisible)]="visibleWhoYouFollow" [nzActive]="searchValueWhoYouFollow.length > 0" [nzDropdownMenu]="menu2">
                   <span nz-icon nzType="search"></span>
                 </nz-filter-trigger>
               </th>
@@ -161,9 +161,9 @@
         <nz-dropdown-menu #menu2="nzDropdownMenu">
           <div class="ant-table-filter-dropdown">
             <div class="search-box">
-              <input type="text" nz-input placeholder="Search name" [(ngModel)]="searchValue" />
-              <button nz-button nzSize="small" nzType="primary" (click)="searchWhoYouFollow()" class="search-button">Search</button>
-              <button nz-button nzSize="small" (click)="reset()">Reset</button>
+              <input type="text" nz-input placeholder="Search name" [(ngModel)]="searchValueWhoYouFollow" />
+              <button nz-button nzSize="small" nzType="primary" (click)="search('following')" class="search-button">Search</button>
+              <button nz-button nzSize="small" (click)="reset('following')">Reset</button>
             </div>
           </div>
         </nz-dropdown-menu>
@@ -174,7 +174,7 @@
             <tr>
               <th nzCustomFilter>
                 Name
-                <nz-filter-trigger [(nzVisible)]="visibleRequestsReceived" [nzActive]="searchValue.length > 0" [nzDropdownMenu]="menu3">
+                <nz-filter-trigger [(nzVisible)]="visibleRequestsReceived" [nzActive]="searchValueRequestsReceived.length > 0" [nzDropdownMenu]="menu3">
                   <span nz-icon nzType="search"></span>
                 </nz-filter-trigger>
               </th>
@@ -191,9 +191,9 @@
         <nz-dropdown-menu #menu3="nzDropdownMenu">
           <div class="ant-table-filter-dropdown">
             <div class="search-box">
-              <input type="text" nz-input placeholder="Search name" [(ngModel)]="searchValue" />
-              <button nz-button nzSize="small" nzType="primary" (click)="searchRequestReceived()" class="search-button">Search</button>
-              <button nz-button nzSize="small" (click)="reset()">Reset</button>
+              <input type="text" nz-input placeholder="Search name" [(ngModel)]="searchValueRequestsReceived" />
+              <button nz-button nzSize="small" nzType="primary" (click)="search('friendRequestReceived')" class="search-button">Search</button>
+              <button nz-button nzSize="small" (click)="reset('friendRequestReceived')">Reset</button>
             </div>
           </div>
         </nz-dropdown-menu>
@@ -204,7 +204,7 @@
             <tr>
               <th nzCustomFilter>
                 Name
-                <nz-filter-trigger [(nzVisible)]="visibleRequestsSent" [nzActive]="searchValue.length > 0" [nzDropdownMenu]="menu4">
+                <nz-filter-trigger [(nzVisible)]="visibleRequestsSent" [nzActive]="searchValueRequestsSent.length > 0" [nzDropdownMenu]="menu4">
                   <span nz-icon nzType="search"></span>
                 </nz-filter-trigger>
               </th>
@@ -221,9 +221,9 @@
         <nz-dropdown-menu #menu4="nzDropdownMenu">
           <div class="ant-table-filter-dropdown">
             <div class="search-box">
-              <input type="text" nz-input placeholder="Search name" [(ngModel)]="searchValue" />
-              <button nz-button nzSize="small" nzType="primary" (click)="searchRequestSent()" class="search-button">Search</button>
-              <button nz-button nzSize="small" (click)="reset()">Reset</button>
+              <input type="text" nz-input placeholder="Search name" [(ngModel)]="searchValueRequestsSent" />
+              <button nz-button nzSize="small" nzType="primary" (click)="search('friendRequestSent')" class="search-button">Search</button>
+              <button nz-button nzSize="small" (click)="reset('friendRequestSent')">Reset</button>
             </div>
           </div>
         </nz-dropdown-menu>
@@ -234,7 +234,7 @@
             <tr>
               <th nzCustomFilter>
                 Name
-                <nz-filter-trigger [(nzVisible)]="visibleRemovedFriends" [nzActive]="searchValue.length > 0" [nzDropdownMenu]="menu5">
+                <nz-filter-trigger [(nzVisible)]="visibleRemovedFriends" [nzActive]="searchValueRemovedFriends.length > 0" [nzDropdownMenu]="menu5">
                   <span nz-icon nzType="search"></span>
                 </nz-filter-trigger>
               </th>
@@ -251,9 +251,9 @@
         <nz-dropdown-menu #menu5="nzDropdownMenu">
           <div class="ant-table-filter-dropdown">
             <div class="search-box">
-              <input type="text" nz-input placeholder="Search name" [(ngModel)]="searchValue" />
-              <button nz-button nzSize="small" nzType="primary" (click)="searchRemovedFriends()" class="search-button">Search</button>
-              <button nz-button nzSize="small" (click)="reset()">Reset</button>
+              <input type="text" nz-input placeholder="Search name" [(ngModel)]="searchValueRemovedFriends" />
+              <button nz-button nzSize="small" nzType="primary" (click)="search('removedFriends')" class="search-button">Search</button>
+              <button nz-button nzSize="small" (click)="reset('removedFriends')">Reset</button>
             </div>
           </div>
         </nz-dropdown-menu>
@@ -264,7 +264,7 @@
             <tr>
               <th nzCustomFilter>
                 Name
-                <nz-filter-trigger [(nzVisible)]="visibleRejectedFriends" [nzActive]="searchValue.length > 0" [nzDropdownMenu]="menu6">
+                <nz-filter-trigger [(nzVisible)]="visibleRejectedFriends" [nzActive]="searchValueRejectedFriends.length > 0" [nzDropdownMenu]="menu6">
                   <span nz-icon nzType="search"></span>
                 </nz-filter-trigger>
               </th>
@@ -281,9 +281,9 @@
         <nz-dropdown-menu #menu6="nzDropdownMenu">
           <div class="ant-table-filter-dropdown">
             <div class="search-box">
-              <input type="text" nz-input placeholder="Search name" [(ngModel)]="searchValue" />
-              <button nz-button nzSize="small" nzType="primary" (click)="searchRejectedFriends()" class="search-button">Search</button>
-              <button nz-button nzSize="small" (click)="reset()">Reset</button>
+              <input type="text" nz-input placeholder="Search name" [(ngModel)]="searchValueRejectedFriends" />
+              <button nz-button nzSize="small" nzType="primary" (click)="search('rejectedFriends')" class="search-button">Search</button>
+              <button nz-button nzSize="small" (click)="reset('rejectedFriends')">Reset</button>
             </div>
           </div>
         </nz-dropdown-menu>

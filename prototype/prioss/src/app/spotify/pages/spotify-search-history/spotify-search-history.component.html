@@ -1,0 +1,112 @@
+@if(vm$ | async; as vm) {
+<div [ngClass]="{'component-page': !previewMode}">
+  <!--in previewmode only a small table with personal information is shown-->
+
+  <div *ngIf="previewMode">
+    <div *ngIf="vm.dataAvailable">
+      <nz-row [nzGutter]="16">
+        <nz-col [nzSpan]="12">
+          <nz-statistic
+            [nzValue]="vm.dataCount"
+            [nzTitle]="'Number of Search Queries'"
+          ></nz-statistic>
+        </nz-col>
+      </nz-row>
+      <nz-row [nzGutter]="16">
+        <nz-col [nzSpan]="12">
+          <nz-statistic
+            [nzValue]="vm.latestSearchQuery!"
+            [nzTitle]="'Latest Search Query'"
+          ></nz-statistic>
+        </nz-col>
+      </nz-row>
+    </div>
+  </div>
+
+  <div *ngIf="!previewMode">
+    <app-title-bar
+      titleText="Search History"
+      tooltipText="This table shows the search History the service has collected about you."
+    />
+    <!-- If user search data present -->
+    <div *ngIf="vm.dataAvailable">
+      <nz-table
+        #rowSelectionTable
+        [nzData]="vm.filteredSearchHistory"
+        [nzPageSize]="50000"
+        [nzScroll]="{ y: 'calc(100vh - 369px)' }"
+        [nzShowPagination]="false"
+      >
+        <thead>
+          <tr>
+            <th nzCustomFilter>
+              <span
+                nz-tooltip
+                nzTooltipTitle="This column list the exact search query that was entered"
+              >
+                Search Query
+              </span>
+              <nz-filter-trigger
+                [nzActive]="vm.dataAvailable"
+                [nzDropdownMenu]="menu"
+              >
+                <span
+                  nz-icon
+                  nzType="search"
+                ></span>
+              </nz-filter-trigger>
+            </th>
+            <th>
+              <span
+                nz-tooltip
+                nzTooltipTitle="This column list the date at which the search query was entered"
+              >
+                Date
+              </span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of rowSelectionTable.data">
+            <td>{{ data.searchQuery }}</td>
+            <td>{{ data.searchTime | date }}</td>
+          </tr>
+        </tbody>
+      </nz-table>
+      <nz-dropdown-menu #menu="nzDropdownMenu">
+        <div class="ant-table-filter-dropdown">
+          <div class="search-box">
+            <input
+              #filterInput
+              type="text"
+              nz-input
+              placeholder="Search name"
+            >
+            <button
+              nz-button
+              nzSize="small"
+              nzType="primary"
+              (click)="filter$.next(filterInput.value)"
+              class="search-button"
+            >
+              Search
+            </button>
+            <button
+              nz-button
+              nzSize="small"
+              (click)="filter$.next('')"
+            >
+              Reset
+            </button>
+          </div>
+        </div>
+      </nz-dropdown-menu>
+    </div>
+
+    <!-- If no user search data present -->
+    <div *ngIf="!vm.dataAvailable">
+      <nz-empty nzNotFoundImage="simple" />
+    </div>
+  </div>
+</div>
+}

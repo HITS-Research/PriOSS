@@ -4,7 +4,7 @@ When too many more or less simultaneous requests reach the SQLite Database, some
 
 This is a description of an abstract system that enables a dashboard to ensure that its components are initialized sequentially, one after the other.
 
-The system is based around two abstract classes, BaseDashboard and SequenceComponentInit. 
+The system is based around two abstract classes, BaseDashboard and SequenceComponentInit.
 
 ## BaseDashboard class
 
@@ -33,7 +33,7 @@ Each of these lines gets one reference to a child component of the given class t
 
 TO start the initialization, this lifecycle method has to be implemented in the dashboard:
 
-```typescript 
+```typescript
  ngAfterViewInit(): void  {
     //Component initialization
     //Add components to component Initialization list from BaseDashboard
@@ -47,23 +47,20 @@ TO start the initialization, this lifecycle method has to be implemented in the 
   }
 ```
 
-In this callback, the componentInitializationList variable inherited from the BaseDashboard class is filled with the references to the child components that need to be initialized. Then the first component is initialized by calling the ```startSequentialInitialization()``` method inherited from the BaseDashboard class. The initialization of the subsequent components in the list will be handled by the individual component  classes and their SequentialComponentInit base class.
-
-
+In this callback, the componentInitializationList variable inherited from the BaseDashboard class is filled with the references to the child components that need to be initialized. Then the first component is initialized by calling the `startSequentialInitialization()` method inherited from the BaseDashboard class. The initialization of the subsequent components in the list will be handled by the individual component classes and their SequentialComponentInit base class.
 
 ## SequentialComponentInit class
 
-All components that should be initialized sequential have to implement this base class. Look at the ```inferences.component.ts``` as an example.
+All components that should be initialized sequential have to implement this base class. Look at the `inferences.component.ts` as an example.
 
 Each concrete component has to extend the SequentialComponentInit class:
 
-```export class InferencesComponent extends SequenceComponentInit {```
+`export class InferencesComponent extends SequenceComponentInit {`
 
 ...and override the initComponent method:
 
 ```typescript
 override async initComponent(): Promise<void> {
-    console.log("--- Initializing Component 1: Inferences");
     let inferences = await this.inferencesRepo.getAllInferences();
 
     this.inferences = inferences;
@@ -71,9 +68,9 @@ override async initComponent(): Promise<void> {
 }
 ```
 
-This method should execute the necessary SQL queries via the respective repository. It MUST be implemented as ```async```, so it can internally use the ```await``` keyword. This is needed, so the repository calls can be made synchronously via ```await```. After this method ends, the next component will start its initialization. If the calls are executed asynchronously, the method ends to early and this component's SQL queries may interfere with the next one's. 
+This method should execute the necessary SQL queries via the respective repository. It MUST be implemented as `async`, so it can internally use the `await` keyword. This is needed, so the repository calls can be made synchronously via `await`. After this method ends, the next component will start its initialization. If the calls are executed asynchronously, the method ends to early and this component's SQL queries may interfere with the next one's.
 
-It is important to understand that, when incorporated into a dashboard, this initialization method will be called automatically if the component is in the initialization list (see above) of the dashboard. If the component is shown on a dedicated page, it has to be called manually in ```ngAfterViewInit```. Whether the component is on a dashboard or not can be specified by using a previewMode variable:
+It is important to understand that, when incorporated into a dashboard, this initialization method will be called automatically if the component is in the initialization list (see above) of the dashboard. If the component is shown on a dedicated page, it has to be called manually in `ngAfterViewInit`. Whether the component is on a dashboard or not can be specified by using a previewMode variable:
 
 ```typescript
   ngAfterViewInit() {
@@ -95,6 +92,3 @@ When incorporated into a dashboard this variable has to be set to true in html i
 ```html
 <spot-inferences [previewMode]="true"></spot-inferences>
 ```
-
-
-

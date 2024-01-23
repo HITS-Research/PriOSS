@@ -18,14 +18,14 @@
       <div id="step1" nz-col nzXs="24" nzXl="8">
         <app-dash-card [fillVerticalSpace]="false" cardLink="/spot/general-data" titleText="User Data"
           tooltipText="This card shows your general user data like your email, gender, postal address etc. Click to find out more.">
-          <app-general-data [previewMode]="true"></app-general-data>
+          <prioss-spotify-user-data [preview]="true"/>
         </app-dash-card>
       </div>
 
       <div id="step3" nz-col nzXs="24" nzXl="16">
         <app-dash-card [fillVerticalSpace]="false"  cardLink="/spot/listening-time" titleText="Listening Time"
           tooltipText="This card shows for how long you have listened to spotify at what times. You can customize the shown timeframe as you wish. Click to find out more.">
-          <spot-listening-time [previewMode]="true"></spot-listening-time>
+          <prioss-spotify-listening-time [previewMode]="true" />
         </app-dash-card>
       </div>
     </div>
@@ -34,22 +34,21 @@
       <div id="step4" nz-col nzXs="24" nzXl="8">
         <app-dash-card [fillVerticalSpace]="true"  cardLink="/spot/top-artists" titleText="Top Artists"
           tooltipText="This card shows your most played artists. You can customize the timeframe over which this is calculated. Click to find out more.">
-          <spot-top-artists [previewMode]="true"></spot-top-artists>
+          <prioss-spotify-top-artists [previewMode]="true" />
         </app-dash-card>
       </div>
 
       <div nz-col nzXs="24" nzXl="8">
         <app-dash-card [fillVerticalSpace]="true"  cardLink="/spot/top-songs" titleText="Top Songs"
           tooltipText="This card shows your most played songs. You can customize the timeframe over which this is calculated. Click to find out more.">
-          <spot-top-songs [previewMode]="true"></spot-top-songs>
+          <prioss-spotify-top-songs [previewMode]="true" />
         </app-dash-card>
       </div>
 
       <div nz-col nzXs="24" nzXl="8">
         <app-dash-card [fillVerticalSpace]="true"  cardLink="/spot/mood" titleText="Average Mood of Songs"
           tooltipText="This card shows your mood. You can customize the timeframe over which this is calculated. Click to find out more.">
-          <spot-mood [previewMode]="true">
-          </spot-mood>
+          <prioss-spotify-mood [previewMode]="true" />
         </app-dash-card>
       </div>
     </div>
@@ -59,7 +58,7 @@
       <div nz-col nzXs="24" nzXl="8">
         <app-dash-card [fillVerticalSpace]="true"  cardLink="/spot/search-history" titleText="Search History"
           tooltipText="This card shows information about your Spotify search history. You can discover a full list of your search history upon clicking the card.">
-          <app-search-history [previewMode]="true"></app-search-history>
+          <prioss-spotify-search-history [previewMode]="true" />
         </app-dash-card>
       </div>
     </div>
@@ -72,7 +71,7 @@
     <div id="step-inferences" nz-col nzXs="24" nzXl="8">
       <app-dash-card [fillVerticalSpace]="true"  cardLink="/spot/inference" titleText="Inferences"
         tooltipText="This card shows the interests you have and groups you belong to according to Spotify. You can let Spotify delete them, if you think they are incorrect. Click to find out more.">
-        <spot-inferences [previewMode]="true"></spot-inferences>
+        <prioss-spotify-inferences [previewMode]="true" />
       </app-dash-card>
     </div>
   </details>
@@ -97,7 +96,7 @@
   <app-gdpr></app-gdpr>
 
   <br>
-  <app-purposes></app-purposes>
+  <prioss-spotify-purposes />
 
   <br>
   <!-- <div id="step7">

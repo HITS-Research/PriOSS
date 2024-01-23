@@ -33,7 +33,7 @@
 <!--only shows when visiting the page-->
 <div *ngIf="!previewMode">
   <!--Titlebar component -->
-  <app-title-bar titleText="Account Creation and Login" tooltipText="The timeline below displays the timeline for account creation, login and logout activity of your instagram account."></app-title-bar>
+  <app-title-bar titleText="Account Creation and Login" tooltipText="The timeline below displays the account creation, login, and logout activities for your Instagram account."></app-title-bar>
 
   <!-- Showcasing signup information and login and logout information if data is present -->
   <div *ngIf="login_logout_activities?.length && signup_information !== null">

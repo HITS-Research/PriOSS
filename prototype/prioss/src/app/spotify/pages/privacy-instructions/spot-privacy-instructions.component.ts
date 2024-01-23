@@ -8,7 +8,6 @@ import { Component} from '@angular/core';
  *
  */
 @Component({
-  selector: 'spot-privacy-instructions',
   templateUrl: './spot-privacy-instructions.component.html',
   styleUrls: ['./spot-privacy-instructions.component.less']
 })

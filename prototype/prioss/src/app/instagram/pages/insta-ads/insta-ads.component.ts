@@ -75,7 +75,6 @@ export class InstaAdsComponent extends SequenceComponentInit implements AfterVie
      * @author: Paul (pasch@mail.upb.de)
      */
     override async initComponent() {
-        console.log("--- Initializing Component 1: Advertisement");
     }
 
     /**

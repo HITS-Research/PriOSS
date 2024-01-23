@@ -83,7 +83,6 @@ export class AppComponent implements OnInit {
    * @author: Paul (pasch(at)mail.upb.de)
    */
   setServiceName(): void {
-    console.log(this.router.url);
     switch (this.router.url) {
       case '/face/dashboard':
         this.serviceName = 'face';
@@ -118,13 +117,15 @@ export class AppComponent implements OnInit {
   }
 
   /**
-   * This method navigates to the current Dashboard.
-   *
+   * This method navigates to the current Dashboard. 
+   * If serviceName is not defined, it redirects to home page
+   * 
    * @author: Paul (pasch(at)mail.upb.de)
    *
    */
   routeToDashboard(): void {
-    this.router.navigateByUrl('/' + this.serviceName + '/dashboard');
+    const navigationPath = this.serviceName ? `/${this.serviceName}/dashboard` : '/home'
+    this.router.navigateByUrl(navigationPath)   
   }
 
   /**

@@ -7,6 +7,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'; //free icon library for buttons etc
+import { NgxsStoragePluginModule } from "@ngxs/storage-plugin";
+import { NgxsModule } from "@ngxs/store";
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
@@ -71,6 +73,8 @@ import { InstaShoppingWishlistRepository } from './db/data-repositories/instagra
 import { InstaTopicsRepository } from './db/data-repositories/instagram/insta-your-topics/insta-topics.repository';
 import { SpotHistoryRepository } from './db/data-repositories/spotify/spot-history/spot-history.repository';
 import { SpotSearchHistoryRepository } from './db/data-repositories/spotify/spot-search-history/spot-search-history.repository';
+import { DBService } from './db/db.service';
+import { SQLiteService } from './db/sqlite/sqlite.service';
 import { AdsRelatedDataComponent } from './facebook/pages/ads-related-data/ads-related-data.component';
 import { AdsSettingsComponent } from './facebook/pages/ads-settings/ads-settings.component';
 import { FaceDashboardComponent } from './facebook/pages/face-dashboard/face-dashboard.component';
@@ -85,17 +89,22 @@ import { OtherPersonalInfoComponent } from './facebook/pages/other-personal-info
 import { PostsComponent } from './facebook/pages/posts/posts.component';
 import { SecurityLoginDataComponent } from './facebook/pages/security-login-data/security-login-data.component';
 import { YourTopicsComponent } from './facebook/pages/your-topics/your-topics.component';
+import { FbState } from "./facebook/state/fb.state";
 import { DashCardComponent } from './features/dash-card/dash-card.component';
 import { HelpButtonComponent } from './features/help-button/help-button.component';
 import { NotificationComponent } from './features/notification/notification.component';
 import { OfflineIndicatorComponent } from './features/offline-indicator/offline-indicator.component';
+import { SettingsFormComponent } from './features/settings-form/settings-form.component';
 import { TitleBarComponent } from './features/title-bar/title-bar.component';
+import { DashboardMenuComponent } from './framework/features/dashboard-menu/dashboard-menu.component';
 import { AboutComponent } from './framework/pages/about/about.component';
 import { ContactComponent } from './framework/pages/contact/contact.component';
+import { DataDownloadInstructionsComponent } from './framework/pages/data-download-instructions/data-download-instructions.component';
 import { FaqComponent } from './framework/pages/faq/faq.component';
 import { GdprComponent } from './framework/pages/gdpr/gdpr.component';
 import { KnownIssuesComponent } from './framework/pages/known-issues/known-issues.component';
 import { LandingComponent } from './framework/pages/landing/landing.component';
+import { ServiceSelectionComponent } from './framework/pages/service-selection/service-selection.component';
 import { IconsProviderModule } from './icons-provider.module';
 import { Insta_PersonalInfoComponent } from './instagram/pages/Insta_personal-info/personal-info.component';
 import { InstaAccountCreationLoginComponent } from './instagram/pages/insta-account-creation-login/insta-account-creation-login.component';
@@ -118,31 +127,25 @@ import { InstaShoppingComponent } from './instagram/pages/insta-shopping/insta-s
 import { InstaTwoFactorAuthenticationComponent } from './instagram/pages/insta-two-factor-authentication/insta-two-factor-authentication.component';
 import { InstaYourTopicComponent } from './instagram/pages/insta-your-topic/insta-your-topic.component';
 import { RevokeAccessComponent } from './instagram/pages/revoke-access/revoke-access.component';
+import { InstaState } from "./instagram/state/insta.state";
 import { NgZorroAntdModule } from './ng-zorro-antd.module';
-import { DataDownloadInstructionsComponent } from './framework/pages/data-download-instructions/data-download-instructions.component';
-import { ServiceSelectionComponent } from './framework/pages/service-selection/service-selection.component';
-import { DBService } from './db/db.service';
-import { SQLiteService } from './db/sqlite/sqlite.service';
 import { InferencesMailComponent } from './spotify/features/inferences-mail/inferences-mail.component';
-import { InferencesComponent } from './spotify/pages/inferences/inferences.component';
+import { PurposesComponent } from './spotify/features/purposes/purposes.component';
 import { ListeningTimeComponent } from './spotify/pages/listening-time/listening-time.component';
 import { MoodComponent } from './spotify/pages/mood/mood.component';
 import { SpotPrivacyInstructionsComponent } from './spotify/pages/privacy-instructions/spot-privacy-instructions.component';
-import { SearchHistoryComponent } from './spotify/pages/search-history/search-history.component';
 import { SongtimelineComponent } from './spotify/pages/songtimeline/songtimeline.component';
 import { SpotDashboardComponent } from './spotify/pages/spot-dashboard/spot-dashboard.component';
+import { SpotifySearchHistoryComponent } from './spotify/pages/spotify-search-history/spotify-search-history.component';
+import { SpotifyUserDataComponent } from './spotify/pages/spotify-user-data/spotify-user-data.component';
 import { TopArtistsComponent } from './spotify/pages/top-artists/top-artists.component';
 import { TopSongsComponent } from './spotify/pages/top-songs/top-songs.component';
+import { SpotifyModule } from './spotify/spotify.module';
+import { AppState } from "./state/app.state";
 import { PreviewTileComponent } from './unused-components/preview-tile/preview-tile.component';
-import { SettingsFormComponent } from './features/settings-form/settings-form.component';
-import { PurposesComponent } from './spotify/features/purposes/purposes.component';
-import { DashboardMenuComponent } from './framework/features/dashboard-menu/dashboard-menu.component';
-import {NgxsModule} from "@ngxs/store";
-import {NgxsStoragePluginModule} from "@ngxs/storage-plugin";
-import {AppState} from "./state/app.state";
-import {FbState} from "./facebook/state/fb.state";
-import {InstaState} from "./instagram/state/insta.state";
-import {SpotState} from "./spotify/state/spot.state";
+import { SpotifyState } from './spotify/state/spotify.state';
+import { InferencesComponent } from './spotify/pages/inferences/inferences.component'
+import { FeatureToggleService } from './features/feature-toggle/feature-toggle.service';
 
 registerLocaleData(de);
 
@@ -161,9 +164,9 @@ registerLocaleData(de);
     GeneralDataComponent,
     PreviewTileComponent,
     ListeningTimeComponent,
-    InferencesComponent,
     TopArtistsComponent,
     TopSongsComponent,
+    InferencesComponent,
     AboutComponent,
     ContactComponent,
     FaqComponent,
@@ -207,13 +210,14 @@ registerLocaleData(de);
     InstaActivityStatusHiddenComponent,
     InstaDisableCookiesComponent,
     InstaPurposesComponent,
-    SearchHistoryComponent,
-    FacePurposesComponent
-,
+    FacePurposesComponent,
   ],
   imports: [
     TitleBarComponent,
     DataDownloadInstructionsComponent,
+    SpotifyModule,
+    SpotifyUserDataComponent,
+    SpotifySearchHistoryComponent,
     DashboardMenuComponent,
     BrowserModule,
     AppRoutingModule,
@@ -244,7 +248,7 @@ registerLocaleData(de);
     ReactiveFormsModule,
     NzFormModule,
     NzResultModule,
-    NgxsModule.forRoot([AppState, FbState, InstaState, SpotState]),
+    NgxsModule.forRoot([AppState, FbState, InstaState, SpotifyState]),
     // Uncomment below dependency for debugging
     // NgxsReduxDevtoolsPluginModule.forRoot(),
     NgxsStoragePluginModule.forRoot(),
@@ -299,9 +303,10 @@ registerLocaleData(de);
     FacebookGroupsRepository,
     FacebookEventsRepository,
     SpotSearchHistoryRepository,
+    FeatureToggleService,
     { provide: NZ_I18N, useValue: de_DE },
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class AppModule {}
+export class AppModule { }

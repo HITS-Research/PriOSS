@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { SQLiteDBConnection, capSQLiteChanges } from "@capacitor-community/sqlite";
+import { SQLiteDBConnection } from "@capacitor-community/sqlite";
 import { DBService } from "../../../db.service";
 import * as sql from "./insta-personal.sql";
 import { InstaPersonalInfo } from 'src/app/instagram/models/PersonalInfo/InstaPersonalInfo';
@@ -114,9 +114,7 @@ export class InstaPersonalRepository {
 
             const sqlStatement = sql.insertIntoInstaProfileChangesSQL;
             const values = [title, changed, previous_value, new_value, change_date];
-
-            const ret: capSQLiteChanges = await db.run(sqlStatement, values);
-            console.log("cahnges" + ret.changes);
+            await db.run(sqlStatement, values);
           });
     }
 

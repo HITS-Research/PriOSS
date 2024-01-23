@@ -46,13 +46,16 @@ import { InferencesComponent } from './spotify/pages/inferences/inferences.compo
 import { ListeningTimeComponent } from './spotify/pages/listening-time/listening-time.component';
 import { MoodComponent } from './spotify/pages/mood/mood.component';
 import { SpotPrivacyInstructionsComponent } from "./spotify/pages/privacy-instructions/spot-privacy-instructions.component";
-import { SearchHistoryComponent } from './spotify/pages/search-history/search-history.component';
+import { SpotifySearchHistoryComponent } from './spotify/pages/spotify-search-history/spotify-search-history.component';
 import { SongtimelineComponent } from './spotify/pages/songtimeline/songtimeline.component';
 import { TopArtistsComponent } from "./spotify/pages/top-artists/top-artists.component";
 import { TopSongsComponent } from "./spotify/pages/top-songs/top-songs.component";
+import { SpotifyUserDataComponent } from './spotify/pages/spotify-user-data/spotify-user-data.component';
+import { facebookGuard } from './guards/facebook.guard';
+import { instagramGuard } from './guards/instagram.guard';
+import { spotifyGuard } from './guards/spotify.guard';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: LandingComponent },
   { path: 'about', component: AboutComponent },
   { path: 'contact', component: ContactComponent },
@@ -60,57 +63,83 @@ const routes: Routes = [
   { path: 'serviceSelection', component: ServiceSelectionComponent },
   { path: 'serviceSelection/dataDownload', component: DataDownloadInstructionsComponent },
   // { path: 'faq', component: FaqComponent },
-  { path: 'face/ads-related-data', component: AdsRelatedDataComponent },
-  { path: 'face/configure-off-facebook-activity', component: OffFacebookActivityComponent },
-  { path: 'face/connections', component: FriendAndFollowersComponent },
-  { path: 'face/dashboard', component: FaceDashboardComponent },
-  { path: 'face/general-data', component: GeneralDataComponent },
-  { path: 'face/groups-and-events-data', component: GroupsAndEventsDataComponent },
-  { path: 'face/guidelines-for-ads-settings', component: AdsSettingsComponent },
-  { path: 'face/inferred-topics', component: InferredTopicsComponent },
-  { path: 'face/messages-info', component: MessagesComponent },
-  { path: 'face/other-personal-info', component: OtherPersonalInfoComponent },
-  { path: 'face/posts', component: PostsComponent },
-  { path: 'face/purposes', component: FacePurposesComponent },
-  { path: 'face/security-login', component: SecurityLoginDataComponent },
-  { path: 'face/your-topics', component: YourTopicsComponent },
-  { path: 'insta/account-private', component: InstaAccountPrivateComponent },
-  { path: 'insta/account', component: InstaAccountCreationLoginComponent },
-  { path: 'insta/activity-hidden', component: InstaActivityStatusHiddenComponent },
-  { path: 'insta/add-manager', component: InstaAddManagerComponent },
-  { path: 'insta/ads', component: InstaAdsComponent },
-  { path: 'insta/block-followers', component: InstaBlockFollowersComponent },
-  { path: 'insta/contacts', component: InstaContactComponent },
-  { path: 'insta/dashboard', component: InstaDashboardComponent },
-  { path: 'insta/disable-cookies', component: InstaDisableCookiesComponent },
-  { path: 'insta/followers', component: InstaFollowersComponent },
-  { path: 'insta/hide-stories', component: InstaHideStoriesComponent },
-  { path: 'insta/likedcontent', component: InstaLikedContentComponent },
-  { path: 'insta/messages', component: InstaMessagesComponent },
-  { path: 'insta/personal-info', component: Insta_PersonalInfoComponent },
-  { path: 'insta/profile-info-private', component: InstaProfileInfoPrivateComponent },
-  { path: 'insta/purposes', component: InstaPurposesComponent },
-  { path: 'insta/revoke-access', component: RevokeAccessComponent },
-  { path: 'insta/searches', component: InstaSearchesComponent },
-  { path: 'insta/shopping', component: InstaShoppingComponent },
-  { path: 'insta/two-factor-authentication', component: InstaTwoFactorAuthenticationComponent },
-  { path: 'insta/your-topic', component: InstaYourTopicComponent },
-  { path: 'spot/dashboard', component: SpotDashboardComponent },
-  { path: 'spot/general-data', component: GeneralDataComponent },
-  { path: 'spot/inference', component: InferencesComponent },
-  { path: 'spot/listening-time', component: ListeningTimeComponent },
-  { path: 'spot/listening-time/songtimeline', component: SongtimelineComponent },
-  { path: 'spot/mood', component: MoodComponent },
-  { path: 'spot/privacy-instructions', component: SpotPrivacyInstructionsComponent },
-  { path: 'spot/search-history', component: SearchHistoryComponent },
-  { path: 'spot/top-artists', component: TopArtistsComponent },
-  { path: 'spot/top-artists/:start/:end', component: TopArtistsComponent },
-  { path: 'spot/top-songs', component: TopSongsComponent },
-  { path: 'spot/top-songs/:start/:end', component: TopSongsComponent },
+  {
+    path: 'face',
+    canActivateChild: [facebookGuard],
+    children: [
+      { path: 'ads-related-data', component: AdsRelatedDataComponent },
+      { path: 'configure-off-facebook-activity', component: OffFacebookActivityComponent },
+      { path: 'connections', component: FriendAndFollowersComponent },
+      { path: 'dashboard', component: FaceDashboardComponent},
+      { path: 'general-data', component: GeneralDataComponent },
+      { path: 'groups-and-events-data', component: GroupsAndEventsDataComponent },
+      { path: 'guidelines-for-ads-settings', component: AdsSettingsComponent },
+      { path: 'inferred-topics', component: InferredTopicsComponent },
+      { path: 'messages-info', component: MessagesComponent },
+      { path: 'other-personal-info', component: OtherPersonalInfoComponent },
+      { path: 'posts', component: PostsComponent },
+      { path: 'purposes', component: FacePurposesComponent },
+      { path: 'security-login', component: SecurityLoginDataComponent },
+      { path: 'your-topics', component: YourTopicsComponent },
+      { path: '**', redirectTo: 'dashboard' },
+    ]
+  },
+  {
+    path: 'insta',
+    canActivateChild: [instagramGuard],
+    children: [      
+      { path: 'account-private', component: InstaAccountPrivateComponent },
+      { path: 'account', component: InstaAccountCreationLoginComponent },
+      { path: 'activity-hidden', component: InstaActivityStatusHiddenComponent },
+      { path: 'add-manager', component: InstaAddManagerComponent },
+      { path: 'ads', component: InstaAdsComponent },
+      { path: 'block-followers', component: InstaBlockFollowersComponent },
+      { path: 'contacts', component: InstaContactComponent },
+      { path: 'dashboard', component: InstaDashboardComponent },
+      { path: 'disable-cookies', component: InstaDisableCookiesComponent },
+      { path: 'followers', component: InstaFollowersComponent },
+      { path: 'hide-stories', component: InstaHideStoriesComponent },
+      { path: 'likedcontent', component: InstaLikedContentComponent },
+      { path: 'messages', component: InstaMessagesComponent },
+      { path: 'personal-info', component: Insta_PersonalInfoComponent },
+      { path: 'profile-info-private', component: InstaProfileInfoPrivateComponent },
+      { path: 'purposes', component: InstaPurposesComponent },
+      { path: 'revoke-access', component: RevokeAccessComponent },
+      { path: 'searches', component: InstaSearchesComponent },
+      { path: 'shopping', component: InstaShoppingComponent },
+      { path: 'two-factor-authentication', component: InstaTwoFactorAuthenticationComponent },
+      { path: 'your-topic', component: InstaYourTopicComponent },
+      { path: '**', redirectTo: 'dashboard' },
+    ]
+  },
+  {
+    path: 'spot',
+    canActivateChild: [spotifyGuard],
+    children: [      
+      { path: 'dashboard', component: SpotDashboardComponent },
+      { path: 'general-data', component: SpotifyUserDataComponent },
+      { path: 'inference', component: InferencesComponent },
+      { path: 'listening-time', component: ListeningTimeComponent },
+      { path: 'listening-time/songtimeline', component: SongtimelineComponent },
+      { path: 'mood', component: MoodComponent },
+      { path: 'privacy-instructions', component: SpotPrivacyInstructionsComponent },
+      { path: 'search-history', component: SpotifySearchHistoryComponent },
+      { path: 'top-artists', component: TopArtistsComponent },
+      { path: 'top-artists/:start/:end', component: TopArtistsComponent },
+      { path: 'top-songs', component: TopSongsComponent },
+      { path: 'top-songs/:start/:end', component: TopSongsComponent },
+      { path: '**', redirectTo: 'dashboard' },
+    ]
+  },
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: '**', redirectTo: '/home', pathMatch: 'full' },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, { anchorScrolling: 'enabled' })],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule { 
+  constructor() {
+  }
+}

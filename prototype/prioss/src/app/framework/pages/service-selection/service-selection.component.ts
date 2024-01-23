@@ -1,23 +1,17 @@
-import {AfterViewInit, Component, HostListener} from '@angular/core';
-import {ViewportScroller} from '@angular/common';
-import {faCircleRight} from '@fortawesome/free-regular-svg-icons';
-import {faArrowRotateRight} from '@fortawesome/free-solid-svg-icons';
-import {Router} from '@angular/router';
-import {AppType} from './app-type';
+import { ViewportScroller } from '@angular/common';
+import { AfterViewInit, Component, HostListener, inject } from '@angular/core';
+import { Router } from '@angular/router';
+import { faCircleRight } from '@fortawesome/free-regular-svg-icons';
+import { faArrowRotateRight } from '@fortawesome/free-solid-svg-icons';
+import { AppType } from './app-type';
 
-import {SpotHistoryRepository} from '../../../db/data-repositories/spotify/spot-history/spot-history.repository';
-import {DBService} from '../../../db/db.service';
 import * as JSZip from 'jszip';
+import { DBService } from '../../../db/db.service';
 
+import { HttpClient } from '@angular/common/http';
 import * as utilities from '../../../features/utils/generalUtilities.functions';
-import {HttpClient} from '@angular/common/http';
 
-import {InferencesRepository} from '../../../db/data-repositories/general/inferences/inferences.repository';
 
-import {UserdataRepository} from '../../../db/data-repositories/general/userdata/userdata.repository';
-import {
-  InferredTopicsRepository
-} from '../../../db/data-repositories/facebook/fb-inferred-data/face_inferred_topics.repo';
 import {
   FacebookAdsInteractedRepository
 } from '../../../db/data-repositories/facebook/fb-ads-data/face-ads-interacted.repo';
@@ -27,25 +21,19 @@ import {
 import {
   FacebookOffFacebookActivityRepository
 } from '../../../db/data-repositories/facebook/fb-ads-data/face-off-facebook-activity.repo';
-import {FacebookFriendsRepository} from '../../../db/data-repositories/facebook/fb-friends-data/face_friends.repo';
-import {FacebookPostsRepository} from '../../../db/data-repositories/facebook/fb-posts/face-posts.repo';
+import { FacebookFriendsRepository } from '../../../db/data-repositories/facebook/fb-friends-data/face_friends.repo';
+import {
+  InferredTopicsRepository
+} from '../../../db/data-repositories/facebook/fb-inferred-data/face_inferred_topics.repo';
+import { FacebookPostsRepository } from '../../../db/data-repositories/facebook/fb-posts/face-posts.repo';
+import { UserdataRepository } from '../../../db/data-repositories/general/userdata/userdata.repository';
 
 // import { FacebookAddressBookRepository } from '../db/data-repositories/facebook/fb-other-personal-info/face_address_book.repo';
 // import { FacebookSearchHistoryRepository } from '../db/data-repositories/facebook/fb-other-personal-info/face_search_history.repo';
-import {FacebookEventsRepository} from '../../../db/data-repositories/facebook/fb-groups-events-info/face_events.repo';
-import {FacebookGroupsRepository} from '../../../db/data-repositories/facebook/fb-groups-events-info/face_groups.repo';
-import {
-  FacebookLoginLocationsRepository
-} from '../../../db/data-repositories/facebook/fb-security-login-data/face_login_locations.repo';
-import {
-  FacebookLoginLogoutsRepository
-} from '../../../db/data-repositories/facebook/fb-security-login-data/face_login_logouts.repo';
-import {
-  FacebookAccountStatusChangesRepository
-} from '../../../db/data-repositories/facebook/fb-security-login-data/face_account_status_changes.repo';
-import {
-  FacebookAccountActivityRepository
-} from '../../../db/data-repositories/facebook/fb-security-login-data/face_account_activity.repo';
+import { Store } from "@ngxs/store";
+import { SpotifyReadFromZip, SpotifyReset } from 'src/app/spotify/state/spotify.action';
+import { FacebookEventsRepository } from '../../../db/data-repositories/facebook/fb-groups-events-info/face_events.repo';
+import { FacebookGroupsRepository } from '../../../db/data-repositories/facebook/fb-groups-events-info/face_groups.repo';
 import {
   FaceBookMessagesInfoRepository
 } from '../../../db/data-repositories/facebook/fb-messages-data/fb-messages-friends.repo';
@@ -59,15 +47,23 @@ import {
   FacebookSearchHistoryRepository
 } from '../../../db/data-repositories/facebook/fb-other-personal-info/face-search-history.repo';
 import {
-  SpotSearchHistoryRepository
-} from '../../../db/data-repositories/spotify/spot-search-history/spot-search-history.repository';
+  FacebookAccountActivityRepository
+} from '../../../db/data-repositories/facebook/fb-security-login-data/face_account_activity.repo';
+import {
+  FacebookAccountStatusChangesRepository
+} from '../../../db/data-repositories/facebook/fb-security-login-data/face_account_status_changes.repo';
+import {
+  FacebookLoginLocationsRepository
+} from '../../../db/data-repositories/facebook/fb-security-login-data/face_login_locations.repo';
+import {
+  FacebookLoginLogoutsRepository
+} from '../../../db/data-repositories/facebook/fb-security-login-data/face_login_logouts.repo';
+import { ResetFbUserData } from "../../../facebook/state/fb.action";
 import * as devicetypeUtils from "../../../features/utils/devicetype.functions";
-import {Store} from "@ngxs/store";
+import { InstaChatData, InstaChatPartnerData } from "../../../instagram/models/MessageInfo/InstaChatData";
+import { ResetInstaUserData, UpdateInstaUserData } from "../../../instagram/state/insta.action";
 import InstaUserDataModel from "../../../instagram/state/models/insta-user-data-model.interface";
-import {InstaChatData, InstaChatPartnerData} from "../../../instagram/models/MessageInfo/InstaChatData";
-import {ResetInstaUserData, UpdateInstaUserData} from "../../../instagram/state/insta.action";
-import {ResetFbUserData} from "../../../facebook/state/fb.action";
-import {ResetSpotUserData} from "../../../spotify/state/spot.action";
+import { FeatureToggleService, Services } from 'src/app/features/feature-toggle/feature-toggle.service';
 //service identifier filenames
 const instaIDFilename = 'TODO';
 const spotIDFilename = 'MyData/Read_Me_First.pdf';
@@ -106,6 +102,8 @@ export class ServiceSelectionComponent implements AfterViewInit {
   selectedFileName = '';
   uploadDialogVisible = false;
 
+  #featureToggleService = inject(FeatureToggleService)
+
   progressBarPercent = 0;
   progressBarVisible = false;
   requestedAbortDataParsing = false;
@@ -124,9 +122,6 @@ export class ServiceSelectionComponent implements AfterViewInit {
   constructor(
     private router: Router,
     //private notifyService: NotificationService,
-    private spotHistoryRepo: SpotHistoryRepository,
-    private spotSearchHistoryRepo: SpotSearchHistoryRepository,
-    private inferencesRepo: InferencesRepository,
     private UserdataRepo: UserdataRepository,
     private sqlDBService: DBService,
     private http: HttpClient,
@@ -158,7 +153,7 @@ export class ServiceSelectionComponent implements AfterViewInit {
      *
      */
     async ngAfterViewInit() {
-        this.store.dispatch([new ResetInstaUserData(), new ResetFbUserData(), new ResetSpotUserData()])
+        this.store.dispatch([new ResetInstaUserData(), new ResetFbUserData(), new SpotifyReset()])
         await this.sqlDBService.rebuildDatabase();
     }
 
@@ -172,7 +167,6 @@ export class ServiceSelectionComponent implements AfterViewInit {
   async abortDataParsing() {
     this.progressBarVisible = false;
     this.requestedAbortDataParsing = true;
-    console.log('ABORTING DATA-DOWNLOAD PARSING');
     await this.sqlDBService.rebuildDatabase();
     //this.router.navigate(["home"]);
   }
@@ -205,10 +199,9 @@ export class ServiceSelectionComponent implements AfterViewInit {
    *
    */
   onFileSelected(event: any) {
-    console.log('onFileSelected');
     this.uploadedFiles = event.target.files;
 
-    this.validateFiles(this.selectedServiceName); //TODO: Pass selected File
+    // this.validateFiles(this.selectedServiceName); //TODO: Pass selected File
   }
 
   /**
@@ -246,8 +239,6 @@ export class ServiceSelectionComponent implements AfterViewInit {
         }
       } else if (selectedApp == this.appType.Spotify) {
         const foundFile = zip.files[spotIDFilename]; //TODO: this file check does not work yet, look at jszip docs
-        //console.log(foundFile);
-
         if (foundFile == null) {
           this.errorMsg = 'Please select a valid zip-file that you downloaded from Spotify!';
           this.uploadDialogVisible = true;
@@ -275,7 +266,6 @@ export class ServiceSelectionComponent implements AfterViewInit {
    *
    */
   setSelectedFileName(filename: string) {
-    console.log('enabling file selection prompt: ' + filename);
     this.selectedFileName = filename;
   }
 
@@ -354,8 +344,6 @@ export class ServiceSelectionComponent implements AfterViewInit {
    *
    */
   async onClickedExploreData() {
-    console.log('Clicked explore data');
-
     this.isProcessingFile = true;
     this.uploadDialogVisible = false;
     await this.parseFile(this.selectedServiceName);
@@ -374,13 +362,10 @@ export class ServiceSelectionComponent implements AfterViewInit {
 
     //Handing over parsing to service specific parsing methods
     if (selectedApp == this.appType.Instagram) {
-      console.log('Parsing Instagram file...');
       await this.parseInstagramFileToSQLite();
     } else if (selectedApp == this.appType.Spotify) {
-      console.log('Parsing Spotify file...');
       await this.parseSpotifyFileToSQLite();
     } else if (selectedApp == this.appType.Facebook) {
-      console.log('Parsing Facebook file...');
       await this.parseFacebookFileToSQLite();
     }
   }
@@ -424,11 +409,8 @@ export class ServiceSelectionComponent implements AfterViewInit {
       if (!filename) {
         continue;
       }
-      console.log('Opening: ' + filename);
 
       if (filename === 'your_topics.json') {
-        console.log('Parsing: ' + filename);
-
         const jsonData = JSON.parse(content);
         const inferredTopics = jsonData.inferred_topics_v2;
         await this.inferredTopicsDataRepo.addInferredTopics(
@@ -442,7 +424,6 @@ export class ServiceSelectionComponent implements AfterViewInit {
           );
         }
       } else if (filename === "advertisers_you've_interacted_with.json") {
-        console.log('file---', filename);
         const jsonData = JSON.parse(content);
         const adsInteractedWithData = jsonData.history_v2;
 
@@ -459,9 +440,7 @@ export class ServiceSelectionComponent implements AfterViewInit {
             adsInteractedWithData[0].timestamp
           );
         }
-        console.log('repoads', this.faceAdsInteractedRepo);
       } else if (filename === 'apps_and_websites.json') {
-        console.log('fileapps---', filename);
         const jsonData = JSON.parse(content);
         const appsAndWebsiteData = jsonData.installed_apps_v2;
 
@@ -483,7 +462,6 @@ export class ServiceSelectionComponent implements AfterViewInit {
           );
         }
       } else if (filename === "connected_apps_and_websites.json") {
-        console.log("fileapps---", filename)
         const jsonData = JSON.parse(content);
         const appsAndWebsiteData = jsonData.installed_apps_v2;
 
@@ -492,7 +470,6 @@ export class ServiceSelectionComponent implements AfterViewInit {
           await this.faceAppsAndWebsitesRepo.addAdActivityBulkEntry(appsAndWebsiteData[i].name, appsAndWebsiteData[i].added_timestamp, appsAndWebsiteData[i].user_app_scoped_id, appsAndWebsiteData[i].category, appsAndWebsiteData[i].removed_timestamp);
         }
       } else if (filename === "your_off-facebook_activity.json") {
-        console.log("fileoff---", filename)
         const jsonData = JSON.parse(content);
         const offfacebookActivityData = jsonData.off_facebook_activity_v2;
 
@@ -509,9 +486,7 @@ export class ServiceSelectionComponent implements AfterViewInit {
             offfacebookActivityData[i].events[0].type
           );
         }
-        console.log('data', offfacebookActivityData);
       } else if (filename === 'received_friend_requests.json') {
-        console.log('fileoff---', filename);
         const jsonData = JSON.parse(content);
         const friendRequestsRecieved = jsonData.received_requests_v2;
 
@@ -529,7 +504,6 @@ export class ServiceSelectionComponent implements AfterViewInit {
           );
         }
       } else if (filename === "sent_friend_requests.json") {
-        console.log("fileoff---", filename)
         const jsonData = JSON.parse(content);
         const friendRequestsSent = jsonData.sent_requests_v2;
 
@@ -547,7 +521,6 @@ export class ServiceSelectionComponent implements AfterViewInit {
           );
         }
       } else if (filename === "your_friends.json") {
-        console.log("fileoff---", filename)
         const jsonData = JSON.parse(content);
         const friends = jsonData.friends_v2;
 
@@ -565,7 +538,6 @@ export class ServiceSelectionComponent implements AfterViewInit {
           );
         }
       } else if (filename === 'rejected_friend_requests.json') {
-        console.log('fileoff---', filename);
         const jsonData = JSON.parse(content);
         const rejectedFriends = jsonData.rejected_requests_v2;
 
@@ -583,7 +555,6 @@ export class ServiceSelectionComponent implements AfterViewInit {
           );
         }
       } else if (filename === 'removed_friends.json') {
-        console.log('fileoff---', filename);
         const jsonData = JSON.parse(content);
         const removedFriends = jsonData.deleted_friends_v2;
 
@@ -601,7 +572,6 @@ export class ServiceSelectionComponent implements AfterViewInit {
           );
         }
       } else if (filename === "who_you've_followed.json") {
-        console.log("fileoff---", filename)
         const jsonData = JSON.parse(content);
         const following = jsonData.following_v3;
 
@@ -690,9 +660,6 @@ export class ServiceSelectionComponent implements AfterViewInit {
       } else if (filename === 'where_you_re_logged_in.json') {
         const jsonData = JSON.parse(content);
         const login_locations = jsonData.active_sessions_v2;
-        console.log('Parsing ****************:', filename);
-        console.log('Parsing name to data ****************:', login_locations);
-        console.log(login_locations);
 
         await this.faceLoginLocationsRepo.startAdActivityBulkAdd(
           login_locations[0].location,
@@ -768,7 +735,8 @@ export class ServiceSelectionComponent implements AfterViewInit {
               groupName,
               groups_joined[i]?.timestamp);
           } else {
-            console.log("groupName is either null or empty. Handling it with an empty string.");
+             // TODO: Toast : show the below message as Toast,
+            // console.log("groupName is either null or empty. Handling it with an empty string.");
           }
         }
       } else if (filename === 'account_status_changes.json') {
@@ -878,6 +846,9 @@ export class ServiceSelectionComponent implements AfterViewInit {
     await delay(500);
 
     this.progressBarVisible = false;
+
+    this.#featureToggleService.enableService(Services.Facebook)
+
     this.router.navigate(['face/dashboard']);
   }
 
@@ -887,176 +858,30 @@ export class ServiceSelectionComponent implements AfterViewInit {
 
   /**
    * Parses the uploaded Spotify data-download-zip file into the SQLite database
-   *
-   * @author: Simon (scg@mail.upb.de)
-   *
    */
   async parseSpotifyFileToSQLite() {
-    const start = Date.now();
-
-    const file = this.uploadedFiles[0];
-
-    const zip: JSZip = await this.loadZipFile(file);
-
-    this.isProcessingFile = true; //shows the processing icon on the button
-
     this.progressBarPercent = 0;
+    this.isProcessingFile = true;
     this.progressBarVisible = true;
 
-    const filepaths: string[] = Object.keys(zip.files);
-    for (let i = 0; i < filepaths.length; i++) {
-      if (this.requestedAbortDataParsing) {
-        this.requestedAbortDataParsing = false;
-        return;
-      }
-
-      this.progressBarPercent = Math.round(100 * (i / filepaths.length));
-
-      const filepath: string = filepaths[i];
-      const content: string = await zip.files[filepath].async('string');
-      const filename: string | undefined = filepath
-        .split('\\')
-        .pop()
-        ?.split('/')
-        .pop();
-
-      if (!filename) {
-        continue;
-      }
-
-      console.log('Opening: ' + filename);
-
-      if (filename == 'Userdata.json') {
-        console.log('Parsing: ' + filename);
-
-        const jsonData = JSON.parse(content);
-
-        await this.UserdataRepo.addUserdata(
-          jsonData.username,
-          jsonData.email,
-          jsonData.country,
-          jsonData.birthdate,
-          jsonData.gender,
-          jsonData.postalCode,
-          jsonData.mobileNumber,
-          jsonData.mobileOperator,
-          jsonData.mobileBrand,
-          jsonData.creationTime
-        );
-
-        /* await this.dbService.add("all/userdata",
-          {
-            username: jsonData.username,
-            email: jsonData.email,
-            //firstname: jsonData.firstname,
-            //lastname: jsonData.lastname,
-            country: jsonData.country,
-            birthdate: jsonData.birthdate,
-            gender: jsonData.gender,
-            postalCode: jsonData.postalCode,
-            mobileNumber: jsonData.mobileNumber,
-            mobileOperator: jsonData.mobileOperator,
-            mobileBrand: jsonData.mobileBrand,
-            creationTime: jsonData.creationTime,
-          }).subscribe((key) => {
-            //console.log("Userdata:")
-            //console.log(key);
-          }); */
-      } else if (filename == 'Inferences.json') {
-        console.log('Parsing: ' + filename);
-        const jsonData = JSON.parse(content);
-
-        const inferences = jsonData.inferences;
-        await this.inferencesRepo.startInferencesBulkAdd(
-          inferences[0],
-          inferences.length
-        );
-
-        for (let i = 1; i < inferences.length; i++) {
-          await this.inferencesRepo.addBulkInferencesEntry(inferences[i]);
-        }
-        /*
-        for (let i = 1; i < jsonData.length; i++) {
-         let inference: any = jsonData[i];
-          //console.log("Saving inference: " + inference);
-          await this.dbService.add("spot/inferences",
-            {
-              inference: inference,
-            }).subscribe((key) => {
-              //console.log("inference: ");
-              //console.log(key);
-            });
-        }*/
-      }
-      //Scan all streaming history files (multiple numbered files may exist in a download)
-      else if (filename.startsWith('StreamingHistory')) {
-        const jsonData = JSON.parse(content);
-
-        await this.spotHistoryRepo.startHistoryBulkAdd(
-          jsonData[0].endTime,
-          jsonData[0].artistName,
-          jsonData[0].trackName,
-          jsonData[0].msPlayed,
-          jsonData.length
-        );
-
-        for (let i = 1; i < jsonData.length; i++) {
-          await this.spotHistoryRepo.addBulkHistoryEntry(
-            jsonData[i].endTime,
-            jsonData[i].artistName,
-            jsonData[i].trackName,
-            jsonData[i].msPlayed
-          );
-        }
-      } else if (filename.startsWith('SearchQueries')) {
-        const jsonData = JSON.parse(content);
-
-        await this.spotSearchHistoryRepo.startSearchHistoryBulkAdd(
-          jsonData[0].platform,
-          jsonData[0].searchTime,
-          jsonData[0].searchQuery,
-          //jsonData[0].searchinteractionURIs,
-          jsonData.length
-        );
-
-        for (let i = 1; i < jsonData.length; i++) {
-          await this.spotSearchHistoryRepo.addBulkSearchHistoryEntry(
-            jsonData[i].platform,
-            jsonData[i].searchTime,
-            jsonData[i].searchQuery,
-          );
-        }
-      }
-    }
+    this.store.dispatch(
+      new SpotifyReadFromZip(
+        await this.loadZipFile(this.uploadedFiles[0])
+      )
+    );
 
     if (this.requestedAbortDataParsing) {
       this.requestedAbortDataParsing = false;
       return;
     }
 
-    const end = Date.now();
-    console.log(
-      `Data-download files parsed and data inserted in: ${end - start} ms`
-    );
-
-    //Use this for testing what has been written into the DB
-
-    console.log('Start History Fetching');
-    this.spotHistoryRepo.getSpotHistory().then((history) => {
-      console.log('Read History:');
-      console.log(history);
-    });
-    console.log('Start Inferences Fetching');
-    this.inferencesRepo.getAllInferences().then((inferences) => {
-      console.log('Read Inferences:');
-      console.log(inferences);
-    });
-
     this.progressBarPercent = 100;
-    await delay(500);
-
     this.progressBarVisible = false;
-    this.router.navigate(['spot/dashboard']);
+
+
+    this.#featureToggleService.enableService(Services.Spotify)
+
+    this.router.navigate(['spot', 'dashboard']);
   }
 
   /**
@@ -1068,7 +893,6 @@ export class ServiceSelectionComponent implements AfterViewInit {
   async parseInstagramFileToSQLite() {
     const userData: InstaUserDataModel = {} as InstaUserDataModel;
     userData.chatData = [];
-    const start = Date.now();
 
     const file = this.uploadedFiles[0];
 
@@ -1089,20 +913,16 @@ export class ServiceSelectionComponent implements AfterViewInit {
       this.progressBarPercent = Math.round(100 * (i / filepaths.length));
 
       const filepath: string = filepaths[i];
-      console.log(filepath);
       const content: string = await zip.files[filepath].async('string');
       const filename: string | undefined = filepath
         .split('\\')
         .pop()
         ?.split('/')
         .pop();
-      console.log(filename);
 
       if (!filename) {
         continue;
       }
-
-      console.log('Opening: ' + filename);
 
       //add personal information
       if (filename.startsWith('personal_information')) {
@@ -1695,16 +1515,13 @@ export class ServiceSelectionComponent implements AfterViewInit {
 
     this.store.dispatch(new UpdateInstaUserData(userData));
 
-
-    const end = Date.now();
-    console.log(
-      `Data-download files parsed and data inserted in: ${end - start} ms`
-    );
-
     this.progressBarPercent = 100;
     await delay(500);
 
     this.progressBarVisible = false;
+
+    this.#featureToggleService.enableService(Services.Instagram)
+
     this.router.navigate(['insta/dashboard']);
   }
 
@@ -1740,7 +1557,6 @@ export class ServiceSelectionComponent implements AfterViewInit {
       this.errorMsg = 'The file you selected is not a zip-file. Please select the zip file you downloaded from ' + this.selectedServiceName;
       this.uploadDialogVisible = true;
       this.isProcessingFile = false;
-      console.log('Filetype: ' + typeof file);
       throw Error('Selected File is not a .zip file!');
     }
   }

@@ -16,14 +16,11 @@ window.addEventListener('DOMContentLoaded', async () => {
   const sqlite: SQLiteConnection = new SQLiteConnection(CapacitorSQLite)
   try {
     if(platform === "web") {
-      console.log('in index.ts')
       const jeepEl = document.createElement("jeep-sqlite");
       document.body.appendChild(jeepEl);
       jeepEl.autoSave = true;
       await customElements.whenDefined('jeep-sqlite');
-      console.log('in index.ts after customElements')
       await sqlite.initWebStore();
-      console.log('after sqlite.initWebStore()');
     }
     await sqlite.checkConnectionsConsistency();
 
@@ -32,19 +29,17 @@ window.addEventListener('DOMContentLoaded', async () => {
       if ('serviceWorker' in navigator) {
         navigator.serviceWorker
           .register('/ngsw-worker.js')
-          .then(registration => {
-            console.log('Service Worker registered successfully:', registration);
-          })
           .catch(error => {
+            // TODO: Toast : show the below message as Toast,
             console.error('Error registering Service Worker:', error);
           });
       }
     }
 
     platformBrowserDynamic().bootstrapModule(AppModule)
-      .catch(err => console.log(err));
+      .catch(err => console.log(err));  // TODO: Toast : show the below message as Toast,
   } catch (err) {
-    console.log(`Error: ${err}`);
+    console.log(`Error: ${err}`);  // TODO: Toast : show the below message as Toast,
     throw new Error(`Error: ${err}`)
   }
 
