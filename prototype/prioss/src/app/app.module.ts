@@ -7,8 +7,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'; //free icon library for buttons etc
-import { NgxsStoragePluginModule } from "@ngxs/storage-plugin";
-import { NgxsModule } from "@ngxs/store";
+import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
+import { NgxsModule } from '@ngxs/store';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
@@ -89,7 +89,7 @@ import { OtherPersonalInfoComponent } from './facebook/pages/other-personal-info
 import { PostsComponent } from './facebook/pages/posts/posts.component';
 import { SecurityLoginDataComponent } from './facebook/pages/security-login-data/security-login-data.component';
 import { YourTopicsComponent } from './facebook/pages/your-topics/your-topics.component';
-import { FbState } from "./facebook/state/fb.state";
+import { FbState } from './facebook/state/fb.state';
 import { DashCardComponent } from './features/dash-card/dash-card.component';
 import { HelpButtonComponent } from './features/help-button/help-button.component';
 import { NotificationComponent } from './features/notification/notification.component';
@@ -127,7 +127,7 @@ import { InstaShoppingComponent } from './instagram/pages/insta-shopping/insta-s
 import { InstaTwoFactorAuthenticationComponent } from './instagram/pages/insta-two-factor-authentication/insta-two-factor-authentication.component';
 import { InstaYourTopicComponent } from './instagram/pages/insta-your-topic/insta-your-topic.component';
 import { RevokeAccessComponent } from './instagram/pages/revoke-access/revoke-access.component';
-import { InstaState } from "./instagram/state/insta.state";
+import { InstaState } from './instagram/state/insta.state';
 import { NgZorroAntdModule } from './ng-zorro-antd.module';
 import { InferencesMailComponent } from './spotify/features/inferences-mail/inferences-mail.component';
 import { PurposesComponent } from './spotify/features/purposes/purposes.component';
@@ -141,11 +141,13 @@ import { SpotifyUserDataComponent } from './spotify/pages/spotify-user-data/spot
 import { TopArtistsComponent } from './spotify/pages/top-artists/top-artists.component';
 import { TopSongsComponent } from './spotify/pages/top-songs/top-songs.component';
 import { SpotifyModule } from './spotify/spotify.module';
-import { AppState } from "./state/app.state";
+import { AppState } from './state/app.state';
 import { PreviewTileComponent } from './unused-components/preview-tile/preview-tile.component';
 import { SpotifyState } from './spotify/state/spotify.state';
-import { InferencesComponent } from './spotify/pages/inferences/inferences.component'
+import { InferencesComponent } from './spotify/pages/inferences/inferences.component';
 import { FeatureToggleService } from './features/feature-toggle/feature-toggle.service';
+import { NgChartsModule } from 'ng2-charts';
+import { ChartComponent } from './features/chart/chart.component';
 
 registerLocaleData(de);
 
@@ -233,6 +235,7 @@ registerLocaleData(de);
     NzDividerModule,
     NzProgressModule,
     NzButtonModule,
+    ChartComponent,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
       // Register the ServiceWorker as soon as the application is stable
@@ -252,6 +255,7 @@ registerLocaleData(de);
     // Uncomment below dependency for debugging
     // NgxsReduxDevtoolsPluginModule.forRoot(),
     NgxsStoragePluginModule.forRoot(),
+    NgChartsModule,
   ],
   providers: [
     SQLiteService,
@@ -309,4 +313,4 @@ registerLocaleData(de);
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class AppModule { }
+export class AppModule {}
