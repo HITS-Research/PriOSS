@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
+import {AfterViewInit, Component, Input, OnInit,ChangeDetectionStrategy} from '@angular/core';
 import {SequenceComponentInit} from '../../../features/utils/sequence-component-init.abstract';
 import * as d3 from 'd3';
 import {
@@ -21,8 +21,10 @@ import {InstaState} from "../../state/insta.state";
 @Component({
   selector: 'app-insta-liked-content',
   templateUrl: './insta-liked-content.component.html',
-  styleUrls: ['./insta-liked-content.component.less']
+  styleUrls: ['./insta-liked-content.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
+
 export class InstaLikedContentComponent extends SequenceComponentInit implements AfterViewInit, OnInit {
 
   @Input()
