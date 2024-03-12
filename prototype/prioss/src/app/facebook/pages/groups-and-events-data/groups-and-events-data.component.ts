@@ -1,4 +1,4 @@
-import { Component, Input, OnInit} from '@angular/core';
+import { Component, Input, OnInit,ChangeDetectionStrategy} from '@angular/core';
 import { FacebookEventsRepository } from '../../../db/data-repositories/facebook/fb-groups-events-info/face_events.repo';
 import { FacebookGroupsRepository } from '../../../db/data-repositories/facebook/fb-groups-events-info/face_groups.repo';
 import { GroupsModel } from '../../models/groups';
@@ -7,7 +7,8 @@ import { EventsModel } from '../../models/events';
 @Component({
   selector: 'app-groups-and-events-data',
   templateUrl: './groups-and-events-data.component.html',
-  styleUrls: ['./groups-and-events-data.component.less']
+  styleUrls: ['./groups-and-events-data.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GroupsAndEventsDataComponent implements OnInit{
   groupsData: GroupsModel[] = [];

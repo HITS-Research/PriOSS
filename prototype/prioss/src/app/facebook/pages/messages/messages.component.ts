@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit ,ChangeDetectionStrategy} from '@angular/core';
 import { MessagesModel } from 'src/app/facebook/models/friendsMessages';
 import * as utilities from 'src/app/features/utils/generalUtilities.functions';
 import { FaceBookMessagesInfoRepository } from 'src/app/db/data-repositories/facebook/fb-messages-data/fb-messages-friends.repo';
@@ -9,7 +9,8 @@ import { FaceBookGroupMessagesInfoRepository } from 'src/app/db/data-repositorie
 @Component({
   selector: 'app-messages',
   templateUrl: './messages.component.html',
-  styleUrls: ['./messages.component.less']
+  styleUrls: ['./messages.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MessagesComponent implements OnInit {
   messagesData: MessagesModel[] = [];

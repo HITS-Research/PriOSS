@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import * as d3 from 'd3';
 import { FacebookFriendsRepository } from 'src/app/db/data-repositories/facebook/fb-friends-data/face_friends.repo';
 import { FacebookFriendsModel } from 'src/app/facebook/models/faceFriends';
@@ -13,7 +13,8 @@ export class chartData{
 @Component({
   selector: 'app-friend-and-followers',
   templateUrl: './friend-and-followers.component.html',
-  styleUrls: ['./friend-and-followers.component.less']
+  styleUrls: ['./friend-and-followers.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FriendAndFollowersComponent implements OnInit{
 

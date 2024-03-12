@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, Input} from '@angular/core';
+import {AfterViewInit, Component, Input, ChangeDetectionStrategy} from '@angular/core';
 import * as utilities from 'src/app/features/utils/generalUtilities.functions'
 import { UserdataRepository } from 'src/app/db/data-repositories/general/userdata/userdata.repository';
 import { UserdataEntry } from 'src/app/framework/models/userdata/userdataEntry';
@@ -15,7 +15,8 @@ import { SequenceComponentInit } from '../../../features/utils/sequence-componen
 @Component({
   selector: 'app-general-data',
   templateUrl: './general-data.component.html',
-  styleUrls: ['./general-data.component.less']
+  styleUrls: ['./general-data.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GeneralDataComponent extends SequenceComponentInit implements AfterViewInit{
   userdata: UserdataEntry;

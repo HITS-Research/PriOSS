@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit,ChangeDetectionStrategy } from '@angular/core';
 import { InferredTopicsRepository } from 'src/app/db/data-repositories/facebook/fb-inferred-data/face_inferred_topics.repo';
 import { InferredTopicsModel } from 'src/app/facebook/models/inferredTopics';
 import { Router } from '@angular/router';
@@ -15,7 +15,8 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-inferred-topics',
   templateUrl: './inferred-topics.component.html',
-  styleUrls: ['./inferred-topics.component.less']
+  styleUrls: ['./inferred-topics.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InferredTopicsComponent implements OnInit{
 
