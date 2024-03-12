@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component,ChangeDetectionStrategy } from '@angular/core';
 import { NotificationService } from './notification.service';
 
 /**
@@ -11,7 +11,8 @@ import { NotificationService } from './notification.service';
 @Component({
   selector: 'app-notification',
   templateUrl: './notification.component.html',
-  styleUrls: ['./notification.component.less']
+  styleUrls: ['./notification.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NotificationComponent {
 

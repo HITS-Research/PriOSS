@@ -44,6 +44,7 @@ import { PriossChartType } from './chart-type.type';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [NgChartsModule],
+  
 })
 export class ChartComponent {
   /**

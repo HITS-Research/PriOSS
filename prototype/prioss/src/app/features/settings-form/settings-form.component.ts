@@ -1,4 +1,4 @@
-import { Component, Input, OnInit} from '@angular/core';
+import { Component, Input, OnInit,ChangeDetectionStrategy} from '@angular/core';
 import { FormBuilder, UntypedFormGroup } from '@angular/forms';
 import { SpotPrivacySettingsService } from '../../spotify/features/privacy/spot-privacy-settings.service';
 import { InstaPrivacySettingsService } from '../../instagram/features/privacy/insta-privacy-settings.service';
@@ -17,8 +17,9 @@ import { FacePrivacySettingsService } from '../../facebook/features/privacy/face
   selector: 'app-settings-form',
   templateUrl: './settings-form.component.html',
   styleUrls: ['./settings-form.component.less'],
-
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
+
 export class SettingsFormComponent implements OnInit{
   settingsForm: UntypedFormGroup;
   index = 0

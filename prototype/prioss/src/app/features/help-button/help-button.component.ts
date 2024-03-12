@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output ,ChangeDetectionStrategy} from '@angular/core';
 import { Router} from '@angular/router';
 
 /**
@@ -12,7 +12,8 @@ import { Router} from '@angular/router';
 @Component({
   selector: 'app-help-button',
   templateUrl: './help-button.component.html',
-  styleUrls: ['./help-button.component.less']
+  styleUrls: ['./help-button.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
 
