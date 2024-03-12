@@ -42,11 +42,6 @@ export class FaceDashboardComponent implements AfterViewInit{
   rectificationText="Choose your country. (Click on the image to zoom-in)";
   rectificationImage="/../../assets/images/fb-rectification/1.png";
 
-  start(): void {
-    this.current = 0;
-    this.changeContent();
-  }
-
   pre(): void {
     this.current -= 1;
     this.changeContent();
@@ -86,7 +81,7 @@ export class FaceDashboardComponent implements AfterViewInit{
         break;
       }
       case 4: {
-        this.rectificationText="Enter your information into the text boxes and hit Send.";
+        this.rectificationText="Enter your information into the text boxes and hit Send. (In \" What data processing activity... ?\" write \"use of my personal data to show me personalized ads\")";
         this.rectificationImage="/../../assets/images/fb-rectification/5.png"
         break;
       }
