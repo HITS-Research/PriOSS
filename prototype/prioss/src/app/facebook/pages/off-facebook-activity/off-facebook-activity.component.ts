@@ -1,4 +1,4 @@
-import { AfterViewInit, Component } from '@angular/core';
+import { AfterViewInit, Component ,ChangeDetectionStrategy} from '@angular/core';
 import { scrollToTop } from 'src/app/features/utils/generalUtilities.functions';
 
 /**
@@ -10,7 +10,8 @@ import { scrollToTop } from 'src/app/features/utils/generalUtilities.functions';
 @Component({
   selector: 'app-off-facebook-activity',
   templateUrl: './off-facebook-activity.component.html',
-  styleUrls: ['./off-facebook-activity.component.less']
+  styleUrls: ['./off-facebook-activity.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OffFacebookActivityComponent implements AfterViewInit{
 

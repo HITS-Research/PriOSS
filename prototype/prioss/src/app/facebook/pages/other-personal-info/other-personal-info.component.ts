@@ -1,4 +1,4 @@
-import { Component, Input, OnInit} from '@angular/core';
+import { Component, Input, OnInit,ChangeDetectionStrategy} from '@angular/core';
 import { AddressBookModel } from 'src/app/facebook/models/addressBook';
 import { FacebookAddressBookRepository } from 'src/app/db/data-repositories/facebook/fb-other-personal-info/face-address-book.repo';
 import { FacebookSearchHistoryRepository } from 'src/app/db/data-repositories/facebook/fb-other-personal-info/face-search-history.repo';
@@ -7,7 +7,8 @@ import { SearchHistoryModel } from 'src/app/facebook/models/searchHistory';
 @Component({
   selector: 'app-other-personal-info',
   templateUrl: './other-personal-info.component.html',
-  styleUrls: ['./other-personal-info.component.less']
+  styleUrls: ['./other-personal-info.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OtherPersonalInfoComponent implements OnInit {
   addressBookData: AddressBookModel[] = [];

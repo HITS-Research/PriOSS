@@ -1,4 +1,4 @@
-import { Component, Input, OnInit} from '@angular/core';
+import { Component, Input, OnInit,ChangeDetectionStrategy} from '@angular/core';
 import { FacebookLoginLocationsRepository } from '../../../db/data-repositories/facebook/fb-security-login-data/face_login_locations.repo';
 import { LoginLocationsModel } from "../../models/loginLocations";
 import { FacebookLoginLogoutsRepository } from '../../../db/data-repositories/facebook/fb-security-login-data/face_login_logouts.repo';
@@ -11,7 +11,8 @@ import { AccountActivitiesModel } from '../../models/accountActivities';
 @Component({
   selector: 'app-security-login-data',
   templateUrl: './security-login-data.component.html',
-  styleUrls: ['./security-login-data.component.less']
+  styleUrls: ['./security-login-data.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
 export class SecurityLoginDataComponent implements OnInit{
