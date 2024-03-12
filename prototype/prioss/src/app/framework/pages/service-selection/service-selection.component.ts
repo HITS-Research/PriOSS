@@ -1,5 +1,5 @@
 import { ViewportScroller } from '@angular/common';
-import { AfterViewInit, Component, HostListener, inject } from '@angular/core';
+import { AfterViewInit, Component, HostListener, inject,ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { faCircleRight } from '@fortawesome/free-regular-svg-icons';
 import { faArrowRotateRight } from '@fortawesome/free-solid-svg-icons';
@@ -89,6 +89,7 @@ const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
   selector: 'app-service-selection',
   templateUrl: './service-selection.component.html',
   styleUrls: ['./service-selection.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ServiceSelectionComponent implements AfterViewInit {
   //Icon properties

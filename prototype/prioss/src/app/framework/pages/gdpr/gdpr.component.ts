@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component,ChangeDetectionStrategy } from '@angular/core';
 
 /**
  * This component includes an array with the title, description, and an icon for all rights which should
@@ -10,7 +10,8 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-gdpr',
   templateUrl: './gdpr.component.html',
-  styleUrls: ['./gdpr.component.less']
+  styleUrls: ['./gdpr.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GdprComponent {
   dataProtectionRights = [
