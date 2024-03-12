@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
+import {AfterViewInit, Component, Input, OnInit,ChangeDetectionStrategy} from '@angular/core';
 import { SequenceComponentInit } from '../../../features/utils/sequence-component-init.abstract';
 import { InstaTopicsInfo } from 'src/app/instagram/models/YourTopicsInfo/InstaTopicsInfo';
 import {Store} from "@ngxs/store";
@@ -7,7 +7,8 @@ import {InstaState} from "../../state/insta.state";
 @Component({
   selector: 'app-insta-your-topic',
   templateUrl: './insta-your-topic.component.html',
-  styleUrls: ['./insta-your-topic.component.less']
+  styleUrls: ['./insta-your-topic.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InstaYourTopicComponent extends SequenceComponentInit implements AfterViewInit, OnInit{
 
