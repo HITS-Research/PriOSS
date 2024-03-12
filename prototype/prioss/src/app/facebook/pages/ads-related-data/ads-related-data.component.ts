@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
 import * as d3 from 'd3';
 import { Router } from '@angular/router';
 import { FacebookAdsInteractedRepository } from 'src/app/db/data-repositories/facebook/fb-ads-data/face-ads-interacted.repo';
@@ -10,7 +10,8 @@ import { OffFacebookActivityModel } from 'src/app/facebook/models/offfacebookact
   @Component({
     selector: 'app-ads-related-data',
     templateUrl: './ads-related-data.component.html',
-    styleUrls: ['./ads-related-data.component.less']
+    styleUrls: ['./ads-related-data.component.less'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
   })
 
   export class AdsRelatedDataComponent implements OnInit {
