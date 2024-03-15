@@ -5,10 +5,9 @@ import { IntrojsService } from 'src/app/features/dashboard-introduction/introjs.
  * This service handles the facebook-dashboard-tour (tutorial) for the user.
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class FacebookDashboardIntroductionService {
-
   #IntrojsService = inject(IntrojsService);
 
   /**
@@ -27,16 +26,18 @@ export class FacebookDashboardIntroductionService {
       steps: [
         {
           element: 'step0',
-          intro: 'New here? Click <b>Next</b>! <br><br> Already comfortable? <br> <b>Click</b> anywhere into the dashboard!'
+          intro:
+            'New here? Click <b>Next</b>! <br><br> Already comfortable? <br> <b>Click</b> anywhere into the dashboard!',
         },
         {
           element: '#yourInfo',
-          intro: 'This section shows your personal data that Facebook has collected. Click <b>More</b> to see details.'
+          intro:
+            'This section shows your personal data that Facebook has collected. Click <b>More</b> to see details.',
         },
         {
           element: '#visualization',
-          intro: 'This section visualizes your data in more understandable way. This helps make you aware of what data Facebook has about you, and allows you to analyze it for its correctness. Being aware enables you to take best Privacy decisions!.'
-
+          intro:
+            'This section visualizes your data in more understandable way. This helps make you aware of what data Facebook has about you, and allows you to analyze it for its correctness. Being aware enables you to take best Privacy decisions!.',
         },
         // {
         //   element: '#fStep20',
@@ -52,7 +53,8 @@ export class FacebookDashboardIntroductionService {
         // },
         {
           element: '#rectification',
-          intro: 'This section shows instructions to change your personal data to manage your personalized Ads. Follow the instructions to manage your data.'
+          intro:
+            'This section shows instructions to change your personal data to manage your personalized Ads. Follow the instructions to manage your data.',
         },
         // {
         //   element: '#fStep23',
@@ -68,22 +70,26 @@ export class FacebookDashboardIntroductionService {
         // },
         {
           element: '#privacyRecommendations',
-          intro: 'This section gives you step-by-step instructions to excercise your privacy rights on Facebook website. Choose an action of your interest and follow the instructions to ensure your data privacy.'
+          intro:
+            'This section gives you step-by-step instructions to excercise your privacy rights on Facebook website. Choose an action of your interest and follow the instructions to ensure your data privacy.',
         },
         {
           element: '#gdpr',
-          intro: 'This section explains what is <b>G</b>eneral <b>D</b>ata <b>P</b>rotection <b>R</b>egulation (GDPR) and explains your GDPR privacy rights. Click to know more!'
+          intro:
+            'This section explains what is <b>G</b>eneral <b>D</b>ata <b>P</b>rotection <b>R</b>egulation (GDPR) and explains your GDPR privacy rights. Click to know more!',
         },
         {
           element: '#purpose',
-          intro: 'This section explains the purpose of collecting your data while tracking all your activities on Facebook.'
+          intro:
+            'This section explains the purpose of collecting your data while tracking all your activities on Facebook.',
         },
         {
           element: '#faq',
-          intro: 'You have more questions about this application? Click to see answers.'
-        }
+          intro:
+            'You have more questions about this application? Click to see answers.',
+        },
         // more steps here...
-      ]
+      ],
     };
   }
 
@@ -94,5 +100,4 @@ export class FacebookDashboardIntroductionService {
   start(restart: boolean = false): void {
     this.#IntrojsService.startTour(this.name, restart, this.options);
   }
-
 }

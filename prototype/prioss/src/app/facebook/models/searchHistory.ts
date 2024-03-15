@@ -1,5 +1,4 @@
-export interface SearchHistoryModel
-{
-    text: string;
-    timestamp:number;
+export interface SearchHistoryModel {
+  text: string;
+  timestamp: number;
 }
