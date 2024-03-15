@@ -1,5 +1,4 @@
-export interface GroupMessagesModel
-{
-    name: string;
-    value: string;
+export interface GroupMessagesModel {
+  name: string;
+  value: string;
 }

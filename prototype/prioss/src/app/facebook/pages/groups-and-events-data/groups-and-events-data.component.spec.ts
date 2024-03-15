@@ -8,9 +8,8 @@ describe('GroupsAndEventsDataComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ GroupsAndEventsDataComponent ]
-    })
-    .compileComponents();
+      declarations: [GroupsAndEventsDataComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(GroupsAndEventsDataComponent);
     component = fixture.componentInstance;

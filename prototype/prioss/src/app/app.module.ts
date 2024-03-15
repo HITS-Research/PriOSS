@@ -89,7 +89,7 @@ import { OtherPersonalInfoComponent } from './facebook/pages/other-personal-info
 import { PostsComponent } from './facebook/pages/posts/posts.component';
 import { SecurityLoginDataComponent } from './facebook/pages/security-login-data/security-login-data.component';
 import { YourTopicsComponent } from './facebook/pages/your-topics/your-topics.component';
-import { FbState } from './facebook/state/fb.state';
+import { FacebookState } from "./facebook/state/fb.state";
 import { DashCardComponent } from './features/dash-card/dash-card.component';
 import { HelpButtonComponent } from './features/help-button/help-button.component';
 import { NotificationComponent } from './features/notification/notification.component';
@@ -251,7 +251,7 @@ registerLocaleData(de);
     ReactiveFormsModule,
     NzFormModule,
     NzResultModule,
-    NgxsModule.forRoot([AppState, FbState, InstaState, SpotifyState]),
+    NgxsModule.forRoot([AppState, FacebookState, InstaState, SpotifyState]),
     // Uncomment below dependency for debugging
     // NgxsReduxDevtoolsPluginModule.forRoot(),
     NgxsStoragePluginModule.forRoot(),

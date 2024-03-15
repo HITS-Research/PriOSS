@@ -20,18 +20,17 @@ import { StepperComponent } from 'src/app/features/stepper/stepper.component';
         >
           this link
         </a>
-        to go to the Facebook data download page. We can't see or access any of your personal information, like cookies or
-        passwords, by using this link. If you're signed into Facebook, the link takes you directly to the download page. If
-        not, it takes you to the login page, and then to the download page once you sign in.
-        If the link fails, follow the instructions below. As Facebook's menu varies by country and language, you may need to
-        navigate a bit to find the download page.
+        to go to the Facebook data download page. We can't see or access any of
+        your personal information, like cookies or passwords, by using this
+        link. If you're signed into Facebook, the link takes you directly to the
+        download page. If not, it takes you to the login page, and then to the
+        download page once you sign in. If the link fails, follow the
+        instructions below. As Facebook's menu varies by country and language,
+        you may need to navigate a bit to find the download page.
       </span>
     </section>
 
-    <prioss-stepper
-      [stepIndex]="initialIndex"
-      [steps]="steps"
-    />
+    <prioss-stepper [stepIndex]="initialIndex" [steps]="steps" />
   `,
   styles: `
     section {
@@ -51,7 +50,6 @@ import { StepperComponent } from 'src/app/features/stepper/stepper.component';
   imports: [StepperComponent],
 })
 export class DataDownloadFacebookComponent {
-
   /**
    * The initial step-index.
    */
@@ -110,5 +108,4 @@ export class DataDownloadFacebookComponent {
   get steps(): Step[] {
     return this.#steps;
   }
-
 }
