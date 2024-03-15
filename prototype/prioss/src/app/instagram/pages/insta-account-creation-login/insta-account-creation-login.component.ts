@@ -69,7 +69,6 @@ export class InstaAccountCreationLoginComponent extends SequenceComponentInit im
   * @author Paul (pasch@mail.upb.de)
   */
   override async initComponent(): Promise<void> {
-    console.log("--- Initializing Component 2: AccountCreationAndLogin");
   }
 
   /**

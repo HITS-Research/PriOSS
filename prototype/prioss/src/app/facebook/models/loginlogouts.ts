@@ -1,5 +1,5 @@
 export interface LoginLogoutsModel {
-    id: number;
-    action: string;
-    timestamp: string;
+  id: number;
+  action: string;
+  timestamp: string;
 }

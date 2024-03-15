@@ -61,9 +61,11 @@ export class InstaLikedContentComponent extends SequenceComponentInit implements
     this.liked_comments_amount = likedCommentsInfo.length;
     this.liked_comments = likedCommentsInfo;
     this.listOfLikedComments = [...likedCommentsInfo]
+    this.liked_comments_with_count = this.getTopCounts(likedCommentsInfo);
     this.liked_posts_amount = likedPostsInfo.length;
     this.liked_posts = likedPostsInfo;
     this.listOfLikedPosts = [...likedPostsInfo]
+    this.liked_posts_with_count = this.getTopCounts(likedPostsInfo);
   }
 
   /**
@@ -83,25 +85,12 @@ export class InstaLikedContentComponent extends SequenceComponentInit implements
    * @author: Mayank (mayank@mail.upb.de)
    */
   override async initComponent(): Promise<void> {
-    console.log("--- Initializing Component 5: Liked Comments and Posts");
-
-    // TODO : refactor this part
-    // Fetch data for Graph for Liked Comments from Database
-    // await this.instaLikedCommentsRepo.getLikedCommentsWithCount().then((liked_comments_with_count) => {
-    //   this.liked_comments_with_count = liked_comments_with_count;
-    //   this.userListForComments = this.fetchUsernames(liked_comments_with_count)
-    //   this.userListForComments.unshift("None");
-    //   this.makeBarChart(liked_comments_with_count, ".bar_chart_liked_comments");
-    // });
-
-    // Fetch data for Graph for Liked Posts from Database
-    // await this.instaLikedPostsRepo.getLikedPostsWithCount().then((liked_posts_with_count) => {
-    //   this.liked_posts_with_count = liked_posts_with_count;
-    //   this.userListForPosts = this.fetchUsernames(liked_posts_with_count);
-    //   this.userListForPosts.unshift("None");
-    //   this.makeBarChart(liked_posts_with_count, ".bar_chart_liked_posts");
-    // });
-
+    this.userListForComments = this.fetchUsernames(this.liked_comments_with_count)
+    this.userListForComments.unshift("None");
+    this.makeBarChart(this.liked_comments_with_count, ".bar_chart_liked_comments");
+    this.userListForPosts = this.fetchUsernames(this.liked_posts_with_count);
+    this.userListForPosts.unshift("None");
+    this.makeBarChart(this.liked_posts_with_count, ".bar_chart_liked_posts");
   }
 
   /**
@@ -245,4 +234,14 @@ export class InstaLikedContentComponent extends SequenceComponentInit implements
         break;
     }
   }
+
+  private getTopCounts(likedItems: any[]): any[] {
+    const response: Record<string, any> = {};
+    likedItems.forEach(({ user }) => {
+      response[user] = { user, counts: (response[user]?.counts || 0) + 1 };
+    });
+    const sortedResponse = Object.values(response).sort((a, b) => b.counts - a.counts);
+    return sortedResponse.length > 10 ? sortedResponse.slice(0, 10) : sortedResponse;
+  }
+
 }

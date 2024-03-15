@@ -30,7 +30,7 @@ interface ListeningtimeFilterHistoryEntry {
   *
   */
 @Component({
-  selector: 'spot-listening-time',
+  selector: 'prioss-spotify-listening-time',
   templateUrl: './listening-time.component.html',
   styleUrls: ['./listening-time.component.less']
 })
@@ -103,11 +103,7 @@ export class ListeningTimeComponent extends SequenceComponentInit implements Aft
   */
   ngAfterViewInit()
   {
-    console.log("--- Preview Mode: " + this.previewMode);
-
     this.contextMenuEventSubscription = fromEvent(document,'contextmenu-open').subscribe((res:any)=>{
-      console.log('Received Context Menu Event:');
-      console.log(res.detail)
       this.rightClickedBarName = res.detail;
     });
 
@@ -133,9 +129,6 @@ export class ListeningTimeComponent extends SequenceComponentInit implements Aft
   * @author: Simon (scg@mail.upb.de)
   */
   override async initComponent(): Promise<void> {
-
-    console.log("--- Initializing Component 2: ListeningTime");
-
     this.selectedGranularity = GranularityEnum.Year;
 
     this.filterHistory = [];
@@ -345,8 +338,6 @@ export class ListeningTimeComponent extends SequenceComponentInit implements Aft
     *
     */
   async createDayData() {
-    console.log("Create day data");
-
     const dataMap: Map<string, { date: Date, value: number }> = new Map();
 
     //Show nothing unless filters are active
@@ -358,7 +349,6 @@ export class ListeningTimeComponent extends SequenceComponentInit implements Aft
     const toDate: Date = dateUtils.trimDate(this.filterToDate, GranularityEnum.Day);
 
     const spotDailyListening: SpotDailyListening[] = await this.spotHistoryRepo.getHistoryByDay(fromDate, toDate);
-    console.log(spotDailyListening);
 
     for (let i = 0; i < spotDailyListening.length; i++) {
 
@@ -413,9 +403,6 @@ export class ListeningTimeComponent extends SequenceComponentInit implements Aft
       const value: number = hourlyData.msPlayed;
       dataMap.set(hourlyData.displayHour, { date, value })
     }
-
-    console.log("Data Map:");
-    console.log(dataMap);
     return this.buildDataArray(dataMap);
   }
 

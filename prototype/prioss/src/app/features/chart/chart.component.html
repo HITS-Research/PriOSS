@@ -1,0 +1,8 @@
+<canvas
+  baseChart
+  [data]="data()"
+  [options]="options()"
+  [type]="chartType()"
+  (chartClick)="processEvent($event)"
+  (chartHover)="processEvent($event)"
+></canvas>

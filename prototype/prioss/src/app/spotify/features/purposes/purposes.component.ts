@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-purposes',
+  selector: 'prioss-spotify-purposes',
   templateUrl: './purposes.component.html',
   styleUrls: ['./purposes.component.less']
 })

@@ -30,13 +30,15 @@ npm install @ngxs/store @ngxs/devtools-plugin
 Configure NGXS in your Angular application by adding the `NgxsModule` to your `AppModule`:
 
 ```typescript
-import { NgxsModule } from '@ngxs/store';
-import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
+import { NgxsModule } from "@ngxs/store";
+import { NgxsReduxDevtoolsPluginModule } from "@ngxs/devtools-plugin";
 
 @NgModule({
   imports: [
-    NgxsModule.forRoot([/* Your States Here */]),
-    NgxsReduxDevtoolsPluginModule.forRoot()
+    NgxsModule.forRoot([
+      /* Your States Here */
+    ]),
+    NgxsReduxDevtoolsPluginModule.forRoot(),
   ],
   // ...
 })
@@ -84,7 +86,7 @@ Use clear and descriptive action names in the form of `[Feature] ActionName`.
 
 ```typescript
 export class ResetUser {
-  static readonly type = '[User] Reset';
+  static readonly type = "[User] Reset";
 }
 ```
 
@@ -94,7 +96,7 @@ When an action requires additional data, provide a payload property.
 
 ```typescript
 export class UpdateUser {
-  static readonly type = '[User] Update';
+  static readonly type = "[User] Update";
   constructor(public payload: UserData) {}
 }
 ```
@@ -127,13 +129,13 @@ currentUser: User;
 ```
 
 ```typescript
-import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngxs/store';
-import { AppState } from 'path-to-your-states'; // Update the path accordingly
-import { getuserData } from 'path-to-your-selectors'; // Update the path accordingly
+import { Component, OnInit } from "@angular/core";
+import { Store } from "@ngxs/store";
+import { AppState } from "path-to-your-states"; // Update the path accordingly
+import { getuserData } from "path-to-your-selectors"; // Update the path accordingly
 
 @Component({
-  selector: 'app-other',
+  selector: "app-other",
   template: `
     <div>
       <h2>User Details in Other Component</h2>
@@ -149,7 +151,6 @@ export class OtherComponent implements OnInit {
   ngOnInit() {
     // Access the current user using selectSnapshot
     this.userData = this.store.selectSnapshot(getuserData);
-    console.log('Current User in OtherComponent:', this.userData);
   }
 }
 ```

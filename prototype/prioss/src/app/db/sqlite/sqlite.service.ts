@@ -15,7 +15,7 @@ export class SQLiteService {
     native = false;
 
     constructor() {
-        console.log('SQLite constructor');
+       
     }
     /**
      * Plugin Initialization

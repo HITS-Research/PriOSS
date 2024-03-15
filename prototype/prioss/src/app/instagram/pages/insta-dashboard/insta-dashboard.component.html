@@ -104,7 +104,7 @@
   </div>
   <br>
   </details>
-
+<br>
   <details open id="rectification">
     <summary class="collapsible-dashboard-section-title">Rectification</summary>
     <p nz-typography>
@@ -128,7 +128,7 @@
         alt=""
       />
       <nz-divider></nz-divider>
-      <p nz-typography>{{ rectificationInstructionText }}</p>  
+      <p nz-typography>{{ rectificationInstructionText }}</p>
     </div>
     <div class="steps-action">
       <button nz-button nzType="default" (click)="pre()" [disabled]="current <= 0">
@@ -148,7 +148,7 @@
   <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
     <div nz-col nzXs="24" nzXl="8">
       <!--card for Privacy settings judge-->
-      <app-dash-card cardLink="" titleText="Privacy Settings Judge" 
+      <app-dash-card cardLink="" titleText="Privacy Settings Judge"
           tooltipText="In this card, you can check if your Instagram settings are setup to protect your privacy. Just answer the questions below to learn how you can improve your privacy through your Instagram account's settings.">
             <app-settings-form [service]="'Instagram'"></app-settings-form>
           </app-dash-card>
@@ -173,8 +173,8 @@
 
   <app-gdpr id="gdpr"></app-gdpr>
   <br>
-  
-  <p nz-topography> <app-insta-purposes></app-insta-purposes> </p>
+
+  <p nz-topography class="margin-reset"> <app-insta-purposes></app-insta-purposes> </p>
   <br>
 
   <!--
@@ -223,7 +223,7 @@
   </app-help-button>
   <app-offline-indicator [bottom]="'32px'" [right]="'76px'"></app-offline-indicator>
 
-  
+
 
 
 
