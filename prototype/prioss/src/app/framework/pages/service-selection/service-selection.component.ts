@@ -5,7 +5,7 @@ import { faCircleRight } from '@fortawesome/free-regular-svg-icons';
 import { faArrowRotateRight } from '@fortawesome/free-solid-svg-icons';
 import { AppType } from './app-type';
 
-import * as JSZip from 'jszip';
+import JSZip from 'jszip';
 import { DBService } from '../../../db/db.service';
 
 import { HttpClient } from '@angular/common/http';
