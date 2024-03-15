@@ -12,6 +12,7 @@ import {
 import {Injectable} from "@angular/core";
 import {ResetInstaUserData, UpdateInstaUserData} from "./insta.action"
 import {InstaChatData, InstaContactInfo, InstaTopicsInfo} from "../models";
+import {InstaUserData} from './models/insta-user-data.class';
 
 
 
@@ -161,7 +162,7 @@ export class InstaState {
   @Action(UpdateInstaUserData)
   updateUser(ctx: StateContext<InstaStateModel>, {userData}: UpdateInstaUserData) {
     const state = ctx.getState();
-    state.userData[state.userData.length] = userData;
+    state.userData[state.userData.length] = new InstaUserData(userData);
     ctx.patchState(state);
   }
 
