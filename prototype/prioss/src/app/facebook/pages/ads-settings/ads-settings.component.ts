@@ -12,72 +12,65 @@ export class AdsSettingsComponent implements AfterViewInit{
     scrollToTop();
   }
 
-  FaceAdsGuidelines = 0;
-  instructionTextFaceAdsGuidelines='Click on "Account" on the top right corner of the page.';
-  instructionPictureFaceAdsGuidelines="../../assets/images/ads-settings/1ads.png";
-
-  /**
-   * Callback function to decrement the "FaceAdsGuidelines" variable.
-   * @author: Mukul Sachdeva (mukuls@mail.uni-paderborn.de)
-   *
-   */
-  preFaceAdsGuidelines(): void {
-    this.FaceAdsGuidelines -= 1;
-    this.changeFaceAdsGuidelines();
-  }
-
-  /**
-   * Callback function to increment the "FaceAdsGuidelines" variable.
-   * @author: Mukul Sachdeva (mukuls@mail.uni-paderborn.de)
-   *
-   */
-  nextFaceAdsGuidelines(): void {
-    this.FaceAdsGuidelines += 1;
-    this.changeFaceAdsGuidelines();
-  }
-
-
-  /**
-   * This method shows the instruction text and picture for Instagram user to download their personal data.
-   * @author: Mukul Sachdeva (mukuls@mail.uni-paderborn.de)
-   *
-   */
-  changeFaceAdsGuidelines(): void {
-    switch (this.FaceAdsGuidelines) {
-      case 0: {
-        this.instructionTextFaceAdsGuidelines='Click on "Account" on the top right corner of the page.';
-        this.instructionPictureFaceAdsGuidelines="../../assets/images/ads-settings/1ads.png";
-        break;
-      }
-      case 1: {
-        this.instructionTextFaceAdsGuidelines='Click on "Privacy and Settings".';
-        this.instructionPictureFaceAdsGuidelines="../../assets/images/ads-settings/2ads.png";
-        break;
-      }
-      case 2: {
-        this.instructionTextFaceAdsGuidelines='Click on Settings.';
-        this.instructionPictureFaceAdsGuidelines="../../assets/images/ads-settings/3ads.png";
-        break;
-      }
-      case 3: {
-        this.instructionTextFaceAdsGuidelines='Navigate to "Your Facebook Information" and then click on view in front of "Access your Information".';
-        this.instructionPictureFaceAdsGuidelines="../../assets/images/ads-settings/4ads.png";
-        break;
-      }
-      case 4: {
-        this.instructionTextFaceAdsGuidelines='Click on "Ads Information" and then click on "Advertisers you have interacted with".';
-        this.instructionPictureFaceAdsGuidelines="../../assets/images/ads-settings/5ads.png";
-        break;
-      }
-      case 5: {
-        this.instructionTextFaceAdsGuidelines='Choose the advertiser whose ads you want to hide and click "hide ads".';
-        this.instructionPictureFaceAdsGuidelines="../../assets/images/ads-settings/6ads.png";
-        break;
-      }
-      default: {
-        this.instructionTextFaceAdsGuidelines='Error';
-      }
+  instructionsStepDataWeb: any[] = [
+    {
+      instructionTextFaceAdsGuidelines: 'Click on "Account" on the top right corner of the page.',
+      instructionPictureFaceAdsGuidelines: "../../assets/images/ads-settings/1ads.png"
+    },
+    {
+      instructionTextFaceAdsGuidelines: 'Click on "Privacy and Settings".',
+      instructionPictureFaceAdsGuidelines: "../../assets/images/ads-settings/2ads.png"
+    },
+    {
+      instructionTextFaceAdsGuidelines: 'Click on Settings.',
+      instructionPictureFaceAdsGuidelines: "../../assets/images/ads-settings/3ads.png"
+    },
+    {
+      instructionTextFaceAdsGuidelines: 'Navigate to "Your Facebook Information" and then click on view in front of "Access your Information".',
+      instructionPictureFaceAdsGuidelines: "../../assets/images/ads-settings/4ads.png"
+    },
+    {
+      instructionTextFaceAdsGuidelines: 'Click on "Ads Information" and then click on "Advertisers you have interacted with".',
+      instructionPictureFaceAdsGuidelines: "../../assets/images/ads-settings/5ads.png"
+    },
+    {
+      instructionTextFaceAdsGuidelines: 'Choose the advertiser whose ads you want to hide and click "hide ads".',
+      instructionPictureFaceAdsGuidelines: "../../assets/images/ads-settings/6ads.png"
     }
+  ];
+
+
+  guidelineStepWeb = 0;
+  instructionTextFaceAdsGuidelines = this.instructionsStepDataWeb[0].instructionTextFaceAdsGuidelines;
+  instructionPictureFaceAdsGuidelines = this.instructionsStepDataWeb[0].instructionPictureFaceAdsGuidelines;
+
+  /**
+   * Callback function to increment/decrement the "guidelineStepWeb" variable.
+   * @param step: number
+   * @returns void
+   */
+  webGuidelineStepChange(step: number): void {
+    this.guidelineStepWeb += step;
+    this.changeFaceOfaGuidelinesWeb();
+  }
+
+
+  /**
+   * This method shows the instruction text and picture for Facebook user
+   */
+  changeFaceOfaGuidelinesWeb(): void {
+    this.instructionTextFaceAdsGuidelines = this.instructionsStepDataWeb[this.guidelineStepWeb].instructionTextFaceAdsGuidelines;
+    this.instructionPictureFaceAdsGuidelines = this.instructionsStepDataWeb[this.guidelineStepWeb].instructionPictureFaceAdsGuidelines;
+  }
+
+  /**
+   * Callback function to update the "guidelineStepWeb" variable.
+   * @param index: number
+   * @returns void
+  */
+  onIndexChangeWeb(index: number): void {
+    this.guidelineStepWeb = index;
+    this.changeFaceOfaGuidelinesWeb();
   }
 }
 

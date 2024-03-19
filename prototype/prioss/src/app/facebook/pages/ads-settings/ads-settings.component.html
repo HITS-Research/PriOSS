@@ -5,13 +5,8 @@
             <div>
                 <div class="steps">
       
-                    <nz-steps [nzCurrent]="FaceAdsGuidelines">
-                    <nz-step nzTitle="Step 1"></nz-step>
-                    <nz-step nzTitle="Step 2"></nz-step>
-                    <nz-step nzTitle="Step 3"></nz-step>
-                    <nz-step nzTitle="Step 4"></nz-step>
-                    <nz-step nzTitle="Step 5"></nz-step>
-                    <nz-step nzTitle="Step 6"></nz-step>
+                    <nz-steps [nzCurrent]="guidelineStepWeb" (nzIndexChange)="onIndexChangeWeb($event)">
+                      <nz-step *ngFor="let item of instructionsStepDataWeb; let i = index" nzTitle="Step {{i + 1}}"></nz-step>
                     </nz-steps>
                   </div>
               
@@ -26,10 +21,10 @@
                     <p nz-typography>{{ instructionTextFaceAdsGuidelines }}</p>
                   </div>
                   <div class="steps-action">
-                    <button nz-button nzType="default" (click)="preFaceAdsGuidelines()" [disabled]="FaceAdsGuidelines <= 0">
+                    <button nz-button nzType="default" (click)="webGuidelineStepChange(-1)" [disabled]="guidelineStepWeb === 0">
                       <span>Previous</span>
                     </button>
-                    <button nz-button nzType="default" (click)="nextFaceAdsGuidelines()" [disabled]="FaceAdsGuidelines >= 5">
+                    <button nz-button nzType="default" (click)="webGuidelineStepChange(1)" [disabled]="guidelineStepWeb === instructionsStepDataWeb.length - 1">
                       <span>Next</span>
                     </button>
                   </div>
