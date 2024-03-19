@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
+import {AfterViewInit, Component, Input, OnInit,ChangeDetectionStrategy} from '@angular/core';
 import {SequenceComponentInit} from '../../../features/utils/sequence-component-init.abstract';
 import {InstaUserSearch} from 'src/app/instagram/models/Searches/InstaUserSearch';
 import {InstaKeywordSearch} from 'src/app/instagram/models/Searches/InstaKeywordSearch';
@@ -17,7 +17,8 @@ import {InstaState} from "../../state/insta.state";
 @Component({
   selector: 'app-insta-searches',
   templateUrl: './insta-searches.component.html',
-  styleUrls: ['./insta-searches.component.less']
+  styleUrls: ['./insta-searches.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InstaSearchesComponent extends SequenceComponentInit implements AfterViewInit, OnInit {
 

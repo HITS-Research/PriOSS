@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component,ChangeDetectionStrategy } from '@angular/core';
 import { Router} from '@angular/router';
 //Icons
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
@@ -12,7 +12,8 @@ import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
 @Component({
   selector: 'app-landing',
   templateUrl: './landing.component.html',
-  styleUrls: ['./landing.component.less']
+  styleUrls: ['./landing.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LandingComponent {
 

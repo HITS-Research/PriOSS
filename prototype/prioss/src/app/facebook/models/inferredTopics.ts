@@ -1,5 +1,4 @@
-export interface InferredTopicsModel
-{
-    id: number;
-    topic: string;
+export interface InferredTopicsModel {
+  id: number;
+  topic: string;
 }

@@ -1,12 +1,12 @@
 export interface UserdataEntry {
-  id: number;
+  id?: number;
   username: string;
   email: string;
   country: string;
   birthdate: string;
   gender: string;
-  postalCode: number;
-  mobileNumber: number;
+  postalCode: string;
+  mobileNumber: string;
   mobileOperator: string;
   mobileBrand: string;
   creationTime: string;

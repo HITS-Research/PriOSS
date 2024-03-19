@@ -1,8 +1,10 @@
 import { Component, Input, OnInit,ChangeDetectionStrategy} from '@angular/core';
 import { FacebookEventsRepository } from '../../../db/data-repositories/facebook/fb-groups-events-info/face_events.repo';
 import { FacebookGroupsRepository } from '../../../db/data-repositories/facebook/fb-groups-events-info/face_groups.repo';
-import { GroupsModel } from '../../models/groups';
-import { EventsModel } from '../../models/events';
+import { Store } from '@ngxs/store';
+import { FacebookState } from '../../state/fb.state';
+import { EventsInvitedItem } from '../../models/activityAcrossFacebook/Events/EventInvitations';
+import { GroupsJoinedItem } from '../../models/activityAcrossFacebook/Groups/GroupMembershipActivity';
 
 @Component({
   selector: 'app-groups-and-events-data',
@@ -10,12 +12,11 @@ import { EventsModel } from '../../models/events';
   styleUrls: ['./groups-and-events-data.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GroupsAndEventsDataComponent implements OnInit{
-  groupsData: GroupsModel[] = [];
+export class GroupsAndEventsDataComponent implements OnInit {
+  groupsData: GroupsJoinedItem[] = [];
   total_groups = 0;
 
-
-  eventsData: EventsModel [] = [];
+  eventsData: EventsInvitedItem[] = [];
   total_event_invites = 0;
   total_events_interested = 0;
   dataAvailable = false;
@@ -26,7 +27,8 @@ export class GroupsAndEventsDataComponent implements OnInit{
 
   constructor(
     private faceEventsRepo: FacebookEventsRepository,
-    private faceGroupsRepo: FacebookGroupsRepository
+    private faceGroupsRepo: FacebookGroupsRepository,
+    private store: Store,
   ) {}
 
   ngOnInit(): void {
@@ -43,33 +45,35 @@ export class GroupsAndEventsDataComponent implements OnInit{
    */
 
   async prepareData() {
+    const userData = this.store.selectSnapshot(FacebookState.getFacebookUserData);
 
-    await this.faceEventsRepo.getAllEvents().then((allEventsInfo) => {
-      this.eventsData = allEventsInfo;
-      this.total_event_invites = this.eventsData.length;
-      this.dataAvailable = this.eventsData.length !== 0;
-      for (let i = 0; i < this.eventsData.length; i++) {
-        const unixTimeStart: number  = +this.eventsData[i].start_timestamp;
-        const unixTimeEnd: number  = +this.eventsData[i].end_timestamp;
+    const allEventsInfo = userData.activity_across_facebook.eventsInvited?.events_invited_v2;
+    this.eventsData = allEventsInfo ?? [];
+    this.total_event_invites = this.eventsData.length;
+    this.dataAvailable = this.eventsData.length !== 0;
 
-        this.eventsData[i].start_timestamp = new Date(unixTimeStart * 1000).toDateString();
-        if (unixTimeEnd == 0) {
-          this.eventsData[i].end_timestamp = "No End Time";
-        } else {
-          this.eventsData[i].end_timestamp = new Date(unixTimeEnd * 1000).toDateString();
-        }
-      }
-    });
-
-    await this.faceGroupsRepo.getAllGroups().then((allGroupsInfo) => {
-      this.groupsData = allGroupsInfo;
-      this.total_groups = this.groupsData.length;
-      this.dataAvailableGroup = this.groupsData.length !== 0;
-      for (let i = 0; i < this.groupsData.length; i++) {
-        const unixTimeStart: number  = +this.groupsData[i].timestamp;
-        this.groupsData[i].timestamp = new Date(unixTimeStart * 1000).toDateString();
-      }
-    });
+    const allGroupsInfo = userData.activity_across_facebook.groupsJoined?.groups_joined_v2;
+    this.groupsData = allGroupsInfo ?? [];
+    this.total_groups = this.groupsData.length;
+    this.dataAvailableGroup = this.groupsData.length !== 0;
   }
+
+  /**
+   * Converts unix date to string format, with optional fallback.
+   * Created to handle cases where unix date is 0 or invalid like 14049123456789.
+   * @param unix_date unix date from model
+   * @param fallback fallback string in case of invalid date
+   * @returns date in string format
+   */
+  formatDate(unix_date: number, fallback = 'Invalid Date') {
+    const date = new Date(unix_date * 1000);
+
+    if (!date.getTime()) {
+      return fallback;
+    }
+    
+    return date.toDateString();
+  }
+
 
 }

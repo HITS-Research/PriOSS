@@ -1,6 +1,5 @@
-export interface AdsInteractedModel
-{
-    title: string;
-    action: string;
-    timestamp:number;
+export interface AdsInteractedModel {
+  title: string;
+  action: string;
+  timestamp: number;
 }

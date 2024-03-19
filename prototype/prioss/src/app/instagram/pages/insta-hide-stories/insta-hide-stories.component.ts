@@ -1,4 +1,4 @@
-import { AfterViewInit, Component } from '@angular/core';
+import { AfterViewInit, Component,ChangeDetectionStrategy } from '@angular/core';
 import { scrollToTop } from 'src/app/features/utils/generalUtilities.functions';
 
 /**
@@ -10,7 +10,8 @@ import { scrollToTop } from 'src/app/features/utils/generalUtilities.functions';
 @Component({
   selector: 'app-insta-hide-stories',
   templateUrl: './insta-hide-stories.component.html',
-  styleUrls: ['./insta-hide-stories.component.less']
+  styleUrls: ['./insta-hide-stories.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InstaHideStoriesComponent implements AfterViewInit{
   async ngAfterViewInit(){

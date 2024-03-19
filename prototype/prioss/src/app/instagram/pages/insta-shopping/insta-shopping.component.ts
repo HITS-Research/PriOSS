@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
+import {AfterViewInit, Component, Input, OnInit,ChangeDetectionStrategy} from '@angular/core';
 import {SequenceComponentInit} from '../../../features/utils/sequence-component-init.abstract';
 import {InstaShoppingInfo} from 'src/app/instagram/models/ShoppingInfo/InstaShoppingInfo';
 import {InstaShoppingWishlistInfo} from 'src/app/instagram/models/ShoppingInfo/InstaShoppingWishlistInfo';
@@ -8,7 +8,8 @@ import {InstaState} from "../../state/insta.state";
 @Component({
   selector: 'app-insta-shopping',
   templateUrl: './insta-shopping.component.html',
-  styleUrls: ['./insta-shopping.component.less']
+  styleUrls: ['./insta-shopping.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InstaShoppingComponent extends SequenceComponentInit implements AfterViewInit, OnInit {
 
