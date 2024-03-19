@@ -14,7 +14,7 @@ import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzGridModule } from 'ng-zorro-antd/grid';
-import { NZ_I18N, de_DE } from 'ng-zorro-antd/i18n';
+import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
 import { NzPopoverModule } from 'ng-zorro-antd/popover';
 import { NzProgressModule } from 'ng-zorro-antd/progress';
 import { NzResultModule } from 'ng-zorro-antd/result';
@@ -308,7 +308,7 @@ registerLocaleData(de);
     FacebookEventsRepository,
     SpotSearchHistoryRepository,
     FeatureToggleService,
-    { provide: NZ_I18N, useValue: de_DE },
+    { provide: NZ_I18N, useValue: en_US},
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
