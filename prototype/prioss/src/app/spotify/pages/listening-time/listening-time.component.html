@@ -1,5 +1,15 @@
 <div id="listeningtime-page"> <!--[ngClass]="{'component-page': !previewMode}"-->
-<!--    <p *ngIf="previewMode">Day: {{filterSingleDate?.toLocaleString([], { year: "numeric", month: "2-digit", day: "2-digit" })}}</p>-->
+    <div *ngIf="previewMode">
+        <prioss-chart
+        chartType="bar"
+        [datasource]="datasource"
+        [customOptions]="barChartOptions"
+        [labels]="labels"
+        (chartClick)="click($event)"
+        />
+    </div>
+
+
     <div *ngIf="!previewMode">
         <!--Titlebar component -->
         <app-title-bar titleText="Listening Time" tooltipText="Use the 'Visualize by' drop-down to switch between viewing how much time you spent listening to Spotify during which hours, days, months or years.

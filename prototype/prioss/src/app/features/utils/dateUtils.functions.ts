@@ -72,3 +72,14 @@ export function parseDate(dateString: string) {
 export function getDisplayDateString(date: Date) {
   return date.getFullYear() + "-" + (date.getMonth() + 1).toString().padStart(2, '0') + "-" + date.getDate().toString().padStart(2, '0');
 }
+
+export function millisecondsToListeningTimeFormat(milliseconds: number): string  {
+  const date = new Date(milliseconds);
+  const days = date.getUTCDate() - 1;
+  const hours = date.getUTCHours();
+  const minutes = date.getUTCMinutes();
+  return `${days}d ${hours}h ${minutes}m`;
+}
+
+
+

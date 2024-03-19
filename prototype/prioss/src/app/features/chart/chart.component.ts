@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
+  Input,
   Output,
   ViewChild,
   computed,
@@ -52,6 +53,9 @@ export class ChartComponent {
   @ViewChild(BaseChartDirective)
   chart?: BaseChartDirective;
 
+  @Input()
+  customOptions?: ChartOptions;
+
   /**
    * The Data which will be passed to the Chart.
    */
@@ -64,13 +68,12 @@ export class ChartComponent {
     })),
   }));
 
-  /**
-   * The options, which will be send to the chart.
-   */
-  options = computed<ChartOptions>(() => {
+  
+  getDefaultOptions = () => {
     const dataAxis = this.valueAxis();
     const options: ChartOptions = {
       responsive: true,
+      backgroundColor: '#1DB954', // default color for charts
       indexAxis:
         this.typeIsRadial() || this.typeIsRound() ? undefined : this.mainAxis(),
     };
@@ -85,8 +88,15 @@ export class ChartComponent {
         },
       };
     }
-
     return options;
+  }
+  
+  /**
+   * The options, which will be send to the chart.
+   * If you pass customOptions, it will overide the concerned defaultoptions properties
+   */
+  options = computed<ChartOptions>(() => {
+    return  {...this.getDefaultOptions(), ...this.customOptions};
   });
 
   /**
