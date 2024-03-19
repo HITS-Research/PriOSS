@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component,ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'app-face-purposes',
   templateUrl: './face-purposes.component.html',
   styleUrls: ['./face-purposes.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
 /**

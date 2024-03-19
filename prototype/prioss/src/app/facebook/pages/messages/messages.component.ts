@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit ,ChangeDetectionStrategy} from '@angular/core';
 import * as utilities from 'src/app/features/utils/generalUtilities.functions';
 import { Store } from '@ngxs/store';
 import { FacebookState } from '../../state/fb.state';
@@ -9,6 +9,7 @@ import { GroupMessageModel, InboxMessageModel } from '../../models';
   selector: 'app-messages',
   templateUrl: './messages.component.html',
   styleUrls: ['./messages.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MessagesComponent implements OnInit {
   messagesData: InboxMessageModel[] = []

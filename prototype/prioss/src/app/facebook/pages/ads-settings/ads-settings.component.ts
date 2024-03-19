@@ -1,10 +1,11 @@
-import { AfterViewInit, Component } from '@angular/core';
+import { AfterViewInit, Component, ChangeDetectionStrategy  } from '@angular/core';
 import { scrollToTop } from 'src/app/features/utils/generalUtilities.functions';
 
 @Component({
   selector: 'app-ads-settings',
   templateUrl: './ads-settings.component.html',
   styleUrls: ['./ads-settings.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdsSettingsComponent implements AfterViewInit {
   async ngAfterViewInit() {

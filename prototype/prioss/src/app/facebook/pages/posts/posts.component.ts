@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit ,ChangeDetectionStrategy} from '@angular/core';
 import * as d3 from 'd3';
 import { FacebookPostsRepository } from 'src/app/db/data-repositories/facebook/fb-posts/face-posts.repo';
 import { PostsModel } from 'src/app/facebook/models/posts';
@@ -9,6 +9,7 @@ import { scrollToTop } from 'src/app/features/utils/generalUtilities.functions';
   selector: 'app-posts',
   templateUrl: './posts.component.html',
   styleUrls: ['./posts.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PostsComponent implements OnInit {
   posts: PostsModel[] = [];

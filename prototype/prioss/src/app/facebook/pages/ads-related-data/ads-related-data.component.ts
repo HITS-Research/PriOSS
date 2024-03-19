@@ -1,9 +1,4 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  Input,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
 import * as d3 from 'd3';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
@@ -19,6 +14,7 @@ import FbAppsAndWebsitesOffOfFbDataModel from '../../state/models/fb-apps-websit
   selector: 'app-ads-related-data',
   templateUrl: './ads-related-data.component.html',
   styleUrls: ['./ads-related-data.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdsRelatedDataComponent implements OnInit {
 

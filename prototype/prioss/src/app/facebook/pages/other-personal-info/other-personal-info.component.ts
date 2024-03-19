@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit,ChangeDetectionStrategy} from '@angular/core';
 import { Store } from '@ngxs/store';
 import { AddressBookModel, AddressBookItem } from 'src/app/facebook/models/PersonalInformation/OtherPersonalInformation/AddressBooks';
 import { SearchHistoryModel, SearchHistoryItem } from 'src/app/facebook/models/LoggedInformation/Search/SearchHistory';
@@ -9,6 +9,7 @@ import { FbPersonalInformationDataModel, FbLoggedInformationModel } from '../../
   selector: 'app-other-personal-info',
   templateUrl: './other-personal-info.component.html',
   styleUrls: ['./other-personal-info.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OtherPersonalInfoComponent implements OnInit {
   addressBookData: AddressBookItem[] = [];

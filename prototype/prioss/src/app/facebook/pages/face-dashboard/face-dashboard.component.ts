@@ -1,5 +1,5 @@
-import { AfterViewInit, Component, inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { AfterViewInit, Component, inject ,ChangeDetectionStrategy} from '@angular/core';
+import { Router } from "@angular/router";
 import { FacebookDashboardIntroductionService } from '../../features/dashboard-introduction/facebook-dashboard-introduction.service';
 
 /**
@@ -16,6 +16,7 @@ import { FacebookDashboardIntroductionService } from '../../features/dashboard-i
   selector: 'app-face-dashboard',
   templateUrl: './face-dashboard.component.html',
   styleUrls: ['./face-dashboard.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FaceDashboardComponent implements AfterViewInit {
   #introductionService = inject(FacebookDashboardIntroductionService);

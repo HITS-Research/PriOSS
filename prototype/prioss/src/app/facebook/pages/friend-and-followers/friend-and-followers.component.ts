@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { Component, Input, OnInit } from '@angular/core';
-import { Store } from '@ngxs/store';
+import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import * as d3 from 'd3';
 import { scrollToTop } from 'src/app/features/utils/generalUtilities.functions';
 import { FbConnectionsDataModel } from '../../state/models';
 import { FacebookState } from '../../state/fb.state';
 import { FriendItem } from '../../models/connections/FriendItem.interface';
+import { Store } from '@ngxs/store';
 
 export class chartData {
   year: number;
@@ -16,6 +16,7 @@ export class chartData {
   selector: 'app-friend-and-followers',
   templateUrl: './friend-and-followers.component.html',
   styleUrls: ['./friend-and-followers.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FriendAndFollowersComponent implements OnInit {
   friends: FriendItem[] = [];

@@ -1,10 +1,11 @@
-import { AfterViewInit, Component } from '@angular/core';
+import { AfterViewInit, Component,ChangeDetectionStrategy } from '@angular/core';
 import { scrollToTop } from 'src/app/features/utils/generalUtilities.functions';
 
 @Component({
   selector: 'app-your-topics',
   templateUrl: './your-topics.component.html',
   styleUrls: ['./your-topics.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class YourTopicsComponent implements AfterViewInit {
   async ngAfterViewInit() {

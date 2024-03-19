@@ -1,9 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Store } from '@ngxs/store';
-import { InferredTopicsModel } from 'src/app/facebook/models/LoggedInformation/Topics/Topics';
+import { Component, Input, OnInit,ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { FacebookState } from '../../state/fb.state';
 import { FbLoggedInformationModel } from '../../state/models/';
+import { Store } from '@ngxs/store';
+import { InferredTopicsModel } from '../../models';
 
 /**
  * This component visualizes inferred topics in facebook.
@@ -18,6 +18,7 @@ import { FbLoggedInformationModel } from '../../state/models/';
   selector: 'app-inferred-topics',
   templateUrl: './inferred-topics.component.html',
   styleUrls: ['./inferred-topics.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InferredTopicsComponent implements OnInit {
   constructor(
@@ -45,10 +46,9 @@ export class InferredTopicsComponent implements OnInit {
     this.fbLoggedInformationStore = this.store.selectSnapshot(
       FacebookState.getFacebookLoggedInformationData,
     );
-    
     this.fbInferredTopicsData = this.fbLoggedInformationStore.inferred_topics;
-    if (this.fbInferredTopicsData?.inferred_topics_v2.length !== 0) {
-      this.inferredTopics = this.fbInferredTopicsData.inferred_topics_v2;
+    if (this.fbLoggedInformationStore.inferred_topics.inferred_topics_v2.length !== 0) {
+      this.inferredTopics = this.fbLoggedInformationStore.inferred_topics.inferred_topics_v2;
       this.dataAvailable = true;
     }
   }

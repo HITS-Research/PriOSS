@@ -1,5 +1,5 @@
-import { AfterViewInit, Component, Input } from '@angular/core';
-import * as utilities from 'src/app/features/utils/generalUtilities.functions';
+import {AfterViewInit, Component, Input, ChangeDetectionStrategy} from '@angular/core';
+import * as utilities from 'src/app/features/utils/generalUtilities.functions'
 import { UserdataEntry } from 'src/app/framework/models/userdata/userdataEntry';
 import { SequenceComponentInit } from '../../../features/utils/sequence-component-init.abstract';
 import { Store } from '@ngxs/store';
@@ -19,6 +19,7 @@ import { PrimaryLocationModel, PrimaryPublicLocationModel, ProfileInformationMod
   selector: 'app-general-data',
   templateUrl: './general-data.component.html',
   styleUrls: ['./general-data.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GeneralDataComponent
   extends SequenceComponentInit
