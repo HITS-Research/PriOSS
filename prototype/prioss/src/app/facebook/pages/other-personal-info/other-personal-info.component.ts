@@ -1,6 +1,4 @@
 import { Component, Input, OnInit,ChangeDetectionStrategy} from '@angular/core';
-import { AddressBookModel } from 'src/app/facebook/models/addressBook';
-import { SearchHistoryModel } from 'src/app/facebook/models/searchHistory';
 import { Store } from '@ngxs/store';
 import { AddressBookModel, AddressBookItem } from 'src/app/facebook/models/PersonalInformation/OtherPersonalInformation/AddressBooks';
 import { SearchHistoryModel, SearchHistoryItem } from 'src/app/facebook/models/LoggedInformation/Search/SearchHistory';
