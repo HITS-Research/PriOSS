@@ -55,7 +55,7 @@ export class FaqComponent {
     {
       active: false,
       name: 'Is this application really offline?',
-      content: 'Yes, the application is offline. We have used SQLite which is a local database. For more detail, users can contact the University of Paderborn. „Project Group: a Privacy One-Stop Shop“ over the course of one year between October 2022 and September 2023. To get more information about us and the project, visit our About Us page',
+      content: 'Yes, the application is offline. We use NGXS which processes all your data locally on your device & your data is not leaving your device at any point.',
     },
     {
       active: false,
@@ -93,21 +93,21 @@ export class FaqComponent {
     },
     {
       active: false,
-      name: 'Can I excercise my Facebook privacy rights on this platform?',
-      content: 'No. This platform helps you excercise your privacy rights through appropriate instructions. You have to go to your logged-in Facebook account and follow the instructions. Since this platform works offline, without internet, you can not click something here to make changes in your Facebook account!',
+      name: 'Can I exercise my Facebook privacy rights on this platform?',
+      content: 'No. This platform helps you exercise your privacy rights through appropriate instructions. You have to go to your logged-in Facebook account and follow the instructions. Since this platform works offline, without internet, you can not click something here to make changes in your Facebook account!',
       link: undefined,
       linkLabel: undefined
     },
     {
       active: false,
-      name: 'How do I excercise my privacy rights?',
+      name: 'How do I exercise my privacy rights?',
       content: 'By following the instructions mentioned in the \'Privacy Recommendations\' Section.',
       link: undefined,
       linkLabel: undefined
     },
     {
       active: false,
-      name: 'Does this platform has any privacy recommedations for my personal Facebook account?',
+      name: 'Does this platform have any privacy recommendations for my personal Facebook account?',
       content: 'Yes. Please refer to \'Privacy Settings Judge\' in \'Privacy Recommendations\' section.',
       link: undefined,
       linkLabel: undefined
