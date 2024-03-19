@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
+import {AfterViewInit, Component, Input, OnInit,ChangeDetectionStrategy} from '@angular/core';
 import {SequenceComponentInit} from '../../../features/utils/sequence-component-init.abstract';
 import {InstaAdsActivityInfo} from 'src/app/instagram/models/LikedAdsInfo/InstaAdsActivityInfo';
 import {InstaAdsClickedInfo} from 'src/app/instagram/models/LikedAdsInfo/InstaAdsClickedInfo';
@@ -18,7 +18,8 @@ import {InstaState} from "../../state/insta.state";
 @Component({
     selector: 'app-insta-ads',
     templateUrl: './insta-ads.component.html',
-    styleUrls: ['./insta-ads.component.less']
+    styleUrls: ['./insta-ads.component.less'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InstaAdsComponent extends SequenceComponentInit implements AfterViewInit, OnInit {
 

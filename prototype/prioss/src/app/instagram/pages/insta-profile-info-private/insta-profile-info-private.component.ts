@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component,ChangeDetectionStrategy } from '@angular/core';
 
 /**
   * This component is responsible for providing guidelines to make instagram profile information private.
@@ -9,7 +9,8 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-insta-profile-info-private',
   templateUrl: './insta-profile-info-private.component.html',
-  styleUrls: ['./insta-profile-info-private.component.less']
+  styleUrls: ['./insta-profile-info-private.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InstaProfileInfoPrivateComponent {
   ProfileInfoPrivate = 0;

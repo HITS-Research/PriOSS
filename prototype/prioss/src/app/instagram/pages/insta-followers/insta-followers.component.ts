@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
+import {AfterViewInit, Component, Input, OnInit,ChangeDetectionStrategy} from '@angular/core';
 import cytoscape from 'cytoscape';
 import {SequenceComponentInit} from '../../../features/utils/sequence-component-init.abstract';
 
@@ -22,7 +22,8 @@ import {InstaState} from "../../state/insta.state";
 @Component({
   selector: 'app-insta-followers',
   templateUrl: './insta-followers.component.html',
-  styleUrls: ['./insta-followers.component.less']
+  styleUrls: ['./insta-followers.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
 export class InstaFollowersComponent extends SequenceComponentInit implements AfterViewInit, OnInit {
