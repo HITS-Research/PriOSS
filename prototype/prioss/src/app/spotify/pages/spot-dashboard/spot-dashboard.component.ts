@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ViewChild, inject } from '@angular/core';
+import { AfterViewInit, Component, ViewChild, inject,ChangeDetectionStrategy } from '@angular/core';
 import { BaseDashboard } from 'src/app/features/utils/base-dashboard.abstract';
 import { ListeningTimeComponent } from 'src/app/spotify/pages/listening-time/listening-time.component';
 import { TopArtistsComponent } from 'src/app/spotify/pages/top-artists/top-artists.component';
@@ -18,7 +18,8 @@ import { SpotifyDashboardIntroductionService } from '../../features/dashboard-in
 @Component({
   selector: 'app-spot-dashboard',
   templateUrl: './spot-dashboard.component.html',
-  styleUrls: ['./spot-dashboard.component.less']
+  styleUrls: ['./spot-dashboard.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SpotDashboardComponent extends BaseDashboard implements AfterViewInit {
 

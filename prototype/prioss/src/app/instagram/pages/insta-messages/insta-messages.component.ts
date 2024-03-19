@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
+import {AfterViewInit, Component, Input, OnInit,ChangeDetectionStrategy} from '@angular/core';
 import * as d3 from 'd3';
 import {SequenceComponentInit} from '../../../features/utils/sequence-component-init.abstract';
 import {InstaChatData} from 'src/app/instagram/models/MessageInfo/InstaChatData';
@@ -51,6 +51,7 @@ interface ChatData {
   selector: 'app-insta-messages',
   templateUrl: './insta-messages.component.html',
   styleUrls: ['./insta-messages.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InstaMessagesComponent
   extends SequenceComponentInit

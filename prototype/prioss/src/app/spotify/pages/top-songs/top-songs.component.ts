@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input } from '@angular/core';
+import { AfterViewInit, Component, Input,ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import * as d3 from "d3";
 import { NotificationService } from 'src/app/features/notification/notification.service';
@@ -15,7 +15,8 @@ import { SequenceComponentInit } from '../../../features/utils/sequence-componen
 @Component({
   selector: 'prioss-spotify-top-songs',
   templateUrl: './top-songs.component.html',
-  styleUrls: ['./top-songs.component.less']
+  styleUrls: ['./top-songs.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TopSongsComponent extends SequenceComponentInit implements AfterViewInit {
 
