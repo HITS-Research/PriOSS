@@ -140,7 +140,7 @@ export class FriendAndFollowersComponent implements OnInit {
     });
     window.setTimeout(() => 
     this.drawChart(data, id, color), 100);
-    console.log(data);
+    
   }
 
   /**
