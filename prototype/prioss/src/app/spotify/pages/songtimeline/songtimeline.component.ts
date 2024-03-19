@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component ,ChangeDetectionStrategy} from '@angular/core';
 import * as d3 from 'd3';
 import * as d3Timelines from "d3-timelines";
 import * as d3Time from 'd3-time';
@@ -27,7 +27,8 @@ interface TimelineData{
 @Component({
   selector: 'prioss-spotify-songtimeline',
   templateUrl: './songtimeline.component.html',
-  styleUrls: ['./songtimeline.component.less']
+  styleUrls: ['./songtimeline.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SongtimelineComponent {
 

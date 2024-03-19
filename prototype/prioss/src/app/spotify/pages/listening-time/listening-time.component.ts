@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, OnDestroy, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Input, OnDestroy, ViewChild ,ChangeDetectionStrategy} from '@angular/core';
 import * as d3 from 'd3';
 import { GranularityEnum, Granularity2LabelMapping, getSmallerGranularity } from './granularity.enum';
 import { formatDisplayTime } from './formatDisplayTime.function';
@@ -32,7 +32,8 @@ interface ListeningtimeFilterHistoryEntry {
 @Component({
   selector: 'prioss-spotify-listening-time',
   templateUrl: './listening-time.component.html',
-  styleUrls: ['./listening-time.component.less']
+  styleUrls: ['./listening-time.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ListeningTimeComponent extends SequenceComponentInit implements AfterViewInit, OnDestroy{
 

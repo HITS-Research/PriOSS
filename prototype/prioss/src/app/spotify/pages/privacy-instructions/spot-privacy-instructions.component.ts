@@ -1,4 +1,4 @@
-import { Component} from '@angular/core';
+import { Component,ChangeDetectionStrategy} from '@angular/core';
 
 /**
  * This component contains privacy instructions. The instructions show users how to
@@ -9,7 +9,8 @@ import { Component} from '@angular/core';
  */
 @Component({
   templateUrl: './spot-privacy-instructions.component.html',
-  styleUrls: ['./spot-privacy-instructions.component.less']
+  styleUrls: ['./spot-privacy-instructions.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SpotPrivacyInstructionsComponent {
   currentTailoredAds = 0;

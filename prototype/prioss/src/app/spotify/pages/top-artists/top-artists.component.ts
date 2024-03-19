@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {AfterViewInit, Component, Input} from '@angular/core';
+import {AfterViewInit, Component, Input,ChangeDetectionStrategy} from '@angular/core';
 import * as d3 from 'd3';
 import {SpotHistoryRepository} from "../../../db/data-repositories/spotify/spot-history/spot-history.repository";
 import { SpotMinListenedToArtist } from 'src/app/spotify/models/TopArtist/SpotMinListenedToArtist';
@@ -17,7 +17,8 @@ import { NotificationService } from 'src/app/features/notification/notification.
 @Component({
   selector: 'prioss-spotify-top-artists',
   templateUrl: './top-artists.component.html',
-  styleUrls: ['./top-artists.component.less']
+  styleUrls: ['./top-artists.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TopArtistsComponent extends SequenceComponentInit implements AfterViewInit{
 
