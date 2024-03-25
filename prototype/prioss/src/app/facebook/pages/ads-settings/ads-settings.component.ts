@@ -26,7 +26,7 @@ export class AdsSettingsComponent implements AfterViewInit{
       instructionPictureFaceAdsGuidelines: "../../assets/images/ads-settings/3ads.png"
     },
     {
-      instructionTextFaceAdsGuidelines: 'Navigate to "Your Facebook Information" and then click on view in front of "Access your Information".',
+      instructionTextFaceAdsGuidelines: 'Click on "Access your information" and then click on "Continue" button.',
       instructionPictureFaceAdsGuidelines: "../../assets/images/ads-settings/4ads.png"
     },
     {

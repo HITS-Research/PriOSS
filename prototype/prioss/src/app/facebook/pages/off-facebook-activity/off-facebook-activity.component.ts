@@ -36,11 +36,11 @@ export class OffFacebookActivityComponent implements AfterViewInit{
       instructionPicture: '../../assets/images/off-facebook-activity/3.png'
     },
     {
-      instructionText: 'Navigate to "Your Facebook Information".',
+      instructionText: 'Navigate to "Off-Facebook activity".',
       instructionPicture: '../../assets/images/off-facebook-activity/4.png'
     },
     {
-      instructionText: 'Click on "Off-Facebook Activity". After Step 5 follow Step 6 if you want to select and disconnect specific future activities Step 7 if you want to clear previous activitiy Step 8 and 9 if you want to turn OFF Off-Facebook Activity',
+      instructionText: 'Click on "Continue". After Step 5 follow Step 6 if you want to select and disconnect specific future activities Step 7 if you want to clear previous activitiy Step 8 and 9 if you want to turn OFF Off-Facebook Activity',
       instructionPicture: '../../assets/images/off-facebook-activity/5.png'
     },
     {
