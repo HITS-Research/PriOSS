@@ -1,6 +1,5 @@
-export interface OffFacebookActivityModel
-{
-    name: string;
-    events: string;
-    type: string;    
+export interface OffFacebookActivityModel {
+  name: string;
+  events: string;
+  type: string;
 }

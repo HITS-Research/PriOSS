@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input } from '@angular/core';
+import { AfterViewInit, Component, Input,ChangeDetectionStrategy } from '@angular/core';
 import { scrollToTop } from 'src/app/features/utils/generalUtilities.functions';
 /**
   * This component is responsible for providing guidelines to block followers.
@@ -9,7 +9,8 @@ import { scrollToTop } from 'src/app/features/utils/generalUtilities.functions';
 @Component({
   selector: 'app-insta-block-followers',
   templateUrl: './insta-block-followers.component.html',
-  styleUrls: ['./insta-block-followers.component.less']
+  styleUrls: ['./insta-block-followers.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InstaBlockFollowersComponent implements AfterViewInit{
   BlockFollowersWeb = 0;

@@ -1,5 +1,5 @@
 export interface GroupsModel {
-    id: number;
-    name: string;
-    timestamp: string;
+  id: number;
+  name: string;
+  timestamp: string;
 }

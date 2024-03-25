@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component ,ChangeDetectionStrategy} from '@angular/core';
 
 /**
   * This component is responsible for providing guidelines to turn ON two factor authentication for Instagram.
@@ -9,7 +9,8 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-insta-two-factor-authentication',
   templateUrl: './insta-two-factor-authentication.component.html',
-  styleUrls: ['./insta-two-factor-authentication.component.less']
+  styleUrls: ['./insta-two-factor-authentication.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InstaTwoFactorAuthenticationComponent {
   TwoFactorAuthentication = 0;

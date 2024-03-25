@@ -49,7 +49,7 @@ export class SpotifyStreamingHistoryState {
         await file.async('string')
       );
 
-      if (Array.isArray(fileContent))
+      if (typeof (fileContent) === 'object')
         stateContent.push(fileContent);
     }
     context.setState(stateContent.flat());

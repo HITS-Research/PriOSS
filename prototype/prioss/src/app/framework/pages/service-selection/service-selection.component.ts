@@ -1,69 +1,133 @@
 import { ViewportScroller } from '@angular/common';
-import { AfterViewInit, Component, HostListener, inject } from '@angular/core';
+import { AfterViewInit, Component, HostListener, inject,ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { faCircleRight } from '@fortawesome/free-regular-svg-icons';
 import { faArrowRotateRight } from '@fortawesome/free-solid-svg-icons';
 import { AppType } from './app-type';
 
-import * as JSZip from 'jszip';
+import JSZip from 'jszip';
 import { DBService } from '../../../db/db.service';
 
 import { HttpClient } from '@angular/common/http';
 import * as utilities from '../../../features/utils/generalUtilities.functions';
 
-
-import {
-  FacebookAdsInteractedRepository
-} from '../../../db/data-repositories/facebook/fb-ads-data/face-ads-interacted.repo';
-import {
-  FacebookAppsWebsitesRepository
-} from '../../../db/data-repositories/facebook/fb-ads-data/face-apps-websites.repo';
-import {
-  FacebookOffFacebookActivityRepository
-} from '../../../db/data-repositories/facebook/fb-ads-data/face-off-facebook-activity.repo';
+import { FacebookAdsInteractedRepository } from '../../../db/data-repositories/facebook/fb-ads-data/face-ads-interacted.repo';
+import { FacebookAppsWebsitesRepository } from '../../../db/data-repositories/facebook/fb-ads-data/face-apps-websites.repo';
+import { FacebookOffFacebookActivityRepository } from '../../../db/data-repositories/facebook/fb-ads-data/face-off-facebook-activity.repo';
 import { FacebookFriendsRepository } from '../../../db/data-repositories/facebook/fb-friends-data/face_friends.repo';
-import {
-  InferredTopicsRepository
-} from '../../../db/data-repositories/facebook/fb-inferred-data/face_inferred_topics.repo';
+import { InferredTopicsRepository } from '../../../db/data-repositories/facebook/fb-inferred-data/face_inferred_topics.repo';
 import { FacebookPostsRepository } from '../../../db/data-repositories/facebook/fb-posts/face-posts.repo';
 import { UserdataRepository } from '../../../db/data-repositories/general/userdata/userdata.repository';
 
 // import { FacebookAddressBookRepository } from '../db/data-repositories/facebook/fb-other-personal-info/face_address_book.repo';
 // import { FacebookSearchHistoryRepository } from '../db/data-repositories/facebook/fb-other-personal-info/face_search_history.repo';
-import { Store } from "@ngxs/store";
-import { SpotifyReadFromZip, SpotifyReset } from 'src/app/spotify/state/spotify.action';
+import { Store } from '@ngxs/store';
+import {
+  SpotifyReadFromZip,
+  SpotifyReset,
+} from 'src/app/spotify/state/spotify.action';
 import { FacebookEventsRepository } from '../../../db/data-repositories/facebook/fb-groups-events-info/face_events.repo';
 import { FacebookGroupsRepository } from '../../../db/data-repositories/facebook/fb-groups-events-info/face_groups.repo';
+import { FaceBookMessagesInfoRepository } from '../../../db/data-repositories/facebook/fb-messages-data/fb-messages-friends.repo';
+import { FaceBookGroupMessagesInfoRepository } from '../../../db/data-repositories/facebook/fb-messages-data/fb-messages-groups.repo';
+import { FacebookAddressBookRepository } from '../../../db/data-repositories/facebook/fb-other-personal-info/face-address-book.repo';
+import { FacebookSearchHistoryRepository } from '../../../db/data-repositories/facebook/fb-other-personal-info/face-search-history.repo';
+import { FacebookAccountActivityRepository } from '../../../db/data-repositories/facebook/fb-security-login-data/face_account_activity.repo';
+import { FacebookAccountStatusChangesRepository } from '../../../db/data-repositories/facebook/fb-security-login-data/face_account_status_changes.repo';
+import { FacebookLoginLocationsRepository } from '../../../db/data-repositories/facebook/fb-security-login-data/face_login_locations.repo';
+import { FacebookLoginLogoutsRepository } from '../../../db/data-repositories/facebook/fb-security-login-data/face_login_logouts.repo';
 import {
-  FaceBookMessagesInfoRepository
-} from '../../../db/data-repositories/facebook/fb-messages-data/fb-messages-friends.repo';
+  ResetFbUserData,
+  UpdateFbUserData,
+} from '../../../facebook/state/fb.action';
+import * as devicetypeUtils from '../../../features/utils/devicetype.functions';
 import {
-  FaceBookGroupMessagesInfoRepository
-} from '../../../db/data-repositories/facebook/fb-messages-data/fb-messages-groups.repo';
+  InstaChatData,
+  InstaChatPartnerData,
+} from '../../../instagram/models/MessageInfo/InstaChatData';
 import {
-  FacebookAddressBookRepository
-} from '../../../db/data-repositories/facebook/fb-other-personal-info/face-address-book.repo';
+  ResetInstaUserData,
+  UpdateInstaUserData,
+} from '../../../instagram/state/insta.action';
+import InstaUserDataModel from '../../../instagram/state/models/insta-user-data-model.interface';
+import { InferredTopicsModel } from 'src/app/facebook/models/LoggedInformation/Topics/Topics';
 import {
-  FacebookSearchHistoryRepository
-} from '../../../db/data-repositories/facebook/fb-other-personal-info/face-search-history.repo';
+  FbActivityAcrossFacebookModel,
+  FbAdsInformationModel,
+  FbAppsAndWebsitesOffOfFacebookDataModel,
+  FbConnectionsDataModel,
+  FbLoggedInformationModel,
+  FbPersonalInformationDataModel,
+  FbPreferencesDataModel,
+  FbSecurityLoginInformationDataModel,
+  FbUserDataModel,
+} from 'src/app/facebook/state/models';
 import {
-  FacebookAccountActivityRepository
-} from '../../../db/data-repositories/facebook/fb-security-login-data/face_account_activity.repo';
-import {
-  FacebookAccountStatusChangesRepository
-} from '../../../db/data-repositories/facebook/fb-security-login-data/face_account_status_changes.repo';
-import {
-  FacebookLoginLocationsRepository
-} from '../../../db/data-repositories/facebook/fb-security-login-data/face_login_locations.repo';
-import {
-  FacebookLoginLogoutsRepository
-} from '../../../db/data-repositories/facebook/fb-security-login-data/face_login_logouts.repo';
-import { ResetFbUserData } from "../../../facebook/state/fb.action";
-import * as devicetypeUtils from "../../../features/utils/devicetype.functions";
-import { InstaChatData, InstaChatPartnerData } from "../../../instagram/models/MessageInfo/InstaChatData";
-import { ResetInstaUserData, UpdateInstaUserData } from "../../../instagram/state/insta.action";
-import InstaUserDataModel from "../../../instagram/state/models/insta-user-data-model.interface";
+  AccountActivityModel,
+  AccountStatusChangesModel,
+  ActiveSessionsModel,
+  AddressBookModel,
+  AdvertiserInteractedModel,
+  ConnectedAppsAndWebsitesModel,
+  EventResponsesModel,
+  GroupInteractionModel,
+  GroupsJoinedModel,
+  OffFacebookActivityModel,
+  PeopleInteractionModel,
+  ProfileInformationModel,
+  ReceivedFriendRequestsModel,
+  RejectedFriendRequestsModel,
+  RemovedFriendsModel,
+  SearchHistoryModel,
+  SentFriendRequestsModel,
+  YourFriendsModel,
+  LoginsAndLogoutsModel,
+  LastLoginInformationModel,
+  IPAddressActivityModel,
+  AdminRecordsModel,
+  LastActivityModel as FacebookActivityHistoryModel,
+  RecognizedDevicesModel,
+  MobileDeviceModel,
+  EmailAddressVerificationModel,
+  RecentAccountRecoverySuccessesModel,
+  DeviceLocationModel,
+  PrimaryLocationModel,
+  PeopleAndFriendsModel,
+  FeedControlModel,
+  FundraiserSettingsModel,
+  VideoPreferenceModel,
+  EventsInvitedModel,
+  GroupCommentsModel,
+  GroupsAdminedModel,
+  GroupPostsModel,
+  GroupBadgesModel,
+  LocationTimezoneModel,
+  NotificationModel,
+  NotificationMetaPrivacyPolicyUpdateModel,
+  EventInteractionModel,
+  AdsInterestModel,
+  ConsentModel,
+  SurveyResponseModel,
+  RecentlyVisitedModel,
+  RecentlyViewedModel,
+  PeopleYouMayKnowModel,
+  RecentReportedConversionsModel,
+  AdPreferencesModel,
+  SubscriptionForNoAdsModel,
+  OtherCategoriesUsedToReachYouModel,
+  AdvertisersUsingYourDataModel,
+  LanguageAndLocalesModel,
+  ProfileInformationTimezoneModel,
+  ArchivedThreadModel,
+  InboxMessageModel,
+  GroupMessageModel,
+  MessageRequestModel,
+  PrimaryPublicLocationModel,
+  LoginProtectionDataModel,
+} from 'src/app/facebook/models';
 import { FeatureToggleService, Services } from 'src/app/features/feature-toggle/feature-toggle.service';
+import { ReelsPreferenceModel } from 'src/app/facebook/models/Preferences/Preferences/ReelsPreference';
+import { DevicePushSettingModel } from 'src/app/facebook/models/Preferences/Preferences/DevicePushSettings';
 //service identifier filenames
 const instaIDFilename = 'TODO';
 const spotIDFilename = 'MyData/Read_Me_First.pdf';
@@ -89,6 +153,7 @@ const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
   selector: 'app-service-selection',
   templateUrl: './service-selection.component.html',
   styleUrls: ['./service-selection.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ServiceSelectionComponent implements AfterViewInit {
   //Icon properties
@@ -114,10 +179,10 @@ export class ServiceSelectionComponent implements AfterViewInit {
 
   sampleDataPath = 'assets/sample-data/';
   sampleDataFilenameSpotify = 'spot_sampledata.zip';
-  sampleDataFilenameFacebook = 'face_sampledata.zip';
+  sampleDataFilenameFacebook = 'facebook_data_marcia_2023_12_20.zip';
   sampleDataFilenameInstagram = 'insta_sampledata.zip';
 
-  errorMsg = "";
+  errorMsg = '';
 
   constructor(
     private router: Router,
@@ -143,19 +208,22 @@ export class ServiceSelectionComponent implements AfterViewInit {
     private faceMessagesRepo: FaceBookMessagesInfoRepository,
     private faceGroupMessagesRepo: FaceBookGroupMessagesInfoRepository,
     private store: Store
-  ) {
-  }
+  ) {}
 
-    /**
-     * Callback called by angular after the view is initialized. Triggers rebuilding of the sql database
-     *
-     * @author: Simon (scg@mail.upb.de)
-     *
-     */
-    async ngAfterViewInit() {
-        this.store.dispatch([new ResetInstaUserData(), new ResetFbUserData(), new SpotifyReset()])
-        await this.sqlDBService.rebuildDatabase();
-    }
+  /**
+   * Callback called by angular after the view is initialized. Triggers rebuilding of the sql database
+   *
+   * @author: Simon (scg@mail.upb.de)
+   *
+   */
+  async ngAfterViewInit() {
+    this.store.dispatch([
+      new ResetInstaUserData(),
+      new ResetFbUserData(),
+      new SpotifyReset(),
+    ]);
+    await this.sqlDBService.rebuildDatabase();
+  }
 
   /**
    * Callback called when pressing the X-button in the progressbar dialog. Stops the reading in process and navigates back to the home page.
@@ -232,7 +300,8 @@ export class ServiceSelectionComponent implements AfterViewInit {
         const foundFile = zip.files[instaIDFilename];
 
         if (foundFile == null) {
-          this.errorMsg = 'Please select a valid zip-file that you downloaded from Instagram!';
+          this.errorMsg =
+            'Please select a valid zip-file that you downloaded from Instagram!';
           this.uploadDialogVisible = true;
         } else {
           this.setSelectedFileName(file.name);
@@ -240,7 +309,8 @@ export class ServiceSelectionComponent implements AfterViewInit {
       } else if (selectedApp == this.appType.Spotify) {
         const foundFile = zip.files[spotIDFilename]; //TODO: this file check does not work yet, look at jszip docs
         if (foundFile == null) {
-          this.errorMsg = 'Please select a valid zip-file that you downloaded from Spotify!';
+          this.errorMsg =
+            'Please select a valid zip-file that you downloaded from Spotify!';
           this.uploadDialogVisible = true;
         } else {
           this.setSelectedFileName(file.name);
@@ -249,7 +319,8 @@ export class ServiceSelectionComponent implements AfterViewInit {
         const foundFile = zip.files[faceIDFilename];
 
         if (foundFile == null) {
-          this.errorMsg = 'Please select a valid zip-file that you downloaded from Facebook!';
+          this.errorMsg =
+            'Please select a valid zip-file that you downloaded from Facebook!';
           this.uploadDialogVisible = true;
         } else {
           this.setSelectedFileName(file.name);
@@ -276,7 +347,7 @@ export class ServiceSelectionComponent implements AfterViewInit {
    *
    */
   afterCloseErrorMsg() {
-    this.errorMsg = "";
+    this.errorMsg = '';
   }
 
   /*
@@ -305,7 +376,7 @@ export class ServiceSelectionComponent implements AfterViewInit {
     } else {
       throw Error(
         'The selected Service Name is not a known service. Selected: ' +
-        this.selectedServiceName
+          this.selectedServiceName
       );
     }
 
@@ -314,7 +385,7 @@ export class ServiceSelectionComponent implements AfterViewInit {
 
     //download needed sample data from server (comes precached when pwa functionality works)
     this.http
-      .get(sampleDataLocation, {responseType: 'blob'})
+      .get(sampleDataLocation, { responseType: 'blob' })
       .subscribe((sampleData) => {
         this.uploadedFiles = [];
         this.uploadedFiles[0] = new File([sampleData], 'sample_data.zip', {
@@ -347,7 +418,17 @@ export class ServiceSelectionComponent implements AfterViewInit {
     this.isProcessingFile = true;
     this.uploadDialogVisible = false;
     await this.parseFile(this.selectedServiceName);
+  }
 
+  parseJSON(content: string): any {
+    let result = {};
+    try {
+      result = JSON.parse(content);
+    } catch (e) {
+      console.error('Error parsing JSON: ' + e + ' ' + content);
+      return {}; //return empty object if parsing fails
+    }
+    return result;
   }
 
   /**
@@ -381,6 +462,20 @@ export class ServiceSelectionComponent implements AfterViewInit {
    *
    */
   async parseFacebookFileToSQLite() {
+    const userData: FbUserDataModel = {} as FbUserDataModel;
+
+    // initialize sub-stores
+    userData.activity_across_facebook = {} as FbActivityAcrossFacebookModel;
+    userData.ads_and_businesses = {} as FbAdsInformationModel;
+    userData.logged_information = {} as FbLoggedInformationModel;
+    userData.personal_information = {} as FbPersonalInformationDataModel;
+    userData.preferences = {} as FbPreferencesDataModel;
+    userData.security_and_login_information =
+      {} as FbSecurityLoginInformationDataModel;
+    userData.apps_and_websites_off_of_fb =
+      {} as FbAppsAndWebsitesOffOfFacebookDataModel;
+    userData.connections = {} as FbConnectionsDataModel;
+
     const file = this.uploadedFiles[0];
 
     const zip: JSZip = await this.loadZipFile(file);
@@ -399,197 +494,130 @@ export class ServiceSelectionComponent implements AfterViewInit {
       this.progressBarPercent = Math.round(100 * (i / filepaths.length));
 
       const filepath: string = filepaths[i];
-      const content: string = await zip.files[filepath].async('string');
       const filename: string | undefined = filepath
         .split('\\')
         .pop()
         ?.split('/')
         .pop();
 
+      console.log('Filename: ' + filename);
+      const content: string = await zip.files[filepath].async('string');
+
       if (!filename) {
         continue;
       }
-
+      //logged_information
       if (filename === 'your_topics.json') {
-        const jsonData = JSON.parse(content);
-        const inferredTopics = jsonData.inferred_topics_v2;
-        await this.inferredTopicsDataRepo.addInferredTopics(
-          inferredTopics[0],
-          inferredTopics.length
-        );
-
-        for (let i = 1; i < inferredTopics.length; i++) {
-          await this.inferredTopicsDataRepo.addBulkInferredTopicsEntry(
-            inferredTopics[i]
-          );
+        const inferredTopics: InferredTopicsModel = this.parseJSON(content);
+        userData.logged_information.inferred_topics = inferredTopics;
+      } else if (filename === 'device_location.json') {
+        const jsonData: DeviceLocationModel = JSON.parse(content);
+        userData.logged_information.device_location = jsonData;
+      } else if (filename === 'primary_location.json') {
+        const jsonData: PrimaryLocationModel = JSON.parse(content);
+        userData.logged_information.primary_location = jsonData;
+      } else if (filename === 'primary_public_location.json') {
+        const jsonData: PrimaryPublicLocationModel = JSON.parse(content);
+        userData.logged_information.primary_public_location = jsonData;
+      } else if (filename === 'timezone.json') {
+        if (filepath.includes('location')) {
+          const jsonData: LocationTimezoneModel = JSON.parse(content);
+          userData.logged_information.timezone = jsonData;
+        } else if (filepath.includes('profile')) {
+          const jsonData: ProfileInformationTimezoneModel =
+            this.parseJSON(content);
+          userData.personal_information.timezone = jsonData;
         }
-      } else if (filename === "advertisers_you've_interacted_with.json") {
-        const jsonData = JSON.parse(content);
-        const adsInteractedWithData = jsonData.history_v2;
-
-        await this.faceAdsInteractedRepo.startAdsClickedBulkAdd(
-          adsInteractedWithData[0].title,
-          adsInteractedWithData[0].action,
-          adsInteractedWithData[0].timestamp,
-          adsInteractedWithData.length
-        );
-        for (let i = 1; i < adsInteractedWithData.length; i++) {
-          await this.faceAdsInteractedRepo.addAdsClickedBulkEntry(
-            adsInteractedWithData[i].title,
-            adsInteractedWithData[i].action,
-            adsInteractedWithData[0].timestamp
-          );
-        }
+      } else if (filename === 'notifications.json') {
+        const jsonData: NotificationModel = JSON.parse(content);
+        userData.logged_information.notifications = jsonData;
+      } else if (
+        filename === 'notification_of_meta_privacy_policy_update.json'
+      ) {
+        const jsonData: NotificationMetaPrivacyPolicyUpdateModel =
+          JSON.parse(content);
+        userData.logged_information.meta_privacy_policy_update = jsonData;
+      } else if (filename === 'events_interactions.json') {
+        const jsonData: EventInteractionModel = JSON.parse(content);
+        userData.logged_information.event_interaction = jsonData;
+      } else if (filename === 'ads_interests.json') {
+        const jsonData: AdsInterestModel = JSON.parse(content);
+        userData.logged_information.ads_interest = jsonData;
+      } else if (filename === 'consents.json') {
+        const jsonData: ConsentModel = JSON.parse(content);
+        userData.logged_information.consents = jsonData;
+      } else if (filename === 'survey_responses.json') {
+        const jsonData: SurveyResponseModel = JSON.parse(content);
+        userData.logged_information.survey_responses = jsonData;
+      } else if (filename === 'recently_visited.json') {
+        const jsonData: RecentlyVisitedModel = JSON.parse(content);
+        userData.logged_information.recently_visited = jsonData;
+      } else if (filename === 'recently_viewed.json') {
+        const jsonData: RecentlyViewedModel = JSON.parse(content);
+        userData.logged_information.recently_viewed = jsonData;
+      }
+      //ads_information
+      else if (filename === "advertisers_you've_interacted_with.json") {
+        const jsonData: AdvertiserInteractedModel = this.parseJSON(content);
+        userData.ads_and_businesses.advertiserInteracted = jsonData;
+      } else if (filename === 'your_recent_reported_conversions.json') {
+        const jsonData: RecentReportedConversionsModel =
+          this.parseJSON(content);
+        userData.ads_and_businesses.recentReportedConversions = jsonData;
+      } else if (filename === 'ad_preferences.json') {
+        const jsonData: AdPreferencesModel = this.parseJSON(content);
+        userData.ads_and_businesses.adPreferences = jsonData;
+      } else if (filename === 'subscription_for_no_ads.json') {
+        const jsonData: SubscriptionForNoAdsModel = this.parseJSON(content);
+        userData.ads_and_businesses.subscriptionsForNoAds = jsonData;
+      } else if (filename === 'other_categories_used_to_reach_you.json') {
+        const jsonData: OtherCategoriesUsedToReachYouModel =
+          this.parseJSON(content);
+        userData.ads_and_businesses.otherCategoriesUsedToReachYou = jsonData;
+      } else if (
+        filename === 'advertisers_using_your_activity_or_information.json'
+      ) {
+        const jsonData: AdvertisersUsingYourDataModel = this.parseJSON(content);
+        userData.ads_and_businesses.advertisersUsingYourData = jsonData;
       } else if (filename === 'apps_and_websites.json') {
-        const jsonData = JSON.parse(content);
-        const appsAndWebsiteData = jsonData.installed_apps_v2;
-
-        await this.faceAppsAndWebsitesRepo.startAdActivityBulkAdd(
-          appsAndWebsiteData[0].name,
-          appsAndWebsiteData[0].added_timestamp,
-          appsAndWebsiteData[0].user_app_scoped_id,
-          appsAndWebsiteData[0].category,
-          appsAndWebsiteData[0].removed_timestamp,
-          appsAndWebsiteData.length
-        );
-        for (let i = 1; i < appsAndWebsiteData.length; i++) {
-          await this.faceAppsAndWebsitesRepo.addAdActivityBulkEntry(
-            appsAndWebsiteData[i].name,
-            appsAndWebsiteData[i].added_timestamp,
-            appsAndWebsiteData[i].user_app_scoped_id,
-            appsAndWebsiteData[i].category,
-            appsAndWebsiteData[i].removed_timestamp
-          );
-        }
-      } else if (filename === "connected_apps_and_websites.json") {
-        const jsonData = JSON.parse(content);
-        const appsAndWebsiteData = jsonData.installed_apps_v2;
-
-        await this.faceAppsAndWebsitesRepo.startAdActivityBulkAdd(appsAndWebsiteData[0].name, appsAndWebsiteData[0].added_timestamp, appsAndWebsiteData[0].user_app_scoped_id, appsAndWebsiteData[0].category, appsAndWebsiteData[0].removed_timestamp, appsAndWebsiteData.length);
-        for (let i = 1; i < appsAndWebsiteData.length; i++) {
-          await this.faceAppsAndWebsitesRepo.addAdActivityBulkEntry(appsAndWebsiteData[i].name, appsAndWebsiteData[i].added_timestamp, appsAndWebsiteData[i].user_app_scoped_id, appsAndWebsiteData[i].category, appsAndWebsiteData[i].removed_timestamp);
-        }
-      } else if (filename === "your_off-facebook_activity.json") {
-        const jsonData = JSON.parse(content);
-        const offfacebookActivityData = jsonData.off_facebook_activity_v2;
-
-        await this.faceOffFacebookActivityRepo.startAdActivityBulkAdd(
-          offfacebookActivityData[0].name,
-          offfacebookActivityData[0].events,
-          offfacebookActivityData[0].events[0].type,
-          offfacebookActivityData.length
-        );
-        for (let i = 1; i < offfacebookActivityData.length; i++) {
-          await this.faceOffFacebookActivityRepo.addAdActivityBulkEntry(
-            offfacebookActivityData[i].name,
-            offfacebookActivityData[i].events,
-            offfacebookActivityData[i].events[0].type
-          );
-        }
-      } else if (filename === 'received_friend_requests.json') {
-        const jsonData = JSON.parse(content);
-        const friendRequestsRecieved = jsonData.received_requests_v2;
-
-        await this.faceFriendsRepo.startAdActivityBulkAdd(
-          friendRequestsRecieved[0].name,
-          friendRequestsRecieved[0].timestamp,
-          '#requestsReceived',
-          friendRequestsRecieved.length
-        );
-        for (let i = 1; i < friendRequestsRecieved.length; i++) {
-          await this.faceFriendsRepo.addAdActivityBulkEntry(
-            friendRequestsRecieved[i].name,
-            friendRequestsRecieved[i].timestamp,
-            '#requestsReceived'
-          );
-        }
-      } else if (filename === "sent_friend_requests.json") {
-        const jsonData = JSON.parse(content);
-        const friendRequestsSent = jsonData.sent_requests_v2;
-
-        await this.faceFriendsRepo.startAdActivityBulkAdd(
-          friendRequestsSent[0].name,
-          friendRequestsSent[0].timestamp,
-          '#requestsSent',
-          friendRequestsSent.length
-        );
-        for (let i = 1; i < friendRequestsSent.length; i++) {
-          await this.faceFriendsRepo.addAdActivityBulkEntry(
-            friendRequestsSent[i].name,
-            friendRequestsSent[i].timestamp,
-            '#requestsSent'
-          );
-        }
-      } else if (filename === "your_friends.json") {
-        const jsonData = JSON.parse(content);
-        const friends = jsonData.friends_v2;
-
-        await this.faceFriendsRepo.startAdActivityBulkAdd(
-          friends[0].name,
-          friends[0].timestamp,
-          '#friends',
-          friends.length
-        );
-        for (let i = 1; i < friends.length; i++) {
-          await this.faceFriendsRepo.addAdActivityBulkEntry(
-            friends[i].name,
-            friends[i].timestamp,
-            '#friends'
-          );
-        }
+        // TODO missing from new sample data maybe depracted
+      } else if (filename === 'connected_apps_and_websites.json') {
+        const jsonData: ConnectedAppsAndWebsitesModel = this.parseJSON(content);
+        userData.apps_and_websites_off_of_fb.connectedAppsAndWebsites =
+          jsonData;
+      } else if (filename === 'your_activity_off_meta_technologies.json') {
+        const jsonData: OffFacebookActivityModel = this.parseJSON(content);
+        userData.apps_and_websites_off_of_fb.offFacebookActivity = jsonData;
+      }
+      //connections
+      else if (filename === 'received_friend_requests.json') {
+        const receivedFriendRequests: ReceivedFriendRequestsModel =
+          this.parseJSON(content);
+        userData.connections.receivedFriendRequests = receivedFriendRequests;
+      } else if (filename === 'sent_friend_requests.json') {
+        const sentFriendRequests: SentFriendRequestsModel =
+          this.parseJSON(content);
+        userData.connections.sentFriendRequests = sentFriendRequests;
       } else if (filename === 'rejected_friend_requests.json') {
-        const jsonData = JSON.parse(content);
-        const rejectedFriends = jsonData.rejected_requests_v2;
-
-        await this.faceFriendsRepo.startAdActivityBulkAdd(
-          rejectedFriends[0].name,
-          rejectedFriends[0].timestamp,
-          '#rejectedFriends',
-          rejectedFriends.length
-        );
-        for (let i = 1; i < rejectedFriends.length; i++) {
-          await this.faceFriendsRepo.addAdActivityBulkEntry(
-            rejectedFriends[i].name,
-            rejectedFriends[i].timestamp,
-            '#rejectedFriends'
-          );
-        }
+        const jsonData: RejectedFriendRequestsModel = this.parseJSON(content);
+        userData.connections.rejectedFriendRequests = jsonData;
+      } else if (filename === 'your_friends.json') {
+        const jsonData: YourFriendsModel = this.parseJSON(content);
+        userData.connections.yourFriends = jsonData;
       } else if (filename === 'removed_friends.json') {
-        const jsonData = JSON.parse(content);
-        const removedFriends = jsonData.deleted_friends_v2;
-
-        await this.faceFriendsRepo.startAdActivityBulkAdd(
-          removedFriends[0].name,
-          removedFriends[0].timestamp,
-          '#removedFriends',
-          removedFriends.length
-        );
-        for (let i = 1; i < removedFriends.length; i++) {
-          await this.faceFriendsRepo.addAdActivityBulkEntry(
-            removedFriends[i].name,
-            removedFriends[i].timestamp,
-            '#removedFriends'
-          );
-        }
+        const jsonData: RemovedFriendsModel = this.parseJSON(content);
+        userData.connections.removedFriends = jsonData;
       } else if (filename === "who_you've_followed.json") {
-        const jsonData = JSON.parse(content);
-        const following = jsonData.following_v3;
-
-        await this.faceFriendsRepo.startAdActivityBulkAdd(
-          following[0].name,
-          following[0].timestamp,
-          '#following',
-          following.length
-        );
-        for (let i = 1; i < following.length; i++) {
-          await this.faceFriendsRepo.addAdActivityBulkEntry(
-            following[i].name,
-            following[i].timestamp,
-            '#following'
-          );
-        }
+        const jsonData = this.parseJSON(content);
+        userData.connections.followed = jsonData;
+      } else if (filename === 'people_you_may_know.json') {
+        const jsonData: PeopleYouMayKnowModel = this.parseJSON(content);
+        userData.connections.peopleYouMayKnow = jsonData;
       } else if (filename === 'profile_information.json') {
-        const jsonData = JSON.parse(content);
+        const jsonData: ProfileInformationModel = this.parseJSON(content);
+        userData.personal_information.profile_information = jsonData;
+        //TODO old version below may be useful in future
+        /*
         const personal_data = jsonData.profile_v2;
         const birthdate = personal_data.birthday;
         const formattedBirthdate = `${birthdate.day
@@ -609,238 +637,151 @@ export class ServiceSelectionComponent implements AfterViewInit {
           '',
           ''
         );
+        */
       } else if (filename === 'your_address_books.json') {
-        const jsonData = JSON.parse(content);
-        const address_book = jsonData.address_book_v2.address_book;
-
-        const name = address_book[0].name;
-        const contact_point = address_book[0].details[0]
-          ? address_book[0].details[0].contact_point
-          : '';
-        const created_timestamp = address_book[0].created_timestamp;
-        await this.faceAddressRepo.startAddressBookBulkAdd(
-          name,
-          contact_point,
-          created_timestamp,
-          address_book.length
-        );
-
-        for (let i = 1; i < address_book.length; i++) {
-          const name = address_book[i].name;
-          const contact_point = address_book[i].details[0]
-            ? address_book[i].details[0].contact_point
-            : '';
-          const created_timestamp = address_book[i].created_timestamp;
-          await this.faceAddressRepo.addAddressBookBulkEntry(
-            name,
-            contact_point,
-            created_timestamp
-          );
-        }
+        const jsonData: AddressBookModel = this.parseJSON(content);
+        userData.personal_information.address_books = jsonData;
       } else if (filename === 'your_search_history.json') {
-        const jsonData = JSON.parse(content);
-        const search_history = jsonData.searches_v2;
-
-        const text = search_history[0].data[0].text;
-        const timestamp = search_history[0].timestamp;
-        await this.faceSearchhistoryRepo.startSearchHistoryBulkAdd(
-          text,
-          timestamp,
-          search_history.length
-        );
-
-        for (let i = 1; i < search_history.length; i++) {
-          const text = search_history[i].data[0].text;
-          const timestamp = search_history[i].timestamp;
-          await this.faceSearchhistoryRepo.addSearchHistoryBulkEntry(
-            text,
-            timestamp
-          );
-        }
-      } else if (filename === 'where_you_re_logged_in.json') {
-        const jsonData = JSON.parse(content);
-        const login_locations = jsonData.active_sessions_v2;
-
-        await this.faceLoginLocationsRepo.startAdActivityBulkAdd(
-          login_locations[0].location,
-          login_locations[0].device,
-          login_locations[0].created_timestamp,
-          login_locations.length
-        );
-        for (let i = 1; i < login_locations.length; i++) {
-          await this.faceLoginLocationsRepo.addAdActivityBulkEntry(
-            login_locations[i].location,
-            login_locations[i].device,
-            login_locations[i].created_timestamp
-          );
-        }
-      } else if (filename === 'logins_and_logouts.json') {
-        const jsonData = JSON.parse(content);
-        const logins_logouts = jsonData.account_accesses_v2;
-
-        await this.faceLoginLogoutsRepo.startAdActivityBulkAdd(
-          logins_logouts[0].action,
-          logins_logouts[0].timestamp,
-          logins_logouts.length
-        );
-        for (let i = 1; i < logins_logouts.length; i++) {
-          await this.faceLoginLogoutsRepo.addAdActivityBulkEntry(
-            logins_logouts[i].action,
-            logins_logouts[i].timestamp
-          );
-        }
-      } else if (filename === 'event_invitations.json') {
-        const jsonData = JSON.parse(content);
-        const events_invited = jsonData.events_invited_v2;
-
-        await this.faceEventsRepo.startAdActivityBulkAdd(
-          events_invited[0].name,
-          events_invited[0].start_timestamp,
-          events_invited[0].end_timestamp,
-          events_invited.length
-        );
-        for (let i = 1; i < events_invited.length; i++) {
-          await this.faceEventsRepo.addAdActivityBulkEntry(
-            events_invited[i].name,
-            events_invited[i].start_timestamp,
-            events_invited[i].end_timestamp
-          );
-        }
-      }
-        // else if(filename === "your_event_responses.json") {
-        //   let jsonData = JSON.parse(content);
-        //   let _events_responses = jsonData.event_responses_v2;
-        //   let events_responses = _events_responses.events_joined[0];
-
-        //   await this.faceEventsRepo.startAdActivityBulkAdd(events_responses[0].name, events_responses[0].start_timestamp, events_responses[0].end_timestamp, events_responses.length);
-        //   for(let i = 1; i < events_responses.events_joined.length; i++) {
-        //     await this.faceEventsRepo.addAdActivityBulkEntry(events_responses[i].name, events_responses[i].start_timestamp, events_responses[i].end_timestamp);
-        //   }
-      // }
-      else if (filename === 'your_group_membership_activity.json') {
-        const jsonData = JSON.parse(content);
-        const groups_joined = jsonData.groups_joined_v2;
-
-        await this.faceGroupsRepo.startAdActivityBulkAdd(
-          groups_joined[0].data[0].name,
-          groups_joined[0].timestamp,
-          groups_joined.length
-        );
-
-        for (let i = 1; i < groups_joined.length; i++) {
-          const groupName = groups_joined[i]?.data?.[0]?.name || '';
-
-          if (groupName) {
-            await this.faceGroupsRepo.addAdActivityBulkEntry(
-              groupName,
-              groups_joined[i]?.timestamp);
-          } else {
-             // TODO: Toast : show the below message as Toast,
-            // console.log("groupName is either null or empty. Handling it with an empty string.");
-          }
-        }
+        const jsonData: SearchHistoryModel = this.parseJSON(content);
+        userData.logged_information.search_history = jsonData;
       } else if (filename === 'account_status_changes.json') {
-        const jsonData = JSON.parse(content);
-        const acc_status_changes = jsonData.account_status_changes_v2;
-
-        await this.faceAccStatusChangesRepo.startAdActivityBulkAdd(
-          acc_status_changes[0].status,
-          acc_status_changes[0].timestamp,
-          acc_status_changes.length
-        );
-        for (let i = 1; i < acc_status_changes.length; i++) {
-          await this.faceAccStatusChangesRepo.addAdActivityBulkEntry(
-            acc_status_changes[i].status,
-            acc_status_changes[i].timestamp
-          );
-        }
-      } else if (filename === 'account_activity.json') {
-        const jsonData = JSON.parse(content);
-        const account_activity_data = jsonData.account_activity_v2;
-
-        await this.faceAccActivityRepo.startAdActivityBulkAdd(
-          account_activity_data[0].action,
-          account_activity_data[0].timestamp,
-          account_activity_data[0].city,
-          account_activity_data[0].region,
-          account_activity_data[0].country,
-          account_activity_data[0].site_name,
-          account_activity_data.length
-        );
-        for (let i = 1; i < account_activity_data.length; i++) {
-          await this.faceAccActivityRepo.addAdActivityBulkEntry(
-            account_activity_data[i].action,
-            account_activity_data[i].timestamp,
-            account_activity_data[i].city,
-            account_activity_data[i].region,
-            account_activity_data[i].country,
-            account_activity_data[i].site_name
-          );
-        }
+        const jsonData: AccountStatusChangesModel = this.parseJSON(content);
+        userData.security_and_login_information.account_status_changes =
+          jsonData;
       } else if (filename === 'people_and_friends.json') {
-        const jsonData = JSON.parse(content);
-        const people_friends_messages_data = jsonData.people_interactions_v2;
-
-        if (people_friends_messages_data.length > 0) {
-          const entries = people_friends_messages_data[0].entries;
-          await this.faceMessagesRepo.startMessagesBulkAdd(
-            entries[0].data.name,
-            entries[0].timestamp,
-            entries[0].data.uri,
-            entries.length
-          );
-
-          for (let i = 1; i < entries.length; i++) {
-            const entry = entries[i];
-            const name = entry.data.name;
-            const timestamp = entry.timestamp;
-            const uri = entry.data.uri;
-            await this.faceMessagesRepo.addMessagesBulkEntry(
-              name,
-              timestamp,
-              uri
-            );
-          }
-        }
+        const jsonData: PeopleInteractionModel = this.parseJSON(content);
+        userData.logged_information.people_interaction = jsonData;
       } else if (filename === 'group_interactions.json') {
-        const jsonData = JSON.parse(content);
-        const group_messages_data = jsonData.group_interactions_v2;
+        const jsonData: GroupInteractionModel = this.parseJSON(content);
+        userData.logged_information.group_interaction = jsonData;
+      } else if (
+        filename === 'your_posts__check_ins__photos_and_videos_1.json'
+      ) {
+        //TODO fix for new folder structure
+      }
 
-        if (group_messages_data.length > 0) {
-          const entries = group_messages_data[0].entries;
-          await this.faceGroupMessagesRepo.startGroupMessagesBulkAdd(
-            entries[0].data.name,
-            entries[0].data.value,
-            entries.length
-          );
+      //security_and_login_information
+      else if (filename === 'logins_and_logouts.json') {
+        const jsonData: LoginsAndLogoutsModel = JSON.parse(content);
+        userData.security_and_login_information.logins_and_logouts = jsonData;
+      } else if (filename === 'account_activity.json') {
+        const jsonData: AccountActivityModel = this.parseJSON(content);
+        userData.security_and_login_information.account_activity = jsonData;
+      } else if (filename === 'information_about_your_last_login.json') {
+        const jsonData: LastLoginInformationModel = JSON.parse(content);
+        userData.security_and_login_information.last_login_information =
+          jsonData;
+      } else if (filename === 'ip_address_activity.json') {
+        const jsonData: IPAddressActivityModel = JSON.parse(content);
+        userData.security_and_login_information.ip_address_activity = jsonData;
+      } else if (filename === 'record_details.json') {
+        const jsonData: AdminRecordsModel = JSON.parse(content);
+        userData.security_and_login_information.record_details = jsonData;
+      } else if (filename === 'your_facebook_activity_history.json') {
+        const jsonData: FacebookActivityHistoryModel = JSON.parse(content);
+        userData.security_and_login_information.facebook_activity_history =
+          jsonData;
+      } else if (filename === 'recognized_devices.json') {
+        const jsonData: RecognizedDevicesModel = JSON.parse(content);
+        userData.security_and_login_information.recognized_devices = jsonData;
+      } else if (filename === 'mobile_devices.json') {
+        const jsonData: MobileDeviceModel = JSON.parse(content);
+        userData.security_and_login_information.mobile_devices = jsonData;
+      } else if (filename === 'email_address_verifications.json') {
+        const jsonData: EmailAddressVerificationModel = JSON.parse(content);
+        userData.security_and_login_information.email_address_verifications =
+          jsonData;
+      } else if (filename === 'login_protection_data.json') {
+        const jsonData: LoginProtectionDataModel = JSON.parse(content);
+        userData.security_and_login_information.login_protection_data =
+          jsonData;
+      } else if (filename === 'your_recent_account_recovery_successes.json') {
+        const jsonData: RecentAccountRecoverySuccessesModel =
+          JSON.parse(content);
+        userData.security_and_login_information.recent_account_recovery_successes =
+          jsonData;
+      } else if (filename === 'where_you_re_logged_in.json') {
+        const jsonData: ActiveSessionsModel = this.parseJSON(content);
+        userData.security_and_login_information.login_location = jsonData;
+      }
+      //preferences
+      else if (filename === 'feed.json') {
+        const jsonData: PeopleAndFriendsModel = this.parseJSON(content);
+        userData.preferences.feed = jsonData;
+      } else if (filename === 'controls.json') {
+        const jsonData: FeedControlModel = this.parseJSON(content);
+        userData.preferences.feedControls = jsonData;
+      } else if (filename === 'your_fundraiser_settings.json') {
+        const jsonData: FundraiserSettingsModel = this.parseJSON(content);
+        userData.preferences.fundraiserSettings = jsonData;
+      } else if (filename === 'reels_preferences.json') {
+        const jsonData: ReelsPreferenceModel = this.parseJSON(content);
+        userData.preferences.reelsPreferences = jsonData;
+      } else if (filename === 'video.json') {
+        const jsonData: VideoPreferenceModel = this.parseJSON(content);
+        userData.preferences.videoPreferences = jsonData;
+      } else if (filename === 'your_device_push_settings.json') {
+        const jsonData: DevicePushSettingModel = this.parseJSON(content);
+        userData.preferences.devicePushSettings = jsonData;
+      } else if (filename === 'language_and_locale.json') {
+        const jsonData: LanguageAndLocalesModel = this.parseJSON(content);
+        userData.preferences.languageAndLocales = jsonData;
+      } else if (filename === 'your_story_highlights.json') {
+        //TODO not implemented
+      }
 
-          for (let i = 1; i < entries.length; i++) {
-            const entry = entries[i];
-            const name = entry.data.name;
-            const value = entry.data.value;
-            await this.faceGroupMessagesRepo.addGroupMessagesBulkEntry(
-              name,
-              value
-            );
+      //activity_across_facebook/groups
+      else if (filename === 'your_badges.json') {
+        const jsonData: GroupBadgesModel = this.parseJSON(content);
+        userData.activity_across_facebook.groupBadges = jsonData;
+      } else if (filename === 'your_group_membership_activity.json') {
+        const jsonData: GroupsJoinedModel = this.parseJSON(content);
+        userData.activity_across_facebook.groupsJoined = jsonData;
+      } else if (filename === 'your_comments_in_groups.json') {
+        const jsonData: GroupCommentsModel = this.parseJSON(content);
+        userData.activity_across_facebook.groupComments = jsonData;
+      } else if (filename === 'your_groups.json') {
+        const jsonData: GroupsAdminedModel = this.parseJSON(content);
+        userData.activity_across_facebook.groupsAdmined = jsonData;
+      } else if (filename === 'group_posts_and_comments.json') {
+        const jsonData: GroupPostsModel = this.parseJSON(content);
+        userData.activity_across_facebook.groupPosts = jsonData;
+      } else if (filename === 'your_event_responses.json') {
+        const jsonData: EventResponsesModel = this.parseJSON(content);
+        userData.activity_across_facebook.eventResponses = jsonData;
+      } else if (filename === 'event_invitations.json') {
+        const jsonData: EventsInvitedModel = this.parseJSON(content);
+        userData.activity_across_facebook.eventsInvited = jsonData;
+      } else if (filename === "events_you've_hidden.json") {
+        const jsonData: EventsInvitedModel = this.parseJSON(content);
+        userData.activity_across_facebook.eventsInvited = jsonData;
+      } else if (filename === 'message_1.json'){
+        if(filepath.includes('archived_threads')){
+          const jsonData: ArchivedThreadModel = this.parseJSON(content);
+          userData.activity_across_facebook.archivedThreads ??= [];
+          userData.activity_across_facebook.archivedThreads?.push(jsonData);
+        } else if(filepath.includes('inbox')){
+
+          //check if message is group message or normal message
+          if(content.includes('joinable_mode')){
+            const jsonData: GroupMessageModel = this.parseJSON(content);
+            //if groupmessages are nullish, set to empty array
+            userData.activity_across_facebook.groupMessages ??= [];
+            userData.activity_across_facebook.groupMessages?.push(jsonData);
+          } else {
+            const jsonData: InboxMessageModel = this.parseJSON(content);
+            userData.activity_across_facebook.inboxMessages ??= [];
+            userData.activity_across_facebook.inboxMessages?.push(jsonData);
           }
-        }
-      } else if (filename === "your_posts__check_ins__photos_and_videos_1.json") {
-        const jsonData = JSON.parse(content);
-        const posts = jsonData;
-
-        const timestamp = posts[0].timestamp;
-        const title = posts[0].title;
-        const post = posts[0].data.length > 0 ? posts[0].data[0].post : "Added a photo";
-        await this.facePostsRepo.startPostsBulkAdd(timestamp, title, post, posts.length);
-
-        for (let i = 1; i < posts.length; i++) {
-          const title = posts[i].title ? posts[i].title : "Updated timeline";
-          const timestamp = posts[i].timestamp;
-          const post = posts[i].data.length > 0 ? posts[i].data[0].post : "Added a photo";
-          await this.facePostsRepo.addPostsBulkEntry(timestamp, title, post);
+        } else if(filepath.includes('message_requests')){
+          const jsonData: MessageRequestModel = this.parseJSON(content);
+          userData.activity_across_facebook.messageRequests ??= [];
+          userData.activity_across_facebook.messageRequests?.push(jsonData);
         }
       }
     }
+
+    this.store.dispatch(new UpdateFbUserData(userData));
 
     this.progressBarPercent = 100;
     await delay(500);
@@ -865,9 +806,7 @@ export class ServiceSelectionComponent implements AfterViewInit {
     this.progressBarVisible = true;
 
     this.store.dispatch(
-      new SpotifyReadFromZip(
-        await this.loadZipFile(this.uploadedFiles[0])
-      )
+      new SpotifyReadFromZip(await this.loadZipFile(this.uploadedFiles[0]))
     );
 
     if (this.requestedAbortDataParsing) {
@@ -950,7 +889,12 @@ export class ServiceSelectionComponent implements AfterViewInit {
           'Date of birth',
           false
         );
-        userData.personalInfo = {username: personalData?.Username?.value, email, gender, birthdate};
+        userData.personalInfo = {
+          username: personalData?.Username?.value,
+          email,
+          gender,
+          birthdate,
+        };
       } else if (filename.startsWith('account_information')) {
         const jsonData = JSON.parse(content);
         const accountData =
@@ -1004,17 +948,18 @@ export class ServiceSelectionComponent implements AfterViewInit {
           lastLogout,
           firstStoryTime,
           lastStoryTime,
-          firstCloseFriendsStoryTime
+          firstCloseFriendsStoryTime,
         };
       } else if (filename.startsWith('professional_information')) {
         const jsonData = JSON.parse(content);
         const profData = jsonData.profile_business[0];
-        userData.professionalInfo = {title: profData.title};
-      } else if (filename.startsWith("account_based_in")) {
+        userData.professionalInfo = { title: profData.title };
+      } else if (filename.startsWith('account_based_in')) {
         const jsonData = JSON.parse(content);
-        const basedData = jsonData.inferred_data_primary_location[0].string_map_data;
-        userData.basedInInfo = {accountBasedIn: basedData["City Name"].value};
-      } else if (filename.startsWith("profile_changes")) {
+        const basedData =
+          jsonData.inferred_data_primary_location[0].string_map_data;
+        userData.basedInInfo = { accountBasedIn: basedData['City Name'].value };
+      } else if (filename.startsWith('profile_changes')) {
         const jsonData = JSON.parse(content);
         const profileData = jsonData.profile_profile_change;
         userData.profileChanges = [];
@@ -1035,7 +980,13 @@ export class ServiceSelectionComponent implements AfterViewInit {
             'Change Date',
             true
           );
-          userData.profileChanges.push({title: profileData[i].title, changed, previous_value, new_value, change_date});
+          userData.profileChanges.push({
+            title: profileData[i].title,
+            changed,
+            previous_value,
+            new_value,
+            change_date,
+          });
         }
       }
       //add ads related data
@@ -1049,7 +1000,7 @@ export class ServiceSelectionComponent implements AfterViewInit {
               adsInterestData[i].string_map_data,
               'Interest',
               false
-            )
+            ),
           });
         }
       } else if (filename.startsWith('advertisers_using_your_activity')) {
@@ -1059,10 +1010,12 @@ export class ServiceSelectionComponent implements AfterViewInit {
         for (let i = 0; i < adsData.length; i++) {
           userData.adsActivityInfo.push({
             advertiserName: adsData[i].advertiser_name,
-            has_data_file_custom_audience: adsData[i].has_data_file_custom_audience,
-            has_remarketing_custom_audience: adsData[i].has_remarketing_custom_audience,
-            has_in_person_store_visit: adsData[i].has_in_person_store_visit
-          })
+            has_data_file_custom_audience:
+              adsData[i].has_data_file_custom_audience,
+            has_remarketing_custom_audience:
+              adsData[i].has_remarketing_custom_audience,
+            has_in_person_store_visit: adsData[i].has_in_person_store_visit,
+          });
         }
       } else if (filename.startsWith('ads_clicked')) {
         const jsonData = JSON.parse(content);
@@ -1071,7 +1024,7 @@ export class ServiceSelectionComponent implements AfterViewInit {
         for (let i = 0; i < adsClickedData.length; i++) {
           userData.adsClickedInfo.push({
             title: adsClickedData[i].title,
-            timestamp: adsClickedData[i].string_list_data[0].timestamp
+            timestamp: adsClickedData[i].string_list_data[0].timestamp,
           });
         }
       } else if (filename.startsWith('ads_viewed')) {
@@ -1090,7 +1043,7 @@ export class ServiceSelectionComponent implements AfterViewInit {
           true
         );
         for (let i = 0; i < adsViewedData.length; i++) {
-          userData.adsViewedInfo.push({title: author, timestamp});
+          userData.adsViewedInfo.push({ title: author, timestamp });
         }
       } else if (filename.startsWith('signup_information.json')) {
         const jsonData = JSON.parse(content);
@@ -1119,7 +1072,15 @@ export class ServiceSelectionComponent implements AfterViewInit {
           'Device',
           false
         );
-        userData.signUpInfo = {username, ip_address, timestamp: time, email, phone_number, device, color: 'blue'};
+        userData.signUpInfo = {
+          username,
+          ip_address,
+          timestamp: time,
+          email,
+          phone_number,
+          device,
+          color: 'blue',
+        };
       } else if (filename.startsWith('login_activity.json')) {
         const jsonData = JSON.parse(content);
         const loginData = jsonData.account_history_login_history;
@@ -1142,9 +1103,9 @@ export class ServiceSelectionComponent implements AfterViewInit {
               true
             ),
             user_agent,
-            type: "Login",
-            color: "green",
-            device: devicetypeUtils.getDeviceNameBasedOnUserAgent(user_agent)
+            type: 'Login',
+            color: 'green',
+            device: devicetypeUtils.getDeviceNameBasedOnUserAgent(user_agent),
           });
         }
       } else if (filename.startsWith('logout_activity.json')) {
@@ -1156,9 +1117,10 @@ export class ServiceSelectionComponent implements AfterViewInit {
             logoutData[i].string_map_data,
             'User Agent',
             false
-          )
+          );
           userData.logoutInfo.push({
-            user_agent, ip_address: utilities.getValueIgnoreCase(
+            user_agent,
+            ip_address: utilities.getValueIgnoreCase(
               logoutData[i].string_map_data,
               'IP Address',
               false
@@ -1168,9 +1130,9 @@ export class ServiceSelectionComponent implements AfterViewInit {
               'Time',
               true
             ),
-            type: "Logout",
-            color: "red",
-            device: devicetypeUtils.getDeviceNameBasedOnUserAgent(user_agent)
+            type: 'Logout',
+            color: 'red',
+            device: devicetypeUtils.getDeviceNameBasedOnUserAgent(user_agent),
           });
         }
       } else if (filename.startsWith('liked_comments')) {
@@ -1181,7 +1143,7 @@ export class ServiceSelectionComponent implements AfterViewInit {
           userData.likedCommentsInfo.push({
             user: likedComments[i].title,
             href_link: likedComments[i].string_list_data[0].href,
-            timestamp: likedComments[i].string_list_data[0].timestamp
+            timestamp: likedComments[i].string_list_data[0].timestamp,
           });
         }
       } else if (filename.startsWith('liked_posts')) {
@@ -1203,7 +1165,8 @@ export class ServiceSelectionComponent implements AfterViewInit {
           userData.contactInfo.push({
             firstName: contactsData[i].string_map_data['First name'].value,
             surname: contactsData[i].string_map_data['Surname'].value,
-            contactInformation: contactsData[i].string_map_data['Contact information'].value
+            contactInformation:
+              contactsData[i].string_map_data['Contact information'].value,
           });
         }
       }
@@ -1216,7 +1179,7 @@ export class ServiceSelectionComponent implements AfterViewInit {
           const mappingData = searchData[i].string_map_data;
           userData.userSearch.push({
             search: mappingData.Search.value,
-            timestamp: mappingData.Time.timestamp
+            timestamp: mappingData.Time.timestamp,
           });
         }
       } else if (filename.startsWith('word_or_phrase_searches')) {
@@ -1227,7 +1190,7 @@ export class ServiceSelectionComponent implements AfterViewInit {
           const mappingData = searchData[i].string_map_data;
           userData.keywordSearch.push({
             search: mappingData.Search.value,
-            timestamp: mappingData.Time.timestamp
+            timestamp: mappingData.Time.timestamp,
           });
         }
       } else if (filename.startsWith('tag_searches')) {
@@ -1238,8 +1201,8 @@ export class ServiceSelectionComponent implements AfterViewInit {
           const mappingData = searchData[i].string_map_data;
           userData.tagSearch.push({
             search: mappingData.Search.value,
-            timestamp: mappingData.Time.timestamp
-          })
+            timestamp: mappingData.Time.timestamp,
+          });
         }
       }
       //add follower information
@@ -1250,7 +1213,11 @@ export class ServiceSelectionComponent implements AfterViewInit {
           const instaProfileURL = jsonData[i].string_list_data[0].href;
           const timestamp = jsonData[i].string_list_data[0].timestamp;
           const instaAccountName = jsonData[i].string_list_data[0].value;
-          userData.followerInfo.push({instaProfileURL, instaAccountName, timestamp});
+          userData.followerInfo.push({
+            instaProfileURL,
+            instaAccountName,
+            timestamp,
+          });
         }
       }
       //add following information
@@ -1262,7 +1229,11 @@ export class ServiceSelectionComponent implements AfterViewInit {
           const instaProfileURL = followingData[i].string_list_data[0].href;
           const timestamp = followingData[i].string_list_data[0].timestamp;
           const instaAccountName = followingData[i].string_list_data[0].value;
-          userData.followingInfo.push({instaProfileURL, instaAccountName, timestamp});
+          userData.followingInfo.push({
+            instaProfileURL,
+            instaAccountName,
+            timestamp,
+          });
         }
       }
       //add blocked information
@@ -1274,7 +1245,11 @@ export class ServiceSelectionComponent implements AfterViewInit {
           const instaProfileURL = blockedData[i].string_list_data[0].href;
           const timestamp = blockedData[i].string_list_data[0].timestamp;
           const instaAccountName = blockedData[i].title;
-          userData.blockedInfo.push({instaProfileURL, instaAccountName, timestamp});
+          userData.blockedInfo.push({
+            instaProfileURL,
+            instaAccountName,
+            timestamp,
+          });
         }
       }
       //Shopping related information
@@ -1293,8 +1268,8 @@ export class ServiceSelectionComponent implements AfterViewInit {
               shoppingData[i].string_map_data,
               'Product Name',
               false
-            )
-          })
+            ),
+          });
         }
       }
       //Shopping wishlist related information
@@ -1327,8 +1302,13 @@ export class ServiceSelectionComponent implements AfterViewInit {
         for (let i = 0; i < recentFollowData.length; i++) {
           const instaProfileURL = recentFollowData[i].string_list_data[0].href;
           const timestamp = recentFollowData[i].string_list_data[0].timestamp;
-          const instaAccountName = recentFollowData[i].string_list_data[0].value;
-          userData.recentFollowInfo.push({instaProfileURL, instaAccountName, timestamp});
+          const instaAccountName =
+            recentFollowData[i].string_list_data[0].value;
+          userData.recentFollowInfo.push({
+            instaProfileURL,
+            instaAccountName,
+            timestamp,
+          });
         }
       }
       //add pending follow request information
@@ -1339,8 +1319,13 @@ export class ServiceSelectionComponent implements AfterViewInit {
         for (let i = 0; i < pendingFollowData.length; i++) {
           const instaProfileURL = pendingFollowData[i].string_list_data[0].href;
           const timestamp = pendingFollowData[i].string_list_data[0].timestamp;
-          const instaAccountName = pendingFollowData[i].string_list_data[0].value;
-          userData.pendingFollowRequestInfo.push({instaProfileURL, instaAccountName, timestamp});
+          const instaAccountName =
+            pendingFollowData[i].string_list_data[0].value;
+          userData.pendingFollowRequestInfo.push({
+            instaProfileURL,
+            instaAccountName,
+            timestamp,
+          });
         }
       }
       //add recently unfollowed accounts information
@@ -1349,10 +1334,17 @@ export class ServiceSelectionComponent implements AfterViewInit {
         const recentlyUnfollowData = jsonData.relationships_unfollowed_users;
         userData.recentlyUnfollowedInfo = [];
         for (let i = 0; i < recentlyUnfollowData.length; i++) {
-          const instaProfileURL = recentlyUnfollowData[i].string_list_data[0].href;
-          const timestamp = recentlyUnfollowData[i].string_list_data[0].timestamp;
-          const instaAccountName = recentlyUnfollowData[i].string_list_data[0].value;
-          userData.recentlyUnfollowedInfo.push({instaProfileURL, instaAccountName, timestamp});
+          const instaProfileURL =
+            recentlyUnfollowData[i].string_list_data[0].href;
+          const timestamp =
+            recentlyUnfollowData[i].string_list_data[0].timestamp;
+          const instaAccountName =
+            recentlyUnfollowData[i].string_list_data[0].value;
+          userData.recentlyUnfollowedInfo.push({
+            instaProfileURL,
+            instaAccountName,
+            timestamp,
+          });
         }
       }
 
@@ -1363,10 +1355,17 @@ export class ServiceSelectionComponent implements AfterViewInit {
           jsonData.relationships_dismissed_suggested_users;
         userData.removedSuggestionInfo = [];
         for (let i = 0; i < removedSuggestionData.length; i++) {
-          const instaProfileURL = removedSuggestionData[i].string_list_data[0].href;
-          const timestamp = removedSuggestionData[i].string_list_data[0].timestamp;
-          const instaAccountName = removedSuggestionData[i].string_list_data[0].value;
-          userData.removedSuggestionInfo.push({instaProfileURL, instaAccountName, timestamp});
+          const instaProfileURL =
+            removedSuggestionData[i].string_list_data[0].href;
+          const timestamp =
+            removedSuggestionData[i].string_list_data[0].timestamp;
+          const instaAccountName =
+            removedSuggestionData[i].string_list_data[0].value;
+          userData.removedSuggestionInfo.push({
+            instaProfileURL,
+            instaAccountName,
+            timestamp,
+          });
         }
       }
 
@@ -1377,10 +1376,17 @@ export class ServiceSelectionComponent implements AfterViewInit {
           jsonData.relationships_follow_requests_received;
         userData.receivedFollowRequestInfo = [];
         for (let i = 0; i < receivedRequestData.length; i++) {
-          const instaProfileURL = receivedRequestData[i].string_list_data[0].href;
-          const timestamp = receivedRequestData[i].string_list_data[0].timestamp;
-          const instaAccountName = receivedRequestData[i].string_list_data[0].value;
-          userData.receivedFollowRequestInfo.push({instaProfileURL, instaAccountName, timestamp});
+          const instaProfileURL =
+            receivedRequestData[i].string_list_data[0].href;
+          const timestamp =
+            receivedRequestData[i].string_list_data[0].timestamp;
+          const instaAccountName =
+            receivedRequestData[i].string_list_data[0].value;
+          userData.receivedFollowRequestInfo.push({
+            instaProfileURL,
+            instaAccountName,
+            timestamp,
+          });
         }
       }
 
@@ -1395,7 +1401,7 @@ export class ServiceSelectionComponent implements AfterViewInit {
               yourTopicData[i].string_map_data,
               'Name',
               false
-            )
+            ),
           });
         }
       }
@@ -1453,10 +1459,10 @@ export class ServiceSelectionComponent implements AfterViewInit {
           } else if (message.photos != undefined) {
             otherMessagesPerUser[message.sender_name].photos++;
           } else {
-
             otherMessagesPerUser[message.sender_name].avg =
               (otherMessagesPerUser[message.sender_name].text *
-                otherMessagesPerUser[message.sender_name].avg + message.content.length) /
+                otherMessagesPerUser[message.sender_name].avg +
+                message.content.length) /
               (otherMessagesPerUser[message.sender_name].text + 1);
 
             otherMessagesPerUser[message.sender_name].text++;
@@ -1502,7 +1508,9 @@ export class ServiceSelectionComponent implements AfterViewInit {
         };
         delete otherMessagesPerUser[yourName];
         for (const otherMessagesPerUserKey in otherMessagesPerUser) {
-          chatData.otherMessages.push(otherMessagesPerUser[otherMessagesPerUserKey])
+          chatData.otherMessages.push(
+            otherMessagesPerUser[otherMessagesPerUserKey]
+          );
         }
         userData.chatData.push(chatData);
       }
@@ -1554,7 +1562,9 @@ export class ServiceSelectionComponent implements AfterViewInit {
       return await zip.loadAsync(file);
     } else {
       //Show error: you didn't upload a zip file
-      this.errorMsg = 'The file you selected is not a zip-file. Please select the zip file you downloaded from ' + this.selectedServiceName;
+      this.errorMsg =
+        'The file you selected is not a zip-file. Please select the zip file you downloaded from ' +
+        this.selectedServiceName;
       this.uploadDialogVisible = true;
       this.isProcessingFile = false;
       throw Error('Selected File is not a .zip file!');

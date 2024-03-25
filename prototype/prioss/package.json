@@ -39,8 +39,8 @@
     "intro.js": "^7.0.1",
     "jeep-sqlite": "^2.3.4",
     "jszip": "^3.10.1",
+  "ng-zorro-antd": "^17.1.0",
     "ng2-charts": "^5.0.4",
-    "ng-zorro-antd": "^17.1.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.6.2",
     "zone.js": "~0.14.2"

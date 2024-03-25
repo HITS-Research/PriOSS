@@ -44,7 +44,7 @@ export class OffFacebookActivityComponent implements AfterViewInit{
       instructionPicture: '../../assets/images/off-facebook-activity/5.png'
     },
     {
-      instructionText: 'Click on "Select future activity to disconnect" and put your Facebook password to select the activities you want to disconnect.',
+      instructionText: 'Click on "Disconnect specific activitiy" and put your Facebook password to select the activities you want to disconnect.',
       instructionPicture: '../../assets/images/off-facebook-activity/6.png'
     },
     {

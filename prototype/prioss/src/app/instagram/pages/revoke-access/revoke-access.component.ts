@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component,ChangeDetectionStrategy } from '@angular/core';
 /**
   * This component is responsible for providing guidelines to Revoke access to third-party apps.
   * @author: Aayushma (aayushma@mail.uni-paderborn.de)
@@ -7,8 +7,10 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-revoke-access',
   templateUrl: './revoke-access.component.html',
-  styleUrls: ['./revoke-access.component.less']
+  styleUrls: ['./revoke-access.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
+
 export class RevokeAccessComponent {
   RevokeAccess = 0;
   instructionTextRevokeAccess='First, open https://www.instagram.com/ on your computer or mobile browser and log in to your account. This will get you to your account overview.';

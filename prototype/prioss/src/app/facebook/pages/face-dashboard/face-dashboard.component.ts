@@ -1,28 +1,27 @@
-import { AfterViewInit, Component, inject } from '@angular/core';
+import { AfterViewInit, Component, inject ,ChangeDetectionStrategy} from '@angular/core';
 import { Router } from "@angular/router";
 import { FacebookDashboardIntroductionService } from '../../features/dashboard-introduction/facebook-dashboard-introduction.service';
 
 /**
-  * This component is the root component for facebook's dashboard page.
-  * This page is shown once a user has successfully uploaded their facebook data-download.
-  *
-  * @remarks
-  * Equivalent components for instagram and spotify exist that define their dashboards
-  *
-  * @author: rishmamn@campus.uni-paderborn.de rbharmal@mail.upb.de
-  *
-  */
+ * This component is the root component for facebook's dashboard page.
+ * This page is shown once a user has successfully uploaded their facebook data-download.
+ *
+ * @remarks
+ * Equivalent components for instagram and spotify exist that define their dashboards
+ *
+ * @author: rishmamn@campus.uni-paderborn.de rbharmal@mail.upb.de
+ *
+ */
 @Component({
   selector: 'app-face-dashboard',
   templateUrl: './face-dashboard.component.html',
-  styleUrls: ['./face-dashboard.component.less']
+  styleUrls: ['./face-dashboard.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-
-export class FaceDashboardComponent implements AfterViewInit{
-
+export class FaceDashboardComponent implements AfterViewInit {
   #introductionService = inject(FacebookDashboardIntroductionService);
 
-  #router = inject(Router)
+  #router = inject(Router);
 
   /**
    * Rectification instruction steps.
@@ -53,31 +52,33 @@ export class FaceDashboardComponent implements AfterViewInit{
   }
 
   /**
-  * Updates the rectification visualization regarding the current value.
-  *
-  * @author: Deepa (dbelvi@mail.upb.de)
-  *
-  */
+   * Updates the rectification visualization regarding the current value.
+   *
+   * @author: Deepa (dbelvi@mail.upb.de)
+   *
+   */
   changeContent(): void {
     switch (this.current) {
       case 0: {
-        this.rectificationText="Choose your country. (Click on the image to zoom-in)";
-        this.rectificationImage="/../../assets/images/fb-rectification/1.png"
+        this.rectificationText =
+          'Choose your country. (Click on the image to zoom-in)';
+        this.rectificationImage = '/../../assets/images/fb-rectification/1.png';
         break;
       }
       case 1: {
-        this.rectificationText="Choose 'Facebook' and appropriate age bracket.";
-        this.rectificationImage="/../../assets/images/fb-rectification/2.png"
+        this.rectificationText =
+          "Choose 'Facebook' and appropriate age bracket.";
+        this.rectificationImage = '/../../assets/images/fb-rectification/2.png';
         break;
       }
       case 2: {
-        this.rectificationText="Choose the highlighted options.";
-        this.rectificationImage="/../../assets/images/fb-rectification/3.png"
+        this.rectificationText = 'Choose the highlighted options.';
+        this.rectificationImage = '/../../assets/images/fb-rectification/3.png';
         break;
       }
       case 3: {
-        this.rectificationText="Choose the highlighted option.";
-        this.rectificationImage="/../../assets/images/fb-rectification/4.png"
+        this.rectificationText = 'Choose the highlighted option.';
+        this.rectificationImage = '/../../assets/images/fb-rectification/4.png';
         break;
       }
       case 4: {
@@ -86,107 +87,116 @@ export class FaceDashboardComponent implements AfterViewInit{
         break;
       }
       default: {
-        this.rectificationText="Error";
+        this.rectificationText = 'Error';
       }
     }
   }
 
   /**
-    * The 'faqs' variable contains the FAQs for Facebook dashboard.
-    * To add a new FAQ, add an object with its state, question, and answer.
-    *
-    * @author: Deepa (dbelvi@mail.upb.de)
-    *
-  */
+   * The 'faqs' variable contains the FAQs for Facebook dashboard.
+   * To add a new FAQ, add an object with its state, question, and answer.
+   *
+   * @author: Deepa (dbelvi@mail.upb.de)
+   *
+   */
   faqs = [
     {
       state: false,
       question: 'What is the purpose of Facebook dashboard?',
-      answer: 'The Facebook dashboard presents your personal data in an easily understandable way. This helps you understand what personal data Facebook has been collecting, and how that data is being used. The dashboard also intends to help you excercise your privacy rights by making you more aware of your rights and by guiding you how to excercise your rights.'
+      answer:
+        'The Facebook dashboard presents your personal data in an easily understandable way. This helps you understand what personal data Facebook has been collecting, and how that data is being used. The dashboard also intends to help you excercise your privacy rights by making you more aware of your rights and by guiding you how to excercise your rights.',
     },
 
     {
       state: false,
-      question: 'How does this dashboard help me improve my privacy on Facebook?',
-      answer: 'You can go to each visualization tile and inspect your data for its correctness. You can also see how your activities are being tracked. If you do not intend Facebook to know any of your particular personal data, you can follow the instructions mentioned in \'Manage Privacy\' section to manage your permissions and/or privacy.'
+      question:
+        'How does this dashboard help me improve my privacy on Facebook?',
+      answer:
+        "You can go to each visualization tile and inspect your data for its correctness. You can also see how your activities are being tracked. If you do not intend Facebook to know any of your particular personal data, you can follow the instructions mentioned in 'Manage Privacy' section to manage your permissions and/or privacy.",
     },
 
     {
       state: false,
       question: 'Can I excercise my privacy rights on this platform?',
-      answer: 'This platform helps you excercise your privacy instructions through appropriate instructions. You have to go to your logged-in Facebook account and follow the instructions. Since this platform works offline, without internet, you can not click something here to make changes in your Facebook account!'
+      answer:
+        'This platform helps you excercise your privacy instructions through appropriate instructions. You have to go to your logged-in Facebook account and follow the instructions. Since this platform works offline, without internet, you can not click something here to make changes in your Facebook account!',
     },
 
     {
       state: false,
       question: 'Is downloading my data compulsory to use the platform?',
-      answer: 'No. This platform offers sample data for Facebook. You can explore how your data might look, by using the sample data.'
+      answer:
+        'No. This platform offers sample data for Facebook. You can explore how your data might look, by using the sample data.',
     },
 
     {
       state: false,
       question: 'Is my data safe after I upload my data on this platform?',
-      answer: 'Yes. This platform can completely run offline, without internet. Make sure to upload your data after you are disconnected from internet. Your data will not leave your computer then!'
+      answer:
+        'Yes. This platform can completely run offline, without internet. Make sure to upload your data after you are disconnected from internet. Your data will not leave your computer then!',
     },
 
     {
       state: false,
       question: 'What are my privacy rights?',
-      answer: 'We reccommend you to read your rights as explained in \'GDPR and Your Rights\' section.'
+      answer:
+        "We reccommend you to read your rights as explained in 'GDPR and Your Rights' section.",
     },
 
     {
       state: false,
       question: 'How do I excercise my privacy rights?',
-      answer: 'By following the instructions mentioned in the \'Manage Privacy\' Section.'
+      answer:
+        "By following the instructions mentioned in the 'Manage Privacy' Section.",
     },
 
     {
       state: false,
-      question: 'Does this platform has any privacy recommedations for my personal Facebook account?',
-      answer: 'Yes. Please refer to Privacy Recommendations section.'
-    }
+      question:
+        'Does this platform has any privacy recommedations for my personal Facebook account?',
+      answer: 'Yes. Please refer to Privacy Recommendations section.',
+    },
   ];
 
   /**
-    * This  method is responsible to navigate to the ads component page.
-    * @author: rishmamn@campus.uni-paderborn.de
-    *
-  */
+   * This  method is responsible to navigate to the ads component page.
+   * @author: rishmamn@campus.uni-paderborn.de
+   *
+   */
   adsData() {
     this.#router.navigate(['face/ads-related-data']);
   }
 
   /**
-  * This  method is responsible to navigate to the inferred topics component page.
-  * @author: rbharmal@mail.upb.de
-  *
- */
+   * This  method is responsible to navigate to the inferred topics component page.
+   * @author: rbharmal@mail.upb.de
+   *
+   */
   navigateToInferredTopics() {
     this.#router.navigate(['face/inferred-topics']);
   }
 
   /**
-  * This  method is responsible to navigate to the friends and followers component page.
-  * @author: rbharmal@mail.upb.de
-  *
- */
+   * This  method is responsible to navigate to the friends and followers component page.
+   * @author: rbharmal@mail.upb.de
+   *
+   */
   navigateToFriendsAndFollowers() {
     this.#router.navigate(['face/connections']);
   }
-/**
-    * This  method is responsible to navigate to Off-Facebook Activity Guidelines page.
-    * @author: mukuls@mail.upb.de
-    *
+  /**
+   * This  method is responsible to navigate to Off-Facebook Activity Guidelines page.
+   * @author: mukuls@mail.upb.de
+   *
    */
   navigateToOFA() {
-      this.#router.navigate(['face/configure-off-facebook-activity']);
+    this.#router.navigate(['face/configure-off-facebook-activity']);
   }
 
- /**
-  * Starts the initial dashboard-tour.
-  */
-  ngAfterViewInit(): void  {
+  /**
+   * Starts the initial dashboard-tour.
+   */
+  ngAfterViewInit(): void {
     this.#introductionService.start();
   }
 

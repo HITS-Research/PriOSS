@@ -1,9 +1,11 @@
-<nz-statistic  [nzTitle]="'Total inferences'" 
-               [nzValue]="inferredTopics.length"
-               [nzPrefix]="location"
-               [nzValueStyle]="{display: 'inline-flux'}" 
-               class ="bold-title" 
-               *ngIf="previewMode">
+<nz-statistic
+  [nzTitle]="'Total inferences'"
+  [nzValue]="inferredTopics.length"
+  [nzPrefix]="location"
+  [nzValueStyle]="{ display: 'inline-flux' }"
+  class="bold-title"
+  *ngIf="previewMode"
+>
 </nz-statistic>
 <ng-template #location>
   <div class="container_class">
@@ -11,18 +13,19 @@
   </div>
 </ng-template>
 <div class="component-page" *ngIf="!previewMode">
-  <app-title-bar titleText="Inferred topics" tooltipText="TBD"></app-title-bar>
+  <app-title-bar titleText="Inferred topics" tooltipText="This is a list of topics that Facebook has linked to you because of your activity"></app-title-bar>
   <ng-container *ngIf="dataAvailable; else noDataTemplate">
-  <nz-list nzGrid class="margin-top-20" class="topic-view">
-    <nz-list-item *ngFor="let item of inferredTopics">
-      {{item.topic}}
-    </nz-list-item>
-</nz-list>
+    <nz-list nzGrid class="margin-top-20" class="topic-view">
+      <nz-list-item *ngFor="let item of inferredTopics">
+        {{ item }}
+      </nz-list-item>
+    </nz-list>
   </ng-container>
   <ng-template #noDataTemplate>
-    <nz-result nzStatus="403" nzTitle="No data available">
-    </nz-result>
+    <nz-result nzStatus="403" nzTitle="No data available"> </nz-result>
   </ng-template>
-<h4 nz-typography>To manage the Inferred topics,</h4>
-<button nz-button nzType="primary" (click)="navigateToYourTopics()">Click here</button>
+  <h4 nz-typography>To manage the Inferred topics,</h4>
+  <button nz-button nzType="primary" (click)="navigateToYourTopics()">
+    Click here
+  </button>
 </div>

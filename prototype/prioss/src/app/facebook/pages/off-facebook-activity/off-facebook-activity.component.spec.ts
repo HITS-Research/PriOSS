@@ -8,9 +8,8 @@ describe('OffFacebookActivityComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ OffFacebookActivityComponent ]
-    })
-    .compileComponents();
+      declarations: [OffFacebookActivityComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(OffFacebookActivityComponent);
     component = fixture.componentInstance;

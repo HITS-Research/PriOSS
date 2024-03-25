@@ -1,9 +1,10 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input ,ChangeDetectionStrategy} from '@angular/core';
 
 @Component({
   selector: 'app-faq',
   templateUrl: './faq.component.html',
-  styleUrls: ['./faq.component.less']
+  styleUrls: ['./faq.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FaqComponent {
 
@@ -20,7 +21,7 @@ export class FaqComponent {
     {
       active: false,
       name: 'What types of user data does this website collect?',
-      content: 'Our website operates with full offline functionality, which means that none of the user data available through uploaded data-downloads is sent to any server. All data processing occurs locally on your device, ensuring that your information remains secure and under your control. Furthermore, when you leave the Dashboard, you have the option to delete all locally processed data. Still not fully convinced ? No worries ! Just disconnect your internet before uploading your data and turn it back on after leaving the website. The application works fully offline after loading it once.'
+      content: 'Our website operates with full offline functionality which means that none of the user data available through uploaded data-downloads is sent to any server. All data processing occurs locally on your device, ensuring that your information remains secure and under your control. Furthermore, when you leave the Dashboard, you have the option to delete all locally processed data. Still not fully convinced ? No worries ! Just disconnect your internet before uploading your data and turn it back on after leaving the website. The application works fully offline after loading it once.'
     },
     {
       active: false,
@@ -32,7 +33,7 @@ export class FaqComponent {
     {
       active: false,
       name: 'Why was this application created?',
-      content: 'Users often lack awareness of their rights regarding data downloads under the General Data Protection Regulation (GDPR). Our platform not only offers data visualization but also assists users in rectifying inaccurate data and enhancing transparency. This includes providing additional context information, such as explanations regarding the purposes for which user data is collected by specific services, as well as guidance on how to exercise the right to erasure within those services. Through these measures, we aim to empower users to adopt privacy-conscious behaviors while using the social media platforms.',
+      content: 'Users often lack awareness of their rights regarding data downloads under the General Data Protection Regulation (GDPR). Our platform not only offers data visualization but also assists users in rectifying inaccurate data and enhancing transparency. This includes providing additional context information such as explanations regarding the purposes for which user data is collected by specific services as well as guidance on how to exercise the right to erasure within those services. Through these measures, we aim to empower users to adopt privacy-conscious behaviors while using the social media platforms.',
     },
     {
       active: false,
@@ -54,12 +55,12 @@ export class FaqComponent {
     {
       active: false,
       name: 'Is this application really offline?',
-      content: 'Yes, the application is offline. We have used SQLite which is a local database. For more detail, users can contact the University of Paderborn. „Project Group: a Privacy One-Stop Shop“ over the course of one year between October 2022 and September 2023. To get more information about us and the project, visit our About Us page',
+      content: 'Yes, the application is offline. We use NGXS which processes all your data locally on your device & your data is not leaving your device at any point.',
     },
     {
       active: false,
       name: 'What are my privacy rights?',
-      content: 'We reccommend you to read your rights as explained in \'GDPR Rights\' section of the respective social media platform.'
+      content: 'We recommend you to read your rights as explained in \'GDPR Rights\' section of the respective social media platform.'
     }
   ];
 
@@ -92,21 +93,21 @@ export class FaqComponent {
     },
     {
       active: false,
-      name: 'Can I excercise my Facebook privacy rights on this platform?',
-      content: 'No. This platform helps you excercise your privacy rights through appropriate instructions. You have to go to your logged-in Facebook account and follow the instructions. Since this platform works offline, without internet, you can not click something here to make changes in your Facebook account!',
+      name: 'Can I exercise my Facebook privacy rights on this platform?',
+      content: 'No. This platform helps you exercise your privacy rights through appropriate instructions. You have to go to your logged-in Facebook account and follow the instructions. Since this platform works offline, without internet, you can not click something here to make changes in your Facebook account!',
       link: undefined,
       linkLabel: undefined
     },
     {
       active: false,
-      name: 'How do I excercise my privacy rights?',
+      name: 'How do I exercise my privacy rights?',
       content: 'By following the instructions mentioned in the \'Privacy Recommendations\' Section.',
       link: undefined,
       linkLabel: undefined
     },
     {
       active: false,
-      name: 'Does this platform has any privacy recommedations for my personal Facebook account?',
+      name: 'Does this platform have any privacy recommendations for my personal Facebook account?',
       content: 'Yes. Please refer to \'Privacy Settings Judge\' in \'Privacy Recommendations\' section.',
       link: undefined,
       linkLabel: undefined

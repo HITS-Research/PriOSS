@@ -8,10 +8,9 @@ describe('DataDownloadFacebookComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DataDownloadFacebookComponent]
-    })
-    .compileComponents();
-    
+      imports: [DataDownloadFacebookComponent],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(DataDownloadFacebookComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

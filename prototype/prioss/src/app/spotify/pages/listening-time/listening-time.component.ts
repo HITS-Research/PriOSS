@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, OnDestroy, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Input, OnDestroy, ViewChild, ChangeDetectionStrategy, OnInit} from '@angular/core';
 import * as d3 from 'd3';
 import { GranularityEnum, Granularity2LabelMapping, getSmallerGranularity } from './granularity.enum';
 import { formatDisplayTime } from './formatDisplayTime.function';
@@ -15,12 +15,27 @@ import { Subscription, fromEvent } from 'rxjs';
 import { TopSongsComponent } from '../top-songs/top-songs.component';
 import { TopArtistsComponent } from '../top-artists/top-artists.component';
 import { NotificationService } from 'src/app/features/notification/notification.service';
+import { PriossChartDataset } from 'src/app/features/chart/chart-dataset.type';
+import { PriossChartEvent } from 'src/app/features/chart/chart.component';
+import { Select, Store } from '@ngxs/store';
+import { Observable } from 'rxjs';
+import { SpotifyStreamingHistoryState } from '../../features/streaming-history/streaming-history.state';
+import { SpotifyStreamingHistoryStateModel } from '../../features/streaming-history/streaming-history.statemodel';
+import { ChartOptions } from 'chart.js';
+import { millisecondsToListeningTimeFormat } from '../../../features/utils/dateUtils.functions';
+
+
 
 interface ListeningtimeFilterHistoryEntry {
   granularity: GranularityEnum;
   filterFromDate: Date|null;
   filterToDate: Date|null;
   filterSingleDate: Date|null;
+}
+
+interface ListeningTimeGraphMapType {
+  year: string;
+  msPlayed: number;
 }
 
 /**
@@ -32,9 +47,13 @@ interface ListeningtimeFilterHistoryEntry {
 @Component({
   selector: 'prioss-spotify-listening-time',
   templateUrl: './listening-time.component.html',
-  styleUrls: ['./listening-time.component.less']
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrls: ['./listening-time.component.less'],
 })
-export class ListeningTimeComponent extends SequenceComponentInit implements AfterViewInit, OnDestroy{
+export class ListeningTimeComponent extends SequenceComponentInit implements AfterViewInit, OnDestroy, OnInit{
+
+  @Select(SpotifyStreamingHistoryState)
+  SpotifyStreamingHistoryState$: Observable<SpotifyStreamingHistoryStateModel>;
 
   @Input()
   previewMode = false;
@@ -44,6 +63,9 @@ export class ListeningTimeComponent extends SequenceComponentInit implements Aft
   topSongsComponent : TopSongsComponent;
   @ViewChild('TopArtistsComponent')
   topArtistsComponent : TopArtistsComponent;
+ 
+
+  private spotifyStreamingHistoryStateSubscription: Subscription;
 
   readonly spotifyGreen: string = "#1DB954";
 
@@ -78,12 +100,26 @@ export class ListeningTimeComponent extends SequenceComponentInit implements Aft
   //Barchart visual elements
   showDataTextAboveBars = false;
 
+
+
   /**
    * The name of the bar that the user right clicked on last.
    * This is used to determine what date the bar represents when switching to Top Songs / Top Artists Visualization
    */
   rightClickedBarName = "";
   contextMenuEventSubscription: Subscription;
+  yearlyStreamingHistoryData: {year: string, msPlayed: number}[] = [];
+  labels: string[] 
+  streamData: number[] 
+  datasource: PriossChartDataset[] 
+  barChartOptions: ChartOptions;
+
+  click(event: PriossChartEvent) {
+    console.log(`
+      The ${event.datasetLabel} of ${event.axisLabel}
+      is ${event.value}.
+    `);
+  }
 
   /**
     * the listening history to be visualized, this is fetched in the constructor and saved here so the recreateVisualization method can access this info whenever it needs to update
@@ -91,8 +127,30 @@ export class ListeningTimeComponent extends SequenceComponentInit implements Aft
     */
   history: any;
 
-  constructor(private spotHistoryRepo: SpotHistoryRepository, private notifyService: NotificationService, private router: Router) {
+  constructor(private spotHistoryRepo: SpotHistoryRepository, private notifyService: NotificationService, private router: Router, private store: Store) {
     super();
+  }
+
+  getYearlyListeningTimeFromStreamingHistory(streamingHistory: SpotifyStreamingHistoryStateModel){
+    let reducedListeningHistory: ListeningTimeGraphMapType[] = []
+    if (Array.isArray(streamingHistory)){
+      reducedListeningHistory = streamingHistory.reduce((acc: ListeningTimeGraphMapType[], currentItem: any) => {
+        const year = currentItem.endTime.slice(0, 4);
+    
+        const existingYearItem = acc.find((item) => item.year === year);
+    
+        if (existingYearItem) {
+            existingYearItem.msPlayed += currentItem.msPlayed;
+        } else {
+            acc.push({
+                year,
+                msPlayed: currentItem.msPlayed,
+            });
+        } 
+        return acc;
+    }, []);
+    }
+    return reducedListeningHistory
   }
 
 /**
@@ -107,11 +165,42 @@ export class ListeningTimeComponent extends SequenceComponentInit implements Aft
       this.rightClickedBarName = res.detail;
     });
 
+
+
     if (!this.previewMode)
     {
       this.initComponent();
     }
   }
+
+  
+  ngOnInit(): void {
+    this.spotifyStreamingHistoryStateSubscription = this.SpotifyStreamingHistoryState$.subscribe(
+      (state: SpotifyStreamingHistoryStateModel) => {
+        this.yearlyStreamingHistoryData = this.getYearlyListeningTimeFromStreamingHistory(state);
+        this.labels = this.yearlyStreamingHistoryData.map(streamData => streamData.year)
+        this.streamData = this.yearlyStreamingHistoryData.map(streamData => streamData.msPlayed)
+        this.datasource =  [
+          { label: 'Listening Time', data: this.streamData},
+        ];
+        this.barChartOptions = {
+          scales: {
+              y: {
+                  ticks: {
+                      callback: function(value) {
+                        return millisecondsToListeningTimeFormat(value as number);
+                      }
+                  }
+              }
+      
+          },
+    
+      }
+   
+      }
+    );
+  }
+
 
   /**
   * A Callback called by angular when the component is destroyed
@@ -121,6 +210,7 @@ export class ListeningTimeComponent extends SequenceComponentInit implements Aft
   */
   ngOnDestroy() {
     this.contextMenuEventSubscription.unsubscribe();
+    this.spotifyStreamingHistoryStateSubscription.unsubscribe();
   }
 
 /**

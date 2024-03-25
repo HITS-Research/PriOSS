@@ -8,9 +8,8 @@ describe('FaceDashboardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ FaceDashboardComponent ]
-    })
-    .compileComponents();
+      declarations: [FaceDashboardComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(FaceDashboardComponent);
     component = fixture.componentInstance;

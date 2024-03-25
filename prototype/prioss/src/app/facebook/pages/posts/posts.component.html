@@ -1,90 +1,125 @@
 <div>
-    <div *ngIf="previewMode">
-        <nz-row [nzGutter]="16">
-            <nz-col [nzSpan]="10">
-              <nz-statistic [nzValue]="posts.length" 
-                            [nzTitle]="'Posts'"
-                            [nzPrefix]="location"
-                            [nzValueStyle]="{display: 'inline-flux'}">
-              </nz-statistic>
-              <ng-template #location>
-                <div class="container_class">
-                  <span nz-icon nzType="bar-chart" nzTheme="outline"></span>
-                </div>
-              </ng-template>
-            </nz-col>
-        </nz-row>
-    </div>
-    <div *ngIf="!previewMode">
-        <app-title-bar titleText="Posts" tooltipText="This visualization provides a comprehensive overview of your facebook posts alongwith an overview about years and months you were most active or inactive in posting"></app-title-bar>
-        <div style="padding:30px 0;" *ngIf="!monthView">
-          <div nz-row [nzGutter]="8">
-            <div nz-col [nzSpan]="8">
-              <nz-card nzTitle="Most active year(s) for posting">
-                <div *ngFor="let item of maximumPost">
-                  <p><b style="font-size: 16px;">{{item.year}}</b> with post count <b style="font-size: 16px;">{{item.count}}</b></p>
-                </div>
-              </nz-card>
-            </div>
-            <div nz-col [nzSpan]="8">
-              <nz-card nzTitle="Least active year(s) for posting">
-                <div *ngFor="let item of minimumPost">
-                  <p><b style="font-size: 16px;">{{item.year}}</b> with post count <b style="font-size: 16px;">{{item.count}}</b></p>
-                </div>
-              </nz-card>
-            </div>
+  <div *ngIf="previewMode">
+    <nz-row [nzGutter]="16">
+      <nz-col [nzSpan]="10">
+        <nz-statistic
+          [nzValue]="posts.length"
+          [nzTitle]="'Posts'"
+          [nzPrefix]="location"
+          [nzValueStyle]="{ display: 'inline-flux' }"
+        >
+        </nz-statistic>
+        <ng-template #location>
+          <div class="container_class">
+            <span nz-icon nzType="bar-chart" nzTheme="outline"></span>
           </div>
+        </ng-template>
+      </nz-col>
+    </nz-row>
+  </div>
+  <div *ngIf="!previewMode">
+    <app-title-bar
+      titleText="Posts"
+      tooltipText="This visualization provides a comprehensive overview of your facebook posts alongwith an overview about years and months you were most active or inactive in posting"
+    ></app-title-bar>
+    <div style="padding: 30px 0" *ngIf="!monthView">
+      <div nz-row [nzGutter]="8">
+        <div nz-col [nzSpan]="8">
+          <nz-card nzTitle="Most active year(s) for posting">
+            <div *ngFor="let item of maximumPost">
+              <p>
+                <b style="font-size: 16px">{{ item.year }}</b> with post count
+                <b style="font-size: 16px">{{ item.count }}</b>
+              </p>
+            </div>
+          </nz-card>
         </div>
-        <div style="padding:30px 0;" *ngIf="monthView">
-          <div nz-row [nzGutter]="8">
-            <div nz-col [nzSpan]="8">
-              <nz-card nzTitle="Most active month(s) for posting">
-                <div *ngFor="let item of maximumPost">
-                  <p><b style="font-size: 16px;">{{item.month}}</b> with post count <b style="font-size: 16px;">{{item.count}}</b></p>
-                </div>
-              </nz-card>
+        <div nz-col [nzSpan]="8">
+          <nz-card nzTitle="Least active year(s) for posting">
+            <div *ngFor="let item of minimumPost">
+              <p>
+                <b style="font-size: 16px">{{ item.year }}</b> with post count
+                <b style="font-size: 16px">{{ item.count }}</b>
+              </p>
             </div>
-            <div nz-col [nzSpan]="8">
-              <nz-card nzTitle="Least active month(s) for posting">
-                <div *ngFor="let item of minimumPost">
-                  <p><b style="font-size: 16px;">{{item.month}}</b> with post count <b style="font-size: 16px;">{{item.count}}</b></p>
-                </div>
-              </nz-card>
-            </div>
-          </div>
+          </nz-card>
         </div>
-        <nz-card>
-            <h6 *ngIf="!monthView">This graph visualises the number of post over the period of different years since you joined Facebook.</h6>
-            <h6 *ngIf="monthView">This graph visualises the number of post over the period <b>{{selectedYear}}</b>.</h6>
-            <nz-tag nzColor="processing" style="float: right;" *ngIf="!monthView">
-              <span style="font-size: 16px;">Click on the bar for month view</span>
-            </nz-tag>
-            <nz-tag nzColor="processing" style="float: right;" *ngIf="monthView">
-              <span style="font-size: 16px;">Click on the bar for list view below the graph for that specific month</span>
-            </nz-tag>
-            <button nz-button nzType="primary" (click)="backToPrevious()" *ngIf="monthView">
-              <span nz-icon nzType="bar-chart"></span>
-              Year visualization
-            </button>
-            <svg viewBox="0 0 1000 1000" id="post-chart" class="margin-top-30"></svg>
-            <div id="basicTable">
-              <h6 *ngIf="isShowPostList">This table describes the list of post for the month <b>{{selectedMonth}}</b>.</h6>
-              <nz-table [nzData]="postDataFilter" #basicTable *ngIf="isShowPostList">
-                <thead>
-                  <tr>  
-                    <th nzCustomFilter class="tableCol">Title</th>
-                    <th nzCustomFilter class="tableCol">Post</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let data of basicTable.data">
-                    <td *ngIf="data.month === selectedMonth">{{ data.title }}</td>
-                    <td *ngIf="data.month === selectedMonth">{{ data.post }}</td>
-                  </tr>
-                </tbody>
-              </nz-table>
-            </div>
-            
-        </nz-card>
+      </div>
     </div>
+    <div style="padding: 30px 0" *ngIf="monthView">
+      <div nz-row [nzGutter]="8">
+        <div nz-col [nzSpan]="8">
+          <nz-card nzTitle="Most active month(s) for posting">
+            <div *ngFor="let item of maximumPost">
+              <p>
+                <b style="font-size: 16px">{{ item.month }}</b> with post count
+                <b style="font-size: 16px">{{ item.count }}</b>
+              </p>
+            </div>
+          </nz-card>
+        </div>
+        <div nz-col [nzSpan]="8">
+          <nz-card nzTitle="Least active month(s) for posting">
+            <div *ngFor="let item of minimumPost">
+              <p>
+                <b style="font-size: 16px">{{ item.month }}</b> with post count
+                <b style="font-size: 16px">{{ item.count }}</b>
+              </p>
+            </div>
+          </nz-card>
+        </div>
+      </div>
+    </div>
+    <nz-card>
+      <h6 *ngIf="!monthView">
+        This graph visualises the number of post over the period of different
+        years since you joined Facebook.
+      </h6>
+      <h6 *ngIf="monthView">
+        This graph visualises the number of post over the period
+        <b>{{ selectedYear }}</b
+        >.
+      </h6>
+      <nz-tag nzColor="processing" style="float: right" *ngIf="!monthView">
+        <span style="font-size: 16px">Click on the bar for month view</span>
+      </nz-tag>
+      <nz-tag nzColor="processing" style="float: right" *ngIf="monthView">
+        <span style="font-size: 16px"
+          >Click on the bar for list view below the graph for that specific
+          month</span
+        >
+      </nz-tag>
+      <button
+        nz-button
+        nzType="primary"
+        (click)="backToPrevious()"
+        *ngIf="monthView"
+      >
+        <span nz-icon nzType="bar-chart"></span>
+        Year visualization
+      </button>
+      <svg viewBox="0 0 1000 1000" id="post-chart" class="margin-top-30"></svg>
+      <div id="basicTable">
+        <h6 *ngIf="isShowPostList">
+          This table describes the list of post for the month
+          <b>{{ selectedMonth }}</b
+          >.
+        </h6>
+        <nz-table [nzData]="postDataFilter" #basicTable *ngIf="isShowPostList">
+          <thead>
+            <tr>
+              <th nzCustomFilter class="tableCol">Title</th>
+              <th nzCustomFilter class="tableCol">Post</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of basicTable.data">
+              <td *ngIf="data.month === selectedMonth">{{ data.title }}</td>
+              <td *ngIf="data.month === selectedMonth">{{ data.post }}</td>
+            </tr>
+          </tbody>
+        </nz-table>
+      </div>
+    </nz-card>
+  </div>
 </div>
