@@ -1,7 +1,7 @@
 /**{
     "group_badges_v2": {
-      "WHG '11": [
-        "Admin"
+      "groupname": [
+        "grouprole"
       ]
     }
   } */

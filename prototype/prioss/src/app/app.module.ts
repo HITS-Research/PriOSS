@@ -26,22 +26,6 @@ import { NzTimelineModule } from 'ng-zorro-antd/timeline';
 import { environment } from 'src/environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { FacebookAdsInteractedRepository } from './db/data-repositories/facebook/fb-ads-data/face-ads-interacted.repo';
-import { FacebookAppsWebsitesRepository } from './db/data-repositories/facebook/fb-ads-data/face-apps-websites.repo';
-import { FacebookOffFacebookActivityRepository } from './db/data-repositories/facebook/fb-ads-data/face-off-facebook-activity.repo';
-import { FacebookFriendsRepository } from './db/data-repositories/facebook/fb-friends-data/face_friends.repo';
-import { FacebookEventsRepository } from './db/data-repositories/facebook/fb-groups-events-info/face_events.repo';
-import { FacebookGroupsRepository } from './db/data-repositories/facebook/fb-groups-events-info/face_groups.repo';
-import { InferredTopicsRepository } from './db/data-repositories/facebook/fb-inferred-data/face_inferred_topics.repo';
-import { FaceBookMessagesInfoRepository } from './db/data-repositories/facebook/fb-messages-data/fb-messages-friends.repo';
-import { FaceBookGroupMessagesInfoRepository } from './db/data-repositories/facebook/fb-messages-data/fb-messages-groups.repo';
-import { FacebookAddressBookRepository } from './db/data-repositories/facebook/fb-other-personal-info/face-address-book.repo';
-import { FacebookSearchHistoryRepository } from './db/data-repositories/facebook/fb-other-personal-info/face-search-history.repo';
-import { FacebookPostsRepository } from './db/data-repositories/facebook/fb-posts/face-posts.repo';
-import { FacebookAccountActivityRepository } from './db/data-repositories/facebook/fb-security-login-data/face_account_activity.repo';
-import { FacebookAccountStatusChangesRepository } from './db/data-repositories/facebook/fb-security-login-data/face_account_status_changes.repo';
-import { FacebookLoginLocationsRepository } from './db/data-repositories/facebook/fb-security-login-data/face_login_locations.repo';
-import { FacebookLoginLogoutsRepository } from './db/data-repositories/facebook/fb-security-login-data/face_login_logouts.repo';
 import { InferencesRepository } from './db/data-repositories/general/inferences/inferences.repository';
 import { UserdataRepository } from './db/data-repositories/general/userdata/userdata.repository';
 import { InstaLoginRepository } from './db/data-repositories/instagram/insta-accountcreation-login/insta-login.repository';
@@ -290,22 +274,6 @@ registerLocaleData(de);
     InstaUserSearchesRepository,
     InstaKeywordSearchesRepository,
     InstaTagSearchesRepository,
-    InferredTopicsRepository,
-    FacebookAdsInteractedRepository,
-    FacebookAppsWebsitesRepository,
-    FacebookOffFacebookActivityRepository,
-    FacebookFriendsRepository,
-    FacebookLoginLocationsRepository,
-    FacebookAddressBookRepository,
-    FacebookSearchHistoryRepository,
-    FacebookPostsRepository,
-    FacebookAccountActivityRepository,
-    FacebookAccountStatusChangesRepository,
-    FacebookLoginLogoutsRepository,
-    FaceBookMessagesInfoRepository,
-    FaceBookGroupMessagesInfoRepository,
-    FacebookGroupsRepository,
-    FacebookEventsRepository,
     SpotSearchHistoryRepository,
     FeatureToggleService,
     { provide: NZ_I18N, useValue: en_US},

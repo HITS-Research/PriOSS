@@ -3,7 +3,7 @@
     <nz-row [nzGutter]="16">
       <nz-col [nzSpan]="10">
         <nz-statistic
-          [nzValue]="posts.length"
+          [nzValue]="groupPosts.group_posts_v2.length + albumPosts.photos.length"
           [nzTitle]="'Posts'"
           [nzPrefix]="location"
           [nzValueStyle]="{ display: 'inline-flux' }"

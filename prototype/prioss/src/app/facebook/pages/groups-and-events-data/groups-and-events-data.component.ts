@@ -1,6 +1,5 @@
+
 import { Component, Input, OnInit,ChangeDetectionStrategy} from '@angular/core';
-import { FacebookEventsRepository } from '../../../db/data-repositories/facebook/fb-groups-events-info/face_events.repo';
-import { FacebookGroupsRepository } from '../../../db/data-repositories/facebook/fb-groups-events-info/face_groups.repo';
 import { Store } from '@ngxs/store';
 import { FacebookState } from '../../state/fb.state';
 import { EventsInvitedItem } from '../../models/activityAcrossFacebook/Events/EventInvitations';
@@ -26,8 +25,6 @@ export class GroupsAndEventsDataComponent implements OnInit {
   previewMode = false;
 
   constructor(
-    private faceEventsRepo: FacebookEventsRepository,
-    private faceGroupsRepo: FacebookGroupsRepository,
     private store: Store,
   ) {}
 
