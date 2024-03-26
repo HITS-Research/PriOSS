@@ -1,5 +1,5 @@
 import { Router } from "@angular/router";
-
+import iconv from 'iconv-lite';
 /**
   * This method returns a database object (key-value pair) as two entries in an array.
   * We can use this in the general-data.component.html to call *ngFor and iterate over all userdata key-value pairs
@@ -11,6 +11,15 @@ export function getObjectPairs(obj: object): [string, any][] {
     return Object.entries(obj);
   }
 
+/**
+ * Facebook has a bug in its encoding in the data export, so we need to fix it
+ * @param string The string to fix
+ * @returns 
+ * @see https://stackoverflow.com/questions/57059821/fixing-facebook-json-encoding-in-node-js
+ */
+export function fixFacebookEncoding(string: string): string{
+  return iconv.decode(iconv.encode(string, "latin1"), "utf8")
+}
   /**
   * This method scrolls to the top of the page.
   * This is useful when navigating to an element at the start of the page, because it prevents the header from overlapping the element.
@@ -25,7 +34,22 @@ export function scrollToTop():void {
     behavior: 'smooth'
   });
 }
-
+/**
+ * Iterate through every element in a complex json and apply the function to a value, if the value is a string
+ * @param obj The object to iterate through
+ * @param func The function to apply to the string
+ */
+export function modifyStringValuesInJSON(obj: any, func: (str: string) => string): any {
+  if (typeof obj === 'string') {
+    return func(obj);
+  }
+  if (typeof obj === 'object') {
+    for (const key in obj) {
+      obj[key] = modifyStringValuesInJSON(obj[key], func);
+    }
+  }
+  return obj;
+}
 /**
   * This method calls an url with a router and scrolls to the top (see scrollToTop).
   *

@@ -387,16 +387,21 @@ export class ServiceSelectionComponent implements AfterViewInit {
     await this.parseFile(this.selectedServiceName);
   }
 
-  parseJSON(content: string): any {
+  parseFacebookJSON(content: string): any {
     let result = {};
     try {
       result = JSON.parse(content);
+      console.log('Result: ' + result);
+      result = utilities.modifyStringValuesInJSON(result, utilities.fixFacebookEncoding)
+      
     } catch (e) {
       console.error('Error parsing JSON: ' + e + ' ' + content);
       return {}; //return empty object if parsing fails
     }
     return result;
   }
+
+
 
   /**
    * Start of the file parsing procedure. Hands over the file parsing duty to the correct parsing method of the respective service.
@@ -451,8 +456,7 @@ export class ServiceSelectionComponent implements AfterViewInit {
 
     this.progressBarPercent = 0;
     this.progressBarVisible = true;
-
-    const filepaths: string[] = Object.keys(zip.files);
+    const filepaths: string[] = Object.keys(zip.files).filter((path) => path.endsWith('.json'));
     for (let i = 0; i < filepaths.length; i++) {
       if (this.requestedAbortDataParsing) {
         this.requestedAbortDataParsing = false;
@@ -467,121 +471,128 @@ export class ServiceSelectionComponent implements AfterViewInit {
         ?.split('/')
         .pop();
 
-      console.log('Filename: ' + filename);
-      const content: string = await zip.files[filepath].async('string');
+      //console.log('Filename: ' + filename);
+
+      
+      const content: string = (await zip.files[filepath].async('string'));
+      
+      
+      
+      
+
 
       if (!filename) {
         continue;
       }
       //logged_information
       if (filename === 'your_topics.json') {
-        const inferredTopics: InferredTopicsModel = this.parseJSON(content);
+        const inferredTopics: InferredTopicsModel = this.parseFacebookJSON(content);
         userData.logged_information.inferred_topics = inferredTopics;
       } else if (filename === 'device_location.json') {
-        const jsonData: DeviceLocationModel = JSON.parse(content);
+        const jsonData: DeviceLocationModel = this.parseFacebookJSON(content);
         userData.logged_information.device_location = jsonData;
       } else if (filename === 'primary_location.json') {
-        const jsonData: PrimaryLocationModel = JSON.parse(content);
+        const jsonData: PrimaryLocationModel = this.parseFacebookJSON(content);
         userData.logged_information.primary_location = jsonData;
       } else if (filename === 'primary_public_location.json') {
-        const jsonData: PrimaryPublicLocationModel = JSON.parse(content);
+        const jsonData: PrimaryPublicLocationModel = this.parseFacebookJSON(content);
         userData.logged_information.primary_public_location = jsonData;
       } else if (filename === 'timezone.json') {
         if (filepath.includes('location')) {
-          const jsonData: LocationTimezoneModel = JSON.parse(content);
+          const jsonData: LocationTimezoneModel = this.parseFacebookJSON(content);
           userData.logged_information.timezone = jsonData;
         } else if (filepath.includes('profile')) {
           const jsonData: ProfileInformationTimezoneModel =
-            this.parseJSON(content);
+            this.parseFacebookJSON(content);
           userData.personal_information.timezone = jsonData;
         }
       } else if (filename === 'notifications.json') {
-        const jsonData: NotificationModel = JSON.parse(content);
+        const jsonData: NotificationModel = this.parseFacebookJSON(content);
         userData.logged_information.notifications = jsonData;
       } else if (
         filename === 'notification_of_meta_privacy_policy_update.json'
       ) {
         const jsonData: NotificationMetaPrivacyPolicyUpdateModel =
-          JSON.parse(content);
+          this.parseFacebookJSON(content);
         userData.logged_information.meta_privacy_policy_update = jsonData;
       } else if (filename === 'events_interactions.json') {
-        const jsonData: EventInteractionModel = JSON.parse(content);
+        const jsonData: EventInteractionModel = this.parseFacebookJSON(content);
         userData.logged_information.event_interaction = jsonData;
       } else if (filename === 'ads_interests.json') {
-        const jsonData: AdsInterestModel = JSON.parse(content);
+        const jsonData: AdsInterestModel = this.parseFacebookJSON(content);
         userData.logged_information.ads_interest = jsonData;
       } else if (filename === 'consents.json') {
-        const jsonData: ConsentModel = JSON.parse(content);
+        const jsonData: ConsentModel = this.parseFacebookJSON(content);
         userData.logged_information.consents = jsonData;
       } else if (filename === 'survey_responses.json') {
-        const jsonData: SurveyResponseModel = JSON.parse(content);
+        const jsonData: SurveyResponseModel = this.parseFacebookJSON(content);
         userData.logged_information.survey_responses = jsonData;
       } else if (filename === 'recently_visited.json') {
-        const jsonData: RecentlyVisitedModel = JSON.parse(content);
+        const jsonData: RecentlyVisitedModel = this.parseFacebookJSON(content);
         userData.logged_information.recently_visited = jsonData;
       } else if (filename === 'recently_viewed.json') {
-        const jsonData: RecentlyViewedModel = JSON.parse(content);
+        const jsonData: RecentlyViewedModel = this.parseFacebookJSON(content);
         userData.logged_information.recently_viewed = jsonData;
       }
       //ads_information
       else if (filename === "advertisers_you've_interacted_with.json") {
-        const jsonData: AdvertiserInteractedModel = this.parseJSON(content);
+        const jsonData: AdvertiserInteractedModel = this.parseFacebookJSON(content);
         userData.ads_and_businesses.advertiserInteracted = jsonData;
       } else if (filename === 'your_recent_reported_conversions.json') {
         const jsonData: RecentReportedConversionsModel =
-          this.parseJSON(content);
+          this.parseFacebookJSON(content);
         userData.ads_and_businesses.recentReportedConversions = jsonData;
       } else if (filename === 'ad_preferences.json') {
-        const jsonData: AdPreferencesModel = this.parseJSON(content);
+        const jsonData: AdPreferencesModel = this.parseFacebookJSON(content);
         userData.ads_and_businesses.adPreferences = jsonData;
       } else if (filename === 'subscription_for_no_ads.json') {
-        const jsonData: SubscriptionForNoAdsModel = this.parseJSON(content);
+        const jsonData: SubscriptionForNoAdsModel = this.parseFacebookJSON(content);
         userData.ads_and_businesses.subscriptionsForNoAds = jsonData;
       } else if (filename === 'other_categories_used_to_reach_you.json') {
         const jsonData: OtherCategoriesUsedToReachYouModel =
-          this.parseJSON(content);
+          this.parseFacebookJSON(content);
         userData.ads_and_businesses.otherCategoriesUsedToReachYou = jsonData;
       } else if (
         filename === 'advertisers_using_your_activity_or_information.json'
       ) {
-        const jsonData: AdvertisersUsingYourDataModel = this.parseJSON(content);
+        const jsonData: AdvertisersUsingYourDataModel = this.parseFacebookJSON(content);
         userData.ads_and_businesses.advertisersUsingYourData = jsonData;
       } else if (filename === 'apps_and_websites.json') {
         // TODO missing from new sample data maybe depracted
       } else if (filename === 'connected_apps_and_websites.json') {
-        const jsonData: ConnectedAppsAndWebsitesModel = this.parseJSON(content);
+        const jsonData: ConnectedAppsAndWebsitesModel = this.parseFacebookJSON(content);
         userData.apps_and_websites_off_of_fb.connectedAppsAndWebsites =
           jsonData;
       } else if (filename === 'your_activity_off_meta_technologies.json') {
-        const jsonData: OffFacebookActivityModel = this.parseJSON(content);
+        const jsonData: OffFacebookActivityModel = this.parseFacebookJSON(content);
         userData.apps_and_websites_off_of_fb.offFacebookActivity = jsonData;
       }
       //connections
       else if (filename === 'received_friend_requests.json') {
         const receivedFriendRequests: ReceivedFriendRequestsModel =
-          this.parseJSON(content);
+          this.parseFacebookJSON(content);
         userData.connections.receivedFriendRequests = receivedFriendRequests;
       } else if (filename === 'sent_friend_requests.json') {
         const sentFriendRequests: SentFriendRequestsModel =
-          this.parseJSON(content);
+          this.parseFacebookJSON(content);
         userData.connections.sentFriendRequests = sentFriendRequests;
       } else if (filename === 'rejected_friend_requests.json') {
-        const jsonData: RejectedFriendRequestsModel = this.parseJSON(content);
+        const jsonData: RejectedFriendRequestsModel = this.parseFacebookJSON(content);
         userData.connections.rejectedFriendRequests = jsonData;
       } else if (filename === 'your_friends.json') {
-        const jsonData: YourFriendsModel = this.parseJSON(content);
+        const jsonData: YourFriendsModel = this.parseFacebookJSON(content);
         userData.connections.yourFriends = jsonData;
       } else if (filename === 'removed_friends.json') {
-        const jsonData: RemovedFriendsModel = this.parseJSON(content);
+        const jsonData: RemovedFriendsModel = this.parseFacebookJSON(content);
         userData.connections.removedFriends = jsonData;
       } else if (filename === "who_you've_followed.json") {
-        const jsonData = this.parseJSON(content);
+        const jsonData = this.parseFacebookJSON(content);
         userData.connections.followed = jsonData;
       } else if (filename === 'people_you_may_know.json') {
-        const jsonData: PeopleYouMayKnowModel = this.parseJSON(content);
+        const jsonData: PeopleYouMayKnowModel = this.parseFacebookJSON(content);
         userData.connections.peopleYouMayKnow = jsonData;
       } else if (filename === 'profile_information.json') {
-        const jsonData: ProfileInformationModel = this.parseJSON(content);
+        const jsonData: ProfileInformationModel = this.parseFacebookJSON(content);
         userData.personal_information.profile_information = jsonData;
         //TODO old version below may be useful in future
         /*
@@ -606,20 +617,20 @@ export class ServiceSelectionComponent implements AfterViewInit {
         );
         */
       } else if (filename === 'your_address_books.json') {
-        const jsonData: AddressBookModel = this.parseJSON(content);
+        const jsonData: AddressBookModel = this.parseFacebookJSON(content);
         userData.personal_information.address_books = jsonData;
       } else if (filename === 'your_search_history.json') {
-        const jsonData: SearchHistoryModel = this.parseJSON(content);
+        const jsonData: SearchHistoryModel = this.parseFacebookJSON(content);
         userData.logged_information.search_history = jsonData;
       } else if (filename === 'account_status_changes.json') {
-        const jsonData: AccountStatusChangesModel = this.parseJSON(content);
+        const jsonData: AccountStatusChangesModel = this.parseFacebookJSON(content);
         userData.security_and_login_information.account_status_changes =
           jsonData;
       } else if (filename === 'people_and_friends.json') {
-        const jsonData: PeopleInteractionModel = this.parseJSON(content);
+        const jsonData: PeopleInteractionModel = this.parseFacebookJSON(content);
         userData.logged_information.people_interaction = jsonData;
       } else if (filename === 'group_interactions.json') {
-        const jsonData: GroupInteractionModel = this.parseJSON(content);
+        const jsonData: GroupInteractionModel = this.parseFacebookJSON(content);
         userData.logged_information.group_interaction = jsonData;
       } else if (
         filename === 'your_posts__check_ins__photos_and_videos_1.json'
@@ -629,69 +640,69 @@ export class ServiceSelectionComponent implements AfterViewInit {
 
       //security_and_login_information
       else if (filename === 'logins_and_logouts.json') {
-        const jsonData: LoginsAndLogoutsModel = JSON.parse(content);
+        const jsonData: LoginsAndLogoutsModel = this.parseFacebookJSON(content);
         userData.security_and_login_information.logins_and_logouts = jsonData;
       } else if (filename === 'account_activity.json') {
-        const jsonData: AccountActivityModel = this.parseJSON(content);
+        const jsonData: AccountActivityModel = this.parseFacebookJSON(content);
         userData.security_and_login_information.account_activity = jsonData;
       } else if (filename === 'information_about_your_last_login.json') {
-        const jsonData: LastLoginInformationModel = JSON.parse(content);
+        const jsonData: LastLoginInformationModel = this.parseFacebookJSON(content);
         userData.security_and_login_information.last_login_information =
           jsonData;
       } else if (filename === 'ip_address_activity.json') {
-        const jsonData: IPAddressActivityModel = JSON.parse(content);
+        const jsonData: IPAddressActivityModel = this.parseFacebookJSON(content);
         userData.security_and_login_information.ip_address_activity = jsonData;
       } else if (filename === 'record_details.json') {
-        const jsonData: AdminRecordsModel = JSON.parse(content);
+        const jsonData: AdminRecordsModel = this.parseFacebookJSON(content);
         userData.security_and_login_information.record_details = jsonData;
       } else if (filename === 'your_facebook_activity_history.json') {
-        const jsonData: FacebookActivityHistoryModel = JSON.parse(content);
+        const jsonData: FacebookActivityHistoryModel = this.parseFacebookJSON(content);
         userData.security_and_login_information.facebook_activity_history =
           jsonData;
       } else if (filename === 'recognized_devices.json') {
-        const jsonData: RecognizedDevicesModel = JSON.parse(content);
+        const jsonData: RecognizedDevicesModel = this.parseFacebookJSON(content);
         userData.security_and_login_information.recognized_devices = jsonData;
       } else if (filename === 'mobile_devices.json') {
-        const jsonData: MobileDeviceModel = JSON.parse(content);
+        const jsonData: MobileDeviceModel = this.parseFacebookJSON(content);
         userData.security_and_login_information.mobile_devices = jsonData;
       } else if (filename === 'email_address_verifications.json') {
-        const jsonData: EmailAddressVerificationModel = JSON.parse(content);
+        const jsonData: EmailAddressVerificationModel = this.parseFacebookJSON(content);
         userData.security_and_login_information.email_address_verifications =
           jsonData;
       } else if (filename === 'login_protection_data.json') {
-        const jsonData: LoginProtectionDataModel = JSON.parse(content);
+        const jsonData: LoginProtectionDataModel = this.parseFacebookJSON(content);
         userData.security_and_login_information.login_protection_data =
           jsonData;
       } else if (filename === 'your_recent_account_recovery_successes.json') {
         const jsonData: RecentAccountRecoverySuccessesModel =
-          JSON.parse(content);
+          this.parseFacebookJSON(content);
         userData.security_and_login_information.recent_account_recovery_successes =
           jsonData;
       } else if (filename === 'where_you_re_logged_in.json') {
-        const jsonData: ActiveSessionsModel = this.parseJSON(content);
+        const jsonData: ActiveSessionsModel = this.parseFacebookJSON(content);
         userData.security_and_login_information.login_location = jsonData;
       }
       //preferences
       else if (filename === 'feed.json') {
-        const jsonData: PeopleAndFriendsModel = this.parseJSON(content);
+        const jsonData: PeopleAndFriendsModel = this.parseFacebookJSON(content);
         userData.preferences.feed = jsonData;
       } else if (filename === 'controls.json') {
-        const jsonData: FeedControlModel = this.parseJSON(content);
+        const jsonData: FeedControlModel = this.parseFacebookJSON(content);
         userData.preferences.feedControls = jsonData;
       } else if (filename === 'your_fundraiser_settings.json') {
-        const jsonData: FundraiserSettingsModel = this.parseJSON(content);
+        const jsonData: FundraiserSettingsModel = this.parseFacebookJSON(content);
         userData.preferences.fundraiserSettings = jsonData;
       } else if (filename === 'reels_preferences.json') {
-        const jsonData: ReelsPreferenceModel = this.parseJSON(content);
+        const jsonData: ReelsPreferenceModel = this.parseFacebookJSON(content);
         userData.preferences.reelsPreferences = jsonData;
       } else if (filename === 'video.json') {
-        const jsonData: VideoPreferenceModel = this.parseJSON(content);
+        const jsonData: VideoPreferenceModel = this.parseFacebookJSON(content);
         userData.preferences.videoPreferences = jsonData;
       } else if (filename === 'your_device_push_settings.json') {
-        const jsonData: DevicePushSettingModel = this.parseJSON(content);
+        const jsonData: DevicePushSettingModel = this.parseFacebookJSON(content);
         userData.preferences.devicePushSettings = jsonData;
       } else if (filename === 'language_and_locale.json') {
-        const jsonData: LanguageAndLocalesModel = this.parseJSON(content);
+        const jsonData: LanguageAndLocalesModel = this.parseFacebookJSON(content);
         userData.preferences.languageAndLocales = jsonData;
       } else if (filename === 'your_story_highlights.json') {
         //TODO not implemented
@@ -699,49 +710,49 @@ export class ServiceSelectionComponent implements AfterViewInit {
 
       //activity_across_facebook/groups
       else if (filename === 'your_badges.json') {
-        const jsonData: GroupBadgesModel = this.parseJSON(content);
+        const jsonData: GroupBadgesModel = this.parseFacebookJSON(content);
         userData.activity_across_facebook.groupBadges = jsonData;
       } else if (filename === 'your_group_membership_activity.json') {
-        const jsonData: GroupsJoinedModel = this.parseJSON(content);
+        const jsonData: GroupsJoinedModel = this.parseFacebookJSON(content);
         userData.activity_across_facebook.groupsJoined = jsonData;
       } else if (filename === 'your_comments_in_groups.json') {
-        const jsonData: GroupCommentsModel = this.parseJSON(content);
+        const jsonData: GroupCommentsModel = this.parseFacebookJSON(content);
         userData.activity_across_facebook.groupComments = jsonData;
       } else if (filename === 'your_groups.json') {
-        const jsonData: GroupsAdminedModel = this.parseJSON(content);
+        const jsonData: GroupsAdminedModel = this.parseFacebookJSON(content);
         userData.activity_across_facebook.groupsAdmined = jsonData;
       } else if (filename === 'group_posts_and_comments.json') {
-        const jsonData: GroupPostsModel = this.parseJSON(content);
+        const jsonData: GroupPostsModel = this.parseFacebookJSON(content);
         userData.activity_across_facebook.groupPosts = jsonData;
       } else if (filename === 'your_event_responses.json') {
-        const jsonData: EventResponsesModel = this.parseJSON(content);
+        const jsonData: EventResponsesModel = this.parseFacebookJSON(content);
         userData.activity_across_facebook.eventResponses = jsonData;
       } else if (filename === 'event_invitations.json') {
-        const jsonData: EventsInvitedModel = this.parseJSON(content);
+        const jsonData: EventsInvitedModel = this.parseFacebookJSON(content);
         userData.activity_across_facebook.eventsInvited = jsonData;
       } else if (filename === "events_you've_hidden.json") {
-        const jsonData: EventsInvitedModel = this.parseJSON(content);
+        const jsonData: EventsInvitedModel = this.parseFacebookJSON(content);
         userData.activity_across_facebook.eventsInvited = jsonData;
       } else if (filename === 'message_1.json'){
         if(filepath.includes('archived_threads')){
-          const jsonData: ArchivedThreadModel = this.parseJSON(content);
+          const jsonData: ArchivedThreadModel = this.parseFacebookJSON(content);
           userData.activity_across_facebook.archivedThreads ??= [];
           userData.activity_across_facebook.archivedThreads?.push(jsonData);
         } else if(filepath.includes('inbox')){
 
           //check if message is group message or normal message
           if(content.includes('joinable_mode')){
-            const jsonData: GroupMessageModel = this.parseJSON(content);
+            const jsonData: GroupMessageModel = this.parseFacebookJSON(content);
             //if groupmessages are nullish, set to empty array
             userData.activity_across_facebook.groupMessages ??= [];
             userData.activity_across_facebook.groupMessages?.push(jsonData);
           } else {
-            const jsonData: InboxMessageModel = this.parseJSON(content);
+            const jsonData: InboxMessageModel = this.parseFacebookJSON(content);
             userData.activity_across_facebook.inboxMessages ??= [];
             userData.activity_across_facebook.inboxMessages?.push(jsonData);
           }
         } else if(filepath.includes('message_requests')){
-          const jsonData: MessageRequestModel = this.parseJSON(content);
+          const jsonData: MessageRequestModel = this.parseFacebookJSON(content);
           userData.activity_across_facebook.messageRequests ??= [];
           userData.activity_across_facebook.messageRequests?.push(jsonData);
         }
