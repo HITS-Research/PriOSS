@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
+import { Store } from '@ngxs/store';
 import { Component, Input, OnInit ,ChangeDetectionStrategy} from '@angular/core';
 import * as d3 from 'd3';
-import { FacebookPostsRepository } from 'src/app/db/data-repositories/facebook/fb-posts/face-posts.repo';
-import { PostsModel } from 'src/app/facebook/models/posts';
 import { scrollToTop } from 'src/app/features/utils/generalUtilities.functions';
+import { FbUserDataModel } from '../../state/models';
+import { AlbumModel, GroupPostsModel, PostPhotoModel } from '../../models';
 
 @Component({
   selector: 'app-posts',
@@ -12,7 +13,9 @@ import { scrollToTop } from 'src/app/features/utils/generalUtilities.functions';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PostsComponent implements OnInit {
-  posts: PostsModel[] = [];
+  groupPosts: GroupPostsModel;
+  albumPosts: AlbumModel;
+  photoPosts: PostPhotoModel;
   maximumPost: any[] = [];
   minimumPost: any[] = [];
   monthView: boolean;
@@ -21,18 +24,23 @@ export class PostsComponent implements OnInit {
   isShowPostList = false;
   selectedMonth: string;
   postDataFilter: any[] = [];
-
+  userData: FbUserDataModel;
   @Input()
   previewMode = false;
 
-  constructor(private facePostsRepo: FacebookPostsRepository) {}
+  constructor(private store: Store) {}
 
   ngOnInit() {
     scrollToTop();
-    this.facePostsRepo.getAllPosts().then((posts) => {
-      this.posts = posts;
-      this.createYearData();
-    });
+    this.userData = this.store.selectSnapshot((state) => state.fbUserData);
+    this.groupPosts =
+      this.userData.activity_across_facebook?.groupPosts ??
+      ({} as GroupPostsModel);
+    this.albumPosts =
+      this.userData.activity_across_facebook?.albums ?? ({} as AlbumModel);
+    this.photoPosts =
+      this.userData.activity_across_facebook?.postPhotos ??
+      ({} as PostPhotoModel);
   }
 
   /**
@@ -56,19 +64,29 @@ export class PostsComponent implements OnInit {
    */
   createYearData() {
     const data: any[] = [];
-    const years: number[] = [];
-    this.posts.forEach((x) => {
+    let years: number[] = [];
+    this.groupPosts.group_posts_v2.forEach((x) => {
       const year = new Date(x.timestamp * 1000).getFullYear();
       if (years.indexOf(year) === -1) {
         years.push(year);
       }
     });
+    this.albumPosts.photos.forEach((x) => {
+      const year = new Date(x.creation_timestamp * 1000).getFullYear();
+      if (years.indexOf(year) === -1) {
+        years.push(year);
+      }
+    });
+    years = Array.from(new Set(years));
     years.sort();
     years.forEach((year) => {
-      const postCount = this.posts.filter(
-        (a) => new Date(a.timestamp * 1000).getFullYear() === year,
+      const postCount = this.groupPosts.group_posts_v2.filter(
+        (a) => new Date(a.timestamp * 1000).getFullYear() === year
       );
-      const abc = { year: year, count: postCount.length };
+      const photoCount = this.albumPosts.photos.filter(
+        (a) => new Date(a.creation_timestamp * 1000).getFullYear() === year
+      );
+      const abc = { year: year, count: postCount.length + photoCount.length };
       data.push(abc);
     });
 
@@ -223,23 +241,35 @@ export class PostsComponent implements OnInit {
       'Nov',
       'Dec',
     ];
-    this.posts.forEach((x) => {
+    this.groupPosts.group_posts_v2.forEach((x) => {
       const date = new Date(x.timestamp * 1000);
+      if (date.getFullYear() === year) {
+        const monthName = monthNames[date.getUTCMonth()];
+        x.data.forEach((y) => {
+          this.postDataMonths.push({
+            month: monthName,
+            title: x.title,
+            post: y.post,
+          });
+        });
+      }
+    });
+    this.albumPosts.photos.forEach((x) => {
+      const date = new Date(x.creation_timestamp * 1000);
       if (date.getFullYear() === year) {
         const monthName = monthNames[date.getUTCMonth()];
         this.postDataMonths.push({
           month: monthName,
           title: x.title,
-          post: x.post,
+          post: x.uri,
         });
       }
     });
-    console.log(this.postDataMonths);
     monthNames.forEach((month) => {
       const count = this.postDataMonths.filter((x) => x.month == month).length;
       dataObject.push({ month: month, count: count });
     });
-    console.log(dataObject);
+
     let maxCount = -Infinity;
     let minCount = Infinity;
 
@@ -386,7 +416,7 @@ export class PostsComponent implements OnInit {
     const el = document.getElementById('basicTable');
     el?.scrollIntoView();
     this.postDataFilter = this.postDataMonths.filter(
-      (x) => x.month === this.selectedMonth,
+      (x) => x.month === this.selectedMonth
     );
   }
 }
