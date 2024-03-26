@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Store } from '@ngxs/store';
-import { Component, Input, OnInit ,ChangeDetectionStrategy} from '@angular/core';
+import { Component, Input, OnInit ,ChangeDetectionStrategy, signal, computed} from '@angular/core';
 import * as d3 from 'd3';
 import { scrollToTop } from 'src/app/features/utils/generalUtilities.functions';
 import { FbUserDataModel } from '../../state/models';
 import { AlbumModel, GroupPostsModel, PostPhotoModel } from '../../models';
+import { FacebookState } from '../../state/fb.state';
 
 @Component({
   selector: 'app-posts',
@@ -13,9 +14,9 @@ import { AlbumModel, GroupPostsModel, PostPhotoModel } from '../../models';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PostsComponent implements OnInit {
-  groupPosts: GroupPostsModel;
-  albumPosts: AlbumModel;
-  photoPosts: PostPhotoModel;
+  groupPosts = computed(() => this.userData().activity_across_facebook?.groupPosts ?? {} as GroupPostsModel);
+  albumPosts = computed(() => this.userData().activity_across_facebook?.albums ?? {} as AlbumModel);
+  photoPosts = computed(() => this.userData().activity_across_facebook?.postPhotos ?? {} as PostPhotoModel);
   maximumPost: any[] = [];
   minimumPost: any[] = [];
   monthView: boolean;
@@ -24,7 +25,8 @@ export class PostsComponent implements OnInit {
   isShowPostList = false;
   selectedMonth: string;
   postDataFilter: any[] = [];
-  userData: FbUserDataModel;
+  userData = signal<FbUserDataModel>({} as FbUserDataModel);
+  groupPostCountPreview = computed(() => this.groupPosts().group_posts_v2.length??0 + this.albumPosts().photos.length??0);
   @Input()
   previewMode = false;
 
@@ -32,15 +34,7 @@ export class PostsComponent implements OnInit {
 
   ngOnInit() {
     scrollToTop();
-    this.userData = this.store.selectSnapshot((state) => state.fbUserData);
-    this.groupPosts =
-      this.userData.activity_across_facebook?.groupPosts ??
-      ({} as GroupPostsModel);
-    this.albumPosts =
-      this.userData.activity_across_facebook?.albums ?? ({} as AlbumModel);
-    this.photoPosts =
-      this.userData.activity_across_facebook?.postPhotos ??
-      ({} as PostPhotoModel);
+    this.userData.set(this.store.selectSnapshot(FacebookState.getFacebookUserData));
   }
 
   /**
@@ -65,13 +59,13 @@ export class PostsComponent implements OnInit {
   createYearData() {
     const data: any[] = [];
     let years: number[] = [];
-    this.groupPosts.group_posts_v2.forEach((x) => {
+    this.groupPosts().group_posts_v2.forEach((x) => {
       const year = new Date(x.timestamp * 1000).getFullYear();
       if (years.indexOf(year) === -1) {
         years.push(year);
       }
     });
-    this.albumPosts.photos.forEach((x) => {
+    this.albumPosts().photos.forEach((x) => {
       const year = new Date(x.creation_timestamp * 1000).getFullYear();
       if (years.indexOf(year) === -1) {
         years.push(year);
@@ -80,10 +74,10 @@ export class PostsComponent implements OnInit {
     years = Array.from(new Set(years));
     years.sort();
     years.forEach((year) => {
-      const postCount = this.groupPosts.group_posts_v2.filter(
+      const postCount = this.groupPosts().group_posts_v2.filter(
         (a) => new Date(a.timestamp * 1000).getFullYear() === year
       );
-      const photoCount = this.albumPosts.photos.filter(
+      const photoCount = this.albumPosts().photos.filter(
         (a) => new Date(a.creation_timestamp * 1000).getFullYear() === year
       );
       const abc = { year: year, count: postCount.length + photoCount.length };
@@ -241,7 +235,7 @@ export class PostsComponent implements OnInit {
       'Nov',
       'Dec',
     ];
-    this.groupPosts.group_posts_v2.forEach((x) => {
+    this.groupPosts().group_posts_v2.forEach((x) => {
       const date = new Date(x.timestamp * 1000);
       if (date.getFullYear() === year) {
         const monthName = monthNames[date.getUTCMonth()];
@@ -254,7 +248,7 @@ export class PostsComponent implements OnInit {
         });
       }
     });
-    this.albumPosts.photos.forEach((x) => {
+    this.albumPosts().photos.forEach((x) => {
       const date = new Date(x.creation_timestamp * 1000);
       if (date.getFullYear() === year) {
         const monthName = monthNames[date.getUTCMonth()];
