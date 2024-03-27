@@ -1,54 +1,36 @@
 <div class="component-page">
-  <app-title-bar
-    titleText="Guidelines to turn OFF Off-Facebook Activity"
-    tooltipText="Follow the steps to turn off your Off-Facebook Activity monitoring."
-  ></app-title-bar>
-  <nz-tabset>
-    <nz-tab nzTitle="Web Application">
-      <div>
-        <div class="steps">
-          <nz-steps [nzCurrent]="FaceOfaGuidelines">
-            <nz-step nzTitle="Step 1"></nz-step>
-            <nz-step nzTitle="Step 2"></nz-step>
-            <nz-step nzTitle="Step 3"></nz-step>
-            <nz-step nzTitle="Step 4"></nz-step>
-            <nz-step nzTitle="Step 5"></nz-step>
-            <nz-step nzTitle="Step 6"></nz-step>
-            <nz-step nzTitle="Step 7"></nz-step>
-            <nz-step nzTitle="Step 8"></nz-step>
-            <nz-step nzTitle="Step 9"></nz-step>
-          </nz-steps>
-        </div>
-
-        <div class="steps-content">
-          <img
-            nz-image
-            height="320px"
-            nzSrc="{{ instructionPictureFaceOfaGuidelines }}"
-            alt=""
-          />
-          <nz-divider></nz-divider>
-          <p nz-typography>{{ instructionTextFaceOfaGuidelines }}</p>
-        </div>
-        <div class="steps-action">
-          <button
-            nz-button
-            nzType="default"
-            (click)="preFaceOfaGuidelines()"
-            [disabled]="FaceOfaGuidelines <= 0"
-          >
-            <span>Previous</span>
-          </button>
-          <button
-            nz-button
-            nzType="default"
-            (click)="nextFaceOfaGuidelines()"
-            [disabled]="FaceOfaGuidelines >= 9"
-          >
-            <span>Next</span>
-          </button>
-        </div>
-        <!--
+    <app-title-bar titleText="Guidelines to turn OFF Off-Facebook Activity" tooltipText="Follow the steps to turn off your Off-Facebook Activity monitoring."></app-title-bar>
+    <nz-tabset>
+        <nz-tab nzTitle="Web Application">
+            <div>
+                <div class="steps">
+      
+                    <nz-steps [nzCurrent]="guidelineStepWeb" (nzIndexChange)="onIndexChangeWeb($event)">
+                      <nz-step *ngFor="let item of instructionsStepDataWeb; let i = index" nzTitle="step {{i + 1}}">
+                      </nz-step>
+                    </nz-steps>
+                  </div>
+              
+                  <div class="steps-content">
+                    
+                    <img
+                      nz-image
+                      height="320px"
+                      nzSrc={{instructionPictureFaceOfaGuidelines}}
+                      alt=""
+                    />
+                    <nz-divider></nz-divider>
+                    <p nz-typography>{{ instructionTextFaceOfaGuidelines }}</p>
+                  </div>
+                  <div class="steps-action">
+                    <button nz-button nzType="default" (click)="webGuidelineStepChange(-1)" [disabled]="guidelineStepWeb === 0">
+                      <span>Previous</span>
+                    </button>
+                    <button nz-button nzType="default" (click)="webGuidelineStepChange(1)" [disabled]="guidelineStepWeb === instructionsStepDataWeb.length - 1">
+                      <span>Next</span>
+                    </button>
+                  </div>
+                <!--
                 <h6 class ="steps">Step 1 - Click on <strong>Account</strong> on the top right corner of the page.</h6>
                 <img class ="off-facebook-web" src="../../assets/images/off-facebook-activity/1.png">
                 <br>
@@ -82,52 +64,41 @@
 
 
             -->
-      </div>
-    </nz-tab>
-    <nz-tab nzTitle="Mobile Application">
-      <div>
-        <div class="steps">
-          <nz-steps [nzCurrent]="FaceOfaGuidelinesMobile">
-            <nz-step nzTitle="Step 1"></nz-step>
-            <nz-step nzTitle="Step 2"></nz-step>
-            <nz-step nzTitle="Step 3"></nz-step>
-            <nz-step nzTitle="Step 4"></nz-step>
-            <nz-step nzTitle="Step 5"></nz-step>
-            <nz-step nzTitle="Step 6"></nz-step>
-            <nz-step nzTitle="Step 7"></nz-step>
-            <nz-step nzTitle="Step 8"></nz-step>
-          </nz-steps>
-        </div>
-
-        <div class="steps-content">
-          <img
-            nz-image
-            height="320px"
-            nzSrc="{{ instructionPictureFaceOfaGuidelinesMobile }}"
-            alt=""
-          />
-          <nz-divider></nz-divider>
-          <p nz-typography>{{ instructionTextFaceOfaGuidelinesMobile }}</p>
-        </div>
-        <div class="steps-action">
-          <button
-            nz-button
-            nzType="default"
-            (click)="preFaceOfaGuidelinesMobile()"
-            [disabled]="FaceOfaGuidelinesMobile <= 0"
-          >
-            <span>Previous</span>
-          </button>
-          <button
-            nz-button
-            nzType="default"
-            (click)="nextFaceOfaGuidelinesMobile()"
-            [disabled]="FaceOfaGuidelinesMobile >= 9"
-          >
-            <span>Next</span>
-          </button>
-        </div>
-        <!--
+            
+            
+            
+            </div>
+        </nz-tab>
+        <nz-tab nzTitle="Mobile Application">
+            <div>
+                <div class="steps">
+      
+                    <nz-steps [nzCurrent]="guidelineStepMobile" (nzIndexChange)="onIndexChangeMobile($event)">
+                    <nz-step *ngFor="let item of instructionsStepDataMobile; let i = index"
+                              nzTitle="step {{i + 1}}"></nz-step>
+                    </nz-steps>
+                  </div>
+              
+                  <div class="steps-content">
+                    
+                    <img
+                      nz-image
+                      height="320px"
+                      nzSrc={{instructionPictureFaceOfaGuidelinesMobile}}
+                      alt=""
+                    />
+                    <nz-divider></nz-divider>
+                    <p nz-typography>{{ instructionTextFaceOfaGuidelinesMobile }}</p>
+                  </div>
+                  <div class="steps-action">
+                    <button nz-button nzType="default" (click)="mobileGuidelineStepChange(-1)" [disabled]="guidelineStepMobile === 0">
+                      <span>Previous</span>
+                    </button>
+                    <button nz-button nzType="default" (click)="mobileGuidelineStepChange(1)" [disabled]="guidelineStepMobile === instructionsStepDataMobile.length - 1">
+                      <span>Next</span>
+                    </button>
+                  </div>
+                <!--
                 <h6 class ="steps">Step 1 - Click on <strong>Menu</strong>.</h6>
                 <img class ="off-facebook-mobile" src="../../assets/images/off-facebook-activity/m1.png">
                 <br>
@@ -155,7 +126,8 @@
                 <h6 class ="steps">Step 8 – Click on <strong>Turn Off</strong> to confirm.</h6>
                 <img class ="off-facebook-mobile" src="../../assets/images/off-facebook-activity/m8.png">
                 -->
-      </div>
-    </nz-tab>
-  </nz-tabset>
+            
+            </div>
+        </nz-tab>
+    </nz-tabset>
 </div>
