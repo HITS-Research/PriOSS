@@ -235,7 +235,7 @@ export class ServiceSelectionComponent implements AfterViewInit {
    */
   onFileSelected(event: any) {
     this.uploadedFiles = event.target.files;
-
+    this.setSelectedFileName(event.target.files[0].name);
     // this.validateFiles(this.selectedServiceName); //TODO: Pass selected File
   }
 
