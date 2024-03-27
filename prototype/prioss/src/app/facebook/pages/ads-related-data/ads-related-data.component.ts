@@ -143,7 +143,7 @@ export class AdsRelatedDataComponent implements OnInit {
     this.adsInteracted.history_v2.forEach((ad) => {
       const name = ad.title;
       this.adNames.push(name);
-      if (ad.action === 'Clicked ad') {
+      if (ad.action.toLowerCase().includes('click') || ad.action.toLowerCase().includes('klick')) {
         this.totalCountClickedAds++;
       }
     });
