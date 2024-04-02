@@ -1,86 +1,81 @@
-import { AfterViewInit, Component,ChangeDetectionStrategy } from '@angular/core';
+import { AfterViewInit, Component, ChangeDetectionStrategy } from '@angular/core';
 import { scrollToTop } from 'src/app/features/utils/generalUtilities.functions';
 
 /**
-  * This component is responsible for providing guidelines to hide stories and videos from specific people.
-  * @author: Aayushma (aayushma@mail.uni-paderborn.de)
-  *
-  */
-
+ * This component is responsible for providing guidelines to hide stories and videos from specific people.
+ * @author: Subhadeep Debnath (sdebnath@mail.uni-paderborn.de)
+ *
+ */
 @Component({
   selector: 'app-insta-hide-stories',
   templateUrl: './insta-hide-stories.component.html',
   styleUrls: ['./insta-hide-stories.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class InstaHideStoriesComponent implements AfterViewInit{
-  async ngAfterViewInit(){
+export class InstaHideStoriesComponent implements AfterViewInit {
+  
+  // Initialize HideStoriesWeb variable to track the current step
+  HideStoriesWeb = 0;
+
+  // Initialize instructionTextHideStoriesWeb with the initial instruction text
+  instructionTextHideStoriesWeb = 'Open the Instagram webpage in your browser and log into your account.';
+
+  // Initialize instructionPictureHideStoriesWeb with the initial instruction picture
+  instructionPictureHideStoriesWeb = "../../assets/images/insta-privacy-recommendations/60.png";
+
+  // Function called after the view is initialized
+  async ngAfterViewInit() {
+    // Scroll to the top of the page
     scrollToTop();
   }
 
-  HideStoriesMobile = 0;
-  instructionTextHideStoriesMobile = 'First, open your Instagram application on your mobile phone and log into your account.';
-  instructionPictureHideStoriesMobile = "../../assets/images/insta-privacy-recommendations/40.png";
-
-  /**
-   * Callback function to decrement the "HideStoriesMobile" variable.
-   *  @author: Aayushma (aayushma@mail.uni-paderborn.de)
-   *
-   */
-  preHideStoriesMobile(): void {
-    this.HideStoriesMobile -= 1;
-    this.HideStorieschangeMobile();
+  // Function to decrement the current step
+  preHideStoriesWeb(): void {
+    this.HideStoriesWeb -= 1;
+    this.HideStorieschangeWeb();
   }
 
-  /**
-   * Callback function to increment the "HideStoriesMobile" variable.
-   *  @author: Aayushma (aayushma@mail.uni-paderborn.de)
-   *
-   */
-  nextHideStoriesMobile(): void {
-    this.HideStoriesMobile += 1;
-    this.HideStorieschangeMobile();
+  // Function to increment the current step
+  nextHideStoriesWeb(): void {
+    this.HideStoriesWeb += 1;
+    this.HideStorieschangeWeb();
   }
 
-  /**
-   * This method shows the instruction text and picture depending on the step the Mobile user is in.
-   *  @author: Aayushma (aayushma@mail.uni-paderborn.de)
-   *
-   */
-  HideStorieschangeMobile(): void {
-    switch (this.HideStoriesMobile ) {
+  // Function to change instruction text and picture based on the current step
+  HideStorieschangeWeb(): void {
+    switch (this.HideStoriesWeb) {
       case 0: {
-        this.instructionTextHideStoriesMobile='First, open your Instagram application on your mobile phone and log into your account.';
-        this.instructionPictureHideStoriesMobile="../../assets/images/insta-privacy-recommendations/40.png";
+        this.instructionTextHideStoriesWeb = 'Open the Instagram webpage in your browser and log into your account.';
+        this.instructionPictureHideStoriesWeb = "../../assets/images/insta-privacy-recommendations/60.png";
         break;
       }
       case 1: {
-        this.instructionTextHideStoriesMobile='While viewing your Instagram feed, tap on your "profile" icon in the bottom right corner of the screen.';
-        this.instructionPictureHideStoriesMobile="../../assets/images/insta-privacy-recommendations/31.png";
+        this.instructionTextHideStoriesWeb = 'While viewing your Instagram feed, tap on the "Profile" button located on the left side of the screen.';
+        this.instructionPictureHideStoriesWeb = "../../assets/images/insta-privacy-recommendations/61.png";
         break;
       }
       case 2: {
-        this.instructionTextHideStoriesMobile='Tap the "Menu" icon in the upper right corner of your profile.';
-        this.instructionPictureHideStoriesMobile="../../assets/images/insta-privacy-recommendations/15.png";
+        this.instructionTextHideStoriesWeb = 'Tap the "Options" icon located in the upper section of your profile.';
+        this.instructionPictureHideStoriesWeb = "../../assets/images/insta-privacy-recommendations/62.png";
         break;
       }
       case 3: {
-        this.instructionTextHideStoriesMobile='Tap the "Settings and privacy" gear icon in the menu that appears.';
-        this.instructionPictureHideStoriesMobile="../../assets/images/insta-privacy-recommendations/32.png";
+        this.instructionTextHideStoriesWeb = 'From the pop-up menu, select the "Settings and privacy" option.';
+        this.instructionPictureHideStoriesWeb = "../../assets/images/insta-privacy-recommendations/63.png";
         break;
       }
       case 4: {
-        this.instructionTextHideStoriesMobile='Select "Hide story and live" option from the list that appears.';
-        this.instructionPictureHideStoriesMobile="../../assets/images/insta-privacy-recommendations/33.png";
+        this.instructionTextHideStoriesWeb = 'From the multiple options available in the left side bar, select "Hide story and live" option.';
+        this.instructionPictureHideStoriesWeb = "../../assets/images/insta-privacy-recommendations/64.png";
         break;
       }
       case 5: {
-        this.instructionTextHideStoriesMobile='Now, tap on "Hide story and live from" and select # People from whom you want to hide your stories. On Androids, tap the arrow in the upper left corner of your screen when you have finished adding users to the list. iPhone users should select "Done" in the top right.' ;
-        this.instructionPictureHideStoriesMobile="../../assets/images/insta-privacy-recommendations/34.jpg";
+        this.instructionTextHideStoriesWeb = 'Now, tap on "Hide story and live from" and select the number of people from whom you want to hide your stories.';
+        this.instructionPictureHideStoriesWeb = "../../assets/images/insta-privacy-recommendations/65.png";
         break;
       }
       default: {
-        this.instructionTextHideStoriesMobile='Error';
+        this.instructionTextHideStoriesWeb = 'Error';
       }
     }
   }
