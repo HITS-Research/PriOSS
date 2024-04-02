@@ -3,15 +3,12 @@
     @author: Deepa Belvi (dbelvi@mail.uni-paderborn.de)
 -->
 
-<details open id="purpose">
-  <summary id="purpose" class="collapsible-dashboard-section-title">
-    Purposes - Why does Facebook collect your data ?
-  </summary>
-  <br />
-  <div id="purpose" class="large-icon">
-    <nz-card>
-      <nz-table nzTemplateMode>
-        <thead>
+<app-accordion title="Purposes - Why does Facebook collect your data ?">
+    <br>
+    <div id="purpose" class="large-icon">
+      <nz-card>
+        <nz-table nzTemplateMode>
+          <thead>
           <tr>
             <th [nzWidth]="'70%'" class="large-icon">Purpose</th>
             <th class="large-icon">Data Collected</th>
@@ -43,8 +40,9 @@
               </ng-container>
             </td>
           </tr>
-        </tbody>
-      </nz-table>
-    </nz-card>
-  </div>
-</details>
+          </tbody>
+        </nz-table>
+      </nz-card>
+    </div>
+  </app-accordion>
+  

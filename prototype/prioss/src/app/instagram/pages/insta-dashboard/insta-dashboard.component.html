@@ -13,8 +13,7 @@
   </div>
   <br>
 
-  <details open id="visualization">
-    <summary class="collapsible-dashboard-section-title">Visualization</summary>
+  <app-accordion title="Visualization">
 
     <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
       <div nz-col nzXs="24" nzXl="8">
@@ -103,10 +102,9 @@
     </div>
   </div>
   <br>
-  </details>
+</app-accordion>
 <br>
-  <details open id="rectification">
-    <summary class="collapsible-dashboard-section-title">Rectification</summary>
+<app-accordion title="Rectification">
     <p nz-typography>
       This section of the application describes how a user can rectify if something is missing/wrong in the data download.
     </p>
@@ -138,13 +136,11 @@
         <span>Next</span>
       </button>
     </div>
-  </details>
+  </app-accordion>
   <br>
 
- <details open id="recommendation">
-  <summary class="collapsible-dashboard-section-title">
-    Privacy Recommendations
-  </summary>
+  <app-accordion title="Privacy Recommendations">
+    
   <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
     <div nz-col nzXs="24" nzXl="8">
       <!--card for Privacy settings judge-->
@@ -168,7 +164,7 @@
         </app-dash-card>
     </div>
   </div>
- </details>
+</app-accordion>
  <br>
 
   <app-gdpr id="gdpr"></app-gdpr>
