@@ -26,12 +26,9 @@
     </div>
 </details>
 <br> -->
-  <br />
-
-  <details open>
-    <summary id="visualization" class="collapsible-dashboard-section-title">
-      Visualization
-    </summary>
+<br>
+<div>
+  <app-accordion title="Visualization">
     <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
       <div nz-col nzXs="24" nzXl="8">
         <app-dash-card
@@ -134,105 +131,84 @@
           ></app-groups-and-events-data>
         </app-dash-card>
       </div>
+  </div>
+  </app-accordion>
+  <br>
+  <br>
+  <app-accordion title="Rectification ">
+  <p>  You can object the use of your personal data to show you personalized Ads on your timeline. Visit <span nz-icon nzType="link"><a target="_blank" href='https://www.facebook.com/help/contact/367438723733209'>Facebook Help Center</a></span> and follow the instructions below: </p>
+  <br>
+  <nz-steps [nzCurrent]="current">
+    <nz-step nzTitle="Step 1"></nz-step>
+    <nz-step nzTitle="Step 2"></nz-step>
+    <nz-step nzTitle="Step 3"></nz-step>
+    <nz-step nzTitle="Step 4"></nz-step>
+    <nz-step nzTitle="Step 5"></nz-step>
+  </nz-steps>
+
+  <div class="steps-content">
+    <img
+      nz-image
+      height="600px"
+      nzSrc={{rectificationImage}}
+      alt=""
+    />
+    <nz-divider></nz-divider>
+    <p nz-typography class="rectification-steps">{{ rectificationText }}</p>
+  </div>
+  <div class="steps-action">
+    <!-- <button nz-button nzType="default" (click)="start()" *ngIf="current <= 4">
+      <span>Start</span>
+    </button> -->
+    <button nz-button nzType="default" (click)="pre()" *ngIf="current > 0">
+      <span>Previous</span>
+    </button>
+    <button nz-button nzType="default" (click)="next()" *ngIf="current < 4">
+      <span>Next</span>
+    </button>
+  </div>
+
+  </app-accordion>
+</div>
+<br>
+
+<br>
+<div>
+<app-accordion title="Privacy Recommendations">
+  <div id="fStep30">
+    <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
+      <div nz-col nzXs="24" nzXl="8">
+        <app-dash-card cardLink="" titleText="Privacy Settings Judge"
+        tooltipText="In this card, you can check if your Facebook settings are setup to protect your privacy. Just answer the questions below to learn how you can improve your privacy through your Facebook account settings.">
+          <app-settings-form [service]="'Facebook'"></app-settings-form>
+        </app-dash-card>
+      </div>
     </div>
-  </details>
-  <br />
-
-  <br />
-
-<details open>
-  <summary id="rectification" class="collapsible-dashboard-section-title">Rectification</summary>
-    <h3>  You can object the use of your personal data to show you personalized Ads on your timeline. Visit <span nz-icon nzType="link"><a target="_blank" href='https://www.facebook.com/help/contact/367438723733209'>Facebook Help Center</a></span> and follow the instructions below: </h3>
     <br>
-    <nz-steps [nzCurrent]="current">
-      <nz-step nzTitle="Step 1"></nz-step>
-      <nz-step nzTitle="Step 2"></nz-step>
-      <nz-step nzTitle="Step 3"></nz-step>
-      <nz-step nzTitle="Step 4"></nz-step>
-      <nz-step nzTitle="Step 5"></nz-step>
-    </nz-steps>
-
-    <div class="steps-content">
-      <img
-        nz-image
-        height="600px"
-        nzSrc={{rectificationImage}}
-        alt=""
-      />
-      <nz-divider></nz-divider>
-      <p nz-typography class="rectification-steps">{{ rectificationText }}</p>
-    </div>
-    <div class="steps-action">
-      <button nz-button nzType="default" (click)="pre()" [disabled]="current === 0">
-        <span>Previous</span>
-      </button>
-      <button nz-button nzType="default" (click)="next()" [disabled]="current === 4">
-        <span>Next</span>
-      </button>
-    </div>
-  </details>
-  <br />
-  <br />
-
-  <details open>
-    <summary class="collapsible-dashboard-section-title" id="recommendation">
-      Privacy Recommendations
-    </summary>
-    <div id="fStep30">
       <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
         <div nz-col nzXs="24" nzXl="8">
-          <app-dash-card
-            cardLink=""
-            titleText="Privacy Settings Judge"
-            tooltipText="In this card, you can check if your Facebook settings are setup to protect your privacy. Just answer the questions below to learn how you can improve your privacy through your Facebook account settings."
-          >
-            <app-settings-form [service]="'Facebook'"></app-settings-form>
+          <app-dash-card cardLink="/face/configure-off-facebook-activity" titleText="Configure Off-Facebook Activity"
+          tooltipText="This section provides you guidelines to Turn OFF your Off-Facebook Activity.">
+          <p nz-typography>This section provides you guidelines to Turn OFF your Off-Facebook Activity.</p>
+          </app-dash-card>
+        </div>
+        <div nz-col nzXs="24" nzXl="8">
+          <app-dash-card cardLink="/face/guidelines-for-ads-settings" titleText="Guidelines to Hide Advertisements"
+          tooltipText="This section provides you guidelines to hide the ads you don't want to see anymore.">
+          <p nz-typography>This section provides you guidelines to hide the ads you don't want to see anymore.</p>
+          </app-dash-card>
+        </div>
+        <div nz-col nzXs="24" nzXl="8">
+          <app-dash-card cardLink="/face/your-topics" titleText="Guidelines to Manage Inferred Topics"
+          tooltipText="This section provides you guidelines to hide the ads you don't want to see anymore.">
+          <p nz-typography>This section provides you guidelines to manage Inferred Topics and see less ads related to those topics in future.</p>
           </app-dash-card>
         </div>
       </div>
-      <br />
-      <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
-        <div nz-col nzXs="24" nzXl="8">
-          <app-dash-card
-            cardLink="/face/configure-off-facebook-activity"
-            titleText="Configure Off-Facebook Activity"
-            tooltipText="This section provides you guidelines to Turn OFF your Off-Facebook Activity."
-          >
-            <p nz-typography>
-              This section provides you guidelines to Turn OFF your Off-Facebook
-              Activity.
-            </p>
-          </app-dash-card>
-        </div>
-        <div nz-col nzXs="24" nzXl="8">
-          <app-dash-card
-            cardLink="/face/guidelines-for-ads-settings"
-            titleText="Guidelines to Hide Advertisements"
-            tooltipText="This section provides you guidelines to hide the ads you don't want to see anymore."
-          >
-            <p nz-typography>
-              This section provides you guidelines to hide the ads you don't
-              want to see anymore.
-            </p>
-          </app-dash-card>
-        </div>
-        <div nz-col nzXs="24" nzXl="8">
-          <app-dash-card
-            cardLink="/face/your-topics"
-            titleText="Guidelines to Manage Inferred Topics"
-            tooltipText="This section provides you guidelines to hide the ads you don't want to see anymore."
-          >
-            <p nz-typography>
-              This section provides you guidelines to manage Inferred Topics and
-              see less ads related to those topics in future.
-            </p>
-          </app-dash-card>
-        </div>
-      </div>
-    </div>
-  </details>
-  <br />
-  <br />
+  </div>
+</app-accordion>
+<br>
+<br>
 
   <app-gdpr></app-gdpr>
   <br />

@@ -2,16 +2,15 @@
 
 ## Sections
 
-Every Dashboard should include collapsible section using the better shown below:
+Every Dashboard should include the accordion component as shown below:
 
 ```html
-<details open id="visualization">
-    <summary class="collapsible-dashboard-section-title">Your Data</summary>
+<app-accordion title="Visualization">
     <!-- Content of the section -->
-</details>
+</app-accordion>
 ```
 
-The collapsible-dashboard-section-title CSS class is defined in the global styles.less and ensures the section titles are styled the same.
+The accordion component cann be found in the app/feature folder and ensures that the section titles are styled the same.
 
 The id field is used to scroll the page when a menu item is clicked. Each dashboard should have sections with the following ids:
 

@@ -132,6 +132,7 @@ import { InferencesComponent } from './spotify/pages/inferences/inferences.compo
 import { FeatureToggleService } from './features/feature-toggle/feature-toggle.service';
 import { NgChartsModule } from 'ng2-charts';
 import { ChartComponent } from './features/chart/chart.component';
+import { AccordionComponent } from './features/accordion/accordion.component';
 
 registerLocaleData(de);
 
@@ -197,6 +198,7 @@ registerLocaleData(de);
     InstaDisableCookiesComponent,
     InstaPurposesComponent,
     FacePurposesComponent,
+    AccordionComponent,
   ],
   imports: [
     TitleBarComponent,

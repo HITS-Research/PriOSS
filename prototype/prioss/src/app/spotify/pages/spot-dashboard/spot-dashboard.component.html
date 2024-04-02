@@ -11,8 +11,7 @@
     <a>More</a>
   </ng-template>
 
-  <details open id="visualization">
-    <summary class="collapsible-dashboard-section-title">Visualization</summary>
+  <app-accordion title="Visualization">
     <div nz-row [nzGutter]="[{ xs: 8, xl: 20}, {xs: 8, xl: 40}]">
 
       <div id="step1" nz-col nzXs="24" nzXl="8">
@@ -63,23 +62,21 @@
       </div>
     </div>
 
-  </details>
+  </app-accordion>
 
   <br>
-  <details open id="rectification">
-    <summary class="collapsible-dashboard-section-title">Rectification</summary>
+  <app-accordion title="Rectification ">
     <div id="step-inferences" nz-col nzXs="24" nzXl="8">
       <app-dash-card [fillVerticalSpace]="true"  cardLink="/spot/inference" titleText="Inferences"
         tooltipText="This card shows the interests you have and groups you belong to according to Spotify. You can let Spotify delete them, if you think they are incorrect. Click to find out more.">
         <prioss-spotify-inferences [previewMode]="true" />
       </app-dash-card>
     </div>
-  </details>
+  </app-accordion>
   <br>
 
 
-  <details open id="recommendation">
-    <summary class="collapsible-dashboard-section-title">Privacy Recommendations</summary>
+  <app-accordion title="Privacy Recommendations">
     <div id="stepX">
       <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
         <div nz-col nzXs="24" nzXl="8">
@@ -90,7 +87,7 @@
         </div>
       </div>
     </div>
-  </details>
+  </app-accordion>
 
   <br>
   <app-gdpr></app-gdpr>
