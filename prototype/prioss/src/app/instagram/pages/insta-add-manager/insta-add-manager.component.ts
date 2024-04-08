@@ -49,33 +49,33 @@ export class InstaAddManagerComponent {
         break;
       }
       case 1: {
-        this.instructionTextAddManager ='By clicking on "More" option in the left-bottom corner, select "Settings".';
-        this.instructionPictureAddManager ="../../assets/images/insta-privacy-recommendations/23.png";
+        this.instructionTextAddManager ='While viewing your Instagram feed, tap on the "Profile" button located on the left side of the screen.';
+        this.instructionPictureAddManager ="../../assets/images/insta-privacy-recommendations/61.png";
         break;
       }
       case 2: {
-        this.instructionTextAddManager ='Now click on "Accounts Center".';
-        this.instructionPictureAddManager ="../../assets/images/insta-privacy-recommendations/24.png";
+        this.instructionTextAddManager ='Tap the "Options" icon located in the upper section of your profile.';
+        this.instructionPictureAddManager ="../../assets/images/insta-privacy-recommendations/62.png";
         break;
       }
       case 3: {
-        this.instructionTextAddManager ='Choose the option "Ad preferences".';
-        this.instructionPictureAddManager ="../../assets/images/insta-privacy-recommendations/25.png";
+        this.instructionTextAddManager ='From the pop-up menu, select the "Settings and privacy" option.';
+        this.instructionPictureAddManager ="../../assets/images/insta-privacy-recommendations/63.png";
         break;
       }
       case 4: {
-        this.instructionTextAddManager ='Now click on option "Ad topics".';
-        this.instructionPictureAddManager ="../../assets/images/insta-privacy-recommendations/26.png";
+        this.instructionTextAddManager ='From the Accounts Centre bar, select See more in Accounts Centre.';
+        this.instructionPictureAddManager ="../../assets/images/insta-privacy-recommendations/66.png";
         break;
       }
       case 5: {
-        this.instructionTextAddManager ='Next, click on "View and manage topics".';
-        this.instructionPictureAddManager ="../../assets/images/insta-privacy-recommendations/27.png";
+        this.instructionTextAddManager ='From the window that appears, first select "Ad preferences" and then "See all" option in "Ad topics".';
+        this.instructionPictureAddManager ="../../assets/images/insta-privacy-recommendations/67.png";
         break;
       }
       case 6: {
-        this.instructionTextAddManager ='Now you can sort and filter the advertisements according to your preference.';
-        this.instructionPictureAddManager ="../../assets/images/insta-privacy-recommendations/28.png";
+        this.instructionTextAddManager ='Now, you can sort and filter the advertisements according to your preference by clicking "View and manage topics".';
+        this.instructionPictureAddManager ="../../assets/images/insta-privacy-recommendations/68.png";
         break;
       }
       default: {
