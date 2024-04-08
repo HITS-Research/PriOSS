@@ -73,7 +73,7 @@ import { OtherPersonalInfoComponent } from './facebook/pages/other-personal-info
 import { PostsComponent } from './facebook/pages/posts/posts.component';
 import { SecurityLoginDataComponent } from './facebook/pages/security-login-data/security-login-data.component';
 import { YourTopicsComponent } from './facebook/pages/your-topics/your-topics.component';
-import { FacebookState } from "./facebook/state/fb.state";
+import { FacebookState } from './facebook/state/fb.state';
 import { DashCardComponent } from './features/dash-card/dash-card.component';
 import { HelpButtonComponent } from './features/help-button/help-button.component';
 import { NotificationComponent } from './features/notification/notification.component';
@@ -132,6 +132,7 @@ import { InferencesComponent } from './spotify/pages/inferences/inferences.compo
 import { FeatureToggleService } from './features/feature-toggle/feature-toggle.service';
 import { NgChartsModule } from 'ng2-charts';
 import { ChartComponent } from './features/chart/chart.component';
+import { NgxEchartsModule } from 'ngx-echarts';
 import { AccordionComponent } from './features/accordion/accordion.component';
 
 registerLocaleData(de);
@@ -242,6 +243,7 @@ registerLocaleData(de);
     // NgxsReduxDevtoolsPluginModule.forRoot(),
     NgxsStoragePluginModule.forRoot(),
     NgChartsModule,
+    NgxEchartsModule.forRoot({ echarts: () => import('echarts') }),
   ],
   providers: [
     SQLiteService,
@@ -278,7 +280,7 @@ registerLocaleData(de);
     InstaTagSearchesRepository,
     SpotSearchHistoryRepository,
     FeatureToggleService,
-    { provide: NZ_I18N, useValue: en_US},
+    { provide: NZ_I18N, useValue: en_US },
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

@@ -1,3 +1,20 @@
+@if(vm$ | async; as vm){
+<div [ngClass]="{'component-page': !previewMode}">
+  @if (previewMode) {
+  <div>
+    <div echarts [options]="vm.chartPreview" class="chart"></div>
+
+  </div>
+  }
+  @else{
+  <div>
+    <h1> NO Dashboard</h1>
+  </div>
+  }
+</div>
+}
+
+<!--
 <div [ngClass]="{'component-page': !previewMode}">
   <div id="top-artist" [hidden]="showArtistHistoy">
     <div *ngIf="previewMode">
@@ -86,3 +103,4 @@
     </nz-table>
   </div>
 </div>
+-->

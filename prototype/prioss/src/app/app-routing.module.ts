@@ -45,11 +45,11 @@ import { InstaMessagesComponent } from './instagram/pages/insta-messages/insta-m
 import { InferencesComponent } from './spotify/pages/inferences/inferences.component';
 import { ListeningTimeComponent } from './spotify/pages/listening-time/listening-time.component';
 import { MoodComponent } from './spotify/pages/mood/mood.component';
-import { SpotPrivacyInstructionsComponent } from "./spotify/pages/privacy-instructions/spot-privacy-instructions.component";
+import { SpotPrivacyInstructionsComponent } from './spotify/pages/privacy-instructions/spot-privacy-instructions.component';
 import { SpotifySearchHistoryComponent } from './spotify/pages/spotify-search-history/spotify-search-history.component';
 import { SongtimelineComponent } from './spotify/pages/songtimeline/songtimeline.component';
-import { TopArtistsComponent } from "./spotify/pages/top-artists/top-artists.component";
-import { TopSongsComponent } from "./spotify/pages/top-songs/top-songs.component";
+import { TopArtistsComponent } from './spotify/pages/top-artists/top-artists.component';
+import { TopSongsComponent } from './spotify/pages/top-songs/top-songs.component';
 import { SpotifyUserDataComponent } from './spotify/pages/spotify-user-data/spotify-user-data.component';
 import { facebookGuard } from './guards/facebook.guard';
 import { instagramGuard } from './guards/instagram.guard';
@@ -61,18 +61,27 @@ const routes: Routes = [
   { path: 'contact', component: ContactComponent },
   { path: 'known-issues', component: KnownIssuesComponent },
   { path: 'serviceSelection', component: ServiceSelectionComponent },
-  { path: 'serviceSelection/dataDownload', component: DataDownloadInstructionsComponent },
+  {
+    path: 'serviceSelection/dataDownload',
+    component: DataDownloadInstructionsComponent,
+  },
   // { path: 'faq', component: FaqComponent },
   {
     path: 'face',
     canActivateChild: [facebookGuard],
     children: [
       { path: 'ads-related-data', component: AdsRelatedDataComponent },
-      { path: 'configure-off-facebook-activity', component: OffFacebookActivityComponent },
+      {
+        path: 'configure-off-facebook-activity',
+        component: OffFacebookActivityComponent,
+      },
       { path: 'connections', component: FriendAndFollowersComponent },
-      { path: 'dashboard', component: FaceDashboardComponent},
+      { path: 'dashboard', component: FaceDashboardComponent },
       { path: 'general-data', component: GeneralDataComponent },
-      { path: 'groups-and-events-data', component: GroupsAndEventsDataComponent },
+      {
+        path: 'groups-and-events-data',
+        component: GroupsAndEventsDataComponent,
+      },
       { path: 'guidelines-for-ads-settings', component: AdsSettingsComponent },
       { path: 'inferred-topics', component: InferredTopicsComponent },
       { path: 'messages-info', component: MessagesComponent },
@@ -82,15 +91,18 @@ const routes: Routes = [
       { path: 'security-login', component: SecurityLoginDataComponent },
       { path: 'your-topics', component: YourTopicsComponent },
       { path: '**', redirectTo: 'dashboard' },
-    ]
+    ],
   },
   {
     path: 'insta',
     canActivateChild: [instagramGuard],
-    children: [      
+    children: [
       { path: 'account-private', component: InstaAccountPrivateComponent },
       { path: 'account', component: InstaAccountCreationLoginComponent },
-      { path: 'activity-hidden', component: InstaActivityStatusHiddenComponent },
+      {
+        path: 'activity-hidden',
+        component: InstaActivityStatusHiddenComponent,
+      },
       { path: 'add-manager', component: InstaAddManagerComponent },
       { path: 'ads', component: InstaAdsComponent },
       { path: 'block-followers', component: InstaBlockFollowersComponent },
@@ -102,34 +114,44 @@ const routes: Routes = [
       { path: 'likedcontent', component: InstaLikedContentComponent },
       { path: 'messages', component: InstaMessagesComponent },
       { path: 'personal-info', component: Insta_PersonalInfoComponent },
-      { path: 'profile-info-private', component: InstaProfileInfoPrivateComponent },
+      {
+        path: 'profile-info-private',
+        component: InstaProfileInfoPrivateComponent,
+      },
       { path: 'purposes', component: InstaPurposesComponent },
       { path: 'revoke-access', component: RevokeAccessComponent },
       { path: 'searches', component: InstaSearchesComponent },
       { path: 'shopping', component: InstaShoppingComponent },
-      { path: 'two-factor-authentication', component: InstaTwoFactorAuthenticationComponent },
+      {
+        path: 'two-factor-authentication',
+        component: InstaTwoFactorAuthenticationComponent,
+      },
       { path: 'your-topic', component: InstaYourTopicComponent },
       { path: '**', redirectTo: 'dashboard' },
-    ]
+    ],
   },
   {
     path: 'spot',
     canActivateChild: [spotifyGuard],
-    children: [      
+    children: [
       { path: 'dashboard', component: SpotDashboardComponent },
       { path: 'general-data', component: SpotifyUserDataComponent },
       { path: 'inference', component: InferencesComponent },
       { path: 'listening-time', component: ListeningTimeComponent },
+      { path: 'listening-time/:start/:end', component: ListeningTimeComponent },
       { path: 'listening-time/songtimeline', component: SongtimelineComponent },
       { path: 'mood', component: MoodComponent },
-      { path: 'privacy-instructions', component: SpotPrivacyInstructionsComponent },
+      {
+        path: 'privacy-instructions',
+        component: SpotPrivacyInstructionsComponent,
+      },
       { path: 'search-history', component: SpotifySearchHistoryComponent },
       { path: 'top-artists', component: TopArtistsComponent },
       { path: 'top-artists/:start/:end', component: TopArtistsComponent },
       { path: 'top-songs', component: TopSongsComponent },
       { path: 'top-songs/:start/:end', component: TopSongsComponent },
       { path: '**', redirectTo: 'dashboard' },
-    ]
+    ],
   },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', redirectTo: '/home', pathMatch: 'full' },
@@ -137,9 +159,8 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, { anchorScrolling: 'enabled' })],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { 
-  constructor() {
-  }
+export class AppRoutingModule {
+  constructor() {}
 }

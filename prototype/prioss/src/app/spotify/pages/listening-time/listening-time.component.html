@@ -1,99 +1,85 @@
-<div id="listeningtime-page"> <!--[ngClass]="{'component-page': !previewMode}"-->
-    <div *ngIf="previewMode">
-        <prioss-chart
-        chartType="bar"
-        [datasource]="datasource"
-        [customOptions]="barChartOptions"
-        [labels]="labels"
-        (chartClick)="click($event)"
-        />
+@if(vm$ | async; as vm){
+<div [ngClass]="{'component-page': !previewMode}">
+  @if (previewMode) {
+  <div>
+    <div
+      echarts
+      [options]="vm.chartView"
+      class="chart"
+    ></div>
+
+  </div>
+  }
+  @else{
+  <div *ngIf="!previewMode">
+    <app-title-bar
+      titleText="Listening Time"
+      tooltipText="This bar chart shows how long you have listened to various tracks over the years. You can set the date yourself using the range selector, or you can click on a bar to zoom in on the data."
+    />
+  </div>
+  <div>
+    <div class="header-group">
+      <button
+        nz-button
+        block="false"
+        class="icon-button"
+        (click)="resetChart()"
+      >
+        <span
+          nz-icon
+          nzType="rollback"
+        ></span>
+        Reset chart
+      </button>
+      <nz-range-picker
+        ngModel
+        [ngModel]="vm.dateRange"
+        (nzOnCalendarChange)="changeDateRange($event)"
+      />
     </div>
+    <nz-tabset #tabset>
+      <nz-tab nzTitle="Bar chart">
+        <div
+            echarts
+            [options]="vm.chartView"
+            (chartClick)="changeObservableData($event)"
+            class="chart"
+          ></div>
+      </nz-tab>
+      <nz-tab nzTitle="Song Table">
+        <nz-table
+          #basicTable
+          [nzData]="vm.listeningDataView"
+          [nzPageSize]="100"
+          [nzFooter]="footerTemplate"
+          [nzScroll]="{ y: 'calc(100vh - 369px)' }"
+          [nzShowPagination]="true"
+        >
+          <thead>
+          <tr>
+              <th>Song Name</th>
+              <th>Artist</th>
+              <th>Time</th>
+              <th>Listening Time (HH:MM:SS)</th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr *ngFor="let item of basicTable.data">
+              <td>{{ item.trackName }}</td>
+              <td>{{ item.artistName }}</td>
+              <td>{{ item.endTime }}</td>
+              <td>{{ item.msPlayed }}</td>
+          </tr>
+      </tbody>
+          <ng-template #footerTemplate>
+            <!-- <tfoot>{{setOfCheckedId.size}}/{{rowSelectionTable.nzData.length}}</tfoot> -->
+          </ng-template>
+        </nz-table>
+      </nz-tab>
+    </nz-tabset>
 
+  </div>
 
-    <div *ngIf="!previewMode">
-        <!--Titlebar component -->
-        <app-title-bar titleText="Listening Time" tooltipText="Use the 'Visualize by' drop-down to switch between viewing how much time you spent listening to Spotify during which hours, days, months or years.
-        You can hover over or click the bars in the chart with your mouse for more information."></app-title-bar>
-        <div class="t-filter-container">
-            <div class="t-filter-grid">
-                <span class="grid-col-one">Visualize by: </span>
-                <nz-select class="grid-col-two" [(ngModel)]="selectedGranularity" (ngModelChange)="onGranularityChanged()">
-                    <nz-option *ngFor="let granularity of granularityValues" [nzValue]="granularity" [nzLabel]="Granularity2LabelMapping[granularity]"></nz-option>
-                </nz-select>
-            </div>
-
-            <div class="t-inline-spacer-small"></div>
-
-            <!--Year Date Pickers-->
-            <div *ngIf="selectedGranularity === GranularityEnum.Year" class="t-filter-grid">
-                <span class="grid-col-one">From: </span> <nz-date-picker class="grid-col-two" nzMode="year" [(ngModel)]="filterFromDate" (ngModelChange)="onDateFilterChanged()"></nz-date-picker>
-            </div>
-
-            <div *ngIf="selectedGranularity === GranularityEnum.Year" class="t-inline-spacer-small"></div>
-
-            <div *ngIf="selectedGranularity === GranularityEnum.Year" class="t-filter-grid">
-                <span class="grid-col-one">To: </span> <nz-date-picker class="grid-col-two" nzMode="year" [(ngModel)]="filterToDate" (ngModelChange)="onDateFilterChanged()"></nz-date-picker>
-            </div>
-
-            <!--Month Date Pickers-->
-            <div *ngIf="selectedGranularity === GranularityEnum.Month" class="t-filter-grid">
-                <span class="grid-col-one">From: </span> <nz-date-picker class="grid-col-two" nzMode="month" [(ngModel)]="filterFromDate" (ngModelChange)="onDateFilterChanged()"></nz-date-picker>
-            </div>
-
-            <div *ngIf="selectedGranularity === GranularityEnum.Month" class="t-inline-spacer-small"></div>
-
-            <div *ngIf="selectedGranularity === GranularityEnum.Month" class="t-filter-grid">
-                <span class="grid-col-one">To: </span> <nz-date-picker class="grid-col-two" nzMode="month" [(ngModel)]="filterToDate" (ngModelChange)="onDateFilterChanged()"></nz-date-picker>
-            </div>
-
-            <!--Day Date Pickers-->
-            <div *ngIf="selectedGranularity === GranularityEnum.Day" class="t-filter-grid">
-                <span class="grid-col-one">From: </span> <nz-date-picker class="grid-col-two" [(ngModel)]="filterFromDate" (ngModelChange)="onDateFilterChanged()"></nz-date-picker>
-            </div>
-
-            <div *ngIf="selectedGranularity === GranularityEnum.Day" class="t-inline-spacer-small"></div>
-
-            <div *ngIf="selectedGranularity === GranularityEnum.Day" class="t-filter-grid">
-                <span class="grid-col-one">To: </span> <nz-date-picker  class="grid-col-two" [(ngModel)]="filterToDate" (ngModelChange)="onDateFilterChanged()"></nz-date-picker>
-            </div>
-
-            <!--Hour Date Picker-->
-            <div *ngIf="selectedGranularity === GranularityEnum.Hour" class="t-filter-grid">
-                <span class="grid-col-one">On: </span> <nz-date-picker class="grid-col-two" [(ngModel)]="filterSingleDate" (ngModelChange)="onDateFilterChanged()"></nz-date-picker>
-            </div>
-
-            <div class="t-inline-spacer-small"></div>
-
-            <button nz-button block="false" class="icon-button" (click)="onClickedRevertFilters()">
-                <span nz-icon nzType="rollback"></span>
-                Back to Previous
-            </button>
-
-            <div class="t-inline-spacer-small"></div>
-
-            <div class="t-filter-grid">
-                <span class="grid-col-one">Show time above bars: </span> <nz-switch class="grid-col-two" [(ngModel)]="showDataTextAboveBars" (ngModelChange)="onChartParametersChanged()"></nz-switch>
-            </div>
-
-        </div>
-
-        <br>
-    </div>
-    <div id="listeningtime-bar-chart" class="visualization-card"></div>
+  }
 </div>
-
-<div id="contextmenu" class="contextmenu">
-    <button (click)="goToTopSongs()">
-        View Top Songs
-    </button>
-    <br>
-    <button (click)="goToTopArtists()">
-        View Top Artists
-    </button>
-</div>
-
-<div *ngIf="!previewMode">
-    <prioss-spotify-songtimeline #SongtimelineComponent style="display:none" id="songtimeline-page" />
-    <prioss-spotify-top-songs #TopSongsComponent style="display:none" id="topsongs-page" />
-    <prioss-spotify-top-artists #TopArtistsComponent style="display:none" id="topartists-page" />
-</div>
+}
