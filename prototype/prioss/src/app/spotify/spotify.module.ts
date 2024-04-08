@@ -24,6 +24,6 @@ import { SpotifyFollowState } from './features/follow/follow.state';
       SpotifyUserLibraryState,
       SpotifyUserState,
     ]),
-  ]
+  ],
 })
-export class SpotifyModule { }
+export class SpotifyModule {}
