@@ -6,11 +6,9 @@ import { faArrowRotateRight } from '@fortawesome/free-solid-svg-icons';
 import { AppType } from './app-type';
 
 import JSZip from 'jszip';
-import { DBService } from '../../../db/db.service';
 
 import { HttpClient } from '@angular/common/http';
 import * as utilities from '../../../features/utils/generalUtilities.functions';
-import { UserdataRepository } from '../../../db/data-repositories/general/userdata/userdata.repository';
 
 // import { FacebookAddressBookRepository } from '../db/data-repositories/facebook/fb-other-personal-info/face_address_book.repo';
 // import { FacebookSearchHistoryRepository } from '../db/data-repositories/facebook/fb-other-personal-info/face_search_history.repo';
@@ -169,9 +167,6 @@ export class ServiceSelectionComponent implements AfterViewInit {
 
   constructor(
     private router: Router,
-    //private notifyService: NotificationService,
-    private UserdataRepo: UserdataRepository,
-    private sqlDBService: DBService,
     private http: HttpClient,
     private scroll: ViewportScroller,
     private store: Store
@@ -189,12 +184,10 @@ export class ServiceSelectionComponent implements AfterViewInit {
       new ResetFbUserData(),
       new SpotifyReset(),
     ]);
-    await this.sqlDBService.rebuildDatabase();
   }
 
   /**
-   * Callback called when pressing the X-button in the progressbar dialog. Stops the reading in process and navigates back to the home page.
-   * The navigation is necessary because canceling the parsing process midway-through triggers an error related to the SQLite integration.
+   * Callback called when pressing the X-button in the progressbar dialog. Stops the reading in process.
    *
    * @author: Simon (scg@mail.upb.de)
    *
@@ -413,11 +406,11 @@ export class ServiceSelectionComponent implements AfterViewInit {
 
     //Handing over parsing to service specific parsing methods
     if (selectedApp == this.appType.Instagram) {
-      await this.parseInstagramFileToSQLite();
+      await this.parseInstagramFile();
     } else if (selectedApp == this.appType.Spotify) {
-      await this.parseSpotifyFileToSQLite();
+      await this.parseSpotifyFile();
     } else if (selectedApp == this.appType.Facebook) {
-      await this.parseFacebookFileToSQLite();
+      await this.parseFacebookFile();
     }
   }
 
@@ -426,12 +419,12 @@ export class ServiceSelectionComponent implements AfterViewInit {
    */
 
   /**
-   * Parses the uploaded Facebook data-download-zip file into the SQLite database
+   * Parses the uploaded Facebook data-download-zip file into the store
    *
    * @author: Rashida (rbharmal@mail.upb.de), Rishma (rishmamn@mail.uni-paderborn.de)
    *
    */
-  async parseFacebookFileToSQLite() {
+  async parseFacebookFile() {
 
     this.isProcessingFile.set(true); //shows the processing icon on the button
     this.progressBarPercent.set(0);
@@ -775,9 +768,9 @@ export class ServiceSelectionComponent implements AfterViewInit {
    */
 
   /**
-   * Parses the uploaded Spotify data-download-zip file into the SQLite database
+   * Parses the uploaded Spotify data-download-zip file into the store
    */
-  async parseSpotifyFileToSQLite() {
+  async parseSpotifyFile() {
     this.progressBarPercent.set(0);
     this.isProcessingFile.set(true);
     this.progressBarVisible.set(true);
@@ -801,15 +794,11 @@ export class ServiceSelectionComponent implements AfterViewInit {
   }
 
   /**
-   * Parses the uploaded Instagram data-download-zip file into the SQLite database
-   *
+   * Parses the uploaded Instagram data-download-zip file into the store
    * @author: Paul (pasch@mail.upb.de)
    *
    */
-  async parseInstagramFileToSQLite() {
-    this.isProcessingFile.set(true); //shows the processing icon on the button
-    this.progressBarPercent.set(0);
-    this.progressBarVisible.set(true);
+  async parseInstagramFile() {
     const userData: InstaUserDataModel = {} as InstaUserDataModel;
     userData.chatData = [];
 

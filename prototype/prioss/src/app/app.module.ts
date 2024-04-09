@@ -26,39 +26,6 @@ import { NzTimelineModule } from 'ng-zorro-antd/timeline';
 import { environment } from 'src/environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { InferencesRepository } from './db/data-repositories/general/inferences/inferences.repository';
-import { UserdataRepository } from './db/data-repositories/general/userdata/userdata.repository';
-import { InstaLoginRepository } from './db/data-repositories/instagram/insta-accountcreation-login/insta-login.repository';
-import { InstaLogoutRepository } from './db/data-repositories/instagram/insta-accountcreation-login/insta-logout.repository';
-import { InstaSignUpRepository } from './db/data-repositories/instagram/insta-accountcreation-login/insta-signup.repository';
-import { InstaAdsActivityRepository } from './db/data-repositories/instagram/insta-ads/insta-ads-activity.repository';
-import { InstaAdsClickedRepository } from './db/data-repositories/instagram/insta-ads/insta-ads-clicked.repository';
-import { InstaAdsInterestRepository } from './db/data-repositories/instagram/insta-ads/insta-ads-interest.repository';
-import { InstaAdsViewedRepository } from './db/data-repositories/instagram/insta-ads/insta-ads-viewed.repository';
-import { InstaContactsRepository } from './db/data-repositories/instagram/insta-contacts/insta-contacts.repository';
-import { InstaBlockedRepository } from './db/data-repositories/instagram/insta-follower-info/insta-blocked.repository';
-import { InstaFollowerRepository } from './db/data-repositories/instagram/insta-follower-info/insta-follower.repository';
-import { InstaFollowingRepository } from './db/data-repositories/instagram/insta-follower-info/insta-following.repository';
-import { InstaPendingFollowRequestRepository } from './db/data-repositories/instagram/insta-follower-info/insta-pending-follow-request.repository';
-import { InstaReceivedFollowRequestRepository } from './db/data-repositories/instagram/insta-follower-info/insta-received-follow-request.repository';
-import { InstaRecentFollowRepository } from './db/data-repositories/instagram/insta-follower-info/insta-recent-follow.repository';
-import { InstaRecentlyUnfollowedAccountsRepository } from './db/data-repositories/instagram/insta-follower-info/insta-recently-unfollowed-accounts.repository';
-import { InstaRemovedSuggestionRepository } from './db/data-repositories/instagram/insta-follower-info/insta-removed-suggestion.repository';
-import { InstaLikedCommentsRepository } from './db/data-repositories/instagram/insta-liked-content/insta-likedcomments.repository';
-import { InstaLikedPostsRepository } from './db/data-repositories/instagram/insta-liked-content/insta-likedposts.repository';
-import { InstaChatDataRepository } from './db/data-repositories/instagram/insta-messages/insta-chat-data.repository';
-import { InstaChatPartnerDataRepository } from './db/data-repositories/instagram/insta-messages/insta-chat-partner-data.repository';
-import { InstaPersonalRepository } from './db/data-repositories/instagram/insta-personal-info/insta-personal.repository';
-import { InstaKeywordSearchesRepository } from './db/data-repositories/instagram/insta-searches/insta-keyword-searches.repository';
-import { InstaTagSearchesRepository } from './db/data-repositories/instagram/insta-searches/insta-tag-searches.repository';
-import { InstaUserSearchesRepository } from './db/data-repositories/instagram/insta-searches/insta-user-searches.repository';
-import { InstaShoppingRepository } from './db/data-repositories/instagram/insta-shopping/insta-shopping.repository';
-import { InstaShoppingWishlistRepository } from './db/data-repositories/instagram/insta-shopping/insta-shopping_wishlist.repository';
-import { InstaTopicsRepository } from './db/data-repositories/instagram/insta-your-topics/insta-topics.repository';
-import { SpotHistoryRepository } from './db/data-repositories/spotify/spot-history/spot-history.repository';
-import { SpotSearchHistoryRepository } from './db/data-repositories/spotify/spot-search-history/spot-search-history.repository';
-import { DBService } from './db/db.service';
-import { SQLiteService } from './db/sqlite/sqlite.service';
 import { AdsRelatedDataComponent } from './facebook/pages/ads-related-data/ads-related-data.component';
 import { AdsSettingsComponent } from './facebook/pages/ads-settings/ads-settings.component';
 import { FaceDashboardComponent } from './facebook/pages/face-dashboard/face-dashboard.component';
@@ -134,6 +101,19 @@ import { ChartComponent } from './features/chart/chart.component';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { TimePipe } from './features/time/time.pipe';
 import { AccordionComponent } from './features/accordion/accordion.component';
+import { ChatviewComponent } from './facebook/pages/messages/chatview/chatview.component';
+import { ChatMessageDistributionChartComponent } from './facebook/pages/messages/chatview/chat-statistics/features/chat-message-distribution-chart/chat-message-distribution-chart.component';
+import { ChatStatisticsComponent as FacebookChatStatisticsComponent } from './facebook/pages/messages/chatview/chat-statistics/chat-statistics.component';
+import { GeneralChatInfosComponent } from './facebook/pages/messages/chatview/chat-statistics/features/general-chat-infos/general-chat-infos.component';
+import { AverageMessageLengthComponent } from './facebook/pages/messages/chatview/chat-statistics/features/average-message-length/average-message-length.component';
+import { AverageResponeTimeComponent } from './facebook/pages/messages/chatview/chat-statistics/features/average-respone-time/average-respone-time.component';
+import { ChatSentimentAnalysisComponent } from './facebook/pages/messages/chatview/chat-statistics/features/chat-sentiment-analysis/chat-sentiment-analysis.component';
+import { ChatWordcloudComponent } from './facebook/pages/messages/chatview/chat-statistics/features/chat-wordcloud/chat-wordcloud.component';
+import { MessagesPerDayChartComponent } from './facebook/pages/messages/chatview/chat-statistics/features/messages-per-day-chart/messages-per-day-chart.component';
+import { MessagesPerWeekdayComponent } from './facebook/pages/messages/chatview/chat-statistics/features/messages-per-weekday/messages-per-weekday.component';
+import { TopChatsComponent } from './facebook/pages/messages/chatview/chat-statistics/features/top-chats/top-chats.component';
+import { FacebookFriendsOverviewComponent} from './facebook/pages/friend-and-followers/features/friends-overview/friends-overview.component';
+import { FacebookFriendsStatisticsComponent } from './facebook/pages/friend-and-followers/features/friends-statistics/friends-statistics.component';
 import { FacebookModule } from './facebook/facebook.module';
 import { FriendAndFollowersComponent } from './facebook/pages/friend-and-followers/friend-and-followers.component';
 
@@ -227,6 +207,19 @@ registerLocaleData(de);
     NzProgressModule,
     NzButtonModule,
     ChartComponent,
+    ChatviewComponent,
+    FacebookChatStatisticsComponent,
+    GeneralChatInfosComponent,
+    AverageMessageLengthComponent,
+    AverageResponeTimeComponent,
+    ChatSentimentAnalysisComponent,
+    ChatWordcloudComponent,
+    MessagesPerDayChartComponent,
+    MessagesPerWeekdayComponent,
+    TopChatsComponent,
+    FacebookFriendsOverviewComponent,
+    FacebookFriendsStatisticsComponent,
+    ChatMessageDistributionChartComponent,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
       // Register the ServiceWorker as soon as the application is stable
@@ -250,39 +243,6 @@ registerLocaleData(de);
     NgxEchartsModule.forRoot({ echarts: () => import('echarts') }),
   ],
   providers: [
-    SQLiteService,
-    DBService,
-    SpotHistoryRepository,
-    InstaPersonalRepository,
-    InstaAdsActivityRepository,
-    InstaAdsInterestRepository,
-    InstaAdsClickedRepository,
-    InstaAdsViewedRepository,
-    InstaSignUpRepository,
-    InstaLoginRepository,
-    InstaLogoutRepository,
-    InstaLikedCommentsRepository,
-    InstaLikedPostsRepository,
-    InstaContactsRepository,
-    InstaFollowerRepository,
-    InstaFollowingRepository,
-    InstaBlockedRepository,
-    InstaChatDataRepository,
-    InstaChatPartnerDataRepository,
-    InstaShoppingRepository,
-    InstaShoppingWishlistRepository,
-    InstaRecentFollowRepository,
-    InstaPendingFollowRequestRepository,
-    InstaRecentlyUnfollowedAccountsRepository,
-    InstaRemovedSuggestionRepository,
-    InstaReceivedFollowRequestRepository,
-    InstaTopicsRepository,
-    InferencesRepository,
-    UserdataRepository,
-    InstaUserSearchesRepository,
-    InstaKeywordSearchesRepository,
-    InstaTagSearchesRepository,
-    SpotSearchHistoryRepository,
     FeatureToggleService,
     { provide: NZ_I18N, useValue: en_US },
   ],

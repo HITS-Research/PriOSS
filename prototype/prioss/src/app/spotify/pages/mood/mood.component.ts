@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { environment } from '../../../../environments/environment.prod';
 import * as d3 from 'd3';
-import { SpotHistoryRepository } from 'src/app/db/data-repositories/spotify/spot-history/spot-history.repository';
 import { endOfMonth } from 'date-fns';
 import * as sampleData from './samplesongsformood.json';
 
@@ -43,7 +42,7 @@ export class MoodComponent {
   allSongsNumber = 0;
 
 
-  constructor(private spotHistoryRepo: SpotHistoryRepository) {
+  constructor() {
     this.setToken();
   }
 
@@ -103,25 +102,15 @@ export class MoodComponent {
   async getSongIds() {
     this.isLoading = true;
     this.firstRun = true;
-    const spotHistory = await this.spotHistoryRepo.getSpotHistory();
-    this.allSongsNumber = spotHistory.length;
-    const trackIds: string[] = [];
-    const names: string[] = [];
-    const limit = 500;
+    //sqlite trash
+    // const trackIds: string[] = [];
+    // const names: string[] = [];
+    // const limit = 500;
 
-    for (const entry of spotHistory) {
-
-      if (this.queriedSongs >= limit) {
-        break;
-      }
-      names.push(entry.trackName);
-      const trackId = await this.getTrackId(entry.trackName);
-      trackIds.push(trackId);
-      this.queriedSongs++;
-    }
-    const audiofeatures: any = await this.getAudioFeaturesInBulk(trackIds);
-    const flattend = makeOneArray(audiofeatures);
-    withdate = addListeningDateToAudiofeatures(flattend, names, spotHistory);
+    //sqlite trash
+    // const audiofeatures: any = await this.getAudioFeaturesInBulk(trackIds);
+    // const flattend = makeOneArray(audiofeatures);
+   // withdate = addListeningDateToAudiofeatures(flattend, names, spotHistory);
     this.isLoading = false;
     this.updateRadarChart();
 
@@ -263,20 +252,20 @@ function makeBulkRequestUrl(trackIds: string[], spotifyUrl: string): string {
 *
 */
 
-function addListeningDateToAudiofeatures(audiofeatures: any, names: string[], original: any): any {
-  let counter = 0;
-  for (let i = 0; i < original.length; i++) {
-    const key = original[i];
-    if (names.includes(key.trackName)) {
-      audiofeatures[counter].time = key.endTime;
-      counter++;
-      if (counter === audiofeatures.length) {
-        break;
-      }
-    }
-  }
-  return audiofeatures;
-}
+// function addListeningDateToAudiofeatures(audiofeatures: any, names: string[], original: any): any {
+//   let counter = 0;
+//   for (let i = 0; i < original.length; i++) {
+//     const key = original[i];
+//     if (names.includes(key.trackName)) {
+//       audiofeatures[counter].time = key.endTime;
+//       counter++;
+//       if (counter === audiofeatures.length) {
+//         break;
+//       }
+//     }
+//   }
+//   return audiofeatures;
+// }
 
 /*
 * Creates radar chart for spotify audio values
@@ -537,18 +526,19 @@ function makeRadarChart(audiofeatures: any, componentInstance: MoodComponent) {
 *
 * @author: Sven (svenf@mail.uni-paderborn.de)
 *
-*/
-function makeOneArray(arrayOfArrays: any): any {
-  const flattenedArray: any = []
-  arrayOfArrays.forEach((array: any) => {
-    array.audio_features.forEach((element: any) => {
-      if (element != null) {
-        flattenedArray.push(element);
-      }
-    })
-  });
-  return flattenedArray
-}
+* sqlite trash
+* 
+// function makeOneArray(arrayOfArrays: any): any {
+//   const flattenedArray: any = []
+//   arrayOfArrays.forEach((array: any) => {
+//     array.audio_features.forEach((element: any) => {
+//       if (element != null) {
+//         flattenedArray.push(element);
+//       }
+//     })
+//   });
+//   return flattenedArray
+// }
 
 /*
 * This is a helper function to normalize the tempo values to 0-100.

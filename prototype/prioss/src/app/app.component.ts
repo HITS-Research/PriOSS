@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import * as utilities from 'src/app/features/utils/generalUtilities.functions';
-import { SQLiteService } from './db/sqlite/sqlite.service';
 import { AppComponentMsgService } from './features/messaging/app-component-msg/app-component-msg.service';
 import { AppComponentMsg } from './features/messaging/app-component-msg/app-component-msg.enum';
 
@@ -42,7 +41,6 @@ export class AppComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private sqlite: SQLiteService,
     private appComponentMsgService: AppComponentMsgService,
     public breakpointObserver: BreakpointObserver
   ) {
@@ -50,18 +48,6 @@ export class AppComponent implements OnInit {
 
     appComponentMsgService.appMsg$.subscribe((msg) => {
       this.parseAppMsg(msg);
-    });
-
-    this.sqlite.initializePlugin().then(async () => {
-      if (this.sqlite.platform === "web") {
-        this.isWeb = true;
-        await customElements.whenDefined('jeep-sqlite');
-        const jeepSqliteEl = document.querySelector('jeep-sqlite');
-        if (jeepSqliteEl != null) {
-          await this.sqlite.initWebStore();
-          await jeepSqliteEl.isStoreOpen();
-        }
-      }
     });
   }
 

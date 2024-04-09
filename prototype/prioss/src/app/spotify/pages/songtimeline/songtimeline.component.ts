@@ -4,8 +4,8 @@ import * as d3Timelines from "d3-timelines";
 import * as d3Time from 'd3-time';
 import * as d3Timeformat from 'd3-time-format';
 import * as dateUtils from '../../../features/utils/dateUtils.functions';
-import { SpotHistoryRepository } from 'src/app/db/data-repositories/spotify/spot-history/spot-history.repository';
 import { GranularityEnum } from '../listening-time/granularity.enum';
+import { Store } from '@ngxs/store';
 
 /**
  * The internally used interface that represents the structure of the data that is needed for the visualization
@@ -33,9 +33,10 @@ interface TimelineData{
 export class SongtimelineComponent {
 
   filterDateTime: Date;
-
-  constructor(private spotHistoryRepo: SpotHistoryRepository) {
-
+  store;
+  constructor(store: Store) {
+    this.store = store;
+    
   }
 
 /**
@@ -78,14 +79,7 @@ export class SongtimelineComponent {
       return null;
     }
 
-    const spotSongs = await this.spotHistoryRepo.getHistoryForSingleHour(this.filterDateTime);
-    for(let i = 0; i < spotSongs.length; i++) {
-      dataArray.push(
-        {label: "", times: [
-          {"starting_time": spotSongs[i].startTimeMs, "ending_time": spotSongs[i].endTimeMs, "label": spotSongs[i].label}]
-        }
-      );
-    }
+
     
     return dataArray;
   }
