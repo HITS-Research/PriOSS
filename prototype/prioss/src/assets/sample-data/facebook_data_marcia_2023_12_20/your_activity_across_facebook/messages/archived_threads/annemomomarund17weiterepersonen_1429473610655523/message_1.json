@@ -1,0 +1,136 @@
+{
+  "participants": [
+    {
+      "name": "Anne Schlamann"
+    },
+    {
+      "name": "Momo Marielle"
+    },
+    {
+      "name": "Mar Toph"
+    },
+    {
+      "name": "Irla Fock"
+    },
+    {
+      "name": "Dustin White"
+    },
+    {
+      "name": "Eddy Witt"
+    },
+    {
+      "name": "\u00c3\u0084nne We"
+    },
+    {
+      "name": "Yunus Toktas"
+    },
+    {
+      "name": "Max Hilgenberg"
+    },
+    {
+      "name": "Facebook-Nutzer"
+    },
+    {
+      "name": "Laura Wiesler"
+    },
+    {
+      "name": "Bettina Pohlmann"
+    },
+    {
+      "name": "Kai Beisenbusch"
+    },
+    {
+      "name": "Laura Frantz"
+    },
+    {
+      "name": "Meike Berger"
+    },
+    {
+      "name": "Arne H\u00c3\u00bcbschen"
+    },
+    {
+      "name": "Facebook-Nutzer"
+    },
+    {
+      "name": "Nina M\u00c3\u00bcller"
+    },
+    {
+      "name": "Jenny Pamme"
+    },
+    {
+      "name": "Vincent Simon"
+    }
+  ],
+  "messages": [
+    {
+      "sender_name": "Marcia Husen",
+      "timestamp_ms": 1402297266764,
+      "content": "Du hast die Gruppe verlassen.",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Anne Krauskopf",
+      "timestamp_ms": 1402260458163,
+      "content": "Anne Krauskopf hat die Gruppe verlassen.",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Simon Za",
+      "timestamp_ms": 1402250123636,
+      "content": "Simon Za hat die Gruppe verlassen.",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Macy Sh",
+      "timestamp_ms": 1402245295101,
+      "content": "Macy Sh hat die Gruppe verlassen.",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Facebook-Nutzer",
+      "timestamp_ms": 1402244139070,
+      "content": "Ein Kontakt hat die Gruppe verlassen.",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Fabian Bnth",
+      "timestamp_ms": 1402235891574,
+      "content": "Fabian Bnth hat die Gruppe verlassen.",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Asja Rozitis",
+      "timestamp_ms": 1402235848760,
+      "content": "Asja Rozitis hat die Gruppe verlassen.",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Christina Rodr\u00c3\u00adguez Martens",
+      "timestamp_ms": 1402234239240,
+      "content": "Christina Rodr\u00c3\u00adguez Martens hat die Gruppe verlassen.",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Rebecca Ohm",
+      "timestamp_ms": 1402233970562,
+      "content": "Rebecca Ohm hat die Gruppe verlassen.",
+      "is_geoblocked_for_viewer": false
+    },
+    {
+      "sender_name": "Mar Toph",
+      "timestamp_ms": 14022338349123456789,
+      "content": "wow remember this? http://t.co/wZn4ntqacj",
+      "is_geoblocked_for_viewer": false
+    }
+  ],
+  "title": "Anne, Momo, Mar und 17 weitere Personen",
+  "is_still_participant": false,
+  "thread_path": "archived_threads/annemomomarund17weiterepersonen_1429473610655523",
+  "magic_words": [
+    
+  ],
+  "joinable_mode": {
+    "mode": 1,
+    "link": ""
+  }
+}

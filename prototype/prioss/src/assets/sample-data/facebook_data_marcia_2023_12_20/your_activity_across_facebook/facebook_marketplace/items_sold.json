@@ -1,0 +1,19 @@
+{
+  "items_selling_v2": [
+    {
+      "title": "test",
+      "price": "KOSTENLOS",
+      "seller": "Marcia Husen",
+      "created_timestamp": 1702745144,
+      "category": "Schmuck und Accessoires",
+      "marketplace": "Germany Marketplace",
+      "location": {
+        "coordinate": {
+          "latitude": 47.9833,
+          "longitude": 7.85
+        }
+      },
+      "description": "a"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "accounts_center_v2": {
+    "linked_accounts": [
+      {
+        "service_name": "Instagram",
+        "username": "d4sch4",
+        "email": "husen.marcia@hotmail.de",
+        "name": "Marcia Husen"
+      },
+      {
+        "service_name": "Facebook",
+        "username": "marcia.husen.5",
+        "email": "husen.marcia@hotmail.de",
+        "phone_number": "+49123456789",
+        "name": "Marcia Husen"
+      }
+    ]
+  }
+}

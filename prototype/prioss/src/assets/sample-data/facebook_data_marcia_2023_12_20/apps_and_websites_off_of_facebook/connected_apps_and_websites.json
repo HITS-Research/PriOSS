@@ -1,0 +1,193 @@
+{
+  "installed_apps_v2": [
+    {
+      "name": "Guessomania",
+      "added_timestamp": 0,
+      "user_app_scoped_id": 7228105460567017,
+      "category": "removed",
+      "removed_timestamp": 0
+    },
+    {
+      "name": "DB Bahn Weihnachtswichteln 2012",
+      "added_timestamp": 0,
+      "user_app_scoped_id": 7228105463900350,
+      "category": "removed",
+      "removed_timestamp": 0
+    },
+    {
+      "name": "dailypresent",
+      "added_timestamp": 0,
+      "user_app_scoped_id": 7228105453900351,
+      "category": "removed",
+      "removed_timestamp": 1454323485
+    },
+    {
+      "name": "Greencopper Event",
+      "added_timestamp": 0,
+      "user_app_scoped_id": 1143830368994587,
+      "category": "removed",
+      "removed_timestamp": 1513702558
+    },
+    {
+      "name": "9GAG",
+      "added_timestamp": 0,
+      "user_app_scoped_id": 7228105457233684,
+      "category": "removed",
+      "removed_timestamp": 1513702561
+    },
+    {
+      "name": "iLove",
+      "added_timestamp": 0,
+      "user_app_scoped_id": 7228105450567018,
+      "category": "removed",
+      "removed_timestamp": 1513702564
+    },
+    {
+      "name": "Voting Contest",
+      "added_timestamp": 0,
+      "user_app_scoped_id": 1150876798289944,
+      "category": "removed",
+      "removed_timestamp": 1513702567
+    },
+    {
+      "name": "Candy Crush Saga",
+      "added_timestamp": 1379660838,
+      "user_app_scoped_id": 3180465541997716,
+      "category": "inactive",
+      "removed_timestamp": 0
+    },
+    {
+      "name": "Calendar",
+      "added_timestamp": 1381556068,
+      "user_app_scoped_id": 7228105420567021,
+      "category": "inactive",
+      "removed_timestamp": 0
+    },
+    {
+      "name": "",
+      "added_timestamp": 1381994524,
+      "user_app_scoped_id": 7228105413900355,
+      "category": "inactive",
+      "removed_timestamp": 0
+    },
+    {
+      "name": "How fast can you click in 10 seconds?",
+      "added_timestamp": 1383041962,
+      "user_app_scoped_id": 7228105427233687,
+      "category": "inactive",
+      "removed_timestamp": 0
+    },
+    {
+      "name": "How fast can you click in 10 seconds?",
+      "added_timestamp": 1383325831,
+      "user_app_scoped_id": 7228105417233688,
+      "category": "inactive",
+      "removed_timestamp": 0
+    },
+    {
+      "name": "Southside 2014",
+      "added_timestamp": 1383333463,
+      "user_app_scoped_id": 7228105423900354,
+      "category": "inactive",
+      "removed_timestamp": 0
+    },
+    {
+      "name": "iOS",
+      "added_timestamp": 1391134147,
+      "user_app_scoped_id": 7228105430567020,
+      "category": "inactive",
+      "removed_timestamp": 0
+    },
+    {
+      "name": "Tasty",
+      "added_timestamp": 1509893877,
+      "user_app_scoped_id": 1655586294485656,
+      "category": "active",
+      "removed_timestamp": 0
+    },
+    {
+      "name": "Spotify",
+      "added_timestamp": 1524301935,
+      "user_app_scoped_id": 1150370791673878,
+      "category": "active",
+      "removed_timestamp": 0
+    },
+    {
+      "name": "Lieferheld.de",
+      "added_timestamp": 1539185335,
+      "user_app_scoped_id": 2071346129576335,
+      "category": "inactive",
+      "removed_timestamp": 0
+    },
+    {
+      "name": "Candy Crush Soda Saga",
+      "added_timestamp": 1549123456789,
+      "user_app_scoped_id": 961890200521939,
+      "category": "inactive",
+      "removed_timestamp": 0
+    },
+    {
+      "name": "Candy Crush Friends Saga",
+      "added_timestamp": 1549123456789,
+      "user_app_scoped_id": 22512394549123456789,
+      "category": "inactive",
+      "removed_timestamp": 0
+    },
+    {
+      "name": "Coin Master",
+      "added_timestamp": 1578431281,
+      "user_app_scoped_id": 24373149123456789,
+      "category": "inactive",
+      "removed_timestamp": 0
+    },
+    {
+      "name": "Texas HoldEm Poker",
+      "added_timestamp": 1579193724,
+      "user_app_scoped_id": 2894664663911140,
+      "category": "inactive",
+      "removed_timestamp": 0
+    },
+    {
+      "name": "7Pass",
+      "added_timestamp": 1583609300,
+      "user_app_scoped_id": 3007054616005477,
+      "category": "inactive",
+      "removed_timestamp": 0
+    },
+    {
+      "name": "Pinterest",
+      "added_timestamp": 1585256514,
+      "user_app_scoped_id": 30507904349123456789,
+      "category": "active",
+      "removed_timestamp": 0
+    },
+    {
+      "name": "TikTok",
+      "added_timestamp": 1586010477,
+      "user_app_scoped_id": 3070673726310232,
+      "category": "inactive",
+      "removed_timestamp": 0
+    },
+    {
+      "name": "Shpock",
+      "added_timestamp": 1587787547,
+      "user_app_scoped_id": 3118952764815661,
+      "category": "inactive",
+      "removed_timestamp": 0
+    },
+    {
+      "name": "Picsart Photo Studio",
+      "added_timestamp": 1589119775,
+      "user_app_scoped_id": 3162633717114232,
+      "category": "inactive",
+      "removed_timestamp": 0
+    },
+    {
+      "name": "Urlaubspiraten",
+      "added_timestamp": 1658341762,
+      "user_app_scoped_id": 5590638270980419,
+      "category": "inactive",
+      "removed_timestamp": 0
+    }
+  ]
+}

@@ -1,6 +1,5 @@
-import {AfterViewInit, Component, Input, ChangeDetectionStrategy} from '@angular/core';
-import * as utilities from 'src/app/features/utils/generalUtilities.functions'
-import { UserdataEntry } from 'src/app/framework/models/userdata/userdataEntry';
+import { AfterViewInit, Component, Input, ChangeDetectionStrategy} from '@angular/core';
+import * as utilities from 'src/app/features/utils/generalUtilities.functions';
 import { SequenceComponentInit } from '../../../features/utils/sequence-component-init.abstract';
 import { Store } from '@ngxs/store';
 import { FacebookState } from '../../state/fb.state';
@@ -19,13 +18,40 @@ import { PrimaryLocationModel, PrimaryPublicLocationModel, ProfileInformationMod
   selector: 'app-general-data',
   templateUrl: './general-data.component.html',
   styleUrls: ['./general-data.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class GeneralDataComponent
-  extends SequenceComponentInit
-  implements AfterViewInit
+export class GeneralDataComponent extends SequenceComponentInit implements AfterViewInit
 {
-  userdata: UserdataEntry;
+  profileInfoAvailable = false;
+  educationInfoAvailable = false;
+  workInfoAvailable = false;
+  relationshipInfoAvailable = false;
+  familyInfoAvailable = false;
+  userdata: FbUserDataModel;
+  profileInfo: ProfileInformationModel;
+  locationInfo: PrimaryLocationModel;
+  primary_public_location: PrimaryPublicLocationModel;
+  creation_date: Date;
+  birthdate: string;
+  name: string;
+  emails: string;
+  previous_emails: string;
+  ad_account_emails: string;
+  gender: string;
+  pronoun: string;
+  phone_numbers: string;
+  current_relationship_since: number;
+  current_relationship_status: string;
+  current_relationship_partner: string;
+  previous_relationships: string[];
+  family_members: {
+    name: string;
+    relation: string;
+    timestamp: number;
+  }[];
+
+
+
   getObjectPairsNotNull: (obj: object) => [string, any][] =
     utilities.getObjectPairsNotNull;
   capitalize: (str: string) => string = utilities.capitalize;
@@ -55,24 +81,28 @@ export class GeneralDataComponent
    * @author: Simon (scg@mail.upb.de)
    */
   override async initComponent(): Promise<void> {
-    console.debug('--- Initializing Component 0: GeneralData');
-    const userdata: FbUserDataModel = await this.store.selectSnapshot(FacebookState.getFacebookUserData);
-    const profileInfo: ProfileInformationModel = userdata.personal_information.profile_information;
-    const locationInfo: PrimaryLocationModel = userdata.logged_information.primary_location;
-    const primary_public_location: PrimaryPublicLocationModel = userdata.logged_information.primary_public_location;
-    const creation_date = new Date(profileInfo?.profile_v2.registration_timestamp);
-    const bdate: string = profileInfo?.profile_v2.birthday.year.toString()??'0000' + '-' + profileInfo?.profile_v2.birthday.month.toString()??'00' + '-' + profileInfo?.profile_v2.birthday.day.toString()??'00';
-    this.userdata = {
-      email: profileInfo?.profile_v2.emails.emails.join(' ')??'Not available',
-      username: profileInfo.profile_v2.name.full_name??'Not available',
-      gender: profileInfo?.profile_v2.gender.gender_option??'Not available',
-      mobileNumber: profileInfo?.profile_v2.phone_numbers.at(0)?.phone_number??'Not available',
-      birthdate: bdate??'Not available',
-      country: primary_public_location?.primary_public_location_v2.country??'Not available',
-      postalCode: locationInfo?.primary_location_v2.zipcode.at(0)??'Not available',
-      mobileOperator: userdata.logged_information.device_location?.phone_number_location_v2.at(0)?.spn??'Not available',
-      mobileBrand: userdata.security_and_login_information?.mobile_devices?.devices_v2.at(0)?.type.replace(/,[0-9]+/, '')??'Not available',
-      creationTime: creation_date.toDateString()
-    }
+
+    this.userdata = await this.store.selectSnapshot(FacebookState.getFacebookUserData);
+    
+    this.profileInfoAvailable = this.userdata.personal_information.profile_information !== undefined;
+    this.profileInfo = this.userdata.personal_information.profile_information;
+    this.locationInfo = this.userdata.logged_information.primary_location;
+    this.primary_public_location = this.userdata.logged_information.primary_public_location;
+    this.creation_date = new Date(this.profileInfo?.profile_v2.registration_timestamp);
+    this.birthdate = this.profileInfo?.profile_v2.birthday.year.toString()??'0000' + '-' + this.profileInfo?.profile_v2.birthday.month.toString()??'00' + '-' + this.profileInfo?.profile_v2.birthday.day.toString()??'00';
+    
+    
+    // this.userdata = {
+    //   email: profileInfo?.profile_v2.emails.emails.join(' ')??'Not available',
+    //   username: profileInfo.profile_v2.name.full_name??'Not available',
+    //   gender: profileInfo?.profile_v2.gender.gender_option??'Not available',
+    //   mobileNumber: profileInfo?.profile_v2.phone_numbers.at(0)?.phone_number??'Not available',
+    //   birthdate: bdate??'Not available',
+    //   country: primary_public_location?.primary_public_location_v2.country??'Not available',
+    //   postalCode: locationInfo?.primary_location_v2.zipcode.at(0)??'Not available',
+    //   mobileOperator: userdata.logged_information.device_location?.phone_number_location_v2.at(0)?.spn??'Not available',
+    //   mobileBrand: userdata.security_and_login_information?.mobile_devices?.devices_v2.at(0)?.type.replace(/,[0-9]+/, '')??'Not available',
+    //   creationTime: creation_date.toDateString()
+    // }
 }
 }

@@ -1,0 +1,25 @@
+{
+  "media": [
+    
+  ],
+  "label_values": [
+    {
+      "label": "Zielgruppeneinstellungen",
+      "value": "\u00c3\u0096ffentlich"
+    },
+    {
+      "label": "Story highlight creation",
+      "value": "Du hast keine Story-Highlights erstellt"
+    },
+    {
+      "label": "Stories hinzugef\u00c3\u00bcgt",
+      "media": [
+        
+      ]
+    },
+    {
+      "label": "The last time you made changes to these settings",
+      "timestamp_value": 1654612299
+    }
+  ]
+}

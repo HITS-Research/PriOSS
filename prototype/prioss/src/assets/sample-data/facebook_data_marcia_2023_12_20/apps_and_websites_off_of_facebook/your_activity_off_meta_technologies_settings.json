@@ -1,0 +1,31 @@
+{
+  "timestamp": 1699489293,
+  "media": [
+    
+  ],
+  "label_values": [
+    {
+      "label": "Status der Kontozuordnung"
+    },
+    {
+      "label": "Zeitpunkt der letzten Aktivit\u00c3\u00a4t",
+      "timestamp_value": 0
+    },
+    {
+      "label": "So oft wurden diese Privatsph\u00c3\u00a4re-Einstellungen insgesamt angewendet",
+      "value": "0"
+    },
+    {
+      "label": "So oft wurde die Handlung \u00e2\u0080\u009eVerlauf l\u00c3\u00b6schen\u00e2\u0080\u009c durchgef\u00c3\u00bchrt",
+      "value": "0"
+    },
+    {
+      "label": "So oft wurden die Einstellungen f\u00c3\u00bcr die Kontozuordnung deaktiviert",
+      "value": "0"
+    },
+    {
+      "label": "So oft wurden die Einstellungen f\u00c3\u00bcr die Kontozuordnung aktiviert",
+      "value": "0"
+    }
+  ]
+}

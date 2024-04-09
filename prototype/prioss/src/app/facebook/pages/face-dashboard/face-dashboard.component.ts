@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, inject ,ChangeDetectionStrategy} from '@angular/core';
+import { type AfterViewInit, Component, inject ,ChangeDetectionStrategy} from '@angular/core';
 import { Router } from "@angular/router";
 import { FacebookDashboardIntroductionService } from '../../features/dashboard-introduction/facebook-dashboard-introduction.service';
 

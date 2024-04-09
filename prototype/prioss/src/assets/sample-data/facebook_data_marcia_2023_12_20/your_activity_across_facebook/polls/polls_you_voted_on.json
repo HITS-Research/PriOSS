@@ -1,0 +1,24 @@
+{
+  "poll_votes_v2": [
+    {
+      "timestamp": 1530557883,
+      "attachments": [
+        {
+          "data": [
+            {
+              "poll": {
+                "options": [
+                  {
+                    "option": "Ein Schwein Namens M\u00c3\u00a4nner\nDie \u00c3\u0084rzte",
+                    "voted": true
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "title": "Marcia Husen hat bei Unna Kults Umfrage abgestimmt."
+    }
+  ]
+}

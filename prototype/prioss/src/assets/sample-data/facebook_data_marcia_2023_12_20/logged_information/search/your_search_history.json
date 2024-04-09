@@ -1,0 +1,58 @@
+{
+  "searches_v2": [
+    {
+      "timestamp": 1701195979,
+      "attachments": [
+        {
+          "data": [
+            {
+              "text": "\"Marcia Husen\""
+            }
+          ]
+        }
+      ],
+      "data": [
+        {
+          "text": "Marcia Husen"
+        }
+      ],
+      "title": "Du hast Facebook aufgerufen"
+    },
+    {
+      "timestamp": 1701512633,
+      "attachments": [
+        {
+          "data": [
+            {
+              "text": "\"Mausio\""
+            }
+          ]
+        }
+      ],
+      "data": [
+        {
+          "text": "Mausio"
+        }
+      ],
+      "title": "Du hast Facebook aufgerufen"
+    },
+    {
+      "timestamp": 1701513190,
+      "attachments": [
+        {
+          "data": [
+            {
+              "text": "\"Mausio\""
+            }
+          ]
+        }
+      ],
+      "data": [
+        {
+          "text": "Mausio"
+        }
+      ],
+      "title": "Du hast Facebook aufgerufen"
+    }
+  ]
+}

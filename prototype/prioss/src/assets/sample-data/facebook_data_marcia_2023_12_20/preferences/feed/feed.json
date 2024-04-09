@@ -1,0 +1,31 @@
+{
+  "people_and_friends_v2": [
+    {
+      "name": "Nicht mehr folgen",
+      "description": "Freunde, Seiten und Gruppen, denen du nicht mehr folgst und deren Beitr\u00c3\u00a4ge dir nicht mehr angezeigt werden.",
+      "entries": [
+        {
+          "timestamp": 1647579196,
+          "data": {
+            "name": "Kantine West",
+            "uri": "https://www.facebook.com/redacted"
+          }
+        },
+        {
+          "timestamp": 1638605895,
+          "data": {
+            "name": "Jennifer Anna Lang",
+            "uri": "https://www.facebook.com/redacted"
+          }
+        },
+        {
+          "timestamp": 1616786632,
+          "data": {
+            "name": "Ali Hajian",
+            "uri": "https://www.facebook.com/redacted"
+          }
+        }
+      ]
+    }
+  ]
+}

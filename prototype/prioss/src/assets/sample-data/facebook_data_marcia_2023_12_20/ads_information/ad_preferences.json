@@ -1,0 +1,131 @@
+{
+  "media": [
+    
+  ],
+  "label_values": [
+    {
+      "label": "Hat deaktiviert, dass ihm/ihr Anzeigen au\u00c3\u009ferhalb von Meta angezeigt werden",
+      "value": "Falsch"
+    },
+    {
+      "label": "Ist das Opt-out-Cookie der Digital Advertising Alliance in jedem Browser vorhanden?",
+      "value": "Richtig"
+    },
+    {
+      "label": "Hat deaktiviert, dass Daten zu Interaktionen zwischen dem Nutzer und Drittanbieter-Websites f\u00c3\u00bcr das Anzeigen-Targeting verwendet werden",
+      "value": "Falsch"
+    },
+    {
+      "label": "Hinzugef\u00c3\u00bcgte Interessen",
+      "vec": [
+        
+      ]
+    },
+    {
+      "label": "Entfernte Interessen",
+      "vec": [
+        
+      ]
+    },
+    {
+      "label": "Hat deaktiviert, dass der Beziehungsstatus f\u00c3\u00bcr das Anzeigen-Targeting verwendet wird",
+      "value": "Falsch"
+    },
+    {
+      "label": "Hat deaktiviert, dass religi\u00c3\u00b6se Ansichten f\u00c3\u00bcr das Anzeigen-Targeting verwendet werden",
+      "value": "Richtig"
+    },
+    {
+      "label": "Hat deaktiviert, dass Interessen f\u00c3\u00bcr das Anzeigen-Targeting verwendet werden",
+      "value": "Richtig"
+    },
+    {
+      "label": "Hat deaktiviert, dass Ausbildungsinfos (Schule, Hochschuljahr, Studienrichtung usw.) f\u00c3\u00bcr das Anzeigen-Targeting verwendet werden",
+      "value": "Falsch"
+    },
+    {
+      "label": "Hat deaktiviert, dass sein/ihr Arbeitgeber f\u00c3\u00bcr das Anzeigen-Targeting verwendet wird",
+      "value": "Falsch"
+    },
+    {
+      "label": "Hat deaktiviert, dass seine/ihre Berufsbezeichnung f\u00c3\u00bcr das Anzeigen-Targeting verwendet wird",
+      "value": "Falsch"
+    },
+    {
+      "label": "Hat deaktiviert, dass Lebensereignisse f\u00c3\u00bcr das Anzeigen-Targeting verwendet werden",
+      "value": "Falsch"
+    },
+    {
+      "label": "Hat deaktiviert, dass politische Ansichten f\u00c3\u00bcr das Anzeigen-Targeting verwendet werden",
+      "value": "Richtig"
+    },
+    {
+      "label": "Sensible Themen deaktiviert",
+      "dict": [
+        
+      ]
+    },
+    {
+      "label": "Gemeldete Interessen",
+      "vec": [
+        
+      ]
+    },
+    {
+      "label": "Datendatei Custom Audience Deaktivieren",
+      "vec": [
+        
+      ]
+    },
+    {
+      "label": "Datendatei Einschluss einer Custom Audience Deaktivieren",
+      "vec": [
+        
+      ]
+    },
+    {
+      "label": "Datendatei Ausschluss einer Custom Audience Deaktivieren",
+      "vec": [
+        
+      ]
+    },
+    {
+      "label": "Hat deaktiviert, dass ortsbezogene Daten f\u00c3\u00bcr das Anzeigen-Targeting verwendet werden",
+      "value": "Falsch"
+    },
+    {
+      "label": "Hat Daten von Drittanbietern auf Nutzerebene deaktiviert",
+      "value": "Falsch"
+    },
+    {
+      "label": "Themen, denen Dritte zugestimmt haben",
+      "vec": [
+        
+      ]
+    },
+    {
+      "label": "Werbethemen-Pr\u00c3\u00a4ferenzen des Nutzers",
+      "dict": [
+        
+      ]
+    },
+    {
+      "label": "Werbeinteressen-Pr\u00c3\u00a4ferenzen des Nutzers",
+      "dict": [
+        
+      ]
+    },
+    {
+      "label": "Sensible Themen aktiviert",
+      "vec": [
+        
+      ]
+    },
+    {
+      "label": "Aktivierte Werbeinteressen",
+      "vec": [
+        
+      ]
+    }
+  ]
+}

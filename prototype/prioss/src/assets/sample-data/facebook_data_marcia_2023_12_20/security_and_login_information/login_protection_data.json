@@ -1,0 +1,50 @@
+{
+  "login_protection_data_v2": [
+    {
+      "name": "Cookie: I9J9********************",
+      "session": {
+        "created_timestamp": 1702744686
+      }
+    },
+    {
+      "name": "IP-Adresse: 2003:e0:571c:d5ec:455d:53c0:4b71:85a6",
+      "session": {
+        "created_timestamp": 17011949123456789,
+        "updated_timestamp": 1702744686,
+        "ip_address": "2003:e0:571c:d5ec:455d:53c0:4b71:85a6"
+      }
+    },
+    {
+      "name": "Ungef\u00c3\u00a4hrer Standort anhand IP 51.696, 7.776",
+      "session": {
+        "created_timestamp": 17011949123456789,
+        "updated_timestamp": 1702744686
+      }
+    },
+    {
+      "name": "Cookie: mTxR********************",
+      "session": {
+        "created_timestamp": 1701680008
+      }
+    },
+    {
+      "name": "IP-Adresse: 2a02:908:2224:10a0:11bb:d73e:5124:ab54",
+      "session": {
+        "created_timestamp": 1701680008,
+        "ip_address": "2a02:908:2224:10a0:11bb:d73e:5124:ab54"
+      }
+    },
+    {
+      "name": "Ungef\u00c3\u00a4hrer Standort anhand IP 51.696, 8.744",
+      "session": {
+        "created_timestamp": 1701680008
+      }
+    },
+    {
+      "name": "Cookie: 5Sxm********************",
+      "session": {
+        "created_timestamp": 17011949123456789
+      }
+    }
+  ]
+}

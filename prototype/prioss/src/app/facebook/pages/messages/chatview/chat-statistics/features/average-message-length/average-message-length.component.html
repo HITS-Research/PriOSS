@@ -1,0 +1,31 @@
+<nz-select
+    [ngModel]="selectedChatID()"
+    (ngModelChange)="selectedChatID.set($event)"
+    nzShowSearch
+    nzAllowClear>
+    @for(chat of personalChats(); track chat.id){
+    <nz-option
+        [nzLabel]="chat.name"
+        [nzValue]="chat.id"></nz-option>
+    }
+</nz-select>
+<nz-table>
+    <tbody>
+        <tr>
+            <td>Your average message length:</td>
+            <td>{{yourAverageMessageLength()}}</td>
+        </tr>
+        <tr>
+            <td>Their average message length:</td>
+            <td>{{theirAverageMessageLength()}}</td>
+        </tr>
+        <tr>
+            <td>Your average response time:</td>
+            <td>{{yourAverageResponsetime() | date:"HH:mm:ss"}}</td>
+        </tr>
+        <tr>
+            <td>Their average response time:</td>
+            <td>{{theirAverageResponsetime() | date:"HH:mm:ss"}}</td>
+        </tr>
+    </tbody>
+</nz-table>

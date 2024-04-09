@@ -1,0 +1,28 @@
+{
+  "media": [
+    
+  ],
+  "label_values": [
+    {
+      "label": "Zeitpunkt der letzten Anmeldung",
+      "timestamp_value": 1702744686
+    },
+    {
+      "label": "Anmeldeinformationstyp beim letzten Anmeldeversuch",
+      "dict": [
+        {
+          "timestamp_value": 1702744686
+        },
+        {
+          "timestamp_value": 1567009580
+        },
+        {
+          "timestamp_value": 1638478216
+        },
+        {
+          "timestamp_value": 1611389461
+        }
+      ]
+    }
+  ]
+}

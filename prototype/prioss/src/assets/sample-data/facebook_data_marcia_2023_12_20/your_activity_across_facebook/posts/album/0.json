@@ -1,0 +1,37 @@
+{
+  "name": "Profilbilder",
+  "photos": [
+    {
+      "uri": "https://www.facebook.com/redacted",
+      "creation_timestamp": 149123456789,
+      "media_metadata": {
+        "photo_metadata": {
+          "exif_data": [
+            {
+              "upload_ip": "46.223.1.14",
+              "taken_timestamp": 149123456789
+            }
+          ]
+        }
+      },
+      "title": "Profilbilder"
+    }
+  ],
+  "cover_photo": {
+    "uri": "https://www.facebook.com/redacted",
+    "creation_timestamp": 149123456789,
+    "media_metadata": {
+      "photo_metadata": {
+        "exif_data": [
+          {
+            "upload_ip": "46.223.1.14",
+            "taken_timestamp": 149123456789
+          }
+        ]
+      }
+    },
+    "title": "Profilbilder"
+  },
+  "last_modified_timestamp": 149123456789,
+  "description": ""
+}

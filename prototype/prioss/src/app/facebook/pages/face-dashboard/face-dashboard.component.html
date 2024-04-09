@@ -54,10 +54,11 @@
         <app-dash-card
           cardLink="/face/connections"
           titleText="Facebook Connections"
-          tooltipText="This card gives a gist of your Facebook friends connections. Click to see year-wise details."
+          tooltipText="This card provides information about your connections, e.g friends, people you may know, etc."
         >
+        
           <app-friend-and-followers
-            [previewMode]="true"
+            [previewModeInput]="'true'"
           ></app-friend-and-followers>
         </app-dash-card>
       </div>

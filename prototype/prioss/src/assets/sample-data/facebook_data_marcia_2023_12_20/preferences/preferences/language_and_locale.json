@@ -1,0 +1,55 @@
+{
+  "language_and_locale_v2": [
+    {
+      "name": "Spracheinstellungen",
+      "description": "Deine Spracheinstellungen",
+      "children": [
+        {
+          "name": "Ausgew\u00c3\u00a4hlte Sprache",
+          "description": "Die Sprache, die du f\u00c3\u00bcr dein Facebook-Profil festgelegt hast",
+          "entries": [
+            {
+              "data": {
+                "value": "de_DE"
+              }
+            }
+          ]
+        },
+        {
+          "name": "\u00c3\u0084nderungen der Spracheinstellungen",
+          "description": "Der \u00c3\u0084nderungsverlauf deiner Spracheinstellungen",
+          "entries": [
+            {
+              "timestamp": 1272035279,
+              "data": {
+                "name": "de_DE"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Sprachen, die du vielleicht sprichst",
+      "description": "Sprachen, die du vielleicht sprichst \u00e2\u0080\u0093 basierend auf deinen Aktivit\u00c3\u00a4ten auf Facebook",
+      "entries": [
+        {
+          "data": {
+            "value": "de"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Bevorzugte Sprache",
+      "description": "Deine bevorzugten Sprachen \u00e2\u0080\u0093 basierend auf deinen Aktivit\u00c3\u00a4ten auf Facebook",
+      "entries": [
+        {
+          "data": {
+            "value": "de_DE"
+          }
+        }
+      ]
+    }
+  ]
+}

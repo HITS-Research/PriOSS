@@ -1,0 +1,31 @@
+<nz-row [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32, xl: 32, xxl: 32 }">
+    <nz-col [nzSpan]="8">
+        <nz-statistic [nzValue]="amountOfChats()"
+            [nzTitle]="'Total Chats'"></nz-statistic>
+    </nz-col>
+    <nz-col [nzSpan]="8">
+        <nz-statistic [nzValue]="amountOfGroupChats()"
+            [nzTitle]="'Group Chats'"></nz-statistic>
+    </nz-col>
+
+    <nz-col [nzSpan]="8">
+        <nz-statistic [nzValue]="messagesSent()"
+            [nzTitle]="'Messages Sent'"></nz-statistic>
+    </nz-col>
+    <nz-col [nzSpan]="8">
+        <nz-statistic [nzValue]="messagesReceived()"
+            [nzTitle]="'Messages Received'"></nz-statistic>
+    </nz-col>
+    <nz-col [nzSpan]="8">
+        <nz-statistic [nzValue]="totalWordsSent()"
+            [nzTitle]="'Total Words Sent'"></nz-statistic>
+    </nz-col>
+    <nz-col [nzSpan]="8">
+        <nz-statistic [nzValue]="totalWordsReceived()"
+            [nzTitle]="'Total Wordss Received'"></nz-statistic>
+    </nz-col>
+    <nz-col [nzSpan]="8">
+        <nz-statistic [nzValue]="medianWordsPerMessage()"
+            [nzTitle]="'Median # of Words per Message'"></nz-statistic>
+    </nz-col>
+</nz-row>
