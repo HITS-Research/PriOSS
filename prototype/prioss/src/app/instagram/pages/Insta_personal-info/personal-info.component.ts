@@ -1,9 +1,6 @@
 import {AfterViewInit, Component, Input, OnInit,} from '@angular/core';
 import {Router} from '@angular/router';
 import * as utilities from 'src/app/features/utils/generalUtilities.functions'
-import {
-    InstaPersonalRepository
-} from 'src/app/db/data-repositories/instagram/insta-personal-info/insta-personal.repository';
 import {SequenceComponentInit} from '../../../features/utils/sequence-component-init.abstract';
 import {
     InstaAccountInfo,
@@ -42,7 +39,7 @@ export class Insta_PersonalInfoComponent extends SequenceComponentInit implement
     convertTimestamp: (str: string) => any = utilities.convertTimestamp;
     capitalizeAndPrettify: (str: string) => string = utilities.capitalizeAndPrettify;
 
-    constructor(private router: Router, private instaPersonalRepo: InstaPersonalRepository, private store: Store) {
+    constructor(private router: Router,private store: Store) {
         super();
     }
 
