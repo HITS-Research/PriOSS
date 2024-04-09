@@ -54,6 +54,7 @@ import { SpotifyUserDataComponent } from './spotify/pages/spotify-user-data/spot
 import { facebookGuard } from './guards/facebook.guard';
 import { instagramGuard } from './guards/instagram.guard';
 import { spotifyGuard } from './guards/spotify.guard';
+import { SpotifyArtistHistoryComponent } from './spotify/pages/spotify-artist-history/spotify-artist-history.component';
 
 const routes: Routes = [
   { path: 'home', component: LandingComponent },
@@ -141,10 +142,8 @@ const routes: Routes = [
       { path: 'listening-time/:start/:end', component: ListeningTimeComponent },
       { path: 'listening-time/songtimeline', component: SongtimelineComponent },
       { path: 'mood', component: MoodComponent },
-      {
-        path: 'privacy-instructions',
-        component: SpotPrivacyInstructionsComponent,
-      },
+      { path: 'privacy-instructions', component: SpotPrivacyInstructionsComponent },
+      { path: 'artist-history/:artistName', component: SpotifyArtistHistoryComponent },
       { path: 'search-history', component: SpotifySearchHistoryComponent },
       { path: 'top-artists', component: TopArtistsComponent },
       { path: 'top-artists/:start/:end', component: TopArtistsComponent },
@@ -161,6 +160,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes, { anchorScrolling: 'enabled' })],
   exports: [RouterModule],
 })
-export class AppRoutingModule {
-  constructor() {}
-}
+export class AppRoutingModule { }

@@ -1,0 +1,46 @@
+<a [routerLink]="['/spot/top-artists']">
+  <span
+    nz-icon
+    nzType="arrow-left"
+  ></span>
+  Back to Top Artists
+</a>
+
+@if (this.data(); as data) {
+  @if (data.length > 0) {
+    <nz-tabset>
+      <nz-tab nzTitle="Table">
+        <nz-table
+          #table
+          [nzData]="data">
+          <thead>
+            <tr>
+              <th>Date and time</th>
+              <th>Track name</th>
+              <th>Seconds listened</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (data of table.data; track data) {
+              <tr>
+                <td>{{ data.endTime }}</td>
+                <td>{{ data.trackName }}</td>
+                <td>{{ data.msPlayed | time:'ms-to-sec' }}</td>
+              </tr>
+            }
+          </tbody>
+        </nz-table>
+      </nz-tab>
+      <nz-tab nzTitle="Heat Map">
+        <div echarts [options]="chartHeatMapOptions()">
+
+        </div>
+      </nz-tab>
+    </nz-tabset>
+
+  } @else {
+    There is no data to display.
+  }
+} @else {
+  Loading and calculating data.
+}

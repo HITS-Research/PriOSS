@@ -132,6 +132,7 @@ import { FeatureToggleService } from './features/feature-toggle/feature-toggle.s
 import { NgChartsModule } from 'ng2-charts';
 import { ChartComponent } from './features/chart/chart.component';
 import { NgxEchartsModule } from 'ngx-echarts';
+import { TimePipe } from './features/time/time.pipe';
 import { AccordionComponent } from './features/accordion/accordion.component';
 import { ChatviewComponent } from './facebook/pages/messages/chatview/chatview.component';
 import { ChatMessageDistributionChartComponent } from './facebook/pages/messages/chatview/chat-statistics/features/chat-message-distribution-chart/chat-message-distribution-chart.component';
@@ -215,6 +216,7 @@ registerLocaleData(de);
     AccordionComponent,
   ],
   imports: [
+    TimePipe,
     FacebookModule,
     FriendAndFollowersComponent,
     TitleBarComponent,
