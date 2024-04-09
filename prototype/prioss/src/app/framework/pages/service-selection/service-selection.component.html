@@ -29,7 +29,8 @@
   </div>
 
   <nz-modal id="progress-bar-dialog"
-      [(nzVisible)]="progressBarVisible"
+      [nzVisible]="progressBarVisible()"
+      (nzVisibleChange)="progressBarVisible.set($event)"
       [nzTitle]="progressBarTitle"
       [nzContent]="progressBarContent"
       [nzFooter]="modalFooter"
@@ -41,7 +42,7 @@
     </ng-template>
 
     <ng-template #progressBarContent>
-      <nz-progress [nzPercent]="progressBarPercent"></nz-progress>
+      <nz-progress [nzPercent]="progressBarPercent()"></nz-progress>
     </ng-template>
 
     <ng-template #modalFooter>
@@ -50,7 +51,8 @@
   </nz-modal>
 
   <nz-modal id="upload-dialog"
-      [(nzVisible)]="uploadDialogVisible"
+      [nzVisible]="uploadDialogVisible()"
+      (nzVisibleChange)="uploadDialogVisible.set($event)"
       [nzTitle]="uploadDialogTitle"
       [nzContent]="uploadContent"
       [nzFooter]="uploadDialogFooter"
