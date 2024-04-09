@@ -1,6 +1,5 @@
 import { Component, Input, type OnInit ,ChangeDetectionStrategy} from '@angular/core';
 import * as utilities from 'src/app/features/utils/generalUtilities.functions';
-// biome-ignore lint/style/useImportType: <explanation>
 import { Store } from '@ngxs/store';
 import { FacebookState } from '../../state/fb.state';
 import type { ArchivedThreadModel, GroupMessageModel, InboxMessageModel } from '../../models';

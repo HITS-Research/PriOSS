@@ -1,30 +1,31 @@
 <div [ngClass]="{ 'component-page': !previewMode }">
   <!--in previewmode only a small table with personal information is shown-->
   <div *ngIf="previewMode">
-    <div *ngIf="userdata !== undefined">
-      @if (profileInfo.profile_v2.name !== undefined) {
+    <div *ngIf="userdata() !== undefined">
+
+      @if (profileInfo().profile_v2.name !== undefined) {
       <nz-row [nzGutter]="16">
         <nz-col [nzSpan]="12">
           <nz-statistic
-            [nzValue]="profileInfo.profile_v2.name.full_name!"
+            [nzValue]="profileInfo().profile_v2.name.full_name!"
             [nzTitle]="'Username'"></nz-statistic>
         </nz-col>
       </nz-row>
       }
-      @if (birthdate !== undefined) {
+      @if (birthdate() !== undefined) {
       <nz-row [nzGutter]="16">
         <nz-col [nzSpan]="12">
           <nz-statistic
-            [nzValue]="birthdate!"
+            [nzValue]="birthdate()"
             [nzTitle]="'Birthdate'"></nz-statistic>
         </nz-col>
       </nz-row>
       }
-      @if (profileInfo.profile_v2.emails.emails.length > 0) {
+      @if (profileInfo().profile_v2.emails.emails.length > 0) {
       <nz-row [nzGutter]="16">
         <nz-col [nzSpan]="12">
           <nz-statistic
-            [nzValue]="profileInfo.profile_v2.emails.emails[0]!"
+            [nzValue]="profileInfo().profile_v2.emails.emails[0]!"
             [nzTitle]="'Email'"></nz-statistic>
         </nz-col>
       </nz-row>
@@ -39,129 +40,157 @@
     </app-title-bar>
     <div nz-row [nzGutter]="{ xs: 8, xl: 40 }" nz-Align="top"
       id="information-cards-row-1">
-      <div nz-col [nzSpan]="12" id="profile-information" class="info-card">
-        <nz-card  nzTitle="Profile Information">
+      <div nz-col nzXs="24" nzLg="12" nzFlex="auto" id="profile-information"
+        class="info-card">
+        <nz-card nzTitle="Profile Information">
           <nz-table nzTemplateMode>
             <tbody>
-              @if (profileInfo.profile_v2.name.full_name !== undefined) {
+              @if (profileInfo().profile_v2.name.full_name !== undefined) {
               <tr>
                 <td rowSpan="1">Name:</td>
-                <td rowSpan="1">{{ profileInfo.profile_v2.name.full_name }}</td>
+                <td rowSpan="1">{{ profileInfo().profile_v2.name.full_name }}</td>
               </tr>
               }
-              @if (profileInfo.profile_v2.gender !== undefined) {
+              @if (profileInfo().profile_v2.gender !== undefined) {
               <tr>
                 <td rowSpan="1">Gender:</td>
-                <td rowSpan="1">{{ profileInfo.profile_v2.gender.gender_option}}</td>
+                <td rowSpan="1">{{
+                  profileInfo().profile_v2.gender.gender_option.charAt(0).toUpperCase() + profileInfo().profile_v2.gender.gender_option.slice(1).toLowerCase()}}</td>
               </tr>
-            }
-            @if (profileInfo.profile_v2.birthday !== undefined) {
+              }
+              @if (profileInfo().profile_v2.birthday !== undefined) {
               <tr>
                 <td rowSpan="1">Birthday:</td>
-                <td rowSpan="1">{{ birthdate }}</td>
+                <td rowSpan="1">{{ birthdate() }}</td>
               </tr>
-            }
-            @if (profileInfo.profile_v2.emails.emails.length > 0) {
+              }
+              @if (profileInfo().profile_v2.emails.emails.length > 0) {
               <tr>
                 <td rowSpan="1">Active Emails:</td>
                 <td rowSpan="1">@for (email of
-                  profileInfo.profile_v2.emails.emails; track email) { {{ email
+                  profileInfo().profile_v2.emails.emails; track email) { {{ email
                   +
                   " " }} } </td>
               </tr>
-            }
-            @if (profileInfo.profile_v2.emails.previous_emails.length > 0) {
+              }
+              @if (profileInfo().profile_v2.emails.previous_emails.length > 0) {
               <tr>
                 <td rowSpan="1">Previous Emails:</td>
                 <td rowSpan="1">@for (mail of
-                  profileInfo.profile_v2.emails.previous_emails; track mail) {
+                  profileInfo().profile_v2.emails.previous_emails; track mail) {
                   {{mail + " "}} } </td>
               </tr>
-            }
-            @if (profileInfo.profile_v2.phone_numbers.length > 0) {
+              }
+              @if (profileInfo().profile_v2.phone_numbers.length > 0) {
               <tr>
                 <td rowSpan="1">Phone Numbers:</td>
                 <td rowSpan="1">@for (number of
-                  profileInfo.profile_v2.phone_numbers; track number) {
+                  profileInfo().profile_v2.phone_numbers; track number) {
                   {{number.phone_number+" "}} }</td>
               </tr>
-            }
-            @if (profileInfo.profile_v2.blood_info.blood_donor_status !== undefined) {
+              }
+              @if (profileInfo().profile_v2.blood_info.blood_donor_status !==
+              undefined) {
               <tr>
                 <td rowSpan="1">Blood Donor Status:</td>
-                <td rowSpan="1">{{profileInfo.profile_v2.blood_info.blood_donor_status}}</td>
+                <td
+                  rowSpan="1">{{profileInfo().profile_v2.blood_info.blood_donor_status}}</td>
               </tr>
-            }
+              }
             </tbody>
           </nz-table>
         </nz-card>
       </div>
-      <div nz-col [nzSpan]="12"  class="info-card">
+      <div nz-col nzXs="24" nzLg="12" nzFlex="auto" class="info-card">
         <nz-card nz-col nzTitle="Relationships">
           <nz-table nzTemplateMode>
             <tbody>
-              @if (profileInfo.profile_v2.relationship.status !== undefined && profileInfo.profile_v2.relationship.status !== "") {
-                <tr>
-                  <td rowSpan="1">Current:</td>
-                  <td rowSpan="1">{{profileInfo.profile_v2.relationship.status}} since {{profileInfo.profile_v2.relationship.timestamp | date:"YYYY.MM.dd"}}</td>
-                </tr>
+              @if (profileInfo().profile_v2.relationship.status !== undefined &&
+              profileInfo().profile_v2.relationship.status !== "") {
+              <tr>
+                <td rowSpan="1">Current:</td>
+                <td rowSpan="1">{{profileInfo().profile_v2.relationship.status}}
+                  since {{profileInfo().profile_v2.relationship.timestamp |
+                  date:"YYYY.MM.dd"}}</td>
+              </tr>
               }
-              @if (profileInfo.profile_v2.previous_relationships.length > 0) {
-                @for (prev of profileInfo.profile_v2.previous_relationships; track prev) {
-                  <tr>
-                    <td rowSpan="1">Previous ({{prev.timestamp | date:"YYYY.MM.dd"}}):</td>
-                    <td rowSpan="1">{{prev.name}} </td>
-                  </tr>
-                }
-                
+              @if (profileInfo().profile_v2.previous_relationships.length > 0) {
+              @for (prev of profileInfo().profile_v2.previous_relationships; track
+              prev) {
+              <tr>
+                <td rowSpan="1">Previous ({{prev.timestamp |
+                  date:"YYYY.MM.dd"}}):</td>
+                <td rowSpan="1">{{prev.name}} </td>
+              </tr>
+              }
+
+              }
+              @if(profileInfo().profile_v2.previous_relationships.length == 0 &&
+              profileInfo().profile_v2.relationship.status === undefined &&
+              profileInfo().profile_v2.relationship.status === "") {
+              <nz-empty></nz-empty>
               }
             </tbody>
           </nz-table>
         </nz-card>
       </div>
-      <div id="family-info" nz-col [nzSpan]="8" class="info-card">
+      <div id="family-info" nz-col nzXs="24" nzLg="12" nzFlex="auto"
+        class="info-card">
         <nz-card nz-col nzTitle="Family">
           <nz-table nzTemplateMode>
             <tbody>
-              @if (profileInfo.profile_v2.family_members.length > 0) {
-                @for (member of profileInfo.profile_v2.family_members; track member) {
-                  <tr>
-                    <td rowSpan="1">{{member.relation}}:</td>
-                    <td rowSpan="1">{{member.name}}</td>
-                  </tr>
-                }
+              @if (profileInfo().profile_v2.family_members.length > 0) {
+              @for (member of profileInfo().profile_v2.family_members; track
+              member) {
+              <tr>
+                <td rowSpan="1">{{member.relation}}:</td>
+                <td rowSpan="1">{{member.name}}</td>
+              </tr>
+              }
+              }@else {
+              <nz-empty></nz-empty>
               }
             </tbody>
           </nz-table>
         </nz-card>
       </div>
-      <div id="education-info" nz-col [nzSpan]="8" class="info-card">
+      <div id="education-info" nz-col nzXs="24" nzLg="12" nzFlex="auto"
+        class="info-card">
         <nz-card nzTitle="Education Experience">
           <nz-table nzTemplateMode>
             <tbody>
-              @if (profileInfo.profile_v2.education_experiences.length > 0) {
-                @for (edu of profileInfo.profile_v2.education_experiences; track edu) {
-                  <tr>
-                    <td rowSpan="1">{{edu.name}} ({{edu.school_type}}):</td>
-                    <td rowSpan="1">{{edu.timestamp | date:"YYY.MM.dd"}} - {{edu.end_timestamp | date:"YYY.MM.dd"}}</td>
-                  </tr>
-                }
+              @if (profileInfo().profile_v2.education_experiences.length > 0) {
+              @for (edu of profileInfo().profile_v2.education_experiences; track
+              edu) {
+              <tr>
+                <td rowSpan="1">{{edu.name}} ({{edu.school_type}}):</td>
+                <td rowSpan="1">{{edu.timestamp | date:"YYY.MM.dd"}} -
+                  {{edu.end_timestamp | date:"YYY.MM.dd"}}</td>
+              </tr>
+              }
+              }@else {
+              <nz-empty></nz-empty>
               }
             </tbody>
           </nz-table>
         </nz-card>
       </div>
-      <div id="education-info" nz-col [nzSpan]="8" class="info-card">
+      <div id="education-info" nz-col nzXs="24" nzLg="12" nzFlex="auto"
+        class="info-card">
         <nz-card nz-col nzTitle="Work Experience">
           <nz-table nzTemplateMode>
             <tbody>
-              @if (profileInfo.profile_v2.work_experiences.length > 0) {
-                @for (work of profileInfo.profile_v2.work_experiences; track work) {
-                  <tr>
-                    <td rowSpan="1">{{work.name}} ({{work.employer}}):</td>
-                    <td rowSpan="1">{{work.timestamp | date:"YYY.MM.dd"}} - {{work.end_timestamp | date:"YYY.MM.dd"}}</td>
-                  </tr>
-                }
+              @if (profileInfo().profile_v2.work_experiences.length > 0) {
+              @for (work of profileInfo().profile_v2.work_experiences; track work)
+              {
+              <tr>
+                <td rowSpan="1">{{work.name}} ({{work.employer}}):</td>
+                <td rowSpan="1">{{work.timestamp | date:"YYY.MM.dd"}} -
+                  {{work.end_timestamp | date:"YYY.MM.dd"}}</td>
+              </tr>
+              }
+              }@else {
+              <nz-empty></nz-empty>
               }
             </tbody>
           </nz-table>
