@@ -1,0 +1,53 @@
+<nz-range-picker [nzShowTime]="true" [(ngModel)]="selectedChatDateRange"
+    (ngModelChange)="onChange($event)"></nz-range-picker>
+<nz-layout class="layout">
+    <nz-sider nzWidth="230px" nzTheme="light">
+        <nz-list>
+            <nz-list-header>
+                <nz-input-group></nz-input-group>
+                <input type="text" nz-input (keyup)="searchChats($event)"
+                    placeholder="input search text" />
+            </nz-list-header>
+            @for (chat of selectedChatData;
+            track chat) {
+            <nz-list-item
+                
+                (click)="setCurrentChat(chat)">
+                <nz-list-item-meta-title ><p [class.list-item-selected]="currentChat.name===chat.name&&getChatPreviewMessage(chat)===getChatPreviewMessage(currentChat)">{{getChatPreviewName(chat)}}</p></nz-list-item-meta-title>
+                <nz-list-item-meta-description>{{getChatPreviewMessage(chat)}}</nz-list-item-meta-description>
+            </nz-list-item>
+            }
+        </nz-list>
+    </nz-sider>
+    <nz-layout>
+        <nz-header>
+            <p class="chatcontent-header-text">{{currentChat.name}}</p>
+        </nz-header>
+        <nz-content class="">
+            @for (msg of currentChat.messages; track msg) {
+
+            @if (msg.sender === yourUsername) {
+            <div class="message-container">
+                <div class="message-sent">
+                    <div class="message-header">
+                        <div class="message-sender"> {{msg.sender}}
+                            {{msg.timestamp| date:"dd.MM.yy, hh:mm"}}</div>
+                    </div>
+                    <div class="message-content">{{msg.content}}</div>
+                </div>
+            </div>
+            } @else {
+            <div class="message-container">
+                <div class="message-received">
+                    <div class="message-sender"> {{msg.sender}} {{msg.timestamp|
+                        date:"dd.MM.yy, hh:mm"}}:</div>
+                    <div class="message-content">{{msg.content}}</div>
+                </div>
+            </div>
+            }
+
+            }
+        </nz-content>
+    </nz-layout>
+
+</nz-layout>

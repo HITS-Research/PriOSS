@@ -1,0 +1,16 @@
+
+<div id="only-personal-chats-switch">
+    <p>Only Personal Chats:</p>
+    <nz-switch
+        [ngModel]="showOnlyPersonalChats()"
+        (ngModelChange)="showOnlyPersonalChats.set($event)"></nz-switch>
+</div>
+<div id="input-top-x-chats">
+    <p>Show Top: </p>
+    <nz-input-number [ngModel]="amountOfChatsShown()"
+    (ngModelChange)="amountOfChatsShown.set($event)" [nzMin]="1" [nzMax]="20"
+    [nzStep]="1">
+</nz-input-number>
+</div>
+
+<div echarts [options]="drawNightingaleChart()"></div>

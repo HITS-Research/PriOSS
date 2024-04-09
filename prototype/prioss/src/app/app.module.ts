@@ -63,7 +63,6 @@ import { AdsRelatedDataComponent } from './facebook/pages/ads-related-data/ads-r
 import { AdsSettingsComponent } from './facebook/pages/ads-settings/ads-settings.component';
 import { FaceDashboardComponent } from './facebook/pages/face-dashboard/face-dashboard.component';
 import { FacePurposesComponent } from './facebook/pages/face-purposes/face-purposes.component';
-import { FriendAndFollowersComponent } from './facebook/pages/friend-and-followers/friend-and-followers.component';
 import { GeneralDataComponent } from './facebook/pages/general-data/general-data.component';
 import { GroupsAndEventsDataComponent } from './facebook/pages/groups-and-events-data/groups-and-events-data.component';
 import { InferredTopicsComponent } from './facebook/pages/inferred-topics/inferred-topics.component';
@@ -134,6 +133,21 @@ import { NgChartsModule } from 'ng2-charts';
 import { ChartComponent } from './features/chart/chart.component';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { AccordionComponent } from './features/accordion/accordion.component';
+import { ChatviewComponent } from './facebook/pages/messages/chatview/chatview.component';
+import { ChatMessageDistributionChartComponent } from './facebook/pages/messages/chatview/chat-statistics/features/chat-message-distribution-chart/chat-message-distribution-chart.component';
+import { ChatStatisticsComponent as FacebookChatStatisticsComponent } from './facebook/pages/messages/chatview/chat-statistics/chat-statistics.component';
+import { GeneralChatInfosComponent } from './facebook/pages/messages/chatview/chat-statistics/features/general-chat-infos/general-chat-infos.component';
+import { AverageMessageLengthComponent } from './facebook/pages/messages/chatview/chat-statistics/features/average-message-length/average-message-length.component';
+import { AverageResponeTimeComponent } from './facebook/pages/messages/chatview/chat-statistics/features/average-respone-time/average-respone-time.component';
+import { ChatSentimentAnalysisComponent } from './facebook/pages/messages/chatview/chat-statistics/features/chat-sentiment-analysis/chat-sentiment-analysis.component';
+import { ChatWordcloudComponent } from './facebook/pages/messages/chatview/chat-statistics/features/chat-wordcloud/chat-wordcloud.component';
+import { MessagesPerDayChartComponent } from './facebook/pages/messages/chatview/chat-statistics/features/messages-per-day-chart/messages-per-day-chart.component';
+import { MessagesPerWeekdayComponent } from './facebook/pages/messages/chatview/chat-statistics/features/messages-per-weekday/messages-per-weekday.component';
+import { TopChatsComponent } from './facebook/pages/messages/chatview/chat-statistics/features/top-chats/top-chats.component';
+import { FacebookFriendsOverviewComponent} from './facebook/pages/friend-and-followers/features/friends-overview/friends-overview.component';
+import { FacebookFriendsStatisticsComponent } from './facebook/pages/friend-and-followers/features/friends-statistics/friends-statistics.component';
+import { FacebookModule } from './facebook/facebook.module';
+import { FriendAndFollowersComponent } from './facebook/pages/friend-and-followers/friend-and-followers.component';
 
 registerLocaleData(de);
 
@@ -166,7 +180,6 @@ registerLocaleData(de);
     InstaContactComponent,
     InstaMessagesComponent,
     AdsRelatedDataComponent,
-    FriendAndFollowersComponent,
     SettingsFormComponent,
     HelpButtonComponent,
     OffFacebookActivityComponent,
@@ -202,6 +215,8 @@ registerLocaleData(de);
     AccordionComponent,
   ],
   imports: [
+    FacebookModule,
+    FriendAndFollowersComponent,
     TitleBarComponent,
     DataDownloadInstructionsComponent,
     SpotifyModule,
@@ -223,6 +238,19 @@ registerLocaleData(de);
     NzProgressModule,
     NzButtonModule,
     ChartComponent,
+    ChatviewComponent,
+    FacebookChatStatisticsComponent,
+    GeneralChatInfosComponent,
+    AverageMessageLengthComponent,
+    AverageResponeTimeComponent,
+    ChatSentimentAnalysisComponent,
+    ChatWordcloudComponent,
+    MessagesPerDayChartComponent,
+    MessagesPerWeekdayComponent,
+    TopChatsComponent,
+    FacebookFriendsOverviewComponent,
+    FacebookFriendsStatisticsComponent,
+    ChatMessageDistributionChartComponent,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
       // Register the ServiceWorker as soon as the application is stable

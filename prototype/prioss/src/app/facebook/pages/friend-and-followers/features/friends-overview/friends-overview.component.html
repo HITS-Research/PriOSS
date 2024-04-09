@@ -1,0 +1,59 @@
+<nz-table #filterTable [nzData]="listOfDisplayData()" [nzPageSize]="8"
+    nzShowPagination="true" nzTableLayout="fixed">
+    <thead>
+        <tr>
+            <th
+                [nzSortOrder]="nameColumnOptions().sortOrder"
+                [nzSortFn]="nameColumnOptions().sortFn"
+                [nzSortDirections]="nameColumnOptions().sortDirections"
+                nzCustomFilter>
+
+                Name
+                <nz-filter-trigger [nzVisible]="visible()"
+                    (nzVisibleChange)="visible.set($event)"
+                    [nzActive]="searchValue().length > 0"
+                    [nzDropdownMenu]="menu">
+                    <span nz-icon nzType="search"></span>
+                </nz-filter-trigger>
+            </th>
+
+            <th
+                [nzSortOrder]="statusColumnOptions().sortOrder"
+                [nzSortFn]="statusColumnOptions().sortFn"
+                [nzSortDirections]="statusColumnOptions().sortDirections"
+                [nzFilterMultiple]="statusColumnOptions().filterMultiple"
+                [nzFilters]="statusColumnOptions().listOfFilter"
+                [nzFilterFn]="statusColumnOptions().filterFn">Status</th>
+            <th
+                [nzSortOrder]="timestampColumnOptions().sortOrder"
+                [nzSortFn]="timestampColumnOptions().sortFn"
+                [nzSortDirections]="timestampColumnOptions().sortDirections">
+                Since</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for(friend of filterTable.data; track friend.name){
+        <tr>
+            <td>{{friend.name}}</td>
+            <td>{{friend.status.toString()}}</td>
+            @if(friend.timestamp !== 0){
+            <td>{{friend.timestamp | date:"YYYY-MM-dd"}}</td>
+            } @else{
+            <td>Not Available</td>
+            }
+
+        </tr>
+        }
+
+    </tbody>
+</nz-table>
+
+<nz-dropdown-menu #menu="nzDropdownMenu">
+    <div class="ant-table-filter-dropdown">
+        <div class="search-box">
+            <input type="text" nz-input placeholder="Search name"
+                [ngModel]="searchValue()"
+                (ngModelChange)="searchValue.set($event)" />
+        </div>
+    </div>
+</nz-dropdown-menu>

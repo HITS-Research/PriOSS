@@ -1,0 +1,180 @@
+{
+  "account_activity_v2": [
+    {
+      "action": "Login",
+      "timestamp": 1702744690,
+      "ip_address": "2003:00e0:571c:d540:fc86:2e70:914a:2690",
+      "user_agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+      "datr_cookie": "I9J9********************",
+      "city": "Unna",
+      "region": "Nordrhein-Westfalen",
+      "country": "DE",
+      "site_name": "www.facebook.com"
+    },
+    {
+      "action": "Web Session Terminated",
+      "timestamp": 1702744690,
+      "ip_address": "2003:00e0:571c:d540:fc86:2e70:914a:2690",
+      "user_agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+      "datr_cookie": "I9J9********************",
+      "city": "Unna",
+      "region": "Nordrhein-Westfalen",
+      "country": "DE",
+      "site_name": "www.facebook.com"
+    },
+    {
+      "action": "Login",
+      "timestamp": 1702744689,
+      "ip_address": "2003:00e0:571c:d540:fc86:2e70:914a:2690",
+      "user_agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+      "datr_cookie": "I9J9********************",
+      "city": "Unna",
+      "region": "Nordrhein-Westfalen",
+      "country": "DE",
+      "site_name": "www.facebook.com"
+    },
+    {
+      "action": "Session updated",
+      "timestamp": 1702045302,
+      "ip_address": "2a02:0908:2224:10a0:7196:9299:a290:2a02",
+      "user_agent": "Mozilla/5.0 (Android 12; Mobile; rv:122.0) Gecko/122.0 Firefox/122.0 [FBAN/LiteForWeb;FBBV/2374;FBAV/386.0.0.0.20;FBDV/unknown;FBLC/de_DE;FBNG/UNKNOWN;FBMNT/METERED;FBDM/{density=2.21875};FBIMP/0rn3Yc6m1N2xZ9qeV;FBWLSV/1]",
+      "datr_cookie": "7X06********************",
+      "city": "Paderborn",
+      "region": "Nordrhein-Westfalen",
+      "country": "DE",
+      "site_name": "www.facebook.com"
+    },
+    {
+      "action": "Web Session Terminated",
+      "timestamp": 1701680016,
+      "ip_address": "2a02:0908:2224:10a0:11bb:d73e:5124:ab54",
+      "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:120.0) Gecko/20100101 Firefox/120.0",
+      "datr_cookie": "mTxR********************",
+      "city": "Paderborn",
+      "region": "Nordrhein-Westfalen",
+      "country": "DE",
+      "site_name": "www.facebook.com"
+    },
+    {
+      "action": "Session updated",
+      "timestamp": 1701680009,
+      "ip_address": "2a02:0908:2224:10a0:11bb:d73e:5124:ab54",
+      "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:120.0) Gecko/20100101 Firefox/120.0",
+      "datr_cookie": "mTxR********************",
+      "city": "Paderborn",
+      "region": "Nordrhein-Westfalen",
+      "country": "DE",
+      "site_name": "www.facebook.com"
+    },
+    {
+      "action": "Session updated",
+      "timestamp": 1701512632,
+      "ip_address": "2003:00e0:571c:d548:05bf:8126:7262:1b41",
+      "user_agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 17_1_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.1.1 Mobile/15E148 Safari/604.1 [FBAN/LiteForWeb;FBBV/2369;FBAV/384.0.0.0.101;FBDV/unknown;FBLC/de_DE;FBNG/UNKNOWN;FBMNT/NOT_METERED;FBDM/{density=3.0};FBIMP/07lBDCCmDygIRdNA8;FBWLSV/0]",
+      "datr_cookie": "5Sxm********************",
+      "city": "Unna",
+      "region": "Nordrhein-Westfalen",
+      "country": "DE",
+      "site_name": "www.facebook.com"
+    },
+    {
+      "action": "Login",
+      "timestamp": 1701272944,
+      "ip_address": "185.254.75.47",
+      "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:120.0) Gecko/20100101 Firefox/120.0",
+      "datr_cookie": "mTxR********************",
+      "city": "D\u00c3\u00bcsseldorf",
+      "region": "Nordrhein-Westfalen",
+      "country": "DE",
+      "site_name": "www.facebook.com"
+    },
+    {
+      "action": "Web Session Terminated",
+      "timestamp": 1701272944,
+      "ip_address": "185.254.75.47",
+      "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:120.0) Gecko/20100101 Firefox/120.0",
+      "datr_cookie": "mTxR********************",
+      "city": "D\u00c3\u00bcsseldorf",
+      "region": "Nordrhein-Westfalen",
+      "country": "DE",
+      "site_name": "www.facebook.com"
+    },
+    {
+      "action": "Session updated",
+      "timestamp": 1701239957,
+      "ip_address": "2a02:3036:0000:5203:8d38:3226:ccbf:8c5a",
+      "user_agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 17_1_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.1.1 Mobile/15E148 Safari/604.1",
+      "datr_cookie": "5Sxm********************",
+      "city": "Hilden",
+      "region": "Nordrhein-Westfalen",
+      "country": "DE",
+      "site_name": "www.facebook.com"
+    },
+    {
+      "action": "Login",
+      "timestamp": 1701200751,
+      "ip_address": "2a02:0908:2224:10a0:7196:9299:a290:2a02",
+      "user_agent": "Mozilla/5.0 (Android 12; Mobile; rv:122.0) Gecko/122.0 Firefox/122.0",
+      "datr_cookie": "7X06********************",
+      "city": "Paderborn",
+      "region": "Nordrhein-Westfalen",
+      "country": "DE",
+      "site_name": "m.facebook.com"
+    },
+    {
+      "action": "Web Session Terminated",
+      "timestamp": 1701200751,
+      "ip_address": "2a02:0908:2224:10a0:7196:9299:a290:2a02",
+      "user_agent": "Mozilla/5.0 (Android 12; Mobile; rv:122.0) Gecko/122.0 Firefox/122.0",
+      "datr_cookie": "7X06********************",
+      "city": "Paderborn",
+      "region": "Nordrhein-Westfalen",
+      "country": "DE",
+      "site_name": "m.facebook.com"
+    },
+    {
+      "action": "Login",
+      "timestamp": 1701200750,
+      "ip_address": "2a02:0908:2224:10a0:7196:9299:a290:2a02",
+      "user_agent": "Mozilla/5.0 (Android 12; Mobile; rv:122.0) Gecko/122.0 Firefox/122.0",
+      "datr_cookie": "7X06********************",
+      "city": "Paderborn",
+      "region": "Nordrhein-Westfalen",
+      "country": "DE",
+      "site_name": "m.facebook.com"
+    },
+    {
+      "action": "Login",
+      "timestamp": 17011949123456789,
+      "ip_address": "2003:00e0:571c:d5ec:455d:53c0:4b71:85a6",
+      "user_agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 17_1_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.1.1 Mobile/15E148 Safari/604.1",
+      "datr_cookie": "5Sxm********************",
+      "city": "Unna",
+      "region": "Nordrhein-Westfalen",
+      "country": "DE",
+      "site_name": "m.facebook.com"
+    },
+    {
+      "action": "Web Session Terminated",
+      "timestamp": 17011949123456789,
+      "ip_address": "2003:00e0:571c:d5ec:455d:53c0:4b71:85a6",
+      "user_agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 17_1_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.1.1 Mobile/15E148 Safari/604.1",
+      "datr_cookie": "5Sxm********************",
+      "city": "Unna",
+      "region": "Nordrhein-Westfalen",
+      "country": "DE",
+      "site_name": "m.facebook.com"
+    },
+    {
+      "action": "Login",
+      "timestamp": 17011949123456789,
+      "ip_address": "2003:00e0:571c:d5ec:455d:53c0:4b71:85a6",
+      "user_agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 17_1_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.1.1 Mobile/15E148 Safari/604.1",
+      "datr_cookie": "5Sxm********************",
+      "city": "Unna",
+      "region": "Nordrhein-Westfalen",
+      "country": "DE",
+      "site_name": "m.facebook.com"
+    }
+  ]
+}

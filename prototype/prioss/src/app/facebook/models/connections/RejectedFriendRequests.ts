@@ -11,7 +11,7 @@
     ]
   } */
 
-import { FriendItem } from "./FriendItem.interface";
+import type { FriendItem } from "./FriendItem.interface";
 
 export interface RejectedFriendRequestsModel {
   rejected_requests_v2: FriendItem[];

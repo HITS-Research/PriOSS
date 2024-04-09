@@ -1,0 +1,38 @@
+{
+  "people_interactions_v2": [
+    {
+      "name": "",
+      "description": "",
+      "entries": [
+        {
+          "timestamp": 1633170065,
+          "data": {
+            "name": "Alina Schmidt",
+            "uri": "https://www.facebook.com/redacted"
+          }
+        },
+        {
+          "timestamp": 1633170065,
+          "data": {
+            "name": "Marcia Husen",
+            "uri": "https://www.facebook.com/redacted"
+          }
+        },
+        {
+          "timestamp": 1615230100,
+          "data": {
+            "name": "Dennis Müller",
+            "uri": "https://www.facebook.com/redacted"
+          }
+        },
+        {
+          "timestamp": 1613407955,
+          "data": {
+            "name": "Katharina Goldberg",
+            "uri": "https://www.facebook.com/redacted"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,3929 @@
+{
+  "recently_viewed": [
+    {
+      "name": "Videos und Serien",
+      "description": "Videos und Shows, die du dir k\u00c3\u00bcrzlich angesehen hast, und die Zeit, die du mit dem Ansehen verbracht hast.",
+      "children": [
+        {
+          "name": "Shows",
+          "description": "Eine Liste der Videos, die du dir angesehen hast",
+          "entries": [
+            {
+              "timestamp": 1622395516,
+              "data": {
+                "uri": "https://www.facebook.com/redacted",
+                "name": "The Pet Collectives Video: Raccoons"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Verbrachte Video-Zeit",
+          "description": "So viel hast du von einem einzelnen Video angesehen",
+          "entries": [
+            {
+              "timestamp": 1645469108,
+              "data": {
+                "uri": "https://www.facebook.com/redacted",
+                "name": "The Dodos Video: Kitten Insists On Supervising Her Baby Sister's Bath Time Every Night",
+                "watch_position_seconds": "35.381"
+              }
+            },
+            {
+              "timestamp": 1622395516,
+              "data": {
+                "uri": "https://www.facebook.com/redacted",
+                "name": "The Pet Collectives Video: Raccoons",
+                "watch_position_seconds": "183.183"
+              }
+            },
+            {
+              "timestamp": 1620504617,
+              "data": {
+                "uri": "https://www.facebook.com/redacted",
+                "name": "The Pet Collectives Video: Stuffed Animals",
+                "watch_position_seconds": "57.596"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Beitr\u00c3\u00a4ge, die dir im Feed angezeigt wurden",
+      "description": "Beitr\u00c3\u00a4ge, die dir in den letzten 90 Tagen in deinem Feed angezeigt wurden.",
+      "entries": [
+        {
+          "timestamp": 1702745632,
+          "data": {
+            "name": "Nachdenkliche Spr\u00c3\u00bcche mit Bilders Beitrag: ",
+            "uri": "https://www.facebook.com/redacted"
+          }
+        },
+        {
+          "timestamp": 1702745409,
+          "data": {
+            "name": "Johe Wild Cans Beitrag: ",
+            "uri": "https://www.facebook.com/redacted"
+          }
+        },
+        {
+          "timestamp": 1702744726,
+          "data": {
+            "name": "Nachdenkliche Spr\u00c3\u00bcche mit Bilders Beitrag: ",
+            "uri": "https://www.facebook.com/redacted"
+          }
+        },
+        {
+          "timestamp": 1702045368,
+          "data": {
+            "name": "Residenz Clubs Beitrag: ",
+            "uri": "https://www.facebook.com/redacted"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Personen",
+      "description": "Personen, die du dir als neuen Freundschaftsvorschlag angesehen hast",
+      "entries": [
+        {
+          "timestamp": 1554177886,
+          "data": {
+            "name": "Elias Lude",
+            "uri": "https://www.facebook.com/redacted"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Marketplace-Interaktionen",
+      "description": "Deine letzten Interaktionen im Marketplace",
+      "children": [
+        {
+          "name": "Artikel im Marketplace gepostet",
+          "description": "An welchen Tagen der Nutzer direkt auf dem Tab gepostet hat",
+          "entries": [
+            {
+              "data": {
+                "value": "16.12.2023"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Suchanfragen im Marketplace",
+          "description": "An welchen Tagen der Nutzer im Marketplace gesucht hat",
+          "entries": [
+            {
+              "data": {
+                "value": "16.12.2023"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Marketplace Tab hinzugef\u00c3\u00bcgt",
+          "description": "An welchem Tag der Tab hinzugef\u00c3\u00bcgt wurde",
+          "entries": [
+            {
+              "data": {
+                "value": ""
+              }
+            }
+          ]
+        },
+        {
+          "name": "Marketplace-Artikeldetails",
+          "description": "Wann du dir Artikeldetails angesehen hast",
+          "entries": [
+            {
+              "data": {
+                "value": "16.12.2023"
+              }
+            },
+            {
+              "data": {
+                "value": "02.10.2021"
+              }
+            },
+            {
+              "data": {
+                "value": "25.03.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "08.02.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "07.02.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "03.12.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "02.12.2017"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Marketplace-Tab",
+          "description": "Wann dir der Marketplace Tab auf Facebook angezeigt wurde",
+          "entries": [
+            {
+              "data": {
+                "value": "07.01.2021"
+              }
+            },
+            {
+              "data": {
+                "value": "05.01.2021"
+              }
+            },
+            {
+              "data": {
+                "value": "03.01.2021"
+              }
+            },
+            {
+              "data": {
+                "value": "01.01.2021"
+              }
+            },
+            {
+              "data": {
+                "value": "31.12.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "28.12.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "27.12.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "26.12.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "25.12.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "24.12.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "19.12.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "14.12.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "12.12.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "11.12.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "10.12.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "07.12.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "06.12.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "05.12.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "29.11.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "28.11.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "27.11.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "26.11.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "23.11.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "22.11.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "21.11.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "20.11.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "17.11.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "14.11.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "13.11.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "07.11.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "05.11.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "03.11.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "01.11.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "31.10.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "30.10.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "28.10.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "27.10.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "24.10.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "23.10.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "17.10.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "13.10.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "11.10.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "10.10.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "06.10.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "05.10.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "04.10.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "02.10.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "01.10.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "30.09.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "26.09.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "25.09.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "24.09.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "22.09.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "20.09.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "19.09.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "17.09.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "15.09.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "13.09.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "12.09.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "11.09.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "07.09.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "06.09.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "05.09.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "04.09.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "02.09.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "31.08.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "28.08.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "25.08.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "24.08.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "23.08.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "22.08.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "21.08.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "20.08.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "19.08.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "18.08.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "16.08.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "15.08.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "14.08.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "12.08.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "11.08.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "09.08.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "08.08.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "07.08.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "06.08.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "05.08.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "04.08.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "03.08.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "01.08.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "31.07.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "30.07.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "29.07.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "28.07.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "27.07.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "26.07.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "23.07.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "22.07.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "19.07.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "18.07.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "17.07.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "16.07.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "15.07.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "14.07.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "13.07.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "12.07.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "10.07.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "09.07.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "08.07.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "07.07.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "06.07.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "05.07.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "04.07.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "03.07.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "02.07.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "29.06.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "27.06.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "26.06.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "25.06.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "24.06.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "23.06.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "20.06.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "18.06.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "28.05.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "25.05.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "22.05.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "20.05.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "16.05.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "15.05.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "08.05.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "07.05.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "06.05.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "05.05.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "02.05.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "30.04.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "29.04.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "17.04.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "24.03.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "23.03.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "22.03.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "21.03.2020"
+              }
+            },
+            {
+              "data": {
+                "value": "14.09.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "03.09.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "02.09.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "31.08.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "30.08.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "29.08.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "28.08.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "27.08.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "22.07.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "17.07.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "16.07.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "15.07.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "14.07.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "12.07.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "11.07.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "09.07.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "08.07.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "07.07.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "06.07.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "04.07.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "03.07.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "01.07.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "30.06.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "28.06.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "27.06.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "26.06.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "24.06.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "23.06.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "21.06.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "20.06.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "19.06.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "17.06.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "15.06.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "13.06.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "12.06.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "11.06.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "10.06.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "04.06.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "03.06.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "02.06.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "01.06.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "31.05.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "30.05.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "28.05.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "26.05.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "25.05.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "24.05.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "22.05.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "19.05.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "18.05.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "16.05.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "15.05.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "14.05.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "12.05.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "11.05.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "10.05.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "09.05.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "08.05.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "07.05.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "06.05.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "05.05.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "04.05.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "03.05.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "02.05.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "01.05.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "30.04.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "29.04.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "27.04.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "26.04.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "25.04.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "24.04.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "23.04.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "22.04.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "21.04.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "20.04.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "19.04.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "18.04.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "17.04.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "16.04.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "14.04.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "13.04.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "12.04.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "11.04.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "10.04.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "09.04.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "08.04.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "07.04.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "06.04.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "04.04.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "03.04.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "02.04.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "01.04.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "31.03.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "30.03.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "29.03.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "28.03.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "27.03.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "26.03.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "24.03.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "21.03.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "20.03.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "19.03.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "18.03.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "17.03.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "16.03.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "15.03.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "13.03.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "11.03.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "10.03.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "09.03.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "08.03.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "07.03.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "06.03.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "05.03.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "04.03.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "03.03.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "02.03.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "01.03.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "28.02.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "27.02.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "26.02.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "25.02.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "24.02.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "23.02.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "22.02.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "21.02.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "20.02.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "19.02.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "18.02.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "17.02.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "16.02.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "15.02.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "14.02.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "13.02.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "12.02.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "11.02.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "10.02.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "09.02.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "08.02.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "07.02.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "06.02.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "05.02.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "04.02.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "03.02.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "02.02.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "01.02.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "31.01.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "30.01.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "29.01.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "28.01.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "27.01.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "26.01.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "25.01.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "24.01.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "23.01.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "22.01.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "21.01.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "20.01.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "19.01.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "18.01.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "17.01.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "16.01.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "15.01.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "14.01.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "13.01.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "12.01.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "11.01.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "10.01.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "09.01.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "08.01.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "07.01.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "06.01.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "05.01.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "04.01.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "03.01.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "02.01.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "01.01.2019"
+              }
+            },
+            {
+              "data": {
+                "value": "31.12.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "30.12.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "29.12.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "28.12.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "27.12.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "26.12.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "25.12.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "24.12.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "23.12.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "22.12.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "21.12.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "20.12.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "19.12.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "18.12.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "17.12.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "16.12.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "15.12.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "14.12.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "13.12.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "12.12.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "11.12.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "10.12.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "09.12.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "08.12.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "07.12.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "06.12.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "05.12.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "04.12.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "03.12.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "02.12.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "01.12.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "30.11.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "29.11.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "28.11.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "27.11.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "26.11.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "25.11.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "24.11.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "23.11.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "22.11.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "21.11.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "20.11.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "19.11.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "18.11.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "17.11.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "16.11.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "15.11.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "13.11.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "12.11.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "11.11.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "10.11.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "09.11.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "08.11.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "07.11.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "06.11.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "05.11.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "04.11.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "03.11.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "02.11.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "31.10.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "30.10.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "29.10.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "28.10.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "27.10.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "25.10.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "24.10.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "23.10.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "22.10.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "21.10.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "20.10.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "19.10.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "18.10.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "17.10.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "16.10.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "15.10.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "14.10.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "13.10.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "12.10.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "11.10.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "10.10.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "09.10.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "08.10.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "07.10.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "06.10.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "04.10.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "03.10.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "02.10.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "01.10.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "30.09.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "29.09.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "28.09.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "27.09.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "26.09.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "24.09.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "23.09.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "22.09.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "21.09.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "20.09.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "19.09.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "18.09.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "17.09.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "16.09.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "15.09.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "14.09.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "13.09.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "12.09.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "11.09.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "10.09.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "09.09.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "08.09.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "07.09.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "06.09.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "05.09.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "04.09.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "03.09.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "02.09.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "01.09.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "31.08.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "30.08.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "29.08.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "28.08.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "27.08.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "25.08.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "24.08.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "23.08.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "22.08.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "21.08.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "20.08.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "19.08.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "18.08.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "17.08.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "16.08.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "15.08.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "14.08.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "13.08.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "12.08.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "11.08.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "10.08.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "09.08.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "08.08.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "07.08.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "06.08.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "05.08.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "04.08.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "03.08.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "02.08.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "01.08.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "31.07.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "30.07.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "29.07.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "28.07.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "27.07.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "26.07.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "25.07.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "24.07.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "23.07.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "22.07.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "20.07.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "19.07.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "18.07.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "17.07.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "16.07.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "15.07.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "14.07.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "13.07.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "12.07.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "11.07.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "10.07.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "09.07.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "08.07.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "03.07.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "02.07.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "01.07.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "30.06.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "29.06.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "28.06.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "27.06.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "26.06.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "25.06.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "24.06.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "23.06.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "22.06.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "21.06.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "20.06.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "19.06.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "18.06.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "17.06.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "16.06.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "15.06.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "14.06.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "13.06.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "12.06.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "11.06.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "10.06.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "09.06.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "08.06.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "07.06.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "06.06.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "05.06.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "04.06.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "03.06.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "01.06.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "30.05.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "28.05.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "27.05.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "26.05.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "24.05.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "23.05.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "22.05.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "20.05.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "18.05.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "17.05.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "16.05.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "15.05.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "14.05.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "11.05.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "08.05.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "06.05.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "05.05.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "03.05.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "02.05.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "01.05.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "30.04.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "29.04.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "27.04.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "26.04.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "25.04.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "24.04.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "22.04.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "21.04.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "20.04.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "19.04.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "18.04.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "17.04.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "16.04.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "15.04.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "14.04.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "13.04.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "12.04.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "11.04.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "10.04.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "09.04.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "08.04.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "05.04.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "04.04.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "03.04.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "02.04.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "01.04.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "30.03.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "29.03.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "28.03.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "27.03.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "25.03.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "24.03.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "23.03.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "22.03.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "19.03.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "18.03.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "17.03.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "16.03.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "15.03.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "14.03.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "13.03.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "12.03.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "11.03.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "10.03.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "08.03.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "07.03.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "06.03.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "05.03.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "04.03.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "03.03.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "02.03.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "01.03.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "28.02.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "27.02.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "26.02.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "25.02.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "24.02.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "23.02.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "22.02.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "21.02.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "20.02.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "19.02.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "18.02.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "16.02.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "15.02.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "14.02.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "11.02.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "10.02.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "09.02.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "08.02.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "07.02.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "06.02.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "05.02.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "04.02.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "03.02.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "02.02.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "31.01.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "30.01.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "29.01.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "28.01.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "27.01.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "26.01.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "25.01.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "24.01.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "23.01.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "22.01.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "21.01.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "19.01.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "18.01.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "17.01.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "15.01.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "12.01.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "11.01.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "10.01.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "09.01.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "08.01.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "07.01.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "06.01.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "05.01.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "04.01.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "03.01.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "01.01.2018"
+              }
+            },
+            {
+              "data": {
+                "value": "27.12.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "26.12.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "25.12.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "24.12.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "23.12.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "21.12.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "20.12.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "19.12.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "18.12.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "14.12.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "13.12.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "12.12.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "11.12.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "10.12.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "09.12.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "08.12.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "07.12.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "06.12.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "05.12.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "04.12.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "03.12.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "02.12.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "01.12.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "30.11.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "29.11.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "28.11.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "27.11.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "26.11.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "25.11.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "24.11.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "23.11.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "22.11.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "21.11.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "20.11.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "17.11.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "16.11.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "14.11.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "13.11.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "12.11.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "11.11.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "10.11.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "08.11.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "07.11.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "06.11.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "05.11.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "04.11.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "03.11.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "01.11.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "31.10.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "30.10.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "29.10.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "28.10.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "27.10.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "26.10.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "25.10.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "24.10.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "23.10.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "22.10.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "21.10.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "20.10.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "19.10.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "18.10.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "17.10.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "16.10.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "14.10.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "13.10.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "12.10.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "11.10.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "10.10.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "09.10.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "08.10.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "07.10.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "06.10.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "05.10.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "04.10.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "03.10.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "02.10.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "01.10.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "30.09.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "29.09.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "28.09.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "27.09.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "25.09.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "24.09.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "23.09.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "22.09.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "20.09.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "19.09.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "18.09.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "17.09.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "16.09.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "15.09.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "14.09.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "13.09.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "12.09.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "11.09.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "10.09.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "09.09.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "08.09.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "07.09.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "06.09.2017"
+              }
+            },
+            {
+              "data": {
+                "value": "05.09.2017"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Marketplace-Artikel",
+          "description": "Artikel, die du dir im Marketplace angesehen hast",
+          "entries": [
+            {
+              "timestamp": 1702744796,
+              "data": {
+                "name": "Sofa Gratis",
+                "uri": "https://www.facebook.com/redacted"
+              }
+            },
+            {
+              "timestamp": 1512295600,
+              "data": {
+                "name": "Holz Kindereinkaufsladen; bei Interesse bitte PN",
+                "uri": "https://www.facebook.com/redacted"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Werbeanzeigen",
+      "description": "Werbeanzeigen, die du dir k\u00c3\u00bcrzlich angesehen hast",
+      "entries": [
+        {
+          "timestamp": 1702745253,
+          "data": {
+            "name": "Werbeanzeige von Halara Deutschland",
+            "uri": "https://www.facebook.com/redacted"
+          }
+        }
+      ]
+    }
+  ]
+}

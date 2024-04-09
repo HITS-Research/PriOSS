@@ -1,8 +1,10 @@
-import { Component, Input, OnInit ,ChangeDetectionStrategy} from '@angular/core';
+import { Component, Input, type OnInit ,ChangeDetectionStrategy} from '@angular/core';
 import * as utilities from 'src/app/features/utils/generalUtilities.functions';
+// biome-ignore lint/style/useImportType: <explanation>
 import { Store } from '@ngxs/store';
 import { FacebookState } from '../../state/fb.state';
-import { GroupMessageModel, InboxMessageModel } from '../../models';
+import type { ArchivedThreadModel, GroupMessageModel, InboxMessageModel } from '../../models';
+import type { ChatData } from './chatview/chatdata.type';
 
 
 @Component({
@@ -14,13 +16,16 @@ import { GroupMessageModel, InboxMessageModel } from '../../models';
 export class MessagesComponent implements OnInit {
   messagesData: InboxMessageModel[] = []
   groupChatData: GroupMessageModel[] = [];
+  archivedMessages: ArchivedThreadModel[] = [];
+  allChatData: ChatData[] = [];
+  username = "";
   convertTimestamp: (str: string) => any = utilities.convertTimestamp;
   @Input()
   previewMode = false;
   totalGroupChats = 0;
   data: { label: string; value: any }[];
   dataAvailableGroup = false;
-  searchText: string = '';
+  searchText = '';
   filteredGroupChats: GroupMessageModel[] = [];
   filteredChats: InboxMessageModel[] = [];
   totalContactNumbers = 0;
@@ -44,21 +49,86 @@ export class MessagesComponent implements OnInit {
    */
   async getData() {
     const userData = this.store.selectSnapshot(FacebookState.getFacebookUserData);
+    this.username = userData.personal_information.profile_information.profile_v2.name.full_name;
     // Get all messages info
     this.messagesData = userData.activity_across_facebook.inboxMessages || [];
+    console.debug("username in messages:", this.username)
     console.debug('--- Messages Data: ', this.messagesData);
     this.filterChatsItems();
 
     // Get all face group chats info
     this.groupChatData = userData.activity_across_facebook.groupMessages || [];
-    
+    this.archivedMessages = userData.activity_across_facebook.archivedThreads || [];
     this.dataAvailableGroup = this.groupChatData.length !== 0;
     this.totalGroupChats = this.groupChatData.length;
     this.groupTotalPages = Math.ceil(
       this.groupChatData.length / this.pageSize,
     );
     this.filterGroupChatsItems();
-
+    //get and convert all chat data ( groupchats, personal chats and archived chats)
+    //for diplaying in the chatview component
+    let currID = 0;
+    this.allChatData = this.groupChatData.map((group) => {
+      currID++;
+      return {
+        id: currID.toString(),
+        participants: group.participants.map((participant) => participant.name),
+        messages: group.messages.map((message) => {
+          return {
+            timestamp: message.timestamp_ms,
+            sender: message.sender_name === '' ? 'Deleted User' : message.sender_name,
+            content: message.content,
+          };
+        
+        }),
+        name: group.title === '' ? 'Deleted Group' : group.title,
+        is_groupchat: true,
+        is_archived: false
+      };
+    });
+    this.allChatData = this.allChatData.concat(
+      this.messagesData.map((message) => {
+        currID++;
+        return {
+          id: currID.toString(),
+          participants: message.participants.map(
+            (participant) => participant.name,
+          ),
+          messages: message.messages.map((message) => {
+            return {
+              timestamp: message.timestamp_ms,
+              sender: message.sender_name === '' ? 'Deleted User' : message.sender_name,
+              content: message.content,
+            };
+          }),
+          name: message.title === '' ? 'Deleted User' : message.title,
+          is_groupchat: false,
+          is_archived: false
+        };
+      }),
+    );
+    this.allChatData = this.allChatData.concat(
+      this.archivedMessages.map((message) => {
+        currID++;
+        return {
+          id: currID.toString(),
+          participants: message.participants.map(
+            (participant) => participant.name,
+          ),
+          messages: message.messages.map((message) => {
+            return {
+              timestamp: message.timestamp_ms,
+              sender: message.sender_name === '' ? 'Deleted User' : message.sender_name,
+              content: message.content,
+            };
+          }),
+          name: message.title === '' ? 'Archived Thread' : message.title,
+          is_groupchat: true, 
+          is_archived: true
+        };
+      }),
+    );
+     
   }
 
   /**

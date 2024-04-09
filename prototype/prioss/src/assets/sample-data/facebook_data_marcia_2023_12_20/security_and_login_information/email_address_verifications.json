@@ -1,0 +1,19 @@
+{
+  "contact_verifications_v2": [
+    {
+      "contact": "husen.marcia@hotmail.de",
+      "contact_type": 2,
+      "verification_time": 1272035278
+    },
+    {
+      "contact": "+49123456789",
+      "contact_type": 1,
+      "verification_time": 1390636067
+    },
+    {
+      "contact": "+49123456789",
+      "contact_type": 1,
+      "verification_time": 1384519842
+    }
+  ]
+}

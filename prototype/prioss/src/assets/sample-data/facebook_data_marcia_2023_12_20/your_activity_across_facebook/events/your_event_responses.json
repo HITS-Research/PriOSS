@@ -1,0 +1,21 @@
+{
+  "event_responses_v2": {
+    "events_joined": [
+      {
+        "name": "PAROOKAVILLE 2022",
+        "start_timestamp": 165849123456789,
+        "end_timestamp": 1658613600
+      },
+      {
+        "name": "Welcome To My Garden x Open-Air x Kurpark Unna x 10.August",
+        "start_timestamp": 1565445600,
+        "end_timestamp": 1565470800
+      },
+      {
+        "name": "Freshtival Weekend 2019 | Official",
+        "start_timestamp": 1559988000,
+        "end_timestamp": 1560117540
+      }
+    ]
+  }
+}

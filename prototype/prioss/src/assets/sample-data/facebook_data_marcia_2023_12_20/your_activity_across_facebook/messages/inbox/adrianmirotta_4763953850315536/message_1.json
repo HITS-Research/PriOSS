@@ -1,0 +1,27 @@
+{
+  "participants": [
+    {
+      "name": "Adrian Mirotta"
+    },
+    {
+      "name": "Marcia Husen"
+    }
+  ],
+  "messages": [
+    {
+      "sender_name": "Marcia Husen",
+      "timestamp_ms": 1635618778580,
+      "content": "Du hast einen Anhang gesendet.",
+      "share": {
+        "link": "https://www.facebook.com/redacted"
+      },
+      "is_geoblocked_for_viewer": false
+    }
+  ],
+  "title": "Adrian Mirotta",
+  "is_still_participant": true,
+  "thread_path": "inbox/adrianmirotta_4763953850315536",
+  "magic_words": [
+    
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "active_sessions_v2": [
+    {
+      "created_timestamp": 1702744687,
+      "ip_address": "2003:e0:571c:d540:fc86:2e70:914a:2690",
+      "user_agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+      "datr_cookie": "I9J9********************",
+      "device": "Linux",
+      "location": "Unna, Germany",
+      "app": "Chrome",
+      "session_type": "web"
+    },
+    {
+      "created_timestamp": 1701200750,
+      "updated_timestamp": 1702045302,
+      "ip_address": "2a02:908:2224:10a0:7196:9299:a290:2a02",
+      "user_agent": "Mozilla/5.0 (Android 12; Mobile; rv:122.0) Gecko/122.0 Firefox/122.0 [FBAN/LiteForWeb;FBBV/2374;FBAV/386.0.0.0.20;FBDV/unknown;FBLC/de_DE;FBNG/UNKNOWN;FBMNT/METERED;FBDM/{density=2.21875};FBIMP/0rn3Yc6m1N2xZ9qeV;FBWLSV/1]",
+      "datr_cookie": "7X06********************",
+      "device": "Android",
+      "location": "Paderborn, Germany",
+      "app": "Firefox",
+      "session_type": "mobile_web"
+    },
+    {
+      "created_timestamp": 17011949123456789,
+      "updated_timestamp": 1701512632,
+      "ip_address": "2003:e0:571c:d548:5bf:8126:7262:1b41",
+      "user_agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 17_1_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.1.1 Mobile/15E148 Safari/604.1 [FBAN/LiteForWeb;FBBV/2369;FBAV/384.0.0.0.101;FBDV/unknown;FBLC/de_DE;FBNG/UNKNOWN;FBMNT/NOT_METERED;FBDM/{density=3.0};FBIMP/07lBDCCmDygIRdNA8;FBWLSV/0]",
+      "datr_cookie": "5Sxm********************",
+      "device": "iPhone",
+      "location": "Unna, Germany",
+      "app": "Mobile Safari",
+      "session_type": "mobile_web"
+    }
+  ]
+}

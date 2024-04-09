@@ -2,47 +2,172 @@
   <!--in previewmode only a small table with personal information is shown-->
   <div *ngIf="previewMode">
     <div *ngIf="userdata !== undefined">
+      @if (profileInfo.profile_v2.name !== undefined) {
       <nz-row [nzGutter]="16">
         <nz-col [nzSpan]="12">
           <nz-statistic
-            [nzValue]="userdata.username!"
-            [nzTitle]="'Username'"
-          ></nz-statistic>
+            [nzValue]="profileInfo.profile_v2.name.full_name!"
+            [nzTitle]="'Username'"></nz-statistic>
         </nz-col>
       </nz-row>
+      }
+      @if (birthdate !== undefined) {
       <nz-row [nzGutter]="16">
         <nz-col [nzSpan]="12">
           <nz-statistic
-            [nzValue]="userdata.birthdate!"
-            [nzTitle]="'Birthdate'"
-          ></nz-statistic>
+            [nzValue]="birthdate!"
+            [nzTitle]="'Birthdate'"></nz-statistic>
         </nz-col>
       </nz-row>
+      }
+      @if (profileInfo.profile_v2.emails.emails.length > 0) {
       <nz-row [nzGutter]="16">
         <nz-col [nzSpan]="12">
           <nz-statistic
-            [nzValue]="userdata.email!"
-            [nzTitle]="'Email'"
-          ></nz-statistic>
+            [nzValue]="profileInfo.profile_v2.emails.emails[0]!"
+            [nzTitle]="'Email'"></nz-statistic>
         </nz-col>
       </nz-row>
+      }
     </div>
   </div>
 
   <div *ngIf="!previewMode">
     <app-title-bar
       titleText="User Data"
-      tooltipText="This table shows the general user data the service has collected about you."
-    >
+      tooltipText="Here you can see all general information, Facebook collected about you.">
     </app-title-bar>
+    <div nz-row [nzGutter]="{ xs: 8, xl: 40 }" nz-Align="top"
+      id="information-cards-row-1">
+      <div nz-col [nzSpan]="12" id="profile-information" class="info-card">
+        <nz-card  nzTitle="Profile Information">
+          <nz-table nzTemplateMode>
+            <tbody>
+              @if (profileInfo.profile_v2.name.full_name !== undefined) {
+              <tr>
+                <td rowSpan="1">Name:</td>
+                <td rowSpan="1">{{ profileInfo.profile_v2.name.full_name }}</td>
+              </tr>
+              }
+              @if (profileInfo.profile_v2.gender !== undefined) {
+              <tr>
+                <td rowSpan="1">Gender:</td>
+                <td rowSpan="1">{{ profileInfo.profile_v2.gender.gender_option}}</td>
+              </tr>
+            }
+            @if (profileInfo.profile_v2.birthday !== undefined) {
+              <tr>
+                <td rowSpan="1">Birthday:</td>
+                <td rowSpan="1">{{ birthdate }}</td>
+              </tr>
+            }
+            @if (profileInfo.profile_v2.emails.emails.length > 0) {
+              <tr>
+                <td rowSpan="1">Active Emails:</td>
+                <td rowSpan="1">@for (email of
+                  profileInfo.profile_v2.emails.emails; track email) { {{ email
+                  +
+                  " " }} } </td>
+              </tr>
+            }
+            @if (profileInfo.profile_v2.emails.previous_emails.length > 0) {
+              <tr>
+                <td rowSpan="1">Previous Emails:</td>
+                <td rowSpan="1">@for (mail of
+                  profileInfo.profile_v2.emails.previous_emails; track mail) {
+                  {{mail + " "}} } </td>
+              </tr>
+            }
+            @if (profileInfo.profile_v2.phone_numbers.length > 0) {
+              <tr>
+                <td rowSpan="1">Phone Numbers:</td>
+                <td rowSpan="1">@for (number of
+                  profileInfo.profile_v2.phone_numbers; track number) {
+                  {{number.phone_number+" "}} }</td>
+              </tr>
+            }
+            @if (profileInfo.profile_v2.blood_info.blood_donor_status !== undefined) {
+              <tr>
+                <td rowSpan="1">Blood Donor Status:</td>
+                <td rowSpan="1">{{profileInfo.profile_v2.blood_info.blood_donor_status}}</td>
+              </tr>
+            }
+            </tbody>
+          </nz-table>
+        </nz-card>
+      </div>
+      <div nz-col [nzSpan]="12"  class="info-card">
+        <nz-card nz-col nzTitle="Relationships">
+          <nz-table nzTemplateMode>
+            <tbody>
+              @if (profileInfo.profile_v2.relationship.status !== undefined && profileInfo.profile_v2.relationship.status !== "") {
+                <tr>
+                  <td rowSpan="1">Current:</td>
+                  <td rowSpan="1">{{profileInfo.profile_v2.relationship.status}} since {{profileInfo.profile_v2.relationship.timestamp | date:"YYYY.MM.dd"}}</td>
+                </tr>
+              }
+              @if (profileInfo.profile_v2.previous_relationships.length > 0) {
+                @for (prev of profileInfo.profile_v2.previous_relationships; track prev) {
+                  <tr>
+                    <td rowSpan="1">Previous ({{prev.timestamp | date:"YYYY.MM.dd"}}):</td>
+                    <td rowSpan="1">{{prev.name}} </td>
+                  </tr>
+                }
+                
+              }
+            </tbody>
+          </nz-table>
+        </nz-card>
+      </div>
+      <div id="family-info" nz-col [nzSpan]="8" class="info-card">
+        <nz-card nz-col nzTitle="Family">
+          <nz-table nzTemplateMode>
+            <tbody>
+              @if (profileInfo.profile_v2.family_members.length > 0) {
+                @for (member of profileInfo.profile_v2.family_members; track member) {
+                  <tr>
+                    <td rowSpan="1">{{member.relation}}:</td>
+                    <td rowSpan="1">{{member.name}}</td>
+                  </tr>
+                }
+              }
+            </tbody>
+          </nz-table>
+        </nz-card>
+      </div>
+      <div id="education-info" nz-col [nzSpan]="8" class="info-card">
+        <nz-card nzTitle="Education Experience">
+          <nz-table nzTemplateMode>
+            <tbody>
+              @if (profileInfo.profile_v2.education_experiences.length > 0) {
+                @for (edu of profileInfo.profile_v2.education_experiences; track edu) {
+                  <tr>
+                    <td rowSpan="1">{{edu.name}} ({{edu.school_type}}):</td>
+                    <td rowSpan="1">{{edu.timestamp | date:"YYY.MM.dd"}} - {{edu.end_timestamp | date:"YYY.MM.dd"}}</td>
+                  </tr>
+                }
+              }
+            </tbody>
+          </nz-table>
+        </nz-card>
+      </div>
+      <div id="education-info" nz-col [nzSpan]="8" class="info-card">
+        <nz-card nz-col nzTitle="Work Experience">
+          <nz-table nzTemplateMode>
+            <tbody>
+              @if (profileInfo.profile_v2.work_experiences.length > 0) {
+                @for (work of profileInfo.profile_v2.work_experiences; track work) {
+                  <tr>
+                    <td rowSpan="1">{{work.name}} ({{work.employer}}):</td>
+                    <td rowSpan="1">{{work.timestamp | date:"YYY.MM.dd"}} - {{work.end_timestamp | date:"YYY.MM.dd"}}</td>
+                  </tr>
+                }
+              }
+            </tbody>
+          </nz-table>
+        </nz-card>
+      </div>
 
-    <nz-table nzTemplateMode>
-      <tbody>
-        <tr *ngFor="let pair of getObjectPairsNotNull(userdata)">
-          <td *ngIf="pair[1]" rowSpan="1">{{ capitalize(pair[0]) }}</td>
-          <td *ngIf="pair[1]" rowSpan="1">{{ pair[1] }}</td>
-        </tr>
-      </tbody>
-    </nz-table>
+    </div>
+
   </div>
-</div>

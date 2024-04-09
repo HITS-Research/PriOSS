@@ -1,0 +1,36 @@
+{
+  "address_book_v2": {
+    "address_book": [
+      {
+        "name": "Elmar Müller",
+        "details": [
+          {
+            "contact_point": "+49123456789"
+          }
+        ],
+        "created_timestamp": 1530429889,
+        "updated_timestamp": 1533839699
+      },
+      {
+        "name": "Addi Laubender",
+        "details": [
+          {
+            "contact_point": "+49123456789"
+          }
+        ],
+        "created_timestamp": 1529519656,
+        "updated_timestamp": 1529519656
+      },
+      {
+        "name": "Florian",
+        "details": [
+          {
+            "contact_point": "+49123456789"
+          }
+        ],
+        "created_timestamp": 1526845440,
+        "updated_timestamp": 1533839702
+      }
+    ]
+  }
+}

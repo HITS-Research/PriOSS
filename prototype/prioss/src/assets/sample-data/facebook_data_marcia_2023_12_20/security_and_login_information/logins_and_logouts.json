@@ -1,0 +1,52 @@
+{
+  "account_accesses_v2": [
+    {
+      "action": "Anmelden",
+      "timestamp": 1702744690,
+      "site": "www.facebook.com",
+      "ip_address": "2003:e0:571c:d540:fc86:2e70:914a:2690"
+    },
+    {
+      "action": "Abmelden",
+      "timestamp": 1702744690,
+      "site": "www.facebook.com",
+      "ip_address": "2003:e0:571c:d540:fc86:2e70:914a:2690"
+    },
+    {
+      "action": "Anmelden",
+      "timestamp": 1702744689,
+      "site": "www.facebook.com",
+      "ip_address": "2003:e0:571c:d540:fc86:2e70:914a:2690"
+    },
+    {
+      "action": "Abmelden",
+      "timestamp": 1701680016,
+      "site": "www.facebook.com",
+      "ip_address": "2a02:908:2224:10a0:11bb:d73e:5124:ab54"
+    },
+    {
+      "action": "Abmelden",
+      "timestamp": 1701272944,
+      "site": "www.facebook.com",
+      "ip_address": "185.254.75.47"
+    },
+    {
+      "action": "Anmelden",
+      "timestamp": 1701272944,
+      "site": "www.facebook.com",
+      "ip_address": "185.254.75.47"
+    },
+    {
+      "action": "Anmelden",
+      "timestamp": 1701200751,
+      "site": "m.facebook.com",
+      "ip_address": "2a02:908:2224:10a0:7196:9299:a290:2a02"
+    },
+    {
+      "action": "Anmelden",
+      "timestamp": 17011949123456789,
+      "site": "m.facebook.com",
+      "ip_address": "2003:e0:571c:d5ec:455d:53c0:4b71:85a6"
+    }
+  ]
+}

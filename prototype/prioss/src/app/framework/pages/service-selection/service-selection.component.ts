@@ -390,7 +390,6 @@ export class ServiceSelectionComponent implements AfterViewInit {
     let result = {};
     try {
       result = JSON.parse(content);
-      console.log(`Result: ${result}`);
       result = utilities.modifyStringValuesInJSON(result, utilities.fixFacebookEncoding)
       
     } catch (e) {

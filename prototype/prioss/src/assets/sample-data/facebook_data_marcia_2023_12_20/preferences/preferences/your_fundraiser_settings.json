@@ -1,0 +1,387 @@
+{
+  "media": [
+    
+  ],
+  "label_values": [
+    {
+      "label": "Gesendete Benachrichtigungen",
+      "vec": [
+        {
+          "dict": [
+            {
+              "label": "notif_type",
+              "value": "user_fundraiser_creation_top_friends"
+            },
+            {
+              "label": "timestamp",
+              "timestamp_value": 1676195727
+            }
+          ]
+        },
+        {
+          "dict": [
+            {
+              "label": "notif_type",
+              "value": "user_fundraiser_friend_birthday_fundraiser_last_chance"
+            },
+            {
+              "label": "timestamp",
+              "timestamp_value": 1631044850
+            }
+          ]
+        },
+        {
+          "dict": [
+            {
+              "label": "notif_type",
+              "value": "user_fundraiser_friend_birthday_fundraiser"
+            },
+            {
+              "label": "timestamp",
+              "timestamp_value": 1630998003
+            }
+          ]
+        },
+        {
+          "dict": [
+            {
+              "label": "notif_type",
+              "value": "user_fundraiser_creation_top_friends"
+            },
+            {
+              "label": "timestamp",
+              "timestamp_value": 1630428706
+            }
+          ]
+        },
+        {
+          "dict": [
+            {
+              "label": "notif_type",
+              "value": "user_fundraiser_friend_birthday_fundraiser_last_chance"
+            },
+            {
+              "label": "timestamp",
+              "timestamp_value": 1618164002
+            }
+          ]
+        },
+        {
+          "dict": [
+            {
+              "label": "notif_type",
+              "value": "user_fundraiser_friend_birthday_fundraiser_last_chance"
+            },
+            {
+              "label": "timestamp",
+              "timestamp_value": 1614891684
+            }
+          ]
+        },
+        {
+          "dict": [
+            {
+              "label": "notif_type",
+              "value": "user_fundraiser_creation_top_friends"
+            },
+            {
+              "label": "timestamp",
+              "timestamp_value": 1614349123456789
+            }
+          ]
+        },
+        {
+          "dict": [
+            {
+              "label": "notif_type",
+              "value": "user_fundraiser_ending_soon_user"
+            },
+            {
+              "label": "timestamp",
+              "timestamp_value": 1611475400
+            }
+          ]
+        },
+        {
+          "dict": [
+            {
+              "label": "notif_type",
+              "value": "user_fundraiser_invite"
+            },
+            {
+              "label": "timestamp",
+              "timestamp_value": 1610477463
+            }
+          ]
+        },
+        {
+          "dict": [
+            {
+              "label": "notif_type",
+              "value": "user_fundraiser_creation_top_friends"
+            },
+            {
+              "label": "timestamp",
+              "timestamp_value": 1610291111
+            }
+          ]
+        },
+        {
+          "dict": [
+            {
+              "label": "notif_type",
+              "value": "user_fundraiser_creation_top_friends"
+            },
+            {
+              "label": "timestamp",
+              "timestamp_value": 160949123456789
+            }
+          ]
+        },
+        {
+          "dict": [
+            {
+              "label": "notif_type",
+              "value": "user_fundraiser_ending_soon_user"
+            },
+            {
+              "label": "timestamp",
+              "timestamp_value": 1601449123456789
+            }
+          ]
+        },
+        {
+          "dict": [
+            {
+              "label": "notif_type",
+              "value": "user_fundraiser_donations_user"
+            },
+            {
+              "label": "timestamp",
+              "timestamp_value": 1600982415
+            }
+          ]
+        },
+        {
+          "dict": [
+            {
+              "label": "notif_type",
+              "value": "user_fundraiser_post"
+            },
+            {
+              "label": "timestamp",
+              "timestamp_value": 1600897895
+            }
+          ]
+        },
+        {
+          "dict": [
+            {
+              "label": "notif_type",
+              "value": "user_fundraiser_post"
+            },
+            {
+              "label": "timestamp",
+              "timestamp_value": 1600359262
+            }
+          ]
+        },
+        {
+          "dict": [
+            {
+              "label": "notif_type",
+              "value": "user_fundraiser_post"
+            },
+            {
+              "label": "timestamp",
+              "timestamp_value": 1600113177
+            }
+          ]
+        },
+        {
+          "dict": [
+            {
+              "label": "notif_type",
+              "value": "user_fundraiser_post"
+            },
+            {
+              "label": "timestamp",
+              "timestamp_value": 1599999531
+            }
+          ]
+        },
+        {
+          "dict": [
+            {
+              "label": "notif_type",
+              "value": "user_fundraiser_invite"
+            },
+            {
+              "label": "timestamp",
+              "timestamp_value": 1599819415
+            }
+          ]
+        },
+        {
+          "dict": [
+            {
+              "label": "notif_type",
+              "value": "user_fundraiser_friend_birthday_fundraiser_last_chance"
+            },
+            {
+              "label": "timestamp",
+              "timestamp_value": 1578578402
+            }
+          ]
+        },
+        {
+          "dict": [
+            {
+              "label": "notif_type",
+              "value": "user_fundraiser_friend_birthday_fundraiser"
+            },
+            {
+              "label": "timestamp",
+              "timestamp_value": 1578556805
+            }
+          ]
+        },
+        {
+          "dict": [
+            {
+              "label": "notif_type",
+              "value": "user_fundraiser_creation_top_friends"
+            },
+            {
+              "label": "timestamp",
+              "timestamp_value": 1577974484
+            }
+          ]
+        },
+        {
+          "dict": [
+            {
+              "label": "notif_type",
+              "value": "user_fundraiser_friend_birthday_fundraiser_last_chance"
+            },
+            {
+              "label": "timestamp",
+              "timestamp_value": 1563998403
+            }
+          ]
+        },
+        {
+          "dict": [
+            {
+              "label": "notif_type",
+              "value": "user_fundraiser_friend_birthday_fundraiser"
+            },
+            {
+              "label": "timestamp",
+              "timestamp_value": 1563940803
+            }
+          ]
+        },
+        {
+          "dict": [
+            {
+              "label": "notif_type",
+              "value": "user_fundraiser_creation_top_friends"
+            },
+            {
+              "label": "timestamp",
+              "timestamp_value": 1563219064
+            }
+          ]
+        },
+        {
+          "dict": [
+            {
+              "label": "notif_type",
+              "value": "user_fundraiser_friend_birthday_fundraiser_last_chance"
+            },
+            {
+              "label": "timestamp",
+              "timestamp_value": 1550423312
+            }
+          ]
+        },
+        {
+          "dict": [
+            {
+              "label": "notif_type",
+              "value": "user_fundraiser_friend_birthday_fundraiser"
+            },
+            {
+              "label": "timestamp",
+              "timestamp_value": 1550394108
+            }
+          ]
+        },
+        {
+          "dict": [
+            {
+              "label": "notif_type",
+              "value": "user_fundraiser_creation_top_friends"
+            },
+            {
+              "label": "timestamp",
+              "timestamp_value": 1549123456789
+            }
+          ]
+        },
+        {
+          "dict": [
+            {
+              "label": "notif_type",
+              "value": "user_fundraiser_friend_birthday_fundraiser_last_chance"
+            },
+            {
+              "label": "timestamp",
+              "timestamp_value": 1534093204
+            }
+          ]
+        },
+        {
+          "dict": [
+            {
+              "label": "notif_type",
+              "value": "user_fundraiser_friend_birthday_fundraiser"
+            },
+            {
+              "label": "timestamp",
+              "timestamp_value": 1534057204
+            }
+          ]
+        },
+        {
+          "dict": [
+            {
+              "label": "notif_type",
+              "value": "user_fundraiser_creation_top_friends"
+            },
+            {
+              "label": "timestamp",
+              "timestamp_value": 1532860684
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "label": "Benachrichtigungslevel"
+    },
+    {
+      "label": "Zeitpunkt des letzten Geburtstagsgeschenks",
+      "timestamp_value": 0
+    },
+    {
+      "label": "Zeitpunkt des letzten COVID-Impfgeschenks",
+      "timestamp_value": 0
+    },
+    {
+      "label": "Zeitpunkt des letzten Juneteenth-Geschenks",
+      "timestamp_value": 0
+    }
+  ]
+}

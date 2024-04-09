@@ -1,0 +1,149 @@
+{
+  "off_facebook_activity_v2": [
+    {
+      "name": "EA - Electronic Arts",
+      "events": [
+        {
+          "id": 298890642986351,
+          "type": "PURCHASE",
+          "timestamp": 1698272460
+        },
+        {
+          "id": 146565196164526,
+          "type": "PURCHASE",
+          "timestamp": 1695404160
+        },
+        {
+          "id": 1470532370125379,
+          "type": "PURCHASE",
+          "timestamp": 1668011640
+        },
+        {
+          "id": 4596149123456789,
+          "type": "PURCHASE",
+          "timestamp": 1667838720
+        },
+        {
+          "id": 518423969837971,
+          "type": "PURCHASE",
+          "timestamp": 1667058000
+        },
+        {
+          "id": 871212857199152,
+          "type": "PURCHASE",
+          "timestamp": 1666885500
+        },
+        {
+          "id": 1074071959963542,
+          "type": "PURCHASE",
+          "timestamp": 1666626120
+        },
+        {
+          "id": 1224297604820098,
+          "type": "PURCHASE",
+          "timestamp": 1666280580
+        },
+        {
+          "id": 1142242416390410,
+          "type": "PURCHASE",
+          "timestamp": 1665849123456789
+        },
+        {
+          "id": 1013380032836144,
+          "type": "PURCHASE",
+          "timestamp": 1665588360
+        },
+        {
+          "id": 3949123456789,
+          "type": "PURCHASE",
+          "timestamp": 1663176180
+        },
+        {
+          "id": 4711349123456789,
+          "type": "PURCHASE",
+          "timestamp": 1662220800
+        },
+        {
+          "id": 4040693849123456789,
+          "type": "PURCHASE",
+          "timestamp": 1661701320
+        },
+        {
+          "id": 53949123456789,
+          "type": "PURCHASE",
+          "timestamp": 1661441820
+        },
+        {
+          "id": 1086408178670763,
+          "type": "PURCHASE",
+          "timestamp": 1660664760
+        },
+        {
+          "id": 1728465614182930,
+          "type": "PURCHASE",
+          "timestamp": 166049123456789
+        },
+        {
+          "id": 384804437124381,
+          "type": "PURCHASE",
+          "timestamp": 1660232700
+        },
+        {
+          "id": 712102926898513,
+          "type": "PURCHASE",
+          "timestamp": 1651506300
+        },
+        {
+          "id": 712102926898513,
+          "type": "PURCHASE",
+          "timestamp": 1651246860
+        }
+      ]
+    },
+    {
+      "name": "ticketpay.de",
+      "events": [
+        {
+          "id": 858245717693390,
+          "type": "PAGE_VIEW",
+          "timestamp": 1683822120
+        }
+      ]
+    },
+    {
+      "name": "About You GmbH",
+      "events": [
+        {
+          "id": 1459944610983061,
+          "type": "PAGE_VIEW",
+          "timestamp": 1674663420
+        },
+        {
+          "id": 1459944610983061,
+          "type": "PAGE_VIEW",
+          "timestamp": 1674144060
+        }
+      ]
+    },
+    {
+      "name": "Primal State Business Manager",
+      "events": [
+        {
+          "id": 223126106095984,
+          "type": "PURCHASE",
+          "timestamp": 1654582020
+        }
+      ]
+    },
+    {
+      "name": "Airbnb",
+      "events": [
+        {
+          "id": 674478425975295,
+          "type": "PAGE_VIEW",
+          "timestamp": 1651742700
+        }
+      ]
+    }
+  ]
+}
