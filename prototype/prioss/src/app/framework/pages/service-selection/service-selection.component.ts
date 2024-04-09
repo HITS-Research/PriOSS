@@ -1,5 +1,5 @@
 import { ViewportScroller } from '@angular/common';
-import { AfterViewInit, Component, HostListener, inject,ChangeDetectionStrategy } from '@angular/core';
+import { AfterViewInit, Component, HostListener, inject,ChangeDetectionStrategy, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { faCircleRight } from '@fortawesome/free-regular-svg-icons';
 import { faArrowRotateRight } from '@fortawesome/free-solid-svg-icons';
@@ -142,19 +142,19 @@ export class ServiceSelectionComponent implements AfterViewInit {
   //Icon properties
   faCircleRight = faCircleRight;
   faArrowRotateRight = faArrowRotateRight;
-  isProcessingFile = false;
+  isProcessingFile = signal<boolean>(false);
   pageYoffset = 0;
 
   //file upload
   uploadedFiles: File[] = [];
   selectedFileName = '';
-  uploadDialogVisible = false;
+  uploadDialogVisible = signal<boolean>(false);
 
   #featureToggleService = inject(FeatureToggleService)
 
-  progressBarPercent = 0;
-  progressBarVisible = false;
-  requestedAbortDataParsing = false;
+  progressBarPercent = signal<number>(0);
+  progressBarVisible = signal<boolean>(false);
+  requestedAbortDataParsing = signal<boolean>(false);
 
   appType: typeof AppType = AppType;
 
@@ -200,9 +200,8 @@ export class ServiceSelectionComponent implements AfterViewInit {
    *
    */
   async abortDataParsing() {
-    this.progressBarVisible = false;
-    this.requestedAbortDataParsing = true;
-    await this.sqlDBService.rebuildDatabase();
+    this.progressBarVisible.set(false);
+    this.requestedAbortDataParsing.set(true);
     //this.router.navigate(["home"]);
   }
 
@@ -214,7 +213,7 @@ export class ServiceSelectionComponent implements AfterViewInit {
    */
   async abortDataUpload() {
     this.uploadedFiles = [];
-    this.uploadDialogVisible = false;
+    this.uploadDialogVisible.set(false);
   }
 
   /*
@@ -269,7 +268,7 @@ export class ServiceSelectionComponent implements AfterViewInit {
         if (foundFile == null) {
           this.errorMsg =
             'Please select a valid zip-file that you downloaded from Instagram!';
-          this.uploadDialogVisible = true;
+          this.uploadDialogVisible.set(true);
         } else {
           this.setSelectedFileName(file.name);
         }
@@ -278,7 +277,7 @@ export class ServiceSelectionComponent implements AfterViewInit {
         if (foundFile == null) {
           this.errorMsg =
             'Please select a valid zip-file that you downloaded from Spotify!';
-          this.uploadDialogVisible = true;
+          this.uploadDialogVisible.set(true);
         } else {
           this.setSelectedFileName(file.name);
         }
@@ -288,7 +287,7 @@ export class ServiceSelectionComponent implements AfterViewInit {
         if (foundFile == null) {
           this.errorMsg =
             'Please select a valid zip-file that you downloaded from Facebook!';
-          this.uploadDialogVisible = true;
+          this.uploadDialogVisible.set(true);
         } else {
           this.setSelectedFileName(file.name);
         }
@@ -330,25 +329,25 @@ export class ServiceSelectionComponent implements AfterViewInit {
   async onClickedExploreSampleData() {
     //set the uploaded files field to be the sample data for teh respective service
     //this.uploadedFiles[0] = null;//TODO
-
+    this.progressBarPercent.set(0);
+    this.progressBarVisible.set(true);
     let sampleDataLocation = '';
-    if (this.selectedServiceName == this.appType.Instagram) {
+    
+    if (this.selectedServiceName === this.appType.Instagram) {
       sampleDataLocation =
         this.sampleDataPath + this.sampleDataFilenameInstagram;
-    } else if (this.selectedServiceName == this.appType.Spotify) {
+    } else if (this.selectedServiceName === this.appType.Spotify) {
       sampleDataLocation = this.sampleDataPath + this.sampleDataFilenameSpotify;
-    } else if (this.selectedServiceName == this.appType.Facebook) {
+    } else if (this.selectedServiceName === this.appType.Facebook) {
       sampleDataLocation =
         this.sampleDataPath + this.sampleDataFilenameFacebook;
     } else {
       throw Error(
-        'The selected Service Name is not a known service. Selected: ' +
-          this.selectedServiceName
+        `The selected Service Name is not a known service. Selected: ${this.selectedServiceName}`
       );
     }
 
-    this.progressBarPercent = 0;
-    this.progressBarVisible = true;
+
 
     //download needed sample data from server (comes precached when pwa functionality works)
     this.http
@@ -371,7 +370,7 @@ export class ServiceSelectionComponent implements AfterViewInit {
    *
    */
   async openDataUploadDialog() {
-    this.uploadDialogVisible = true;
+    this.uploadDialogVisible.set(true);
   }
 
   /**
@@ -382,8 +381,8 @@ export class ServiceSelectionComponent implements AfterViewInit {
    *
    */
   async onClickedExploreData() {
-    this.isProcessingFile = true;
-    this.uploadDialogVisible = false;
+    this.isProcessingFile.set(true);
+    this.uploadDialogVisible.set(false);
     await this.parseFile(this.selectedServiceName);
   }
 
@@ -391,11 +390,11 @@ export class ServiceSelectionComponent implements AfterViewInit {
     let result = {};
     try {
       result = JSON.parse(content);
-      console.log('Result: ' + result);
+      console.log(`Result: ${result}`);
       result = utilities.modifyStringValuesInJSON(result, utilities.fixFacebookEncoding)
       
     } catch (e) {
-      console.error('Error parsing JSON: ' + e + ' ' + content);
+      console.error(`Error parsing JSON: ${e} ${content}`);
       return {}; //return empty object if parsing fails
     }
     return result;
@@ -434,6 +433,11 @@ export class ServiceSelectionComponent implements AfterViewInit {
    *
    */
   async parseFacebookFileToSQLite() {
+
+    this.isProcessingFile.set(true); //shows the processing icon on the button
+    this.progressBarPercent.set(0);
+    this.progressBarVisible.set(true);
+
     const userData: FbUserDataModel = {} as FbUserDataModel;
 
     // initialize sub-stores
@@ -452,17 +456,14 @@ export class ServiceSelectionComponent implements AfterViewInit {
 
     const zip: JSZip = await this.loadZipFile(file);
 
-    this.isProcessingFile = true; //shows the processing icon on the button
 
-    this.progressBarPercent = 0;
-    this.progressBarVisible = true;
     const filepaths: string[] = Object.keys(zip.files).filter((path) => path.endsWith('.json'));
     for (let i = 0; i < filepaths.length; i++) {
-      if (this.requestedAbortDataParsing) {
-        this.requestedAbortDataParsing = false;
+      if (this.requestedAbortDataParsing()) {
+        this.requestedAbortDataParsing.set(false);
         return;
       }
-      this.progressBarPercent = Math.round(100 * (i / filepaths.length));
+      this.progressBarPercent.set(Math.round(100 * (i / filepaths.length)));
 
       const filepath: string = filepaths[i];
       const filename: string | undefined = filepath
@@ -761,10 +762,9 @@ export class ServiceSelectionComponent implements AfterViewInit {
 
     this.store.dispatch(new UpdateFbUserData(userData));
 
-    this.progressBarPercent = 100;
+    this.progressBarPercent.set(100);
     await delay(500);
-
-    this.progressBarVisible = false;
+    this.progressBarVisible.set(false);
 
     this.#featureToggleService.enableService(Services.Facebook)
 
@@ -779,21 +779,21 @@ export class ServiceSelectionComponent implements AfterViewInit {
    * Parses the uploaded Spotify data-download-zip file into the SQLite database
    */
   async parseSpotifyFileToSQLite() {
-    this.progressBarPercent = 0;
-    this.isProcessingFile = true;
-    this.progressBarVisible = true;
+    this.progressBarPercent.set(0);
+    this.isProcessingFile.set(true);
+    this.progressBarVisible.set(true);
 
     this.store.dispatch(
       new SpotifyReadFromZip(await this.loadZipFile(this.uploadedFiles[0]))
     );
 
-    if (this.requestedAbortDataParsing) {
-      this.requestedAbortDataParsing = false;
+    if (this.requestedAbortDataParsing()) {
+      this.requestedAbortDataParsing.set(false);
       return;
     }
 
-    this.progressBarPercent = 100;
-    this.progressBarVisible = false;
+    this.progressBarPercent.set(100);
+    this.progressBarVisible.set(false);
 
 
     this.#featureToggleService.enableService(Services.Spotify)
@@ -808,6 +808,9 @@ export class ServiceSelectionComponent implements AfterViewInit {
    *
    */
   async parseInstagramFileToSQLite() {
+    this.isProcessingFile.set(true); //shows the processing icon on the button
+    this.progressBarPercent.set(0);
+    this.progressBarVisible.set(true);
     const userData: InstaUserDataModel = {} as InstaUserDataModel;
     userData.chatData = [];
 
@@ -815,19 +818,16 @@ export class ServiceSelectionComponent implements AfterViewInit {
 
     const zip: JSZip = await this.loadZipFile(file);
 
-    this.isProcessingFile = true; //shows the processing icon on the button
 
-    this.progressBarPercent = 0;
-    this.progressBarVisible = true;
 
     const filepaths: string[] = Object.keys(zip.files);
     for (let i = 0; i < filepaths.length; i++) {
-      if (this.requestedAbortDataParsing) {
-        this.requestedAbortDataParsing = false;
+      if (this.requestedAbortDataParsing()) {
+        this.requestedAbortDataParsing.set(false);
         return;
       }
 
-      this.progressBarPercent = Math.round(100 * (i / filepaths.length));
+      this.progressBarPercent.set(Math.round(100 * (i / filepaths.length)));
 
       const filepath: string = filepaths[i];
       const content: string = await zip.files[filepath].async('string');
@@ -1494,17 +1494,16 @@ export class ServiceSelectionComponent implements AfterViewInit {
       }
     }
 
-    if (this.requestedAbortDataParsing) {
-      this.requestedAbortDataParsing = false;
+    if (this.requestedAbortDataParsing()) {
+      this.requestedAbortDataParsing.set(false);
       return;
     }
 
     this.store.dispatch(new UpdateInstaUserData(userData));
 
-    this.progressBarPercent = 100;
+    this.progressBarPercent.set(100);
     await delay(500);
-
-    this.progressBarVisible = false;
+    this.progressBarVisible.set(false);
 
     this.#featureToggleService.enableService(Services.Instagram)
 
@@ -1527,8 +1526,8 @@ export class ServiceSelectionComponent implements AfterViewInit {
     if (typeof file == 'undefined') {
       //Show error: you didn't upload a zip file
       this.errorMsg = 'Please select a data-download zip-file first!';
-      this.uploadDialogVisible = true;
-      this.isProcessingFile = false;
+      this.uploadDialogVisible.set(true);
+      this.isProcessingFile.set(false);
       throw Error('No File selected!');
     }
 
@@ -1541,10 +1540,9 @@ export class ServiceSelectionComponent implements AfterViewInit {
     } else {
       //Show error: you didn't upload a zip file
       this.errorMsg =
-        'The file you selected is not a zip-file. Please select the zip file you downloaded from ' +
-        this.selectedServiceName;
-      this.uploadDialogVisible = true;
-      this.isProcessingFile = false;
+        `The file you selected is not a zip-file. Please select the zip file you downloaded from ${this.selectedServiceName}`;
+      this.uploadDialogVisible.set(true);
+      this.isProcessingFile.set(false);
       throw Error('Selected File is not a .zip file!');
     }
   }
