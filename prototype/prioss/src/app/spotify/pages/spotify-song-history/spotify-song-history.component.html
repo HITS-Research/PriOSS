@@ -1,0 +1,33 @@
+<nz-page-header
+  class="site-page-header"
+  nzBackIcon
+  (nzBack)="onBackFromSong()"
+  [nzTitle]="fullName()"
+/>
+
+@if (this.songHistory(); as songHistory) {
+  @if (songHistory.length > 0) {
+    <nz-table
+      #basicTable
+      [nzData]="songHistory">
+      <thead>
+        <tr>
+          <th>Date and time</th>
+          <th>Seconds listened</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (data of basicTable.data; track data) {
+          <tr>
+            <td>{{ data.endTime }}</td>
+            <td>{{ data.msPlayed| time:'ms-to-sec' }}</td>
+          </tr>
+        }
+      </tbody>
+    </nz-table>
+  } @else {
+    There is no data to display.
+  }
+} @else {
+  Loading and calculating Data.
+}

@@ -89,7 +89,6 @@ import { SpotDashboardComponent } from './spotify/pages/spot-dashboard/spot-dash
 import { SpotifySearchHistoryComponent } from './spotify/pages/spotify-search-history/spotify-search-history.component';
 import { SpotifyUserDataComponent } from './spotify/pages/spotify-user-data/spotify-user-data.component';
 import { TopArtistsComponent } from './spotify/pages/top-artists/top-artists.component';
-import { TopSongsComponent } from './spotify/pages/top-songs/top-songs.component';
 import { SpotifyModule } from './spotify/spotify.module';
 import { AppState } from './state/app.state';
 import { PreviewTileComponent } from './unused-components/preview-tile/preview-tile.component';
@@ -116,6 +115,7 @@ import { FacebookFriendsOverviewComponent} from './facebook/pages/friend-and-fol
 import { FacebookFriendsStatisticsComponent } from './facebook/pages/friend-and-followers/features/friends-statistics/friends-statistics.component';
 import { FacebookModule } from './facebook/facebook.module';
 import { FriendAndFollowersComponent } from './facebook/pages/friend-and-followers/friend-and-followers.component';
+import { TopSongsComponent } from './spotify/pages/top-songs/top-songs.component';
 
 registerLocaleData(de);
 
@@ -134,7 +134,6 @@ registerLocaleData(de);
     PreviewTileComponent,
     ListeningTimeComponent,
     TopArtistsComponent,
-    TopSongsComponent,
     InferencesComponent,
     AboutComponent,
     ContactComponent,
@@ -241,6 +240,7 @@ registerLocaleData(de);
     NgxsStoragePluginModule.forRoot(),
     NgChartsModule,
     NgxEchartsModule.forRoot({ echarts: () => import('echarts') }),
+    TopSongsComponent
   ],
   providers: [
     FeatureToggleService,

@@ -55,6 +55,7 @@ import { facebookGuard } from './guards/facebook.guard';
 import { instagramGuard } from './guards/instagram.guard';
 import { spotifyGuard } from './guards/spotify.guard';
 import { SpotifyArtistHistoryComponent } from './spotify/pages/spotify-artist-history/spotify-artist-history.component';
+import { SpotifySongHistoryComponent } from './spotify/pages/spotify-song-history/spotify-song-history.component';
 
 const routes: Routes = [
   { path: 'home', component: LandingComponent },
@@ -149,6 +150,7 @@ const routes: Routes = [
       { path: 'top-artists/:start/:end', component: TopArtistsComponent },
       { path: 'top-songs', component: TopSongsComponent },
       { path: 'top-songs/:start/:end', component: TopSongsComponent },
+      { path: 'song-history/:artist/:song', component: SpotifySongHistoryComponent },
       { path: '**', redirectTo: 'dashboard' },
     ],
   },

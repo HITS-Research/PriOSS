@@ -1,106 +1,52 @@
-@if(vm$ | async; as vm){
-<div [ngClass]="{'component-page': !previewMode}">
-  @if (previewMode) {
-  <div>
-    <div echarts [options]="vm.chartPreview" class="chart"></div>
+@if (previewMode()) {
+  <div
+    echarts
+    class="chart"
+    [options]="chartOptions()"
+  ></div>
+} @else {
+  <app-title-bar
+    titleText="Top Songs"
+    tooltipText="This bar chart shows your top 10 songs in a given time period. You can also switch to a tabular view."
+  />
 
-  </div>
-  }
-  @else{
-  <div>
-    <h1> NO Dashboard</h1>
-  </div>
-  }
-</div>
+  <nz-range-picker
+    ngModel
+    [ngModel]="dateRange()"
+    (nzOnCalendarChange)="onDateRangeChanged($event)"
+  />
+
+  <nz-tabset>
+    <nz-tab nzTitle="Bar chart">
+      <div
+        echarts
+        class="chart"
+        [options]="chartOptions()"
+        (chartClick)="selectSong($event)">
+      </div>
+    </nz-tab>
+
+    <nz-tab nzTitle="Table">
+      <nz-table
+        #basicTable
+        [nzData]="topSongs()">
+        <thead>
+          <tr>
+            <th>Artist</th>
+            <th>Song</th>
+            <th>Minutes listened (total)</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (data of basicTable.data; track data[0]) {
+            <tr class="clickable" (click)="selectSong(data[0], data[1])">
+              <td>{{ data[0] }}</td>
+              <td>{{ data[1] }}</td>
+              <td>{{ data[2] | time:'number-as-minutes' }}</td>
+            </tr>
+          }
+        </tbody>
+      </nz-table>
+    </nz-tab>
+  </nz-tabset>
 }
-
-
-<!--
-<div [ngClass]="{'component-page': !previewMode}">
-  <div id="top-song" [hidden]="showSongHistoy">
-    <div *ngIf="previewMode">
-      <div class="bar_chart_top_songs"></div>
-    </div>
-
-    <div *ngIf="!previewMode">
-      <app-title-bar *ngIf="!calledFromListeningtime" titleText="Top Songs" tooltipText="This bar chart shows your top 10 songs in a given time period. You can also switch to a tabular view.">
-      </app-title-bar>
-
-      <app-title-bar *ngIf="calledFromListeningtime" titleText="Top Songs" tooltipText="This bar chart shows your top 10 songs in a given time period. You can also switch to a tabular view."
-        [overrideBackButtonFunction]="true" (onButtonClickedEventOverride)="returnToListeningTime()"
-        backButtonTextOverride="Back to Listeningtime">
-      </app-title-bar>
-
-      <nz-tabset (nzSelectedIndexChange)="onTabSwitch($event)">
-        <nz-tab nzTitle="Bar chart">
-          <div class="t-filter-container">
-            <div class="t-filter-grid">
-              <span class="grid-col-one">From: </span>
-              <nz-date-picker class="grid-col-two" [(ngModel)]="filterFromDate" nzShowTime nzFormat="yyyy-MM-dd HH:00"
-                              (ngModelChange)="onDateFilterChanged()"></nz-date-picker>
-              <div class="t-inline-spacer-small"></div>
-              <span class="grid-col-one">To: </span>
-              <nz-date-picker class="grid-col-two" [(ngModel)]="filterToDate" nzShowTime nzFormat="yyyy-MM-dd HH:00"
-                              (ngModelChange)="onDateFilterChanged()"></nz-date-picker>
-            </div>
-          </div>
-          <br>
-          <div class="bar_chart_top_songs visualization-card"></div>
-        </nz-tab>
-        <nz-tab nzTitle="Table">
-          <div class="t-filter-container">
-            <div class="t-filter-grid">
-              <span class="grid-col-one">From: </span>
-              <nz-date-picker class="grid-col-two" [(ngModel)]="filterFromDate" nzShowTime nzFormat="yyyy-MM-dd HH:00"
-                              (ngModelChange)="onDateFilterChanged()"></nz-date-picker>
-              <div class="t-inline-spacer-small"></div>
-              <span class="grid-col-one">To: </span>
-              <nz-date-picker class="grid-col-two" [(ngModel)]="filterToDate" nzShowTime nzFormat="yyyy-MM-dd HH:00"
-                              (ngModelChange)="onDateFilterChanged()"></nz-date-picker>
-            </div>
-          </div>
-          <br>
-          <nz-table #basicTable [nzData]="this.minListenedToSong">
-            <thead>
-            <tr>
-              <th>Song</th>
-              <th>Minutes listened</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr *ngFor="let data of basicTable.data" (click)="onBarClicked(data.artistName, data.trackName)">
-              <td>{{data.trackName}}</td>
-              <td>{{data.minPlayed}}</td>
-            </tr>
-            </tbody>
-          </nz-table>
-        </nz-tab>
-      </nz-tabset>
-    </div>
-  </div>
-
-  <div id="song-history" [hidden]="!showSongHistoy">
-    <nz-page-header
-      class="site-page-header"
-      (nzBack)="onBackFromSong()"
-      nzBackIcon
-      [nzTitle]="this.selectedSong[1] + ' by ' + this.selectedSong[0]"
-    ></nz-page-header>
-    <nz-table #basicTable [nzData]="this.selectedSongHistory">
-      <thead>
-      <tr>
-        <th>Date and time</th>
-        <th>Seconds listened</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr *ngFor="let data of basicTable.data">
-        <td>{{data.endTime}}</td>
-        <td>{{data.secPlayed}}</td>
-      </tr>
-      </tbody>
-    </nz-table>
-  </div>
-</div>
-
--->

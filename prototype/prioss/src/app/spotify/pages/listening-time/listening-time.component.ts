@@ -25,7 +25,6 @@ type ViewModel = {
 
 /**
  * This component visualizes the total listening time in relation to configurable time periods
- *
  */
 @Component({
   selector: 'prioss-spotify-listening-time',

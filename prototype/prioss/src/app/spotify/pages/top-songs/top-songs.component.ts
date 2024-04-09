@@ -1,25 +1,26 @@
+import { NgClass } from '@angular/common';
 import {
-  Component,
-  Input,
   ChangeDetectionStrategy,
+  Component,
+  Signal,
+  computed,
   inject,
+  input,
 } from '@angular/core';
-import { Router } from '@angular/router';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { FormsModule } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngxs/store';
-import { SpotifyStreamingHistoryStateModel } from '../../features/streaming-history/streaming-history.statemodel';
-import { EChartsOption } from 'echarts';
-import { Observable, combineLatest, map } from 'rxjs';
+import { ECElementEvent, EChartsOption } from 'echarts';
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzTabsModule } from 'ng-zorro-antd/tabs';
+import { NgxEchartsModule } from 'ngx-echarts';
+import { map, switchMap } from 'rxjs';
+import { TimePipe } from 'src/app/features/time/time.pipe';
+import { TitleBarComponent } from 'src/app/features/title-bar/title-bar.component';
 import { SpotifyStreamingHistoryState } from '../../features/streaming-history/streaming-history.state';
-
-type trackCounter = { trackName: string; counter: number };
-
-type ViewModel = {
-  listeningData: SpotifyStreamingHistoryStateModel[];
-
-  topTenTracks: trackCounter[];
-
-  chartPreview: EChartsOption;
-};
+import { SpotifyStreamingHistoryStateModel } from '../../features/streaming-history/streaming-history.statemodel';
 
 /**
  * This component visualizes which songs have been listened the most to
@@ -29,110 +30,181 @@ type ViewModel = {
   templateUrl: './top-songs.component.html',
   styleUrls: ['./top-songs.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    FormsModule,
+    NgClass,
+    NgxEchartsModule,
+    NzDatePickerModule,
+    NzTableModule,
+    NzTabsModule,
+    TimePipe,
+    TitleBarComponent
+  ]
 })
 export class TopSongsComponent {
+
+  previewMode = input(false);
+
   #store = inject(Store);
+
+  #activeRoute = inject(ActivatedRoute);
+
   #router = inject(Router);
 
-  @Input()
-  previewMode: boolean;
-
-  #listeningData$: Observable<SpotifyStreamingHistoryStateModel[]> =
-    this.#store.select(SpotifyStreamingHistoryState);
-  //.pipe(tap(x => console.log('listeningData', x)));
-
-  #topTenTracks$ = this.#listeningData$.pipe(
-    map((historyItems: SpotifyStreamingHistoryStateModel[]) => {
-      const trackCounterMap = historyItems.reduce(
-        (
-          counterMap: Map<string, number>,
-          item: SpotifyStreamingHistoryStateModel,
-        ) => {
-          const { trackName } = item;
-          counterMap.set(trackName, (counterMap.get(trackName) || 0) + 1);
-          return counterMap;
-        },
-        new Map<string, number>(),
-      );
-
-      // Convert the map to array of trackCounter objects
-      const trackCounterArray: trackCounter[] = Array.from(
-        trackCounterMap.entries(),
-      ).map(([trackName, counter]) => ({
-        trackName,
-        counter,
-      }));
-
-      // Sort the array by counter in descending order
-      trackCounterArray.sort((a, b) => b.counter - a.counter);
-
-      // Take top 10 artists
-      const topTenTracks = trackCounterArray.slice(0, 10);
-
-      return topTenTracks;
+  /**
+   * Parses the the raw data, checks what the earliest and latest date for the "endTime" property of each item.
+   * Checks what the initial date range should be for the bar chart and ensures no invalid data is inserted.
+   */
+  dateRange = toSignal<[Date, Date]>(this.#activeRoute.paramMap.pipe(
+    map(items => {
+      const s = new Date(items.get('start') ?? 'invalidDate');
+      const e = new Date(items.get('end') ?? 'invalidDate');
+      return [
+        s instanceof Date && !isNaN(s.getTime()) ? s : new Date(2006, 3, 23), // Founding date of Spotify (earliest)
+        e instanceof Date && !isNaN(e.getTime()) ? e : new Date(), // Current day (latest)
+      ] as [Date, Date];
     }),
-  );
-
-  #chartPreview$ = this.#topTenTracks$.pipe(
-    map((topTenTracks: { trackName: string; counter: number }[]) => {
-      const xAxisData = topTenTracks.map(track => track.trackName);
-      const seriesData = topTenTracks.map(track => track.counter);
-
-      return {
-        yAxis: {
-          type: 'category',
-          data: xAxisData,
-          axisLabel: {
-            show: false, // Hide y-axis labels
-          },
-        },
-        xAxis: {
-          type: 'value',
-        },
-        series: [
-          {
-            data: seriesData,
-            type: 'bar',
-            itemStyle: {
-              // Customize bar color
-              color: '#1DB954', // Change bar color to gray
-            },
-            label: {
-              show: true,
-              position: 'inside', // Display labels inside the bar
-              formatter: '{b}', // Display counter value as label
-              color: '#fff', // Label color
-            },
-          },
-        ],
-      };
-    }),
-  );
-
-  #testData$ =
-    this.#topTenTracks$.pipe(
-      //tap(x => console.log('TopTenTracks', x)),
-    );
-
-  vm$: Observable<ViewModel> = combineLatest([
-    this.#listeningData$,
-    this.#testData$,
-    this.#chartPreview$,
-  ]).pipe(
-    map(
-      ([ld, ttt, pc]) =>
-        ({
-          listeningData: ld,
-          topTenTracks: ttt,
-          chartPreview: pc,
-        }) as ViewModel,
+    switchMap(selectedRange =>
+      this.#store.select(SpotifyStreamingHistoryState.dateRange).pipe(
+        map(dataRange => {
+          // Check that min and max are set properly
+          let min =
+            selectedRange[0] < dataRange[0] ? dataRange[0] : selectedRange[0];
+          const max =
+            selectedRange[1] > dataRange[1] ? dataRange[1] : selectedRange[1];
+          min = min > max ? max : min;
+          return [min, max] as [Date, Date];
+        }),
+      ),
     ),
+  ), { requireSync: true });
+
+  /**
+   * The given parameters from the url.
+   */
+  parameter = toSignal(inject(ActivatedRoute).paramMap.pipe(map(x => ({
+    fromDate: x.get('start'),
+    toDate: x.get('end')
+  }))), { requireSync: true });
+
+  /**
+   * Sets the the current selected Date.
+   */
+  onDateRangeChanged(dateRange: (Date | null)[]) {
+    if (dateRange.length <= 1) return;
+
+    this.#router.navigate([
+      'spot',
+      'top-songs',
+      dateRange[0]?.toISOString().split('T')[0],
+      dateRange[1]?.toISOString().split('T')[0],
+    ]);
+  }
+
+  /**
+   * The current State of the Streaming History.
+   */
+  #streamingHistory = toSignal(
+    this.#store.select(SpotifyStreamingHistoryState.state),
+    { requireSync: true }
   );
 
   /**
-   * Navigates to the dashboard of the current feature.
+   * The signal of a list of all songs, sorted by minutes listened.
    */
-  navigateToDashboard() {
-    this.#router.navigate(['dashboard']);
+  topSongs = computed(() => {
+    const state = this.#streamingHistory();
+    const isPreview = this.previewMode();
+
+    if (state.length <= 0) return [];
+
+    const [minDate, maxDate] = this.dateRange();
+    if (!isPreview && !(minDate instanceof Date && maxDate instanceof Date))
+      return [];
+
+    let songCounter;
+    if (isPreview) {
+      songCounter = state;
+    } else {
+      songCounter = state
+        .filter(item => {
+          const endTimeDate = new Date(item.endTime);
+          return endTimeDate <= maxDate && endTimeDate >= minDate;
+        });
+    }
+
+    songCounter = songCounter.reduce((
+      counterMap: Map<string, number>,
+      item: SpotifyStreamingHistoryStateModel,
+    ) => {
+      const { artistName, trackName, msPlayed } = item;
+      const minutesPlayed = parseFloat(msPlayed) / 60000;
+      const key = `${artistName};;${trackName}`;
+      const minutesSoFar = (counterMap.get(key) ?? 0) + minutesPlayed;
+      counterMap.set(key, minutesSoFar);
+      return counterMap;
+    },
+      new Map<string, number>(),
+    )
+      .entries();
+
+    return [...songCounter]
+      .map(x => {
+        const [artist, song] = x[0].split(";;");
+        return [artist, song, x[1]] as [string, string, number];
+      })
+      .toSorted((a, b) => b[2] - a[2]);
+  });
+
+  /**
+   * The chart options for e-charts.
+   */
+  chartOptions: Signal<EChartsOption> = computed(() => {
+    const topTen = this.topSongs().slice(0, 10);
+    const xAxisData = topTen.map(songs => `${songs[0]} - ${songs[1]}`).reverse();
+    const seriesData = topTen.map(songs => songs[2]).reverse();
+
+    return {
+      yAxis: {
+        type: 'category',
+        data: xAxisData,
+        axisLabel: { show: false },
+      },
+      xAxis: {
+        type: 'value',
+        name: 'Minutes Played',
+        nameLocation: 'middle',
+        nameGap: 25,
+      },
+      series: [
+        {
+          data: seriesData,
+          type: 'bar',
+          itemStyle: { color: '#1DB954' },
+          label: {
+            show: true,
+            position: 'insideLeft',
+            formatter: '{b}',
+            color: '#000',
+          },
+        },
+      ],
+    } as EChartsOption;
+  });
+
+  selectSong(artistName: string, songName: string): void;
+  selectSong(event: ECElementEvent): void;
+  selectSong(eventOrArtistName: string | ECElementEvent, songName?: string): void {
+    if (typeof eventOrArtistName === 'string' && typeof songName === 'string') {
+      const artistName = eventOrArtistName;
+      this.#router.navigate(['spot', 'song-history', artistName, songName]);
+    } else if (typeof eventOrArtistName !== 'string') {
+      const title = eventOrArtistName.name.split(' - ');
+      const artistName = title[0];
+      const songName = title[1];
+      this.#router.navigate(['spot', 'song-history', artistName, songName]);
+    }
   }
+
 }
