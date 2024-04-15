@@ -1,9 +1,6 @@
 @if(vm$ | async; as vm) {
-<div [ngClass]="{'component-page': !previewMode}">
-  <!--in previewmode only a small table with personal information is shown-->
-
-  <div *ngIf="previewMode">
-    <div *ngIf="vm.dataAvailable">
+  @if (previewMode) {
+    @if (vm.dataAvailable) {
       <nz-row [nzGutter]="16">
         <nz-col [nzSpan]="12">
           <nz-statistic
@@ -20,16 +17,16 @@
           ></nz-statistic>
         </nz-col>
       </nz-row>
-    </div>
-  </div>
-
-  <div *ngIf="!previewMode">
+    } @else {
+      <nz-empty nzNotFoundImage="simple" />
+    }
+  } @else {
     <app-title-bar
       titleText="Search History"
       tooltipText="This table shows the search History the service has collected about you."
     />
-    <!-- If user search data present -->
-    <div *ngIf="vm.dataAvailable">
+
+    @if (vm.dataAvailable) {
       <nz-table
         #rowSelectionTable
         [nzData]="vm.filteredSearchHistory"
@@ -67,11 +64,13 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let data of rowSelectionTable.data">
-            <td>{{ data.searchQuery }}</td>
-            <td>{{ data.searchTime | date }}</td>
-          </tr>
-        </tbody>
+          @for (data of rowSelectionTable.data; track data) {
+            <tr>
+              <td>{{ data.searchQuery }}</td>
+              <td>{{ data.searchTime | date }}</td>
+            </tr>
+          }
+      </tbody>
       </nz-table>
       <nz-dropdown-menu #menu="nzDropdownMenu">
         <div class="ant-table-filter-dropdown">
@@ -101,12 +100,8 @@
           </div>
         </div>
       </nz-dropdown-menu>
-    </div>
-
-    <!-- If no user search data present -->
-    <div *ngIf="!vm.dataAvailable">
+    } @else {
       <nz-empty nzNotFoundImage="simple" />
-    </div>
-  </div>
-</div>
+    }
+  }
 }

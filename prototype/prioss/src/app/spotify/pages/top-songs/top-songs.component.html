@@ -10,43 +10,55 @@
     tooltipText="This bar chart shows your top 10 songs in a given time period. You can also switch to a tabular view."
   />
 
-  <nz-range-picker
-    ngModel
-    [ngModel]="dateRange()"
-    (nzOnCalendarChange)="onDateRangeChanged($event)"
-  />
+  <nz-card nzTitle="Filter">
+    <nz-range-picker
+      ngModel
+      [ngModel]="dateRange()"
+      (nzOnCalendarChange)="onDateRangeChanged($event)"
+    />
+  </nz-card>
 
-  <nz-tabset>
-    <nz-tab nzTitle="Bar chart">
-      <div
-        echarts
-        class="chart"
-        [options]="chartOptions()"
-        (chartClick)="selectSong($event)">
-      </div>
-    </nz-tab>
+  <nz-card nzTitle="Data">
+    @if (topSongs(); as topSongs) {
+      @if (topSongs.length > 0) {
+        <nz-tabset>
+          <nz-tab nzTitle="Bar chart">
+            <div
+              echarts
+              class="chart"
+              [options]="chartOptions()"
+              (chartClick)="selectSong($event)">
+            </div>
+          </nz-tab>
 
-    <nz-tab nzTitle="Table">
-      <nz-table
-        #basicTable
-        [nzData]="topSongs()">
-        <thead>
-          <tr>
-            <th>Artist</th>
-            <th>Song</th>
-            <th>Minutes listened (total)</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (data of basicTable.data; track data[0]) {
-            <tr class="clickable" (click)="selectSong(data[0], data[1])">
-              <td>{{ data[0] }}</td>
-              <td>{{ data[1] }}</td>
-              <td>{{ data[2] | time:'number-as-minutes' }}</td>
-            </tr>
-          }
-        </tbody>
-      </nz-table>
-    </nz-tab>
-  </nz-tabset>
+          <nz-tab nzTitle="Table">
+            <nz-table
+              #basicTable
+              [nzData]="topSongs">
+              <thead>
+                <tr>
+                  <th>Artist</th>
+                  <th>Song</th>
+                  <th>Minutes listened (total)</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (data of basicTable.data; track data[0]) {
+                  <tr class="clickable" (click)="selectSong(data[0], data[1])">
+                    <td>{{ data[0] }}</td>
+                    <td>{{ data[1] }}</td>
+                    <td>{{ data[2] | time:'number-as-minutes' }}</td>
+                  </tr>
+                }
+              </tbody>
+            </nz-table>
+          </nz-tab>
+        </nz-tabset>
+      } @else {
+        <nz-empty nzNotFoundImage="simple" />
+      }
+    } @else {
+      Loading and calculating data...
+    }
+  </nz-card>
 }

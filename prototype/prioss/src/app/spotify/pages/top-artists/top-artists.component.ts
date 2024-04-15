@@ -56,6 +56,10 @@ export class TopArtistsComponent {
           const max =
             selectedRange[1] > dataRange[1] ? dataRange[1] : selectedRange[1];
           min = min > max ? max : min;
+          max.setHours(23);
+          max.setMinutes(59);
+          max.setSeconds(59);
+          max.setMilliseconds(997);
           return [min, max] as [Date, Date];
         }),
       ),
@@ -66,8 +70,8 @@ export class TopArtistsComponent {
   /**
    * Sets the the current selected Date.
    */
-  onDateRangeChanged(dateRange: (Date | null)[]) {
-    if (dateRange.length <= 0) return;
+  onDateRangeChanged(dateRange: (Date | null)[]): void {
+    if (dateRange.length !== 2) return;
 
     this.#router.navigate([
       'spot',
@@ -157,7 +161,7 @@ export class TopArtistsComponent {
             show: true,
             position: 'insideLeft',
             formatter: '{b}',
-            color: '#fff',
+            color: '#000',
           },
         },
       ],

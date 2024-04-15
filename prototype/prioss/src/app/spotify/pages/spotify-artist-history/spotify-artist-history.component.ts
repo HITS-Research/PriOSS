@@ -9,6 +9,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { EChartsOption } from 'echarts';
+import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
@@ -24,12 +25,13 @@ import { SpotifyStreamingHistoryState } from '../../features/streaming-history/s
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
-    RouterLink,
-    NzTableModule,
-    TimePipe,
-    NzIconModule,
-    NzTabsModule,
     NgxEchartsModule,
+    NzEmptyModule,
+    NzIconModule,
+    NzTableModule,
+    NzTabsModule,
+    RouterLink,
+    TimePipe,
   ],
 })
 export class SpotifyArtistHistoryComponent {

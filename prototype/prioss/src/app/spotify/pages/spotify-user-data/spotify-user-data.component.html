@@ -1,24 +1,20 @@
-@if (!preview) {
-<app-title-bar
-  titleText="User Data"
-  tooltipText="User Data"
-/>
-}
+@if (preview()) {
+  @if (userData$ | async; as userData) {
+    <prioss-spotify-userdata-view [userData]="userData" />
+  } @else {
+    Loading and calculating data...
+  }
+} @else {
+  <app-title-bar
+    titleText="User Data"
+    tooltipText="User Data"
+  />
 
-@if (userData$ | async; as userData) {
-<ul
-  nz-list
-  [nzDataSource]="userData | keyvalue"
-  [nzBordered]="true"
-  nzSize="large"
->
-  @for(item of userData | keyvalue; track item) {
-  @if (item.value) {
-  <li nz-list-item>
-    <span>{{ item.key | capitalize }}:</span>
-    <span>{{ item.value }}</span>
-  </li>
-  }
-  }
-</ul>
+  <nz-card nzTitle="Data">
+    @if (userData$ | async; as userData) {
+      <prioss-spotify-userdata-view [userData]="userData" />
+    } @else {
+      Loading and calculating data...
+    }
+  </nz-card>
 }
