@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/c
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngxs/store';
+import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { NzPageHeaderModule } from 'ng-zorro-antd/page-header';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { map } from 'rxjs';
@@ -14,7 +15,12 @@ import { SpotifyStreamingHistoryState } from '../../features/streaming-history/s
   styleUrl: './spotify-song-history.component.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [NzTableModule, NzPageHeaderModule, TimePipe],
+  imports: [
+    NzEmptyModule,
+    NzPageHeaderModule,
+    NzTableModule,
+    TimePipe,
+  ],
 })
 export class SpotifySongHistoryComponent {
   #store = inject(Store);

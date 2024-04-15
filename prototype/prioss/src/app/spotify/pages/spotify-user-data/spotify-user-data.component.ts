@@ -1,11 +1,11 @@
-import { AsyncPipe, KeyValuePipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
+import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
 import { Router } from '@angular/router';
 import { Select } from '@ngxs/store';
-import { NzListModule } from 'ng-zorro-antd/list';
+import { NzCardModule } from 'ng-zorro-antd/card';
 import { Observable } from 'rxjs';
-import { CapitalizePipe } from 'src/app/features/naming/capitalize.pipe';
 import { TitleBarComponent } from 'src/app/features/title-bar/title-bar.component';
+import { SpotifyUserdataViewComponent } from '../../features/user/spotify-userdata-view.component';
 import { SpotifyUserState } from '../../features/user/user.state';
 import { SpotifyUserStateModel } from '../../features/user/user.statemodel';
 
@@ -17,9 +17,8 @@ import { SpotifyUserStateModel } from '../../features/user/user.statemodel';
   standalone: true,
   imports: [
     AsyncPipe,
-    CapitalizePipe,
-    KeyValuePipe,
-    NzListModule,
+    NzCardModule,
+    SpotifyUserdataViewComponent,
     TitleBarComponent,
   ],
 })
@@ -30,8 +29,7 @@ export class SpotifyUserDataComponent {
   /**
    * The mode of this view. Removes some elements when true.
    */
-  @Input()
-  preview: boolean = false;
+  preview = input(false);
 
   /**
    * The current user-data.

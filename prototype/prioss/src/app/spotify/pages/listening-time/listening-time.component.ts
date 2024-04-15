@@ -29,8 +29,8 @@ type ViewModel = {
 @Component({
   selector: 'prioss-spotify-listening-time',
   templateUrl: './listening-time.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./listening-time.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ListeningTimeComponent {
   #store = inject(Store);

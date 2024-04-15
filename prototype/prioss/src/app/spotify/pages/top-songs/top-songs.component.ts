@@ -21,6 +21,8 @@ import { TimePipe } from 'src/app/features/time/time.pipe';
 import { TitleBarComponent } from 'src/app/features/title-bar/title-bar.component';
 import { SpotifyStreamingHistoryState } from '../../features/streaming-history/streaming-history.state';
 import { SpotifyStreamingHistoryStateModel } from '../../features/streaming-history/streaming-history.statemodel';
+import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzEmptyModule } from 'ng-zorro-antd/empty';
 
 /**
  * This component visualizes which songs have been listened the most to
@@ -35,11 +37,13 @@ import { SpotifyStreamingHistoryStateModel } from '../../features/streaming-hist
     FormsModule,
     NgClass,
     NgxEchartsModule,
+    NzCardModule,
     NzDatePickerModule,
+    NzEmptyModule,
     NzTableModule,
     NzTabsModule,
     TimePipe,
-    TitleBarComponent
+    TitleBarComponent,
   ]
 })
 export class TopSongsComponent {
@@ -74,6 +78,10 @@ export class TopSongsComponent {
           const max =
             selectedRange[1] > dataRange[1] ? dataRange[1] : selectedRange[1];
           min = min > max ? max : min;
+          max.setHours(23);
+          max.setMinutes(59);
+          max.setSeconds(59);
+          max.setMilliseconds(997);
           return [min, max] as [Date, Date];
         }),
       ),
@@ -92,7 +100,7 @@ export class TopSongsComponent {
    * Sets the the current selected Date.
    */
   onDateRangeChanged(dateRange: (Date | null)[]) {
-    if (dateRange.length <= 1) return;
+    if (dateRange.length !== 2) return;
 
     this.#router.navigate([
       'spot',
@@ -130,7 +138,7 @@ export class TopSongsComponent {
       songCounter = state
         .filter(item => {
           const endTimeDate = new Date(item.endTime);
-          return endTimeDate <= maxDate && endTimeDate >= minDate;
+          return endTimeDate < maxDate && endTimeDate >= minDate;
         });
     }
 
@@ -200,9 +208,9 @@ export class TopSongsComponent {
       const artistName = eventOrArtistName;
       this.#router.navigate(['spot', 'song-history', artistName, songName]);
     } else if (typeof eventOrArtistName !== 'string') {
-      const title = eventOrArtistName.name.split(' - ');
-      const artistName = title[0];
-      const songName = title[1];
+      const name = eventOrArtistName.name;
+      const artistName = name.split(' - ', 1)[0];
+      const songName = name.substring(artistName.length + 3);
       this.#router.navigate(['spot', 'song-history', artistName, songName]);
     }
   }

@@ -1,113 +1,117 @@
 @if(vm$ | async; as vm){
-<div [ngClass]="{'component-page': !previewMode}">
   @if (previewMode) {
-  <div>
-    <nz-table
-      #nzTable
-      [nzData]="vm.previewInferencesData"
-      nzTableLayout="fixed"
-      [nzShowPagination]="false"
-    >
-      <tbody>
-        @for (inference of nzTable.data; track inference) {
-        <tr>
-          <td>{{ inference }}</td>
-        </tr>
-        }
-      </tbody>
-    </nz-table>
-  </div>
-  }
-  @else{
-  <div>
+    @if (vm.previewInferencesData.length > 0) {
+      <nz-table
+        #nzTable
+        [nzData]="vm.previewInferencesData"
+        nzTableLayout="fixed"
+        [nzShowPagination]="false"
+      >
+        <tbody>
+          @for (inference of nzTable.data; track inference) {
+            <tr>
+              <td>{{ inference }}</td>
+            </tr>
+          }
+        </tbody>
+      </nz-table>
+    } @else {
+      <nz-empty nzNotFoundImage="simple" />
+    }
+  } @else {
     <app-title-bar
       titleText="Inferences"
       tooltipText="An Inference is a topic of interest or information that Spotify has inferred about you. They're used for marketing or advertising purposes and to curate and create content. First-party (1P_) inferences are created by Spotify. Third-Party (3P_) inferences come from other services like Facebook."
     />
-    <nz-table
-      #rowSelectionTable
-      [nzData]="vm.filteredInferencesData"
-      [nzPageSize]="50000"
-      [nzFooter]="footerTemplate"
-      [nzScroll]="{ y: 'calc(100vh - 369px)' }"
-      [nzShowPagination]="false"
-    >
-      <thead>
-        <tr>
-          <th
-            nzWidth="5%"
-            [nzChecked]="vm.checked"
-            (nzCheckedChange)="checkAll$.next(!vm.checked)"
-          ></th>
-          <th nzWidth="83%">
-            <nz-input-group [nzSuffix]="suffixIconSearch">
-              <input
-                type="text"
-                #searchText
-                nz-input
-                placeholder="Search your inferences"
-                (keyup)="vm.filteredInferencesData"
-              />
-              <ng-template #suffixIconSearch>
-                @if(searchText.value.length > 0) {
-                <button
-                  nz-button
-                  nzType="text"
-                ><span
-                    nz-icon
-                    nzType="close"
-                    (click)="searchText.value = ''"
-                  ></span></button>
-                }
-              </ng-template>
-            </nz-input-group>
-          </th>
-          <th nzAlign="right">
-            <span
-              nz-tooltip
-              nzTooltipTitle="Create a rectification email with all selected inferences. Rectifying inferences means to request Spotify to correct inferences that you think are wrong about yourself."
-            >
-              <button
-                class="rectify-button"
-                nz-button
-                nzType="default"
-                nzSize="large"
-                (click)="inferencesMailComponent.showModal();"
-                [disabled]="vm.dataCount === 0"
-              >
-                <span
-                  nz-icon
-                  nzType="mail"
-                  nzTheme="outline"
-                ></span>
-                Correct selected
-              </button>
-            </span>
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let data of rowSelectionTable.data">
-          <td
-            [nzChecked]="data.checked"
-            (nzCheckedChange)="data.checked = $event; inferenceCheckClicked$.next([data, $event])"
-          ></td>
-          <td>{{ data.inference }}</td>
-          <td></td>
-        </tr>
-      </tbody>
-      <ng-template #footerTemplate>
-        <!-- <tfoot>{{setOfCheckedId.size}}/{{rowSelectionTable.nzData.length}}</tfoot> -->
-      </ng-template>
-    </nz-table>
-  </div>
 
-  <prioss-spotify-inferences-mail
-    [inferences]="vm.filteredInferencesData"
-    #InferencesMailComponent
-    style="display:none"
-    id="inferences-mail-dialog"
-  />
+    @if (vm.filteredInferencesData) {
+      <nz-card nzTitle="Data">
+        <nz-table
+          #rowSelectionTable
+          [nzData]="vm.filteredInferencesData"
+          [nzPageSize]="50000"
+          [nzFooter]="footerTemplate"
+          [nzScroll]="{ y: 'calc(100vh - 369px)' }"
+          [nzShowPagination]="false"
+        >
+          <thead>
+            <tr>
+              <th
+                nzWidth="5%"
+                [nzChecked]="vm.checked"
+                (nzCheckedChange)="checkAll$.next(!vm.checked)"
+              ></th>
+              <th nzWidth="83%">
+                <nz-input-group [nzSuffix]="suffixIconSearch">
+                  <input
+                    type="text"
+                    #searchText
+                    nz-input
+                    placeholder="Search your inferences"
+                    (keyup)="vm.filteredInferencesData"
+                  />
+                  <ng-template #suffixIconSearch>
+                    @if(searchText.value.length > 0) {
+                    <button
+                      nz-button
+                      nzType="text"
+                    ><span
+                        nz-icon
+                        nzType="close"
+                        (click)="searchText.value = ''"
+                      ></span></button>
+                    }
+                  </ng-template>
+                </nz-input-group>
+              </th>
+              <th nzAlign="right">
+                <span
+                  nz-tooltip
+                  nzTooltipTitle="Create a rectification email with all selected inferences. Rectifying inferences means to request Spotify to correct inferences that you think are wrong about yourself."
+                >
+                  <button
+                    class="rectify-button"
+                    nz-button
+                    nzType="default"
+                    nzSize="large"
+                    (click)="inferencesMailComponent.showModal();"
+                    [disabled]="vm.dataCount === 0"
+                  >
+                    <span
+                      nz-icon
+                      nzType="mail"
+                      nzTheme="outline"
+                    ></span>
+                    Correct selected
+                  </button>
+                </span>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of rowSelectionTable.data">
+              <td
+                [nzChecked]="data.checked"
+                (nzCheckedChange)="data.checked = $event; inferenceCheckClicked$.next([data, $event])"
+              ></td>
+              <td>{{ data.inference }}</td>
+              <td></td>
+            </tr>
+          </tbody>
+          <ng-template #footerTemplate>
+            <!-- <tfoot>{{setOfCheckedId.size}}/{{rowSelectionTable.nzData.length}}</tfoot> -->
+          </ng-template>
+        </nz-table>
+      </nz-card>
+    } @else {
+      <nz-empty nzNotFoundImage="simple" />
+    }
+
+    <prioss-spotify-inferences-mail
+      [inferences]="vm.filteredInferencesData"
+      #InferencesMailComponent
+      style="display:none"
+      id="inferences-mail-dialog"
+    />
   }
-</div>
 }
