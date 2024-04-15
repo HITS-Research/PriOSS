@@ -34,7 +34,7 @@ import { InstaYourTopicComponent } from './instagram/pages/insta-your-topic/inst
 import { RevokeAccessComponent } from './instagram/pages/revoke-access/revoke-access.component';
 import { DataDownloadInstructionsComponent } from './framework/pages/data-download-instructions/data-download-instructions.component';
 import { ServiceSelectionComponent } from './framework/pages/service-selection/service-selection.component';
-import { SpotDashboardComponent } from './spotify/pages/spot-dashboard/spot-dashboard.component';
+import { SpotifyDashboardComponent } from './spotify/pages/spotify-dashboard/spotify-dashboard.component';
 import { Insta_PersonalInfoComponent } from './instagram/pages/Insta_personal-info/personal-info.component';
 import { InstaAccountCreationLoginComponent } from './instagram/pages/insta-account-creation-login/insta-account-creation-login.component';
 import { InstaAdsComponent } from './instagram/pages/insta-ads/insta-ads.component';
@@ -136,7 +136,7 @@ const routes: Routes = [
     path: 'spot',
     canActivateChild: [spotifyGuard],
     children: [
-      { path: 'dashboard', component: SpotDashboardComponent },
+      { path: 'dashboard', component: SpotifyDashboardComponent },
       { path: 'general-data', component: SpotifyUserDataComponent },
       { path: 'inference', component: InferencesComponent },
       { path: 'listening-time', component: ListeningTimeComponent },

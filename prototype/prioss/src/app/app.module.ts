@@ -85,7 +85,7 @@ import { ListeningTimeComponent } from './spotify/pages/listening-time/listening
 import { MoodComponent } from './spotify/pages/mood/mood.component';
 import { SpotPrivacyInstructionsComponent } from './spotify/pages/privacy-instructions/spot-privacy-instructions.component';
 import { SongtimelineComponent } from './spotify/pages/songtimeline/songtimeline.component';
-import { SpotDashboardComponent } from './spotify/pages/spot-dashboard/spot-dashboard.component';
+import { SpotifyDashboardComponent } from './spotify/pages/spotify-dashboard/spotify-dashboard.component';
 import { SpotifySearchHistoryComponent } from './spotify/pages/spotify-search-history/spotify-search-history.component';
 import { SpotifyUserDataComponent } from './spotify/pages/spotify-user-data/spotify-user-data.component';
 import { TopArtistsComponent } from './spotify/pages/top-artists/top-artists.component';
@@ -128,7 +128,7 @@ registerLocaleData(de);
     InstaDashboardComponent,
     Insta_PersonalInfoComponent,
     InstaFollowersComponent,
-    SpotDashboardComponent,
+    SpotifyDashboardComponent,
     MoodComponent,
     NotificationComponent,
     PreviewTileComponent,
