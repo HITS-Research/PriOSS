@@ -1,9 +1,8 @@
 import {
 	ChangeDetectionStrategy,
 	Component,
-	OnInit,
+	type OnInit,
 	computed,
-	effect,
 	input,
 } from "@angular/core";
 import { NgxEchartsDirective, provideEcharts } from "ngx-echarts";
@@ -23,14 +22,8 @@ import type { EChartsOption } from "echarts";
 export class ChatMessageDistributionChartComponent implements OnInit{
 	chat = input.required<ChatData | undefined>({});
 
-  constructor() {
-    effect(() => {
-      console.log("chat in msg dist comp", this.chat())
-    });
-  }
+
 	ngOnInit() {
-		console.log(this.chat());
-    console.log("init msg dist chart")
 		this.drawMessagePercentageOfChat();
 	}
 	drawMessagePercentageOfChat = computed(() => {
@@ -39,6 +32,18 @@ export class ChatMessageDistributionChartComponent implements OnInit{
 		}
 
 		const options: EChartsOption = {
+			toolbox: {
+				show: true,
+				feature: {
+					saveAsImage: {},
+				},
+			},
+			aria: {
+				enabled: true,
+				decal: {
+					show: true,
+				},
+			},
 			tooltip: {
 				trigger: "item",
         formatter: '{b}: {c} ({d}%)'
@@ -58,8 +63,17 @@ export class ChatMessageDistributionChartComponent implements OnInit{
             formatter: '{b}'
           },
 					avoidLabelOverlap: true,
-					data: this.chat()
-						?.participants.map((participant) => {
+					data: this.prepareData(),
+				},
+			],
+		};
+		return options;
+	});
+
+	prepareData = computed(() => {
+		const participants = this.chat()?.participants ?? [];
+
+		return participants.map((participant) => {
 							return {
 								value:
 									this.chat()?.messages.filter(
@@ -68,10 +82,7 @@ export class ChatMessageDistributionChartComponent implements OnInit{
 								name: participant,
 							};
 						})
-						.filter((participant) => participant.value > 0),
-				},
-			],
-		};
-		return options;
+						.filter((participant) => participant.value > 0)??[];
+
 	});
 }

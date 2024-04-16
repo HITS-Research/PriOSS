@@ -9,7 +9,7 @@
         [nzValue]="chat.id"></nz-option>
     }
 </nz-select>
-<nz-table>
+<nz-table [nzData]="['']" [nzShowPagination]="false">
     <tbody>
         <tr>
             <td>Your average message length:</td>
@@ -21,11 +21,11 @@
         </tr>
         <tr>
             <td>Your average response time:</td>
-            <td>{{yourAverageResponsetime() | date:"HH:mm:ss"}}</td>
+            <td>{{yourAverageResponsetime() }}</td>
         </tr>
         <tr>
             <td>Their average response time:</td>
-            <td>{{theirAverageResponsetime() | date:"HH:mm:ss"}}</td>
+            <td>{{theirAverageResponsetime() }}</td>
         </tr>
     </tbody>
 </nz-table>

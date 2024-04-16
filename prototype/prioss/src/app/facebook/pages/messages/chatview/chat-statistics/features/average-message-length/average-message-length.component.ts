@@ -92,14 +92,22 @@ export class AverageMessageLengthComponent {
 		const responseTimes: number[] = [];
 		if (this.selectedChat().messages !== undefined) {
 			for (let i = 0; i < this.selectedChat().messages.length; i++) {
-				const currentMessage = this.selectedChat().messages[i];
-				const lastMessage = this.selectedChat().messages[i - 1];
+				//the messages are ordered from most current to oldest, so last message comes after current message
+				let currentMessage = this.selectedChat().messages[0];
+				if (i > 0) {
+					currentMessage = this.selectedChat().messages[i - 1];
+				}
+				const lastMessage = this.selectedChat().messages[i];
 				if (currentMessage.sender === this.yourUsername()) {
 					if (lastMessage !== undefined) {
 						if (lastMessage.sender !== this.yourUsername()) {
-							responseTimes.push(
-								currentMessage.timestamp*1000 - lastMessage.timestamp*1000,
-							);
+							if (currentMessage.timestamp - lastMessage.timestamp > 0) {
+
+								responseTimes.push(
+									currentMessage.timestamp - lastMessage.timestamp,
+								);
+							}
+
 						}
 					}
 				}
@@ -109,7 +117,7 @@ export class AverageMessageLengthComponent {
 		if (responseTimes.length > 0) {
 			averageResponseTime = responseTimes[Math.floor(responseTimes.length / 2)];
 		}
-		return averageResponseTime;
+		return this.msToHMS(averageResponseTime);
 	});
 	theirAverageResponsetime = computed(() => {
 		let averageResponseTime = 0;
@@ -117,12 +125,12 @@ export class AverageMessageLengthComponent {
 		if (this.selectedChat().messages !== undefined) {
 			for (let i = 0; i < this.selectedChat().messages.length; i++) {
 				const currentMessage = this.selectedChat().messages[i];
-				const lastMessage = this.selectedChat().messages[i - 1];
+				const lastMessage = this.selectedChat().messages[i + 1];
 				if (currentMessage.sender !== this.yourUsername()) {
 					if (lastMessage !== undefined) {
 						if (lastMessage.sender === this.yourUsername()) {
 							responseTimes.push(
-								currentMessage.timestamp*1000 - lastMessage.timestamp*1000,
+								currentMessage.timestamp - lastMessage.timestamp,
 							);
 						}
 					}
@@ -133,6 +141,19 @@ export class AverageMessageLengthComponent {
 		if (responseTimes.length > 0) {
 			averageResponseTime = responseTimes[Math.floor(responseTimes.length / 2)];
 		}
-		return averageResponseTime;
+		return this.msToHMS(averageResponseTime);
 	});
+
+	msToHMS(seconds: number): string {
+	//const seconds = Math.floor(ms );
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const remainingSeconds = seconds % 60;
+
+    const formattedHours = hours.toString().padStart(2, '0');
+    const formattedMinutes = minutes.toString().padStart(2, '0');
+    const formattedSeconds = remainingSeconds.toString().padStart(2, '0');
+
+    return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+	}
 }

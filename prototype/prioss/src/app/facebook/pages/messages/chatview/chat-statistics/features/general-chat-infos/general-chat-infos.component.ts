@@ -74,7 +74,6 @@ export class GeneralChatInfosComponent {
 	medianWordsPerMessage = computed(() => {
     const words = [];
     let medianWords = 0;
-    console.log("chatData in general chat infos", this.chatData());
     for(const chat of this.chatData()){
       for(const msg of chat.messages){
         if(msg.sender === this.yourUsername()){
@@ -83,7 +82,6 @@ export class GeneralChatInfosComponent {
       }
     }
     words.sort((a, b) => a - b);
-    console.log(words);
     medianWords = words[Math.floor(words.length / 2)];
     return medianWords;
   });

@@ -2,10 +2,7 @@
   <div *ngIf="previewMode">
     <nz-row [nzGutter]="16">
       <nz-col [nzSpan]="16">
-        <nz-statistic
-          [nzTitle]="'Number of Interactions'"
-          [nzValue]="this.messagesData.length"
-          [nzPrefix]="interaction"
+        <nz-statistic [nzTitle]="'Number of Interactions'" [nzValue]="this.messagesData.length" [nzPrefix]="interaction"
           [nzValueStyle]="{ display: 'inline-flux' }">
         </nz-statistic>
         <ng-template #interaction>
@@ -15,10 +12,7 @@
         </ng-template>
       </nz-col>
       <nz-col [nzSpan]="16">
-        <nz-statistic
-          [nzTitle]="'Groups Interactions'"
-          [nzValue]="totalGroupChats"
-          [nzPrefix]="location"
+        <nz-statistic [nzTitle]="'Groups Interactions'" [nzValue]="totalGroupChats" [nzPrefix]="location"
           [nzValueStyle]="{ display: 'inline-flux' }">
         </nz-statistic>
         <ng-template #location>
@@ -33,8 +27,7 @@
 <div *ngIf="!previewMode">
   <div class="message-component-maincontent">
     <div class="title-section">
-      <app-title-bar
-        titleText="Messages"
+      <app-title-bar titleText="Messages"
         tooltipText="This visualization presents an overview of data pertaining to interactions with friends and group interactions.">
       </app-title-bar>
     </div>
@@ -42,14 +35,10 @@
       <nz-tabset class="margin-top-20" (nzSelectChange)="onTabSelected($event)">
         <nz-tab nzTitle="Chats">
           <div class="tab-content">
-            <ng-container
-              *ngIf="this.allChatData.length !== 0; else noDataTemplate">
+            <ng-container *ngIf="this.allChatData.length !== 0; else noDataTemplate">
               <div nz-row [nzGutter]="16">
-                <div nz-col >
-                  <nz-card nzTitle="Your Chats">
-                    <prioss-chatview [chatData]="allChatData"
-                      [yourUsername]="username"></prioss-chatview>
-                  </nz-card>
+                <div nz-col [nzSpan]="24">
+                  <prioss-chatview [chatData]="allChatData" [yourUsername]="username"></prioss-chatview>
                 </div>
               </div>
             </ng-container>
@@ -60,13 +49,11 @@
           </div>
         </nz-tab>
         <nz-tab nzTitle="Chat Statistics">
-          <ng-container
-          *ngIf="this.allChatData.length !== 0; else noDataTemplate">
-          <prioss-chat-statistics
-            [chatData]="allChatData"
-            [yourUsername]="username"></prioss-chat-statistics>
+          <ng-container *ngIf="this.allChatData.length !== 0; else noDataTemplate">
+            <prioss-chat-statistics [chatData]="allChatData" [yourUsername]="username"></prioss-chat-statistics>
           </ng-container>
         </nz-tab>
+
         <ng-template #noDataTemplate>
           <nz-result nzStatus="403" nzTitle="No data available"> </nz-result>
         </ng-template>

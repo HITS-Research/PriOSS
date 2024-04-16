@@ -27,6 +27,12 @@ export class MessagesPerDayChartComponent implements OnInit{
       tooltip:{
         trigger: 'axis'
       },
+      aria: {
+				enabled: true,
+				decal: {
+					show: true,
+				},
+			},
       xAxis: {
         type: 'category',
         data: this.chartXAxisLabels()

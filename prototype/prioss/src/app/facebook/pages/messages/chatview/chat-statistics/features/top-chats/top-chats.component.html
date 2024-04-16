@@ -1,5 +1,26 @@
+<form nz-form [nzLayout]='"horizontal"'>
+    <nz-form-item>
+        <nz-form-label nzSpan="8" nzLabelAlign="left" nzFor="only-personal-chats-switch">Personal Chats only</nz-form-label>
+        <nz-form-control>
+            <nz-switch
+                name="only-personal-chats-switch"
+                [ngModel]="showOnlyPersonalChats()"
+                (ngModelChange)="showOnlyPersonalChats.set($event)">
+            </nz-switch>
+        </nz-form-control>
+    </nz-form-item>
 
-<div id="only-personal-chats-switch">
+    <nz-form-item>
+        <nz-form-label nzSpan="8" nzLabelAlign="left" nzFor="input-top-x-chats">Number of Chats</nz-form-label>
+        <nz-form-control>
+            <nz-input-number name="input-top-x-chats" [ngModel]="amountOfChatsShown()"
+            (ngModelChange)="amountOfChatsShown.set($event)" [nzMin]="1" [nzMax]="20"
+            [nzStep]="1">
+            </nz-input-number>
+        </nz-form-control>
+    </nz-form-item>
+</form>
+<!-- <div id="only-personal-chats-switch">
     <p>Only Personal Chats:</p>
     <nz-switch
         [ngModel]="showOnlyPersonalChats()"
@@ -11,6 +32,6 @@
     (ngModelChange)="amountOfChatsShown.set($event)" [nzMin]="1" [nzMax]="20"
     [nzStep]="1">
 </nz-input-number>
-</div>
+</div> -->
 
 <div echarts [options]="drawNightingaleChart()"></div>

@@ -15,11 +15,13 @@ import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { FormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
 import type { EChartsOption } from "echarts";
+import { NzFormModule } from "ng-zorro-antd/form";
 @Component({
 	selector: "prioss-top-chats",
 	standalone: true,
 	imports: [
     FormsModule,
+    NzFormModule,
     CommonModule,
     NgxEchartsDirective,
     NzSwitchModule,
@@ -60,6 +62,12 @@ export class TopChatsComponent implements OnInit{
           saveAsImage: { show: true }
         }
       },
+      aria: {
+				enabled: true,
+				decal: {
+					show: true,
+				},
+			},
       series: [
         {
           name: 'Nightingale Chart',

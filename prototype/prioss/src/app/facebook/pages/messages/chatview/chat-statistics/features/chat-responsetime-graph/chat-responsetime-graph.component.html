@@ -1,0 +1,21 @@
+<form>
+    <nz-form-item>
+        <nz-form-label nzSpan="8"nzLabelAlign="left" nzFor="selectedChatsInput">Chats</nz-form-label>
+        <nz-form-control>
+            <nz-select name="selectedChatsInput" nzMode="multiple" nzPlaceHolder="Please select chats" [ngModel]="selectedChatsInput()"
+                (ngModelChange)="selectedChatsInput.set($event)">
+                <nz-option *ngFor="let item of chatData()" [nzLabel]="item.name" [nzValue]="item.id">
+                </nz-option>
+            </nz-select>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-label nzSpan="8"nzLabelAlign="left" >Ignore last x values</nz-form-label>
+        <nz-form-control>
+            <nz-input-group>
+                <input name="cutoffInput" nz-input [ngModel]="cutoffInput()" (ngModelChange)="cutoffInput.set($event)" placeholder="Cutoff in Minutes"/>
+            </nz-input-group>
+        </nz-form-control>
+    </nz-form-item>
+</form>
+<div echarts [options]="options()">
