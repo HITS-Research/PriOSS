@@ -25,6 +25,7 @@ import { ChatSentimentAnalysisComponent } from "./features/chat-sentiment-analys
 import { MessagesPerWeekdayComponent } from "./features/messages-per-weekday/messages-per-weekday.component";
 import { TopChatsComponent } from "./features/top-chats/top-chats.component";
 import { MessageTimeDistributionComponent } from "./features/message-time-distribution/message-time-distribution.component";
+import { ChatResponsetimeGraphComponent } from "./features/chat-responsetime-graph/chat-responsetime-graph.component";
 @Component({
 	selector: "prioss-chat-statistics",
 	standalone: true,
@@ -47,6 +48,8 @@ import { MessageTimeDistributionComponent } from "./features/message-time-distri
 		MessagesPerWeekdayComponent,
 		TopChatsComponent,
 		MessageTimeDistributionComponent,
+		ChatWordcloudComponent,
+		ChatResponsetimeGraphComponent
 	],
 	templateUrl: "./chat-statistics.component.html",
 	styleUrl: "./chat-statistics.component.less",
@@ -62,18 +65,10 @@ export class ChatStatisticsComponent implements OnInit{
 
 	ngOnInit() {
 		this.getChatParticipants();
-		console.log(this.chatData());
 		this.selectedChatIDForMsgPercentage.set(this.chatData()[0].id);
 
 	}
-	// constructor() {
-	// 	effect(() => {
-	// 	console.log("selectedChatIDForMsgPercentage: ", this.selectedChatIDForMsgPercentage());})
-	// }
 
-	logg(event: string){
-		console.log("event from dropdown", event);
-	}
 	selectedChatForMsgPercentage = computed(() => {
 		let retChat = {} as ChatData;
 		for (const chat of this.chatData()) {

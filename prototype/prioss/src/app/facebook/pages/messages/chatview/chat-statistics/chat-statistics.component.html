@@ -1,57 +1,58 @@
-<div nz-row id="statistics-container"
-    [nzGutter]="{ xs: 8, sm: 16, md: 24, lg: 32, xl: 32, xxl: 32 }">
-    <div id="general-chat-infos" nz-col [nzSpan]="12">
+<div nz-row id="statistics-container" [nzGutter]="[16, 16]">
+    <div id="general-chat-infos" nz-col nzXs="24" nzMd="24" nzLg="24" [nzXl]="12" nzXXl="8">
         <nz-card nzTitle="General Information">
-            <prioss-general-chat-infos
-                [chatData]="chatData()" [yourUsername]="yourUsername()">
+            <prioss-general-chat-infos [chatData]="chatData()" [yourUsername]="yourUsername()">
             </prioss-general-chat-infos>
         </nz-card>
     </div>
-    <div id="average-msg-len-and-response-time-per-chat" nz-col [nzSpan]="12">
+
+    <div id="average-msg-len-and-response-time-per-chat" nz-col nzXs="24" nzMd="24" nzLg="24" [nzXl]="12" nzXXl="8">
         <nz-card nzTitle="Average Message Length and Responsetime per Chat">
-            <prioss-average-message-length
-                [chatData]="chatData()"
-                [yourUsername]="yourUsername()">
+            <prioss-average-message-length [chatData]="chatData()" [yourUsername]="yourUsername()">
             </prioss-average-message-length>
         </nz-card>
     </div>
-    <div id="msgs-per-day" nz-col [nzSpan]="12">
+    <div id="responsetime-per-chat" nz-col nzXs="24" nzMd="24" nzLg="24" [nzXl]="12" nzXXl="8">
+        <nz-card nzTitle="Responsetime per Chat">
+            <prioss-chat-responsetime-graph [chatData]="chatData()">
+            </prioss-chat-responsetime-graph>
+        </nz-card>
+    </div>
+    <div id="msgs-per-day" nz-col nzXs="24" nzMd="24" nzLg="24" [nzXl]="12" nzXXl="8">
         <nz-card nzTitle="Messages per Day">
-            <prioss-messages-per-day-chart
-                [chatData]="chatData()"
-                [yourUsername]="yourUsername()">
+            <prioss-messages-per-day-chart [chatData]="chatData()" [yourUsername]="yourUsername()">
             </prioss-messages-per-day-chart>
         </nz-card>
     </div>
-    <div id="top-chats" nz-col [nzSpan]="12">
+    <div id="top-chats" nz-col nzXs="24" nzMd="24" nzLg="24" [nzXl]="12" nzXXl="8">
         <nz-card nzTitle="Top Chats">
-            <prioss-top-chats
-                [chatData]="chatData()">
+            <prioss-top-chats [chatData]="chatData()">
             </prioss-top-chats>
         </nz-card>
     </div>
-    <div id="msgs-per-week" nz-col [nzSpan]="12">
+    <div id="msgs-per-week" nz-col nzXs="24" nzMd="24" nzLg="24" [nzXl]="12" nzXXl="8">
         <nz-card nzTitle="Messages per Week">
-            <prioss-messages-per-weekday
-                [chatData]="chatData()"
-                [yourUsername]="yourUsername()">
+            <prioss-messages-per-weekday [chatData]="chatData()" [yourUsername]="yourUsername()">
             </prioss-messages-per-weekday>
         </nz-card>
     </div>
-    <div id="msg-percentage-in-chat" nz-col [nzSpan]="12">
+    <div id="msg-percentage-in-chat" nz-col nzXs="24" nzMd="24" nzLg="24" [nzXl]="12" nzXXl="8">
         <nz-card nzTitle="Message Distribution in Chat">
-            <nz-select
-                nzShowSearch nzAllowClear
-                nzPlaceHolder="Please select Chat"
+            <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Please select Chat"
                 [ngModel]="selectedChatIDForMsgPercentage()"
                 (ngModelChange)="selectedChatIDForMsgPercentage.set($event)">
                 @for(chat of chatData(); track chat){
-                <nz-option [nzLabel]="chat.name"
-                    [nzValue]="chat.id"></nz-option>
+                <nz-option [nzLabel]="chat.name" [nzValue]="chat.id"></nz-option>
                 }
             </nz-select>
-            <prioss-chat-message-distribution-chart
-                [chat]="selectedChatForMsgPercentage()">
+            <prioss-chat-message-distribution-chart [chat]="selectedChatForMsgPercentage()">
             </prioss-chat-message-distribution-chart>
+        </nz-card>
+    </div>
+
+    <div id="wordcloud-per-chat" nz-col nzXs="24" nzMd="24" nzLg="24" [nzXl]="12" nzXXl="8">
+        <nz-card nzTitle="Chat Wordcloud">
+            <prioss-chat-wordcloud [chatData]="chatData()">
+            </prioss-chat-wordcloud>
         </nz-card>
     </div>

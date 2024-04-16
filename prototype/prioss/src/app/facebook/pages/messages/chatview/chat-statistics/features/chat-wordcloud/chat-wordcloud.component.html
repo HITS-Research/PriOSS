@@ -1,1 +1,83 @@
-<p>chat-wordcloud works!</p>
+<form nz-form [nzLayout]="'horizontal'">
+    <nz-form-item>
+        <nz-form-label nzLabelAlign="left" nzSpan="7" >Chat</nz-form-label>
+        <nz-form-control nzSpan="14">
+            <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Select a chat"
+                name="chatSelector"
+                [ngModel]="selectedChatID()"
+                (ngModelChange)="selectedChatID.set($event); selectedChatParticipant.set('All Participants')">
+                @for(chat of chatData(); track chat){
+                <nz-option [nzLabel]="chat.name"
+                    [nzValue]="chat.id"></nz-option>
+                }
+            </nz-select>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-label nzLabelAlign="left" nzSpan="7" >Participant</nz-form-label>
+        <nz-form-control nzSpan="14">
+            <nz-select nzShowSearch nzAllowClear
+                name="chatParticipantSelector"
+                nzPlaceHolder="Select a Participant"
+                [ngModel]="selectedChatParticipant()"
+                (ngModelChange)="selectedChatParticipant.set($event)">
+                <!--This will backfire, when we have more than one participant with the same name, we need an id for each participant, but i dont want to add it, have fun doing it-->
+                @for(participant of selectedChatParticipants(); track
+                participant){
+                <nz-option [nzLabel]="participant"
+                    [nzValue]="participant"></nz-option>
+                }
+            </nz-select>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-label nzLabelAlign="left" nzSpan="7" >Word Length</nz-form-label>
+        <nz-form-control nzSpan="14">
+            <nz-input-number
+                name="minWordSelector"
+                [ngModel]="minimalWordLength()"
+                (ngModelChange)="minimalWordLength.set($event)">
+            </nz-input-number>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-label nzLabelAlign="left" nzSpan="7" >Word Limit</nz-form-label>
+        <nz-form-control nzSpan="14">
+            <nz-input-number
+                name="amountOfWordsToShowSelector"
+                [ngModel]="amountOfWordsToShow()"
+                (ngModelChange)="amountOfWordsToShow.set($event)">
+            </nz-input-number>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+
+        <nz-form-label nzLabelAlign="left" nzSpan="7">Exclude Words</nz-form-label>
+        <nz-form-control nzSpan="14">
+            <nz-select
+                name="excludedWordListSelector"
+                nzMode="multiple"
+                nzPlaceHolder="Please select Wordlists to exclude"
+                [ngModel]="stopWordsOption()"
+                (ngModelChange)="stopWordsOption.set($event)">
+                <nz-option
+                    *ngFor="let enum of ExcludedWordlistOption | keyvalue"
+                    [nzLabel]="enum.value" [nzValue]="enum.value"></nz-option>
+            </nz-select>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-label nzLabelAlign="left" nzSpan="7" >Exclude Words</nz-form-label>
+        <nz-form-control nzSpan="14">
+            <nz-input-group>
+                <input
+                    name="customExcludedWordListInputForm"
+                    nzPlaceHolder="word1 word2 word3"
+                    [ngModel]="customExcludedWordListInput()"
+                    (ngModelChange)="customExcludedWordListInput.set($event)">
+            </nz-input-group>
+
+        </nz-form-control>
+    </nz-form-item>
+</form>
+<div echarts [options]="options()"></div>

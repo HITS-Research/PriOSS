@@ -384,7 +384,7 @@ export class ServiceSelectionComponent implements AfterViewInit {
     try {
       result = JSON.parse(content);
       result = utilities.modifyStringValuesInJSON(result, utilities.fixFacebookEncoding)
-      
+
     } catch (e) {
       console.error(`Error parsing JSON: ${e} ${content}`);
       return {}; //return empty object if parsing fails
@@ -450,6 +450,8 @@ export class ServiceSelectionComponent implements AfterViewInit {
 
 
     const filepaths: string[] = Object.keys(zip.files).filter((path) => path.endsWith('.json'));
+    //sorting is important for folders with multiple json files, e.g. messages_1.json, messages_2.json, so we can parse them in order
+    filepaths.sort();
     for (let i = 0; i < filepaths.length; i++) {
       if (this.requestedAbortDataParsing()) {
         this.requestedAbortDataParsing.set(false);
@@ -466,12 +468,12 @@ export class ServiceSelectionComponent implements AfterViewInit {
 
       //console.log('Filename: ' + filename);
 
-      
+
       const content: string = (await zip.files[filepath].async('string'));
-      
-      
-      
-      
+
+
+
+
 
 
       if (!filename) {
@@ -587,28 +589,6 @@ export class ServiceSelectionComponent implements AfterViewInit {
       } else if (filename === 'profile_information.json') {
         const jsonData: ProfileInformationModel = this.parseFacebookJSON(content);
         userData.personal_information.profile_information = jsonData;
-        //TODO old version below may be useful in future
-        /*
-        const personal_data = jsonData.profile_v2;
-        const birthdate = personal_data.birthday;
-        const formattedBirthdate = `${birthdate.day
-          .toString()
-          .padStart(2, '0')}-${birthdate.month.toString().padStart(2, '0')}-${
-          birthdate.year
-        }`;
-        await this.UserdataRepo.addUserdata(
-          personal_data.name.full_name,
-          personal_data.emails.emails[0],
-          personal_data.current_city ? personal_data.current_city.name : '',
-          formattedBirthdate,
-          personal_data.gender.gender_option,
-          0,
-          0,
-          '',
-          '',
-          ''
-        );
-        */
       } else if (filename === 'your_address_books.json') {
         const jsonData: AddressBookModel = this.parseFacebookJSON(content);
         userData.personal_information.address_books = jsonData;
@@ -726,15 +706,17 @@ export class ServiceSelectionComponent implements AfterViewInit {
       } else if (filename === "events_you've_hidden.json") {
         const jsonData: EventsInvitedModel = this.parseFacebookJSON(content);
         userData.activity_across_facebook.eventsInvited = jsonData;
-      } else if (filename === 'message_1.json'){
-        if(filepath.includes('archived_threads')){
+      } else if (filename === 'message_1.json') {
+
+        //What the fuck, i am sorry for everyone who has to understand this in the future, hopefully you find a better way to solve this
+        if (filepath.includes('archived_threads')) {
           const jsonData: ArchivedThreadModel = this.parseFacebookJSON(content);
           userData.activity_across_facebook.archivedThreads ??= [];
           userData.activity_across_facebook.archivedThreads?.push(jsonData);
-        } else if(filepath.includes('inbox')){
+        } else if (filepath.includes('inbox')) {
 
           //check if message is group message or normal message
-          if(content.includes('joinable_mode')){
+          if (content.includes('joinable_mode')) {
             const jsonData: GroupMessageModel = this.parseFacebookJSON(content);
             //if groupmessages are nullish, set to empty array
             userData.activity_across_facebook.groupMessages ??= [];
@@ -744,11 +726,55 @@ export class ServiceSelectionComponent implements AfterViewInit {
             userData.activity_across_facebook.inboxMessages ??= [];
             userData.activity_across_facebook.inboxMessages?.push(jsonData);
           }
-        } else if(filepath.includes('message_requests')){
+        } else if (filepath.includes('message_requests')) {
           const jsonData: MessageRequestModel = this.parseFacebookJSON(content);
           userData.activity_across_facebook.messageRequests ??= [];
           userData.activity_across_facebook.messageRequests?.push(jsonData);
         }
+        //if there are more than one message files in the same folder
+        const messagePaths = filepaths.filter((path) => path.includes(filepath.replace(filename, "")));
+        if (messagePaths.length > 1) {
+          for (const messagefile of messagePaths) {
+            if (messagefile !== filepath) {
+              const content2: string = await zip.files[messagefile].async('string');
+              if (messagefile.includes('archived_threads')) {
+                const jsonData: ArchivedThreadModel = this.parseFacebookJSON(content2);
+                for (const archivedTread of userData.activity_across_facebook.archivedThreads ?? []) {
+                  if (archivedTread.thread_path === jsonData.thread_path) {
+                    archivedTread.messages = archivedTread.messages.concat(jsonData.messages);
+                  }
+                }
+              } else if (messagefile.includes('inbox')) {
+
+                //check if message is group message or normal message
+                if (content2.includes('joinable_mode')) {
+                  const jsonData: GroupMessageModel = this.parseFacebookJSON(content2);
+                  for (const groupMessage of userData.activity_across_facebook.groupMessages ?? []) {
+                    if (groupMessage.thread_path === jsonData.thread_path) {
+                      groupMessage.messages = groupMessage.messages.concat(jsonData.messages);
+                    }
+                  }
+                } else {
+                  const jsonData: InboxMessageModel = this.parseFacebookJSON(content2);
+                  for (const inboxMessage of userData.activity_across_facebook.inboxMessages ?? []) {
+                    if (inboxMessage.thread_path === jsonData.thread_path) {
+                      inboxMessage.messages = inboxMessage.messages.concat(jsonData.messages);
+                    }
+                  }
+                }
+              } else if (messagefile.includes('message_requests')) {
+                const jsonData: MessageRequestModel = this.parseFacebookJSON(content2);
+                for (const messageRequest of userData.activity_across_facebook.messageRequests ?? []) {
+                  if (messageRequest.thread_path === jsonData.thread_path) {
+                    messageRequest.messages = messageRequest.messages.concat(jsonData.messages);
+                  }
+                }
+              }
+            }
+          }
+        }
+
+
       }
     }
 

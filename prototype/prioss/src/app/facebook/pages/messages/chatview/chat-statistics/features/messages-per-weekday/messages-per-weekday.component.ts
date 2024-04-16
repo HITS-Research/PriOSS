@@ -30,6 +30,12 @@ export class MessagesPerWeekdayComponent {
       yAxis: {
         type: 'value'
       },
+      aria: {
+				enabled: true,
+				decal: {
+					show: true,
+				},
+			},
       series: [
         {
           data: this.messagesSentPerWeekDay(),
