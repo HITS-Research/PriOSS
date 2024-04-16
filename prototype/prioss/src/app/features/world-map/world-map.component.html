@@ -1,0 +1,11 @@
+<div id="map-container">
+    <span nz-icon nzType="info-circle" nzTheme="outline"
+        nz-popover [nzPopoverContent]="contentTemplate"
+        id="info" ></span>
+    <ng-template #contentTemplate>
+        <div><span nz-icon nzType="zoom-in" nzTheme="outline"></span>Scroll to zoom in</div>
+        <div><span nz-icon nzType="zoom-out" nzTheme="outline"></span>Scroll to zoom out</div>
+        <div><span nz-icon nzType="drag" nzTheme="outline"></span>Drag to move</div>
+    </ng-template>
+    <div id="chart" echarts [options]="options"></div>
+</div>

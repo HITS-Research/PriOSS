@@ -671,7 +671,7 @@ export class ServiceSelectionComponent implements AfterViewInit {
           this.parseFacebookJSON(content);
         userData.security_and_login_information.recent_account_recovery_successes =
           jsonData;
-      } else if (filename === 'where_you_re_logged_in.json') {
+      } else if (filename === "where_you're_logged_in.json") {
         const jsonData: ActiveSessionsModel = this.parseFacebookJSON(content);
         userData.security_and_login_information.login_location = jsonData;
       }
