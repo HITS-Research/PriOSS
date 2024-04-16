@@ -1,6 +1,5 @@
 import { Component, Input, type OnInit ,ChangeDetectionStrategy} from '@angular/core';
 import * as utilities from 'src/app/features/utils/generalUtilities.functions';
-// biome-ignore lint/style/useImportType: <explanation>
 import { Store } from '@ngxs/store';
 import { FacebookState } from '../../state/fb.state';
 import type { ArchivedThreadModel, GroupMessageModel, InboxMessageModel } from '../../models';
@@ -52,8 +51,6 @@ export class MessagesComponent implements OnInit {
     this.username = userData.personal_information.profile_information.profile_v2.name.full_name;
     // Get all messages info
     this.messagesData = userData.activity_across_facebook.inboxMessages || [];
-    console.debug("username in messages:", this.username)
-    console.debug('--- Messages Data: ', this.messagesData);
     this.filterChatsItems();
 
     // Get all face group chats info

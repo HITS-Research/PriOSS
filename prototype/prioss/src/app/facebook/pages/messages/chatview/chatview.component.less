@@ -1,75 +1,121 @@
 @chat-header-height: 50px;
 @chat-header-border-bottom: 1px solid #f0f0f0;
-.layout{
+
+.layout {
     width: 60vw;
     height: 70vh;
-    
+    border: @chat-header-border-bottom;
+
+    .header {
+        height: @chat-header-height;
+        display: flex;
+        border-bottom: @chat-header-border-bottom;
+        padding: 0 0px;
+        background-color: white;
+        
+        text-overflow: ellipsis;
+        overflow: hidden;
+        .search-box {
+            float: left;
+            background-color: white;
+            height: @chat-header-height;
+            padding-bottom: 16 px;
+            min-width: 230px;
+            max-width: 230px;
+            border-right: @chat-header-border-bottom;
+            //border-bottom: @chat-header-border-bottom;
+        }
+        .trigger {   
+            font-size: 18px;
+            line-height: 64px;
+            padding: 0 24px;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        .chat-header-name {
+            font-size: 14px;
+            width: auto;
+            font-weight: bold;
+            height: @chat-header-height;
+            padding: 20px;
+            text-align: center;
+            line-height: normal;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+
+        }
+
+    }
 }
+
 nz-sider {
     height: 100%;
     border-right: @chat-header-border-bottom;
+    max-width: 230px;
+    min-width: 230px;
     overflow: scroll;
-  }
-nz-header{
-    background-color: white;
+}
+
+
+
+.chat-content-table-header {
     height: @chat-header-height;
-    
-    border-bottom: @chat-header-border-bottom;
 }
-nz-list-header{
-    background-color: white;
-    height: @chat-header-height;
-    border-bottom: @chat-header-border-bottom;
+
+.chat-messages-table-body {
+    display: flex;
+    flex-direction: column-reverse;
 }
-.chatcontent-header-text{
-    font-size: 14px;
-    font-weight: bold;
-}
+
 nz-list-item {
-    display:flex;
+    display: flex;
     flex-direction: column;
     height: 80px;
 }
-nz-list-item-meta-description{
+
+nz-list-item-meta-description {
     width: 100%;
     height: 30px;
     overflow: hidden;
 }
-nz-list-item-meta-title{
+
+nz-list-item-meta-title {
     width: 100%;
     height: 30px;
     overflow: hidden;
 }
-nz-content{
+
+nz-content {
     background-color: white;
-    overflow: scroll;
-    display: flex;
-    flex-direction: column-reverse;
-    
+
 }
-.list-item-selected{
+
+.list-item-selected {
     color: #0e71ff;
-    
+
 }
-.message-container{
+
+.message-container {
     display: flex;
     flex-direction: column;
     padding: 3px;
-    
-    
+
+
 }
-.message-sent{
-    background-color:  	#1877F2;
+
+.message-sent {
+    background-color: #1877F2;
     color: white;
     align-content: end;
     max-width: 60%;
     align-self: flex-end;
     border-radius: 1em;
-    
+
 
 }
 
-.message-received{
+.message-received {
     background-color: rgb(85, 85, 85);
     color: white;
     align-content: start;
@@ -77,9 +123,11 @@ nz-content{
     align-self: flex-start;
     border-radius: 1em;
 }
-.message-sender{
+
+.message-sender {
     padding: 10px;
 }
-.message-content{
+
+.message-content {
     padding: 10px;
 }

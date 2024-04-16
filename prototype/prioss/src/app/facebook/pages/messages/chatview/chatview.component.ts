@@ -1,8 +1,13 @@
 import {
+	type AfterViewInit,
 	ChangeDetectionStrategy,
 	Component,
-	Input,
+	type OnDestroy,
+	signal,
 	type OnInit,
+	input,
+	computed,
+	ViewChild,
 } from "@angular/core";
 import type { ChatData, ChatMessage } from "./chatdata.type";
 import { CommonModule } from "@angular/common";
@@ -11,6 +16,11 @@ import { NzListModule } from "ng-zorro-antd/list";
 import { FormsModule } from "@angular/forms";
 import { NzDatePickerModule } from "ng-zorro-antd/date-picker";
 import { NzInputModule } from "ng-zorro-antd/input";
+import { NzIconModule } from "ng-zorro-antd/icon";
+import { NzAffixModule } from "ng-zorro-antd/affix";
+import { type NzTableComponent, NzTableModule } from "ng-zorro-antd/table";
+import { Subject, takeUntil } from "rxjs";
+import { NzFormModule } from "ng-zorro-antd/form";
 
 @Component({
 	selector: "prioss-chatview",
@@ -22,35 +32,69 @@ import { NzInputModule } from "ng-zorro-antd/input";
 		FormsModule,
 		NzDatePickerModule,
 		NzInputModule,
+		NzIconModule,
+		NzAffixModule,
+		NzTableModule,
+		NzFormModule,
 	],
 	templateUrl: "./chatview.component.html",
 	styleUrl: "./chatview.component.less",
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ChatviewComponent implements OnInit {
-	chatDateRange: Date[] = [];
-	selectedChatDateRange: any = null;
-	currentChat: ChatData;
-	selectedChatData: ChatData[] = [];
-	@Input({ required: true })
-	chatData: ChatData[];
-	@Input({ required: true })
-	yourUsername: string;
+export class ChatviewComponent implements OnInit, AfterViewInit, OnDestroy {
+	@ViewChild("virtualTable", { static: false })
+	nzTableComponent?: NzTableComponent<ChatMessage>;
+	private destroy$ = new Subject<boolean>();
+
+	chatDateRange = signal<Date[]>([]);
+	selectedChatDateRange = signal<Date[]>([new Date(0), new Date()]);
+
+	isChatListCollapsed = signal<boolean>(false);
+	searchString = signal<string>("");
+	currentChat = signal<ChatData>({} as ChatData);
+	setCurrentChat = computed(() => this.currentChat.set(this.clickedChat()));
+	clickedChat = signal<ChatData>({} as ChatData);
+	clickedChatPreviewMessage = computed(() => {
+		return this.getChatPreviewMessage(this.clickedChat());
+	});
+	currentChatPreviewMessage = computed(() => {
+		return this.getChatPreviewMessage(this.currentChat());
+	});
+	clickedChatPreviewName = computed(() => {
+		return this.getChatPreviewName(this.clickedChat());
+	});
+
+	selectedChatData = signal<ChatData[]>([]);
+	chatData = input.required<ChatData[]>();
+	yourUsername = input.required<string>();
 
 	async ngOnInit(): Promise<void> {
-		this.selectedChatData = this.chatData.slice();
-		this.currentChat = this.chatData[0];
-		if (this.chatDateRange.length !== 0) {
-			this.chatDateRange = this.getDateRangeOfChats(this.chatData);
-			//copy min max dates into selectedDateRange first
-			this.selectedChatDateRange = this.chatDateRange.slice();
-		}
+		this.selectedChatData.set(this.chatData().slice());
+		this.clickedChat.set(this.chatData()[0]);
+		this.chatDateRange.set(this.getDateRangeOfChats());
+		//copy min max dates into selectedDateRange first
+		this.selectedChatDateRange.set(this.chatDateRange());
+	}
+	ngAfterViewInit(): void {
+		this.nzTableComponent?.cdkVirtualScrollViewport?.scrolledIndexChange
+			.pipe(takeUntil(this.destroy$))
+			.subscribe((data: number) => {
+				return data;
+			});
 	}
 
-	getDateRangeOfChats(chats: ChatData[]): Date[] {
-		let minTimestamp = 9999999999999;
+	ngOnDestroy(): void {
+		this.destroy$.next(true);
+		this.destroy$.complete();
+	}
+	trackByID(_: number, data: ChatMessage): number {
+		return data.timestamp;
+	}
+
+	getDateRangeOfChats = computed(() => {
+		let minTimestamp = new Date().getTime();
 		let maxTimestamp = 0;
-		for (const chat of chats) {
+		for (const chat of this.chatData()) {
 			for (const message of chat.messages) {
 				minTimestamp =
 					message.timestamp < minTimestamp ? message.timestamp : minTimestamp;
@@ -58,14 +102,23 @@ export class ChatviewComponent implements OnInit {
 					message.timestamp > maxTimestamp ? message.timestamp : maxTimestamp;
 			}
 		}
+		if(maxTimestamp > new Date().getTime()){ 
+			maxTimestamp = new Date().getTime();
+		}
 		return [new Date(minTimestamp), new Date(maxTimestamp)];
-	}
+	});
 
-	getChatsInDateRange(chats: ChatData[], dateRange: Date[]): ChatData[] {
-		const minTimestamp = dateRange[0].getTime();
-		const maxTimestamp = dateRange[1].getTime();
+	getChatsInDateRange = computed(() => {
+		const minTimestamp =
+			this.selectedChatDateRange()[0]?.getTime() ??
+			this.chatDateRange()[0]?.getTime() ??
+			0;
+		const maxTimestamp =
+			this.selectedChatDateRange()[1]?.getTime() ??
+			this.chatDateRange()[1]?.getTime() ??
+			9999999999;
 		const chatsInDateRange: ChatData[] = [];
-		for (const chat of chats) {
+		for (const chat of this.chatData()) {
 			const messagesInDateRange: ChatMessage[] = chat.messages.filter(
 				(message) => {
 					return (
@@ -81,32 +134,20 @@ export class ChatviewComponent implements OnInit {
 			}
 		}
 		return chatsInDateRange;
-	}
-	onChange(result: Date[]): void {
-		this.selectedChatDateRange = result.slice();
-		this.selectedChatData = this.getChatsInDateRange(this.chatData, result);
-		this.currentChat = {
-			name: "",
-			messages: [{ content: "", sender: "", timestamp: 0 }],
-		} as ChatData;
-	}
+	});
 
-	getEmptyChat(): ChatData {
-		return {} as ChatData;
-	}
-	setCurrentChat(chat: ChatData): void {
-		this.currentChat = chat;
-		if (this.currentChat.name === undefined) {
-			this.currentChat.name = "";
+	fixCurrentChat = computed(() => {
+		if (this.currentChat().name === undefined) {
+			this.currentChat().name = "";
 		}
-		if (this.currentChat.messages === undefined) {
-			this.currentChat.messages = [];
+		if (this.currentChat().messages === undefined) {
+			this.currentChat().messages = [];
 		}
 
-		if (this.currentChat.name === "") {
-			this.currentChat.name = "Deleted User";
+		if (this.currentChat().name === "") {
+			this.currentChat().name = "Deleted User";
 		}
-		for (const message of this.currentChat.messages) {
+		for (const message of this.currentChat().messages) {
 			if (message.content === undefined) {
 				message.content = "";
 			}
@@ -117,7 +158,7 @@ export class ChatviewComponent implements OnInit {
 				message.timestamp = 0;
 			}
 		}
-	}
+	});
 	getChatPreviewName(chat: ChatData): string {
 		let name = "";
 
@@ -157,45 +198,56 @@ export class ChatviewComponent implements OnInit {
 		return msg;
 	}
 
-	searchChats(event: any): void {
-		const searchString: string = event.target.value.toLowerCase();
-		console.debug("searchString: ", searchString);
+	filteredChats = computed(() => {
+		const searchString: string = this.searchString().toLowerCase();
 
+		
+		let chats = [];
+		//filter by search string
 		if (searchString === "") {
-			this.selectedChatData = this.chatData.slice();
+			chats = this.chatData().slice();
 		} else {
-			this.currentChat = this.getEmptyChat();
 			const res: Set<ChatData> = new Set<ChatData>(
-				this.filterChatMessages(searchString).concat(
-					this.filterChatNames(searchString),
-				),
+				this.filterChatNames().concat(this.filterChatMessages()),
 			);
 			//search in name/title of chats
-			this.selectedChatData = Array.from(res);
+			chats = Array.from(res);
 		}
-	}
+		//filter by date
+		const selDateRange = this.selectedChatDateRange();
+		if (selDateRange[0] !== undefined && selDateRange[1] !== undefined) {
+		
+			chats = chats.filter((chat) => {
+				const lastMessage = this.getLastMessage(chat);
+				return (
+					(lastMessage.timestamp >= (selDateRange[0]?.getTime() ?? 0)) &&
+					(lastMessage.timestamp <= (selDateRange[1]?.getTime() ?? 9999999999))
+				);
+			});
+		}
+		return chats;
+	});
+
 	/**
 	 * filter ChatData by ChatData.name
 	 * @param event
 	 * @returns A List of Chats, where the Title/Name includes the searchstring
 	 */
-	filterChatNames(searchValue: string): ChatData[] {
-		const searchString: string = searchValue.toLowerCase();
+	filterChatNames = computed(() => {
+		const searchString: string = this.searchString().toLowerCase();
 
-		console.debug("searchString: ", searchString);
-		return this.chatData.filter((chat) => {
+		return this.chatData().filter((chat) => {
 			return chat.name.toLowerCase().includes(searchString);
 		});
-	}
+	});
 	/**
 	 * filter ChatData by ChatData.messages.content
 	 * @param event
 	 * @returns A List of Chats, where the Messages include the searchstring
 	 */
-	filterChatMessages(searchValue: string): ChatData[] {
-		const searchString: string = searchValue.toLowerCase();
-		console.debug("searchString: ", searchString);
-		return this.chatData.filter((chat) => {
+	filterChatMessages = computed(() => {
+		const searchString: string = this.searchString().toLowerCase();
+		return this.chatData().filter((chat) => {
 			return chat.messages.some((message) => {
 				let ret = false;
 				if (message.content !== undefined) {
@@ -204,7 +256,7 @@ export class ChatviewComponent implements OnInit {
 				return ret;
 			});
 		});
-	}
+	});
 
 	customFormatDate(timestamp: number) {
 		const date = new Date(timestamp);

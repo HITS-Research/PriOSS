@@ -5,12 +5,10 @@ import {
 	signal,
 	computed,
 	input,
-	effect,
 } from "@angular/core";
 import { scrollToTop } from "src/app/features/utils/generalUtilities.functions";
 import type { FbConnectionsDataModel } from "../../state/models";
 import { FacebookState } from "../../state/fb.state";
-// biome-ignore lint/style/useImportType: <explanation>
 import { Store } from "@ngxs/store";
 import { FormsModule } from "@angular/forms";
 import { NzIconModule } from "ng-zorro-antd/icon";
@@ -96,10 +94,7 @@ export class FriendAndFollowersComponent implements OnInit {
 		return this.previewModeInput() === "true";
 	});
 	constructor(private store: Store) {
-		effect(() => {
-			console.log("previewModeInput", this.previewModeInput());
-			console.log("previewMode", this.previewMode());
-		});
+
 	}
 
 	ngOnInit() {
@@ -107,6 +102,5 @@ export class FriendAndFollowersComponent implements OnInit {
 		this.connectionsDatastore.set(
 			this.store.selectSnapshot(FacebookState.getFacebookConnectionsData),
 		);
-		console.log(this.connectionsDatastore());
 	}
 }
