@@ -1,53 +1,102 @@
-<nz-range-picker [nzShowTime]="true" [(ngModel)]="selectedChatDateRange"
-    (ngModelChange)="onChange($event)"></nz-range-picker>
+<form>
+    <nz-form-item>
+        <nz-form-label nzFor="datepicker">Select Time Range:</nz-form-label>
+        <nz-form-control #datepicker>
+            <nz-range-picker [nzDefaultPickerValue]="getDateRangeOfChats()"
+                [nzShowTime]="false"
+                [ngModel]="selectedChatDateRange()" name="dateRange"
+                (ngModelChange)="currentChat.set(filteredChats()[0]); selectedChatDateRange.set($event)"></nz-range-picker></nz-form-control>
+    </nz-form-item>
+</form>
+<!-- <nz-input-group class="inputgroup">
+    <nz-range-picker [nzShowTime]="false" [(ngModel)]="selectedChatDateRange"
+        (ngModelChange)="selectedChatDateRange.set($event)"></nz-range-picker>
+</nz-input-group> -->
 <nz-layout class="layout">
-    <nz-sider nzWidth="230px" nzTheme="light">
-        <nz-list>
-            <nz-list-header>
-                <nz-input-group></nz-input-group>
-                <input type="text" nz-input (keyup)="searchChats($event)"
-                    placeholder="input search text" />
-            </nz-list-header>
-            @for (chat of selectedChatData;
-            track chat) {
-            <nz-list-item
-                
-                (click)="setCurrentChat(chat)">
-                <nz-list-item-meta-title ><p [class.list-item-selected]="currentChat.name===chat.name&&getChatPreviewMessage(chat)===getChatPreviewMessage(currentChat)">{{getChatPreviewName(chat)}}</p></nz-list-item-meta-title>
-                <nz-list-item-meta-description>{{getChatPreviewMessage(chat)}}</nz-list-item-meta-description>
-            </nz-list-item>
-            }
-        </nz-list>
-    </nz-sider>
+    <nz-header class="header">
+        @if(!isChatListCollapsed()){
+        <nz-input-group [nzSuffix]="suffixIconSearch" class="search-box">
+            <input type="text" nz-input
+                [ngModel]="searchString()"
+                (ngModelChange)="searchString.set($event)"
+                placeholder="input search text" nzBorderless />
+        </nz-input-group>
+        <ng-template #suffixIconSearch>
+            <span nz-icon nzType="search"></span>
+        </ng-template>
+        }
+
+        <span
+            class="trigger"
+            nz-icon
+            [nzType]="isChatListCollapsed() ? 'menu-unfold' : 'menu-fold'"
+            (click)="isChatListCollapsed.set(!isChatListCollapsed()) ">
+        </span>
+        <p class="chat-header-name">{{currentChat().name}}</p>
+
+    </nz-header>
     <nz-layout>
-        <nz-header>
-            <p class="chatcontent-header-text">{{currentChat.name}}</p>
-        </nz-header>
-        <nz-content class="">
-            @for (msg of currentChat.messages; track msg) {
-
-            @if (msg.sender === yourUsername) {
-            <div class="message-container">
-                <div class="message-sent">
-                    <div class="message-header">
-                        <div class="message-sender"> {{msg.sender}}
-                            {{msg.timestamp| date:"dd.MM.yy, hh:mm"}}</div>
-                    </div>
-                    <div class="message-content">{{msg.content}}</div>
-                </div>
-            </div>
-            } @else {
-            <div class="message-container">
-                <div class="message-received">
-                    <div class="message-sender"> {{msg.sender}} {{msg.timestamp|
-                        date:"dd.MM.yy, hh:mm"}}:</div>
-                    <div class="message-content">{{msg.content}}</div>
-                </div>
-            </div>
-            }
-
-            }
+        <nz-sider nzCollapsible [nzCollapsed]="isChatListCollapsed()"
+            (nzCollapsedChange)="isChatListCollapsed.set($event)"
+            nzBreakpoint="lg" [nzCollapsedWidth]="0"
+            nzWidth="230px" [nzTrigger]="null" nzTheme="light">
+            <nz-list>
+                @for (chat of filteredChats();
+                track chat) {
+                <nz-list-item
+                    (click)="currentChat.set(chat)">
+                    <nz-list-item-meta-title>
+                        <p
+                            [class.list-item-selected]="currentChat().name===chat.name&&getChatPreviewMessage(chat)===currentChatPreviewMessage()">{{getChatPreviewName(chat)}}
+                        </p>
+                    </nz-list-item-meta-title>
+                    <nz-list-item-meta-description>{{getChatPreviewMessage(chat)}}</nz-list-item-meta-description>
+                </nz-list-item>
+                }
+            </nz-list>
+        </nz-sider>
+        <nz-content>
+            <nz-table
+                #virtualTable
+                [nzBordered]="true"
+                [nzVirtualItemSize]="54"
+                [nzData]="currentChat().messages"
+                [nzVirtualForTrackBy]="trackByID"
+                [nzFrontPagination]="false"
+                [nzShowPagination]="false"
+                [nzScroll]="{y: '600px' }">
+                <tbody class="chat-messages-table-body">
+                    <ng-template nz-virtual-scroll let-data
+                        let-index="index">
+                        @if (data.sender === yourUsername()) {
+                        <div class="message-container">
+                            <div class="message-sent">
+                                <div class="message-header">
+                                    <div class="message-sender">
+                                        {{data.sender}}
+                                        {{data.timestamp|
+                                        date:"dd.MM.yy, hh:mm"}}</div>
+                                </div>
+                                <div
+                                    class="message-content">{{data.content}}</div>
+                            </div>
+                        </div>
+                        } @else {
+                        <div class="message-container">
+                            <div class="message-received">
+                                <div class="message-sender"> {{data.sender}}
+                                    {{data.timestamp|
+                                    date:"dd.MM.yy, hh:mm"}}:</div>
+                                <div
+                                    class="message-content">{{data.content}}</div>
+                            </div>
+                        </div>
+                        }
+                    </ng-template>
+                </tbody>
+            </nz-table>
         </nz-content>
+
     </nz-layout>
 
 </nz-layout>
