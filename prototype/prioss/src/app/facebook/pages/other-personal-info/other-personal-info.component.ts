@@ -22,9 +22,8 @@ export class OtherPersonalInfoComponent implements OnInit {
   totalPages = 1;
   searchText = '';
   totalContactNumbers = 0;
-  contactNumbers: any = [];
   totalSearchedText = 0;
-  addressBookPageSize = 10;
+  addressBookPageSize = 8;
   addressBookCurrentPage = 1;
   addressBookTotalPages = 1;
   dataAvailableAddressBook = false;
@@ -35,6 +34,8 @@ export class OtherPersonalInfoComponent implements OnInit {
 
   fbAddressBookInfo: AddressBookModel = {} as AddressBookModel;
   fbSearchHistoryInfo: SearchHistoryModel = {} as SearchHistoryModel;
+
+  addressAvatarColorMapping: { [key: string]: string } = {};
 
   @Input()
   previewMode = false;
@@ -65,8 +66,13 @@ export class OtherPersonalInfoComponent implements OnInit {
     this.fbAddressBookInfo = this.fbPersonalInfoStore.address_books;
     this.addressBookData = this.fbAddressBookInfo.address_book_v2.address_book;
     this.dataAvailableAddressBook = this.addressBookData.length !== 0;
-    this.gridLayout();
     this.addressBookTotalPages = Math.ceil(this.addressBookData.length / this.addressBookPageSize);
+    this.addressBookData.forEach((item) => {
+      if (item.name && item.details && item.details.length > 0) {
+        this.totalContactNumbers += 1;
+        this.addressAvatarColorMapping[item.name] = this.getRandomColor();
+      }
+    });
     this.filterAddressBookItems(this.searchText);
 
     // Search History
@@ -78,47 +84,8 @@ export class OtherPersonalInfoComponent implements OnInit {
     this.filterSearchHistoryItems(this.searchText);
 
   }
-  /**
-   * This method is responsible to show the address data in a grid manner with name and contact number.
-   * @author: Rishma (rishmamn@mail.uni-paderborn.de))
-   *
-   */
-
-  gridLayout() {
-    const width = window.innerWidth;
-    const height = window.innerHeight;
-    const padding = 10;
-    const numCols = 10;
-
-    const filteredData = this.addressBookData.filter(
-      (item) => item.name && item.details && item.details.length > 0,
-    );
-
-    if (filteredData.length === 0) {
-      this.cellSize = 0;
-      return;
-    }
-
-    const numRows = Math.ceil(filteredData.length / numCols);
-
-    const maxTextLength = Math.max(
-      ...filteredData.map(
-        (item) => item.name.length + item.details[0].contact_point.length,
-      ),
-    );
-
-    this.cellSize = Math.min(
-      (width - padding * 2) / numCols,
-      (height - padding * 2) / numRows,
-      maxTextLength * 10,
-    );
-
-    filteredData.forEach((item) => {
-      const numbers = item.details.map((detail) => detail.contact_point);
-      this.contactNumbers.push(...numbers);
-      this.totalContactNumbers += numbers.length;
-    });
-  }
+  
+  
   /**
    * This method is responsible to filter the searched text in address book tab.
    * @author: Rishma (rishmamn@mail.uni-paderborn.de))
@@ -217,4 +184,28 @@ export class OtherPersonalInfoComponent implements OnInit {
     this.searchText = '';
     this.filterAddressBookItems('');
   }
+
+  getRandomColor(): string {
+    const colors = [
+      '#FF5733', // Orange
+      '#FFC300', // Yellow
+      '#36A2EB', // Blue
+      '#4BC0C0', // Turquoise
+      '#9966FF', // Purple
+      '#FF6384', // Pink
+      '#FFCE56', // Gold
+      '#33FF77', // Green
+      '#66CCFF', // Light Blue
+      '#FF7F50', // Coral
+      '#FFD700', // Gold
+      '#00FF00', // Lime
+      '#FF1493', // Deep Pink
+      '#008080', // Teal
+      '#CD5C5C', // Indian Red
+      '#9370DB'  // Medium Purple
+    ];
+  
+    return colors[Math.floor(Math.random() * colors.length)];
+  }
+
 }
