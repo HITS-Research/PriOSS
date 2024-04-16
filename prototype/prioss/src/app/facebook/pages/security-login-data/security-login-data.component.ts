@@ -5,6 +5,9 @@ import { FbSecurityLoginInformationDataModel } from '../../state/models';
 import { ActiveSessionsModel, LoginsAndLogoutsModel, AccountStatusChangesModel,
         AccountActivityModel, ActiveSessionItem, AccountAccessesItem, AccountStatusChangeItem,
         AccountActivityItem  } from '../../models';
+import { GeolocationService } from 'src/app/features/world-map/geolocation.service';
+import type { EChartsOption } from 'echarts';
+import { GeoLocationData } from 'src/app/features/world-map/geolocation.type';
 
 @Component({
   selector: 'app-security-login-data',
@@ -56,8 +59,12 @@ export class SecurityLoginDataComponent implements OnInit {
   fbAccStatusChangesData: AccountStatusChangesModel = {} as AccountStatusChangesModel;
   fbAccActivitiesData: AccountActivityModel = {} as AccountActivityModel;
 
+  loginMapOptions: EChartsOption;
+  accActivityMapOptions: EChartsOption;
+
   constructor(
-    private store: Store
+    private store: Store,
+    private geolocationService: GeolocationService
   ) {}
 
   ngOnInit() {
@@ -86,6 +93,7 @@ export class SecurityLoginDataComponent implements OnInit {
       if (Array.isArray(this.loginLocationsData) === true) {
         this.dataAvailableLoc = this.loginLocationsData.length !== 0;
         this.locations = this.loginLocationsData.map((loc) => loc.location);
+        this.prepareLoginMapData();
       }
     }
 
@@ -142,6 +150,115 @@ export class SecurityLoginDataComponent implements OnInit {
           this.terminatedSessions = this.MobileSessionTerminated + this.WebSessionTerminated;
         }
       }
+      this.prepareAccActivityMapData();
+    }
+  }
+  
+  /**
+   * Prepares the login map data.
+   * This method populates the `loginMapOptions` property with the necessary data for rendering a login map.
+   * It retrieves the geolocation data for each location, converts it to the required format, and sets it in the `loginMapOptions` property.
+   */
+  private prepareLoginMapData() {
+    if (this.previewMode === true) {
+      return;
+    }
+
+    let geoLocationData: GeoLocationData[] = [];
+    const mapLocationData: Set<object> = new Set();
+
+    for (const loc of this.locations) {
+      let city = loc.split(',')[0];
+      city = city.trim();
+      let country = loc.split(',')[1];
+      country = country.trim();
+      geoLocationData.push({city: city, country: country});
+    }
+
+    geoLocationData = this.geolocationService.getGeoData(geoLocationData);
+
+    for (const loc of geoLocationData) {
+      if (loc.lat && loc.lon) {
+        mapLocationData.add({name: loc.city, value: [loc.lon, loc.lat]});
+      }
+    }
+
+    this.loginMapOptions = {
+      series: [
+        {
+          type: 'effectScatter',
+          coordinateSystem: 'geo',
+          data: Array.from(mapLocationData),
+          color: '#007FFF',
+          symbolSize: 10,
+          showEffectOn: 'render',
+          rippleEffect: {
+            brushType: 'stroke',
+            scale: 3
+          },
+          tooltip: {
+            trigger: 'item',
+            show: true,
+            formatter: (params: any) => {
+              return params.name;
+            }
+          },
+        },
+      ]
+    };
+  }
+
+  /**
+   * Prepares the account activity map data.
+   * This method populates the `accActivityMapOptions` property with the necessary data for rendering the account activity map.
+   * It retrieves the geo location data from `accActivitiesData`, performs geocoding using `geolocationService`, and formats the data for the map.
+   */
+  private prepareAccActivityMapData() {
+    if (this.previewMode === true) {
+      return;
+    }
+
+    let geoLocationData: GeoLocationData[] = [];
+    const mapLocationData: Set<object> = new Set();
+
+    for (const loc of this.accActivitiesData) {
+      let city = loc.city;
+      city = city.trim();
+      let country = loc.country;
+      country = country.trim();
+      geoLocationData.push({city: city, country_code: country});
+    }
+
+    geoLocationData = this.geolocationService.getGeoData(geoLocationData);
+
+    for (const loc of geoLocationData) {
+      if (loc.lat && loc.lon) {
+        mapLocationData.add({name: loc.city, value: [loc.lon, loc.lat]});
+      }
+    }
+
+    this.accActivityMapOptions = {
+      series: [
+        {
+          type: 'effectScatter',
+          coordinateSystem: 'geo',
+          data: Array.from(mapLocationData),
+          color: '#007FFF',
+          symbolSize: 10,
+          showEffectOn: 'render',
+          rippleEffect: {
+            brushType: 'stroke',
+            scale: 3
+          },
+          tooltip: {
+            trigger: 'item',
+            show: true,
+            formatter: (params: any) => {
+              return params.name;
+            }
+          },
+        },
+      ]
     }
   }
 }

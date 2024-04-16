@@ -74,6 +74,8 @@
           </nz-result>
         </div> -->
       <ng-container *ngIf="dataAvailableLoc; else noDataTemplate">
+        <world-map [mapOptions]="loginMapOptions"></world-map>
+        <br />
         <nz-table [nzData]="loginLocationsData" #loginLocations>
           <thead>
             <tr>
@@ -86,7 +88,7 @@
             <tr *ngFor="let eachRow of loginLocations.data">
               <td>{{ eachRow.location }}</td>
               <td>{{ eachRow.device }}</td>
-              <td>{{ eachRow.created_timestamp * 1000 | date:'long' }}</td>
+              <td>{{ eachRow.created_timestamp * 1000 | date:"YYYY-MM-dd HH:mm" }}</td>
             </tr>
           </tbody>
         </nz-table>
@@ -132,7 +134,7 @@
           <tbody>
             <tr *ngFor="let eachRow of loginLogouts.data">
               <td>{{ eachRow.action }}</td>
-              <td>{{ eachRow.timestamp * 1000 | date:'long' }}</td>
+              <td>{{ eachRow.timestamp * 1000 | date:"YYYY-MM-dd HH:mm" }}</td>
             </tr>
           </tbody>
         </nz-table>
@@ -188,7 +190,7 @@
                 ></div>
               </ng-template>
               <b class="timeline-item-font">{{ eachRows.status }}</b> <br />
-              on {{ eachRows.timestamp * 1000 | date:'long' }}
+              on {{ eachRows.timestamp * 1000 | date:"YYYY-MM-dd HH:mm" }}
             </nz-timeline-item>
           </nz-timeline>
         </div>
@@ -206,7 +208,7 @@
           <tbody>
             <tr *ngFor="let eachRow of accStatusChange.data">
               <td>{{ eachRow.status }}</td>
-              <td>{{ eachRow.timestamp }}</td>
+              <td>{{ eachRow.timestamp * 1000 | date:"YYYY-MM-dd HH:mm" }}</td>
             </tr>
           </tbody>
         </nz-table>
@@ -255,6 +257,8 @@
           </nz-col>
         </nz-row>
         <br />
+        <world-map [mapOptions]="accActivityMapOptions"></world-map>
+        <br />
         <nz-table [nzData]="accActivitiesData" #accActivityData>
           <thead>
             <tr>
@@ -269,7 +273,7 @@
           <tbody>
             <tr *ngFor="let eachRow of accActivityData.data">
               <td>{{ eachRow.action }}</td>
-              <td>{{ eachRow.timestamp }}</td>
+              <td>{{ eachRow.timestamp * 1000 | date:"YYYY-MM-dd HH:mm" }}</td>
               <td>{{ eachRow.city }}</td>
               <td>{{ eachRow.region }}</td>
               <td>{{ eachRow.country }}</td>

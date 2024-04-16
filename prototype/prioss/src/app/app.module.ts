@@ -116,6 +116,8 @@ import { FacebookFriendsStatisticsComponent } from './facebook/pages/friend-and-
 import { FacebookModule } from './facebook/facebook.module';
 import { FriendAndFollowersComponent } from './facebook/pages/friend-and-followers/friend-and-followers.component';
 import { TopSongsComponent } from './spotify/pages/top-songs/top-songs.component';
+import { WorldMapComponent } from './features/world-map/world-map.component';
+
 
 registerLocaleData(de);
 
@@ -240,7 +242,8 @@ registerLocaleData(de);
     NgxsStoragePluginModule.forRoot(),
     NgChartsModule,
     NgxEchartsModule.forRoot({ echarts: () => import('echarts') }),
-    TopSongsComponent
+    TopSongsComponent,
+    WorldMapComponent,
   ],
   providers: [
     FeatureToggleService,
