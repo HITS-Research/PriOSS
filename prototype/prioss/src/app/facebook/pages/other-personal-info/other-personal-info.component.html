@@ -56,16 +56,25 @@
           </button>
         </div>
 
-        <div class="grid-container">
-          <ng-container *ngFor="let entry of getVisibleAddressBookData()">
-            <div class="cell">
-              <div class="text">
-                <p>{{ entry.name }}</p>
-                <p>{{ entry.details[0].contact_point }}</p>
+        <nz-list>
+          <div nz-row [nzGutter]="[8, 8]">
+            @for (item of getVisibleAddressBookData(); track item){
+              <div nz-col [nzSpan]="6">
+                <nz-card>
+                  <div nz-row>
+                    <div nz-col nzFlex="1" class="center-text"><nz-avatar nzIcon="user" [style.background-color]="addressAvatarColorMapping[item.name]"></nz-avatar></div>
+                    <div nz-col nzFlex="3" class="address-name" [title]="item.name">{{item.name}}</div>
+                  </div>
+                  <br />
+                  <div nz-row>
+                    <div nz-col nzFlex="1" class="center-text"><span nz-icon nzType="phone" nzTheme="outline" style="font-size: 1rem;"></span></div>
+                    <div nz-col nzFlex="3">{{item.details[0].contact_point}}</div>
+                  </div>
+                </nz-card>
               </div>
-            </div>
-          </ng-container>
-        </div>
+            }
+          </div>
+        </nz-list>
         <div class="pagination">
           <button
             class="page-btn"
@@ -93,8 +102,6 @@
     <nz-tab nzTitle="Search History">
       <ng-container *ngIf="dataAvailableSearchHistory; else noDataTemplate">
         <div class="search-history-list">
-          <h2>Searched History</h2>
-
           <div class="search-bar">
             <input
               type="text"
@@ -104,11 +111,15 @@
             />
             <button class="clear-button" (click)="clearSearch()">Clear</button>
           </div>
-          <ul>
-            <li class="list-item" *ngFor="let item of getVisibleData()">
-              {{ item.data[0].text }}
-            </li>
-          </ul>
+          <div class="search-history-items">
+            @for (item of getVisibleData(); track item){
+              <span nz-tooltip nzTooltipTitle="{{item.timestamp * 1000 | date:'YYYY-MM-dd HH:mm'}}">
+                <nz-tag [nzColor]="'#108ee9'" class="center-text">
+                  {{item.data[0].text}}
+                </nz-tag>
+              </span>
+            }
+          </div>
 
           <div class="pagination">
             <button
