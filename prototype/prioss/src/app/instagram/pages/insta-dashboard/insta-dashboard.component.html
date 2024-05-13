@@ -18,22 +18,19 @@
     <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
       <div nz-col nzXs="24" nzXl="8">
         <!--card for visualizing the personal information-->
-        <app-dash-card id="personalInformation" cardLink="/insta/personal-info" titleText="Personal Information"
-            tooltipText="This card shows your general personal information like email, gender, birthdate etc. Click to find out more.">
+        <app-dash-card id="personalInformation" cardLink="/insta/personal-info" titleText="Personal Information">
           <app-personal-info [previewMode]="true"></app-personal-info>
         </app-dash-card>
       </div>
       <div nz-col nzXs="24" nzXl="8">
         <!--card for visualizing all about advertisements-->
-        <app-dash-card id="advertisement" cardLink="/insta/ads" titleText="Advertisement"
-            tooltipText="This card shows all data related to ads like viewed ads, clicked ads etc. Click to find out more.">
+        <app-dash-card id="advertisement" cardLink="/insta/ads" titleText="Advertisement">
           <app-insta-ads [previewMode]="true"></app-insta-ads>
         </app-dash-card>
       </div>
       <div nz-col nzXs="24" nzXl="8">
         <!--card for visualizing the login and account creation-->
-        <app-dash-card cardLink="/insta/account" titleText="Account Creation and Login"
-            tooltipText="This card shows all data related to all logins and logouts as well as the devices used. Click to find out more.">
+        <app-dash-card cardLink="/insta/account" titleText="Account Creation and Login">
           <app-insta-account-creation-login [previewMode]="true"></app-insta-account-creation-login>
         </app-dash-card>
       </div>
@@ -42,22 +39,19 @@
     <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
       <div nz-col nzXs="24" nzXl="8">
         <!--card for visualizing for friends and followers-->
-        <app-dash-card cardLink="/insta/followers" titleText="Followers and Following"
-            tooltipText="This card shows all data related to followers like current followers, pending followers, blocked accounts ect. Click to find out more.">
+        <app-dash-card cardLink="/insta/followers" titleText="Followers and Following">
           <app-insta-followers [previewMode]="true"></app-insta-followers>
         </app-dash-card>
       </div>
       <div nz-col nzXs="24" nzXl="8">
         <!--card for visualizing the contacts-->
-        <app-dash-card cardLink="/insta/contacts" titleText="Contacts"
-            tooltipText="This card shows all contacts synchronized with your instagram account. Click to find out more.">
+        <app-dash-card cardLink="/insta/contacts" titleText="Contacts">
           <app-insta-contact [previewMode]="true"></app-insta-contact>
         </app-dash-card>
       </div>
       <div nz-col nzXs="24" nzXl="8">
         <!--card for visualizing the liked comments and posts-->
-        <app-dash-card cardLink="/insta/likedcontent" titleText="Liked Comments and Posts"
-            tooltipText="This card shows all comments and posts that you likes. Click to find out more.">
+        <app-dash-card cardLink="/insta/likedcontent" titleText="Liked Comments and Posts">
           <app-insta-liked-content [previewMode]="true"></app-insta-liked-content>
         </app-dash-card>
       </div>
@@ -66,22 +60,19 @@
   <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
     <div nz-col nzXs="24" nzXl="8">
       <!--card for visualizing for searches-->
-      <app-dash-card cardLink="/insta/searches" titleText="Searches"
-          tooltipText="This card shows all searches that you have done with your accounts like user searches or keyword searches etc. Click to find out more.">
+      <app-dash-card cardLink="/insta/searches" titleText="Searches">
         <app-insta-searches [previewMode]="true"></app-insta-searches>
       </app-dash-card>
     </div>
     <div nz-col nzXs="24" nzXl="8">
       <!--card for visualizing for shopping data-->
-      <app-dash-card cardLink="/insta/shopping" titleText="Shopping"
-            tooltipText="This card shows all items in recently viewed and wishlist shopping cart. Click to find out more.">
+      <app-dash-card cardLink="/insta/shopping" titleText="Shopping">
           <app-insta-shopping [previewMode]="true"></app-insta-shopping>
       </app-dash-card>
     </div>
     <div nz-col nzXs="24" nzXl="8">
       <!--card for visualizing for your topic-->
-      <app-dash-card cardLink="/insta/your-topic" titleText="Your topic"
-            tooltipText="This card shows all topics instagram thinks you are interested. Click to find out more.">
+      <app-dash-card cardLink="/insta/your-topic" titleText="Your topic">
           <app-insta-your-topic [previewMode]="true"></app-insta-your-topic>
       </app-dash-card>
     </div>
@@ -91,8 +82,7 @@
   <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
     <div nz-col nzXs="24" nzXl="8">
       <!--card for visualizing for messages-->
-      <app-dash-card cardLink="/insta/messages" titleText="Messages"
-          tooltipText="This card shows more information about exchanged messages on Instagram. Click to find out more.">
+      <app-dash-card cardLink="/insta/messages" titleText="Messages">
         <app-insta-messages [previewMode]="true"></app-insta-messages>
       </app-dash-card>
     </div>
@@ -144,22 +134,19 @@
   <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
     <div nz-col nzXs="24" nzXl="8">
       <!--card for Privacy settings judge-->
-      <app-dash-card cardLink="" titleText="Privacy Settings Judge"
-          tooltipText="In this card, you can check if your Instagram settings are setup to protect your privacy. Just answer the questions below to learn how you can improve your privacy through your Instagram account's settings.">
+      <app-dash-card cardLink="" titleText="Privacy Settings Judge">
             <app-settings-form [service]="'Instagram'"></app-settings-form>
           </app-dash-card>
     </div>
 
     <div nz-col nzXs="24" nzXl="8" class="column"><!--card for privacy recommendation - How to block folllowers-->
-       <app-dash-card cardLink="/insta/block-followers" titleText="How to Block Followers"
-            tooltipText="This card provides guidelines that help you to block followers for your Instagram account. The guidelines are provided for Web Browser users. Click to find out more.">
+       <app-dash-card cardLink="/insta/block-followers" titleText="How to Block Followers">
             <p nz-typography>This section provides you guidelines to block followers for Instagram.</p>
         </app-dash-card>
     </div>
 
     <div nz-col nzXs="24" nzXl="8" class="column"><!--card for privacy recommendation- How to hide Instagram Stories and live videos from specific people -->
-      <app-dash-card cardLink="/insta/hide-stories" titleText="How to Hide Instagram Stories"
-            tooltipText="This card provides guidelines that help you to hide Instagram stories and live videos from specific people. The guidelines are provided for Web Browser users. Click to find out more.">
+      <app-dash-card cardLink="/insta/hide-stories" titleText="How to Hide Instagram Stories">
             <p nz-typography>This section provides you guidelines to hide Instagram Stories and live videos from specific people.</p>
         </app-dash-card>
     </div>
