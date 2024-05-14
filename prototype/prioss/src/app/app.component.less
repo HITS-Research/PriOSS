@@ -12,7 +12,7 @@ nz-sider {
   position: sticky;
   inset: 0 auto 0 0;
   height: 100dvh;
-  box-shadow: 2px 0 6px rgba(0, 21, 41, .35);
+  box-shadow: 2px 0 6px rgba(0, 21, 41, 0.35);
   background: #fff;
 }
 
@@ -28,57 +28,60 @@ nz-sider {
   }
 }
 
-header {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-content: stretch;
-  overflow: auto;
-}
-
 footer {
   display: flex;
   flex-direction: column;
-  gap: 1em;
   align-items: center;
+  gap: 1em;
   justify-content: end;
   padding-bottom: 2em;
 }
 
-nz-header {
-  position: sticky;
-  inset: 0 0 auto;
-  overflow: auto;
-  z-index: 1;
-  padding: 0;
+.sidemenu-wrapper{
   display: flex;
   flex-direction: row;
-  gap: 1em;
-  align-items: stretch;
-  background: #fff;
-  box-shadow: 2px 0 6px rgba(0, 21, 41, .35);
 }
-
 .sidebar-trigger {
+  transition: all 0.2s;
+  width: 50px;
+  height: 50px;
+  z-index: 5000;
+  position: sticky;
+  top: 0px;
+  box-shadow: 6px 0 6px -3px rgba(0, 21, 41, 0.35);
   font-size: 20px;
   aspect-ratio: 1/1;
   border: none;
-  background-color: transparent;
+  background-color: white;
 
   &:hover {
     background-color: lightgray;
   }
 }
+@media screen and (max-width: 1000px) {
+  .trigger-collapsed {
+    left: 0px;
+  }
+}
+@media screen and (min-width: 1000px){
+  .trigger-collapsed {
+    left: 80px;
+  }
+}
 
+.trigger-expanded {
+  left: 256px;
+}
 .sidebar-logo {
+  overflow: hidden;
   position: relative;
   height: 64px;
   padding-left: 24px;
-  overflow: hidden;
+  //overflow: hidden;
   line-height: 64px;
   background: #fff;
-  transition: all .3s;
-  grid-row: span 1; //this makes the element take up one of the three rows in the grid
+  transition: all 0.3s;
+  //grid-row: span 1; //this makes the element take up one of the three rows in the grid
 
   img {
     display: inline-block;
@@ -98,7 +101,7 @@ nz-header {
 }
 
 nz-content {
-  overflow: auto;
+  overflow: hidden;
   padding: 2rem;
 }
 
