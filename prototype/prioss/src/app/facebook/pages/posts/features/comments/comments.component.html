@@ -1,0 +1,22 @@
+<nz-table #commentTable [nzFrontPagination]="false" [nzData]="commentData()">
+    <thead>
+        <th
+        [nzSortFn]="sortCommentsByDate"
+        nzSortOrder="descend"
+        ></th>
+    </thead>
+    <tbody>
+        <tr *ngFor="let comment of commentTable.data">
+            <td>
+                <nz-card [nzTitle]="comment.title" [nzExtra]="extraTemplate">
+                    {{ comment.data[0].comment.comment }}
+                    
+                </nz-card>
+                <ng-template #extraTemplate>
+                    <p>{{comment.timestamp*1000 | date:"YYYY-MM-dd"}}</p>
+                  </ng-template>
+            
+        </tr>
+    </tbody>
+</nz-table>
+<nz-back-top></nz-back-top>

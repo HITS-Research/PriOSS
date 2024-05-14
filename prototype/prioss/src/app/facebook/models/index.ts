@@ -13,6 +13,8 @@ export { GamingBookmarkAndAppSettingsModel } from './activityAcrossFacebook/Gami
 //activitiesAcrossFacebook/Posts
 export { PostPhotoModel } from './activityAcrossFacebook/Posts/Photo';
 export { AlbumModel } from './activityAcrossFacebook/Posts/AlbumPosts';
+export { PostModel } from './activityAcrossFacebook/Posts/Post';
+export { UncategorizedPhotos } from './activityAcrossFacebook/Posts/UncategorizedPhotos';
 //activitiesAcrossFacebook/Polls
 export { PollVotesModel } from './activityAcrossFacebook/Polls/Polls';
 //activitiesAcrossFacebook/Payments

@@ -22,7 +22,7 @@ import {
   UpdateFbUserData,
 } from '../../../facebook/state/fb.action';
 import * as devicetypeUtils from '../../../features/utils/devicetype.functions';
-import {
+import type {
   InstaChatData,
   InstaChatPartnerData,
 } from '../../../instagram/models/MessageInfo/InstaChatData';
@@ -30,9 +30,9 @@ import {
   ResetInstaUserData,
   UpdateInstaUserData,
 } from '../../../instagram/state/insta.action';
-import InstaUserDataModel from '../../../instagram/state/models/insta-user-data-model.interface';
-import { InferredTopicsModel } from 'src/app/facebook/models/LoggedInformation/Topics/Topics';
-import {
+import type InstaUserDataModel from '../../../instagram/state/models/insta-user-data-model.interface';
+import type { InferredTopicsModel } from 'src/app/facebook/models/LoggedInformation/Topics/Topics';
+import type {
   FbActivityAcrossFacebookModel,
   FbAdsInformationModel,
   FbAppsAndWebsitesOffOfFacebookDataModel,
@@ -43,7 +43,7 @@ import {
   FbSecurityLoginInformationDataModel,
   FbUserDataModel,
 } from 'src/app/facebook/state/models';
-import {
+import type {
   AccountActivityModel,
   AccountStatusChangesModel,
   ActiveSessionsModel,
@@ -105,10 +105,12 @@ import {
   MessageRequestModel,
   PrimaryPublicLocationModel,
   LoginProtectionDataModel,
+  LikesAndReactionsModel,
 } from 'src/app/facebook/models';
 import { FeatureToggleService, Services } from 'src/app/features/feature-toggle/feature-toggle.service';
-import { ReelsPreferenceModel } from 'src/app/facebook/models/Preferences/Preferences/ReelsPreference';
-import { DevicePushSettingModel } from 'src/app/facebook/models/Preferences/Preferences/DevicePushSettings';
+import type { ReelsPreferenceModel } from 'src/app/facebook/models/Preferences/Preferences/ReelsPreference';
+import type { DevicePushSettingModel } from 'src/app/facebook/models/Preferences/Preferences/DevicePushSettings';
+import {  LikesAndReactionsItem } from 'src/app/facebook/models/activityAcrossFacebook/CommentsAndReactions/LikesAndReactions';
 //service identifier filenames
 const instaIDFilename = 'TODO';
 const spotIDFilename = 'MyData/Read_Me_First.pdf';
@@ -606,11 +608,23 @@ export class ServiceSelectionComponent implements AfterViewInit {
         const jsonData: GroupInteractionModel = this.parseFacebookJSON(content);
         userData.logged_information.group_interaction = jsonData;
       } else if (
-        filename === 'your_posts__check_ins__photos_and_videos_1.json'
+        /your_posts__check_ins__photos_and_videos_[0-9]+\.json/.test(filename)
       ) {
-        //TODO fix for new folder structure
+        if (!userData.activity_across_facebook.posts) {
+          userData.activity_across_facebook.posts = [];
+        }
+        userData.activity_across_facebook.posts = [...this.parseFacebookJSON(content)];
+        //folder structure is: posts/album/0.json posts/album/1.json etc
+      } else if(filepath.includes('posts') && filepath.includes('album')){
+        if(/[0-9]\.json/.test(filename)){
+          if(!userData.activity_across_facebook.albums){
+            userData.activity_across_facebook.albums = [];
+          }
+          userData.activity_across_facebook.albums.push(this.parseFacebookJSON(content));
+        }
+      } else if (filename === 'your_uncategorized_photos.json'){
+        userData.activity_across_facebook.uncategorizedPhotos = this.parseFacebookJSON(content);
       }
-
       //security_and_login_information
       else if (filename === 'logins_and_logouts.json') {
         const jsonData: LoginsAndLogoutsModel = this.parseFacebookJSON(content);
@@ -694,10 +708,29 @@ export class ServiceSelectionComponent implements AfterViewInit {
       } else if (filename === 'your_groups.json') {
         const jsonData: GroupsAdminedModel = this.parseFacebookJSON(content);
         userData.activity_across_facebook.groupsAdmined = jsonData;
-      } else if (filename === 'group_posts_and_comments.json') {
+      }else if(filename === 'comments.json'){
+        userData.activity_across_facebook.comments = this.parseFacebookJSON(content);
+      } else if(filename.startsWith('likes_and_reactions_')){
+        if(userData.activity_across_facebook.likesAndReactions === undefined || userData.activity_across_facebook.likesAndReactions === {} as LikesAndReactionsModel){
+          userData.activity_across_facebook.likesAndReactions = {} as LikesAndReactionsModel;
+          userData.activity_across_facebook.likesAndReactions.likes_and_reactions = this.parseFacebookJSON(content);
+        } else{
+          const jsonData: LikesAndReactionsItem[] = this.parseFacebookJSON(content);
+          userData.activity_across_facebook.likesAndReactions.likes_and_reactions = [...jsonData];
+        }
+      }
+      else if (filename === 'group_posts_and_comments.json') {
         const jsonData: GroupPostsModel = this.parseFacebookJSON(content);
         userData.activity_across_facebook.groupPosts = jsonData;
-      } else if (filename === 'your_event_responses.json') {
+      } else if(filename === "pages_you've_liked.json"){
+        userData.activity_across_facebook.likedPages = this.parseFacebookJSON(content);
+      } else if(filename === "pages_and_profiles_you_follow.json"){
+        userData.activity_across_facebook.followedPagesAndProfiles = this.parseFacebookJSON(content);
+      } else if(filename === "pages_and_profiles_you've_unfollowed.json"){
+        userData.activity_across_facebook.unfollowedPages = this.parseFacebookJSON(content);
+      }
+      
+      else if (filename === 'your_event_responses.json') {
         const jsonData: EventResponsesModel = this.parseFacebookJSON(content);
         userData.activity_across_facebook.eventResponses = jsonData;
       } else if (filename === 'event_invitations.json') {
@@ -706,10 +739,9 @@ export class ServiceSelectionComponent implements AfterViewInit {
       } else if (filename === "events_you've_hidden.json") {
         const jsonData: EventsInvitedModel = this.parseFacebookJSON(content);
         userData.activity_across_facebook.eventsInvited = jsonData;
-      } else if (filename === 'message_1.json') {
-
-        //What the fuck, i am sorry for everyone who has to understand this in the future, hopefully you find a better way to solve this
-        if (filepath.includes('archived_threads')) {
+        //check for files with names like message_1.json, message_2.json etc.
+      } else if (/^message_[0-9]+\.json/.test(filename)){
+        if(filepath.includes('archived_threads')){
           const jsonData: ArchivedThreadModel = this.parseFacebookJSON(content);
           userData.activity_across_facebook.archivedThreads ??= [];
           userData.activity_across_facebook.archivedThreads?.push(jsonData);

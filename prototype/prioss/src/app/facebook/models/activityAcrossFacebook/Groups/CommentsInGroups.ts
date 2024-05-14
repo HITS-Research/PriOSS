@@ -23,6 +23,7 @@ export interface GroupCommentsItem {
   timestamp: number;
   data: GroupCommentData[];
   title: string;
+  
 }
 export interface GroupCommentData {
   comment: GroupComment;
@@ -30,4 +31,6 @@ export interface GroupCommentData {
 export interface GroupComment {
   timestamp: number;
   comment: string;
+  group: string;
+  author: string;
 }

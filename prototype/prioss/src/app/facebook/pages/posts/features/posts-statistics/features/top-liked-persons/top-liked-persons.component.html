@@ -1,0 +1,10 @@
+<form nz-form>
+    <nz-form-item>
+        <nz-form-label [nzLabelAlign]="'left'" [nzSpan]="6">Number of Friends to show</nz-form-label>
+        <nz-form-control [nzSpan]="14">
+                <nz-input-number nz-input type="number" max="20" min="1" step="1" name="number-of-friends"
+                    [ngModel]="amountOfTopPersons()" (ngModelChange)="amountOfTopPersons.set($event)" />
+        </nz-form-control>
+    </nz-form-item>
+</form>
+<div echarts [options]="options()"></div>

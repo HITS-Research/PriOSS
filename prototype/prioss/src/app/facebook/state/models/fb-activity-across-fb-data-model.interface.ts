@@ -1,4 +1,4 @@
-import {
+import type {
   AlbumModel,
   CommentsModel,
   EventResponsesModel,
@@ -29,8 +29,10 @@ import {
   GroupsJoinedModel,
   GroupCommentsModel,
   GroupBadgesModel,
+  PostModel,
+  UncategorizedPhotos,
+  PagesFollowedModel,
 } from '../../models';
-
 export default interface FbActivityAcrossFacebookModel {
   comments?: CommentsModel;
   likesAndReactions?: LikesAndReactionsModel;
@@ -39,12 +41,15 @@ export default interface FbActivityAcrossFacebookModel {
   eventsHidden?: EventsHiddenModel;
   fundraisers?: FundraisersModel;
   gamingBookmarkAndAppSettings?: GamingBookmarkAndAppSettingsModel;
-  albums?: AlbumModel;
+  albums?: AlbumModel[];
   postPhotos?: PostPhotoModel;
+  posts?: PostModel[];
+  uncategorizedPhotos?: UncategorizedPhotos;
   polls?: PollVotesModel;
   payments?: PaymentsModel;
   unfollowedPages?: PagesUnfollowedModel;
   likedPages?: PageLikedModel;
+  followedPagesAndProfiles?: PagesFollowedModel;
   recentlyFollowedHistory?: RecentlyFollowedHistoryModel;
   pokes?: PokesModel;
   informatinDownloadRequests?: InformationDownloadRequestsModel;

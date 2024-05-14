@@ -51,6 +51,7 @@ export class MessagesComponent implements OnInit {
     this.username = userData.personal_information.profile_information.profile_v2.name.full_name;
     // Get all messages info
     this.messagesData = userData.activity_across_facebook.inboxMessages || [];
+   
     this.filterChatsItems();
 
     // Get all face group chats info

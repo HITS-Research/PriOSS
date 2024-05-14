@@ -1,0 +1,6 @@
+@if(groupCommentsPerYear().length > 0 || commentsPerYear().length > 0){
+    <div echarts [options]="options()"></div>
+}@else {
+    <div class="no-data">
+        <nz-empty ></nz-empty>
+    </div>}
