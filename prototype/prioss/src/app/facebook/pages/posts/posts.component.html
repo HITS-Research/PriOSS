@@ -1,125 +1,132 @@
 <div>
   <div *ngIf="previewMode">
     <nz-row [nzGutter]="16">
-      <nz-col [nzSpan]="10">
+      <nz-col [nzSpan]="12">
         <nz-statistic
-          [nzValue]="groupPostCountPreview()"
+          [nzValue]="postCountPreview()"
           [nzTitle]="'Posts'"
-          [nzPrefix]="location"
-          [nzValueStyle]="{ display: 'inline-flux' }"
-        >
+          [nzPrefix]="comment"
+          [nzValueStyle]="{ display: 'inline-flux' }">
         </nz-statistic>
-        <ng-template #location>
-          <div class="container_class">
-            <span nz-icon nzType="bar-chart" nzTheme="outline"></span>
-          </div>
-        </ng-template>
       </nz-col>
+
+      <nz-col [nzSpan]="12">
+        <nz-statistic
+          [nzValue]="commentsCountPreview()"
+          [nzTitle]="'Comments'"
+          [nzPrefix]="comment"
+          [nzValueStyle]="{ display: 'inline-flux' }">
+        </nz-statistic>
+      </nz-col>
+
+      <nz-col [nzSpan]="12">
+        <nz-statistic
+          [nzValue]="groupCommentsCountPreview()"
+          [nzTitle]="'Comments in Groups'"
+          [nzPrefix]="comment"
+          [nzValueStyle]="{ display: 'inline-flux' }">
+        </nz-statistic>
+      </nz-col>
+
+      <nz-col [nzSpan]="12">
+        <nz-statistic
+          [nzValue]="reactionsCountPreview()"
+          [nzTitle]="'Likes & Reactions'"
+          [nzPrefix]="like"
+          >
+        </nz-statistic>
+      </nz-col>
+
+      <nz-col [nzSpan]="12">
+        <nz-statistic
+          [nzValue]="albumsCountPreview()"
+          [nzTitle]="'Albums'"
+          [nzPrefix]="camera"
+          >
+        </nz-statistic>
+      </nz-col>
+      
+      <nz-col [nzSpan]="12">
+        <nz-statistic
+          [nzValue]="photosCountPreview()"
+          [nzTitle]="'Photos'"
+          [nzPrefix]="camera"
+          >
+        </nz-statistic>
+      </nz-col>
+    
+      <ng-template #camera>
+        <div class="container_class">
+          <span nz-icon nzType="camera" nzTheme="outline"></span>
+        </div>
+      </ng-template>
+      <ng-template #comment>
+        <div class="container_class">
+          <span nz-icon nzType="comment" nzTheme="outline"></span>
+        </div>
+      </ng-template>
+      <ng-template #location>
+        <div class="container_class">
+          <span nz-icon nzType="bar-chart" nzTheme="outline"></span>
+        </div>
+      </ng-template>
+      <ng-template #like>
+        <div class="container_class">
+          <span nz-icon nzType="like" nzTheme="outline"></span>
+        </div>
+      </ng-template>
+      
     </nz-row>
   </div>
   <div *ngIf="!previewMode">
     <app-title-bar
-      titleText="Posts"
-      tooltipText="This visualization provides a comprehensive overview of your facebook posts alongwith an overview about years and months you were most active or inactive in posting"
-    ></app-title-bar>
-    <div style="padding: 30px 0" *ngIf="!monthView">
-      <div nz-row [nzGutter]="8">
-        <div nz-col [nzSpan]="8">
-          <nz-card nzTitle="Most active year(s) for posting">
-            <div *ngFor="let item of maximumPost">
-              <p>
-                <b style="font-size: 16px">{{ item.year }}</b> with post count
-                <b style="font-size: 16px">{{ item.count }}</b>
-              </p>
-            </div>
-          </nz-card>
-        </div>
-        <div nz-col [nzSpan]="8">
-          <nz-card nzTitle="Least active year(s) for posting">
-            <div *ngFor="let item of minimumPost">
-              <p>
-                <b style="font-size: 16px">{{ item.year }}</b> with post count
-                <b style="font-size: 16px">{{ item.count }}</b>
-              </p>
-            </div>
-          </nz-card>
-        </div>
-      </div>
-    </div>
-    <div style="padding: 30px 0" *ngIf="monthView">
-      <div nz-row [nzGutter]="8">
-        <div nz-col [nzSpan]="8">
-          <nz-card nzTitle="Most active month(s) for posting">
-            <div *ngFor="let item of maximumPost">
-              <p>
-                <b style="font-size: 16px">{{ item.month }}</b> with post count
-                <b style="font-size: 16px">{{ item.count }}</b>
-              </p>
-            </div>
-          </nz-card>
-        </div>
-        <div nz-col [nzSpan]="8">
-          <nz-card nzTitle="Least active month(s) for posting">
-            <div *ngFor="let item of minimumPost">
-              <p>
-                <b style="font-size: 16px">{{ item.month }}</b> with post count
-                <b style="font-size: 16px">{{ item.count }}</b>
-              </p>
-            </div>
-          </nz-card>
-        </div>
-      </div>
-    </div>
-    <nz-card>
-      <h6 *ngIf="!monthView">
-        This graph visualises the number of post over the period of different
-        years since you joined Facebook.
-      </h6>
-      <h6 *ngIf="monthView">
-        This graph visualises the number of post over the period
-        <b>{{ selectedYear }}</b
-        >.
-      </h6>
-      <nz-tag nzColor="processing" style="float: right" *ngIf="!monthView">
-        <span style="font-size: 16px">Click on the bar for month view</span>
-      </nz-tag>
-      <nz-tag nzColor="processing" style="float: right" *ngIf="monthView">
-        <span style="font-size: 16px"
-          >Click on the bar for list view below the graph for that specific
-          month</span
-        >
-      </nz-tag>
-      <button
-        nz-button
-        nzType="primary"
-        (click)="backToPrevious()"
-        *ngIf="monthView"
-      >
-        <span nz-icon nzType="bar-chart"></span>
-        Year visualization
-      </button>
-      <svg viewBox="0 0 1000 1000" id="post-chart" class="margin-top-30"></svg>
-      <div id="basicTable">
-        <h6 *ngIf="isShowPostList">
-          This table describes the list of post for the month
-          <b>{{ selectedMonth }}</b
-          >.
-        </h6>
-        <nz-table [nzData]="postDataFilter" #basicTable *ngIf="isShowPostList">
-          <thead>
-            <tr>
-              <th nzCustomFilter class="tableCol">Title</th>
-              <th nzCustomFilter class="tableCol">Post</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let data of basicTable.data">
-              <td *ngIf="data.month === selectedMonth">{{ data.title }}</td>
-              <td *ngIf="data.month === selectedMonth">{{ data.post }}</td>
-            </tr>
-          </tbody>
-        </nz-table>
-      </div>
-    </nz-card>
+      titleText="Posts & Comments, Likes and Reactions"
+      tooltipText="This visualization provides a comprehensive overview of your facebook posts along with an overview about years and months you were most active or inactive in posting"></app-title-bar>
+    <nz-tabset>
+      <nz-tab nzTitle="Posts">
+        <nz-row>
+          <nz-col nzFlex="auto">
+            <nz-card>
+              <prioss-posts-overview [activityData]="activityData()">
+              </prioss-posts-overview>
+            </nz-card>
+          </nz-col>
+        </nz-row>
+      </nz-tab>
+      <nz-tab nzTitle="Comments">
+        <nz-row>
+          <nz-col nzFlex="auto">
+            <nz-card>
+              <prioss-comments [activityData]="activityData()">
+              </prioss-comments>
+            </nz-card>
+          </nz-col>
+        </nz-row>
+      </nz-tab>
+      <nz-tab nzTitle="Comments in Groups">
+        <nz-row>
+          <nz-col nzFlex="auto">
+            <nz-card>
+              <prioss-comments-in-groups [activityData]="activityData()">
+              </prioss-comments-in-groups>
+            </nz-card>
+          </nz-col>
+        </nz-row>
+      </nz-tab>
+      <!-- <nz-tab nzTitle="Likes & Reactions">
+        <nz-row>
+          <nz-col nzFlex="auto">
+            <nz-card>
+              <prioss-likes-reactions [activityData]="activityData()">
+              </prioss-likes-reactions>
+            </nz-card>
+          </nz-col>
+        </nz-row>
+      </nz-tab> -->
+      <nz-tab nzTitle="Statistics">
+        <prioss-posts-statistics
+          [userData]="userData()">
+        </prioss-posts-statistics>
+      </nz-tab>
+    </nz-tabset>
   </div>
-</div>

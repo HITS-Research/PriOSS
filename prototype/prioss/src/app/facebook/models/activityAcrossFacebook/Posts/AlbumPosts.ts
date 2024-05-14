@@ -1,4 +1,4 @@
-import { PostPhotoModel } from './Photo';
+import type { PostPhotoModel } from './Photo';
 
 /**
  * @example {

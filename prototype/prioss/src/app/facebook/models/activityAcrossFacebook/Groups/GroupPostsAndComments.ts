@@ -1,3 +1,5 @@
+import type { PostModel } from "../Posts/Post";
+
 /**{
     "group_posts_v2": [
       {
@@ -42,35 +44,6 @@
   }
    */
 export interface GroupPostsModel {
-  group_posts_v2: GroupPostsItem[];
+  group_posts_v2: PostModel[];
 }
-export interface GroupPostsItem {
-  timestamp: number;
-  attachments?: Attachment[];
-  data: GroupPostData[];
-  title: string;
-}
-export interface GroupPostData {
-  post: string;
-}
-export interface Attachment {
-  data: Datum[];
-}
-export interface Datum {
-  media: Media;
-}
-export interface Media {
-  uri: string;
-  creation_timestamp: number;
-  media_metadata: MediaMetadata;
-}
-export interface MediaMetadata {
-  photo_metadata: PhotoMetadata;
-}
-export interface PhotoMetadata {
-  exif_data: ExifDatum[];
-}
-export interface ExifDatum {
-  upload_ip: string;
-  taken_timestamp: number;
-}
+
