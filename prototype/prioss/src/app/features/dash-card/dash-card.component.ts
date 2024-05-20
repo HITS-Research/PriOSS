@@ -20,7 +20,9 @@ export class DashCardComponent {
   @Input()
   cardLink: string;
   @Input()
-  tooltipText: string;
-  @Input()
   fillVerticalSpace = true;
+  @Input()
+  buttonText = 'Explore';
+  @Input()
+  buttonIcon = 'double-right';
 }

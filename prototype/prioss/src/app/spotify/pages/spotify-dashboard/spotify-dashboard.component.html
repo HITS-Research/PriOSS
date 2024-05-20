@@ -34,7 +34,6 @@
         <app-dash-card
           cardLink="/spot/general-data"
           titleText="User Data"
-          tooltipText="This card shows your general user data like your email, gender, postal address etc. Click to find out more."
         >
           <prioss-spotify-user-data [preview]="true" />
         </app-dash-card>
@@ -49,7 +48,6 @@
         <app-dash-card
           cardLink="/spot/listening-time"
           titleText="Listening Time"
-          tooltipText="This card shows for how long you have listened to spotify at what times. You can customize the shown timeframe as you wish. Click to find out more."
         >
           <prioss-spotify-listening-time [previewMode]="true" />
         </app-dash-card>
@@ -69,7 +67,6 @@
         <app-dash-card
           cardLink="/spot/top-artists"
           titleText="Top Artists"
-          tooltipText="This card shows your most played artists. You can customize the timeframe over which this is calculated. Click to find out more."
         >
           <prioss-spotify-top-artists [previewMode]="true" />
         </app-dash-card>
@@ -83,7 +80,6 @@
         <app-dash-card
           cardLink="/spot/top-songs"
           titleText="Top Songs"
-          tooltipText="This card shows your most played songs. You can customize the timeframe over which this is calculated. Click to find out more."
         >
           <prioss-spotify-top-songs [previewMode]="true" />
         </app-dash-card>
@@ -97,7 +93,6 @@
         <app-dash-card
           cardLink="/spot/mood"
           titleText="Average Mood of Songs"
-          tooltipText="This card shows your mood. You can customize the timeframe over which this is calculated. Click to find out more."
         >
           <prioss-spotify-mood [previewMode]="true" />
         </app-dash-card>
@@ -117,7 +112,6 @@
           [fillVerticalSpace]="true"
           cardLink="/spot/search-history"
           titleText="Search History"
-          tooltipText="This card shows information about your Spotify search history. You can discover a full list of your search history upon clicking the card."
         >
           <prioss-spotify-search-history [previewMode]="true" />
         </app-dash-card>
@@ -139,7 +133,6 @@
         <app-dash-card
           cardLink="/spot/inference"
           titleText="Inferences"
-          tooltipText="This card shows the interests you have and groups you belong to according to Spotify. You can let Spotify delete them, if you think they are incorrect. Click to find out more."
         >
           <prioss-spotify-inferences [previewMode]="true" />
         </app-dash-card>
@@ -161,7 +154,6 @@
         <app-dash-card
           cardLink=""
           titleText="Privacy Settings Judge"
-          tooltipText="In this card, you can check if your Spotify settings are setup to protect your privacy. Just answer the questions below to learn how you can improve your privacy through your Spotifyaccount's settings."
         >
           <app-settings-form [service]="'Spotify'"></app-settings-form>
         </app-dash-card>

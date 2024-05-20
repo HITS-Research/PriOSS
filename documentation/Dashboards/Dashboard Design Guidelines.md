@@ -47,15 +47,14 @@ The individual divs each contain one card and are automatically arranged accordi
 A single card can be defined like this:
 
 ```html
-<app-dash-card cardLink="/spot/general-data" titleText="User Data" 
-            tooltipText="This card shows your general user data like your email, gender, postal address etc. Click to find out 								more.">
+<app-dash-card cardLink="/spot/general-data" titleText="User Data" buttonText="Explore" buttonIcon="double-right">
   <!-- Card content -->
 </app-dash-card>
 ```
 
-The cardLink makes the whole card clickable and defines the component page that is navigated to on click.
-
-This example shows a card with the title "User Data" that leads to the /spot/general-data page. It also defines a tooltip that is displayed when the user hovers hover the question mark icon in the upper right corner of the card
+The titleText defines the title of the card, buttonText defines the text of the button and buttonIcon defines the icon of the button. The buttonIcon can be any icon from the [Ant Design Icon Library](https://ng.ant.design/components/icon/en)
+The button navigates to the page defined in the cardLink attribute.
+This example shows a card with the title "User Data" that leads to the /spot/general-data page.
 
 ## Background color
 

@@ -34,7 +34,6 @@
         <app-dash-card
           cardLink="/face/general-data"
           titleText="User Data"
-          tooltipText="This card shows your general user data like your email, gender, etc. which Facebook may not show in your public profile."
         >
           <app-general-data [previewMode]="true"></app-general-data>
         </app-dash-card>
@@ -44,7 +43,6 @@
         <app-dash-card
           cardLink="/face/ads-related-data"
           titleText="Advertisements"
-          tooltipText="This card gives you more information about your Ads-related data. Click More to see what information Facebook has been tracking related to your activities/interactions with Ads."
         >
           <app-ads-related-data [previewMode]="true"></app-ads-related-data>
         </app-dash-card>
@@ -54,7 +52,6 @@
         <app-dash-card
           cardLink="/face/connections"
           titleText="Facebook Connections"
-          tooltipText="This card provides information about your connections, e.g friends, people you may know, etc."
         >
         
           <app-friend-and-followers
@@ -69,7 +66,6 @@
         <app-dash-card
           cardLink="/face/messages-info"
           titleText="Messages"
-          tooltipText="This section provides information about the messages with other people,friends and also group interactions."
         >
           <app-messages [previewMode]="true"></app-messages>
         </app-dash-card>
@@ -79,7 +75,6 @@
         <app-dash-card
           cardLink="/face/posts"
           titleText="Posts"
-          tooltipText="This section provides information about the posts added to the facebook."
         >
           <app-posts [previewMode]="true"></app-posts>
         </app-dash-card>
@@ -89,7 +84,6 @@
         <app-dash-card
           cardLink="/face/inferred-topics"
           titleText="Your Topics"
-          tooltipText="This card lists the inferences made by Facebook based on your profile activity - posts you liked, videos you watched, Ads you have clicked. Click to find out  more."
         >
           <app-inferred-topics [previewMode]="true"></app-inferred-topics>
         </app-dash-card>
@@ -101,7 +95,6 @@
         <app-dash-card
           cardLink="/face/other-personal-info"
           titleText="Other Personal Information"
-          tooltipText="This card provides information about the address book details and the search history."
         >
           <app-other-personal-info
             [previewMode]="true"
@@ -113,7 +106,6 @@
         <app-dash-card
           cardLink="/face/security-login"
           titleText="Security and Login"
-          tooltipText="This card gives a gist of your Facebook Security and Login info. Click to see year-wise details."
         >
           <app-security-login-data
             [previewMode]="true"
@@ -125,7 +117,6 @@
         <app-dash-card
           cardLink="/face/groups-and-events-data"
           titleText="Events & Groups Information"
-          tooltipText="This card gives a gist of the Events you are invited to, events you are interested in and the groups you have joined. Click to know more!"
         >
           <app-groups-and-events-data
             [previewMode]="true"
@@ -179,8 +170,7 @@
   <div id="fStep30">
     <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
       <div nz-col nzXs="24" nzXl="8">
-        <app-dash-card cardLink="" titleText="Privacy Settings Judge"
-        tooltipText="In this card, you can check if your Facebook settings are setup to protect your privacy. Just answer the questions below to learn how you can improve your privacy through your Facebook account settings.">
+        <app-dash-card cardLink="" titleText="Privacy Settings Judge">
           <app-settings-form [service]="'Facebook'"></app-settings-form>
         </app-dash-card>
       </div>
@@ -188,20 +178,17 @@
     <br>
       <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
         <div nz-col nzXs="24" nzXl="8">
-          <app-dash-card cardLink="/face/configure-off-facebook-activity" titleText="Configure Off-Facebook Activity"
-          tooltipText="This section provides you guidelines to Turn OFF your Off-Facebook Activity.">
+          <app-dash-card cardLink="/face/configure-off-facebook-activity" titleText="Off-Facebook Activity">
           <p nz-typography>This section provides you guidelines to Turn OFF your Off-Facebook Activity.</p>
           </app-dash-card>
         </div>
         <div nz-col nzXs="24" nzXl="8">
-          <app-dash-card cardLink="/face/guidelines-for-ads-settings" titleText="Guidelines to Hide Advertisements"
-          tooltipText="This section provides you guidelines to hide the ads you don't want to see anymore.">
+          <app-dash-card cardLink="/face/guidelines-for-ads-settings" titleText="Hide Advertisements">
           <p nz-typography>This section provides you guidelines to hide the ads you don't want to see anymore.</p>
           </app-dash-card>
         </div>
         <div nz-col nzXs="24" nzXl="8">
-          <app-dash-card cardLink="/face/your-topics" titleText="Guidelines to Manage Inferred Topics"
-          tooltipText="This section provides you guidelines to hide the ads you don't want to see anymore.">
+          <app-dash-card cardLink="/face/your-topics" titleText="Manage Inferred Topics">
           <p nz-typography>This section provides you guidelines to manage Inferred Topics and see less ads related to those topics in future.</p>
           </app-dash-card>
         </div>
