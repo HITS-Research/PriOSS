@@ -1,48 +1,40 @@
 <!--
     This HTML shows Facebook's Purposes on dashboard.
-    @author: Deepa Belvi (dbelvi@mail.uni-paderborn.de)
+    @author: Subhadeep Debnath (sdebnath@mail.uni-paderborn.de)
 -->
 
 <app-accordion title="Purposes - Why does Facebook collect your data ?">
-    <br>
-    <div id="purpose" class="large-icon">
-      <nz-card>
-        <nz-table nzTemplateMode>
-          <thead>
-          <tr>
-            <th [nzWidth]="'70%'" class="large-icon">Purpose</th>
-            <th class="large-icon">Data Collected</th>
-          </tr>
+  <br>
+  <div id="purpose">
+    <nz-card nzTitle="Exemplary Purposes">
+      <p nz-topography>
+          The following purposes should give an example of Facebook's reasoning in regards to data collection. To Get a full list of their reasons you can check out Facebook's <a target="_blank"
+          href="https://www.facebook.com/privacy/policy/">privacy policy</a><span nz-icon
+                                                                                          nzType="link"></span>
+      </p>
+      <nz-table nzTemplateMode>
+        <thead>
+        <tr>
+          <th [nzWidth]="'70%'">Purpose</th>
+          <th>Data Collected</th>
+        </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let row of dataRows">
-            <td>
-              <p class="purpose-contents-descr">
-                <strong> {{ row.shortPurpose }}:</strong>
-                {{ row.detailedPurpose }}
-              </p>
-            </td>
-            <td>
-              <ng-container
-                *ngFor="
-                  let data of row.dataCollected.split(', ');
-                  let last = last
-                "
-              >
-                <i
-                  nz-icon
-                  [nzType]="dataIcons[data]"
-                  [nzTheme]="'outline'"
-                  class="large-icon"
-                  [title]="data"
-                ></i>
-                <span *ngIf="!last">&nbsp;</span>
-              </ng-container>
-            </td>
-          </tr>
-          </tbody>
-        </nz-table>
-      </nz-card>
-    </div>
-  </app-accordion>
-  
+        <tr *ngFor="let row of dataRows">
+          <td>
+            <p class="purpose-contents-descr">
+              <strong>{{ row.shortPurpose }}:</strong> {{ row.detailedPurpose }}
+            </p>
+          </td>
+          <td>
+            <ng-container *ngFor="let data of row.dataCollected.split(', '); let last = last">
+              <i nz-icon [nzType]="dataIcons[data]" [nzTheme]="'outline'" class="large-icon" [title]="data"></i>
+              <span *ngIf="!last">&nbsp;</span> <!-- Add a non-breaking space if not the last icon -->
+            </ng-container>
+          </td>
+        </tr>
+        </tbody>
+      </nz-table>
+    </nz-card>
+  </div>
+</app-accordion>
