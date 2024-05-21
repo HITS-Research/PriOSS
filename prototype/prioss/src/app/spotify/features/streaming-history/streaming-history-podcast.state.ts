@@ -1,29 +1,29 @@
 import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 import {
-  SpotifyReadStreamingHistoryFromZip,
-  SpotifyResetStreamingHistory,
-} from './streaming-history.actions';
-import { SpotifyStreamingHistoryStateModel } from './streaming-history.statemodel';
+  SpotifyReadStreamingHistoryPodcastFromZip,
+  SpotifyResetStreamingHistoryPodcast,
+} from './streaming-history-podcast.actions';
+import { SpotifyStreamingHistoryPodcastStateModel as SpotifyStreamingHistoryPodcastStateModel } from './streaming-history-podcast.statemodel';
 
 /**
  * The default values of this state.
  */
-const defaults: SpotifyStreamingHistoryStateModel[] = [];
+const defaults: SpotifyStreamingHistoryPodcastStateModel[] = [];
 
 /**
  * The state of follow data of the users zip file.
  */
-@State<SpotifyStreamingHistoryStateModel[]>({
-  name: 'spotifyStreamingHistory',
+@State<SpotifyStreamingHistoryPodcastStateModel[]>({
+  name: 'spotifyStreamingHistoryPodcast',
   defaults: defaults,
 })
 @Injectable()
-export class SpotifyStreamingHistoryState {
+export class SpotifyStreamingHistoryPodcastState {
   @Selector()
   static state(
-    state: SpotifyStreamingHistoryStateModel[],
-  ): SpotifyStreamingHistoryStateModel[] {
+    state: SpotifyStreamingHistoryPodcastStateModel[],
+  ): SpotifyStreamingHistoryPodcastStateModel[] {
     return state;
   }
 
@@ -31,7 +31,9 @@ export class SpotifyStreamingHistoryState {
    * Returns a tuple of the min and max date of all the model-data.
    */
   @Selector()
-  static dateRange(state: SpotifyStreamingHistoryStateModel[]): [Date, Date] {
+  static dateRange(
+    state: SpotifyStreamingHistoryPodcastStateModel[],
+  ): [Date, Date] {
     if (state.length === 0) return [new Date(), new Date()];
 
     let min: Date = new Date(state[0].endTime);
@@ -49,9 +51,9 @@ export class SpotifyStreamingHistoryState {
   /**
    * Resets the Streaming-History-State.
    */
-  @Action(SpotifyResetStreamingHistory)
+  @Action(SpotifyResetStreamingHistoryPodcast)
   resetStreamingHistory(
-    context: StateContext<SpotifyStreamingHistoryStateModel[]>,
+    context: StateContext<SpotifyStreamingHistoryPodcastStateModel[]>,
   ) {
     context.setState(defaults);
   }
@@ -59,14 +61,14 @@ export class SpotifyStreamingHistoryState {
   /**
    * Reads and initializes the Streaming-History-State by the given zip file.
    */
-  @Action(SpotifyReadStreamingHistoryFromZip)
+  @Action(SpotifyReadStreamingHistoryPodcastFromZip)
   async readStreamingHistoryFromZip(
-    context: StateContext<SpotifyStreamingHistoryStateModel[]>,
-    { zip }: SpotifyReadStreamingHistoryFromZip,
+    context: StateContext<SpotifyStreamingHistoryPodcastStateModel[]>,
+    { zip }: SpotifyReadStreamingHistoryPodcastFromZip,
   ) {
-    const stateContent: SpotifyStreamingHistoryStateModel[][] = [];
+    const stateContent: SpotifyStreamingHistoryPodcastStateModel[][] = [];
     for (let i = 0; ; i++) {
-      const FILE_NAME: string = `StreamingHistory_music_${i}.json`;
+      const FILE_NAME: string = `StreamingHistory_podcast_${i}.json`;
 
       const fileName = Object.keys(zip.files).find(
         f => f.split('/').at(-1) === FILE_NAME,
@@ -76,9 +78,8 @@ export class SpotifyStreamingHistoryState {
       const file = zip.file(fileName);
       if (!file) break;
 
-      const fileContent: SpotifyStreamingHistoryStateModel[] = JSON.parse(
-        await file.async('string'),
-      );
+      const fileContent: SpotifyStreamingHistoryPodcastStateModel[] =
+        JSON.parse(await file.async('string'));
 
       if (typeof fileContent === 'object') stateContent.push(fileContent);
     }

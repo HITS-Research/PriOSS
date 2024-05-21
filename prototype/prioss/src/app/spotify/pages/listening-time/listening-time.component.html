@@ -1,93 +1,129 @@
 @if (vm$ | async; as vm) {
-  @if (previewMode) {
-    <div
-      echarts
-      [options]="vm.chartView"
-      class="chart"
-    ></div>
-  } @else{
-    <app-title-bar
-      titleText="Listening Time"
-      tooltipText="This bar chart shows how long you have listened to various tracks over the years. You can set the date yourself using the range selector, or you can click on a bar to zoom in on the data."
+@if (previewMode) {
+<div
+  echarts
+  [options]="vm.chartView"
+  class="chart"
+></div>
+} @else{
+<app-title-bar
+  titleText="Listening Time"
+  tooltipText="This bar chart shows how long you have listened to various tracks over the years. You can set the date yourself using the range selector, or you can click on a bar to zoom in on the data."
+/>
+
+<nz-card nzTitle="Filter">
+  <div class="header-group">
+    <button
+      nz-button
+      block="false"
+      class="icon-button"
+      (click)="resetChart()"
+    >
+      <span
+        nz-icon
+        nzType="rollback"
+      ></span>
+      Reset chart
+    </button>
+    <nz-range-picker
+      ngModel
+      [ngModel]="vm.dateRangeCombined"
+      (nzOnCalendarChange)="changeDateRange($event)"
     />
+  </div>
+</nz-card>
 
-    <nz-card nzTitle="Filter">
-      <div class="header-group">
-        <button
-          nz-button
-          block="false"
-          class="icon-button"
-          (click)="resetChart()"
-        >
-          <span
-            nz-icon
-            nzType="rollback"
-          ></span>
-          Reset chart
-        </button>
-        <nz-range-picker
-          ngModel
-          [ngModel]="vm.dateRange"
-          (nzOnCalendarChange)="changeDateRange($event)"
-        />
-      </div>
-    </nz-card>
-
-    <nz-card nzTitle="Data">
-      <nz-tabset #tabset>
-        <nz-tab nzTitle="Bar chart">
-          @if (vm.chartView; as chartView) {
-            @if (vm.listeningDataView.length > 0) {
-              <div
-                echarts
-                [options]="chartView"
-                (chartClick)="changeObservableData($event)"
-                class="chart"
-              ></div>
-            } @else {
-              <nz-empty nzNotFoundImage="simple" />
-            }
-          } @else {
-            Loading and calculating data...
+<nz-card nzTitle="Data">
+  <nz-tabset #tabset>
+    <nz-tab nzTitle="Bar chart">
+      @if (vm.chartView; as chartView) {
+      @if (vm.listeningDataViewMusic.length > 0 || vm.listeningDataPodcast.length > 0) {
+      <div
+        echarts
+        [options]="chartView"
+        (chartClick)="changeObservableData($event)"
+        class="chart"
+      ></div>
+      } @else {
+      <nz-empty nzNotFoundImage="simple" />
+      }
+      } @else {
+      Loading and calculating data...
+      }
+    </nz-tab>
+    <nz-tab nzTitle="Song Table">
+      @if (vm.listeningDataViewMusic; as dataView) {
+      @if (dataView.length > 0) {
+      <nz-table
+        #basicTable
+        [nzData]="dataView"
+        [nzPageSize]="100"
+        [nzScroll]="{ y: 'calc(100vh - 369px)' }"
+        [nzShowPagination]="true"
+      >
+        <thead>
+          <tr>
+            <th>Song Name</th>
+            <th>Artist</th>
+            <th>Time</th>
+            <th>Listening Time (HH:MM:SS)</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of basicTable.data; track i; let i = $index) {
+          <tr>
+            <td>{{ item.trackName }}</td>
+            <td>{{ item.artistName }}</td>
+            <td>{{ item.endTime }}</td>
+            <td>{{ item.msPlayed }}</td>
+          </tr>
           }
-        </nz-tab>
-        <nz-tab nzTitle="Song Table">
-          @if (vm.listeningDataView; as dataView) {
-            @if (dataView.length > 0) {
-              <nz-table
-                #basicTable
-                [nzData]="dataView"
-                [nzPageSize]="100"
-                [nzScroll]="{ y: 'calc(100vh - 369px)' }"
-                [nzShowPagination]="true"
-              >
-                <thead>
-                  <tr>
-                    <th>Song Name</th>
-                    <th>Artist</th>
-                    <th>Time</th>
-                    <th>Listening Time (HH:MM:SS)</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  @for (item of basicTable.data; track i; let i = $index) {
-                    <tr>
-                      <td>{{ item.trackName }}</td>
-                      <td>{{ item.artistName }}</td>
-                      <td>{{ item.endTime }}</td>
-                      <td>{{ item.msPlayed }}</td>
-                    </tr>
-                  }
-                </tbody>
-              </nz-table>
-            } @else {
-              <nz-empty nzNotFoundImage="simple" />
-            }
-          } @else {
-            Loading and calculating data...
+        </tbody>
+      </nz-table>
+      } @else {
+      <nz-empty nzNotFoundImage="simple" />
+      }
+      } @else {
+      Loading and calculating data...
+      }
+    </nz-tab>
+    <nz-tab nzTitle="Podcast Table">
+      @if (vm.listeningDataPodcast; as dataView) {
+      @if (dataView.length > 0) {
+      <nz-table
+        #basicTable
+        [nzData]="dataView"
+        [nzPageSize]="100"
+        [nzScroll]="{ y: 'calc(100vh - 369px)' }"
+        [nzShowPagination]="true"
+      >
+        <thead>
+          <tr>
+            <th>Podcast Name</th>
+            <th>Episode</th>
+            <th>Time</th>
+            <th>Listening Time (HH:MM:SS)</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of basicTable.data; track i; let i = $index) {
+          <tr>
+            <td>{{ item.podcastName }}</td>
+            <td>{{ item.episodeName }}</td>
+            <td>{{ item.endTime }}</td>
+            <td>{{ item.msPlayed }}</td>
+          </tr>
           }
-        </nz-tab>
-      </nz-tabset>
-    </nz-card>
-  }
+        </tbody>
+      </nz-table>
+      } @else {
+      <nz-empty nzNotFoundImage="simple" />
+      }
+      } @else {
+      Loading and calculating data...
+      }
+    </nz-tab>
+  </nz-tabset>
+</nz-card>
+}
 }

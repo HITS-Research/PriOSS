@@ -9,6 +9,7 @@ import { SpotifyPlaylistState } from './features/playlist/playlist.state';
 import { SpotifyPaymentState } from './features/payments/payments.state';
 import { SpotifyIdentifiersState } from './features/identifier/identifier.state';
 import { SpotifyFollowState } from './features/follow/follow.state';
+import { SpotifyStreamingHistoryPodcastState } from './features/streaming-history/streaming-history-podcast.state';
 
 @NgModule({
   declarations: [],
@@ -21,6 +22,7 @@ import { SpotifyFollowState } from './features/follow/follow.state';
       SpotifyPlaylistState,
       SpotifySearchHistoryState,
       SpotifyStreamingHistoryState,
+      SpotifyStreamingHistoryPodcastState,
       SpotifyUserLibraryState,
       SpotifyUserState,
     ]),
