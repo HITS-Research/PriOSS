@@ -61,27 +61,47 @@ export class DataDownloadInstagramComponent {
     }, {
       title: 'Step 2',
       description: 'Now go to <strong><i>More</i></strong> option in the bottom-left corner.',
-      imageUrl: '../../assets/images/insta-instructions/31.png'
+      imageUrl: '../../assets/images/insta-instructions/DD_2.png'
     }, {
       title: 'Step 3',
       description: 'Select <b><i>Your activity</i></b> option.',
-      imageUrl: '../../assets/images/insta-instructions/32.png'
+      imageUrl: '../../assets/images/insta-instructions/DD_3.png'
     }, {
       title: 'Step 4',
-      description: 'On the page, now click on <b><i>Download your information</i></b> option.',
-      imageUrl: '../../assets/images/insta-instructions/33.png'
+      description: 'Click <b><i>Download your information</i></b> and press on <b><i>Continue</i></b>.',
+      imageUrl: '../../assets/images/insta-instructions/DD_5.png'
     }, {
       title: 'Step 5',
-      description: 'Verify your e-mail address. Select <b><i>JSON</i></b> format and click on <b><i>Next</i></b>',
-      imageUrl: '../../assets/images/insta-instructions/34.png'
+      description: 'A pop-up window will open and you have to select <b><i>Download or transfer information</i></b> button.',
+      imageUrl: '../../assets/images/insta-instructions/DD_6.png'
     }, {
       title: 'Step 6',
-      description: 'Before you go to the final step of requesting your data, make sure that the website is set to <b><i>English</i></b>. You can change that on the bottom of the screen. It is necessary to analyze your data correcty and after requesting your data you can switch back to your favorite language.',
-      imageUrl: '../../assets/images/insta-instructions/35.png'
+      description: 'A new window from <b><i>Meta</i></b> will open where you have to select your Instagram account.',
+      imageUrl: '../../assets/images/insta-instructions/DD_7.png'
     }, {
       title: 'Step 7',
-      description: 'Enter your <b><i>password</i></b> and click <b><i>Request Download</i></b>. <br> After a few minutes to a couple of days, you will receive an email titled <b><i>Your Instagram Data</i></b> with a link to your data. Tap <b><i>Download data</i></b> and follow the instructions to finish downloading your information. <br> Return to this website after you downloaded your data.',
-      imageUrl: '../../assets/images/insta-instructions/36.png'
+      description: 'A new pop-up window will open, where you have to select between two options for the amount of information. Select <b><i>All available information</i></b> for a full data download, which is recommended. Otherwise, select the other option to validate basic details.',
+      imageUrl: '../../assets/images/insta-instructions/DD_8.png'
+    }, {
+      title: 'Step 8',
+      description: 'Select the <b><i>Download to device</i></b> option to download the data to your device, and click <b><i>Next</i></b>.',
+      imageUrl: '../../assets/images/insta-instructions/DD_9.png'
+    }, {
+      title: 'Step 9',
+      description: 'In the next step, select <b><i>Format</i></b> option.',
+      imageUrl: '../../assets/images/insta-instructions/DD_10.png'
+    }, {
+      title: 'Step 10',
+      description: 'Select <b><i>JSON</i></b> as the format for data download and click <b><i>Save</i></b>. Then click <b><i>Create Files</i></b> to download.',
+      imageUrl: '../../assets/images/insta-instructions/DD_11.png'
+    }, {
+      title: 'Step 11',
+      description: 'You will see an <b><i>In Progress</i></b> message from Meta. Shortly, you will receive an email from Meta saying, <b><i>Your Meta information download is ready</i></b>. Open the email and tap on the <b><i>download your information</i></b> link to download.',
+      imageUrl: '../../assets/images/insta-instructions/DD_12.png'
+    }, {
+      title: 'Step 12',
+      description: 'A new page from Meta Account Center will open with the <b><i>Download</i></b> button. Click on the button to download the data zip.',
+      imageUrl: '../../assets/images/insta-instructions/DD_13.png'
     }
   ];
 
