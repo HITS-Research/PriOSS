@@ -1,151 +1,162 @@
-<div class="component-page">
+<h2>Select your Service</h2>
 
-  <p class="t-explanation">
-    Select the service from which you want to explore your personal data
-  </p>
+<article class="service-selection__button-group">
+  @for (service of services(); track service.name) {
+  <button
+    [title]="service.name"
+    [ariaLabel]="'Service Selection: ' + service.name"
+    [style]="{ 'background': service.background }"
+    (click)="
+      selectedService.set(service);
+      selectedPopup.set('data-select');
+    "
+  >
+    <img [src]="service.logoUrl">
+  </button>
+  }
+</article>
 
-  <div class="selection-list">
-    <div class="selection-choice">
-      <input type="radio" name="apps" id="instagram" class="input-hidden" (click)="selectApp(appType.Instagram)" />
-      <label for="instagram">
-        <img src="../../assets/images/instagram.png">
-        <h3>Instagram</h3>
-      </label>
-    </div>
-    <div class="selection-choice">
-      <input type="radio" name="apps" id="facebook" class="input-hidden"  (click)="selectApp(appType.Facebook)"/>
-      <label for="facebook">
-        <img src="../../assets/images/facebook.png">
-        <h3>Facebook</h3>
-      </label>
-    </div>
-    <div class="selection-choice">
-      <input type="radio" name="apps" id="spotify" class="input-hidden" (click)="selectApp(appType.Spotify)"/>
-      <label for="spotify">
-        <img src="../../assets/images/spotify.png">
-        <h3>Spotify</h3>
-      </label>
-    </div>
-  </div>
+<nz-modal
+  nzCentered
+  [nzTitle]="selectedService()?.name"
+  [nzVisible]="selectedPopup() === 'data-select'"
+  [nzContent]="dataOptionsContent"
+  [nzFooter]="null"
+  (nzVisibleChange)="selectedService.set($event ? selectedService() : null)"
+  (nzOnCancel)="
+    selectedService.set(null);
+    selectedPopup.set('');
+  "
+>
+  <ng-template #dataOptionsContent>
+    <section class="option-selection">
+      <button
+        nz-button
+        nzSize="large"
+        nzType="default"
+        (click)="processSampleData()"
+      >
+        Explore this service with sample data
+      </button>
 
-  <nz-modal id="progress-bar-dialog"
-      [nzVisible]="progressBarVisible()"
-      (nzVisibleChange)="progressBarVisible.set($event)"
-      [nzTitle]="progressBarTitle"
-      [nzContent]="progressBarContent"
-      [nzFooter]="modalFooter"
-      (nzOnCancel)="abortDataParsing()"
-      nzCentered>
-      
-    <ng-template #progressBarTitle>
-      Reading in your data-download...
-    </ng-template>
+      <a
+        nz-button
+        nzSize="large"
+        nzType="default"
+        routerLink="/serviceSelection/dataDownload"
+        [queryParams]="{tab : selectedServiceName()}"
+        queryParamsHandling="merge"
+      >
+        How to download your Data
+      </a>
 
-    <ng-template #progressBarContent>
-      <nz-progress [nzPercent]="progressBarPercent()"></nz-progress>
-    </ng-template>
+      <button
+        nz-button
+        nzSize="large"
+        nzType="primary"
+        (click)="selectedPopup.set('upload')"
+      >
+        Upload and explore your own data
+      </button>
+    </section>
+  </ng-template>
+</nz-modal>
 
-    <ng-template #modalFooter>
-        <span>Please wait, this can take a short while...</span>
-    </ng-template>
-  </nz-modal>
-
-  <nz-modal id="upload-dialog"
-      [nzVisible]="uploadDialogVisible()"
-      (nzVisibleChange)="uploadDialogVisible.set($event)"
-      [nzTitle]="uploadDialogTitle"
-      [nzContent]="uploadContent"
-      [nzFooter]="uploadDialogFooter"
-      (nzOnCancel)="abortDataUpload()"
-      nzCentered>
-      
-    <ng-template #uploadDialogTitle>
-      Input your data-download file
-    </ng-template>
-
-    <ng-template #uploadContent>
-      <p class="file-upload-explanation">From here, everything works offline. You can switch into flight mode or disconnect from the internet before uploading your ".zip"-file.</p>
+<nz-modal
+  nzCentered
+  [nzTitle]="selectedService()?.name"
+  [nzVisible]="selectedPopup() === 'upload'"
+  [nzContent]="dataUpload"
+  [nzFooter]="dataUploadfooter"
+  (nzVisibleChange)="selectedService.set($event ? selectedService() : null)"
+  (nzOnCancel)="
+    selectedService.set(null);
+    selectedPopup.set('');
+  "
+>
+  <ng-template #dataUpload>
+    <section class="option-selection">
       <div class="image-upload-wrap">
-        <input type="file" (change)="onFileSelected($event)" class="file-upload-input"  placeholder="Upload file" accept=".zip">
+        <input
+          type="file"
+          class="file-upload-input"
+          placeholder="Upload file"
+          accept=".zip"
+          (change)="selectedFileList.set($any($event.target).files)"
+          (drop)="selectedFileList.set($any($event.target).files)"
+        >
         <div class="drag-text">
-          <p>Drop file or click to choose your {{selectedServiceName}} data-download</p>
-          <p>Please input a ".zip"-file</p>
-          <p *ngIf="selectedFileName.length > 0">Your selected file: {{selectedFileName}}</p>
+          <span>
+            Drop file or click to choose your {{ selectedServiceName() }}
+            data-download
+          </span>
+          <span>
+            Please input a ".zip"-file
+          </span>
+          @if (selectedFileNames().length > 0) {
+          <span>
+            Your selected file: {{ selectedFileNames() }}
+          </span>
+          }
         </div>
       </div>
-      
-      <nz-alert *ngIf="errorMsg.length > 0"
+
+      @if (errorMsg.length > 0) {
+      <nz-alert
         nzType="error"
         nzCloseable
         nzMessage="Error"
-        nzDescription="{{errorMsg}}"
-        (nzOnClose)="afterCloseErrorMsg()"
-      ></nz-alert>
+        [nzDescription]="errorMsg"
+        (nzOnClose)="errorMsg = ''"
+      />
+      }
+    </section>
+  </ng-template>
 
-      <p class="file-upload-explanation">Where can I download my data ? <a routerLink="/serviceSelection/dataDownload" [queryParams]="{tab : selectedServiceName}" queryParamsHandling="merge">click here</a> for instructions</p>
-    </ng-template>
+  <ng-template #dataUploadfooter>
+    <button
+      nz-button
+      nzType="default"
+      (click)="selectedPopup.set('data-select')"
+    >
+      Back to Options
+    </button>
 
-    <ng-template #uploadDialogFooter>
-      <button nz-button nzType="primary" class="icon-button" block="false" (click)="onClickedExploreData()">
-        <span nz-icon nzType="arrow-right"></span>
-        Continue with Personal Data
-      </button>
-    </ng-template>
-  </nz-modal>
+    <button
+      nz-button
+      nzType="primary"
+      [disabled]="selectedFiles().length === 0"
+      (click)="processFile()"
+    >
+      Process File
+    </button>
+  </ng-template>
+</nz-modal>
 
-  <div *ngIf="selectedServiceName">
-    <div class="page-instructions">
-      <br>
-      <p class="t-explanation">
-        Don't want to use your own personal data?
-      </p>
+<nz-modal
+  [nzVisible]="progressBarVisible()"
+  (nzVisibleChange)="progressBarVisible.set($event)"
+  [nzTitle]="progressBarTitle"
+  [nzContent]="progressBarContent"
+  [nzFooter]="modalFooter"
+  (nzOnCancel)="abortDataParsing()"
+  nzCentered
+>
 
-      <button nz-button nzSize="large" nzType="default" block="false" class="icon-button continue-btn" (click)="onClickedExploreSampleData()">
-        <span nz-icon nzType="arrow-right"></span>
-        Continue with Sample Data
-      </button>
+  <ng-template #progressBarTitle>
+    Reading in your data-download...
+  </ng-template>
 
-      <div class="t-explanation">
-        <span class="or-separator">OR:</span>
-        
-        <span nz-icon class="centered-icon" nzType="download" nzTheme="outline"></span> 
-        <span class="centered-icon line-break">
-          <a routerLink="/serviceSelection/dataDownload" [queryParams]="{tab : selectedServiceName}" queryParamsHandling="merge">
-            Download your personal data (click here) 
-          </a> 
-          as a ".zip"-file
-        </span>
-        
-        <span nz-icon class="centered-icon" nzType="bar-chart" nzTheme="outline"></span> 
-        <span class="centered-icon">
-          Then click 'Continue with Personal Data' and input your ".zip"-file in the popup.
-        </span>
-      </div>
+  <ng-template #progressBarContent>
+    <nz-progress [nzPercent]="progressBarPercent()" />
+  </ng-template>
 
-      <div>
-        
-        <button nz-button nzSize="large" nzType="primary" block="false" class="icon-button continue-btn" (click)="openDataUploadDialog()">
-          <span nz-icon nzType="arrow-right"></span>
-          Continue with Personal Data
-        </button>
+  <ng-template #modalFooter>
+    <span>Please wait, this can take a short while...</span>
+  </ng-template>
+</nz-modal>
 
-        <br>
-
-        <div class="t-explanation">
-          <span nz-icon class="centered-icon" nzType="wifi" nzTheme="outline"></span> 
-          <span class="centered-icon">
-            This website works offline. Switch into flight mode or disconnect from the internet before uploading your ".zip"-file.
-          </span>  
-        </div>
-
-      </div>
-    </div>
-  
-  <!-- Back to Top Button - Currently not needed anymore due to the shorter site length
-  <button *ngIf="selectedServiceName" nz-button nzSize="large" class="go-to-top-btn" (click)="scrollToTop()">
-    <span nz-icon nzType="vertical-align-top" nzTheme="outline"></span>
-    Go to Top
-  </button> -->
-
-</div>
-<app-offline-indicator [bottom]="'32px'" [right]="'32px'"></app-offline-indicator>
+<app-offline-indicator
+  bottom="32px"
+  right="32px"
+/>

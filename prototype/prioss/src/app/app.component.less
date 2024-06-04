@@ -1,114 +1,23 @@
-:host {
-  // display: block;
-  // height: 100%;
-  // width: 100%;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+.background-cover {
+  z-index: 9999;
+  position: fixed;
+  inset: 0;
+  background-color: #000;
+  opacity: 0.8;
 }
 
-nz-sider {
-  z-index: 2;
-  position: sticky;
-  inset: 0 auto 0 0;
-  height: 100dvh;
-  box-shadow: 2px 0 6px rgba(0, 21, 41, 0.35);
-  background: #fff;
-}
+main {
+  margin: 4.5rem auto 0;
+  padding: 1rem;
+  overflow-x: auto;
 
-.sider-content {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-content: stretch;
-  overflow: auto;
-
-  > :last-child {
-    flex-grow: 1;
+  @media (min-width: 1210px) {
+    max-width: 1200px;
+    padding: 0;
   }
 }
 
 footer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1em;
-  justify-content: end;
-  padding-bottom: 2em;
-}
-
-.sidemenu-wrapper{
-  display: flex;
-  flex-direction: row;
-}
-.sidebar-trigger {
-  transition: all 0.2s;
-  width: 50px;
-  height: 50px;
-  z-index: 3;
-  position: sticky;
-  top: 0px;
-  box-shadow: 6px 0 6px -3px rgba(0, 21, 41, 0.35);
-  font-size: 20px;
-  aspect-ratio: 1/1;
-  border: none;
-  background-color: white;
-
-  &:hover {
-    background-color: lightgray;
-  }
-}
-@media screen and (max-width: 1000px) {
-  .trigger-collapsed {
-    left: 0px;
-  }
-}
-@media screen and (min-width: 1000px){
-  .trigger-collapsed {
-    left: 80px;
-  }
-}
-
-.trigger-expanded {
-  left: 256px;
-}
-.sidebar-logo {
-  overflow: hidden;
-  position: relative;
-  height: 64px;
-  padding-left: 24px;
-  //overflow: hidden;
-  line-height: 64px;
-  background: #fff;
-  transition: all 0.3s;
-  //grid-row: span 1; //this makes the element take up one of the three rows in the grid
-
-  img {
-    display: inline-block;
-    height: 32px;
-    width: 32px;
-    vertical-align: middle;
-  }
-
-  h1 {
-    display: inline-block;
-    margin: 0 0 0 20px;
-    color: #000;
-    font-size: 20px;
-    // font-family: Avenir,Helvetica Neue,Arial,Helvetica,sans-serif;
-    vertical-align: middle;
-  }
-}
-
-nz-content {
-  overflow: hidden;
-  padding: 2rem;
-}
-
-nz-footer {
   text-align: center;
-  display: flex;
-  flex-direction: column;
-  gap: 1em;
-  align-items: center;
+  padding: .5rem;
 }

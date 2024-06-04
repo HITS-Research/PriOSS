@@ -1,9 +1,15 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { BreakpointObserver } from '@angular/cdk/layout';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  inject,
+  signal
+} from '@angular/core';
 import { Router } from '@angular/router';
-import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
-import * as utilities from 'src/app/features/utils/generalUtilities.functions';
-import { AppComponentMsgService } from './features/messaging/app-component-msg/app-component-msg.service';
 import { AppComponentMsg } from './features/messaging/app-component-msg/app-component-msg.enum';
+import { AppComponentMsgService } from './features/messaging/app-component-msg/app-component-msg.service';
+import { HeaderMenuService } from './framework/features/dashboard-menu/header-menu.service';
 
 /**
  * This is the base component of the application that is always shown. It
@@ -16,51 +22,25 @@ import { AppComponentMsg } from './features/messaging/app-component-msg/app-comp
   selector: 'prioss-root',
   templateUrl: './app.component.html',
   styleUrl: './app.component.less',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent implements OnInit {
   title = 'prioss';
 
-  pRouter: Router;
+  router = inject(Router);
 
-  isCollapsed = false;
+  headerMenuService = inject(HeaderMenuService);
 
-  serviceName: string | null;
+  #appComponentMsgService = inject(AppComponentMsgService);
 
-  showServiceButton = false;
+  breakpointObserver = inject(BreakpointObserver);
 
-  navigateAndScroll: (router: Router, url: string) => void = utilities.navigateAndScroll;
+  serviceName = signal<string | null>(null);
 
-  /**
-   * Determine the width in px of the side menu when it is collapsed.
-   * This is set via a call in ngOnInit depending on the device's screensize.
-   */
-  collapseWidth: number;
-
-  public isWeb = false;
-
-  constructor(
-    private router: Router,
-    private appComponentMsgService: AppComponentMsgService,
-    public breakpointObserver: BreakpointObserver
-  ) {
-    this.pRouter = router;
-
-    appComponentMsgService.appMsg$.subscribe((msg) => {
+  ngOnInit(): void {
+    this.#appComponentMsgService.appMsg$.subscribe(msg => {
       this.parseAppMsg(msg);
     });
-  }
-
-  ngOnInit() {
-    this.breakpointObserver
-      .observe(['(min-width: 500px)'])
-      .subscribe((state: BreakpointState) => {
-        if (state.matches) {
-          this.collapseWidth = 80;
-        } else {
-          this.collapseWidth = 0;
-        }
-      });
   }
 
   /**
@@ -71,47 +51,35 @@ export class AppComponent implements OnInit {
   setServiceName(): void {
     switch (this.router.url) {
       case '/face/dashboard':
-        this.serviceName = 'face';
+        this.serviceName.set('face');
         break;
 
       case '/insta/dashboard':
-        this.serviceName = 'insta';
+        this.serviceName.set('insta');
         break;
 
       case '/spot/dashboard':
-        this.serviceName = 'spot';
+        this.serviceName.set('spot');
         break;
 
       case '/serviceSelection':
-        this.serviceName = null;
+        this.serviceName.set(null);
         break;
     }
-    this.recalculateShowServiceButton();
   }
 
   /**
-   * This method checks if the current url contains a specific fragment
-   *
-   * @param fragment the fragment or section to be checked
-   * @returns true, if the fragment is contained in the dashboard url
-   *          false, if not
-   *
-   * @author: Paul (pasch(at)mail.upb.de)
-   */
-  isSelected(fragment: string): boolean {
-    return this.router.url === '/' + this.serviceName + '/dashboard' + fragment;
-  }
-
-  /**
-   * This method navigates to the current Dashboard. 
+   * This method navigates to the current Dashboard.
    * If serviceName is not defined, it redirects to home page
-   * 
+   *
    * @author: Paul (pasch(at)mail.upb.de)
    *
    */
   routeToDashboard(): void {
-    const navigationPath = this.serviceName ? `/${this.serviceName}/dashboard` : '/home'
-    this.router.navigateByUrl(navigationPath)   
+    const navigationPath = this.serviceName()
+      ? `/${this.serviceName()}/dashboard`
+      : '/home';
+    this.router.navigateByUrl(navigationPath);
   }
 
   /**
@@ -126,32 +94,17 @@ export class AppComponent implements OnInit {
       case AppComponentMsg.backToDashboard:
         this.routeToDashboard();
         break;
+
       case AppComponentMsg.none:
         break;
+
       default:
         break;
     }
   }
 
   /**
-   * This method is responsible for setting the variables that determine if the
-   * navbar is closed and buttons should be shown.
-   *
-   * @author: Paul (pasch(at)mail.upb.de)
+   * Returns the current full year 'YYYY'.
    */
-  handleNavbarFold(): void {
-    this.isCollapsed = !this.isCollapsed;
-    this.recalculateShowServiceButton();
-  }
-
-  /**
-   * Caclulates whether the Switch Service Button should be shown and writes the
-   * result in this.showServiceButton
-   *
-   * @author: Simon (scg(at)mail.upb.de)
-   */
-  recalculateShowServiceButton(): void {
-    this.showServiceButton = !this.router.url.includes('contact') && !this.router.url.includes('about') && !this.router.url.includes('known-issues')
-      && !this.router.url.includes('serviceSelection') && !this.router.url.includes('home');
-  }
+  fullYear = signal(new Date().getFullYear());
 }

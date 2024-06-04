@@ -1,6 +1,47 @@
-@if (vm$ | async; as vm) {
-  <prioss-menu
-    [menu]="vm.menu"
-    [collapsed]="vm.collapsed"
-  ></prioss-menu>
-}
+<ul
+  nz-menu
+  nzTheme="light"
+  [nzMode]="headerMenuService.menuMode()"
+>
+  @for (item of menu(); track item.name) {
+    @if (!item.children) {
+      <li
+        nz-menu-item
+        nzMatchRouter
+      >
+        <a
+          [routerLink]="item.link"
+          (click)="headerMenuService.menuOpen.set(false)"
+        >
+          <span
+            nz-icon
+            [nzType]="item.icon"
+            nzTheme="outline"
+          ></span>
+          <span>{{ item.name }}</span>
+        </a>
+      </li>
+    } @else {
+      <li
+        nz-submenu
+        [nzTitle]="item.name"
+        [nzIcon]="item.icon"
+        (nzOpenChange)="$event && headerMenuService.menuOpen.set($event)"
+      >
+        <ul>
+          @for (subItem of item.children; track subItem.name) {
+            <li nz-menu-item>
+              <a
+                [routerLink]="subItem.link"
+                [fragment]="subItem.fragment"
+                (click)="headerMenuService.menuOpen.set(false)"
+              >
+                {{ subItem.name }}
+              </a>
+            </li>
+          }
+        </ul>
+      </li>
+    }
+  }
+</ul>
