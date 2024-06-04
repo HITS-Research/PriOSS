@@ -117,6 +117,7 @@ import { FacebookModule } from './facebook/facebook.module';
 import { FriendAndFollowersComponent } from './facebook/pages/friend-and-followers/friend-and-followers.component';
 import { TopSongsComponent } from './spotify/pages/top-songs/top-songs.component';
 import { WorldMapComponent } from './features/world-map/world-map.component';
+import { HeaderComponent } from './framework/features/header/header.component';
 
 
 registerLocaleData(de);
@@ -182,6 +183,8 @@ registerLocaleData(de);
     AccordionComponent,
   ],
   imports: [
+    DashboardMenuComponent,
+    HeaderComponent,
     TimePipe,
     FacebookModule,
     FriendAndFollowersComponent,

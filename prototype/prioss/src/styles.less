@@ -19,13 +19,17 @@
  */
 
 .t-content-container {
-    margin-left: 10%;
-    margin-right: 10%;
-    padding-top: 80px;
+  margin-left: 10%;
+  margin-right: 10%;
+  padding-top: 80px;
 }
 
+html,
 body {
-    margin: 0;
+  background-color: #f0f2f5;
+  margin: 0;
+  height: auto;
+  width: auto;
 }
 
 /*
@@ -39,24 +43,25 @@ body {
 
 //the infinite icon rotation animation
 .t-icon-rotate-anim {
-    animation: rotate 1.3s infinite linear;
+  animation: rotate 1.3s infinite linear;
 }
 
 @keyframes rotate {
-    0% {
-        transform: rotate(0deg);
-    }
+  0% {
+    transform: rotate(0deg);
+  }
 
-    100% {
-        transform: rotate(359deg);
-    }
+  100% {
+    transform: rotate(359deg);
+  }
 }
 
 nz-card {
-    overflow: hidden;
+  overflow: hidden;
 }
-nz-header{
-    background-color: @component-bg-color;
+
+nz-header {
+  background-color: @component-bg-color;
 }
 
 /*
@@ -64,8 +69,8 @@ nz-header{
  */
 
 .visualization-card {
-    background: @component-bg-color;
-    //height: 100%;
+  background: @component-bg-color;
+  //height: 100%;
 }
 
 
@@ -74,29 +79,29 @@ nz-header{
  */
 
 .dashboard-section-title {
-    text-align:justify;
-    font-size: x-large;
-    //font-feature-settings:"dist";
-    //font-weight: bold;
-    //color: rgb(27, 55, 87);
+  text-align: justify;
+  font-size: x-large;
+  //font-feature-settings:"dist";
+  //font-weight: bold;
+  //color: rgb(27, 55, 87);
 }
 
 .collapsible-dashboard-section-title {
-    // display: block;
-    position: relative;
-    margin: -0.4em -0.4em 0;
-    padding: 0.5em;
-    text-align:justify;
-    font-size: x-large;
-    ///font-feature-settings:"dist";
-    //font-weight: bold;
-    //color: rgb(27, 55, 87);
+  // display: block;
+  position: relative;
+  margin: -0.4em -0.4em 0;
+  padding: 0.5em;
+  text-align: justify;
+  font-size: x-large;
+  ///font-feature-settings:"dist";
+  //font-weight: bold;
+  //color: rgb(27, 55, 87);
 }
 
 .icon-button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* nz-steps */

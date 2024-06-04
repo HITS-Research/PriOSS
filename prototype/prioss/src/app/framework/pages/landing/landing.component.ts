@@ -1,14 +1,16 @@
-import { Component,ChangeDetectionStrategy } from '@angular/core';
-import { Router} from '@angular/router';
-//Icons
-import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
+import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
+import { Router } from '@angular/router';
+import {
+  IconDefinition,
+  faChevronDown,
+} from '@fortawesome/free-solid-svg-icons';
 
 /**
-  * This component is responsible displaying the initial landing page of the application from which the user can navigate to the service-selection page
-  *
-  * @author: Rishma (rishmamn@mail.uni-paderborn.de ) 
-  *
-  */
+ * This component is responsible displaying the initial landing page of the application from which the user can navigate to the service-selection page
+ *
+ * @author: Rishma (rishmamn@mail.uni-paderborn.de )
+ *
+ */
 @Component({
   selector: 'app-landing',
   templateUrl: './landing.component.html',
@@ -16,15 +18,11 @@ import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LandingComponent {
+  router = inject(Router);
 
-  faChevronDown = faChevronDown;
+  faChevronDown: IconDefinition = faChevronDown;
 
-  constructor(
-    private router: Router
-  ){}
-
-  goToServiceSelection()
-  {
+  goToServiceSelection(): void {
     this.router.navigate(['serviceSelection']);
   }
 }

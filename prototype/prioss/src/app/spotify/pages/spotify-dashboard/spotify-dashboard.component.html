@@ -1,24 +1,26 @@
 <div class="dashboard-page dashboard-container">
   <h1 nz-typography>PriOSS - Spotify</h1>
-  <div
+
+  <a
     id="introduction"
+    class="offset-anchor"
+  ></a>
+  <div
+    id="introduction-intro"
     class="dashboard-intro"
   >
-    Welcome to the Spotify Dashboard where you can view your personal Spotify
-    data.<br>
-    The cards below show different interactive visualizations and explanations
-    about the data Spotify has collected about you.
-    If you are unsure what something means, hover over the (?)-Icons for
-    explanations.<br>
-    You can click on each of the white cards that contains a visualization to
-    explore the visualization in more detail and unlock it's interactivity, try
-    it!
+    Explore your uploaded spotify data on this page.
+    To see a more detailed view about your data, click on the "explore"-button on each card.
   </div>
 
   <ng-template #extraTemplate>
     <a>More</a>
   </ng-template>
 
+  <a
+    id="visualization"
+    class="offset-anchor"
+  ></a>
   <app-accordion title="Visualization">
     <section
       nz-row
@@ -119,6 +121,10 @@
     </section>
   </app-accordion>
 
+  <a
+    id="rectification"
+    class="offset-anchor"
+  ></a>
   <app-accordion title="Rectification">
     <section
       nz-row
@@ -140,6 +146,10 @@
     </section>
   </app-accordion>
 
+  <a
+    id="recommendation"
+    class="offset-anchor"
+  ></a>
   <app-accordion title="Privacy Recommendations">
     <section
       id="stepX"
@@ -161,12 +171,24 @@
     </section>
   </app-accordion>
 
-  <app-gdpr />
+  <a
+    id="gdpr"
+    class="offset-anchor"
+  ></a>
+  <app-gdpr id="gdpr-step" />
 
+  <a
+    id="purpose"
+    class="offset-anchor"
+  ></a>
   <prioss-spotify-purposes />
 
+  <a
+    id="faq"
+    class="offset-anchor"
+  ></a>
   <app-faq
-    id="step7"
+    id="faq-step"
     serviceName="spot"
   />
 </div>

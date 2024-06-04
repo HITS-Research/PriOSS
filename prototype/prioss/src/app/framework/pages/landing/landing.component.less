@@ -1,71 +1,68 @@
-//the main content div of the page
-.t-title-page {
-    text-align: center;
+:host {
+  display: grid;
+  gap: 2rem;
+  padding: 3rem 0;
+  justify-items: center;
+  grid-template-columns: 100%;
+  grid-template-areas:
+    'tit'
+    'act'
+    'inf'
+    'img';
 }
 
-.title-column {
-    margin-bottom: 2rem;
-}
-
-.info-text{
-    font-size: x-large;
-}
-
-//the image on the right side of the screen
-.appflow-img {
-    //height: 60vh;//38rem;
-    width: 100%;
-    object-fit: contain;
-}
-
-.appflow-img-container {
-    display: flex;
-    justify-content: center;
-}
-
-//div containing the title of the page
-.t-title {
-    height: fit-content;
-    width: fit-content;
-    margin-inline: auto;
-}
-
-.t-title h1{
-    font-size: 4vh;
-}
-
-//PriOSS logo above the title
-.t-main-logo img {
-    display: block;
-    margin-inline: auto;
-    height: 15vh;//10rem;
-    width: 15vh;//10rem;
-}
-
-td {
-    vertical-align: top;
-}
-
-//sub title below the main title
-.t-sub-title {
-    font-weight: bold;
-    font-size: 2.2vh;
-}
-
-//the main text content on the page
-.t-title-page p {
-	font-size: 2.2vh;//1.3rem;
-	line-height: 1.5;
-}
-
-//spacer between the subtitle, explanation text and continue button
-.t-v-spacer {
-    padding-block-end: 3vh;//2rem;
-}
-
-.continue-btn  {
-  font-size: large;
-  display: inline-flex;
+.landing__title {
+  grid-area: tit;
+  font-size: 2em;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+
+  @media (min-width: 950px) {
+    font-size: 3em;
+  }
+
+  h1 {
+    text-wrap: balance;
+    text-align: center;
+  }
+
+  img {
+    height: 7rem;
+  }
+}
+
+.landing__info-text {
+  grid-area: inf;
+  font-size: large;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  @media (min-width: 950px) {
+    font-size: x-large;
+  }
+}
+
+.landing__call-to-action {
+  grid-area: act;
+
+  button {
+    display: flex;
+    align-items: center;
+    gap: .5em;
+    height: 80px;
+
+    @media (min-width: 950px) {
+      display: inline-block;
+      height: 52px;
+      font-size: 1.5em;
+    }
+
+    br {
+      @media (min-width: 950px) {
+        display: none;
+      }
+    }
+  }
 }

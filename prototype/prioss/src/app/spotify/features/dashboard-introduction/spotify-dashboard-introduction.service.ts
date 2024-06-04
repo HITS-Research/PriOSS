@@ -26,7 +26,7 @@ export class SpotifyDashboardIntroductionService {
       disableInteraction: true,
       steps: [
         {
-          element: 'step0',
+          element: 'introduction-intro',
           intro: 'New here? Click <b>Next</b> for a quick tour of this dashboard! <br><br> Already comfortable? <br> <b>Click</b> somewhere else on the dashboard!'
         },
         {
@@ -46,7 +46,7 @@ export class SpotifyDashboardIntroductionService {
           intro: 'This card shows all inferences Spotify has made about you. You can correct them here by sending Spotify an email with the selected inferences!'
         },
         {
-          element: '#gdpr',
+          element: '#gdpr-step',
           intro: 'This section explains your rights about data collection backed by the GDPR.'
         },
         {
@@ -54,7 +54,7 @@ export class SpotifyDashboardIntroductionService {
           intro: 'Want to know why Spotify collects data about all your actions and activities? Look here!'
         },
         {
-          element: '#faq',
+          element: '#faq-step',
           intro: 'You have more questions about this application? Stay right here.'
         },
         // more steps here...

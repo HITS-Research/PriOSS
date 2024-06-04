@@ -1,44 +1,51 @@
-<div class="t-title-page">
-   <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
-      <div class="title-column" nz-col nzXs="24" nzXl="16">
-         <div class="t-title">
-            <div class="t-main-logo">
-               <img src="/assets/images/icons/prioss-icon.svg" alt="logo">   
-            </div>  
-            <h1>PriOSS: The Privacy One Stop Shop</h1>
-            <p class="t-sub-title">Easy, Accessible Privacy.</p>   
-         </div>
-         
-         <div class="t-v-spacer"></div>
-   
-         <div class="info-text"> 
-            <p>This website helps you to download and explore your personal data that services like Instagram, Spotify and Facebook have collected about you.
-            </p>
-            <p>Select the service that interests you and download your personal data from it<br>or simply explore some sample data for the service.
-            </p>
-            <p>After the download, everything works offline. Your data never leaves your computer!
-            </p> 
-         </div>
+<section class="landing__title">
+  <img
+    src="/assets/images/icons/prioss-icon.svg"
+    alt="prioss logo"
+  >
+  <h1>PriOSS: The Privacy One Stop Shop</h1>
+  <span>Easy, Accessible Privacy.</span>
+</section>
 
-         <div class="t-v-spacer"></div>
+<section class="landing__info-text">
+  <div>
+    <span
+      nz-icon
+      nzType="info-circle"
+      nzTheme="outline"
+    ></span>
+    Explore how to download your personnel data from various services.
+  </div>
+  <div>
+    <span
+      nz-icon
+      nzType="info-circle"
+      nzTheme="outline"
+    ></span>
+    Explore your personal data, which has been collected about you.
+  </div>
+  <div>
+    <span
+      nz-icon
+      nzType="info-circle"
+      nzTheme="outline"
+    ></span>
+    Your data is safe. This whole analysis is offline.
+  </div>
+</section>
 
-         <button nz-button nzSize="large" nzType="primary" class="continue-btn" (click)="goToServiceSelection()">
-            Continue to Service Selection
-            <span nz-icon nzType="arrow-right"></span>
-         </button>
-
-         <!--
-         <div class="t-explore-btn-click-space" (click)="goToServiceSelection()">
-            <button  class="btn btn-outline-secondary btn-lg">Explore</button>
-            <fa-icon class="t-icon-explore-chevron" [icon]="faChevronDown"></fa-icon>
-         </div>
-         -->
-      </div>
-      <div class="appflow-img-container" nz-col nzXs="24" nzXl="8">
-      <!--<td style="width: 45%">-->
-         <img class="appflow-img" src="assets/images/app-flow/appflow_cropped.png">
-      <!--</td>-->
-      </div>
-   </div>
-</div>
-
+<section class="landing__call-to-action">
+  <button
+    nz-button
+    nzSize="large"
+    nzType="primary"
+    (click)="goToServiceSelection()"
+  >
+    <span>Select your service and <br> start to explore your data</span>
+    <span
+      nz-icon
+      nzType="arrow-right"
+      nzTheme="outline"
+    ></span>
+  </button>
+</section>

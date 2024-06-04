@@ -70,11 +70,11 @@ export class SpotifyState {
   }
 
   @Action(SpotifyReadFromZip)
-  readFile(
+  async readFile(
     _context: StateContext<SpotifyStateModel>,
-    { zip }: SpotifyReadFromZip,
+    { zip, progressSignal, abortSignal }: SpotifyReadFromZip,
   ) {
-    this.#store.dispatch([
+    const actions = [
       new SpotifyReadFollowFromZip(zip),
       new SpotifyReadIdentifiersFromZip(zip),
       new SpotifyReadInferencesFromZip(zip),
@@ -85,6 +85,14 @@ export class SpotifyState {
       new SpotifyReadStreamingHistoryPodcastFromZip(zip),
       new SpotifyReadUserFromZip(zip),
       new SpotifyReadUserLibraryFromZip(zip),
-    ]);
+    ];
+
+    for (let i = 0; i < actions.length; i++) {
+      if (abortSignal && abortSignal()) break;
+
+      this.#store
+        .dispatch(actions[i])
+        .subscribe(() => progressSignal?.set((100 * (i + 1)) / actions.length));
+    }
   }
 }
