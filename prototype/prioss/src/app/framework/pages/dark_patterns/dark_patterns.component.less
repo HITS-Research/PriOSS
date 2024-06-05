@@ -1,0 +1,32 @@
+  .dark-pattern-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    padding: 16px;
+  }
+
+  .dark-pattern-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 15px;
+    border: 1px solid #e8e8e8;
+    border-radius: 8px;
+    background-color: #fafafa;
+    transition: transform 0.2s;
+  }
+
+  .dark-pattern-item:hover {
+    transform: scale(1.05);
+  }
+
+  .large-icon {
+    font-size: 36px;
+    margin-bottom: 8px;
+  }
+
+  .dark-pattern-item p {
+    margin: 0;
+    font-size: 16px;
+  }
