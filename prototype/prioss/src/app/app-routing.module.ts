@@ -17,6 +17,7 @@ import { YourTopicsComponent } from './facebook/pages/your-topics/your-topics.co
 import { AboutComponent } from './framework/pages/about/about.component';
 import { ContactComponent } from './framework/pages/contact/contact.component';
 import { KnownIssuesComponent } from './framework/pages/known-issues/known-issues.component';
+import { DarkPatternsComponent } from './framework/pages/dark_patterns/dark_patterns.component';
 import { LandingComponent } from './framework/pages/landing/landing.component';
 import { InstaAccountPrivateComponent } from './instagram/pages/insta-account-private/insta-account-private.component';
 import { InstaActivityStatusHiddenComponent } from './instagram/pages/insta-activity-status-hidden/insta-activity-status-hidden.component';
@@ -59,6 +60,7 @@ import { SpotifySongHistoryComponent } from './spotify/pages/spotify-song-histor
 
 const routes: Routes = [
   { path: 'home', component: LandingComponent },
+  { path: 'dark-patterns', component: DarkPatternsComponent },
   { path: 'about', component: AboutComponent },
   { path: 'contact', component: ContactComponent },
   { path: 'known-issues', component: KnownIssuesComponent },

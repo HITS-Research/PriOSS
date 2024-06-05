@@ -1,0 +1,60 @@
+<h1>Awareness on Dark Patterns</h1>
+<p nz-typography>
+    Dark patterns are deceptive design techniques used in websites or apps to trick users into taking actions they
+    didn't intend.
+    These tactics can include hiding important information, making it hard to unsubscribe, or manipulating users into
+    buying more.
+    Essentially, they take advantage of human behavior to benefit the business at the expense of the user’s choice or
+    control.
+</p>
+
+<!-- Presence of Dark Patterns-->
+<h3 nz-typography>Presence of Dark Patterns:</h3>
+
+<!-- Implementation of Grid Layout with icons to display examples of dark patterns -->
+
+<div class="dark-pattern-grid">
+    <div class="dark-pattern-item">
+        <span nz-icon nzType="container" nzTheme="outline" class="large-icon"></span>
+        <p>Pre-selected Email Newsletters</p>
+    </div>
+    <div class="dark-pattern-item">
+        <span nz-icon nzType="exception" nzTheme="outline" class="large-icon"></span>
+        <p>Unavoidable Cookie Banners</p>
+    </div>
+    <div class="dark-pattern-item">
+        <span nz-icon nzType="euro-circle" nzTheme="outline" class="large-icon"></span>
+        <p>Continued Payment Subscriptions</p>
+    </div>
+    <div class="dark-pattern-item">
+        <span nz-icon nzType="carry-out" nzTheme="outline" class="large-icon"></span>
+        <p>Pre-ticked Shopping Carts</p>
+    </div>
+    <div class="dark-pattern-item">
+        <span nz-icon nzType="select" nzTheme="outline" class="large-icon"></span>
+        <p>Click Bait Buttons and Links</p>
+    </div>
+    <div class="dark-pattern-item">
+        <span nz-icon nzType="question-circle" nzTheme="outline" class="large-icon"></span>
+        <p>Trick Questions</p>
+    </div>
+    <div class="dark-pattern-item">
+        <span nz-icon nzType="field-time" nzTheme="outline" class="large-icon"></span>
+        <p>Countdown Timer</p>
+    </div>
+    <div class="dark-pattern-item">
+        <span nz-icon nzType="robot" nzTheme="outline" class="large-icon"></span>
+        <p>Misleading Ads</p>
+    </div>
+    <div class="dark-pattern-item">
+        <span nz-icon nzType="notification" nzTheme="outline" class="large-icon"></span>
+        <p>Unwanted Notifications</p>
+    </div>
+
+</div>
+
+<h3 nz-typography>Popular Dark Pattern Types:</h3>
+<br>
+
+<!-- Using stepper component -->
+<prioss-stepper [steps]="steps" [stepIndex]="initialIndex"></prioss-stepper>

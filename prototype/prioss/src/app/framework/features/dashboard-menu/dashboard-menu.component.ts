@@ -59,6 +59,11 @@ const MENU_ITEMS: MenuItem[] = [
     link: '/home',
   },
   {
+    icon: 'eye',
+    name: 'Dark Patterns',
+    link: '/dark-patterns',
+  },
+  {
     icon: 'info-circle',
     name: 'About',
     link: '/about',
