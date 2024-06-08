@@ -16,16 +16,27 @@ import { SecurityLoginDataComponent } from './facebook/pages/security-login-data
 import { YourTopicsComponent } from './facebook/pages/your-topics/your-topics.component';
 import { AboutComponent } from './framework/pages/about/about.component';
 import { ContactComponent } from './framework/pages/contact/contact.component';
+import { DataDownloadInstructionsComponent } from './framework/pages/data-download-instructions/data-download-instructions.component';
 import { KnownIssuesComponent } from './framework/pages/known-issues/known-issues.component';
 import { DarkPatternsComponent } from './framework/pages/dark_patterns/dark_patterns.component';
 import { LandingComponent } from './framework/pages/landing/landing.component';
+import { ServiceSelectionComponent } from './framework/pages/service-selection/service-selection.component';
+import { facebookGuard } from './guards/facebook.guard';
+import { instagramGuard } from './guards/instagram.guard';
+import { Insta_PersonalInfoComponent } from './instagram/pages/Insta_personal-info/personal-info.component';
+import { InstaAccountCreationLoginComponent } from './instagram/pages/insta-account-creation-login/insta-account-creation-login.component';
 import { InstaAccountPrivateComponent } from './instagram/pages/insta-account-private/insta-account-private.component';
 import { InstaActivityStatusHiddenComponent } from './instagram/pages/insta-activity-status-hidden/insta-activity-status-hidden.component';
 import { InstaAddManagerComponent } from './instagram/pages/insta-add-manager/insta-add-manager.component';
+import { InstaAdsComponent } from './instagram/pages/insta-ads/insta-ads.component';
 import { InstaBlockFollowersComponent } from './instagram/pages/insta-block-followers/insta-block-followers.component';
+import { InstaContactComponent } from './instagram/pages/insta-contact/insta-contact.component';
 import { InstaDashboardComponent } from './instagram/pages/insta-dashboard/insta-dashboard.component';
 import { InstaDisableCookiesComponent } from './instagram/pages/insta-disable-cookies/insta-disable-cookies.component';
+import { InstaFollowersComponent } from './instagram/pages/insta-followers/insta-followers.component';
 import { InstaHideStoriesComponent } from './instagram/pages/insta-hide-stories/insta-hide-stories.component';
+import { InstaLikedContentComponent } from './instagram/pages/insta-liked-content/insta-liked-content.component';
+import { InstaMessagesComponent } from './instagram/pages/insta-messages/insta-messages.component';
 import { InstaProfileInfoPrivateComponent } from './instagram/pages/insta-profile-info-private/insta-profile-info-private.component';
 import { InstaPurposesComponent } from './instagram/pages/insta-purposes/insta-purposes.component';
 import { InstaSearchesComponent } from './instagram/pages/insta-searches/insta-searches.component';
@@ -33,30 +44,6 @@ import { InstaShoppingComponent } from './instagram/pages/insta-shopping/insta-s
 import { InstaTwoFactorAuthenticationComponent } from './instagram/pages/insta-two-factor-authentication/insta-two-factor-authentication.component';
 import { InstaYourTopicComponent } from './instagram/pages/insta-your-topic/insta-your-topic.component';
 import { RevokeAccessComponent } from './instagram/pages/revoke-access/revoke-access.component';
-import { DataDownloadInstructionsComponent } from './framework/pages/data-download-instructions/data-download-instructions.component';
-import { ServiceSelectionComponent } from './framework/pages/service-selection/service-selection.component';
-import { SpotifyDashboardComponent } from './spotify/pages/spotify-dashboard/spotify-dashboard.component';
-import { Insta_PersonalInfoComponent } from './instagram/pages/Insta_personal-info/personal-info.component';
-import { InstaAccountCreationLoginComponent } from './instagram/pages/insta-account-creation-login/insta-account-creation-login.component';
-import { InstaAdsComponent } from './instagram/pages/insta-ads/insta-ads.component';
-import { InstaContactComponent } from './instagram/pages/insta-contact/insta-contact.component';
-import { InstaFollowersComponent } from './instagram/pages/insta-followers/insta-followers.component';
-import { InstaLikedContentComponent } from './instagram/pages/insta-liked-content/insta-liked-content.component';
-import { InstaMessagesComponent } from './instagram/pages/insta-messages/insta-messages.component';
-import { InferencesComponent } from './spotify/pages/inferences/inferences.component';
-import { ListeningTimeComponent } from './spotify/pages/listening-time/listening-time.component';
-import { MoodComponent } from './spotify/pages/mood/mood.component';
-import { SpotPrivacyInstructionsComponent } from './spotify/pages/privacy-instructions/spot-privacy-instructions.component';
-import { SpotifySearchHistoryComponent } from './spotify/pages/spotify-search-history/spotify-search-history.component';
-import { SongtimelineComponent } from './spotify/pages/songtimeline/songtimeline.component';
-import { TopArtistsComponent } from './spotify/pages/top-artists/top-artists.component';
-import { TopSongsComponent } from './spotify/pages/top-songs/top-songs.component';
-import { SpotifyUserDataComponent } from './spotify/pages/spotify-user-data/spotify-user-data.component';
-import { facebookGuard } from './guards/facebook.guard';
-import { instagramGuard } from './guards/instagram.guard';
-import { spotifyGuard } from './guards/spotify.guard';
-import { SpotifyArtistHistoryComponent } from './spotify/pages/spotify-artist-history/spotify-artist-history.component';
-import { SpotifySongHistoryComponent } from './spotify/pages/spotify-song-history/spotify-song-history.component';
 
 const routes: Routes = [
   { path: 'home', component: LandingComponent },
@@ -131,28 +118,6 @@ const routes: Routes = [
         component: InstaTwoFactorAuthenticationComponent,
       },
       { path: 'your-topic', component: InstaYourTopicComponent },
-      { path: '**', redirectTo: 'dashboard' },
-    ],
-  },
-  {
-    path: 'spot',
-    canActivateChild: [spotifyGuard],
-    children: [
-      { path: 'dashboard', component: SpotifyDashboardComponent },
-      { path: 'general-data', component: SpotifyUserDataComponent },
-      { path: 'inference', component: InferencesComponent },
-      { path: 'listening-time', component: ListeningTimeComponent },
-      { path: 'listening-time/:start/:end', component: ListeningTimeComponent },
-      { path: 'listening-time/songtimeline', component: SongtimelineComponent },
-      { path: 'mood', component: MoodComponent },
-      { path: 'privacy-instructions', component: SpotPrivacyInstructionsComponent },
-      { path: 'artist-history/:artistName', component: SpotifyArtistHistoryComponent },
-      { path: 'search-history', component: SpotifySearchHistoryComponent },
-      { path: 'top-artists', component: TopArtistsComponent },
-      { path: 'top-artists/:start/:end', component: TopArtistsComponent },
-      { path: 'top-songs', component: TopSongsComponent },
-      { path: 'top-songs/:start/:end', component: TopSongsComponent },
-      { path: 'song-history/:artist/:song', component: SpotifySongHistoryComponent },
       { path: '**', redirectTo: 'dashboard' },
     ],
   },
