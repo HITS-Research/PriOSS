@@ -1,9 +1,13 @@
 @if (vm$ | async; as vm) {
-  <nz-steps #stepsComponent [nzCurrent]="vm.stepIndex">
-    @for (step of vm.steps; track step.title) {
+  <nz-steps
+    #stepsComponent
+    [nzCurrent]="vm.stepIndex"
+  >
+    @for (step of vm.steps; track step.title; let i = $index) {
       <nz-step
         [nzTitle]="step.title"
         [nzSubtitle]="step.subtitle ?? ''"
+        (click)="stepIndex$$.next(i)"
       />
     } @empty {
       <nz-step nzTitle="No steps available" />
