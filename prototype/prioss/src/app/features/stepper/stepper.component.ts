@@ -1,16 +1,33 @@
 import { AsyncPipe, NgOptimizedImage } from '@angular/common';
-import { ChangeDetectionStrategy, Component, ElementRef, Input, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  Input,
+  ViewChild,
+} from '@angular/core';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
 import { NzStepsComponent, NzStepsModule } from 'ng-zorro-antd/steps';
-import { BehaviorSubject, Observable, Subject, combineLatest, map, merge, scan, shareReplay, startWith, switchMap, tap } from 'rxjs';
+import {
+  BehaviorSubject,
+  Observable,
+  Subject,
+  combineLatest,
+  map,
+  merge,
+  scan,
+  shareReplay,
+  startWith,
+  switchMap,
+  tap,
+} from 'rxjs';
 import { Step } from './step.type';
 
 /**
  * The data, which will be displayed in the frontend.
  */
 type ViewModel = {
-
   /**
    * All the steps, which are available.
    */
@@ -30,7 +47,6 @@ type ViewModel = {
    * Represents the loading-state of one image in this component.
    */
   isLoading: boolean;
-
 };
 
 /**
@@ -49,11 +65,10 @@ type ViewModel = {
     NgOptimizedImage,
     NzStepsModule,
     NzButtonModule,
-    NzSkeletonModule
+    NzSkeletonModule,
   ],
 })
 export class StepperComponent {
-
   /**
    * Reference to the HTML-element of the steps-component.
    */
@@ -109,44 +124,47 @@ export class StepperComponent {
    * The current selected step.
    */
   #stepIndex$: Observable<number> = combineLatest([
-    this.#next$$.pipe(startWith(0)),
-    this.#steps$$
-  ])
-    .pipe(
-      scan((acc, val) => {
-        /* index calculation */
-        const newVal = acc + val[0];
+    merge(
+      this.#next$$.pipe(
+        startWith(0),
+        map(value => (acc: number) => acc + value),
+      ),
+      this.stepIndex$$.pipe(map(value => () => value)),
+    ),
+    this.#steps$$,
+  ]).pipe(
+    scan((acc, cur) => {
+      const newVal = cur[0](acc);
 
-        if (newVal < 0)
-          return 0;
+      if (newVal < 0) return 0;
 
-        if (newVal > val[1].length - 1)
-          return val[1].length - 1;
+      if (newVal > cur[1].length - 1) return cur[1].length - 1;
 
-        return newVal;
-      }, 0),
-      tap(index => {
-        /* scroll steps-component */
-        if (!this.stepsComponent?.nativeElement) return;
-        const stepsElement: HTMLElement = this.stepsComponent?.nativeElement;
-        let leftB: number = 0;
-        for (let i = 0; i < index; i++)
-          leftB += (stepsElement.childNodes[i] as HTMLElement).getBoundingClientRect().width + 16;
-        stepsElement.scroll({ left: leftB, behavior: 'smooth' });
-      }),
-      shareReplay()
-    );
+      return newVal;
+    }, 0),
+    tap(index => {
+      /* scroll steps-component */
+      if (!this.stepsComponent?.nativeElement) return;
+      const stepsElement: HTMLElement = this.stepsComponent?.nativeElement;
+      let leftB: number = 0;
+      for (let i = 0; i < index; i++)
+        leftB +=
+          (stepsElement.childNodes[i] as HTMLElement).getBoundingClientRect()
+            .width + 16;
+      stepsElement.scroll({ left: leftB, behavior: 'smooth' });
+    }),
+    shareReplay(),
+  );
 
   /**
    * The current selected step.
    */
-  #currentStep$: Observable<Step | null> = this.#stepIndex$
-    .pipe(
-      switchMap(index => this.#steps$$.pipe(
-        map(steps => steps.at(index) ?? null)
-      )),
-      shareReplay()
-    );
+  #currentStep$: Observable<Step | null> = this.#stepIndex$.pipe(
+    switchMap(index =>
+      this.#steps$$.pipe(map(steps => steps.at(index) ?? null)),
+    ),
+    shareReplay(),
+  );
 
   /**
    * Represents the loading-state of one image in this component.
@@ -165,7 +183,7 @@ export class StepperComponent {
    */
   #isLoading$: Observable<boolean> = merge(
     this.#isLoading$$,
-    this.next$$.pipe(map(() => true))
+    this.next$$.pipe(map(() => true)),
   );
 
   /**
@@ -175,15 +193,16 @@ export class StepperComponent {
     this.#steps$$,
     this.#stepIndex$,
     this.#currentStep$,
-    this.#isLoading$
-  ])
-    .pipe(
-      map(([s, i, cs, il]) => ({
-        steps: s,
-        stepIndex: i,
-        currentStep: cs,
-        isLoading: il
-      } as ViewModel))
-    );
-
+    this.#isLoading$,
+  ]).pipe(
+    map(
+      ([s, i, cs, il]) =>
+        ({
+          steps: s,
+          stepIndex: i,
+          currentStep: cs,
+          isLoading: il,
+        }) as ViewModel,
+    ),
+  );
 }
