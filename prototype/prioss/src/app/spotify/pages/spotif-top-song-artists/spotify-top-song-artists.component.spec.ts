@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TopArtistsComponent } from './top-artists.component';
+import { SpotifyTopSongArtistsComponent } from './spotify-top-song-artists.component';
 
 describe('TopArtistsComponent', () => {
-  let component: TopArtistsComponent;
-  let fixture: ComponentFixture<TopArtistsComponent>;
+  let component: SpotifyTopSongArtistsComponent;
+  let fixture: ComponentFixture<SpotifyTopSongArtistsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TopArtistsComponent ]
+      declarations: [ SpotifyTopSongArtistsComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(TopArtistsComponent);
+    fixture = TestBed.createComponent(SpotifyTopSongArtistsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -67,10 +67,10 @@
         nzXl="8"
       >
         <app-dash-card
-          cardLink="/spot/top-artists"
+          cardLink="/spot/top-song-artists"
           titleText="Top Artists"
         >
-          <prioss-spotify-top-artists [previewMode]="true" />
+          <prioss-spotify-top-song-artists [previewMode]="true" />
         </app-dash-card>
       </div>
 
@@ -88,6 +88,25 @@
       </div>
 
       <div
+        id="step4"
+        nz-col
+        nzXs="24"
+        nzXl="8"
+      >
+        <app-dash-card
+          cardLink="/spot/top-podcasts"
+          titleText="Top Podcasts"
+        >
+          <prioss-spotify-top-podcasts [previewMode]="true" />
+        </app-dash-card>
+      </div>
+    </section>
+
+    <section
+      nz-row
+      [nzGutter]="[{ xs: 8, xl: 20}, {xs: 8, xl: 40}]"
+    >
+      <div
         nz-col
         nzXs="24"
         nzXl="8"
@@ -99,12 +118,7 @@
           <prioss-spotify-mood [previewMode]="true" />
         </app-dash-card>
       </div>
-    </section>
 
-    <section
-      nz-row
-      [nzGutter]="[{ xs: 8, xl: 20}, {xs: 8, xl: 40}]"
-    >
       <div
         nz-col
         nzXs="24"

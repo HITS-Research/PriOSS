@@ -13,18 +13,19 @@ import { ECElementEvent, EChartsOption } from 'echarts';
 import { map, switchMap } from 'rxjs';
 import { SpotifyStreamingHistoryState } from '../../features/streaming-history/streaming-history.state';
 import { SpotifyStreamingHistoryStateModel } from '../../features/streaming-history/streaming-history.statemodel';
+import { defaultSpotifyEChartBarOptions } from '../../features/chart/default-options';
 
 /**
  * This component visualizes how many songs from an artist were listened to
  * Because of missing UIDs for artists we cannot distinguish between artists with the same name
  */
 @Component({
-  selector: 'prioss-spotify-top-artists',
-  templateUrl: './top-artists.component.html',
-  styleUrl: './top-artists.component.less',
+  selector: 'prioss-spotify-top-song-artists',
+  templateUrl: './spotify-top-song-artists.component.html',
+  styleUrl: './spotify-top-song-artists.component.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TopArtistsComponent {
+export class SpotifyTopSongArtistsComponent {
 
   previewMode = input(false);
 
@@ -139,33 +140,7 @@ export class TopArtistsComponent {
     const topTen = this.topArtists().slice(0, 10);
     const xAxisData = topTen.map(artist => artist[0]).reverse();
     const seriesData = topTen.map(artist => artist[1]).reverse();
-
-    return {
-      yAxis: {
-        type: 'category',
-        data: xAxisData,
-        axisLabel: { show: false },
-      },
-      xAxis: {
-        type: 'value',
-        name: 'Minutes Played',
-        nameLocation: 'middle',
-        nameGap: 25,
-      },
-      series: [
-        {
-          data: seriesData,
-          type: 'bar',
-          itemStyle: { color: '#1DB954' },
-          label: {
-            show: true,
-            position: 'insideLeft',
-            formatter: '{b}',
-            color: '#000',
-          },
-        },
-      ],
-    } as EChartsOption;
+    return defaultSpotifyEChartBarOptions(xAxisData, seriesData);
   });
 
   /**

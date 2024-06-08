@@ -1,68 +1,75 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  Signal,
   computed,
   inject,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Store } from '@ngxs/store';
-import { EChartsOption } from 'echarts';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
-import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
-import { NgxEchartsModule } from 'ngx-echarts';
+import { SpotifyStreamingHistoryPodcastState } from '../../features/streaming-history/streaming-history-podcast.state';
 import { map } from 'rxjs';
 import { TimePipe } from 'src/app/features/time/time.pipe';
-import { SpotifyStreamingHistoryState } from '../../features/streaming-history/streaming-history.state';
 import { defaultSpotifyEChartHeatMapOptions } from '../../features/chart/default-options';
+import { EChartsOption } from 'echarts';
+import { NgxEchartsModule } from 'ngx-echarts';
 
 @Component({
-  selector: 'prioss-spotify-artist-history',
-  templateUrl: './spotify-artist-history.component.html',
-  styleUrl: './spotify-artist-history.component.less',
+  selector: 'prioss-spotify-top-podcasts-details',
+  templateUrl: './spotify-top-podcasts-details.component.html',
+  styleUrl: './spotify-top-podcasts-details.component.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
     NgxEchartsModule,
     NzEmptyModule,
-    NzIconModule,
     NzTableModule,
     NzTabsModule,
-    RouterLink,
+    RouterModule,
     TimePipe,
   ],
 })
-export class SpotifyArtistHistoryComponent {
-  artistName = toSignal(
-    inject(ActivatedRoute).paramMap.pipe(map(r => r.get('artistName'))),
+export class SpotifyTopPodcastsDetailsComponent {
+  /**
+   * The current selected podcast name from the url.
+   */
+  #podcastName = toSignal(
+    inject(ActivatedRoute).paramMap.pipe(map(r => r.get('name') ?? '')),
     { requireSync: true },
   );
 
-  rawData = toSignal(inject(Store).select(SpotifyStreamingHistoryState.state), {
-    requireSync: true,
-  });
+  /**
+   * All podcast data.
+   */
+  #podcastStreamingHistory = toSignal(
+    inject(Store).select(SpotifyStreamingHistoryPodcastState.state),
+    { requireSync: true },
+  );
 
+  /**
+   * All episodes from a specific podcast with the name given by the url.
+   */
   data = computed(() => {
-    const artistName = this.artistName();
-    const rawData = this.rawData();
-    return rawData.filter(h => h.artistName === artistName);
+    const podcasts = this.#podcastStreamingHistory();
+    const name = this.#podcastName();
+    return podcasts.filter(p => p.podcastName === name);
   });
 
-  heatMapData = computed(() => {
-    const artistData = this.data();
+  #heatMapData = computed(() => {
+    const podcastData = this.data();
     const dataMap = new Map<string, number>();
-    artistData.forEach(ad => {
+    podcastData.forEach(ad => {
       const d = new Date(ad.endTime).toISOString().substring(0, 10);
       dataMap.set(d, (dataMap.get(d) ?? 0) + Number(ad.msPlayed));
     });
     return [...dataMap.entries()];
   });
 
-  chartHeatMapOptions: Signal<EChartsOption> = computed(() => {
-    const heatMapData = this.heatMapData();
+  chartHeatMapOptions = computed<EChartsOption>(() => {
+    const heatMapData = this.#heatMapData();
     let minDate = heatMapData[0][0];
     let maxDate = heatMapData[0][0];
     let maxValue = heatMapData[0][1];
@@ -79,9 +86,9 @@ export class SpotifyArtistHistoryComponent {
       }
     });
 
-    const artistName = this.artistName() ?? '';
+    const podcastName = this.#podcastName();
     return defaultSpotifyEChartHeatMapOptions(
-      artistName,
+      podcastName,
       0,
       maxValue,
       minDate,

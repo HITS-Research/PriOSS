@@ -1,0 +1,47 @@
+<a [routerLink]="['/spot/top-podcasts']">
+  <span
+    nz-icon
+    nzType="arrow-left"
+  ></span>
+  Back to Top Podcasts
+</a>
+
+@if (this.data(); as data) {
+  @if (data.length > 0) {
+    <nz-tabset>
+      <nz-tab nzTitle="Table">
+        <nz-table
+          #table
+          [nzData]="data"
+        >
+          <thead>
+            <tr>
+              <th>Date and Time</th>
+              <th>Episode Name</th>
+              <th>Seconds Listened</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (data of table.data; track data) {
+              <tr>
+                <td>{{ data.endTime }}</td>
+                <td>{{ data.episodeName }}</td>
+                <td>{{ data.msPlayed | time:'ms-to-sec' }}</td>
+              </tr>
+            }
+          </tbody>
+        </nz-table>
+      </nz-tab>
+      <nz-tab nzTitle="Heat Map">
+        <div
+          echarts
+          [options]="chartHeatMapOptions()"
+        ></div>
+      </nz-tab>
+    </nz-tabset>
+  } @else {
+    <nz-empty nzNotFoundImage="simple" />
+  }
+} @else {
+  Loading and calculating data.
+}

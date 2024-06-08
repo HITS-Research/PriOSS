@@ -88,7 +88,7 @@ import { SongtimelineComponent } from './spotify/pages/songtimeline/songtimeline
 import { SpotifyDashboardComponent } from './spotify/pages/spotify-dashboard/spotify-dashboard.component';
 import { SpotifySearchHistoryComponent } from './spotify/pages/spotify-search-history/spotify-search-history.component';
 import { SpotifyUserDataComponent } from './spotify/pages/spotify-user-data/spotify-user-data.component';
-import { TopArtistsComponent } from './spotify/pages/top-artists/top-artists.component';
+import { SpotifyTopSongArtistsComponent } from './spotify/pages/spotif-top-song-artists/spotify-top-song-artists.component';
 import { SpotifyModule } from './spotify/spotify.module';
 import { AppState } from './state/app.state';
 import { PreviewTileComponent } from './unused-components/preview-tile/preview-tile.component';
@@ -111,12 +111,15 @@ import { ChatWordcloudComponent } from './facebook/pages/messages/chatview/chat-
 import { MessagesPerDayChartComponent } from './facebook/pages/messages/chatview/chat-statistics/features/messages-per-day-chart/messages-per-day-chart.component';
 import { MessagesPerWeekdayComponent } from './facebook/pages/messages/chatview/chat-statistics/features/messages-per-weekday/messages-per-weekday.component';
 import { TopChatsComponent } from './facebook/pages/messages/chatview/chat-statistics/features/top-chats/top-chats.component';
-import { FacebookFriendsOverviewComponent} from './facebook/pages/friend-and-followers/features/friends-overview/friends-overview.component';
+import { FacebookFriendsOverviewComponent } from './facebook/pages/friend-and-followers/features/friends-overview/friends-overview.component';
 import { FacebookFriendsStatisticsComponent } from './facebook/pages/friend-and-followers/features/friends-statistics/friends-statistics.component';
 import { FacebookModule } from './facebook/facebook.module';
 import { FriendAndFollowersComponent } from './facebook/pages/friend-and-followers/friend-and-followers.component';
 import { TopSongsComponent } from './spotify/pages/top-songs/top-songs.component';
 import { WorldMapComponent } from './features/world-map/world-map.component';
+import { SpotifyTopPodcastsComponent } from './spotify/pages/spotify-top-podcasts/spotify-top-podcasts.component';
+import { SpotifyRoutingModule } from './spotify/spotify-routing.module';
+import { SpotifyTopPodcastsDetailsComponent } from './spotify/pages/spotify-top-podcasts-details/spotify-top-podcasts-details.component';
 import { HeaderComponent } from './framework/features/header/header.component';
 
 
@@ -136,7 +139,7 @@ registerLocaleData(de);
     NotificationComponent,
     PreviewTileComponent,
     ListeningTimeComponent,
-    TopArtistsComponent,
+    SpotifyTopSongArtistsComponent,
     InferencesComponent,
     AboutComponent,
     ContactComponent,
@@ -183,6 +186,13 @@ registerLocaleData(de);
     AccordionComponent,
   ],
   imports: [
+    SpotifyModule,
+    SpotifyRoutingModule,
+    SpotifyUserDataComponent,
+    SpotifyTopPodcastsComponent,
+    SpotifyTopPodcastsDetailsComponent,
+    SpotifySearchHistoryComponent,
+    TopSongsComponent,
     DashboardMenuComponent,
     HeaderComponent,
     TimePipe,
@@ -192,9 +202,6 @@ registerLocaleData(de);
     PostsComponent,
     TitleBarComponent,
     DataDownloadInstructionsComponent,
-    SpotifyModule,
-    SpotifyUserDataComponent,
-    SpotifySearchHistoryComponent,
     DashboardMenuComponent,
     BrowserModule,
     AppRoutingModule,
@@ -245,13 +252,9 @@ registerLocaleData(de);
     NgxsStoragePluginModule.forRoot(),
     NgChartsModule,
     NgxEchartsModule.forRoot({ echarts: () => import('echarts') }),
-    TopSongsComponent,
     WorldMapComponent,
   ],
-  providers: [
-    FeatureToggleService,
-    { provide: NZ_I18N, useValue: en_US },
-  ],
+  providers: [FeatureToggleService, { provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

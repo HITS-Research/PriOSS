@@ -24,7 +24,7 @@ export class TimePipe implements PipeTransform {
       case 'number-as-minutes': {
         const minutes = Math.floor(pre);
         const seconds = Math.floor((pre - minutes) * 60);
-        const minutesString = minutes.toString().padStart(2, '0');
+        const minutesString = minutes.toString().padStart(1, '0');
         const secondsString = seconds.toString().padStart(2, '0');
         return `${minutesString}m ${secondsString}s`;
       }
