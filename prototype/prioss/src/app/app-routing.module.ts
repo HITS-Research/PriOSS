@@ -15,6 +15,7 @@ import { PostsComponent } from './facebook/pages/posts/posts.component';
 import { SecurityLoginDataComponent } from './facebook/pages/security-login-data/security-login-data.component';
 import { YourTopicsComponent } from './facebook/pages/your-topics/your-topics.component';
 import { AboutComponent } from './framework/pages/about/about.component';
+import { FaqComponent } from './framework/pages/faq/faq.component';
 import { ContactComponent } from './framework/pages/contact/contact.component';
 import { DataDownloadInstructionsComponent } from './framework/pages/data-download-instructions/data-download-instructions.component';
 import { KnownIssuesComponent } from './framework/pages/known-issues/known-issues.component';
@@ -56,7 +57,7 @@ const routes: Routes = [
     path: 'serviceSelection/dataDownload',
     component: DataDownloadInstructionsComponent,
   },
-  // { path: 'faq', component: FaqComponent },
+  { path: 'faq', component: FaqComponent },
   {
     path: 'face',
     canActivateChild: [facebookGuard],

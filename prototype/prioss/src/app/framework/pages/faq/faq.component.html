@@ -1,41 +1,60 @@
-<app-accordion title="Frequently Asked Questions">
-  <div class="component-page">
-    <div>
-      <p nz-typography>
-        This section describes frequently asked questions.
-      </p>
-      <nz-collapse nzAccordion>
-        <nz-collapse-panel *ngFor="let faq of faqs" [nzHeader]="faq.name" [nzActive]="faq.active">
-          <p>{{ faq.content }}</p>
-          <span *ngIf="faq.link" nz-icon nzType="link">
-            <a *ngIf="faq.link" [href]="faq.link" target="_blank">{{faq.linkLabel}}</a>
-          </span>
-        </nz-collapse-panel>
-      </nz-collapse>
-      <nz-collapse nzAccordion class="service_div" *ngIf="serviceName === 'insta'">
-        <nz-collapse-panel *ngFor="let insta_faq of instagram_faqs" [nzHeader]="insta_faq.name" [nzActive]="insta_faq.active">
-          <p>{{ insta_faq.content }}</p>
-          <span *ngIf="insta_faq.link" nz-icon nzType="link">
-            <a *ngIf="insta_faq.link" [href]="insta_faq.link" target="_blank">{{insta_faq.linkLabel}}</a>
-          </span>
-        </nz-collapse-panel>
-      </nz-collapse>
-      <nz-collapse nzAccordion class="service_div" *ngIf="serviceName === 'spot'">
-        <nz-collapse-panel *ngFor="let spot_faq of spotify_faqs" [nzHeader]="spot_faq.name" [nzActive]="spot_faq.active">
-          <p>{{ spot_faq.content }}</p>
-          <span *ngIf="spot_faq.link" nz-icon nzType="link">
-            <a *ngIf="spot_faq.link" [href]="spot_faq.link" target="_blank">{{spot_faq.linkLabel}}</a>
-          </span>
-        </nz-collapse-panel>
-      </nz-collapse>
-      <nz-collapse nzAccordion class="service_div" *ngIf="serviceName === 'face'">
-        <nz-collapse-panel *ngFor="let face_faq of facebook_faqs" [nzHeader]="face_faq.name" [nzActive]="face_faq.active">
-          <p>{{ face_faq.content }}</p>
-          <span *ngIf="face_faq.link" nz-icon nzType="link">
-            <a *ngIf="face_faq.link" [href]="face_faq.link" target="_blank">{{face_faq.linkLabel}}</a>
-          </span>
-        </nz-collapse-panel>
-      </nz-collapse>
+<h1>Frequently Asked Questions (FAQ)</h1>
+<div class="component-page">
+  <div>
+    <p nz-typography>
+      This page is dedicated to help you with basic questions specific to the website. If you have any question which is not mentioned below, please feel free to <a href="../contact">contact</a> us directly.
+    </p>
+    <div class="accord_layout">
+      <!-- General FAQs Section -->
+      <app-accordion title="General FAQs">
+        <nz-collapse nzAccordion>
+          <nz-collapse-panel *ngFor="let faq of faqs" [nzHeader]="faq.name">
+            <p>{{ faq.content }}</p>
+            <span>
+              <a *ngIf="faq.link" [href]="faq.link" target="_blank">{{ faq.linkLabel }}</a>
+            </span>
+          </nz-collapse-panel>
+        </nz-collapse>
+      </app-accordion>
+    </div>
+    <div class="accord_layout">
+      <!-- Instagram FAQs Section -->
+      <app-accordion title="Instagram Related FAQs">
+        <nz-collapse nzAccordion>
+          <nz-collapse-panel *ngFor="let instaFaq of instagramFaqs" [nzHeader]="instaFaq.name">
+            <p>{{ instaFaq.content }}</p>
+            <span>
+              <a *ngIf="instaFaq.link" [href]="instaFaq.link" target="_blank">{{ instaFaq.linkLabel }}</a>
+            </span>
+          </nz-collapse-panel>
+        </nz-collapse>
+      </app-accordion>
+    </div>
+    <div class="accord_layout">
+      <!-- Facebook FAQs Section -->
+      <app-accordion title="Facebook Related FAQs">
+        <nz-collapse nzAccordion>
+          <nz-collapse-panel *ngFor="let faceFaq of facebookFaqs" [nzHeader]="faceFaq.name">
+            <p>{{ faceFaq.content }}</p>
+            <span>
+              <a *ngIf="faceFaq.link" [href]="faceFaq.link" target="_blank">{{ faceFaq.linkLabel }}</a>
+            </span>
+          </nz-collapse-panel>
+        </nz-collapse>
+      </app-accordion>
+    </div>
+    <div class="accord_layout">
+      <!-- Spotify FAQs Section -->
+      <app-accordion title="Spotify Related FAQs">
+        <nz-collapse nzAccordion>
+          <nz-collapse-panel *ngFor="let spotFaq of spotifyFaqs" [nzHeader]="spotFaq.name">
+            <p>{{ spotFaq.content }}</p>
+            <span>
+              <a *ngIf="spotFaq.link" [href]="spotFaq.link" target="_blank">{{ spotFaq.linkLabel }}</a>
+            </span>
+          </nz-collapse-panel>
+        </nz-collapse>
+      </app-accordion>
     </div>
   </div>
-</app-accordion>
+</div>

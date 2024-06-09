@@ -64,6 +64,11 @@ const MENU_ITEMS: MenuItem[] = [
     link: '/dark-patterns',
   },
   {
+    icon: 'question',
+    name: 'FAQ',
+    link: '/faq',
+  },
+  {
     icon: 'info-circle',
     name: 'About',
     link: '/about',
@@ -121,11 +126,6 @@ function getSubMenuItems(serviceName: string): MenuItem {
         name: 'Purpose',
         link: `${serviceName}/dashboard`,
         fragment: 'purpose',
-      },
-      {
-        name: 'Frequently asked questions',
-        link: `${serviceName}/dashboard`,
-        fragment: 'faq',
       },
     ],
   };
