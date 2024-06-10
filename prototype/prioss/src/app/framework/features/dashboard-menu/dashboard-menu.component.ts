@@ -3,7 +3,7 @@ import {
   Component,
   computed,
   inject,
-  input
+  input,
 } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { NzIconModule } from 'ng-zorro-antd/icon';
@@ -69,24 +69,26 @@ const MENU_ITEMS: MenuItem[] = [
     link: '/gdpr',
   },
   {
-    icon: 'question',
-    name: 'FAQ',
-    link: '/faq',
-  },
-  {
-    icon: 'info-circle',
-    name: 'About',
-    link: '/about',
-  },
-  {
-    icon: 'form',
-    name: 'Contact',
-    link: '/contact',
-  },
-  {
-    icon: 'warning',
-    name: 'Known Issues',
-    link: '/known-issues',
+    icon: 'question-circle',
+    name: 'Help',
+    children: [
+      {
+        name: 'FAQ',
+        link: '/faq',
+      },
+      {
+        name: 'Known Issues',
+        link: '/known-issues',
+      },
+      {
+        name: 'Contact',
+        link: '/contact',
+      },
+      {
+        name: 'About',
+        link: '/about',
+      },
+    ],
   },
 ];
 

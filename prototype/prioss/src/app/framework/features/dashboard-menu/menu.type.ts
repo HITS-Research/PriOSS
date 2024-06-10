@@ -9,5 +9,5 @@ export type MenuItem = {
 export type SubMenuItem = {
   name: string;
   link: string;
-  fragment: string;
+  fragment?: string;
 };
