@@ -45,6 +45,7 @@ import { InstaShoppingComponent } from './instagram/pages/insta-shopping/insta-s
 import { InstaTwoFactorAuthenticationComponent } from './instagram/pages/insta-two-factor-authentication/insta-two-factor-authentication.component';
 import { InstaYourTopicComponent } from './instagram/pages/insta-your-topic/insta-your-topic.component';
 import { RevokeAccessComponent } from './instagram/pages/revoke-access/revoke-access.component';
+import { GdprComponent } from './framework/pages/gdpr/gdpr.component';
 
 const routes: Routes = [
   { path: 'home', component: LandingComponent },
@@ -58,6 +59,7 @@ const routes: Routes = [
     component: DataDownloadInstructionsComponent,
   },
   { path: 'faq', component: FaqComponent },
+  { path: 'gdpr', component: GdprComponent},
   {
     path: 'face',
     canActivateChild: [facebookGuard],

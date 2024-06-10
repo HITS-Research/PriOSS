@@ -1,22 +1,24 @@
-<app-accordion title="GDPR and Your Rights">
-    <p>
-      The General Data Protection Regulation (GDPR) is the European Union's (EU) data protection law effective from May 2018.
-      It is applicable for all individuals within the European Union and the European Economic Area (EEA).
-      It was created to regulate the collection, processing, and storage of personal data by any corporation in the world,
-      as long as they target or collect data related to people in the EU.
-      The GDPR also defines a range of individual rights you have in regards to your personal data.
-    </p>
-    <nz-card class="gdpr-header" nzTitle="Central Points from the GDPR">
-      <div class="grid">
-        <div *ngFor="let right of dataProtectionRights" class="card">
-          <div class="icon">
-            <i nz-icon [nzType]="right.icon"></i>
-          </div>
-          <div class="title">{{ right.title }}</div>
-          <p class="description">{{ right.description }}</p>
-        </div>
+<h1>GDPR and Your Rights</h1>
+<p>
+  The General Data Protection Regulation (GDPR) is the European Union's (EU) data protection law effective from May
+  2018.
+  It is applicable for all individuals within the European Union and the European Economic Area (EEA).
+  It was created to regulate the collection, processing, and storage of personal data by any corporation in the world,
+  as long as they target or collect data related to people in the EU.
+  The GDPR also defines a range of individual rights you have in regards to your personal data.
+</p>
+<nz-card class="gdpr-header" nzTitle="Central Points from the GDPR">
+  <div class="grid">
+    <div *ngFor="let right of dataProtectionRights" class="card">
+      <div class="icon">
+        <i nz-icon [nzType]="right.icon"></i>
       </div>
-      It is important to note that these rights are not absolute and may be subject to certain limitations or conditions under certain circumstances.
-      To find out more, check out the EU's <a target="_blank" href='https://gdpr.eu/'>complete guide to GDPR compliance</a><span nz-icon nzType="link"></span>.
-    </nz-card>
-  </app-accordion>
+      <div class="title">{{ right.title }}</div>
+      <p class="description">{{ right.description }}</p>
+    </div>
+  </div>
+  It is important to note that these rights are not absolute and may be subject to certain limitations or conditions
+  under certain circumstances.
+  To find out more, check out the EU's <a target="_blank" href='https://gdpr.eu/'>complete guide to GDPR
+    compliance</a><span nz-icon nzType="link"></span>.
+</nz-card>
