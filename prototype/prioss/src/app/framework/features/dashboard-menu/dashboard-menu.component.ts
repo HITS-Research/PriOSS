@@ -64,6 +64,11 @@ const MENU_ITEMS: MenuItem[] = [
     link: '/dark-patterns',
   },
   {
+    icon: 'global',
+    name: 'GDPR',
+    link: '/gdpr',
+  },
+  {
     icon: 'question',
     name: 'FAQ',
     link: '/faq',
@@ -116,11 +121,6 @@ function getSubMenuItems(serviceName: string): MenuItem {
         name: 'Recommendation',
         link: `${serviceName}/dashboard`,
         fragment: 'recommendation',
-      },
-      {
-        name: 'GDPR/Rights',
-        link: `${serviceName}/dashboard`,
-        fragment: 'gdpr',
       },
       {
         name: 'Purpose',
