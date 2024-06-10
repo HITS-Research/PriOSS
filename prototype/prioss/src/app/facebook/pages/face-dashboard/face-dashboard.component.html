@@ -16,7 +16,7 @@
 
   <!-- <details open>
   <summary id="yourInfo" class="collapsible-dashboard-section-title">Your Information</summary>
-    <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
+    <div nz-row [nzGutter]="[{ xs: 8, xl: 20}, {xs: 8, xl: 40}]">
       <div  nz-col nzXs="24" nzXl="8">
         <app-dash-card cardLink="/face/general-data" titleText="User Data"
             tooltipText="This card shows your general user data like your email, gender, etc. which Facebook may not show in your public profile.">
@@ -29,7 +29,7 @@
 <br>
 <div>
   <app-accordion title="Visualization">
-    <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
+    <div nz-row [nzGutter]="[{ xs: 8, xl: 20}, {xs: 8, xl: 40}]">
       <div nz-col nzXs="24" nzXl="8">
         <app-dash-card
           cardLink="/face/general-data"
@@ -53,7 +53,7 @@
           cardLink="/face/connections"
           titleText="Facebook Connections"
         >
-        
+
           <app-friend-and-followers
             [previewModeInput]="'true'"
           ></app-friend-and-followers>
@@ -61,7 +61,7 @@
       </div>
     </div>
     <br />
-    <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
+    <div nz-row [nzGutter]="[{ xs: 8, xl: 20}, {xs: 8, xl: 40}]">
       <div nz-col nzXs="24" nzXl="8">
         <app-dash-card
           cardLink="/face/messages-info"
@@ -90,7 +90,7 @@
       </div>
     </div>
     <br />
-    <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
+    <div nz-row [nzGutter]="[{ xs: 8, xl: 20}, {xs: 8, xl: 40}]">
       <div nz-col nzXs="24" nzXl="8">
         <app-dash-card
           cardLink="/face/other-personal-info"
@@ -168,7 +168,7 @@
 <div>
 <app-accordion title="Privacy Recommendations">
   <div id="fStep30">
-    <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
+    <div nz-row [nzGutter]="[{ xs: 8, xl: 20}, {xs: 8, xl: 40}]">
       <div nz-col nzXs="24" nzXl="8">
         <app-dash-card cardLink="" titleText="Privacy Settings Judge">
           <app-settings-form [service]="'Facebook'"></app-settings-form>
@@ -176,7 +176,7 @@
       </div>
     </div>
     <br>
-      <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
+      <div nz-row [nzGutter]="[{ xs: 8, xl: 20}, {xs: 8, xl: 40}]">
         <div nz-col nzXs="24" nzXl="8">
           <app-dash-card cardLink="/face/configure-off-facebook-activity" titleText="Off-Facebook Activity">
           <p nz-typography>This section provides you guidelines to Turn OFF your Off-Facebook Activity.</p>

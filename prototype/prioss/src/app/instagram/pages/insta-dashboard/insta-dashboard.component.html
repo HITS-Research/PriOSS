@@ -15,7 +15,7 @@
 
   <app-accordion title="Visualization">
 
-    <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
+    <div nz-row [nzGutter]="[{ xs: 8, xl: 20}, {xs: 8, xl: 40}]">
       <div nz-col nzXs="24" nzXl="8">
         <!--card for visualizing the personal information-->
         <app-dash-card id="personalInformation" cardLink="/insta/personal-info" titleText="Personal Information">
@@ -36,7 +36,7 @@
       </div>
     </div>
     <br>
-    <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
+    <div nz-row [nzGutter]="[{ xs: 8, xl: 20}, {xs: 8, xl: 40}]">
       <div nz-col nzXs="24" nzXl="8">
         <!--card for visualizing for friends and followers-->
         <app-dash-card cardLink="/insta/followers" titleText="Followers and Following">
@@ -57,7 +57,7 @@
       </div>
     </div>
     <br>
-  <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
+  <div nz-row [nzGutter]="[{ xs: 8, xl: 20}, {xs: 8, xl: 40}]">
     <div nz-col nzXs="24" nzXl="8">
       <!--card for visualizing for searches-->
       <app-dash-card cardLink="/insta/searches" titleText="Searches">
@@ -79,7 +79,7 @@
   </div>
 
   <br>
-  <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
+  <div nz-row [nzGutter]="[{ xs: 8, xl: 20}, {xs: 8, xl: 40}]">
     <div nz-col nzXs="24" nzXl="8">
       <!--card for visualizing for messages-->
       <app-dash-card cardLink="/insta/messages" titleText="Messages">
@@ -130,8 +130,8 @@
   <br>
 
   <app-accordion title="Privacy Recommendations">
-    
-  <div nz-row [nzGutter]="{ xs: 8, xl: 40 }">
+
+  <div nz-row [nzGutter]="[{ xs: 8, xl: 20}, {xs: 8, xl: 40}]">
     <div nz-col nzXs="24" nzXl="8">
       <!--card for Privacy settings judge-->
       <app-dash-card cardLink="" titleText="Privacy Settings Judge">
