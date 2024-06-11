@@ -1,190 +1,89 @@
 <div [ngClass]="{'component-page': !previewMode}">
     <div *ngIf="previewMode">
-        <nz-row [nzGutter]="16">
-            <nz-col [nzSpan]="12">
-                <nz-statistic [nzValue]="(userSearches.length)!" [nzTitle]="'Number of User Searches'" [nzPrefix]="user"></nz-statistic>
-                <ng-template #user>
-                    <div class="container_class">
-                        <span nz-icon nzType="user" nzTheme="outline"></span>
-                    </div>
-                </ng-template>
-            </nz-col>
-            <nz-col [nzSpan]="12">
-                <nz-statistic [nzValue]="(keywordSearches.length)!" [nzTitle]="'Number of Keyword Searches'" [nzPrefix]="key"></nz-statistic>
-                <ng-template #key>
-                    <div class="container_class">
-                        <span nz-icon nzType="key" nzTheme="outline"></span>
-                    </div>
-                </ng-template>
-            </nz-col>
-        </nz-row>
-        <nz-row [nzGutter]="16">
-            <nz-col [nzSpan]="12">
-                <nz-statistic [nzValue]="(tagSearches.length)!" [nzTitle]="'Number of Tag Searches'" [nzPrefix]="tag"></nz-statistic>
-                <ng-template #tag>
-                    <div class="container_class">
-                        <span nz-icon nzType="tag" nzTheme="outline"></span>
-                    </div>
-                </ng-template>
-            </nz-col>
-        </nz-row>
+      <nz-row [nzGutter]="16">
+        <nz-col [nzSpan]="12">
+          <nz-statistic [nzValue]="userSearches.length" [nzTitle]="'Number of User Searches'" [nzPrefix]="user"></nz-statistic>
+          <ng-template #user>
+            <div class="container_class">
+              <span nz-icon nzType="user" nzTheme="outline"></span>
+            </div>
+          </ng-template>
+        </nz-col>
+        <nz-col [nzSpan]="12">
+          <nz-statistic [nzValue]="keywordSearches.length" [nzTitle]="'Number of Keyword Searches'" [nzPrefix]="key"></nz-statistic>
+          <ng-template #key>
+            <div class="container_class">
+              <span nz-icon nzType="key" nzTheme="outline"></span>
+            </div>
+          </ng-template>
+        </nz-col>
+      </nz-row>
+      <nz-row [nzGutter]="16">
+        <nz-col [nzSpan]="12">
+          <nz-statistic [nzValue]="tagSearches.length" [nzTitle]="'Number of Tag Searches'" [nzPrefix]="tag"></nz-statistic>
+          <ng-template #tag>
+            <div class="container_class">
+              <span nz-icon nzType="tag" nzTheme="outline"></span>
+            </div>
+          </ng-template>
+        </nz-col>
+      </nz-row>
     </div>
 
     <div *ngIf="!previewMode">
-        <app-title-bar titleText="Highlights" tooltipText="This are some important entrys in your data download regarding your searches."></app-title-bar>
-        <nz-row [nzGutter]="16">
-            <nz-col [nzSpan]="12">
-                <nz-statistic [nzValue]="(userSearches.length)!" [nzTitle]="'Number of User Searches'" [nzPrefix]="user"></nz-statistic>
-                <ng-template #user>
-                    <div class="container_class">
-                        <span nz-icon nzType="user" nzTheme="outline"></span>
-                    </div>
-                </ng-template>
-            </nz-col>
-            <nz-col [nzSpan]="12">
-                <nz-statistic [nzValue]="(keywordSearches.length)!" [nzTitle]="'Number of Keyword Searches'" [nzPrefix]="key"></nz-statistic>
-                <ng-template #key>
-                    <div class="container_class">
-                        <span nz-icon nzType="key" nzTheme="outline"></span>
-                    </div>
-                </ng-template>
-            </nz-col>
-        </nz-row>
-        <nz-row [nzGutter]="16">
-            <nz-col [nzSpan]="12">
-                <nz-statistic [nzValue]="(tagSearches.length)!" [nzTitle]="'Number of Tag Searches'" [nzPrefix]="tag"></nz-statistic>
-                <ng-template #tag>
-                    <div class="container_class">
-                        <span nz-icon nzType="tag" nzTheme="outline"></span>
-                    </div>
-                </ng-template>
-            </nz-col>
-        </nz-row>
-        <br>
+      <app-title-bar titleText="Highlights" tooltipText="These are some important entries in your data download regarding your searches."></app-title-bar>
+      <nz-row [nzGutter]="16">
+        <nz-col [nzSpan]="12">
+          <nz-statistic [nzValue]="userSearches.length" [nzTitle]="'Number of User Searches'" [nzPrefix]="user"></nz-statistic>
+          <ng-template #user>
+            <div class="container_class">
+              <span nz-icon nzType="user" nzTheme="outline"></span>
+            </div>
+          </ng-template>
+        </nz-col>
+        <nz-col [nzSpan]="12">
+          <nz-statistic [nzValue]="keywordSearches.length" [nzTitle]="'Number of Keyword Searches'" [nzPrefix]="key"></nz-statistic>
+          <ng-template #key>
+            <div class="container_class">
+              <span nz-icon nzType="key" nzTheme="outline"></span>
+            </div>
+          </ng-template>
+        </nz-col>
+      </nz-row>
+      <nz-row [nzGutter]="16">
+        <nz-col [nzSpan]="12">
+          <nz-statistic [nzValue]="tagSearches.length" [nzTitle]="'Number of Tag Searches'" [nzPrefix]="tag"></nz-statistic>
+          <ng-template #tag>
+            <div class="container_class">
+              <span nz-icon nzType="tag" nzTheme="outline"></span>
+            </div>
+          </ng-template>
+        </nz-col>
+      </nz-row>
+      <br>
 
-        <app-title-bar titleText="Searches" tooltipText="This site shows all the different searches of the instagram user. The search and filter functionalities can be used to extract wanted information." [includeButton]="false"></app-title-bar>
-        <nz-card style="width:100%;">
-            <nz-tabset nzType="card">
-                <nz-tab nzTitle="User Searches"><ng-template nz-tab><nz-demo-tab-content-lazy>
-                    <!-- If user search data present -->
-                    <div *ngIf="userSearches?.length">
-                        <p>The table below displays the user searches that were performed by your instagram account.</p>
-                        <nz-table #searchTable [nzData]="listOfUserSearches">
-                            <thead>
-                                <tr>
-                                    <th nzCustomFilter>
-                                        Searched User
-                                        <nz-filter-trigger [(nzVisible)]="visible" [nzActive]="userSearchValue.length > 0" [nzDropdownMenu]="menu">
-                                          <span nz-icon nzType="search"></span>
-                                        </nz-filter-trigger>
-                                    </th>
-                                    <th [nzSortFn]="sortUserDate">Date</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let data of searchTable.data">
-                                    <td>{{ data.search }}</td>
-                                    <td>{{ data.timestamp + '000' | date: 'd MMM y, h:mm a'}}</td>
-                                </tr>
-                            </tbody>
-                        </nz-table>
-                        <nz-dropdown-menu #menu="nzDropdownMenu">
-                            <div class="ant-table-filter-dropdown">
-                              <div class="search-box">
-                                <input type="text" nz-input placeholder="Search name" [(ngModel)]="userSearchValue" />
-                                <button nz-button nzSize="small" nzType="primary" (click)="search('user')" class="search-button">Search</button>
-                                <button nz-button nzSize="small" (click)="reset('user')">Reset</button>
-                              </div>
-                            </div>
-                        </nz-dropdown-menu>
-                    </div>
-                    <!-- If no user search data present -->
-                    <div *ngIf="userSearches?.length === 0">
-                        <nz-empty nzNotFoundImage="simple"></nz-empty>
-                    </div>
-                </nz-demo-tab-content-lazy></ng-template></nz-tab>
-
-                <nz-tab nzTitle="Keyword Searches"><ng-template nz-tab><nz-demo-tab-content-lazy>
-                    <!-- If keyword search data present -->
-                    <div *ngIf="keywordSearches?.length">
-                        <p>The table below displays the keyword/sentence searches that were performed by your instagram account.</p>
-                        <nz-table #searchTable [nzData]="listOfKeywordSearches">
-                            <thead>
-                                <tr>
-                                    <th nzCustomFilter>
-                                        Searched Keyword
-                                        <nz-filter-trigger [(nzVisible)]="visible" [nzActive]="keywordSearchValue.length > 0" [nzDropdownMenu]="menu">
-                                          <span nz-icon nzType="search"></span>
-                                        </nz-filter-trigger>
-                                    </th>
-                                    <th [nzSortFn]="sortKeywordDate">Date</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let data of searchTable.data">
-                                    <td>{{ data.search }}</td>
-                                    <td>{{ data.timestamp + '000' | date: 'd MMM y, h:mm a' }}</td>
-                                </tr>
-                            </tbody>
-                        </nz-table>
-                        <nz-dropdown-menu #menu="nzDropdownMenu">
-                            <div class="ant-table-filter-dropdown">
-                              <div class="search-box">
-                                <input type="text" nz-input placeholder="Search name" [(ngModel)]="keywordSearchValue" />
-                                <button nz-button nzSize="small" nzType="primary" (click)="search('keyword')" class="search-button">Search</button>
-                                <button nz-button nzSize="small" (click)="reset('keyword')">Reset</button>
-                              </div>
-                            </div>
-                        </nz-dropdown-menu>
-                    </div>
-                    <!-- If no keyword search data present -->
-                    <div *ngIf="keywordSearches?.length === 0">
-                        <nz-empty nzNotFoundImage="simple"></nz-empty>
-                    </div>
-                </nz-demo-tab-content-lazy></ng-template></nz-tab>
-                
-                <nz-tab nzTitle="Tag Searches"><ng-template nz-tab><nz-demo-tab-content-lazy>
-                    <!-- If keyword search data present -->
-                    <div *ngIf="tagSearches?.length">
-                        <p>The table below displays the #tag searches that were performed by your instagram account.</p>
-                        <nz-table #searchTable [nzData]="listOfTagSearches">
-                            <thead>
-                                <tr>
-                                    <th nzCustomFilter>
-                                        Searched Keyword
-                                        <nz-filter-trigger [(nzVisible)]="visible" [nzActive]="tagSearchValue.length > 0" [nzDropdownMenu]="menu">
-                                          <span nz-icon nzType="search"></span>
-                                        </nz-filter-trigger>
-                                    </th>
-                                    <th [nzSortFn]="sortTagDate">Date</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let data of searchTable.data">
-                                    <td>{{ data.search }}</td>
-                                    <td>{{ data.timestamp + '000' | date: 'd MMM y, h:mm a' }}</td>
-                                </tr>
-                            </tbody>
-                        </nz-table>
-                        <nz-dropdown-menu #menu="nzDropdownMenu">
-                            <div class="ant-table-filter-dropdown">
-                              <div class="search-box">
-                                <input type="text" nz-input placeholder="Search name" [(ngModel)]="tagSearchValue" />
-                                <button nz-button nzSize="small" nzType="primary" (click)="search('tag')" class="search-button">Search</button>
-                                <button nz-button nzSize="small" (click)="reset('tag')">Reset</button>
-                              </div>
-                            </div>
-                        </nz-dropdown-menu>
-                    </div>
-                    <!-- If no keyword search data present -->
-                    <div *ngIf="tagSearches?.length === 0">
-                        <nz-empty nzNotFoundImage="simple"></nz-empty>
-                    </div>
-                </nz-demo-tab-content-lazy></ng-template></nz-tab>
-            </nz-tabset>
-        </nz-card>
-
-        
+      <app-title-bar titleText="Searches" tooltipText="This site shows all the different searches of the Instagram user. The search and filter functionalities can be used to extract wanted information." [includeButton]="false"></app-title-bar>
+      <div class="button-group">
+        <button nz-button nzType="default" nzSize="large" class="filter-button" (click)="filterData('all')">All Searches</button>
+        <button nz-button nzType="default" nzSize="large" class="filter-button" (click)="filterData('user')">User Searches</button>
+        <button nz-button nzType="default" nzSize="large" class="filter-button" (click)="filterData('keyword')">Keyword Searches</button>
+        <button nz-button nzType="default" nzSize="large" class="filter-button danger-button" (click)="filterData('tag')">Tag Searches</button>
+      </div>
+      <nz-card nzTitle="Searches Word Cloud" style="width:100%; height:100%;" [nzExtra]="redrawTemplate">
+        <prioss-word-cloud #wordCloudRef [data]="filteredWordData"></prioss-word-cloud>
+      </nz-card>
+      <ng-template #redrawTemplate>
+        <button nz-button nz-tooltip="Save as Image" style="border: none;" (click)="downloadCloud()">
+          <span nz-icon nzType="download" nzTheme="outline"></span>
+        </button>
+        <button nz-button nz-tooltip="Redraw Topic Cloud" style="border: none;" (click)="redrawCloud()">
+          <span nz-icon nzType="redo" nzTheme="outline"></span>
+        </button>
+      </ng-template>
+      <br>
+      <div class="chart-container">
+        <div echarts [options]="chartOptions" class="chart"></div>
+      </div>
     </div>
+  </div>
 
-</div>

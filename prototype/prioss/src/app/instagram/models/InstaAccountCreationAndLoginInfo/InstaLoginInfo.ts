@@ -4,6 +4,6 @@ export interface InstaLoginInfo {
     timestamp: number,
     user_agent: string,
     type: string,
-    color: string,
-    device: string
+    device: string,
+    isMobileDevice:boolean,
 }

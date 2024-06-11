@@ -16,64 +16,37 @@
   <!--only shows when visiting the page-->
   <div *ngIf="!previewMode">
     <!--Titlebar component -->
-    <app-title-bar titleText="Contacts" tooltipText="The following table shows all the details about contact synced from user's mobile."></app-title-bar>
-    <nz-table #contactsTable [nzData]="listOfContacts">
-      <thead>
-        <tr>
-          <th nzCustomFilter>
-            Firstname
-            <nz-filter-trigger [(nzVisible)]="firstVisible" [nzActive]="firstnameSearchValue.length > 0" [nzDropdownMenu]="firstmenu">
-              <span nz-icon nzType="search"></span>
-            </nz-filter-trigger>
-          </th>
-          <th nzCustomFilter>
-            Surname
-            <nz-filter-trigger [(nzVisible)]="surVisible" [nzActive]="surnameSearchValue.length > 0" [nzDropdownMenu]="surmenu">
-              <span nz-icon nzType="search"></span>
-            </nz-filter-trigger>
-          </th>
-          <th nzCustomFilter>
-            Contact Information
-            <nz-filter-trigger [(nzVisible)]="numberVisible" [nzActive]="numberSearchValue.length > 0" [nzDropdownMenu]="numbermenu">
-              <span nz-icon nzType="search"></span>
-            </nz-filter-trigger>
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let data of contactsTable.data">
-          <td>{{ data.firstName }}</td>
-          <td>{{ data.surname }}</td>
-          <td>{{ data.contactInformation }}</td>
-        </tr>
-      </tbody>
-    </nz-table>
-    <nz-dropdown-menu #firstmenu="nzDropdownMenu">
-      <div class="ant-table-filter-dropdown">
-        <div class="search-box">
-          <input type="text" nz-input placeholder="Search firstname" [(ngModel)]="firstnameSearchValue" />
-          <button nz-button nzSize="small" nzType="primary" (click)="search('first')" class="search-button">Search</button>
-          <button nz-button nzSize="small" (click)="reset('first')">Reset</button>
+    <app-title-bar titleText="Contacts" tooltipText="View all contact details synced from the user's mobile device."></app-title-bar>
+    <br>
+    <nz-card style="width:100%; height:100%;">
+      <nz-list nzGrid style="width:100%">
+        <nz-list-header>
+          <nz-input-group [nzSuffix]="suffixIconSearch">
+            <input type="text" nz-input placeholder="search by name or contact" [formControl]="searchControl" />
+          </nz-input-group>
+          <ng-template #suffixIconSearch>
+            <button nz-button nz-tooltip="Search" style="border: none;" (click)="filterContacts()" (keydown.enter)="filterContacts()"><span nz-icon nzType="search" nzTheme="outline"></span></button>
+            <button nz-button nz-tooltip="Sort by Name" style="border: none;" (click)="sortContactsByName()"><span nz-icon [nzType]="sortIconValue" nzTheme="outline"></span></button>
+            <button nz-button nz-tooltip="Reset Search" style="border: none;" (click)="resetContacts()"><span nz-icon nzType="close-circle" nzTheme="outline"></span></button>
+          </ng-template>
+          <br>
+          <br>
+        </nz-list-header>
+        <div nz-row [nzGutter]="64">
+          <br>
+          <div nz-col [nzXXl]="8" [nzXl]="4" [nzLg]="8" [nzMd]="8" [nzSm]="12" [nzXs]="12" *ngFor="let item of listOfContacts">
+            <nz-list-item>
+              <nz-card nzHoverable style="width:260px; margin-top: 15px; margin-bottom: 15px;  margin-left:40px;" >
+                <nz-card-meta nzTitle="{{item.firstName}} {{item.surname}}" nzDescription="{{item.contactInformation}}" [nzAvatar]="avatarTemplate"></nz-card-meta>
+              </nz-card>
+              <ng-template #avatarTemplate>
+                <nz-avatar [nzSize]="64" nzIcon="user" [ngStyle]="{ 'background-color': item.colour }"></nz-avatar>
+              </ng-template>
+            </nz-list-item>
+          </div>
         </div>
-      </div>
-    </nz-dropdown-menu>
-    <nz-dropdown-menu #surmenu="nzDropdownMenu">
-      <div class="ant-table-filter-dropdown">
-        <div class="search-box">
-          <input type="text" nz-input placeholder="Search surname" [(ngModel)]="surnameSearchValue" />
-          <button nz-button nzSize="small" nzType="primary" (click)="search('sur')" class="search-button">Search</button>
-          <button nz-button nzSize="small" (click)="reset('sur')">Reset</button>
-        </div>
-      </div>
-    </nz-dropdown-menu>
-    <nz-dropdown-menu #numbermenu="nzDropdownMenu">
-      <div class="ant-table-filter-dropdown">
-        <div class="search-box">
-          <input type="text" nz-input placeholder="Search number" [(ngModel)]="numberSearchValue" />
-          <button nz-button nzSize="small" nzType="primary" (click)="search('number')" class="search-button">Search</button>
-          <button nz-button nzSize="small" (click)="reset('number')">Reset</button>
-        </div>
-      </div>
-    </nz-dropdown-menu>
+        <nz-list-empty *ngIf="listOfContacts.length===0" />
+      </nz-list>
+    </nz-card>
   </div>
 </div>

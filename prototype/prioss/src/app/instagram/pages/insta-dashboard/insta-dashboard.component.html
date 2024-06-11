@@ -1,18 +1,15 @@
 <div class="dashboard-page dashboard-container">
+  <a id="introduction" class="offset-anchor"></a>
   <h1 nz-typography id="">PriOSS - Instagram</h1>
   <div id="introduction">
     <p nz-typography>
-      Welcome to the dashboard for the Instagram specific data. This page will offer you all the information you need to fully understand the data that
-      is collected about you and what steps you can take to increase your personal privacy.<br>
-      The cards below show different interactive visualizations and explanations about the data Instagram has collected about you. If you are unsure what something means, hover over the (?)-Icons for explanations.
-      You can click on each of the white cards that contains a visualization to explore the visualization in more detail and unlock it's interactivity, try it!
+      Welcome to the Instagram Dashboard!
       <br>
-      All the following sections will help you to understand the purpose of this application as well as the legal basis of the data collection and your rights
-      regarding your data.
+       Visualize your data, explore GDPR rights, get privacy tips, find FAQs, and contact us for more info. Your data, your control.
     </p>
   </div>
   <br>
-
+  <a id="visualization" class="offset-anchor"></a>
   <app-accordion title="Visualization">
 
     <div nz-row [nzGutter]="[{ xs: 8, xl: 20}, {xs: 8, xl: 40}]">
@@ -23,24 +20,24 @@
         </app-dash-card>
       </div>
       <div nz-col nzXs="24" nzXl="8">
-        <!--card for visualizing all about advertisements-->
-        <app-dash-card id="advertisement" cardLink="/insta/ads" titleText="Advertisement">
-          <app-insta-ads [previewMode]="true"></app-insta-ads>
-        </app-dash-card>
-      </div>
-      <div nz-col nzXs="24" nzXl="8">
         <!--card for visualizing the login and account creation-->
         <app-dash-card cardLink="/insta/account" titleText="Account Creation and Login">
           <app-insta-account-creation-login [previewMode]="true"></app-insta-account-creation-login>
+        </app-dash-card>
+      </div>
+      <div nz-col nzXs="24" nzXl="8">
+        <!--card for visualizing for friends and followers-->
+        <app-dash-card cardLink="/insta/followers" titleText="Followers and Following">
+          <app-insta-followers [previewMode]="true"></app-insta-followers>
         </app-dash-card>
       </div>
     </div>
     <br>
     <div nz-row [nzGutter]="[{ xs: 8, xl: 20}, {xs: 8, xl: 40}]">
       <div nz-col nzXs="24" nzXl="8">
-        <!--card for visualizing for friends and followers-->
-        <app-dash-card cardLink="/insta/followers" titleText="Followers and Following">
-          <app-insta-followers [previewMode]="true"></app-insta-followers>
+        <!--card for visualizing the liked comments and posts-->
+        <app-dash-card cardLink="/insta/likedcontent" titleText="Liked Comments and Posts">
+          <app-insta-liked-content [previewMode]="true"></app-insta-liked-content>
         </app-dash-card>
       </div>
       <div nz-col nzXs="24" nzXl="8">
@@ -50,40 +47,41 @@
         </app-dash-card>
       </div>
       <div nz-col nzXs="24" nzXl="8">
-        <!--card for visualizing the liked comments and posts-->
-        <app-dash-card cardLink="/insta/likedcontent" titleText="Liked Comments and Posts">
-          <app-insta-liked-content [previewMode]="true"></app-insta-liked-content>
+        <!--card for visualizing for searches-->
+        <app-dash-card cardLink="/insta/searches" titleText="Searches">
+          <app-insta-searches [previewMode]="true"></app-insta-searches>
         </app-dash-card>
       </div>
     </div>
     <br>
   <div nz-row [nzGutter]="[{ xs: 8, xl: 20}, {xs: 8, xl: 40}]">
     <div nz-col nzXs="24" nzXl="8">
-      <!--card for visualizing for searches-->
-      <app-dash-card cardLink="/insta/searches" titleText="Searches">
-        <app-insta-searches [previewMode]="true"></app-insta-searches>
-      </app-dash-card>
-    </div>
-    <div nz-col nzXs="24" nzXl="8">
-      <!--card for visualizing for shopping data-->
-      <app-dash-card cardLink="/insta/shopping" titleText="Shopping">
-          <app-insta-shopping [previewMode]="true"></app-insta-shopping>
+      <!--card for visualizing for messages-->
+      <app-dash-card cardLink="/insta/messages" titleText="Messages">
+        <app-insta-messages [previewMode]="true"></app-insta-messages>
       </app-dash-card>
     </div>
     <div nz-col nzXs="24" nzXl="8">
       <!--card for visualizing for your topic-->
       <app-dash-card cardLink="/insta/your-topic" titleText="Your topic">
-          <app-insta-your-topic [previewMode]="true"></app-insta-your-topic>
+        <app-insta-your-topic [previewMode]="true"></app-insta-your-topic>
       </app-dash-card>
     </div>
+    <div nz-col nzXs="24" nzXl="8">
+      <!--card for visualizing all about advertisements-->
+      <app-dash-card id="advertisement" cardLink="/insta/ads" titleText="Advertisement">
+        <app-insta-ads [previewMode]="true"></app-insta-ads>
+      </app-dash-card>
+    </div>
+
   </div>
 
   <br>
   <div nz-row [nzGutter]="[{ xs: 8, xl: 20}, {xs: 8, xl: 40}]">
     <div nz-col nzXs="24" nzXl="8">
-      <!--card for visualizing for messages-->
-      <app-dash-card cardLink="/insta/messages" titleText="Messages">
-        <app-insta-messages [previewMode]="true"></app-insta-messages>
+      <!--card for visualizing for shopping data-->
+      <app-dash-card cardLink="/insta/shopping" titleText="Shopping">
+        <app-insta-shopping [previewMode]="true"></app-insta-shopping>
       </app-dash-card>
     </div>
     <div nz-col nzXs="24" nzXl="8">
@@ -93,8 +91,9 @@
   </div>
   <br>
 </app-accordion>
-<br>
-<app-accordion title="Rectification">
+  <a id="rectification" class="offset-anchor"></a>
+  <br>
+  <app-accordion title="Rectification">
     <p nz-typography>
       This section of the application describes how a user can rectify if something is missing/wrong in the data download.
     </p>
@@ -127,8 +126,8 @@
       </button>
     </div>
   </app-accordion>
+  <a id="recommendation" class="offset-anchor"></a>
   <br>
-
   <app-accordion title="Privacy Recommendations">
 
   <div nz-row [nzGutter]="[{ xs: 8, xl: 20}, {xs: 8, xl: 40}]">
@@ -152,57 +151,17 @@
     </div>
   </div>
 </app-accordion>
- <br>
-
-  <p nz-topography class="margin-reset"> <app-insta-purposes></app-insta-purposes> </p>
   <br>
-
-  <!--
-  <details open id="purpose">
-    <summary class="collapsible-dashboard-section-title">Purposes - Why Instagram collects your data? </summary>
-    <p nz-typography>
-      The following purposes should give an example of Instagram's reasoning in regards to data collection. To Get a full list of their reasons you can check out Instagram's <span nz-icon nzType="link"><a target="_blank" href="https://privacycenter.instagram.com/policy/?section_id=0-WhatIsThePrivacy">privacy policy</a></span>
-      <br>
-      <br>
-      <nz-table nzTemplateMode>
-        <thead>
-          <tr>
-            <th>Purpose</th>
-            <th>Data Collected</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>To personalize and improve their products and to undertake analytics</td>
-            <td>Activity information and information you provide like posts or comments. For more information see <span nz-icon nzType="link"><a target="_blank" href="https://privacycenter.instagram.com/policy/?subpage=1.subpage.1-YourActivityAndInformation">here</a></span>.</td>
-          </tr>
-          <tr>
-            <td>Tailor the ads you see</td>
-            <td>Information from third parties or vendors. That could for example be device information or apps you use. For more information see <span nz-icon nzType="link"><a target="_blank" href="https://privacycenter.instagram.com/policy/?subpage=1.subpage.4-InformationFromPartnersVendors">here</a></span>.</td>
-          </tr>
-          <tr>
-            <td>Sharing your contact, profile or other information with third parties upon your request</td>
-            <td>Content you create, like your contact, profile or other information, like posts or comments. For more information see <span nz-icon nzType="link"><a target="_blank" href="https://privacycenter.instagram.com/policy/?subpage=1.subpage.1-YourActivityAndInformation">here</a></span>.</td>
-          </tr>
-          <tr>
-            <td>Provide the features or services through collecting information you allow them to receive</td>
-            <td>Information from device settings. For more information see <span nz-icon nzType="link"><a target="_blank" href="https://privacycenter.instagram.com/policy/?subpage=1.subpage.3-AppBrowserAndDevice">here</a></span>.</td>
-          </tr>
-        </tbody>
-      </nz-table>
-  </details>
--->
+  <a id="faq" class="offset-anchor"></a>
 
   <!-- <app-faq serviceName="insta"></app-faq> -->
   <app-help-button (startTourClick)="startTour()">
-    <h2 nz-typography id="introduction">Introduction</h2>
+    <h2 nz-typography id="introduction-type">Introduction</h2>
     <h2 nz-typography id="rectification">Rectification</h2>
     <h2 nz-typography id="gdpr">GDPR Rights</h2>
     <h2 nz-typography id="purpose">Purposes</h2>
   </app-help-button>
   <app-offline-indicator [bottom]="'32px'" [right]="'76px'"></app-offline-indicator>
-
-
-
+</div>
 
 

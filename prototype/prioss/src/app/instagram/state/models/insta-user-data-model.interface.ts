@@ -25,6 +25,9 @@ import {
     InstaTagSearch, InstaTopicsInfo,
     InstaUserSearch, InstaContactInfo
 } from "../../models";
+import InstaUserStoriesDataModel from "./insta-stories-data.interface";
+import InstaUserPostsDataModel from "./insta-posts-data.interface";
+import {InstaUserCommentsDataModel, InstaUserMessageDataModel} from "./index";
 
 export default interface InstaUserDataModel {
     personalInfo: InstaPersonalInfo;
@@ -57,5 +60,10 @@ export default interface InstaUserDataModel {
     shoppingInfo: InstaShoppingInfo[];
     shoppingWishlistInfo: InstaShoppingWishlistInfo[];
     chatData: InstaChatData[];
+    stories:InstaUserStoriesDataModel[];
+    posts:InstaUserPostsDataModel[];
+    comments:InstaUserCommentsDataModel[];
+    messages:InstaUserMessageDataModel[];
+    mediaFileInfo: any;
 }
 

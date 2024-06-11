@@ -1,6 +1,5 @@
-<div [ngClass]="{'component-page': !previewMode}">
+<div [ngClass]="{'component-page': !previewMode}" xmlns="http://www.w3.org/1999/html">
 
-  <!--only shows a preview of the visualization-->
   <div *ngIf="previewMode">
     <nz-row [nzGutter]="16">
       <nz-col [nzSpan]="12">
@@ -23,20 +22,18 @@
         <nz-statistic [nzValue]="most_used_device" [nzTitle]="'Most used device'" [nzPrefix]="device"></nz-statistic>
         <ng-template #device>
           <div class="container_class">
-            <span nz-icon nzType="desktop" nzTheme="outline"></span>
+            <span nz-icon [nzType]="isRemoteDevice?'mobile':'desktop'" nzTheme="outline"></span>
           </div>
         </ng-template>
       </nz-col>
     </nz-row>
 </div>
 
-<!--only shows when visiting the page-->
-<div *ngIf="!previewMode">
-  <!--Titlebar component -->
-  <app-title-bar titleText="Account Creation and Login" tooltipText="The timeline below displays the account creation, login, and logout activities for your Instagram account."></app-title-bar>
+  <div *ngIf="!previewMode">
 
-  <!-- Showcasing signup information and login and logout information if data is present -->
-  <div *ngIf="login_logout_activities?.length && signup_information !== null">
+    <app-title-bar titleText="Account Creation and Login" tooltipText="The timeline below displays the account creation, login, and logout activities for your Instagram account."></app-title-bar>
+
+    <div *ngIf="login_logout_activities?.length && signup_information !== null">
     <h3 nz-typography>Highlights</h3>
     <nz-row [nzGutter]="16">
       <nz-col [nzSpan]="12">
@@ -59,70 +56,82 @@
         <nz-statistic [nzValue]="most_used_device" [nzTitle]="'Most used device'" [nzPrefix]="device"></nz-statistic>
         <ng-template #device>
           <div class="container_class">
-            <span nz-icon nzType="desktop" nzTheme="outline"></span>
+            <span nz-icon [nzType]="isRemoteDevice?'mobile':'desktop'" nzTheme="outline"></span>
           </div>
         </ng-template>
       </nz-col>
     </nz-row>
     <br>
-
-    <h3 nz-typography>Timeline</h3>
     <br>
-
-    <div class="timeline_div" class="visualization-card">
-      <!-- Creating timeline for complete data -->
-      <nz-timeline nzMode="alternate">
-        <nz-timeline-item [nzDot]="dotTemplateSignUp">
-
-          <!-- Creating a template for sign up information -->
-          <ng-template #dotTemplateSignUp>
-            <div class="ant-timeline-item-head ant-timeline-item-head-blue"
-            nz-button nz-popover nzType="primary" [nzPopoverContent]="contentTemplateSignUp" 
-            [nzPopoverPlacement]="'leftTop'">
-            </div>
-          </ng-template>
-
-          <!-- Creating a template to show additional data -->
-          <ng-template #contentTemplateSignUp>
-            <strong>IP Address</strong> : {{signup_information[0].ip_address}}
-          </ng-template>
-
-          <!-- Showcasing necessary details in timeline -->
-          Create account with device [{{signup_information[0].device}}] on {{signup_information[0].timestamp*1000 | date: 'MMM d, y h:mm a'}} 
-        </nz-timeline-item>
-
-        <!-- Looping throught each login and logout activity values -->
-        <nz-timeline-item *ngFor="let activity of login_logout_activities; let i = index"  [nzDot]="dotTemplate">
-
-          <!-- Creating a template for each row based on activity type -->
-          <ng-template #dotTemplate>
-            <div class="ant-timeline-item-head" 
-            [class.ant-timeline-item-head-red]="activity.color === 'red'" 
-            [class.ant-timeline-item-head-green]="activity.color === 'green'"
-            [class.ant-timeline-item-head-blue]="activity.color === 'blue'"
-            nz-button nz-popover nzType="primary" [nzPopoverContent]="contentTemplate" 
-            [nzPopoverPlacement]="i%2===0?'rightTop':'leftTop'">
-            </div>
-          </ng-template>
-
-          <!-- Creating a template for each row popup to show additional data -->
-          <ng-template #contentTemplate>
-            <strong>IP Address</strong> : {{activity.ip_address}}<br>
-            <div *ngIf="activity.user_agent !== ''">
-              <strong>User Agent</strong> : {{activity.user_agent}}
-            </div>
-          </ng-template>
-
-          <!-- Showcasing necessary details in timeline -->
-          {{activity.type}} with device [{{activity.device}}] on {{activity.timestamp*1000 | date: 'MMM d, y h:mm a'}}
-        </nz-timeline-item>
-      </nz-timeline>
+    <div class="profile-update-timeline">
+      <nz-card nzTitle="Profile Access Timeline" style="width: 100%">
+        <nz-timeline nzMode="custom">
+          <nz-timeline-item [nzPosition]="'left'" [nzDot]="signupTemplate">
+            <nz-space nzDirection="vertical">
+              <nz-card *nzSpaceItem style="width: 320px;">
+                <nz-collapse nzExpandIconPosition="right">
+                  <nz-collapse-panel #p [nzHeader]="headerTemplate" nzActive="false" [nzExpandedIcon]="expandedIcon">
+                    <strong>IP Address</strong> : {{signup_information[0].ip_address}}
+                    <ng-template #expandedIcon let-active>
+                      {{ active }}
+                      <span nz-icon nzType="caret-right" class="ant-collapse-arrow" [nzRotate]="p.nzActive ? -90 : 90"></span>
+                    </ng-template>
+                  </nz-collapse-panel>
+                </nz-collapse>
+              </nz-card>
+            </nz-space>
+            <ng-template #headerTemplate>
+              <div>
+                <span><b>Account created using device
+                  <span nz-icon [nzType]="signup_information[0].isMobileDevice?'mobile':'laptop'" nzTheme="outline"  style="font-size: 16px;"></span><i> {{signup_information[0].device}}</i></b></span>
+                <br>
+                <span> on {{signup_information[0].timestamp*1000 | date: 'MMMM d, y h:mm a'}}</span>
+              </div>
+            </ng-template>
+            <ng-template #signupTemplate>
+                <span nz-icon nzType="user-add" nzTheme="outline" style="font-size: 16px; color: deepskyblue"></span>
+            </ng-template>
+          </nz-timeline-item>
+          <nz-timeline-item *ngFor="let activity of login_logout_activities" [nzPosition]="activity.type === 'Login' ? 'right' : 'left'" [nzDot]="activity.type === 'Login' ? loginTemplate : logoutTemplate">
+            <nz-space nzDirection="vertical">
+              <nz-card *nzSpaceItem style="width: 320px;">
+                <nz-collapse nzExpandIconPosition="right">
+                  <nz-collapse-panel #p [nzHeader]="headerTemplate" nzActive="false" [nzExpandedIcon]="expandedIcon">
+                    <strong>IP Address</strong> : {{activity.ip_address}}<br>
+                    <div *ngIf="activity.user_agent !== ''">
+                      <strong>User Agent</strong> : {{activity.user_agent}}
+                    </div>
+                    <ng-template #expandedIcon let-active>
+                      {{ active }}
+                      <span nz-icon nzType="caret-right" class="ant-collapse-arrow" [nzRotate]="p.nzActive ? -90 : 90"></span>
+                    </ng-template>
+                  </nz-collapse-panel>
+                </nz-collapse>
+              </nz-card>
+            </nz-space>
+            <ng-template #headerTemplate>
+              <div>
+                <span><b>{{activity.type==="Logout"?"Logged out from":"Logged in with"}} <span nz-icon [nzType]="activity.isMobileDevice?'mobile':'laptop'" nzTheme="outline"  style="font-size: 16px;"></span><i> {{activity.device}}</i></b></span>
+                <br>
+                <span> on {{activity.timestamp*1000 | date: 'MMMM d, y h:mm a'}}</span>
+              </div>
+            </ng-template>
+            <ng-template #loginTemplate>
+                <span nz-icon nzType="login" nzTheme="outline" style="font-size: 16px; color: green"></span>
+            </ng-template>
+            <ng-template #logoutTemplate>
+                <span nz-icon nzType="logout" nzTheme="outline" style="font-size: 16px; color: red"></span>
+            </ng-template>
+          </nz-timeline-item>
+        </nz-timeline>
+      </nz-card>
     </div>
-  </div>
+    <br>
 
   <!-- Showcasing default value if no data is present -->
   <div *ngIf="login_logout_activities?.length === 0 && signup_information === null">
     <p>No Account Creation, Login and Logout activity present</p>
   </div>
-</div>
+  </div>
+  </div>
 </div>

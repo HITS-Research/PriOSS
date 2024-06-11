@@ -1,14 +1,15 @@
 import JSZip from 'jszip';
 
-import { WritableSignal } from '@angular/core';
+import {WritableSignal} from '@angular/core';
 import * as devicetypeUtils from '../../features/utils/devicetype.functions';
 import * as utilities from '../../features/utils/generalUtilities.functions';
 import type {
   InstaChatData,
   InstaChatPartnerData,
 } from '../models/MessageInfo/InstaChatData';
-import { UpdateInstaUserData } from './insta.action';
+import {UpdateInstaUserData} from './insta.action';
 import type InstaUserDataModel from './models/insta-user-data-model.interface';
+import {Messages} from '../state/models';
 
 /**
  * Parses the uploaded Instagram data-download-zip file into the store
@@ -22,6 +23,9 @@ export async function parseInstagramFile(
 ) {
   const userData: InstaUserDataModel = {} as InstaUserDataModel;
   userData.chatData = [];
+  userData.comments = [];
+  userData.messages = [];
+  userData.mediaFileInfo = new Map();
 
   const zip: JSZip = await zipPromise;
 
@@ -35,6 +39,17 @@ export async function parseInstagramFile(
     progressSignal?.set(Math.round(100 * (i / filepaths.length)));
 
     const filepath: string = filepaths[i];
+    // For handling media files
+    if (filepath.startsWith("media") && (filepath.endsWith("jpg") || filepath.endsWith("mp4"))) {
+      const mediaContent: Blob = await zip.files[filepath].async('blob');
+      const reader = new FileReader();
+      reader.onload = () => {
+        userData.mediaFileInfo.set(filepath, reader.result as string);
+      };
+      reader.readAsDataURL(mediaContent);
+      continue;
+    }
+    //For handling json files
     const content: string = await zip.files[filepath].async('string');
     const filename: string | undefined = filepath
       .split('\\')
@@ -50,6 +65,9 @@ export async function parseInstagramFile(
     if (filename.startsWith('personal_information')) {
       const jsonData = JSON.parse(content);
       const personalData = jsonData.profile_user[0].string_map_data;
+
+      const profilePhotoUri = jsonData.profile_user[0].media_map_data['Profile photo'] ?
+        jsonData.profile_user[0].media_map_data['Profile photo'].uri : "error";
       // Email Handling
       let email = '';
       if (personalData.Email !== undefined) {
@@ -61,7 +79,26 @@ export async function parseInstagramFile(
           false,
         );
       }
-
+      const phoneNumber = utilities.getValueIgnoreCase(
+        personalData,
+        'Phone number',
+        false
+      );
+      const isPhoneNumberVerified = (utilities.getValueIgnoreCase(
+        personalData,
+        'Phone number confirmed',
+        false
+      ) as string).trim() === "True";
+      const name = utilities.getValueIgnoreCase(
+        personalData,
+        'Name',
+        false
+      );
+      const accountVisibility = (utilities.getValueIgnoreCase(
+        personalData,
+        'Private account',
+        false
+      ) as string).trim() === "True" ? "Private" : "Public";
       const gender = utilities.getValueIgnoreCase(
         personalData,
         'Gender',
@@ -77,6 +114,11 @@ export async function parseInstagramFile(
         email,
         gender,
         birthdate,
+        phoneNumber,
+        isPhoneNumberVerified,
+        name,
+        accountVisibility,
+        profilePic: profilePhotoUri
       };
     } else if (filename.startsWith('account_information')) {
       const jsonData = JSON.parse(content);
@@ -97,16 +139,6 @@ export async function parseInstagramFile(
         'Has Shared Live Video',
         false,
       );
-      const lastLogin = utilities.getValueIgnoreCase(
-        accountData,
-        'Last Login',
-        true,
-      );
-      const lastLogout = utilities.getValueIgnoreCase(
-        accountData,
-        'Last Logout',
-        true,
-      );
       const firstStoryTime = utilities.getValueIgnoreCase(
         accountData,
         'First Story Time',
@@ -126,8 +158,6 @@ export async function parseInstagramFile(
         contactSyncing,
         firstCountryCode,
         hasSharedLiveVideo,
-        lastLogin,
-        lastLogout,
         firstStoryTime,
         lastStoryTime,
         firstCloseFriendsStoryTime,
@@ -135,12 +165,16 @@ export async function parseInstagramFile(
     } else if (filename.startsWith('professional_information')) {
       const jsonData = JSON.parse(content);
       const profData = jsonData.profile_business[0];
-      userData.professionalInfo = { title: profData.title };
+      userData.professionalInfo = {title: profData.title};
     } else if (filename.startsWith('account_based_in')) {
       const jsonData = JSON.parse(content);
       const basedData =
         jsonData.inferred_data_primary_location[0].string_map_data;
-      userData.basedInInfo = { accountBasedIn: basedData['City Name'].value };
+      if (basedData['City Name']) {
+        userData.basedInInfo = {accountBasedIn: basedData['City Name'].value};
+      } else {
+        userData.basedInInfo = {accountBasedIn: basedData['Town/city name'].value};
+      }
     } else if (filename.startsWith('profile_changes')) {
       const jsonData = JSON.parse(content);
       const profileData = jsonData.profile_profile_change;
@@ -193,9 +227,9 @@ export async function parseInstagramFile(
         userData.adsActivityInfo.push({
           advertiserName: adsData[i].advertiser_name,
           has_data_file_custom_audience:
-            adsData[i].has_data_file_custom_audience,
+          adsData[i].has_data_file_custom_audience,
           has_remarketing_custom_audience:
-            adsData[i].has_remarketing_custom_audience,
+          adsData[i].has_remarketing_custom_audience,
           has_in_person_store_visit: adsData[i].has_in_person_store_visit,
         });
       }
@@ -225,7 +259,7 @@ export async function parseInstagramFile(
         true,
       );
       for (let i = 0; i < adsViewedData.length; i++) {
-        userData.adsViewedInfo.push({ title: author, timestamp });
+        userData.adsViewedInfo.push({title: author, timestamp});
       }
 
     } else if (filename.startsWith('signup_information.json')) {
@@ -258,7 +292,7 @@ export async function parseInstagramFile(
         email,
         phone_number,
         device,
-        color: 'blue',
+        isMobileDevice: (device === "iPhone" || device === "Android"),
       };
     } else if (filename.startsWith('login_activity.json')) {
       const jsonData = JSON.parse(content);
@@ -270,6 +304,7 @@ export async function parseInstagramFile(
           'User Agent',
           false,
         );
+        const device = devicetypeUtils.getDeviceNameBasedOnUserAgent(user_agent);
         userData.loginInfo.push({
           ip_address: utilities.getValueIgnoreCase(
             loginData[i].string_map_data,
@@ -283,8 +318,8 @@ export async function parseInstagramFile(
           ),
           user_agent,
           type: 'Login',
-          color: 'green',
-          device: devicetypeUtils.getDeviceNameBasedOnUserAgent(user_agent),
+          device,
+          isMobileDevice: (device === "iPhone" || device === "Android")
         });
       }
     } else if (filename.startsWith('logout_activity.json')) {
@@ -297,6 +332,7 @@ export async function parseInstagramFile(
           'User Agent',
           false,
         );
+        const device = devicetypeUtils.getDeviceNameBasedOnUserAgent(user_agent);
         userData.logoutInfo.push({
           user_agent,
           ip_address: utilities.getValueIgnoreCase(
@@ -310,8 +346,8 @@ export async function parseInstagramFile(
             true,
           ),
           type: 'Logout',
-          color: 'red',
-          device: devicetypeUtils.getDeviceNameBasedOnUserAgent(user_agent),
+          device,
+          isMobileDevice: (device === "iPhone" || device === "Android")
         });
       }
     } else if (filename.startsWith('liked_comments')) {
@@ -333,7 +369,56 @@ export async function parseInstagramFile(
         userData.likedPostsInfo.push({
           user: likedPosts[i].title,
           href_link: likedPosts[i].string_list_data[0].href,
-          timestamp: likedPosts[0].string_list_data[0].timestamp,
+          timestamp: likedPosts[i].string_list_data[0].timestamp,
+        });
+      }
+    } else if (filename.startsWith('posts_1.json')) {
+      const jsonData = JSON.parse(content);
+      userData.posts = [];
+      for (let i = 0; i < jsonData.length; i++) {
+        const media: string[] = [];
+        const sourceApp = jsonData[i]?.media[0]?.cross_post_source?.source_app || "";
+        for (let j = 0; j < jsonData[i].media.length; j++) {
+          media.push(jsonData[i].media[j].uri);
+        }
+        userData.posts.push({
+          media,
+          sourceApp,
+          title: jsonData[i].title,
+          timestamp: jsonData[i].creation_timestamp
+        })
+      }
+    } else if (filename.startsWith('stories.json')) {
+      const jsonData = JSON.parse(content);
+      const stories = jsonData.ig_stories;
+      userData.stories = [];
+      for (let i = 0; i < stories.length; i++) {
+        userData.stories.push({
+          title: stories[i].title,
+          timestamp: stories[i].creation_timestamp,
+          sourceApp: stories[i].cross_post_source["source_app"],
+          media: stories[i].uri
+        })
+      }
+    } else if (filename.startsWith("reels_comments")) {
+      const jsonData = JSON.parse(content);
+      const comments = jsonData.comments_reels_comments;
+      for (let i = 0; i < comments.length; i++) {
+        userData.comments.push({
+          comment: comments[i].string_map_data.Comment.value,
+          timestamp: comments[i].string_map_data.Time.timestamp,
+          mediaOwner: comments[i].string_map_data["Media Owner"].value,
+          type: "Reel"
+        });
+      }
+    } else if (filename.startsWith("post_comments_1")) {
+      const comments = JSON.parse(content);
+      for (let i = 0; i < comments.length; i++) {
+        userData.comments.push({
+          comment: comments[i].string_map_data.Comment?.value || "",
+          timestamp: comments[i].string_map_data.Time.timestamp,
+          mediaOwner: comments[i].string_map_data["Media Owner"]?.value || "",
+          type: "Post"
         });
       }
     } else if (filename.startsWith('synced_contacts')) {
@@ -345,7 +430,7 @@ export async function parseInstagramFile(
           firstName: contactsData[i].string_map_data['First name'].value,
           surname: contactsData[i].string_map_data['Surname'].value,
           contactInformation:
-            contactsData[i].string_map_data['Contact information'].value,
+          contactsData[i].string_map_data['Contact information'].value,
         });
       }
     }
@@ -686,6 +771,22 @@ export async function parseInstagramFile(
         );
       }
       userData.chatData.push(chatData);
+
+      const participants: string[] = [];
+      const messages: Messages[] = [];
+      const title: string = jsonData.title;
+      for (let i = 0; i < jsonData.messages.length; i++) {
+        const message = jsonData.messages[i].content;
+        const contentLink = jsonData.messages[i].share?.link;
+        messages.push({
+          sender: jsonData.messages[i].sender_name,
+          message,
+          contentLink,
+          timestamp: jsonData.messages[i].timestamp_ms,
+          isMessageDeleted: message===undefined && contentLink===undefined
+        });
+      }
+      userData.messages.push({participants, messages, title});
     }
   }
 
