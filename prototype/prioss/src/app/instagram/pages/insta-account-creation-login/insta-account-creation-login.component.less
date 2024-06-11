@@ -1,14 +1,11 @@
-.timeline_div {
-    overflow-x:hidden; 
-    overflow-y: auto;
-    height: calc(100vh - 385.5px);
-    padding-top: 10px;
-}
+:host ::ng-deep .profile-update-timeline{
+    .ant-timeline-item-content{
+        .ant-card-body{
+            padding:5px;
+            .ant-collapse-content-box{
+                text-align: left;
 
-.ant-timeline-item-head {
-    border-width: 1.7px;
-}
-
-.visualization-card {
-  padding-top: 46px;
+            }
+        }
+    }
 }

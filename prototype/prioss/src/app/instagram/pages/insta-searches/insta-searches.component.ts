@@ -1,86 +1,99 @@
-import {AfterViewInit, Component, Input, OnInit,ChangeDetectionStrategy} from '@angular/core';
-import {SequenceComponentInit} from '../../../features/utils/sequence-component-init.abstract';
-import {InstaUserSearch} from 'src/app/instagram/models/Searches/InstaUserSearch';
-import {InstaKeywordSearch} from 'src/app/instagram/models/Searches/InstaKeywordSearch';
-import {InstaTagSearch} from 'src/app/instagram/models/Searches/InstaTagSearches';
-import {Store} from "@ngxs/store";
-import {InstaState} from "../../state/insta.state";
+import { AfterViewInit, Component, Input, OnInit, ChangeDetectionStrategy, ViewChild } from '@angular/core';
+import { Store } from '@ngxs/store';
+import { InstaState } from '../../state/insta.state';
+import { InstaUserSearch } from 'src/app/instagram/models/Searches/InstaUserSearch';
+import { InstaKeywordSearch } from 'src/app/instagram/models/Searches/InstaKeywordSearch';
+import { InstaTagSearch } from 'src/app/instagram/models/Searches/InstaTagSearches';
+import { EChartsOption } from 'echarts';
+import { provideEcharts } from 'ngx-echarts';
+import { SequenceComponentInit } from '../../../features/utils/sequence-component-init.abstract';
+import { WordCloudComponent } from "../../../features/word-cloud/word-cloud.component";
+import {DataRangeCalculatorService} from "../../service/echarts/data-range-calculator.service";
 
-
-/**
- * This component visualizes the searches of an instergram user.
- * This page is shown once a user visits the likes tab in instagram dashboard
- *
- * @author: Paul (pasch@mail.upb.de)
- *
- */
 @Component({
   selector: 'app-insta-searches',
   templateUrl: './insta-searches.component.html',
   styleUrls: ['./insta-searches.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [provideEcharts()]
 })
 export class InstaSearchesComponent extends SequenceComponentInit implements AfterViewInit, OnInit {
 
-  @Input()
-  previewMode = false;
+  @Input() previewMode = false;
   userSearchValue = '';
   keywordSearchValue = '';
   tagSearchValue = '';
   visible = false;
-
-  sortUserDate = (a: InstaUserSearch, b: InstaUserSearch): number => +a.timestamp - +b.timestamp;
-  sortKeywordDate = (a: InstaKeywordSearch, b: InstaKeywordSearch): number => +a.timestamp - +b.timestamp;
-  sortTagDate = (a: InstaTagSearch, b: InstaTagSearch): number => +a.timestamp - +b.timestamp;
-
+  chartOptions: EChartsOption;
   userSearches: InstaUserSearch[] = [];
-  listOfUserSearches: InstaUserSearch[] = [];
   keywordSearches: InstaKeywordSearch[] = [];
-  listOfKeywordSearches: InstaKeywordSearch[] = [];
   tagSearches: InstaTagSearch[] = [];
-  listOfTagSearches: InstaTagSearch[] = [];
+  topicsWordData: string[] = [];
+  filteredWordData: string[] = [];
 
-  constructor(private store: Store) {
+  @ViewChild('wordCloudRef', { static: false }) wordCloud: WordCloudComponent;
+
+  constructor(private store: Store, private rangeCalculator:DataRangeCalculatorService) {
     super();
   }
 
   ngOnInit() {
-    const {keywordSearch, tagSearch, userSearch} = this.store.selectSnapshot(InstaState.getUserSearchData);
+    const { keywordSearch, tagSearch, userSearch } = this.store.selectSnapshot(InstaState.getUserSearchData);
     this.userSearches = userSearch;
-    this.listOfUserSearches = [...this.userSearches];
     this.keywordSearches = keywordSearch;
-    this.listOfKeywordSearches = [...this.keywordSearches];
     this.tagSearches = tagSearch;
-    this.listOfTagSearches = [...this.tagSearches];
+    this.populateWordData();
+    this.filteredWordData = [...this.topicsWordData];
+    this.updateChartOptions();
   }
 
-  /**
-   * A Callback called by angular when the views have been initialized
-   * It handles the initialization when the component is displayed on its own dedicated page.
-   *
-   * @author: Paul (pasch@mail.upb.de)
-   */
   ngAfterViewInit() {
     if (!this.previewMode) {
       this.initComponent();
     }
   }
 
-
-  /**
-   *
-   * @author: Paul (pasch@mail.upb.de)
-   */
-  override async initComponent(): Promise<void> {
+  populateWordData() {
+    this.topicsWordData = [];
+    this.userSearches.forEach(search => this.topicsWordData.push(search.search));
+    this.keywordSearches.forEach(search => this.topicsWordData.push(search.search));
+    this.tagSearches.forEach(search => this.topicsWordData.push(search.search));
   }
 
-  /**
-   * Resets the given searchvalue.
-   *
-   * @param searchList the list that should be resetted.
-   *
-   * @author: Paul (pasch@mail.upb.de)
-   */
+  filterData(type: string) {
+    switch (type) {
+      case 'user':
+        this.filteredWordData = this.userSearches.map(search => search.search);
+        break;
+      case 'keyword':
+        this.filteredWordData = this.keywordSearches.map(search => search.search);
+        break;
+      case 'tag':
+        this.filteredWordData = this.tagSearches.map(search => search.search);
+        break;
+      default:
+        this.filteredWordData = [...this.topicsWordData];
+        break;
+    }
+    this.redrawCloud();
+  }
+
+  async initComponent(): Promise<void> {
+    return Promise.resolve();
+  }
+
+  override async initBaseComponent(): Promise<void> {
+
+  }
+
+  redrawCloud() {
+    this.wordCloud.reDraw();
+  }
+
+  downloadCloud() {
+    this.wordCloud.saveAsImage();
+  }
+
   reset(searchList: string): void {
     switch (searchList) {
       case 'user':
@@ -99,29 +112,117 @@ export class InstaSearchesComponent extends SequenceComponentInit implements Aft
     this.search(searchList);
   }
 
-
-  /**
-   * Searches the given list for the current searchvalue.
-   *
-   * @param searchList the list that should be searched.
-   *
-   * @author: Paul (pasch@mail.upb.de)
-   */
   search(searchList: string): void {
     this.visible = false;
 
     switch (searchList) {
       case 'user':
-        this.listOfUserSearches = this.userSearches.filter((item: InstaUserSearch) => item.search.toLowerCase().indexOf(this.userSearchValue.toLowerCase()) !== -1);
+        this.userSearches = this.userSearches.filter((item: InstaUserSearch) => item.search.toLowerCase().indexOf(this.userSearchValue.toLowerCase()) !== -1);
         break;
       case 'keyword':
-        this.listOfKeywordSearches = this.keywordSearches.filter((item: InstaKeywordSearch) => item.search.toLowerCase().indexOf(this.keywordSearchValue.toLowerCase()) !== -1);
+        this.keywordSearches = this.keywordSearches.filter((item: InstaKeywordSearch) => item.search.toLowerCase().indexOf(this.keywordSearchValue.toLowerCase()) !== -1);
         break;
       case 'tag':
-        this.listOfTagSearches = this.tagSearches.filter((item: InstaTagSearch) => item.search.toLowerCase().indexOf(this.tagSearchValue.toLowerCase()) !== -1);
+        this.tagSearches = this.tagSearches.filter((item: InstaTagSearch) => item.search.toLowerCase().indexOf(this.tagSearchValue.toLowerCase()) !== -1);
         break;
       default:
         break;
     }
+  }
+
+  updateChartOptions() {
+    const dateRange = this.rangeCalculator.getDateRangeArray([...this.userSearches,...this.keywordSearches,...this.tagSearches].map((data)=>data.timestamp));
+    this.chartOptions = {
+      title: {
+        text: 'Instagram Searches Over Time',
+        left: 'center',
+        textStyle: {
+          fontSize: 20,
+          fontWeight: 'bold'
+        }
+      },
+      tooltip: {
+        trigger: 'axis',
+        formatter: (params: any) => {
+          let result = '';
+          params.forEach((item: any) => {
+            result += `${item.seriesName}: ${item.data}<br/>`;
+          });
+          return result;
+        }
+      },
+      legend: {
+        data: ['User Searches', 'Keyword Searches', 'Tag Searches'],
+        bottom: 0,
+        textStyle: {
+          fontSize: 14
+        }
+      },
+      toolbox: {
+        feature: {
+          saveAsImage: {}
+        }
+      },
+      xAxis: {
+        type: 'category',
+        boundaryGap: true,
+        data: dateRange,
+        axisLabel: {
+          rotate: 0,
+          formatter: (value: string) => value,
+          fontSize: 14
+        }
+      },
+      yAxis: {
+        type: 'value',
+        minInterval: 1,
+        axisLabel: {
+          formatter: '{value}',
+          fontSize: 14
+        }
+      },
+      series: [
+        {
+          name: 'User Searches',
+          type: 'line',
+          data: this.rangeCalculator.countOccurrencesInRange(dateRange, [...this.userSearches].map(data => data.timestamp)),
+          smooth: true,
+          itemStyle: {
+            color: '#5470C6'
+          },
+          label: {
+            show: true,
+            fontSize: 14
+          }
+        },
+        {
+          name: 'Keyword Searches',
+          type: 'line',
+          data: this.rangeCalculator.countOccurrencesInRange(dateRange, [...this.keywordSearches].map(data => data.timestamp)),
+          smooth: true,
+          itemStyle: {
+            color: '#91CC75'
+          },
+          label: {
+            show: true,
+            fontSize: 14
+          }
+        },
+        {
+          name: 'Tag Searches',
+          type: 'line',
+          data: this.rangeCalculator.countOccurrencesInRange(dateRange, [...this.tagSearches].map(data => data.timestamp)),
+          smooth: true,
+          itemStyle: {
+            color: '#FAC858'
+          },
+          label: {
+            show: true,
+            fontSize: 14
+          }
+        }
+      ],
+      backgroundColor: '#FFFFFF'
+    };
   }
 }

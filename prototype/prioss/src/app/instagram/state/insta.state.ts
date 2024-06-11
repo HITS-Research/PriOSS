@@ -7,7 +7,7 @@ import {
   UserSocialConnectionModel,
   InstaUserInteractionDataModel,
   InstaUserShoppingDataModel,
-  InstaUserSearchDataModel
+  InstaUserSearchDataModel, InstaUserMessageDataModel
 } from "./models";
 import {Injectable} from "@angular/core";
 import {ResetInstaUserData, UpdateInstaUserData} from "./insta.action"
@@ -114,8 +114,8 @@ export class InstaState {
   @Selector()
   static getUserInteractions(state: InstaStateModel): InstaUserInteractionDataModel {
     if (state.userData.length > 0) {
-      const {likedCommentsInfo, likedPostsInfo} = state.userData[state.userData.length - 1];
-      return {likedCommentsInfo, likedPostsInfo};
+      const {likedCommentsInfo, likedPostsInfo, posts, stories, comments} = state.userData[state.userData.length - 1];
+      return {likedCommentsInfo, likedPostsInfo, posts, stories, comments};
     } else {
       return {} as InstaUserInteractionDataModel;
     }
@@ -156,6 +156,23 @@ export class InstaState {
       return state.userData[state.userData.length - 1].chatData;
     } else {
       return [];
+    }
+  }
+
+  @Selector()
+  static getUserMessageData(state: InstaStateModel): InstaUserMessageDataModel[] {
+    if (state.userData.length > 0) {
+      return state.userData[state.userData.length - 1].messages;
+    } else {
+      return [];
+    }
+  }
+  @Selector()
+  static getProfilePic(state: InstaStateModel): string {
+    if (state.userData.length > 0) {
+      return state.userData[state.userData.length - 1].personalInfo.profilePic;
+    } else {
+      return "";
     }
   }
 

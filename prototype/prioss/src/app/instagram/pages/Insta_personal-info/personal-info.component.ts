@@ -13,6 +13,7 @@ import {Store} from "@ngxs/store";
 import {InstaState} from "../../state/insta.state";
 
 
+
 /**
  * This component is the visualization component on instagram's dashboard page.
  * This page is shown when the user clicks on the personal information card on instagram's dashboard.
@@ -73,7 +74,8 @@ export class Insta_PersonalInfoComponent extends SequenceComponentInit implement
      *
      */
 
-    handleButtonClick1() {
+    handleButtonClick1(event: Event) {
+        event.preventDefault();
         window.open('insta/account-private', '_blank');
     }
 
@@ -84,7 +86,8 @@ export class Insta_PersonalInfoComponent extends SequenceComponentInit implement
      *
      */
 
-    handleButtonClick2() {
+    handleButtonClick2(event: Event) {
+        event.preventDefault();
         window.open('insta/profile-info-private', '_blank');
     }
 

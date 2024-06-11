@@ -20,66 +20,124 @@
   <!--when not in previewmode the whole page is rendered-->
   <div *ngIf="!previewMode">
     <!--Titlebar component -->
-    <app-title-bar titleText="Personal Information" tooltipText="This following table shows the personal information that was collected by Instagram."></app-title-bar>
-    <nz-table nzTemplateMode>
-      <thead>
-        <tr>
-          <th>Categories</th>
-          <th>Information</th>
-        </tr>
-      </thead>
-      <!--waits for the personal data to be loaded-->
-      <tbody *ngIf="personalInfo !== undefined && accountInfo !== undefined && professionalInfo !== undefined && basedInInfo !== undefined">
-        <tr *ngFor="let pair of getObjectPairs(personalInfo)">
-          <td>{{ capitalizeAndPrettify(pair[0]) }}</td>
-          <td>{{ convertTimestamp(pair[1]) }}</td>
-        </tr>
-        <tr *ngFor="let pair of getObjectPairs(accountInfo)">
-          <td>{{ capitalizeAndPrettify(pair[0]) }}</td>
-          <td>{{ convertTimestamp(pair[1]) }}</td>
-        </tr>
-        <tr *ngFor="let pair of getObjectPairs(basedInInfo)">
-          <td>{{ capitalizeAndPrettify(pair[0]) }}</td>
-          <td>{{ convertTimestamp(pair[1]) }}</td>
-        </tr>
-        <tr *ngFor="let pair of getObjectPairs(professionalInfo)">
-          <td>{{ capitalizeAndPrettify(pair[0]) }}</td>
-          <td>{{ convertTimestamp(pair[1]) }}</td>
-        </tr>
-      </tbody>
-    </nz-table>
+    <app-title-bar titleText="Personal Information" tooltipText="Details about the personal information collected by Instagram"></app-title-bar>
     <br>
-    <br>
+    <div nz-row [nzGutter]="{ xs: 20, xl: 40 }" nz-Align="top" id="profile-information-cards-row-1">
+      <div nz-col nzXs="false" nzMd="false" nzLg="14" nzFlex="auto" class="user-info-card">
+        <nz-card nzTitle="User Information" [nzExtra]="infoPrivate">
+          <div nz-row [nzGutter]="{ xs: 20, xl: 40 }" nz-Align="top" id="user-info">
+            <div nz-col nzXs="false" nzMd="false" nzLg="12" nzFlex="auto" class="profile-pic-container">
+              <img
+                nz-image
+                class="profile-pic"
+                [nzSrc]="personalInfo.profilePic"
+                nzFallback="../../assets/images/insta-avatar/insta_avatar01.jpg"
+                alt="Profile Picture"
+              />
+            </div>
+            <div nz-col nzXs="false" nzMd="false" nzLg="12" nzFlex="auto" class="user-basic-info">
+              <nz-card nzTitle="Basic User Information">
+                <nz-table nzTemplateMode>
+                  <tbody>
+                  @if (personalInfo.name !== undefined) {
+                  <tr>
+                    <td rowSpan="1">Name:</td>
+                    <td rowSpan="1">{{ personalInfo.name }}</td>
+                </tr>
+                  }
+                  @if (personalInfo.username !== undefined) {
+                  <tr>
+                    <td rowSpan="1">Username:</td>
+                    <td rowSpan="1">{{ personalInfo.username }}</td>
+                </tr>
+                  }
+                  @if (personalInfo.email !== undefined) {
+                  <tr>
+                    <td rowSpan="1">Email:</td>
+                    <td rowSpan="1">{{personalInfo.email }}</td>
+                </tr>
+                  }
+                  @if (personalInfo.phoneNumber !== undefined) {
+                  <tr>
+                    <td rowSpan="1">Phone Number:</td>
+                    <td rowSpan="1">{{personalInfo.phoneNumber }}
+                  <span *ngIf="personalInfo.isPhoneNumberVerified" nz-tooltip nzTooltipTitle="Phone number is verified">
+                  <span  nz-icon nzType="check-circle" nzTheme="twotone"></span>
+                  </span></td>
+                </tr>
+                  }
+                  @if (personalInfo.birthdate !== undefined) {
+                  <tr>
+                    <td rowSpan="1">Birthday:</td>
+                    <td rowSpan="1">{{ personalInfo.birthdate }}</td>
+                </tr>
+                  }
+                  @if (personalInfo.gender  !== undefined) {
+                  <tr>
+                   <td rowSpan="1">Gender:</td>
+                   <td rowSpan="1">{{ personalInfo.gender }}</td>
+                </tr>
+                  }
+                  </tbody>
+                </nz-table>
+              </nz-card>
 
-
-    <app-title-bar titleText="Profile Changes" tooltipText="The following table shows all profile changes that were made by the user over the course of the accounts lifetime." [includeButton]="false"></app-title-bar>
-    <nz-table #basicTable [nzData]="profileChanges">
-      <thead>
-        <tr>
-          <th>Title</th>
-          <th>Changed</th>
-          <th>Old Value</th>
-          <th>New Value</th>
-          <th>Change Date</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let data of basicTable.data">
-          <td>{{ data.title }}</td>
-          <td>{{ data.changed }}</td>
-          <td>{{ data.previous_value }}</td>
-          <td>{{ data.new_value }}</td>
-          <td>{{ convertTimestamp(data.change_date) }}</td>
-        </tr>
-      </tbody>
-    </nz-table>
-    <div>
-      <h4 nz-typography>Guidelines to make your Instagram Account Private</h4>
-      <button nz-button nzType="primary" (click)="handleButtonClick1()">Click here</button>
-      <br>
-      <br>
-      <h4 nz-typography>Guidelines to keep your Instagram account's Profile Information Private</h4>
-      <button nz-button nzType="primary" (click)="handleButtonClick2()">Click here</button>
+            </div>
+          </div>
+        </nz-card>
+      </div>
+      <div nz-col nzXs="false" nzMd="false" nzLg="10" nzFlex="auto" class="account-info">
+        <nz-card nz-col nzTitle="Account Insights">
+          <nz-card nz-col>
+            <nz-table nzTemplateMode>
+              <tbody *ngIf="accountInfo !== undefined && basedInInfo !== undefined && personalInfo !== undefined">
+              <tr>
+                <td>Account Visibility</td>
+                <td>{{ personalInfo.accountVisibility }}
+                  <span *ngIf="personalInfo.accountVisibility==='Public'" nz-icon nzType="info-circle" nzTheme="twotone" nz-tooltip [nzTooltipTitle]="titleTemplatePrivate" [nzTooltipTitleContext]="{ $implicit: 'Icon' }"></span>
+                </td>
+              </tr>
+              <tr *ngFor="let pair of getObjectPairs(accountInfo)">
+                <td>{{ capitalizeAndPrettify(pair[0]) | pascalSpacing }}</td>
+                <td>{{ convertTimestamp(pair[1]) }}</td>
+              </tr>
+              <tr *ngFor="let pair of getObjectPairs(basedInInfo)">
+                <td>{{ capitalizeAndPrettify(pair[0]) | pascalSpacing }}</td>
+                <td>{{ convertTimestamp(pair[1]) }}</td>
+              </tr>
+              </tbody>
+            </nz-table>
+          </nz-card>
+        </nz-card>
+      </div>
     </div>
+    <br>
+    <br>
+    <div class="profile-update-timeline">
+      <nz-card nzTitle="Profile Update Timeline">
+      <nz-timeline nzMode="alternate">
+        <nz-timeline-item *ngFor="let data of profileChanges">
+          <nz-space nzDirection="vertical">
+            <nz-card *nzSpaceItem >
+              <b>Updated {{ data.changed }} on {{ convertTimestamp(data.change_date) }}</b>
+              <br>
+              <i>"{{ data.new_value | removeSpecialCharacters }}"</i>
+            </nz-card>
+          </nz-space>
+          </nz-timeline-item>
+      </nz-timeline>
+      </nz-card>
+    </div>
+    <ng-template #infoPrivate let-thing>
+      <span nz-icon nzType="info-circle" nzTheme="twotone" nz-tooltip [nzTooltipTitle]="titleTemplateInfoPrivate" [nzTooltipTitleContext]="{ $implicit: 'Icon' }"></span>
+    </ng-template>
+    <ng-template #titleTemplatePrivate let-thing>
+      Tips for Setting Your Instagram Account to Private -
+      <a href="#" (click)="handleButtonClick1($event)">Click Here</a>
+    </ng-template>
+    <ng-template #titleTemplateInfoPrivate let-thing>
+      Tips to Keep Your Instagram Profile Information Private -
+      <a href="#" (click)="handleButtonClick2($event)">Click Here</a>
+    </ng-template>
   </div>
  </div>

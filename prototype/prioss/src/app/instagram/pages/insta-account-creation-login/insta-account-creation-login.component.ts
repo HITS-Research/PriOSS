@@ -31,7 +31,7 @@ export class InstaAccountCreationLoginComponent extends SequenceComponentInit im
   logout_amount=0;
   most_used_device_amount=0;
   most_used_device="";
-
+  isRemoteDevice:boolean = false;
   constructor(private store: Store) {
     super();
   }
@@ -92,6 +92,7 @@ export class InstaAccountCreationLoginComponent extends SequenceComponentInit im
   mostUsedDevice() {
     const activityAmounts: { [id: string] : number; } = {};
     let mostUsedDevice = '';
+    let isRemoteDevice: boolean = false;
     let mostUsedAmount = 0;
     this.login_logout_activities.forEach((login_logout_activity)=>{
       if( activityAmounts[login_logout_activity.device] > 0){
@@ -103,10 +104,12 @@ export class InstaAccountCreationLoginComponent extends SequenceComponentInit im
       if(activityAmounts[login_logout_activity.device] > mostUsedAmount){
         mostUsedAmount = activityAmounts[login_logout_activity.device];
         mostUsedDevice = login_logout_activity.device;
+        isRemoteDevice = login_logout_activity.isMobileDevice;
       }
     });
     this.most_used_device = mostUsedDevice;
     this.most_used_device_amount = mostUsedAmount;
+    this.isRemoteDevice = isRemoteDevice;
   }
 }
 
@@ -117,5 +120,5 @@ export interface Login_Logout_Actvity_Output {
   user_agent: string;
   device: string,
   type: string,
-  color: string
+  isMobileDevice:boolean,
 }

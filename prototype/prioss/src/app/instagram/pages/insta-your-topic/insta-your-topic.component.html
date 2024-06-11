@@ -13,35 +13,16 @@
       </nz-row>
     </div>
 
-    <!--only shows when visiting the page-->
     <div *ngIf="!previewMode">
-    <!--Titlebar component -->
-    <app-title-bar titleText="Your Topics" tooltipText="The following table shows the topics instagram thinks you are interested in"></app-title-bar>
-    <nz-table #topicTable [nzData]="listOfYourTopics">
-      <thead>
-        <tr>
-          <th nzCustomFilter>
-            Topic
-            <nz-filter-trigger [(nzVisible)]="topicVisible" [nzActive]="topicSearchValue.length > 0" [nzDropdownMenu]="firstmenu">
-              <span nz-icon nzType="search"></span>
-            </nz-filter-trigger>
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let data of topicTable.data">
-          <td>{{ data.topic }}</td>
-        </tr>
-      </tbody>
-    </nz-table>
-    <nz-dropdown-menu #firstmenu="nzDropdownMenu">
-      <div class="ant-table-filter-dropdown">
-        <div class="search-box">
-          <input type="text" nz-input placeholder="Search Your Topic" [(ngModel)]="topicSearchValue" />
-          <button nz-button nzSize="small" nzType="primary" (click)="search('topic')" class="search-button">Search</button>
-          <button nz-button nzSize="small" (click)="reset('topic')">Reset</button>
-        </div>
-      </div>
-    </nz-dropdown-menu>
+        <app-title-bar titleText="Your Topics" tooltipText="Explore your interests with the following word cloud based on what Instagram thinks you're into."></app-title-bar>
+        <br>
+        <nz-card nzTitle="Topics Word Cloud" style="width:100%; height:100%;" [nzExtra]="redrawTemplate">
+            <prioss-word-cloud #wordCloudRef [data]="topicsWordData"></prioss-word-cloud>
+        </nz-card>
+        <ng-template #redrawTemplate>
+            <button nz-button nz-tooltip="Save as Image" style="border: none;" (click)="downloadCloud()"><span nz-icon nzType="download" nzTheme="outline"></span></button>
+            <button nz-button nz-tooltip="Redraw Topic Cloud" style="border: none;" (click)="redrawCloud()"><span nz-icon nzType="redo" nzTheme="outline"></span></button>
+        </ng-template>
+        <br>
   </div>
 </div>

@@ -1,17 +1,91 @@
 .search-box {
-    padding: 8px;
-  }
+  padding: 8px;
+}
 
 .search-box input {
-width: 188px;
-margin-bottom: 8px;
-display: block;
+  width: 188px;
+  margin-bottom: 8px;
+  display: block;
 }
 
 .search-box button {
-width: 90px;
+  width: 90px;
 }
 
 .search-button {
-margin-right: 8px;
+  margin-right: 8px;
+}
+
+.component-page {
+  padding: 16px;
+}
+
+.button-group {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.filter-button {
+  width: 200px;
+}
+
+.filter-button[nzType="default"] {
+  background-color: #d9d9d9;
+  color: #000;
+}
+
+.filter-button[nzType="primary"] {
+  background-color: #d9d9d9;
+  color: #000;
+}
+
+.filter-button[nzType="dashed"] {
+  background-color: #d9d9d9;
+  color: #000;
+}
+
+.filter-button.danger-button[nzType="primary"]{
+  background-color: #d9d9d9;
+  color: #000;
+}
+
+.filter-button:hover {
+  opacity: 0.8;
+}
+
+
+.filter-button:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.container_class {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+:host {
+  display: block;
+}
+
+echarts {
+  width: 100%;
+  height: 400px;
+}
+
+.chart-container {
+  background: #ffffff;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.button-group {
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.button-group button {
+  margin: 0 5px;
 }

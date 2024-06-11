@@ -1,10 +1,7 @@
 <div [ngClass]="{'component-page': !previewMode}">
-    <!--only shows when visiting the page-->
     <div *ngIf="!previewMode">
-        <!--Titlebar component -->
-        <app-title-bar titleText="Highlights" tooltipText="This are some important entrys in your data download regarding your followers or following relations."></app-title-bar>
+        <app-title-bar titleText="Highlights" tooltipText="These are some important entries in your data download regarding your followers or following relations."></app-title-bar>
     </div>
-    <!--This is the preview and the highlights section-->
     <div>
         <nz-row [nzGutter]="16">
             <nz-col [nzSpan]="12">
@@ -94,112 +91,96 @@
         <app-title-bar titleText="Followers and Following" [includeButton]="false"></app-title-bar>
         <nz-card style="width:100%;">
             <nz-tabset nzType="card">
-                <nz-tab nzTitle="Graph representation" (nzSelect)="on_graph_page_enter()">
-                    <p nz-typography>
-                        The following graph visualizes all follower or following relations with you. You can grab the
-                        nodes and move them arround.</p>
-
+                <nz-tab nzTitle="Graph representation" (nzSelect)="onGraphPageEnter()">
+                    <p nz-typography>The following graph visualizes all follower or following relations with you. You can grab the nodes and move them around.</p>
                     <strong>Relations: </strong>
                     <nz-tag *ngFor="let tag of graphOptions" nzMode="checkable"
                         [nzChecked]="selectedTags.indexOf(tag) > -1" (nzCheckedChange)="handleChange($event, tag)">
                         {{ tag }}
                     </nz-tag>
-                    <div id="cy"></div>
+                    <div echarts [options]="chartOptions" class="echart-container" style="width: 100%; height: 600px;" (chartClick)="clickHandler($event['name'])"></div>
                 </nz-tab>
-                <nz-tab nzTitle="Follower List"><ng-template nz-tab><nz-demo-tab-content-lazy>
-                            <!-- If Follower Data present -->
-                            <div *ngIf="followerInfo?.length">
-                                <nz-table #followerTable [nzData]="listOfFollowers">
-                                    <thead>
-                                        <tr>
-                                            <th nzCustomFilter>
-                                                Follower name
-                                                <nz-filter-trigger [(nzVisible)]="followVisible" [nzActive]="followerSearchValue.length > 0" [nzDropdownMenu]="menu">
-                                                  <span nz-icon nzType="search"></span>
-                                                </nz-filter-trigger>
-                                            </th>
-                                            <th [nzSortFn]="sortFollowerDate">Timestamp since this user follows you</th>
-                                            <th>Followers Profile URL</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr *ngFor="let follower_info of followerTable.data">
-                                            <td>{{ follower_info.instaAccountName }}</td>
-                                            <td>{{ follower_info.timestamp + '000' | date: 'd MMM y, h:mm a' }}</td>
-                                            <td><span nz-icon nzType="link"><a target="_blank"
-                                                        href={{follower_info.instaProfileURL}}>{{follower_info.instaAccountName}}</a></span>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </nz-table>
-                                <nz-dropdown-menu #menu="nzDropdownMenu">
-                                    <div class="ant-table-filter-dropdown">
-                                      <div class="search-box">
-                                        <input type="text" nz-input placeholder="Search follower" [(ngModel)]="followerSearchValue" />
-                                        <button nz-button nzSize="small" nzType="primary" (click)="search('follower')" class="search-button">Search</button>
-                                        <button nz-button nzSize="small" (click)="reset('follower')">Reset</button>
-                                      </div>
-                                    </div>
-                                </nz-dropdown-menu>
+                <nz-tab nzTitle="Follower List">
+                    <ng-template nz-tab>
+                        <nz-table #followerTable [nzData]="listOfFollowers" nzFrontPagination="false" [nzPageSize]="10">
+                            <thead>
+                                <tr>
+                                    <th nzCustomFilter>
+                                        Follower name
+                                        <nz-filter-trigger [(nzVisible)]="followVisible" [nzActive]="followerSearchValue.length > 0" [nzDropdownMenu]="menu">
+                                          <span nz-icon nzType="search"></span>
+                                        </nz-filter-trigger>
+                                    </th>
+                                    <th [nzSortFn]="sortFollowerDate">Timestamp since this user follows you</th>
+                                    <th>Followers Profile URL</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let follower_info of followerTable.data">
+                                    <td>{{ follower_info.instaAccountName }}</td>
+                                    <td>{{ follower_info.timestamp | date: 'd MMM y, h:mm a' }}</td>
+                                    <td><a target="_blank" href="{{follower_info.instaProfileURL}}">{{follower_info.instaAccountName}}</a></td>
+                                </tr>
+                            </tbody>
+                        </nz-table>
+                        <nz-pagination [nzTotal]="followerInfo.length" [nzPageSize]="10" (nzPageIndexChange)="onPageChange('follower', $event)"></nz-pagination>
+                        <nz-dropdown-menu #menu="nzDropdownMenu">
+                            <div class="ant-table-filter-dropdown">
+                              <div class="search-box">
+                                <input type="text" nz-input placeholder="Search follower" [(ngModel)]="followerSearchValue" />
+                                <button nz-button nzSize="small" nzType="primary" (click)="search('follower')" class="search-button">Search</button>
+                                <button nz-button nzSize="small" (click)="reset('follower')">Reset</button>
+                              </div>
                             </div>
-                            <!-- If No Follower Data present -->
-                            <div *ngIf="followerInfo?.length === 0">
-                                <nz-empty nzNotFoundImage="simple"></nz-empty>
+                        </nz-dropdown-menu>
+                    </ng-template>
+                </nz-tab>
+                <nz-tab nzTitle="Following List">
+                    <ng-template nz-tab>
+                        <nz-table #followingTable [nzData]="listOfFollowing" nzFrontPagination="false" [nzPageSize]="10">
+                            <thead>
+                                <tr>
+                                    <th nzCustomFilter>
+                                        Following name
+                                        <nz-filter-trigger [(nzVisible)]="followVisible" [nzActive]="followingSearchValue.length > 0" [nzDropdownMenu]="menu">
+                                          <span nz-icon nzType="search"></span>
+                                        </nz-filter-trigger>
+                                    </th>
+                                    <th [nzSortFn]="sortFollowingDate">Timestamp since you follow this user</th>
+                                    <th>Following Profile URL</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let following_info of followingTable.data">
+                                    <td>{{ following_info.instaAccountName }}</td>
+                                    <td>{{ following_info.timestamp | date: 'd MMM y, h:mm a' }}</td>
+                                    <td><a target="_blank" href="{{following_info.instaProfileURL}}">{{following_info.instaAccountName}}</a></td>
+                                </tr>
+                            </tbody>
+                        </nz-table>
+                        <nz-pagination [nzTotal]="followingInfo.length" [nzPageSize]="10" (nzPageIndexChange)="onPageChange('following', $event)"></nz-pagination>
+                        <nz-dropdown-menu #menu="nzDropdownMenu">
+                            <div class="ant-table-filter-dropdown">
+                              <div class="search-box">
+                                <input type="text" nz-input placeholder="Search following" [(ngModel)]="followingSearchValue" />
+                                <button nz-button nzSize="small" nzType="primary" (click)="search('following')" class="search-button">Search</button>
+                                <button nz-button nzSize="small" (click)="reset('following')">Reset</button>
+                              </div>
                             </div>
-                        </nz-demo-tab-content-lazy></ng-template></nz-tab>
-                <nz-tab nzTitle="Following List"><ng-template nz-tab><nz-demo-tab-content-lazy>
-                            <!-- If Following Data present -->
-                            <div *ngIf="followingInfo?.length">
-                                <nz-table #followingTable [nzData]="listOfFollowing">
-                                    <thead>
-                                        <tr>
-                                            <th nzCustomFilter>
-                                                Following name
-                                                <nz-filter-trigger [(nzVisible)]="followVisible" [nzActive]="followingSearchValue.length > 0" [nzDropdownMenu]="menu">
-                                                  <span nz-icon nzType="search"></span>
-                                                </nz-filter-trigger>
-                                            </th>
-                                            <th [nzSortFn]="sortFollowingDate">Timestamp since you follow this user</th>
-                                            <th>Following Profile URL</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr *ngFor="let following_info of followingTable.data">
-                                            <td>{{ following_info.instaAccountName }}</td>
-                                            <td>{{ following_info.timestamp + '000' | date: 'd MMM y, h:mm a' }}</td>
-                                            <td><span nz-icon nzType="link"><a target="_blank"
-                                                        href={{following_info.instaProfileURL}}>{{following_info.instaAccountName}}</a></span>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </nz-table>
-                                <nz-dropdown-menu #menu="nzDropdownMenu">
-                                    <div class="ant-table-filter-dropdown">
-                                      <div class="search-box">
-                                        <input type="text" nz-input placeholder="Search following" [(ngModel)]="followingSearchValue" />
-                                        <button nz-button nzSize="small" nzType="primary" (click)="search('following')" class="search-button">Search</button>
-                                        <button nz-button nzSize="small" (click)="reset('following')">Reset</button>
-                                      </div>
-                                    </div>
-                                </nz-dropdown-menu>
-                            </div>
-                            <!-- If No Follower Data present -->
-                            <div *ngIf="followingInfo?.length === 0">
-                                <nz-empty nzNotFoundImage="simple"></nz-empty>
-                            </div>
-                        </nz-demo-tab-content-lazy></ng-template></nz-tab>
+                        </nz-dropdown-menu>
+                    </ng-template>
+                </nz-tab>
             </nz-tabset>
         </nz-card>
+    </div>
+    <div [class.hidden]="previewMode">
         <br>
-        <br>
-
-        <app-title-bar titleText="Request Data" [includeButton]="false"></app-title-bar>
+        <app-title-bar titleText="Followers and Following" [includeButton]="false"></app-title-bar>
         <nz-card style="width:100%;">
             <nz-tabset nzType="card">
                 <nz-tab nzTitle="Recent Follow Requests">
-                    <!-- If Recent Follow Data present -->
-                    <div *ngIf="recentFollowInfo?.length">
-                        <nz-table #recentTable [nzData]="listOfRecentFollow">
+                    <ng-template nz-tab>
+                        <nz-table #recentTable [nzData]="listOfRecentFollow" nzFrontPagination="false" [nzPageSize]="10">
                             <thead>
                                 <tr>
                                     <th nzCustomFilter>
@@ -215,13 +196,12 @@
                             <tbody>
                                 <tr *ngFor="let recent_info of recentTable.data">
                                     <td>{{ recent_info.instaAccountName }}</td>
-                                    <td>{{ recent_info.timestamp + '000' | date: 'd MMM y, h:mm a' }}</td>
-                                    <td><span nz-icon nzType="link"><a target="_blank"
-                                                href={{recent_info.instaProfileURL}}>{{recent_info.instaAccountName}}</a></span>
-                                    </td>
+                                    <td>{{ recent_info.timestamp | date: 'd MMM y, h:mm a' }}</td>
+                                    <td><a target="_blank" href="{{recent_info.instaProfileURL}}">{{recent_info.instaAccountName}}</a></td>
                                 </tr>
                             </tbody>
                         </nz-table>
+                        <nz-pagination [nzTotal]="recentFollowInfo.length" [nzPageSize]="10" (nzPageIndexChange)="onPageChange('recentFollow', $event)"></nz-pagination>
                         <nz-dropdown-menu #menu="nzDropdownMenu">
                             <div class="ant-table-filter-dropdown">
                               <div class="search-box">
@@ -231,16 +211,11 @@
                               </div>
                             </div>
                         </nz-dropdown-menu>
-                    </div>
-                    <!-- If No Recent Follow Data present -->
-                    <div *ngIf="recentFollowInfo?.length === 0">
-                        <nz-empty nzNotFoundImage="simple"></nz-empty>
-                    </div>
+                    </ng-template>
                 </nz-tab>
-                <nz-tab nzTitle="Pending Follow Requests"><ng-template nz-tab><nz-demo-tab-content-lazy>
-                    <!-- If Pending Follow Request Data present -->
-                    <div *ngIf="pendingFollowRequestInfo?.length">
-                        <nz-table #pendingTable [nzData]="listOfPending">
+                <nz-tab nzTitle="Pending Follow Requests">
+                    <ng-template nz-tab>
+                        <nz-table #pendingTable [nzData]="listOfPending" nzFrontPagination="false" [nzPageSize]="10">
                             <thead>
                                 <tr>
                                     <th nzCustomFilter>
@@ -256,13 +231,12 @@
                             <tbody>
                                 <tr *ngFor="let pending_info of pendingTable.data">
                                     <td>{{ pending_info.instaAccountName }}</td>
-                                    <td>{{ pending_info.timestamp + '000' | date: 'd MMM y, h:mm a' }}</td>
-                                    <td><span nz-icon nzType="link"><a target="_blank"
-                                                href={{pending_info.instaProfileURL}}>{{pending_info.instaAccountName}}</a></span>
-                                    </td>
+                                    <td>{{ pending_info.timestamp | date: 'd MMM y, h:mm a' }}</td>
+                                    <td><a target="_blank" href="{{pending_info.instaProfileURL}}">{{pending_info.instaAccountName}}</a></td>
                                 </tr>
                             </tbody>
                         </nz-table>
+                        <nz-pagination [nzTotal]="pendingFollowRequestInfo.length" [nzPageSize]="10" (nzPageIndexChange)="onPageChange('pending', $event)"></nz-pagination>
                         <nz-dropdown-menu #menu="nzDropdownMenu">
                             <div class="ant-table-filter-dropdown">
                               <div class="search-box">
@@ -272,16 +246,11 @@
                               </div>
                             </div>
                         </nz-dropdown-menu>
-                    </div>
-                    <!-- If No Pending Follow Request Data present -->
-                    <div *ngIf="pendingFollowRequestInfo?.length === 0">
-                        <nz-empty nzNotFoundImage="simple"></nz-empty>
-                    </div>
-                </nz-demo-tab-content-lazy></ng-template></nz-tab>
-                <nz-tab nzTitle="Received Follow Requests"><ng-template nz-tab><nz-demo-tab-content-lazy>
-                    <!-- If Received Follow Requests Data present -->
-                    <div *ngIf="receivedFollowRequestInfo?.length">
-                        <nz-table #receivedTable [nzData]="listOfReceived">
+                    </ng-template>
+                </nz-tab>
+                <nz-tab nzTitle="Received Follow Requests">
+                    <ng-template nz-tab>
+                        <nz-table #receivedTable [nzData]="listOfReceived" nzFrontPagination="false" [nzPageSize]="10">
                             <thead>
                                 <tr>
                                     <th nzCustomFilter>
@@ -297,13 +266,12 @@
                             <tbody>
                                 <tr *ngFor="let request_info of receivedTable.data">
                                     <td>{{ request_info.instaAccountName }}</td>
-                                    <td>{{ request_info.timestamp + '000' | date: 'd MMM y, h:mm a' }}</td>
-                                    <td><span nz-icon nzType="link"><a target="_blank"
-                                                href={{request_info.instaProfileURL}}>{{request_info.instaAccountName}}</a></span>
-                                    </td>
+                                    <td>{{ request_info.timestamp | date: 'd MMM y, h:mm a' }}</td>
+                                    <td><a target="_blank" href="{{request_info.instaProfileURL}}">{{request_info.instaAccountName}}</a></td>
                                 </tr>
                             </tbody>
                         </nz-table>
+                        <nz-pagination [nzTotal]="receivedFollowRequestInfo.length" [nzPageSize]="10" (nzPageIndexChange)="onPageChange('received', $event)"></nz-pagination>
                         <nz-dropdown-menu #menu="nzDropdownMenu">
                             <div class="ant-table-filter-dropdown">
                               <div class="search-box">
@@ -313,138 +281,121 @@
                               </div>
                             </div>
                         </nz-dropdown-menu>
-                    </div>
-                    <!-- If No Received Follow Requests Data present -->
-                    <div *ngIf="receivedFollowRequestInfo?.length === 0">
-                        <nz-empty nzNotFoundImage="simple"></nz-empty>
-                    </div>
-                </nz-demo-tab-content-lazy></ng-template></nz-tab>
+                    </ng-template>
+                </nz-tab>
             </nz-tabset>
         </nz-card>
-        <br><br>
-
-        <app-title-bar titleText="Blocked Accounts" [includeButton]="false"></app-title-bar>
-        <!-- If Blocked Data present -->
-        <div *ngIf="blockedInfo?.length">
-            <nz-table #blockedTable [nzData]="listOfBlocked">
-                <thead>
-                    <tr>
-                        <th nzCustomFilter>
-                            Blocked username
-                            <nz-filter-trigger [(nzVisible)]="blockedVisible" [nzActive]="blockedSearchValue.length > 0" [nzDropdownMenu]="menu">
-                              <span nz-icon nzType="search"></span>
-                            </nz-filter-trigger>
-                        </th>
-                        <th [nzSortFn]="sortBlockedDate">Timestamp since this user is blocked</th>
-                        <th>Blocked users Profile URL</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let blocked_info of blockedTable.data">
-                        <td>{{ blocked_info.instaAccountName }}</td>
-                        <td>{{ blocked_info.timestamp + '000' | date: 'd MMM y, h:mm a' }}</td>
-                        <td><span nz-icon nzType="link"><a target="_blank"
-                                    href={{blocked_info.instaProfileURL}}>{{blocked_info.instaAccountName}}</a></span>
-                        </td>
-                    </tr>
-                </tbody>
-            </nz-table>
-            <nz-dropdown-menu #menu="nzDropdownMenu">
-                <div class="ant-table-filter-dropdown">
-                  <div class="search-box">
-                    <input type="text" nz-input placeholder="Search blocked" [(ngModel)]="blockedSearchValue" />
-                    <button nz-button nzSize="small" nzType="primary" (click)="search('blocked')" class="search-button">Search</button>
-                    <button nz-button nzSize="small" (click)="reset('blocked')">Reset</button>
-                  </div>
-                </div>
-            </nz-dropdown-menu>
-        </div>
-        <!-- If No Blocked Data present -->
-        <div *ngIf="blockedInfo?.length === 0">
-            <nz-card><nz-empty nzNotFoundImage="simple"></nz-empty></nz-card>
-        </div>
-
-        <app-title-bar titleText="Recently Unfollowed Accounts" [includeButton]="false"></app-title-bar>
-        <!-- If Recently Unfollowed Accounts Data present -->
-        <div *ngIf="recentlyUnfollowedInfo?.length">
-            <nz-table #recentTable [nzData]="listOfRecentUnfollow">
-                <thead>
-                    <tr>
-                        <th nzCustomFilter>
-                            Username
-                            <nz-filter-trigger [(nzVisible)]="recentUnfollowVisible" [nzActive]="recentUnfollowSearchValue.length > 0" [nzDropdownMenu]="menu">
-                              <span nz-icon nzType="search"></span>
-                            </nz-filter-trigger>
-                        </th>
-                        <th [nzSortFn]="sortRecentUnfollowDate">Timestamp of unfollow</th>
-                        <th>Profile URL</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let unfollow_info of recentTable.data">
-                        <td>{{ unfollow_info.instaAccountName }}</td>
-                        <td>{{ unfollow_info.timestamp + '000' | date: 'd MMM y, h:mm a' }}</td>
-                        <td><span nz-icon nzType="link"><a target="_blank"
-                                    href={{unfollow_info.instaProfileURL}}>{{unfollow_info.instaAccountName}}</a></span>
-                        </td>
-                    </tr>
-                </tbody>
-            </nz-table>
-            <nz-dropdown-menu #menu="nzDropdownMenu">
-                <div class="ant-table-filter-dropdown">
-                  <div class="search-box">
-                    <input type="text" nz-input placeholder="Search recent unfollow" [(ngModel)]="recentUnfollowSearchValue" />
-                    <button nz-button nzSize="small" nzType="primary" (click)="search('recentUnfollow')" class="search-button">Search</button>
-                    <button nz-button nzSize="small" (click)="reset('recentUnfollow')">Reset</button>
-                  </div>
-                </div>
-            </nz-dropdown-menu>
-        </div>
-        <!-- If No Recently Unfollowed Account Data present -->
-        <div *ngIf="recentlyUnfollowedInfo?.length === 0">
-            <nz-card><nz-empty nzNotFoundImage="simple"></nz-empty></nz-card>
-        </div>
+    </div>
+    <div [class.hidden]="previewMode">
         <br>
-        <br>
-        <app-title-bar titleText="Removed Suggestions" [includeButton]="false"></app-title-bar>
-        <!-- If Removed Suggestions Data present -->
-        <div *ngIf="removedSuggestionInfo?.length">
-            <nz-table #removedTable [nzData]="listOfRemoved">
-                <thead>
-                    <tr>
-                        <th nzCustomFilter>
-                            Username
-                            <nz-filter-trigger [(nzVisible)]="removedVisible" [nzActive]="removedSearchValue.length > 0" [nzDropdownMenu]="menu">
-                              <span nz-icon nzType="search"></span>
-                            </nz-filter-trigger>
-                        </th>
-                        <th [nzSortFn]="sortRemovedDate">Timestamp of the removing</th>
-                        <th>Profile URL</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let removed_info of removedTable.data">
-                        <td>{{ removed_info.instaAccountName }}</td>
-                        <td>{{ removed_info.timestamp + '000' | date: 'd MMM y, h:mm a'}}</td>
-                        <td><span nz-icon nzType="link"><a target="_blank"
-                                    href={{removed_info.instaProfileURL}}>{{removed_info.instaAccountName}}</a></span>
-                        </td>
-                    </tr>
-                </tbody>
-            </nz-table>
-            <nz-dropdown-menu #menu="nzDropdownMenu">
-                <div class="ant-table-filter-dropdown">
-                  <div class="search-box">
-                    <input type="text" nz-input placeholder="Search removed" [(ngModel)]="removedSearchValue" />
-                    <button nz-button nzSize="small" nzType="primary" (click)="search('removed')" class="search-button">Search</button>
-                    <button nz-button nzSize="small" (click)="reset('removed')">Reset</button>
-                  </div>
-                </div>
-            </nz-dropdown-menu>
-        </div>
-        <!-- If No Removed Suggestion Data present -->
-        <div *ngIf="removedSuggestionInfo?.length === 0">
-            <nz-card><nz-empty nzNotFoundImage="simple"></nz-empty></nz-card>
-        </div>
+        <nz-card style="width:100%;">
+            <nz-tabset nzType="card">
+                <nz-tab nzTitle="Blocked Accounts">
+                    <ng-template nz-tab>
+                        <nz-table #blockedTable [nzData]="listOfBlocked" nzFrontPagination="false" [nzPageSize]="10">
+                            <thead>
+                                <tr>
+                                    <th nzCustomFilter>
+                                        Blocked username
+                                        <nz-filter-trigger [(nzVisible)]="blockedVisible" [nzActive]="blockedSearchValue.length > 0" [nzDropdownMenu]="menu">
+                                          <span nz-icon nzType="search"></span>
+                                        </nz-filter-trigger>
+                                    </th>
+                                    <th [nzSortFn]="sortBlockedDate">Timestamp since this user is blocked</th>
+                                    <th>Blocked users Profile URL</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let blocked_info of blockedTable.data">
+                                    <td>{{ blocked_info.instaAccountName }}</td>
+                                    <td>{{ blocked_info.timestamp | date: 'd MMM y, h:mm a' }}</td>
+                                    <td><a target="_blank" href="{{blocked_info.instaProfileURL}}">{{blocked_info.instaAccountName}}</a></td>
+                                </tr>
+                            </tbody>
+                        </nz-table>
+                        <nz-pagination [nzTotal]="blockedInfo.length" [nzPageSize]="10" (nzPageIndexChange)="onPageChange('blocked', $event)"></nz-pagination>
+                        <nz-dropdown-menu #menu="nzDropdownMenu">
+                            <div class="ant-table-filter-dropdown">
+                              <div class="search-box">
+                                <input type="text" nz-input placeholder="Search blocked" [(ngModel)]="blockedSearchValue" />
+                                <button nz-button nzSize="small" nzType="primary" (click)="search('blocked')" class="search-button">Search</button>
+                                <button nz-button nzSize="small" (click)="reset('blocked')">Reset</button>
+                              </div>
+                            </div>
+                        </nz-dropdown-menu>
+                    </ng-template>
+                </nz-tab>
+                <nz-tab nzTitle="Recently Unfollowed Accounts">
+                    <ng-template nz-tab>
+                        <nz-table #recentUnfollowTable [nzData]="listOfRecentUnfollow" nzFrontPagination="false" [nzPageSize]="10">
+                            <thead>
+                                <tr>
+                                    <th nzCustomFilter>
+                                        Username
+                                        <nz-filter-trigger [(nzVisible)]="recentUnfollowVisible" [nzActive]="recentUnfollowSearchValue.length > 0" [nzDropdownMenu]="menu">
+                                          <span nz-icon nzType="search"></span>
+                                        </nz-filter-trigger>
+                                    </th>
+                                    <th [nzSortFn]="sortRecentUnfollowDate">Timestamp of unfollow</th>
+                                    <th>Profile URL</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let unfollow_info of recentUnfollowTable.data">
+                                    <td>{{ unfollow_info.instaAccountName }}</td>
+                                    <td>{{ unfollow_info.timestamp | date: 'd MMM y, h:mm a' }}</td>
+                                    <td><a target="_blank" href="{{unfollow_info.instaProfileURL}}">{{unfollow_info.instaAccountName}}</a></td>
+                                </tr>
+                            </tbody>
+                        </nz-table>
+                        <nz-pagination [nzTotal]="recentlyUnfollowedInfo.length" [nzPageSize]="10" (nzPageIndexChange)="onPageChange('recentUnfollow', $event)"></nz-pagination>
+                        <nz-dropdown-menu #menu="nzDropdownMenu">
+                            <div class="ant-table-filter-dropdown">
+                              <div class="search-box">
+                                <input type="text" nz-input placeholder="Search recent unfollow" [(ngModel)]="recentUnfollowSearchValue" />
+                                <button nz-button nzSize="small" nzType="primary" (click)="search('recentUnfollow')" class="search-button">Search</button>
+                                <button nz-button nzSize="small" (click)="reset('recentUnfollow')">Reset</button>
+                              </div>
+                            </div>
+                        </nz-dropdown-menu>
+                    </ng-template>
+                </nz-tab>
+                <nz-tab nzTitle="Removed Suggestions">
+                    <ng-template nz-tab>
+                        <nz-table #removedTable [nzData]="listOfRemoved" nzFrontPagination="false" [nzPageSize]="10">
+                            <thead>
+                                <tr>
+                                    <th nzCustomFilter>
+                                        Username
+                                        <nz-filter-trigger [(nzVisible)]="removedVisible" [nzActive]="removedSearchValue.length > 0" [nzDropdownMenu]="menu">
+                                          <span nz-icon nzType="search"></span>
+                                        </nz-filter-trigger>
+                                    </th>
+                                    <th [nzSortFn]="sortRemovedDate">Timestamp of the removing</th>
+                                    <th>Profile URL</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let removed_info of removedTable.data">
+                                    <td>{{ removed_info.instaAccountName }}</td>
+                                    <td>{{ removed_info.timestamp | date: 'd MMM y, h:mm a' }}</td>
+                                    <td><a target="_blank" href="{{removed_info.instaProfileURL}}">{{removed_info.instaAccountName}}</a></td>
+                                </tr>
+                            </tbody>
+                        </nz-table>
+                        <nz-pagination [nzTotal]="removedSuggestionInfo.length" [nzPageSize]="10" (nzPageIndexChange)="onPageChange('removed', $event)"></nz-pagination>
+                        <nz-dropdown-menu #menu="nzDropdownMenu">
+                            <div class="ant-table-filter-dropdown">
+                              <div class="search-box">
+                                <input type="text" nz-input placeholder="Search removed" [(ngModel)]="removedSearchValue" />
+                                <button nz-button nzSize="small" nzType="primary" (click)="search('removed')" class="search-button">Search</button>
+                                <button nz-button nzSize="small" (click)="reset('removed')">Reset</button>
+                              </div>
+                            </div>
+                        </nz-dropdown-menu>
+                    </ng-template>
+                </nz-tab>
+            </nz-tabset>
+        </nz-card>
     </div>
 </div>

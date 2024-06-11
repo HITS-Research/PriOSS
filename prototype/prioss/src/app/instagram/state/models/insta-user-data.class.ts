@@ -26,8 +26,11 @@ import {
   InstaRemovedSuggestionInfo,
   InstaShoppingInfo, InstaShoppingWishlistInfo, InstaSignUpInfo, InstaTagSearch, InstaTopicsInfo, InstaUserSearch
 } from "../../models";
+import InstaUserStoriesDataModel from "./insta-stories-data.interface";
+import InstaUserPostsDataModel from "./insta-posts-data.interface";
+import {InstaUserCommentsDataModel, InstaUserMessageDataModel} from "./index";
 
-export class InstaUserData implements InstaUserDataModel{
+export class InstaUserData implements InstaUserDataModel {
   constructor(userData: InstaUserDataModel) {
     this.accountInfo = userData.accountInfo;
     this.adsActivityInfo = userData.adsActivityInfo || [];
@@ -59,7 +62,15 @@ export class InstaUserData implements InstaUserDataModel{
     this.tagSearch = userData.tagSearch || [];
     this.topicsInfo = userData.topicsInfo || [];
     this.userSearch = userData.userSearch || [];
+    this.posts = userData.posts || [];
+    this.stories = userData.stories || [];
+    this.comments = userData.comments || [];
+    this.messages = userData.messages || [];
+    this.mediaFileInfo = userData.mediaFileInfo || new Map();
+    this.updateProfilepic(userData.mediaFileInfo as Map<string, string>);
+    // this.updateStoryMedia(userData.mediaFileInfo as Map<string, string>);
   }
+
   accountInfo: InstaAccountInfo;
   adsActivityInfo: InstaAdsActivityInfo[];
   adsClickedInfo: InstaAdsClickedInfo[];
@@ -90,5 +101,24 @@ export class InstaUserData implements InstaUserDataModel{
   tagSearch: InstaTagSearch[];
   topicsInfo: InstaTopicsInfo[];
   userSearch: InstaUserSearch[];
-}
+  stories:InstaUserStoriesDataModel[];
+  posts:InstaUserPostsDataModel[];
+  comments:InstaUserCommentsDataModel[];
+  messages:InstaUserMessageDataModel[];
+  mediaFileInfo: any;
+  updateProfilepic(mediaFilemap:Map<string, string>){
+    if(this.personalInfo.profilePic!=="error"){
+      this.personalInfo.profilePic = mediaFilemap.get(this.personalInfo.profilePic)||"";
+    }
+  }
 
+  updateStoryMedia(mediaFilemap:Map<string, string>){
+    this.stories.forEach((story)=>{
+      if(story.media && story.media.endsWith(".jpg")){
+        story.media = mediaFilemap.get(story.media)||"";
+      }else{
+        story.media = "";
+      }
+    })
+  }
+}

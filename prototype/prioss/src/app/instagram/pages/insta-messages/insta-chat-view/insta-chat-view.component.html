@@ -1,0 +1,71 @@
+<nz-layout xmlns="http://www.w3.org/1999/html">
+  <nz-layout>
+    <nz-sider>
+      <ul nz-menu nzMode="inline" *ngIf="!!messages.length">
+        <li nz-menu-item *ngFor="let message of messages" (click)="openChat(message.title)">
+          <span nz-icon nzType="user" nzTheme="outline"></span>
+          <span>{{message.title|removeSpecialCharacters}}</span>
+        </li>
+      </ul>
+    </nz-sider>
+    <nz-content>
+      <div #messageContainer class="chat-container" *ngIf="!!openChatMessages.length else noData" nz-flex nzWrap="wrap-reverse" [nzVertical]="true" nzGap="middle">
+        <div *ngFor="let msg of openChatMessages">
+          <div
+            *ngIf="msg.sender!==user"
+            class="received-message"
+            nz-flex
+            nzJustify="flex-start"
+            nzAlign="flex-end"
+          >
+            <nz-card style="width: 500px;margin-top: 5px; padding: 0px">
+              <nz-comment [nzAuthor]="msg.sender" [nzDatetime]="commentTime">
+                <nz-avatar
+                  nz-comment-avatar
+                  nzIcon="user"
+                ></nz-avatar>
+                <nz-comment-content>
+                  <p class="message">
+                    <span *ngIf="msg.isMessageDeleted"><i>deleted this message</i></span>
+                    <span><span *ngIf="msg.message">{{msg.message|removeSpecialCharacters}} </span> <a [href]="msg.contentLink" target="_blank" *ngIf="msg.contentLink">[Content Link]</a></span>
+                  </p>
+                </nz-comment-content>
+              </nz-comment>
+            </nz-card>
+          </div>
+          <div
+            *ngIf="msg.sender===user"
+            class="sent-message"
+            nz-flex
+            nzJustify="flex-end"
+            nzAlign="flex-end"
+          >
+            <nz-card style="width: 500px;margin-top: 5px; padding: 0px">
+              <nz-comment [nzAuthor]="msg.sender" [nzDatetime]="commentTime">
+                <nz-avatar
+                  nz-comment-avatar
+                  nzIcon="user"
+                  [nzSrc]="profilePic === 'error' ? '../../assets/images/insta-avatar/insta_avatar01.jpg' : profilePic"
+                ></nz-avatar>
+                <nz-comment-content>
+                  <p class="message">
+                    <span *ngIf="msg.isMessageDeleted"><i>deleted this message</i></span>
+                    <span><span *ngIf="msg.message">{{msg.message|removeSpecialCharacters}} </span> <a [href]="msg.contentLink" target="_blank" *ngIf="msg.contentLink">[Content Link]</a></span>
+                  </p>
+                </nz-comment-content>
+              </nz-comment>
+            </nz-card>
+          </div>
+          <ng-template #commentTime>
+            <span>{{msg.timestamp | date: 'd MMM y, h:mm a'}}</span>
+          </ng-template>
+        </div>
+      </div>
+    </nz-content>
+  </nz-layout>
+</nz-layout>
+<ng-template #noData>
+  <div>
+    <nz-empty nzNotFoundImage="simple"></nz-empty>
+  </div>
+</ng-template>

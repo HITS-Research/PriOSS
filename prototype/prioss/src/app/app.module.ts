@@ -121,6 +121,13 @@ import { SpotifyTopPodcastsComponent } from './spotify/pages/spotify-top-podcast
 import { SpotifyRoutingModule } from './spotify/spotify-routing.module';
 import { SpotifyTopPodcastsDetailsComponent } from './spotify/pages/spotify-top-podcasts-details/spotify-top-podcasts-details.component';
 import { HeaderComponent } from './framework/features/header/header.component';
+import {RemoveSpecialCharactersPipe} from "./features/remove-special-characters/remove-special-characters.pipe";
+import {PascalSpacingPipe} from "./features/pascal-spacing/pascal-spacing.pipe";
+import {WordCloudComponent} from "./features/word-cloud/word-cloud.component";
+import {TagCloudComponent} from "angular-tag-cloud-module";
+import {DecodeUnicodePipe} from "./features/decode-unicode/decode-unicode.pipe";
+import {NzFlexDirective} from "ng-zorro-antd/flex";
+import {InstaChatViewComponent} from "./instagram/pages/insta-messages/insta-chat-view/insta-chat-view.component";
 
 
 registerLocaleData(de);
@@ -184,6 +191,11 @@ registerLocaleData(de);
     InstaPurposesComponent,
     FacePurposesComponent,
     AccordionComponent,
+    RemoveSpecialCharactersPipe,
+    PascalSpacingPipe,
+    WordCloudComponent,
+    DecodeUnicodePipe,
+    InstaChatViewComponent
   ],
   imports: [
     SpotifyModule,
@@ -253,6 +265,8 @@ registerLocaleData(de);
     NgChartsModule,
     NgxEchartsModule.forRoot({ echarts: () => import('echarts') }),
     WorldMapComponent,
+    TagCloudComponent,
+    NzFlexDirective
   ],
   providers: [FeatureToggleService, { provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent],

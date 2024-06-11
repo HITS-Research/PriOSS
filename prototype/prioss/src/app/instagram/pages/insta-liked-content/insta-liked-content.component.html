@@ -1,142 +1,274 @@
 <div [ngClass]="{'component-page': !previewMode}">
 
-  <!--only shows a preview of the visualization-->
-  <div *ngIf="previewMode">
-      <nz-row [nzGutter]="16">
-          <nz-col [nzSpan]="12">
-            <nz-statistic [nzValue]="(liked_comments_amount|number)!" [nzTitle]="'Number of Liked Comments'" [nzPrefix]="comment"></nz-statistic>
-            <ng-template #comment>
-              <div class="container_class">
-                <span nz-icon nzType="comment" nzTheme="outline"></span>
-              </div>
-            </ng-template>
-          </nz-col>
-          <nz-col [nzSpan]="12">
-            <nz-statistic [nzValue]="(liked_posts_amount|number)!" [nzTitle]="'Number of Liked Posts'" [nzPrefix]="post"></nz-statistic>
-            <ng-template #post>
-              <div class="container_class">
-                <span nz-icon nzType="picture" nzTheme="outline"></span>
-              </div>
-            </ng-template>
-          </nz-col>
+    <!--only shows a preview of the visualization-->
+    <div *ngIf="previewMode">
+        <nz-row [nzGutter]="16">
+            <nz-col [nzSpan]="12">
+                <nz-statistic [nzValue]="(liked_comments.length)!" [nzTitle]="'Number of Liked Comments'"
+                              [nzPrefix]="comment"></nz-statistic>
+                <ng-template #comment>
+                    <div class="container_class">
+                        <span nz-icon nzType="comment" nzTheme="outline"></span>
+                    </div>
+                </ng-template>
+            </nz-col>
+            <nz-col [nzSpan]="12">
+                <nz-statistic [nzValue]="(liked_posts.length)!" [nzTitle]="'Number of Liked Posts'"
+                              [nzPrefix]="post"></nz-statistic>
+                <ng-template #post>
+                    <div class="container_class">
+                        <span nz-icon nzType="picture" nzTheme="outline"></span>
+                    </div>
+                </ng-template>
+            </nz-col>
         </nz-row>
-  </div>
+    </div>
 
-  <!--only shows when visiting the page-->
-  <div *ngIf="!previewMode">
-    <div>
-      <app-title-bar titleText="Liked Comments" tooltipText="This bar chart shows the liked comments that was collected by Instagram."></app-title-bar>
-      <nz-card style="width:100%;">
-        <nz-tabset nzType="card">
-          <nz-tab nzTitle="Graph representation">
-            <p nz-typography>
-              The following graph visualizes top 10 comments and posts liked by you.
-            </p>
-            
-            <div class="liked_contents">
-              <div class="bar_chart_liked_comments"></div>
-              <div class="bar_chart_liked_posts"></div>
-            </div>
-          </nz-tab>
-          <nz-tab nzTitle="Liked Comments List">
-            <ng-template nz-tab>
-              <nz-demo-tab-content-lazy>
-                <!-- If Liked Comments Data present -->
-                <div *ngIf="liked_comments?.length">
-                    <nz-table [nzData]="listOfLikedComments" #likedCommentsTable>
-                        <thead>
-                            <tr>
-                                <th nzCustomFilter>
-                                  Username
-                                  <nz-filter-trigger [(nzVisible)]="visible" [nzActive]="likedCommentsSearchValue.length > 0" [nzDropdownMenu]="likedCommentsmenu">
-                                    <span nz-icon nzType="search"></span>
-                                  </nz-filter-trigger>
-                                </th>
-                                <th [nzSortFn]="sortLikedCommentsDate">Date</th>
-                                <th>Comment URL</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let like_comment of likedCommentsTable.data">
-                                <td>{{ like_comment.user }}</td>
-                                <td>{{ like_comment.timestamp + '000' | date: 'd MMM y, h:mm a' }}</td>
-                                <td>
-                                  <span nz-icon nzType="link">
-                                    <a target="_blank" href={{like_comment.href_link}}>
-                                      Link
-                                    </a>
-                                  </span>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </nz-table>
-                    <nz-dropdown-menu #likedCommentsmenu="nzDropdownMenu">
-                      <div class="ant-table-filter-dropdown">
-                        <div class="search-box">
-                          <input type="text" nz-input placeholder="Search Liked Comments" [(ngModel)]="likedCommentsSearchValue" />
-                          <button nz-button nzSize="small" nzType="primary" (click)="search('likedComments')" class="search-button">Search</button>
-                          <button nz-button nzSize="small" (click)="reset('likedComments')">Reset</button>
-                        </div>
-                      </div>
-                    </nz-dropdown-menu>
-                </div>
-                <!-- If No Follower Data present -->
-                <div *ngIf="liked_comments?.length === 0">
-                    <nz-empty nzNotFoundImage="simple"></nz-empty>
-                </div>
-              </nz-demo-tab-content-lazy>
-            </ng-template>
-          </nz-tab>
-          <nz-tab nzTitle="Liked Posts List">
-            <ng-template nz-tab>
-              <nz-demo-tab-content-lazy>
-                <!-- If Liked Posts Data present -->
-                <div *ngIf="liked_posts?.length">
-                    <nz-table [nzData]="listOfLikedPosts" #likedPostsTable>
-                        <thead>
-                            <tr>
-                              <th nzCustomFilter>
-                                Username
-                                <nz-filter-trigger [(nzVisible)]="visible" [nzActive]="likedPostsSearchValue.length > 0" [nzDropdownMenu]="likedPostsmenu">
-                                  <span nz-icon nzType="search"></span>
-                                </nz-filter-trigger>
-                              </th>
-                              <th [nzSortFn]="sortLikedPostsDate">Date</th>
-                              <th>Post URL</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let liked_post of likedPostsTable.data">
-                                <td>{{ liked_post.user }}</td>
-                                <td>{{ liked_post.timestamp + '000' | date: 'd MMM y, h:mm a' }}</td>
-                                <td>
+    <!--only shows when visiting the page-->
+    <div *ngIf="!previewMode">
+        <div>
+            <app-title-bar titleText="Liked Comments"
+                           tooltipText="This bar chart shows the liked comments that was collected by Instagram."></app-title-bar>
+            <nz-card style="width:100%;">
+                <nz-tabset nzType="card">
+                    <nz-tab nzTitle="Liked Contents">
+                        <br>
+                        <p nz-typography>
+                            The following graph visualizes the number of likes on comments and the number of posts liked
+                            by you over time.
+                        </p>
+                        <br>
+                        <div echarts [options]="options()"></div>
+                        <br>
+                        <nz-collapse nzExpandIconPosition="right">
+                            <nz-collapse-panel #p [nzHeader]="likedCommentHeaderTemplate" nzActive="false"
+                                               [nzExpandedIcon]="expandedIcon">
+                                <nz-demo-tab-content-lazy>
+                                    <div *ngIf="liked_comments?.length else noDataTemplate">
+                                        <nz-table [nzData]="listOfLikedComments" #likedCommentsTable>
+                                            <thead>
+                                            <tr>
+                                                <th nzCustomFilter>
+                                                    Username
+                                                    <nz-filter-trigger [(nzVisible)]="visible"
+                                                                       [nzActive]="likedCommentsSearchValue.length > 0"
+                                                                       [nzDropdownMenu]="likedCommentsmenu">
+                                                        <span nz-icon nzType="search"></span>
+                                                    </nz-filter-trigger>
+                                                </th>
+                                                <th [nzSortFn]="sortLikedCommentsDate">Date</th>
+                                                <th>Comment URL</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr *ngFor="let like_comment of likedCommentsTable.data">
+                                                <td>{{ like_comment.user }}</td>
+                                                <td>{{ like_comment.timestamp + '000' | date: 'd MMM y, h:mm a' }}</td>
+                                                <td>
+                                                      <span nz-icon nzType="link">
+                                                        <a target="_blank" href={{like_comment.href_link}}>
+                                                          Link
+                                                        </a>
+                                                      </span>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </nz-table>
+                                        <nz-dropdown-menu #likedCommentsmenu="nzDropdownMenu">
+                                            <div class="ant-table-filter-dropdown">
+                                                <div class="search-box">
+                                                    <input type="text" nz-input placeholder="Search Liked Comments"
+                                                           [(ngModel)]="likedCommentsSearchValue"/>
+                                                    <button nz-button nzSize="small" nzType="primary"
+                                                            (click)="search('likedComments')" class="search-button">
+                                                        Search
+                                                    </button>
+                                                    <button nz-button nzSize="small" (click)="reset('likedComments')">
+                                                        Reset
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </nz-dropdown-menu>
+                                    </div>
+                                </nz-demo-tab-content-lazy>
+                            </nz-collapse-panel>
+                            <nz-collapse-panel #p [nzHeader]="likedPostHeaderTemplate" nzActive="false"
+                                               [nzExpandedIcon]="expandedIcon">
+                                <nz-demo-tab-content-lazy>
+                                    <div *ngIf="liked_posts?.length else noDataTemplate">
+                                        <nz-table [nzData]="listOfLikedPosts" #likedPostsTable>
+                                            <thead>
+                                            <tr>
+                                                <th nzCustomFilter>
+                                                    Username
+                                                    <nz-filter-trigger [(nzVisible)]="visible"
+                                                                       [nzActive]="likedPostsSearchValue.length > 0"
+                                                                       [nzDropdownMenu]="likedPostsmenu">
+                                                        <span nz-icon nzType="search"></span>
+                                                    </nz-filter-trigger>
+                                                </th>
+                                                <th [nzSortFn]="sortLikedPostsDate">Date</th>
+                                                <th>Post URL</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr *ngFor="let liked_post of likedPostsTable.data">
+                                                <td>{{ liked_post.user }}</td>
+                                                <td>{{ liked_post.timestamp + '000' | date: 'd MMM y, h:mm a' }}</td>
+                                                <td>
                                   <span nz-icon nzType="link">
                                     <a target="_blank" href={{liked_post.href_link}}>
                                       Link
                                     </a>
                                   </span>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </nz-table>
-                    <nz-dropdown-menu #likedPostsmenu="nzDropdownMenu">
-                      <div class="ant-table-filter-dropdown">
-                        <div class="search-box">
-                          <input type="text" nz-input placeholder="Search Liked Posts" [(ngModel)]="likedPostsSearchValue" />
-                          <button nz-button nzSize="small" nzType="primary" (click)="search('likedPosts')" class="search-button">Search</button>
-                          <button nz-button nzSize="small" (click)="reset('likedPosts')">Reset</button>
-                        </div>
-                      </div>
-                    </nz-dropdown-menu>
-                </div>
-                <!-- If No Follower Data present -->
-                <div *ngIf="liked_posts?.length === 0">
-                    <nz-empty nzNotFoundImage="simple"></nz-empty>
-                </div>
-              </nz-demo-tab-content-lazy>
-            </ng-template>
-          </nz-tab>
-        </nz-tabset>
-      </nz-card>
-  </div>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </nz-table>
+                                        <nz-dropdown-menu #likedPostsmenu="nzDropdownMenu">
+                                            <div class="ant-table-filter-dropdown">
+                                                <div class="search-box">
+                                                    <input type="text" nz-input placeholder="Search Liked Posts"
+                                                           [(ngModel)]="likedPostsSearchValue"/>
+                                                    <button nz-button nzSize="small" nzType="primary"
+                                                            (click)="search('likedPosts')" class="search-button">Search
+                                                    </button>
+                                                    <button nz-button nzSize="small" (click)="reset('likedPosts')">Reset
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </nz-dropdown-menu>
+                                    </div>
+                                </nz-demo-tab-content-lazy>
+                            </nz-collapse-panel>
+                            <ng-template #expandedIcon let-active>
+                                {{ active }}
+                                <span nz-icon nzType="caret-right" class="ant-collapse-arrow"
+                                      [nzRotate]="p.nzActive ? -90 : 90"></span>
+                            </ng-template>
+                            <ng-template #likedCommentHeaderTemplate>
+                                <div>
+                                    Liked Comments List
+                                </div>
+                            </ng-template>
+                            <ng-template #likedPostHeaderTemplate>
+                                <div>
+                                    Liked Posts List
+                                </div>
+                            </ng-template>
+                        </nz-collapse>
+                    </nz-tab>
+                    <nz-tab nzTitle="Posted Contents">
+                        <nz-demo-tab-content-lazy>
+                            <div *ngIf="!!filteredPostAndStories.length || !!filteredPostAndStories.length else noDataTemplate">
+                                <div nz-flex nzJustify="flex-end" nzAlign="flex-end" nzGap="large" [nzVertical]=false >
+                                    <div  class="flex-item" style="padding-right: 5px">
+                                        <span nz-tooltip [nzTooltipTitle]="switchValue?'Displaying refined textual content':'Displaying full content'">
+                                            <nz-switch [(ngModel)]="switchValue"  (click)="filterPostedContent(!switchValue)"></nz-switch>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div nz-flex nzJustify="center" nzAlign="center" nzGap="large" [nzVertical]=true >
+                                    <div  class="flex-item" *ngFor="let postStory of filteredPostAndStories">
+                                        <nz-card style="width: 500px;margin-top: 16px">
+                                            <nz-skeleton [nzActive]="true" [nzLoading]="false" [nzAvatar]="{ size: 'large' }">
+                                                <nz-card-meta
+                                                        [nzAvatar]="avatarTemplate"
+                                                        [nzTitle]="cardTitle"
+                                                        [nzDescription]="descriptionTemplate"
+                                                ></nz-card-meta>
+                                            </nz-skeleton>
+                                        </nz-card>
+<!--                                        TODO: Add image slider-->
+<!--                                        <ng-template #coverTemplate>-->
+<!--                                            <span nz-icon nzType="picture" nzTheme="outline">Media Content</span>-->
+<!--                                        </ng-template>-->
+                                        <ng-template #avatarTemplate>
+                                            <nz-avatar [nzSrc]="profilePic === 'error' ? '../../assets/images/insta-avatar/insta_avatar01.jpg' : profilePic"></nz-avatar>
+                                        </ng-template>
+                                        <ng-template #cardTitle>
+                                            <span>{{isStory( postStory) ? 'Story shared on ' : 'Post shared on '}}</span>
+                                            <span>{{postStory.timestamp + '000' | date: 'd MMM y, h:mm a'}}</span>
+                                        </ng-template>
+                                        <ng-template #descriptionTemplate>
+                                            <div *ngIf="(postStory.title | removeSpecialCharacters).length > 0 else mediaContenttemplate">
+                                                <div>
+                                                    <i>Some Media Content </i> <span nz-icon nzType="picture" nzTheme="outline"></span>
+                                                </div>
+                                                {{postStory.title | removeSpecialCharacters:'@,'}}
+                                            </div>
+                                        </ng-template>
+                                        <ng-template #mediaContenttemplate>
+                                            <div>
+                                                Some Media Content <span nz-icon nzType="picture" nzTheme="outline"></span>
+                                            </div>
+                                        </ng-template>
+                                    </div>
+                                </div>
+                                <nz-back-top></nz-back-top>
+                            </div>
+                        </nz-demo-tab-content-lazy>
+                    </nz-tab>
+                    <nz-tab nzTitle="Posted Comments">
+                        <nz-demo-tab-content-lazy>
+                            <div *ngIf="!!comments.length || !!comments.length else noDataTemplate">
+                                <div nz-flex nzJustify="center" nzAlign="center" nzGap="large" [nzVertical]=true >
+                                    <div  class="flex-item" *ngFor="let comment of comments">
+                                        <nz-card style="width: 500px;margin-top: 16px">
+                                            <nz-skeleton [nzActive]="true" [nzLoading]="false" [nzAvatar]="{ size: 'large' }">
+                                                <nz-card-meta
+                                                        [nzAvatar]="avatarTemplate"
+                                                        [nzTitle]="cardTitle"
+                                                        [nzDescription]="descriptionTemplate"
+                                                ></nz-card-meta>
+                                            </nz-skeleton>
+                                        </nz-card>
+                                        <!--                                        TODO: Add image slider-->
+                                        <!--                                        <ng-template #coverTemplate>-->
+                                        <!--                                            <span nz-icon nzType="picture" nzTheme="outline">Media Content</span>-->
+                                        <!--                                        </ng-template>-->
+                                        <ng-template #avatarTemplate>
+                                            <nz-avatar nzIcon="user" [ngStyle]="{ 'background-color': getRandomSoftColor() }"></nz-avatar>
+                                        </ng-template>
+                                        <ng-template #cardTitle>
+                                            {{comment.mediaOwner}}<span>{{comment.type==='Reel' ? ' shared a Reel' : ' shared a Post'}}</span>
+                                        </ng-template>
+                                        <ng-template #descriptionTemplate>
+                                            <div>
+                                                <div>
+                                                    <i>Some Media Content </i> <span nz-icon nzType="picture" nzTheme="outline"></span>
+                                                </div>
+                                                <nz-comment [nzAuthor]="userName" [nzDatetime]="commentTime">
+                                                    <nz-avatar nz-comment-avatar [nzSrc]="profilePic === 'error' ? '../../assets/images/insta-avatar/insta_avatar01.jpg' : profilePic"></nz-avatar>
+                                                    <nz-comment-content>
+                                                        <p *ngIf="comment.comment.length>0 else emptyComment">
+                                                            {{comment.comment | removeSpecialCharacters:'@,'}}
+                                                        </p>
+                                                        <ng-template #emptyComment>
+                                                            <div>
+                                                                Some Media Content <span nz-icon nzType="picture" nzTheme="outline"></span>
+                                                            </div>
+                                                        </ng-template>
+                                                    </nz-comment-content>
+                                                    <ng-template #commentTime>
+                                                        <span>{{comment.timestamp + '000' | date: 'd MMM y, h:mm a'}}</span>
+                                                    </ng-template>
+                                                </nz-comment>
+                                            </div>
+                                        </ng-template>
+                                    </div>
+                                </div>
+                                <nz-back-top></nz-back-top>
+                            </div>
+                        </nz-demo-tab-content-lazy>
+                    </nz-tab>
+                </nz-tabset>
+            </nz-card>
+        </div>
+    </div>
+    <ng-template #noDataTemplate>
+        <div>
+            <nz-empty nzNotFoundImage="simple"></nz-empty>
+        </div>
+    </ng-template>
 </div>

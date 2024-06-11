@@ -100,7 +100,7 @@ const MENU_ITEMS: MenuItem[] = [
  * @remarks There is no general place to store them. So they lay here.
  */
 function getSubMenuItems(serviceName: string): MenuItem {
-  return {
+  const subMenu = {
     icon: 'dashboard',
     name: 'Dashboard',
     children: [
@@ -131,4 +131,8 @@ function getSubMenuItems(serviceName: string): MenuItem {
       },
     ],
   };
+  if(serviceName==='insta'){
+    subMenu.children=subMenu.children.filter(menu => (menu.name!=='GDPR/Rights' && menu.name!=='Purpose'));
+  }
+  return subMenu;
 }

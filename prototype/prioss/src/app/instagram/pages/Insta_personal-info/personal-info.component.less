@@ -1,0 +1,38 @@
+.profile-pic-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  max-height: 300px;
+  .profile-pic {
+    max-height: inherit;
+    width: auto;
+  }
+}
+
+
+:host ::ng-deep .user-basic-info {
+    .ant-card {
+      .ant-card-head{
+        padding: 5px 15px !important;
+      }
+      .ant-card-body {
+        padding: 0px !important;
+      }
+    }
+  }
+
+
+:host ::ng-deep .account-info{
+  .ant-card{
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+  }
+  .ant-card-body{
+    .ant-card{
+      .ant-card-body {
+        padding: 0px !important;
+      }
+    }
+  }
+}
