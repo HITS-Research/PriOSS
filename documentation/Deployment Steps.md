@@ -16,5 +16,6 @@ To use the token, make sure, that the credentials are stored with `git config cr
     sudo su
     ./deploy.sh
     ```
+    
 # Automatic Deployment
 On the Prioss VM, a cron job (root user) runs every five minutes, that executes the deploy script. If the script detects, that the remote repo has newer changes than the local repo in the dev branch, it builds and deploys the new version.
