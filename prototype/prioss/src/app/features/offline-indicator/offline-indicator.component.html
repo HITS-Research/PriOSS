@@ -1,25 +1,22 @@
-<div [style.bottom]="bottom" [style.right]="right" style="position: fixed; z-index: 9999;">
+<div [style.bottom]="bottom" [style.right]="right" class="offline-indicator">
   <span *ngIf="onlineStatus">
-    <button style="display: inline-flex; align-items: center;" nz-button nzType="default" nzShape="round">
-      <span>
-        <button nz-button nzType="text" nzShape="circle" nz-tooltip
-          nzTooltipTitle="You're still online! You can disconnect from the internet and still use all functionality!"
-          class="wifi-icon">
-          <span nz-icon nzType="wifi" nzTheme="outline" style="color: red"></span>
-          You are still online
-        </button>
-      </span>
+    <button nz-button nzType="default" nzShape="round" class="status-button">
+      <button nz-button nzType="text" nz-tooltip
+        nzTooltipTitle="You're still online! Disconnect from the internet to ensure your data stays secure and isn't sent anywhere. All functionality will still be available!"
+        class="wifi-icon online">
+        <span nz-icon nzType="wifi" style="color:#ff6666"></span>
+        Don't trust us? &nbsp; <span class="bold-text">(Just go offline) </span>
+      </button>
     </button>
   </span>
   <span *ngIf="!onlineStatus">
-    <button style="display: inline-flex; align-items: center;" nz-button nzType="default" nzShape="round">
-      <span>
-        <button nz-button nzType="text" nzShape="circle" nz-tooltip
-          nzTooltipTitle="Great you're offline! You can still use all functionality!" class="wifi-icon">
-          <span nz-icon nzType="wifi" nzTheme="outline" style="color: green"></span>
-          Safe to browse
-        </button>
-      </span>
+    <button nz-button nzType="default" nzShape="round" class="status-button">
+      <button nz-button nzType="text" nzShape="circle" nz-tooltip
+        nzTooltipTitle="Great, you're offline! Your data is secure and not being sent anywhere. You can still use all functionality!"
+        class="wifi-icon offline">
+        <span nz-icon nzType="safety-certificate" nzTheme="fill" style="color:green"></span>
+        Safe to browse &nbsp; <span class="bold-text"></span>
+      </button>
     </button>
   </span>
 </div>
