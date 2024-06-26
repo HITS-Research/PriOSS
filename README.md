@@ -23,4 +23,4 @@ If you have done so before for a previous project, you shouldn't have to run it 
 
 ## Maintenance
 
-The apps frequently update their data download structure so it is recommended to check the updated download regularly and make the necessary changes in the application with respect to that. Also please update the sample data according to the new structures when required.
+The apps frequently update their data download structure so it is recommended to check the updated download regularly and make the necessary changes in the application with respect to that. Also please update the sample data according to the new structures when required. 
