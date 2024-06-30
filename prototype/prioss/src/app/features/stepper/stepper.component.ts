@@ -5,6 +5,7 @@ import {
   ElementRef,
   Input,
   ViewChild,
+  numberAttribute,
 } from '@angular/core';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
@@ -103,7 +104,7 @@ export class StepperComponent {
   /**
    * Sets the current initial selected step.
    */
-  @Input()
+  @Input({ transform: numberAttribute })
   set stepIndex(index: number) {
     this.stepIndex$$.next(index);
   }

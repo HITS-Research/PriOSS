@@ -53,7 +53,6 @@ import { DataDownloadInstructionsComponent } from './framework/pages/data-downlo
 import { FaqComponent } from './framework/pages/faq/faq.component';
 import { GdprComponent } from './framework/pages/gdpr/gdpr.component';
 import { KnownIssuesComponent } from './framework/pages/known-issues/known-issues.component';
-import { LandingComponent } from './framework/pages/landing/landing.component';
 import { ServiceSelectionComponent } from './framework/pages/service-selection/service-selection.component';
 import { IconsProviderModule } from './icons-provider.module';
 import { Insta_PersonalInfoComponent } from './instagram/pages/Insta_personal-info/personal-info.component';
@@ -83,7 +82,6 @@ import { InferencesMailComponent } from './spotify/features/inferences-mail/infe
 import { PurposesComponent } from './spotify/features/purposes/purposes.component';
 import { ListeningTimeComponent } from './spotify/pages/listening-time/listening-time.component';
 import { MoodComponent } from './spotify/pages/mood/mood.component';
-import { SpotPrivacyInstructionsComponent } from './spotify/pages/privacy-instructions/spot-privacy-instructions.component';
 import { SpotifyDashboardComponent } from './spotify/pages/spotify-dashboard/spotify-dashboard.component';
 import { SpotifySearchHistoryComponent } from './spotify/pages/spotify-search-history/spotify-search-history.component';
 import { SpotifyUserDataComponent } from './spotify/pages/spotify-user-data/spotify-user-data.component';
@@ -134,7 +132,6 @@ registerLocaleData(de);
 @NgModule({
   declarations: [
     AppComponent,
-    LandingComponent,
     ServiceSelectionComponent,
     FaceDashboardComponent,
     InstaDashboardComponent,
@@ -174,7 +171,6 @@ registerLocaleData(de);
     InstaProfileInfoPrivateComponent,
     InstaAddManagerComponent,
     RevokeAccessComponent,
-    SpotPrivacyInstructionsComponent,
     OtherPersonalInfoComponent,
     YourTopicsComponent,
     SecurityLoginDataComponent,
