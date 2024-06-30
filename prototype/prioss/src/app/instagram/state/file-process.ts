@@ -427,10 +427,10 @@ export async function parseInstagramFile(
       userData.contactInfo = [];
       for (let i = 0; i < contactsData.length; i++) {
         userData.contactInfo.push({
-          firstName: contactsData[i].string_map_data['First name'].value,
-          surname: contactsData[i].string_map_data['Surname'].value,
+          firstName: contactsData[i].string_map_data['First Name'].value,
+          surname: contactsData[i].string_map_data['Last Name'].value,
           contactInformation:
-          contactsData[i].string_map_data['Contact information'].value,
+          contactsData[i].string_map_data['Contact Information'].value,
         });
       }
     }
