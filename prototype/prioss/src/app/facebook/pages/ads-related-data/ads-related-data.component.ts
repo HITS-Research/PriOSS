@@ -43,7 +43,7 @@ import { FacebookAdsOverviewComponent } from "./features/ads-overview/facebook-a
 export class AdsRelatedDataComponent implements OnInit {
 
   previewModeInput = input<string>();
-  
+
   previewMode = computed(() => {
     return this.previewModeInput() === "true";
   });

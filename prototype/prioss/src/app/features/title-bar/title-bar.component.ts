@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  computed,
+  input,
+} from '@angular/core';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
@@ -17,19 +25,14 @@ import { AppComponentMsgService } from 'src/app/features/messaging/app-component
   styleUrl: './title-bar.component.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [
-    NzButtonModule,
-    NzToolTipModule,
-    NzIconModule,
-  ]
+  imports: [NzButtonModule, NzToolTipModule, NzIconModule],
 })
 export class TitleBarComponent {
+  @Input()
+  titleText = 'Default Title';
 
   @Input()
-  titleText = "Default Title";
-
-  @Input()
-  tooltipText = "";
+  tooltipText = '';
 
   @Input()
   includeButton = true;
@@ -52,10 +55,18 @@ export class TitleBarComponent {
   /**
    * Pass a text to this variable via a html attribute to change the text that is displayed in the back button above the title
    */
-  @Input()
-  backButtonTextOverride = "";
+  backButtonTextOverride = input<string>('');
 
-  constructor(private appMsgService: AppComponentMsgService) { }
+  buttonText = computed(() => {
+    const text = this.backButtonTextOverride();
+    if (text.length > 0) {
+      return text;
+    }
+
+    return 'To Dashboard';
+  });
+
+  constructor(private appMsgService: AppComponentMsgService) {}
 
   /**
    * Checks if there was an override function given for the functionality of the back button.

@@ -1,16 +1,14 @@
-.title-info-icon
-{
-    font-size: 16px;//.6em; 
-    vertical-align: .4em;
+:host, h3 {
+  display: flex;
+  align-items: center;
+  gap: .5em;
 }
 
 .title-info-icon:hover {
   cursor: pointer;
 }
 
-
-
-.header-back-button  {
+.header-back-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -27,13 +25,16 @@
 .header-back-button:hover {
   background-color: #0056b3;
   transform: scale(1.05);
-  
+
+}
+
+.ant-tooltip {
+  z-index: 10001;
 }
 
 //Mobile
 @media (max-width : 800px) {
-  h3  {    
+  h3 {
     margin-top: 1vh;
   }
 }
-

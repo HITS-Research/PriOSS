@@ -84,7 +84,6 @@ import { PurposesComponent } from './spotify/features/purposes/purposes.componen
 import { ListeningTimeComponent } from './spotify/pages/listening-time/listening-time.component';
 import { MoodComponent } from './spotify/pages/mood/mood.component';
 import { SpotPrivacyInstructionsComponent } from './spotify/pages/privacy-instructions/spot-privacy-instructions.component';
-import { SongtimelineComponent } from './spotify/pages/songtimeline/songtimeline.component';
 import { SpotifyDashboardComponent } from './spotify/pages/spotify-dashboard/spotify-dashboard.component';
 import { SpotifySearchHistoryComponent } from './spotify/pages/spotify-search-history/spotify-search-history.component';
 import { SpotifyUserDataComponent } from './spotify/pages/spotify-user-data/spotify-user-data.component';
@@ -176,7 +175,6 @@ registerLocaleData(de);
     InstaAddManagerComponent,
     RevokeAccessComponent,
     SpotPrivacyInstructionsComponent,
-    SongtimelineComponent,
     OtherPersonalInfoComponent,
     YourTopicsComponent,
     SecurityLoginDataComponent,
