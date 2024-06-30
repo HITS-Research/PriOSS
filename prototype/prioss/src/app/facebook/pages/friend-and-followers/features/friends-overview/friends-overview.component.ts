@@ -3,7 +3,6 @@ import {
 	ChangeDetectionStrategy,
 	Component,
 	InputSignal,
-	OnInit,
 	Signal,
 	computed,
 	input,
@@ -43,13 +42,12 @@ import { NzIconModule } from "ng-zorro-antd/icon";
 	styleUrl: "./friends-overview.component.less",
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FacebookFriendsOverviewComponent implements OnInit{
+export class FacebookFriendsOverviewComponent{
+	loading = input<boolean>();
 	friendsData: InputSignal<FbConnectionsDataModel> =
 		input.required<FbConnectionsDataModel>();
 
-	ngOnInit() {
-		console.log(this.friendsData());
-	}
+
 	searchValue = signal<string>("");
 	visible = signal<boolean>(false);
 	reset = computed(() => {

@@ -127,13 +127,19 @@ export class PostFrequencyComponent {
         }
       },
       xAxis: {
+        name: "Year",
+				nameLocation: "middle",
+				nameGap: 30,
         type: 'category',
         data: this.dateRangeForGraph(),
         axisLabel: {
-          rotate: 45
+          rotate: 30
         }
       },
       yAxis: {
+        name: "Posts",
+				nameLocation: "end",
+				nameGap: 20,
         type: 'value',
         minInterval: 1
       },

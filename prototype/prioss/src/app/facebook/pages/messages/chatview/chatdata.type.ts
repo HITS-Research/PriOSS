@@ -1,4 +1,4 @@
-export interface ChatData{
+export interface ChatData {
     id: string;
     participants: string[];
     messages: ChatMessage[];
@@ -6,8 +6,12 @@ export interface ChatData{
     is_groupchat: boolean;
     is_archived: boolean;
 }
-export interface ChatMessage{
+export interface ChatMessage {
     timestamp: number;
     sender: string;
     content: string;
+    share?: { link: string };
+    photos?: {uri: string, creation_timestamp: number}[];
+    files?: {uri: string, creation_timestamp: number}[];
+    sticker?: { uri: string, ai_stickers: [] };
 }

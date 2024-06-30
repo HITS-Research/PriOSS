@@ -20,9 +20,12 @@ export interface LabelValueItem {
   timestamp_value?: number;
 }
 export interface VecItem {
-  timestamp_value: number;
+  value: string
 }
 export interface DictItem {
   key: string;
   value: string;
 }
+
+
+

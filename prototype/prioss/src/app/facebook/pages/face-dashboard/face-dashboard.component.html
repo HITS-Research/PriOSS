@@ -3,7 +3,8 @@
   <div id="introduction" class="dashboard-intro">
     Welcome to the Facebook Dashboard!
     <br>
-    Explore GDPR rights, visualize your data, get privacy tips, find FAQs, and contact us for more info. Your data, your control.
+    Explore GDPR rights, visualize your data, get privacy tips, find FAQs, and contact us for more info. Your data, your
+    control.
   </div>
   <br />
 
@@ -11,7 +12,9 @@
   <summary id="yourInfo" class="collapsible-dashboard-section-title">Your Information</summary>
     <div nz-row [nzGutter]="[{ xs: 8, xl: 20}, {xs: 8, xl: 40}]">
       <div  nz-col nzXs="24" nzXl="8">
-        <app-dash-card cardLink="/face/general-data" titleText="User Data"
+        <app-dash-card cardLink="/face/general-data" [height]="cardHeight()"
+
+titleText="User Data"
             tooltipText="This card shows your general user data like your email, gender, etc. which Facebook may not show in your public profile.">
           <app-general-data [previewMode]="false"></app-general-data>
         </app-dash-card>
@@ -19,139 +22,107 @@
     </div>
 </details>
 <br> -->
-<br>
-<div>
-  <app-accordion title="Visualization">
-    <div nz-row [nzGutter]="[{ xs: 8, xl: 20}, {xs: 8, xl: 40}]">
-      <div nz-col nzXs="24" nzXl="8">
-        <app-dash-card
-          cardLink="/face/general-data"
-          titleText="User Data"
-        >
-          <app-general-data [previewMode]="true"></app-general-data>
-        </app-dash-card>
-      </div>
+  <br>
 
-      <div nz-col nzXs="24" nzXl="8">
-        <app-dash-card
-          cardLink="/face/ads-related-data"
-          titleText="Advertisements"
-        >
-          <app-ads-related-data [previewMode]="true"></app-ads-related-data>
-        </app-dash-card>
-      </div>
+  
+    <app-accordion title="Visualization">
+      <div nz-row [nzGutter]="[{ xs: 8, xl: 20}, {xs: 8, xl: 40}]">
+        <div nz-col nzXs="24" nzXl="8">
+          <app-dash-card cardLink="/face/general-data" [height]="cardHeight()" titleText="User Data">
+            <app-general-data [previewMode]="true"></app-general-data>
+          </app-dash-card>
+        </div>
 
-      <div nz-col nzXs="24" nzXl="8">
-        <app-dash-card
-          cardLink="/face/connections"
-          titleText="Facebook Connections"
-        >
+        <div nz-col nzXs="24" nzXl="16">
+          <app-dash-card cardLink="/face/connections" [height]="cardHeight()" titleText="Facebook Connections">
 
-          <app-friend-and-followers
-            [previewModeInput]="'true'"
-          ></app-friend-and-followers>
-        </app-dash-card>
-      </div>
-    </div>
-    <br />
-    <div nz-row [nzGutter]="[{ xs: 8, xl: 20}, {xs: 8, xl: 40}]">
-      <div nz-col nzXs="24" nzXl="8">
-        <app-dash-card
-          cardLink="/face/messages-info"
-          titleText="Messages"
-        >
-          <app-messages [previewMode]="true"></app-messages>
-        </app-dash-card>
-      </div>
+            <app-friend-and-followers [previewModeInput]="'true'"></app-friend-and-followers>
+          </app-dash-card>
+        </div>
+        <div nz-col nzXs="24" nzXl="12">
+          <app-dash-card cardLink="/face/messages-info" [height]="cardHeight()" titleText="Messages">
+            <app-messages [previewMode]="true"></app-messages>
+          </app-dash-card>
+        </div>
 
-      <div nz-col nzXs="24" nzXl="8">
-        <app-dash-card
-          cardLink="/face/posts"
-          titleText="Posts"
-        >
-          <app-posts [previewMode]="true"></app-posts>
-        </app-dash-card>
-      </div>
+        <div nz-col nzXs="24" nzXl="12">
+          <app-dash-card cardLink="/face/posts" [height]="cardHeight()" titleText="Posts">
+            <app-posts [previewMode]="true"></app-posts>
+          </app-dash-card>
+        </div>
+        
+        <div nz-col nzXs="24" nzXl="8">
+          <app-dash-card cardLink="/face/ads-related-data" [height]="cardHeight()" titleText="Ad Preferences">
+            <app-ads-related-data [previewModeInput]="'true'"></app-ads-related-data>
+          </app-dash-card>
+        </div>
+        
+        <!-- Facebook updated the data export to not include inferences data; June 2024 -->
+        <!-- <div nz-col nzXs="24" nzXl="8">
+          <app-dash-card cardLink="/face/inferred-topics" [height]="cardHeight()" titleText="Your Topics">
+            <app-inferred-topics [previewMode]="true"></app-inferred-topics>
+          </app-dash-card>
+        </div> -->
+        <div nz-col nzXs="24" nzXl="8">
+          <app-dash-card cardLink="/face/other-personal-info" [height]="cardHeight()"
+            titleText="Other Personal Information">
+            <app-other-personal-info [previewMode]="true"></app-other-personal-info>
+          </app-dash-card>
+        </div>
 
-      <div nz-col nzXs="24" nzXl="8">
-        <app-dash-card
-          cardLink="/face/inferred-topics"
-          titleText="Your Topics"
-        >
-          <app-inferred-topics [previewMode]="true"></app-inferred-topics>
-        </app-dash-card>
-      </div>
-    </div>
-    <br />
-    <div nz-row [nzGutter]="[{ xs: 8, xl: 20}, {xs: 8, xl: 40}]">
-      <div nz-col nzXs="24" nzXl="8">
-        <app-dash-card
-          cardLink="/face/other-personal-info"
-          titleText="Other Personal Information"
-        >
-          <app-other-personal-info
-            [previewMode]="true"
-          ></app-other-personal-info>
-        </app-dash-card>
-      </div>
+        <div nz-col nzXs="24" nzXl="8">
+          <app-dash-card cardLink="/face/security-login" [height]="cardHeight()" titleText="Security and Login">
+            <app-security-login-data [previewMode]="true"></app-security-login-data>
+          </app-dash-card>
+        </div>
 
-      <div nz-col nzXs="24" nzXl="8">
-        <app-dash-card
-          cardLink="/face/security-login"
-          titleText="Security and Login"
-        >
-          <app-security-login-data
-            [previewMode]="true"
-          ></app-security-login-data>
-        </app-dash-card>
+        <div nz-col nzXs="24" nzXl="8">
+          <app-dash-card cardLink="/face/groups-and-events-data" [height]="cardHeight()"
+            titleText="Events & Groups Information">
+            <app-groups-and-events-data [previewMode]="true"></app-groups-and-events-data>
+          </app-dash-card>
+        </div>
+        <div nz-col nzXs="24" nzXl="8">
+          <app-dash-card cardLink="/face/media" [height]="cardHeight()" titleText="Media">
+            <prioss-facebook-media [previewMode]="true">
+            </prioss-facebook-media>
+          </app-dash-card>
+        </div>
       </div>
+  
 
-      <div nz-col nzXs="24" nzXl="8">
-        <app-dash-card
-          cardLink="/face/groups-and-events-data"
-          titleText="Events & Groups Information"
-        >
-          <app-groups-and-events-data
-            [previewMode]="true"
-          ></app-groups-and-events-data>
-        </app-dash-card>
-      </div>
-  </div>
   </app-accordion>
   <br>
   <br>
   <app-accordion title="Rectification ">
-  <p>  You can object the use of your personal data to show you personalized Ads on your timeline. Visit <span nz-icon nzType="link"><a target="_blank" href='https://www.facebook.com/help/contact/367438723733209'>Facebook Help Center</a></span> and follow the instructions below: </p>
-  <br>
-  <nz-steps [nzCurrent]="current">
-    <nz-step nzTitle="Step 1"></nz-step>
-    <nz-step nzTitle="Step 2"></nz-step>
-    <nz-step nzTitle="Step 3"></nz-step>
-    <nz-step nzTitle="Step 4"></nz-step>
-    <nz-step nzTitle="Step 5"></nz-step>
-  </nz-steps>
+    <p> You can object the use of your personal data to show you personalized Ads on your timeline. Visit <span nz-icon
+        nzType="link"><a target="_blank" href='https://www.facebook.com/help/contact/367438723733209'>Facebook
+          Help Center</a></span> and follow the instructions below: </p>
+    <br>
+    <nz-steps [nzCurrent]="current">
+      <nz-step nzTitle="Step 1"></nz-step>
+      <nz-step nzTitle="Step 2"></nz-step>
+      <nz-step nzTitle="Step 3"></nz-step>
+      <nz-step nzTitle="Step 4"></nz-step>
+      <nz-step nzTitle="Step 5"></nz-step>
+    </nz-steps>
 
-  <div class="steps-content">
-    <img
-      nz-image
-      height="600px"
-      nzSrc={{rectificationImage}}
-      alt=""
-    />
-    <nz-divider></nz-divider>
-    <p nz-typography class="rectification-steps">{{ rectificationText }}</p>
-  </div>
-  <div class="steps-action">
-    <!-- <button nz-button nzType="default" (click)="start()" *ngIf="current <= 4">
+    <div class="steps-content">
+      <img nz-image height="600px" nzSrc={{rectificationImage}} alt="" />
+      <nz-divider></nz-divider>
+      <p nz-typography class="rectification-steps">{{ rectificationText }}</p>
+    </div>
+    <div class="steps-action">
+      <!-- <button nz-button nzType="default" (click)="start()" *ngIf="current <= 4">
       <span>Start</span>
     </button> -->
-    <button nz-button nzType="default" (click)="pre()" *ngIf="current > 0">
-      <span>Previous</span>
-    </button>
-    <button nz-button nzType="default" (click)="next()" *ngIf="current < 4">
-      <span>Next</span>
-    </button>
-  </div>
+      <button nz-button nzType="default" (click)="pre()" *ngIf="current > 0">
+        <span>Previous</span>
+      </button>
+      <button nz-button nzType="default" (click)="next()" *ngIf="current < 4">
+        <span>Next</span>
+      </button>
+    </div>
 
   </app-accordion>
 </div>
@@ -159,92 +130,24 @@
 
 <br>
 <div>
-<app-accordion title="Privacy Recommendations">
-  <div id="fStep30">
-    <div nz-row [nzGutter]="[{ xs: 8, xl: 20}, {xs: 8, xl: 40}]">
-      <div nz-col nzXs="24" nzXl="8">
-        <app-dash-card cardLink="" titleText="Privacy Settings Judge">
-          <app-settings-form [service]="'Facebook'"></app-settings-form>
-        </app-dash-card>
-      </div>
-    </div>
-    <br>
+  <app-accordion title="Privacy Recommendations">
+    <div id="fStep30">
       <div nz-row [nzGutter]="[{ xs: 8, xl: 20}, {xs: 8, xl: 40}]">
         <div nz-col nzXs="24" nzXl="8">
-          <app-dash-card cardLink="/face/configure-off-facebook-activity" titleText="Off-Facebook Activity">
-          <p nz-typography>This section provides you guidelines to Turn OFF your Off-Facebook Activity.</p>
-          </app-dash-card>
-        </div>
-        <div nz-col nzXs="24" nzXl="8">
-          <app-dash-card cardLink="/face/guidelines-for-ads-settings" titleText="Hide Advertisements">
-          <p nz-typography>This section provides you guidelines to hide the ads you don't want to see anymore.</p>
-          </app-dash-card>
-        </div>
-        <div nz-col nzXs="24" nzXl="8">
-          <app-dash-card cardLink="/face/your-topics" titleText="Manage Inferred Topics">
-          <p nz-typography>This section provides you guidelines to manage Inferred Topics and see less ads related to those topics in future.</p>
+          <app-dash-card cardLink="" titleText="Privacy Settings Judge">
+            <app-settings-form [service]="'Facebook'"></app-settings-form>
           </app-dash-card>
         </div>
       </div>
-  </div>
-</app-accordion>
-<br>
-<br>
-
-  <p nz-topography><app-face-purposes></app-face-purposes></p>
-  <br />
-  <!-- <details open>
-  <summary class="collapsible-dashboard-section-title" id="purpose">Why does Facebook collect your data?</summary>
-  <div class="dashboard-intro">
-    <p nz-typography>
-      The following purposes should give an example of Facebook's purpose to collect personal data. To Get a full list of their reasons you can check out Facebook's <span nz-icon nzType="link"><a target="_blank" href="https://www.facebook.com/privacy/policy">privacy policy</a></span>
       <br>
-    </p>
-    <nz-table nzTemplateMode>
-      <thead>
-        <tr>
-          <th class="purpose-header">Purpose</th>
-          <th class="purpose-header">Data Collected</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td class="purpose-info">To provide, personalise and improve the Facebook products</td>
-          <td class="purpose-info"> Your posts, comments, messages, hashtags, time of activity, frequency and duration of your activities on Facebook. For more information follow this <span nz-icon nzType="link"><a target="_blank" href="https://www.facebook.com/privacy/policy/?subpage=1.subpage.1-YourActivityAndInformation">link</a></span></td>.
-        </tr>
-        <tr>
-          <td class="purpose-info">To promote safety, security and integrity</td>
-          <td class="purpose-info">The device and software you are using, signals from your device, and GPS locations. For more information follow this <span nz-icon nzType="link"><a target="_blank" href="https://www.facebook.com/privacy/policy/?subpage=2.subpage.8-PromotingSafetySecurityAnd">link</a></span></td>
-        </tr>
-        <tr>
-          <td class="purpose-info">To provide measurement, analytics and business services</td>
-          <td class="purpose-info">Your device information, websites that you visit and cookie data, apps you use, games you play, purchases and transactions you make online, the ads you see and how you interact with them. For more information follow this <span nz-icon nzType="link"><a target="_blank" href="https://www.facebook.com/privacy/policy/?subpage=1.subpage.4-InformationFromPartnersVendors">link</a></span></td>
-        </tr>
-        <tr>
-          <td class="purpose-info">To communicate with you</td>
-          <td class="purpose-info">Your contact information, settings data and other information related to your friends and followers on Facebook. For more information follow this <span nz-icon nzType="link"><a target="_blank" href="https://www.facebook.com/privacy/policy/?subpage=2.subpage.12-CommunicatingWithYouWe">link</a></span></td>
-        </tr>
-        <tr>
-          <td class="purpose-info">To show you advertisements</td>
-          <td class="purpose-info">Your profile information, Your activity on and off Meta products, information that Facebook receive through cookies, things Facebook infer about you such as topics, information about your friends including their activity or interests. For more information follow this <span nz-icon nzType="link"><a target="_blank" href="https://www.facebook.com/privacy/policy?subpage=2.subpage.2-HowWeShowAds">link</a></span></td>
-        </tr>
-      </tbody>
-    </nz-table>
-  </div>
-</details>
-<br> -->
-  <br />
+      <br>
+      <br>
+    </div>
+    <br>
 
-  <!-- <div id="faq"></div> -->
-  <!-- <summary class="collapse_title" id="fStep60">Frequently Asked Questions</summary>
-      <nz-collapse nzAccordion>
-        <nz-collapse-panel class="faq_info" *ngFor="let eachFaq of faqs" [nzHeader]="eachFaq.question" [nzActive]="eachFaq.state">
-          <p class="faq_info">{{ eachFaq.answer }}</p>
-        </nz-collapse-panel>
-      </nz-collapse> -->
-  <app-help-button (startTourClick)="startTour()"></app-help-button>
-  <app-offline-indicator
-    [bottom]="'32px'"
-    [right]="'76px'"
-  ></app-offline-indicator>
-</div>
+    <p nz-topography><app-face-purposes></app-face-purposes></p>
+    <br />
+
+    <br />
+    <app-help-button (startTourClick)="startTour()"></app-help-button>
+    <app-offline-indicator [bottom]="'32px'" [right]="'76px'"></app-offline-indicator>

@@ -1,20 +1,24 @@
 
 <nz-row [nzGutter]="[{ xs: 8, sm: 16, md: 24, lg: 32, xl: 32, xxl: 32 }, { xs: 8, sm: 16, md: 24, lg: 32, xl: 32, xxl: 32 }]">
     <nz-col nzXs="24" nzLg="12" nzXl="8">
-        <nz-card nzTitle="General Information">
+        <nz-card nzTitle="General Information" [nzLoading]="loading()" style="height: 100%;">
             <prioss-facebook-friends-general-info
-                [connectionsData]="friendsData()">
+                [connectionsData]="friendsData()"
+                [loading]="loading()"
+                >
+                
             </prioss-facebook-friends-general-info>
         </nz-card>
     </nz-col>
     <nz-col nzXs="24" nzLg="12" nzXl="8">
-        <nz-card>
+        <nz-card [nzLoading]="loading()">
 <prioss-facebook-friends-over-time [connectionsData]="friendsData()"></prioss-facebook-friends-over-time>
         </nz-card>
     </nz-col>
     <nz-col nzXs="24" nzLg="12" nzXl="8">
-        <nz-card >
+        <nz-card [nzLoading]="loading()">
             <prioss-facebook-friends-following-over-time
+                [loading]="loading()"
                 [connectionsData]="friendsData()"></prioss-facebook-friends-following-over-time>
         </nz-card>
     </nz-col>

@@ -1,13 +1,22 @@
 <div [ngClass]="{ 'component-page': !previewMode }">
   <div *ngIf="previewMode">
     <nz-row [nzGutter]="16">
-      <nz-col [nzSpan]="16">
+      <nz-col [nzSpan]="12">
+        <nz-skeleton [nzLoading]="loading()" [nzActive]="true"></nz-skeleton>
         <nz-statistic
-          [nzTitle]="'Total Groups'"
-          [nzValue]="'2'"
+          nzTitle="Groups Joined"
+          [nzValue]="total_groups_joined()"
           [nzPrefix]="groups"
-          [nzValueStyle]="{ display: 'inline-flux' }"
-        >
+          [nzValueStyle]="{ display: 'inline-flux' }">
+        </nz-statistic>
+      </nz-col>
+      <nz-col [nzSpan]="12">
+        <nz-skeleton [nzLoading]="loading()" [nzActive]="true"></nz-skeleton>
+        <nz-statistic
+          nzTitle="Groups Administrated"
+          [nzValue]="total_groups_administrated()"
+          [nzPrefix]="groups"
+          [nzValueStyle]="{ display: 'inline-flux' }">
         </nz-statistic>
         <ng-template #groups>
           <div class="container_class">
@@ -17,19 +26,38 @@
           </div>
         </ng-template>
       </nz-col>
-      <nz-col [nzSpan]="16">
+      <nz-col [nzSpan]="12">
+        <nz-skeleton [nzLoading]="loading()" [nzActive]="true"></nz-skeleton>
         <nz-statistic
-          [nzTitle]="'Total Events'"
-          [nzValue]="total_event_invites"
+          [nzTitle]="'Events Joined'"
+          [nzValue]="total_events_joined()"
           [nzPrefix]="events"
-          [nzValueStyle]="{ display: 'inline-flux' }"
-        >
+          [nzValueStyle]="{ display: 'inline-flux' }">
+        </nz-statistic>
+      </nz-col>
+
+      <nz-col [nzSpan]="12">
+        <nz-skeleton [nzLoading]="loading()" [nzActive]="true"></nz-skeleton>
+        <nz-statistic
+          [nzTitle]="'Events Invited'"
+          [nzValue]="total_event_invites()"
+          [nzPrefix]="events"
+          [nzValueStyle]="{ display: 'inline-flux' }">
         </nz-statistic>
         <ng-template #events>
           <div class="container_class">
             <span nz-icon nzType="star" nzTheme="outline"></span>
           </div>
         </ng-template>
+      </nz-col>
+      <nz-col [nzSpan]="12">
+        <nz-skeleton [nzLoading]="loading()" [nzActive]="true"></nz-skeleton>
+        <nz-statistic
+          [nzTitle]="'Events Hidden'"
+          [nzValue]="total_events_hidden()"
+          [nzPrefix]="events"
+          [nzValueStyle]="{ display: 'inline-flux' }">
+        </nz-statistic>
       </nz-col>
     </nz-row>
   </div>
@@ -38,8 +66,7 @@
 <div *ngIf="!previewMode">
   <app-title-bar
     titleText="Events and Groups Data"
-    tooltipText="Your Events and Groups data is shown in detail here."
-  ></app-title-bar>
+    tooltipText="Your Events and Groups data is shown in detail here."></app-title-bar>
   <nz-tabset class="margin-top-20">
     <nz-tab nzTitle="Events Data">
       <br />
@@ -48,21 +75,21 @@
           <nz-col [nzSpan]="12">
             <nz-statistic
               clas="stats"
-              [nzValue]="(eventsData.length | number)!"
-              [nzTitle]="'Number of Events You are invited To '"
-            ></nz-statistic>
+              [nzValue]="(eventsInvitedData().length | number)!"
+              [nzTitle]="'Number of Events You are invited To '"></nz-statistic>
           </nz-col>
           <nz-col [nzSpan]="12">
-            <nz-statistic
+            @if(eventsInvitedData().length > 0){
+              <nz-statistic
               class="stats"
-              [nzValue]="(formatDate(eventsData[0].start_timestamp))!"
-              [nzTitle]="'Latest Event on '"
-            ></nz-statistic>
+              [nzValue]="(formatDate(eventsInvitedData()[0].start_timestamp))!"
+              [nzTitle]="'Latest Event on '"></nz-statistic>
+            }
           </nz-col>
         </nz-row>
 
         <br />
-        <nz-table [nzData]="eventsData" #eventsId>
+        <nz-table [nzSimple]="true" [nzData]="eventsInvitedData()" #eventsId>
           <thead>
             <tr>
               <th nzCustomFilter class="tableCol">Event Name</th>
@@ -86,26 +113,24 @@
       </ng-template>
     </nz-tab>
     <nz-tab nzTitle="Groups Data">
-      <ng-container *ngIf="dataAvailableGroup; else noDataTemplate">
+      <ng-container *ngIf="dataAvailableGroup(); else noDataTemplate">
         <nz-row [nzGutter]="16">
           <nz-col [nzSpan]="12">
             <nz-statistic
               clas="stats"
-              [nzValue]="(groupsData.length | number)!"
-              [nzTitle]="'Number of Groups you are part of '"
-            ></nz-statistic>
+              [nzValue]="(groupsJoinedData().length | number)!"
+              [nzTitle]="'Number of Groups you are part of '"></nz-statistic>
           </nz-col>
           <nz-col [nzSpan]="12">
             <nz-statistic
               class="stats"
-              [nzValue]="(formatDate(groupsData[groupsData.length - 1].timestamp))!"
-              [nzTitle]="'Latest Group Joined on '"
-            ></nz-statistic>
+              [nzValue]="(formatDate(groupsJoinedData()[groupsJoinedData().length - 1].timestamp))!"
+              [nzTitle]="'Latest Group Joined on '"></nz-statistic>
           </nz-col>
         </nz-row>
 
         <br />
-        <nz-table [nzData]="groupsData" #groupsId>
+        <nz-table [nzSimple]="true" [nzData]="groupsJoinedData()" #groupsId>
           <thead>
             <tr>
               <th nzCustomFilter class="tableCol">Group Name</th>

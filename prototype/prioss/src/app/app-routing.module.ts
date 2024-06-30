@@ -46,6 +46,7 @@ import { InstaTwoFactorAuthenticationComponent } from './instagram/pages/insta-t
 import { InstaYourTopicComponent } from './instagram/pages/insta-your-topic/insta-your-topic.component';
 import { RevokeAccessComponent } from './instagram/pages/revoke-access/revoke-access.component';
 import { GdprComponent } from './framework/pages/gdpr/gdpr.component';
+import { FacebookMediaComponent } from './facebook/pages/media/media.component';
 
 const routes: Routes = [
   { path: 'home', component: LandingComponent },
@@ -65,6 +66,7 @@ const routes: Routes = [
     canActivateChild: [facebookGuard],
     children: [
       { path: 'ads-related-data', component: AdsRelatedDataComponent },
+      { path: 'media', component: FacebookMediaComponent},
       {
         path: 'configure-off-facebook-activity',
         component: OffFacebookActivityComponent,

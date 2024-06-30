@@ -41,8 +41,16 @@ export interface Message {
   sender_name: string;
   timestamp_ms: number;
   content: string;
+  photos?: ChatMessageAttachment[];
+  files?: ChatMessageAttachment[];
+  share?: { link: string };
+  sticker?: { uri: string, ai_stickers: [] };
   is_geoblocked_for_viewer: boolean;
 }
 export interface Participant {
   name: string;
+}
+export interface ChatMessageAttachment{
+  uri: string;
+  creation_timestamp: number;
 }

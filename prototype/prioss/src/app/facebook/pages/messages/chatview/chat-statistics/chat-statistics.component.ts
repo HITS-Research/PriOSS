@@ -19,7 +19,6 @@ import { NzCardModule } from "ng-zorro-antd/card";
 import { MessagesPerDayChartComponent } from "./features/messages-per-day-chart/messages-per-day-chart.component";
 import { GeneralChatInfosComponent } from "./features/general-chat-infos/general-chat-infos.component";
 import { AverageMessageLengthComponent } from "./features/average-message-length/average-message-length.component";
-import { AverageResponeTimeComponent } from "./features/average-respone-time/average-respone-time.component";
 import { ChatWordcloudComponent } from "./features/chat-wordcloud/chat-wordcloud.component";
 import { ChatSentimentAnalysisComponent } from "./features/chat-sentiment-analysis/chat-sentiment-analysis.component";
 import { MessagesPerWeekdayComponent } from "./features/messages-per-weekday/messages-per-weekday.component";
@@ -42,7 +41,6 @@ import { ChatResponsetimeGraphComponent } from "./features/chat-responsetime-gra
 		MessagesPerDayChartComponent,
 		GeneralChatInfosComponent,
 		AverageMessageLengthComponent,
-		AverageResponeTimeComponent,
 		ChatWordcloudComponent,
 		ChatSentimentAnalysisComponent,
 		MessagesPerWeekdayComponent,
@@ -59,14 +57,20 @@ import { ChatResponsetimeGraphComponent } from "./features/chat-responsetime-gra
 export class ChatStatisticsComponent implements OnInit{
 	chatData = input.required<ChatData[]>();
 	yourUsername = input.required<string>();
+	loading = input.required<boolean>();
 
 	selectedChatIDForMsgPercentage = signal<string>("");
 	chatParticipants = signal<string[]>([]);
 
 	ngOnInit() {
 		this.getChatParticipants();
-		this.selectedChatIDForMsgPercentage.set(this.chatData()[0].id);
-
+		
+		try{
+			this.selectedChatIDForMsgPercentage.set(this.chatData()[0].id);
+		}catch(e){
+			console.error(e);
+		}
+		
 	}
 
 	selectedChatForMsgPercentage = computed(() => {

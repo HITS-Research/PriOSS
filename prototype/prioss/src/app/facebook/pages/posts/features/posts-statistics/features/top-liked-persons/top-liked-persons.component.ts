@@ -24,7 +24,8 @@ export class TopLikedPersonsComponent {
   persons = computed(() => {
     if (!this.userData) return [];
     const persons = [];
-    for (const friend of this.userData().connections.yourFriends.friends_v2){
+    const friends = this.userData().connections?.yourFriends.friends_v2??[]
+    for (const friend of friends){
       persons.push(friend.name);
     }
     return persons;
@@ -33,8 +34,8 @@ export class TopLikedPersonsComponent {
   reactionsPerPerson = computed(() => {
     if (!this.userData) return {};
     const reactsPerPerson: Record<string, Record<string, number>> = {};
-    const reactions = this.userData().activity_across_facebook.likesAndReactions?.likes_and_reactions??[];
-    const friends = this.userData().connections.yourFriends.friends_v2??[];
+    const reactions = this.userData().activity_across_facebook?.likesAndReactions?.likes_and_reactions??[];
+    const friends = this.userData().connections?.yourFriends.friends_v2??[];
     for (const friend of friends){
       const count: Record<string, number> ={};
       for (const react of reactions??[]){
@@ -95,7 +96,7 @@ export class TopLikedPersonsComponent {
 
   reactionTypes = computed(() => {
     const reactionTypes = new Set<string>();
-    const reactions = this.userData().activity_across_facebook.likesAndReactions?.likes_and_reactions??[]
+    const reactions = this.userData().activity_across_facebook?.likesAndReactions?.likes_and_reactions??[]
     for (const reaction of reactions) {
         const capitalizedType = reaction.data[0].reaction.reaction.charAt(0).toUpperCase() + reaction.data[0].reaction.reaction.slice(1).toLowerCase();
         reactionTypes.add(capitalizedType);

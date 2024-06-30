@@ -51,7 +51,7 @@ export class InstaContactComponent extends SequenceComponentInit implements Afte
   }
 
   filterContacts(searchTerm: string = this.searchControl.getRawValue() as string) {
-    console.log(searchTerm,"\n");
+    
     if (!searchTerm||searchTerm.length < 3) {
       this.listOfContacts = [...this.contacts];
       return;

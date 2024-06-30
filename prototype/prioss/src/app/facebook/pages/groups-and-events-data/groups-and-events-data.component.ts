@@ -1,9 +1,7 @@
 
-import { Component, Input, OnInit,ChangeDetectionStrategy} from '@angular/core';
-import { Store } from '@ngxs/store';
-import { FacebookState } from '../../state/fb.state';
-import { EventsInvitedItem } from '../../models/activityAcrossFacebook/Events/EventInvitations';
-import { GroupsJoinedItem } from '../../models/activityAcrossFacebook/Groups/GroupMembershipActivity';
+import { Component, Input, OnInit, ChangeDetectionStrategy, signal, computed } from '@angular/core';
+import { IndexedDbService } from 'src/app/state/indexed-db.state';
+import { FbUserDataModel } from '../../state/models';
 
 @Component({
   selector: 'app-groups-and-events-data',
@@ -12,21 +10,27 @@ import { GroupsJoinedItem } from '../../models/activityAcrossFacebook/Groups/Gro
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GroupsAndEventsDataComponent implements OnInit {
-  groupsData: GroupsJoinedItem[] = [];
-  total_groups = 0;
-
-  eventsData: EventsInvitedItem[] = [];
-  total_event_invites = 0;
-  total_events_interested = 0;
-  dataAvailable = false;
-  dataAvailableGroup = false;
+  groupsJoinedData = computed(() => this.userData().activity_across_facebook?.groupsJoined?.groups_joined_v2 ?? []);
+  total_groups_joined = computed(() => this.groupsJoinedData().length);
+  groupsAdministratedData = computed(() => this.userData().activity_across_facebook?.groupsAdmined?.groups_admined_v2 ?? []);
+  total_groups_administrated = computed(() => this.groupsAdministratedData().length);
+  userData = signal<FbUserDataModel>({} as FbUserDataModel);
+  loading = signal<boolean>(true);
+  eventsInvitedData = computed(() => this.userData().activity_across_facebook?.eventsInvited?.events_invited_v2 ?? []);
+  total_event_invites = computed(() => this.eventsInvitedData().length);
+  eventsJoinedData = computed(() => this.userData().activity_across_facebook?.eventResponses?.event_responses_v2.events_joined?? []);
+  total_events_joined = computed(() => this.eventsJoinedData().length);
+  eventsHiddenData = computed(() => this.userData().activity_across_facebook?.eventsHidden?.events_hidden_v2 ?? []);
+  total_events_hidden = computed(() => this.eventsHiddenData().length);
+  dataAvailable = computed(() => this.eventsInvitedData().length !== 0);
+  dataAvailableGroup = computed(() => this.groupsJoinedData().length !== 0);
 
   @Input()
   previewMode = false;
 
   constructor(
-    private store: Store,
-  ) {}
+    private indexedDbService: IndexedDbService,
+  ) { }
 
   ngOnInit(): void {
     this.prepareData();
@@ -42,17 +46,16 @@ export class GroupsAndEventsDataComponent implements OnInit {
    */
 
   async prepareData() {
-    const userData = this.store.selectSnapshot(FacebookState.getFacebookUserData);
-
-    const allEventsInfo = userData.activity_across_facebook.eventsInvited?.events_invited_v2;
-    this.eventsData = allEventsInfo ?? [];
-    this.total_event_invites = this.eventsData.length;
-    this.dataAvailable = this.eventsData.length !== 0;
-
-    const allGroupsInfo = userData.activity_across_facebook.groupsJoined?.groups_joined_v2;
-    this.groupsData = allGroupsInfo ?? [];
-    this.total_groups = this.groupsData.length;
-    this.dataAvailableGroup = this.groupsData.length !== 0;
+    await this.indexedDbService.getSelectedFacebookDataStore().then((data) => {
+      if(data.facebookData){
+        this.userData.set(data.facebookData);
+      }else{
+        this.userData.set({} as FbUserDataModel);
+      }
+    }).finally(() => {
+      this.loading.set(false);
+    }
+    );
   }
 
   /**
@@ -68,7 +71,7 @@ export class GroupsAndEventsDataComponent implements OnInit {
     if (!date.getTime()) {
       return fallback;
     }
-    
+
     return date.toDateString();
   }
 

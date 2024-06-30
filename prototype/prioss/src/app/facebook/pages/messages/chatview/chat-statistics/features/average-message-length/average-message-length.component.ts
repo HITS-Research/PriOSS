@@ -1,6 +1,7 @@
 import {
 	ChangeDetectionStrategy,
 	Component,
+	OnInit,
 	computed,
 	input,
 	signal,
@@ -26,7 +27,13 @@ import { NzTableModule } from "ng-zorro-antd/table";
 	styleUrl: "./average-message-length.component.less",
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AverageMessageLengthComponent {
+export class AverageMessageLengthComponent implements OnInit {
+
+	ngOnInit(): void {
+		if(this.chatData().length > 0){
+			this.selectedChatID.set(this.chatData()[0].id);
+		}
+	}
 	chatData = input.required<ChatData[]>();
 	selectedChatID = signal<string>("0");
 	yourUsername = input.required<string>();

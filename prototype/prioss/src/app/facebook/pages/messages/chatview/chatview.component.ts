@@ -16,11 +16,16 @@ import { NzListModule } from "ng-zorro-antd/list";
 import { FormsModule } from "@angular/forms";
 import { NzDatePickerModule } from "ng-zorro-antd/date-picker";
 import { NzInputModule } from "ng-zorro-antd/input";
+import { NzSkeletonComponent } from "ng-zorro-antd/skeleton";
 import { NzIconModule } from "ng-zorro-antd/icon";
 import { NzAffixModule } from "ng-zorro-antd/affix";
 import { type NzTableComponent, NzTableModule } from "ng-zorro-antd/table";
 import { Subject, takeUntil } from "rxjs";
 import { NzFormModule } from "ng-zorro-antd/form";
+import { NzCardModule } from "ng-zorro-antd/card";
+import { FacebookIndexedDBMedia } from "src/app/facebook/models/FacebookIndexDBMedia.interface";
+import { ScrollingModule } from "@angular/cdk/scrolling";
+import {ScrollingModule as ExperimentalScrollingModule} from '@angular/cdk-experimental/scrolling';
 
 @Component({
 	selector: "prioss-chatview",
@@ -31,24 +36,29 @@ import { NzFormModule } from "ng-zorro-antd/form";
 		NzListModule,
 		FormsModule,
 		NzDatePickerModule,
+		NzSkeletonComponent,
 		NzInputModule,
 		NzIconModule,
 		NzAffixModule,
+		NzCardModule,
 		NzTableModule,
 		NzFormModule,
+		ScrollingModule,
+		ExperimentalScrollingModule,
 	],
 	templateUrl: "./chatview.component.html",
 	styleUrl: "./chatview.component.less",
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChatviewComponent implements OnInit, AfterViewInit, OnDestroy {
+	window = window;
 	@ViewChild("virtualTable", { static: false })
 	nzTableComponent?: NzTableComponent<ChatMessage>;
 	private destroy$ = new Subject<boolean>();
 
 	chatDateRange = signal<Date[]>([]);
 	selectedChatDateRange = signal<Date[]>([new Date(0), new Date()]);
-
+	loading = input.required<boolean>();
 	isChatListCollapsed = signal<boolean>(false);
 	searchString = signal<string>("");
 	currentChat = signal<ChatData>({} as ChatData);
@@ -67,6 +77,7 @@ export class ChatviewComponent implements OnInit, AfterViewInit, OnDestroy {
 	selectedChatData = signal<ChatData[]>([]);
 	chatData = input.required<ChatData[]>();
 	yourUsername = input.required<string>();
+	mediaFiles = input<FacebookIndexedDBMedia[]>();
 
 	async ngOnInit(): Promise<void> {
 		this.selectedChatData.set(this.chatData().slice());
@@ -137,22 +148,18 @@ export class ChatviewComponent implements OnInit, AfterViewInit, OnDestroy {
 	});
 
 	fixCurrentChat = computed(() => {
-		if (this.currentChat().name === undefined) {
-			this.currentChat().name = "";
+		if (this.currentChat().name === undefined || this.currentChat().name === "") {
+			this.currentChat().name = "Deleted User";
 		}
 		if (this.currentChat().messages === undefined) {
 			this.currentChat().messages = [];
-		}
-
-		if (this.currentChat().name === "") {
-			this.currentChat().name = "Deleted User";
 		}
 		for (const message of this.currentChat().messages) {
 			if (message.content === undefined) {
 				message.content = "";
 			}
 			if (message.sender === undefined) {
-				message.sender = "Unknown User";
+				message.sender = "Deleted User";
 			}
 			if (message.timestamp === undefined) {
 				message.timestamp = 0;
@@ -264,5 +271,10 @@ export class ChatviewComponent implements OnInit, AfterViewInit, OnDestroy {
 			date.getMonth() + 1
 		}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
 		return formattedDate;
+	}
+
+	getMediaBlobUrl(thread_path: string){
+		const blobUrl = this.mediaFiles()?.find(mediaFile => mediaFile.thread_path.includes(thread_path) || thread_path.includes(mediaFile.thread_path))?.blobURL ?? '';
+		return blobUrl;
 	}
 }

@@ -19,6 +19,8 @@ import { ResetInstaUserData } from '../../../instagram/state/insta.action';
 import { AppType } from './app-type';
 import { ServiceInfo } from './service-info.type';
 import { isZipFile } from './zip-file.helper';
+import { IndexedDbService } from 'src/app/state/indexed-db.state';
+import { FacebookDataFile } from 'src/app/facebook/models/FacebookDataFile.interface';
 
 /**
  * This component is responsible for offering the user a way to select a service, show the respective download instructions
@@ -31,11 +33,15 @@ import { isZipFile } from './zip-file.helper';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ServiceSelectionComponent implements AfterViewInit {
+  Math = Math;
+  
   #router = inject(Router);
 
   #http = inject(HttpClient);
 
   #store = inject(Store);
+
+  #indexedDb = inject(IndexedDbService);
 
   #featureToggleService = inject(FeatureToggleService);
 
@@ -50,6 +56,10 @@ export class ServiceSelectionComponent implements AfterViewInit {
     ),
   );
 
+  /**
+   * The previous data exports from facebook.
+   */
+  previousFacebookDataExports = signal<FacebookDataFile[]>([]);
   /**
    * The current selected service by the user.
    */
@@ -145,12 +155,14 @@ export class ServiceSelectionComponent implements AfterViewInit {
     this.progressBarVisible.set(true);
     this.isProcessingFile.set(true);
 
+    this.#indexedDb.setSelectedServiceStore(this.selectedServiceName(), file.name);
     this.#store
       .dispatch(
         await service.parserFunction(
           file,
           this.progressBarPercent,
           this.requestedAbortDataParsing,
+          this.#indexedDb
         ),
       )
       .subscribe(() => {
@@ -188,10 +200,41 @@ export class ServiceSelectionComponent implements AfterViewInit {
       });
   }
 
+  async processPreviousDataExport(service: ServiceInfo | null, fileName: string) {
+    if (!service) return;
+    console.log('Selected Service: ', service);
+    await this.#indexedDb.setSelectedServiceStore(service.name, fileName)
+    .then(() => {
+      if(service.name === AppType.Facebook){
+        this.#indexedDb.getSelectedFacebookDataStore();
+      }
+    }).finally(() => {
+      this.#router.navigate([service.routerSubPath, 'dashboard']);
+    });
+  }
+  async deleteDataExport(service: ServiceInfo | null, fileName: string) {
+    if (!service) return;
+    await this.#indexedDb.deleteUserDataStore(service.name, fileName)
+    .then(() => {
+      this.#indexedDb.getAllFacebookUserDataStores().then((data) => {
+        if(data){
+          this.previousFacebookDataExports.set(data);
+        }
+      });
+    });
+
+  }
+
+
   /**
    * Callback called by angular after the view is initialized. Triggers rebuilding of the sql database
    */
   async ngAfterViewInit() {
+    await this.#indexedDb.getAllFacebookUserDataStores().then((data) => {
+      if(data){
+        this.previousFacebookDataExports.set(data);
+      }
+    });
     this.#store.dispatch([
       new ResetInstaUserData(),
       new ResetFbUserData(),

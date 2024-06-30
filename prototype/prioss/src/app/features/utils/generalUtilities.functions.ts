@@ -172,3 +172,12 @@ export function getSlicedData(data: Array<any>, currentPage: number) {
   const end = start + 10;
   return data.slice(start, end);
 }
+/**
+ * Returns a random integer between min (inclusive) and max (exclusive)
+ * @param min 
+ * @param max 
+ * @returns random integer
+ */
+export function getRndInteger(min: number, max: number) {
+  return Math.floor(Math.random() * (max - min) ) + min;
+}

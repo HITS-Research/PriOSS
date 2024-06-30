@@ -1,0 +1,33 @@
+<nz-table #adsPreferences [nzData]="adPreferencesData()">
+    <thead>
+        <tr>
+            <th>Setting</th>
+            <th>Enabled</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for(pref of adsPreferences.data; track pref){
+        <tr>
+            @if(pref.value) {
+                <td>{{pref.label}}</td>
+                <td>{{pref.value}}</td>
+            }
+            @else if (pref.vec) {
+                @if(pref.vec.length > 0){
+                <td>{{pref.label}}</td>
+                <td>
+                    @for(value of pref.vec; track value){
+                    {{value.value}}@if(value != pref.vec[pref.vec.length-1]){, }
+                    }
+                </td>
+                }
+            }@else if (pref.dict) {
+                @if(pref.dict.length > 0){
+                <td>{{pref.label}}</td>
+                <td>{{pref.dict[0].key}}</td>
+                }
+            }
+        </tr>
+        }
+    </tbody>
+</nz-table>

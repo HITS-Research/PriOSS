@@ -1,9 +1,9 @@
-import { Component, Input, OnInit,ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectionStrategy, signal, computed } from '@angular/core';
 import { Router } from '@angular/router';
-import { FacebookState } from '../../state/fb.state';
 import { FbLoggedInformationModel } from '../../state/models/';
 import { Store } from '@ngxs/store';
 import { InferredTopicsModel } from '../../models';
+import { IndexedDbService } from 'src/app/state/indexed-db.state';
 
 /**
  * This component visualizes inferred topics in facebook.
@@ -24,16 +24,17 @@ export class InferredTopicsComponent implements OnInit {
   constructor(
     private router: Router,
     private store: Store,
-  ) {}
+    private indexedDbService: IndexedDbService,
+  ) { }
 
   @Input()
   previewMode = false;
+  loading = signal<boolean>(true);
+  inferredTopics = computed(() => this.fbInferredTopicsData().inferred_topics_v2 ?? []);
+  dataAvailable = computed(() => this.inferredTopics().length !== 0);
 
-  inferredTopics: string[] = [];
-  dataAvailable = false;
-
-  fbLoggedInformationStore: FbLoggedInformationModel = {} as FbLoggedInformationModel;
-  fbInferredTopicsData: InferredTopicsModel = {} as InferredTopicsModel;
+  fbLoggedInformationStore = signal<FbLoggedInformationModel>({} as FbLoggedInformationModel);
+  fbInferredTopicsData = computed(() => this.fbLoggedInformationStore().inferred_topics ?? {} as InferredTopicsModel);
 
   /**
    * This method gets all inferred topics on intialization of the component
@@ -42,15 +43,18 @@ export class InferredTopicsComponent implements OnInit {
    * @author: Rashida (rbharmal@mail.uni-paderborn.de)
    *
    */
-  ngOnInit() {
-    this.fbLoggedInformationStore = this.store.selectSnapshot(
-      FacebookState.getFacebookLoggedInformationData,
-    );
-    this.fbInferredTopicsData = this.fbLoggedInformationStore.inferred_topics;
-    if (this.fbLoggedInformationStore.inferred_topics.inferred_topics_v2.length !== 0) {
-      this.inferredTopics = this.fbLoggedInformationStore.inferred_topics.inferred_topics_v2;
-      this.dataAvailable = true;
-    }
+  async ngOnInit() {
+    await this.indexedDbService.getSelectedFacebookDataStore()
+      .then((data) => {
+        if (!data.facebookData) {
+          this.fbLoggedInformationStore.set({} as FbLoggedInformationModel);
+        } else {
+          this.fbLoggedInformationStore.set(data.facebookData.logged_information);
+        }
+      }
+      ).finally(() => {
+        this.loading.set(false);
+      });
   }
   /**
    * This method navigates from inferred topics visualization to guidelines to manage inferred topics

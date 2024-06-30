@@ -1,94 +1,90 @@
-<nz-table #postTable [nzFrontPagination]="false" [nzData]="simplifiedPostData()">
-    <thead>
-        <th
-        nzSortOrder="descend"
-        [nzSortFn]="sortPostsByDate"
-        ></th>
-    </thead>
-    <tbody>
-        <tr *ngFor="let post of postTable.data">
-            <td>
-                <nz-card [nzTitle]="post.title" [nzExtra]="extraTemplate">
-                    {{ post.postContent??'' }}
-                    @if(post.attachment){
-                        @if(post.attachment.externalContext){
-                            @if(post.attachment.externalContext.name){
-                                <nz-card [nzTitle]="post.attachment.externalContext.name">
-                                    {{post.attachment.externalContext.url}}
-                                </nz-card>
-                            }@else {
-                                <nz-card>
-                                    {{post.attachment.externalContext.url}}
-                                </nz-card>
-                            }
-                        }@else if (post.attachment.media) {
-                            @if(post.attachment.media.title){
-                                <nz-card [nzTitle]="post.attachment.media.title">
-                                    @if(post.attachment.media.description){
-                                        {{post.attachment.media.description}}
-                                        <br>
-                                        <br>
-                                    }
-                                    @if(post.attachment.media.uri){
-                                        Path to file: {{post.attachment.media.uri}}
-                                        <br>
-                                    }
 
-                                    @if(post.attachment.media.exif_upload_ip){
-                                        Upload IP: {{post.attachment.media.exif_upload_ip}}
-                                        <br>
-                                    }
-                                    @if(post.attachment.media.exif_takenTimeStamp){
-                                        Taken on: {{post.attachment.media.exif_takenTimeStamp*1000 | date:"YYYY-MM-dd"}}
-                                        <br>
-                                    }
-                                </nz-card>
-                            }@else {
-                                <nz-card>
-                                    @if(post.attachment.media.description){
-                                        {{post.attachment.media.description}}
-                                        <br>
-                                        <br>
-                                    }
-                                    @if(post.attachment.media.uri){
-                                        Path to file: {{post.attachment.media.uri}}
-                                        <br>
-                                    }
 
-                                    @if(post.attachment.media.exif_upload_ip){
-                                        Upload IP: {{post.attachment.media.exif_upload_ip}}
-                                        <br>
-                                    }
-                                    @if(post.attachment.media.exif_takenTimeStamp){
-                                        Taken on: {{post.attachment.media.exif_takenTimeStamp*1000 | date:"YYYY-MM-dd"}}
-                                        <br>
-                                    }
-                                </nz-card>
-                            }
-
-                        }@else if(post.attachment.place){
-                            <nz-card [nzTitle]="post.attachment.place.name">
-                                {{post.attachment.place.url}}
-                                <br>
-                                {{post.attachment.place.address}}
-                                <br>
-                                {{post.attachment.place.coordinate}}
-                            </nz-card>
-
+@for(post of simplifiedPostData(); track post){
+    <nz-card [nzTitle]="post.title" [nzExtra]="extraTemplate">
+        {{ post.postContent??'' }}
+        @if(post.attachment){
+            @if(post.attachment.externalContext){
+                @if(post.attachment.externalContext.name){
+                    <nz-card [nzTitle]="post.attachment.externalContext.name">
+                        {{post.attachment.externalContext.url}}
+                    </nz-card>
+                }@else {
+                    <nz-card>
+                        {{post.attachment.externalContext.url}}
+                    </nz-card>
+                }
+            }@else if (post.attachment.media) {
+                @if(post.attachment.media.title){
+                    <nz-card [nzTitle]="post.attachment.media.title">
+                        @if(post.attachment.media.description){
+                            {{post.attachment.media.description}}
+                            <br>
+                            <br>
+                        }
+                        @if(post.attachment.media.uri){
+                            <img [src]="getMediaBlobURL(post.attachment.media.uri)" style="height: 400px;">
+                            <br>
                         }
 
-                    }
-                    @if(post.taggedPeople){
-                        Tagged: @for(tag of post.taggedPeople; track tag){
-                            {{tag}}@if(tag != post.taggedPeople[post.taggedPeople.length-1]){, }
+                        @if(post.attachment.media.exif_upload_ip){
+                            Upload IP: {{post.attachment.media.exif_upload_ip}}
+                            <br>
                         }
-                    }
+                        @if(post.attachment.media.exif_takenTimeStamp){
+                            Taken on: {{post.attachment.media.exif_takenTimeStamp*1000 | date:"YYYY-MM-dd"}}
+                            <br>
+                        }
+                    </nz-card>
+                }@else {
+                    <nz-card>
+                        @if(post.attachment.media.description){
+                            {{post.attachment.media.description}}
+                            <br>
+                            <br>
+                        }
+                        @if(post.attachment.media.uri){
+                            <img [src]="getMediaBlobURL(post.attachment.media.uri)" style="height: 400px;">
+                            <br>
+                            Path to file: {{post.attachment.media.uri}}
+                            <br>
+                        }
+
+                        @if(post.attachment.media.exif_upload_ip){
+                            Upload IP: {{post.attachment.media.exif_upload_ip}}
+                            <br>
+                        }
+                        @if(post.attachment.media.exif_takenTimeStamp){
+                            Taken on: {{post.attachment.media.exif_takenTimeStamp*1000 | date:"YYYY-MM-dd"}}
+                            <br>
+                        }
+                    </nz-card>
+                }
+
+            }@else if(post.attachment.place){
+                <nz-card [nzTitle]="post.attachment.place.name">
+                    {{post.attachment.place.url}}
+                    <br>
+                    {{post.attachment.place.address}}
+                    <br>
+                    {{post.attachment.place.coordinate}}
                 </nz-card>
-                <ng-template #extraTemplate>
-                    <p>{{post.timestamp | date:"YYYY-MM-dd"}}</p>
-                  </ng-template>
-            
-        </tr>
-    </tbody>
-</nz-table>
+
+            }
+
+        }
+        @if(post.taggedPeople){
+            Tagged: @for(tag of post.taggedPeople; track tag){
+                {{tag}}@if(tag != post.taggedPeople[post.taggedPeople.length-1]){, }
+            }
+        }
+    </nz-card>
+    <br>
+    <ng-template #extraTemplate>
+        <p>{{post.timestamp | date:"YYYY-MM-dd"}}</p>
+      </ng-template>
+
+}
+
+
 <nz-back-top></nz-back-top>

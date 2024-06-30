@@ -19,6 +19,7 @@ import type { FbConnectionsDataModel } from "src/app/facebook/state/models";
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FacebookFriendsFollowingOverTimeComponent {
+	loading = input.required<boolean>();
 	connectionsData = input.required<FbConnectionsDataModel>();
 	options: Signal<EChartsOption> = computed(() => {
 		const options: EChartsOption = {
@@ -34,12 +35,20 @@ export class FacebookFriendsFollowingOverTimeComponent {
 	},
       title: {
         text: "Followed Pages over Time",
+		textStyle: {
+			fontWeight: "normal",
+		},
       },
 			xAxis: {
+				name: "Year",
+				nameLocation: "middle",
+				nameGap: 30,
 				type: "category",
 				data: this.getYears(),
 			},
 			yAxis: {
+				name: "Pages",
+				nameLocation: "end",
 				type: "value",
         minInterval: 1,
 			},

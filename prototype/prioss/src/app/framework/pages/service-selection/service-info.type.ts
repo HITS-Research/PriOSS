@@ -1,6 +1,7 @@
 import { WritableSignal } from '@angular/core';
 import { Services } from 'src/app/features/feature-toggle/feature-toggle.service';
 import { AppType } from './app-type';
+import { IndexedDbService } from 'src/app/state/indexed-db.state';
 
 export type ServiceInfo = {
   /**
@@ -49,5 +50,6 @@ export type ServiceInfo = {
     file: File,
     progressBarPercent: WritableSignal<number>,
     requestedAbortDataParsing: WritableSignal<boolean>,
+    indexedDbService: IndexedDbService
   ) => unknown;
 };

@@ -46,7 +46,6 @@ export class ChatBarRaceComponent {
 		if (minTimestamp < new Date(2004, 0, 1).getTime()) {
 			minTimestamp = new Date(2004, 0, 1).getTime();
 		}
-		console.log("Min Date", new Date(minTimestamp));
 		return new Date(minTimestamp);
 	});
 	maxDate = computed(() => {
@@ -62,7 +61,6 @@ export class ChatBarRaceComponent {
 		if (maxTimestamp > new Date().getTime()) {
 			maxTimestamp = new Date().getTime();
 		}
-		console.log("Max Date", new Date(maxTimestamp));
 		return maxTimestamp;
 	});
 	monthsInTimeRange: Signal<Date[]> = computed(() => {
@@ -142,11 +140,6 @@ export class ChatBarRaceComponent {
 						count++;
 					}
 				}
-				console.log("Messages Per year per chat", {
-					day: year,
-					name: chat.name,
-					msgsInYear: count,
-				});
 				if (count > 0) {
 					messageCountPerYearPerChat.push({
 						year: year,

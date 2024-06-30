@@ -1,33 +1,37 @@
-<nz-row>
-    <nz-col nzSpan="24">
+<nz-row [nzGutter]="[16,16]">
+    <nz-col nzXl="12" nzXs="24" >
         <nz-card nzTitle="Most Reacted-to Friends">
             <prioss-top-liked-persons
                 [userData]="userData()">
             </prioss-top-liked-persons>
         </nz-card>
     </nz-col>
-    <nz-col nzSpan="24">
+    
+    <nz-col nzXl="12" nzXs="24">
         <nz-card nzTitle="Most Reacted-to Pages">
             <prioss-fb-top-liked-pages
                 [userData]="userData()">
             </prioss-fb-top-liked-pages>
         </nz-card>
     </nz-col>
-    <nz-col nzSpan="24">
+    
+    <nz-col nzXl="12" nzXs="24">
         <nz-card nzTitle="Post Frequency">
             <prioss-post-frequency
                 [activityData]="postData()">
             </prioss-post-frequency>
         </nz-card>
     </nz-col>
-    <nz-col nzSpan="24">
+    
+    <nz-col nzXl="12" nzXs="24">
         <nz-card nzTitle="Comment Frequency">
             <prioss-comments-frequency
                 [activityData]="postData()">
             </prioss-comments-frequency>
         </nz-card>
     </nz-col>
-    <nz-col nzSpan="24">
+    
+    <nz-col nzXl="12" nzXs="24">
         <nz-card nzTitle="Reaction Frequency">
             <prioss-reactions-frequency
                 [activityData]="postData()">

@@ -24,10 +24,15 @@ export class MessagesPerWeekdayComponent {
       
       },
       xAxis: {
+        name: 'Day of the week',
+        nameLocation: 'middle',
+        nameGap: 30,
         type: 'category',
         data: this.chartXAxisLabels()
       },
       yAxis: {
+        name: 'Messages',
+        nameLocation: 'end',
         type: 'value'
       },
       aria: {

@@ -1,33 +1,32 @@
 <div [ngClass]="{ 'component-page': !previewMode() }">
   <div *ngIf="previewMode()">
-    <prioss-facebook-friends-general-info
-      [connectionsData]="connectionsDatastore()">
-    </prioss-facebook-friends-general-info>
+    <prioss-facebook-friends-over-time [connectionsData]="connectionsDatastore()"></prioss-facebook-friends-over-time>
   </div>
   <div *ngIf="!previewMode()">
     <app-title-bar
       titleText="Facebook Connections"
       tooltipText="An overview of your connections and some statistics about them"></app-title-bar>
     <nz-tabset class="margin-top-20">
+      <nz-tab nzTitle="Connection Statistics">
+      <nz-row [nzGutter]="16" class="margin-top-20">
+        <nz-col [nzSpan]="24">
+          <prioss-facebook-friends-statistics
+            [friendsData]="connectionsDatastore()"
+            [loading]="loading()">
+          </prioss-facebook-friends-statistics>
+        </nz-col>
+      </nz-row>
+    </nz-tab>
       <nz-tab nzTitle="Connection Overview">
         <nz-row [nzGutter]="16" class="margin-top-20">
           <nz-col [nzSpan]="24">
             <nz-card
               class="friends-card">
               <prioss-facebook-friends-overview
-                [friendsData]="connectionsDatastore()">
+                [friendsData]="connectionsDatastore()"
+                [loading]="loading()">
               </prioss-facebook-friends-overview>
             </nz-card>
-          </nz-col>
-        </nz-row>
-      </nz-tab>
-
-      <nz-tab nzTitle="Connection Statistics">
-        <nz-row [nzGutter]="16" class="margin-top-20">
-          <nz-col [nzSpan]="24">
-            <prioss-facebook-friends-statistics
-              [friendsData]="connectionsDatastore()">
-            </prioss-facebook-friends-statistics>
           </nz-col>
         </nz-row>
       </nz-tab>

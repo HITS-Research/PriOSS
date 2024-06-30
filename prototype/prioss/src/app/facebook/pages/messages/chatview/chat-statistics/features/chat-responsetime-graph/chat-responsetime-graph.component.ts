@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Signal, computed, input, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, Signal, computed, input, signal } from '@angular/core';
 import { NgxEchartsDirective, provideEcharts } from 'ngx-echarts';
 import { ChatData } from '../../../chatdata.type';
 import { EChartsOption, SeriesOption } from 'echarts';
@@ -7,6 +7,7 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
 import { FormsModule } from '@angular/forms';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
+import { getRndInteger } from 'src/app/features/utils/generalUtilities.functions';
 
 @Component({
   selector: 'prioss-chat-responsetime-graph',
@@ -17,7 +18,15 @@ import { NzInputModule } from 'ng-zorro-antd/input';
   styleUrl: './chat-responsetime-graph.component.less',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ChatResponsetimeGraphComponent {
+export class ChatResponsetimeGraphComponent implements OnInit{
+
+  ngOnInit(): void {
+    if (this.chatData().length > 0) {
+      const randomChat = getRndInteger(0, this.chatData().length - 1);
+      this.selectedChatsInput.set([this.chatData()[randomChat].id]);
+    }
+  }
+
 
   chatData = input.required<ChatData[]>();
 
@@ -53,7 +62,6 @@ export class ChatResponsetimeGraphComponent {
       }
       const responseTimes: number[] = [];
       const messages = selectedChat.messages;
-      console.log(`amount of messages: ${messages.length}`)
       for (let i = 0; i < messages.length - 1; i++) {
         const message = selectedChat.messages[i];
         const nextMessage = selectedChat.messages[(i + 1)];
@@ -61,9 +69,7 @@ export class ChatResponsetimeGraphComponent {
           responseTimes.push(message.timestamp - nextMessage.timestamp);
         }
       }
-      console.log(`amount of response times: ${responseTimes.length}`);
       responseTimes.sort((a, b) => a - b);
-      console.log(`sorted response times: ${responseTimes.at(0)} to ${responseTimes.at(responseTimes.length - 1)}`)
       const timesInMinutes = responseTimes.map((time) => time / 60000);
       const result: number[][] = [];
       for (let i = 0; i < timesInMinutes.length; i++) {
@@ -77,7 +83,6 @@ export class ChatResponsetimeGraphComponent {
           [currentCutoff, i / amountOfResponseTimes],
         );
       }
-      console.log(`result size: ${result.length}`)
       allResponseTimes.push({
         data: result.slice(0, result.length - this.cutoffInput()),
         type: 'line',
@@ -108,7 +113,7 @@ export class ChatResponsetimeGraphComponent {
       xAxis: {
         nameLocation: 'middle',
         name: 'Response Time in Minutes',
-        nameGap: 25,
+        nameGap: 30,
         axisLabel: {
           hideOverlap: true,
         },
@@ -119,9 +124,7 @@ export class ChatResponsetimeGraphComponent {
           hideOverlap: true,
         },
         name: 'Percentage of Messages',
-        nameLocation: 'middle',
-        nameRotate: 90,
-        nameGap: 28,
+        nameLocation: 'end',
       },
       series: this.getResponseTimesSeries(),
     };
