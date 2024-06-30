@@ -1,7 +1,32 @@
-h2 {
-  font-size: 3em;
-  text-align: center;
-  margin: 1em;
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: 2em;
+}
+
+.service-selection__title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  h1 {
+    font-size: 2em;
+    text-wrap: balance;
+    text-align: center;
+
+    @media (min-width: 950px) {
+      font-size: 3em;
+    }
+  }
+
+  span {
+    font-size: 2em;
+    text-align: center;
+  }
+
+  img {
+    height: 7rem;
+  }
 }
 
 .service-selection__button-group {
@@ -15,13 +40,12 @@ h2 {
   @media (min-width: 1100px) {
     display: grid;
     grid-template-columns: 1fr 1fr;
-  }
-
-  &:hover button {
-    filter: grayscale(1);
+    max-width: 800px;
   }
 
   >button {
+    --shadow-color: rgba(0, 21, 41, 0.35);
+
     border: none;
     background: none;
     aspect-ratio: 3/1;
@@ -29,18 +53,19 @@ h2 {
     border-radius: 5px;
     justify-content: center;
     padding: 1em;
-    box-shadow: 10px 10px 10px rgba(0, 21, 41, 0.35);
+    box-shadow: 10px 10px 10px var(--shadow-color);
     transition: 200ms box-shadow ease-in-out;
     transition: 200ms filter ease-in-out;
+    filter: grayscale(.7);
     cursor: pointer;
 
     &:hover {
-      box-shadow: 15px 15px 15px rgba(0, 21, 41, 0.35);
+      box-shadow: 15px 15px 15px var(--shadow-color);
       filter: grayscale(0);
     }
 
     &:active {
-      box-shadow: 3px 3px 3px rgba(0, 21, 41, 0.35);
+      box-shadow: 3px 3px 3px var(--shadow-color);
     }
 
     >img {

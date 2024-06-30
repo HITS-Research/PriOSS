@@ -20,7 +20,6 @@ import { ContactComponent } from './framework/pages/contact/contact.component';
 import { DataDownloadInstructionsComponent } from './framework/pages/data-download-instructions/data-download-instructions.component';
 import { KnownIssuesComponent } from './framework/pages/known-issues/known-issues.component';
 import { DarkPatternsComponent } from './framework/pages/dark_patterns/dark_patterns.component';
-import { LandingComponent } from './framework/pages/landing/landing.component';
 import { ServiceSelectionComponent } from './framework/pages/service-selection/service-selection.component';
 import { facebookGuard } from './guards/facebook.guard';
 import { instagramGuard } from './guards/instagram.guard';
@@ -49,7 +48,7 @@ import { GdprComponent } from './framework/pages/gdpr/gdpr.component';
 import { FacebookMediaComponent } from './facebook/pages/media/media.component';
 
 const routes: Routes = [
-  { path: 'home', component: LandingComponent },
+  { path: 'home', component: ServiceSelectionComponent },
   { path: 'dark-patterns', component: DarkPatternsComponent },
   { path: 'about', component: AboutComponent },
   { path: 'contact', component: ContactComponent },
