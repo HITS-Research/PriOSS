@@ -7,28 +7,16 @@
     control.
   </div>
   <br />
-
-  <!-- <details open>
-  <summary id="yourInfo" class="collapsible-dashboard-section-title">Your Information</summary>
-    <div nz-row [nzGutter]="[{ xs: 8, xl: 20}, {xs: 8, xl: 40}]">
-      <div  nz-col nzXs="24" nzXl="8">
-        <app-dash-card cardLink="/face/general-data" [height]="cardHeight()"
-
-titleText="User Data"
-            tooltipText="This card shows your general user data like your email, gender, etc. which Facebook may not show in your public profile.">
-          <app-general-data [previewMode]="false"></app-general-data>
-        </app-dash-card>
-      </div>
-    </div>
-</details>
-<br> -->
   <br>
-
-  
     <app-accordion title="Visualization">
       <div nz-row [nzGutter]="[{ xs: 8, xl: 20}, {xs: 8, xl: 40}]">
         <div nz-col nzXs="24" nzXl="8">
-          <app-dash-card cardLink="/face/general-data" [height]="cardHeight()" titleText="User Data">
+          <app-dash-card
+            id="card__general-data"
+            cardLink="/face/general-data"
+            [height]="cardHeight()"
+            titleText="User Data"
+          >
             <app-general-data [previewMode]="true"></app-general-data>
           </app-dash-card>
         </div>
@@ -50,13 +38,13 @@ titleText="User Data"
             <app-posts [previewMode]="true"></app-posts>
           </app-dash-card>
         </div>
-        
+
         <div nz-col nzXs="24" nzXl="8">
           <app-dash-card cardLink="/face/ads-related-data" [height]="cardHeight()" titleText="Ad Preferences">
             <app-ads-related-data [previewModeInput]="'true'"></app-ads-related-data>
           </app-dash-card>
         </div>
-        
+
         <!-- Facebook updated the data export to not include inferences data; June 2024 -->
         <!-- <div nz-col nzXs="24" nzXl="8">
           <app-dash-card cardLink="/face/inferred-topics" [height]="cardHeight()" titleText="Your Topics">
@@ -89,12 +77,12 @@ titleText="User Data"
           </app-dash-card>
         </div>
       </div>
-  
+
 
   </app-accordion>
   <br>
   <br>
-  <app-accordion title="Rectification ">
+  <app-accordion title="Rectification">
     <p> You can object the use of your personal data to show you personalized Ads on your timeline. Visit <span nz-icon
         nzType="link"><a target="_blank" href='https://www.facebook.com/help/contact/367438723733209'>Facebook
           Help Center</a></span> and follow the instructions below: </p>
@@ -143,6 +131,7 @@ titleText="User Data"
       <br>
       <br>
     </div>
+  </app-accordion>
     <br>
 
     <p nz-topography><app-face-purposes></app-face-purposes></p>
