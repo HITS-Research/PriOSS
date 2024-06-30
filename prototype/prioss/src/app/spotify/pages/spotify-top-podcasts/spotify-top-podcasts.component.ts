@@ -134,9 +134,9 @@ export class SpotifyTopPodcastsComponent {
           : acc.set(name, acc.get(name)! + time);
       }, new Map<string, number>());
 
-    const result = Array.from(podcastMap.entries());
-    result.sort((a, b) => b[LISTENED_TIME] - a[LISTENED_TIME]);
-    return result;
+    return Array
+      .from(podcastMap.entries())
+      .sort((a, b) => b[LISTENED_TIME] - a[LISTENED_TIME]);
   });
 
   /**
@@ -158,6 +158,10 @@ export class SpotifyTopPodcastsComponent {
     this.#router.navigate(['spot', 'podcast', parameter]);
   }
 
+  /**
+   * Sets the date-range into the url parameter.
+   * @param dateRange The date-range, which should be selected.
+   */
   selectDateFilter(dateRange: (Date | null)[]): void {
     if (dateRange.length !== 2) return;
 
