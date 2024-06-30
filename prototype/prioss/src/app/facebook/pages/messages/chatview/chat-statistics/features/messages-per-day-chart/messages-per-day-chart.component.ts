@@ -34,10 +34,15 @@ export class MessagesPerDayChartComponent implements OnInit{
 				},
 			},
       xAxis: {
+        name: 'Hour of the day',
+        nameLocation: 'middle',
+        nameGap: 30,
         type: 'category',
         data: this.chartXAxisLabels()
       },
       yAxis: {
+        name: 'Messages',
+        nameLocation: 'end',
         type: 'value'
       },
       series: [

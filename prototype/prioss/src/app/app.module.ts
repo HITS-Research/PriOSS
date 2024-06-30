@@ -98,14 +98,12 @@ import { FeatureToggleService } from './features/feature-toggle/feature-toggle.s
 import { NgChartsModule } from 'ng2-charts';
 import { ChartComponent } from './features/chart/chart.component';
 import { NgxEchartsModule } from 'ngx-echarts';
-import { TimePipe } from './features/time/time.pipe';
 import { AccordionComponent } from './features/accordion/accordion.component';
 import { ChatviewComponent } from './facebook/pages/messages/chatview/chatview.component';
 import { ChatMessageDistributionChartComponent } from './facebook/pages/messages/chatview/chat-statistics/features/chat-message-distribution-chart/chat-message-distribution-chart.component';
 import { ChatStatisticsComponent as FacebookChatStatisticsComponent } from './facebook/pages/messages/chatview/chat-statistics/chat-statistics.component';
 import { GeneralChatInfosComponent } from './facebook/pages/messages/chatview/chat-statistics/features/general-chat-infos/general-chat-infos.component';
 import { AverageMessageLengthComponent } from './facebook/pages/messages/chatview/chat-statistics/features/average-message-length/average-message-length.component';
-import { AverageResponeTimeComponent } from './facebook/pages/messages/chatview/chat-statistics/features/average-respone-time/average-respone-time.component';
 import { ChatSentimentAnalysisComponent } from './facebook/pages/messages/chatview/chat-statistics/features/chat-sentiment-analysis/chat-sentiment-analysis.component';
 import { ChatWordcloudComponent } from './facebook/pages/messages/chatview/chat-statistics/features/chat-wordcloud/chat-wordcloud.component';
 import { MessagesPerDayChartComponent } from './facebook/pages/messages/chatview/chat-statistics/features/messages-per-day-chart/messages-per-day-chart.component';
@@ -129,6 +127,8 @@ import {DecodeUnicodePipe} from "./features/decode-unicode/decode-unicode.pipe";
 import {NzFlexDirective} from "ng-zorro-antd/flex";
 import {InstaChatViewComponent} from "./instagram/pages/insta-messages/insta-chat-view/insta-chat-view.component";
 
+import { FacebookMediaComponent } from './facebook/pages/media/media.component';
+import { TimePipe } from './features/time/time.pipe';
 
 registerLocaleData(de);
 
@@ -158,7 +158,6 @@ registerLocaleData(de);
     InstaLikedContentComponent,
     InstaContactComponent,
     InstaMessagesComponent,
-    AdsRelatedDataComponent,
     SettingsFormComponent,
     HelpButtonComponent,
     OffFacebookActivityComponent,
@@ -209,7 +208,9 @@ registerLocaleData(de);
     HeaderComponent,
     TimePipe,
     FacebookModule,
+    FacebookMediaComponent,
     FriendAndFollowersComponent,
+    AdsRelatedDataComponent,
     GeneralDataComponent,
     PostsComponent,
     TitleBarComponent,
@@ -234,7 +235,6 @@ registerLocaleData(de);
     FacebookChatStatisticsComponent,
     GeneralChatInfosComponent,
     AverageMessageLengthComponent,
-    AverageResponeTimeComponent,
     ChatSentimentAnalysisComponent,
     ChatWordcloudComponent,
     MessagesPerDayChartComponent,
@@ -273,3 +273,4 @@ registerLocaleData(de);
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AppModule {}
+//sorting is important for folders with multiple json files, e.g. messages_1.json, messages_2.json, so we can parse them in order

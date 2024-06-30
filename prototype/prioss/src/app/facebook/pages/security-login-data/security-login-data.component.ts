@@ -1,13 +1,14 @@
-import { Component, Input, OnInit,ChangeDetectionStrategy} from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectionStrategy, signal, computed } from '@angular/core';
 import { Store } from '@ngxs/store';
-import { FacebookState } from '../../state/fb.state';
 import { FbSecurityLoginInformationDataModel } from '../../state/models';
-import { ActiveSessionsModel, LoginsAndLogoutsModel, AccountStatusChangesModel,
-        AccountActivityModel, ActiveSessionItem, AccountAccessesItem, AccountStatusChangeItem,
-        AccountActivityItem  } from '../../models';
+import {
+  ActiveSessionsModel, LoginsAndLogoutsModel, AccountStatusChangesModel,
+  AccountActivityModel
+} from '../../models';
 import { GeolocationService } from 'src/app/features/world-map/geolocation.service';
 import type { EChartsOption } from 'echarts';
 import { GeoLocationData } from 'src/app/features/world-map/geolocation.type';
+import { IndexedDbService } from 'src/app/state/indexed-db.state';
 
 @Component({
   selector: 'app-security-login-data',
@@ -19,171 +20,67 @@ export class SecurityLoginDataComponent implements OnInit {
   @Input()
   previewMode = false;
 
-  loginLocationsData: ActiveSessionItem[] = [];
+  loginLocationsData = computed(() => this.fbLoginLocationsData().active_sessions_v2 ?? []);
+  locations = computed(() => this.loginLocationsData().map((location) => location.location));
 
-  locations: string[] = [];
-  devices: any[] = [];
-  timestamps: any[] = [];
-  locations_num = 0;
-  logloc_empty = false;
+  loginlogoutData = computed(() => this.fbLoginLogoutsData().account_accesses_v2 ?? []);
+  login_count = computed(() => this.loginlogoutData().filter((item) => (item.action === 'Login') || (item.action === 'Anmelden')).length);
+  logout_count = computed(() => this.loginlogoutData().filter((item) => (item.action === 'Log out') || (item.action === 'Abmelden')).length);
+  login_logouts = computed(() => this.login_count() + this.logout_count());
 
-  loginlogoutData: AccountAccessesItem[] = [];
-  login_count = 0;
-  logout_count = 0;
-  login_logouts = 0;
-  loginlogout_empty = false;
-
-  accStatusChangeData: AccountStatusChangeItem[] = [];
-  account_deactivated = 0;
-  account_reactivated = 0;
-  status: any[] = [];
-  timestamp: any[] = [];
+  accStatusChangeData = computed(() => this.fbAccStatusChangesData().account_status_changes_v2 ?? []);
+  account_deactivated = computed(() => this.accStatusChangeData().filter((item) => item.status === 'Account deactivated').length);
+  account_reactivated = computed(() => this.accStatusChangeData().filter((item) => item.status !== 'Account deactivated').length);
+  status = computed(() => this.accStatusChangeData().map((status) => status.status));
+  timestamp = computed(() => this.accStatusChangeData().map((status) => status.timestamp));
   accstatus_empty = false;
 
-  accActivitiesData: AccountActivityItem[] = [];
-  PasswordChange = 0;
-  Login = 0;
-  SessionUpdated = 0;
-  WebSessionTerminated = 0;
-  MobileSessionTerminated = 0;
-  terminatedSessions = 0;
+  accActivitiesData = computed(() => this.fbAccActivitiesData().account_activity_v2 ?? []);
+  PasswordChange = computed(() => this.recordDeatils().filter((item) => item.event === 'Password Change').length);
+  Login = computed(() => this.accActivitiesData().filter((item) => (item.action === 'Login') || (item.action === 'Anmelden')).length);
+  SessionUpdated = computed(() => this.accActivitiesData().filter((item) => item.action === 'Session updated').length);
+  WebSessionTerminated = computed(() => this.accActivitiesData().filter((item) => item.action === 'Web Session Terminated').length);
+  MobileSessionTerminated = computed(() => this.accActivitiesData().filter((item) => item.action === 'Mobile Session Terminated').length);
+  terminatedSessions = computed(() => this.WebSessionTerminated() + this.MobileSessionTerminated());
   accactivity_empty = false;
-  dataAvailableLoc = false;
-  dataAvailableLogOuts = false;
-  dataAvailableStatusChange = false;
-  dataAvailableActivities = false;
+  dataAvailableLoc = computed(() => this.loginLocationsData().length !== 0);
+  dataAvailableLogOuts = computed(() => this.loginlogoutData().length !== 0);
+  dataAvailableStatusChange = computed(() => this.accStatusChangeData().length !== 0);
+  dataAvailableActivities = computed(() => this.accActivitiesData().length !== 0);
 
-  securityLoginDataStore: FbSecurityLoginInformationDataModel = {} as FbSecurityLoginInformationDataModel
-  fbLoginLocationsData: ActiveSessionsModel = {} as ActiveSessionsModel;
-  fbLoginLogoutsData: LoginsAndLogoutsModel = {} as LoginsAndLogoutsModel;
-  fbAccStatusChangesData: AccountStatusChangesModel = {} as AccountStatusChangesModel;
-  fbAccActivitiesData: AccountActivityModel = {} as AccountActivityModel;
-
-  loginMapOptions: EChartsOption;
-  accActivityMapOptions: EChartsOption;
-
-  constructor(
-    private store: Store,
-    private geolocationService: GeolocationService
-  ) {}
-
-  ngOnInit() {
-    this.prepareData();
-  }
-
-  /**
-   * This methods fetches all login locations related data from PriossDB
-   *
-   * @author: Deepa(dbelvi@mail.upb.de)
-   *
-   */
-
-  async prepareData() {
-    this.securityLoginDataStore = this.store.selectSnapshot(
-      FacebookState.getFacebookSecurityLoginInformationData,
-    );
-    this.fbLoginLocationsData = this.securityLoginDataStore.login_location;
-    this.fbLoginLogoutsData = this.securityLoginDataStore.logins_and_logouts;
-    this.fbAccStatusChangesData = this.securityLoginDataStore.account_status_changes;
-    this.fbAccActivitiesData = this.securityLoginDataStore.account_activity;
-    
-    // Login Locations Data
-    if (this.fbLoginLocationsData !== undefined) {
-      this.loginLocationsData = this.fbLoginLocationsData.active_sessions_v2;
-      if (Array.isArray(this.loginLocationsData) === true) {
-        this.dataAvailableLoc = this.loginLocationsData.length !== 0;
-        this.locations = this.loginLocationsData.map((loc) => loc.location);
-        this.prepareLoginMapData();
-      }
-    }
-
-    // Login Logout Data
-    if (this.fbLoginLogoutsData !== undefined) {
-      this.loginlogoutData = this.fbLoginLogoutsData.account_accesses_v2;
-      if (Array.isArray(this.loginlogoutData) === true) {
-        this.dataAvailableLogOuts = this.loginlogoutData.length !== 0;
-        for (let i = 0; i < this.loginlogoutData.length; i++) {
-          if (this.loginlogoutData[i].action === 'Login') {
-            this.login_count++;
-          } else if (this.loginlogoutData[i].action === 'Log out') {
-            this.logout_count++;
-          }
-        }
-        this.login_logouts = this.login_count + this.logout_count;
-      }
-    }
-
-    // Account Status Changes Data
-    if (this.fbAccStatusChangesData !== undefined) {
-      this.accStatusChangeData = this.fbAccStatusChangesData.account_status_changes_v2;
-      if (Array.isArray(this.accStatusChangeData) === true) {
-        this.dataAvailableStatusChange = this.accStatusChangeData.length !== 0;
-        for (let i = 0; i < this.accStatusChangeData.length; i++) {
-          if (this.accStatusChangeData[i].status === 'Account deactivated') {
-            this.account_deactivated++;
-          } else {
-            this.account_reactivated++;
-          }
-          this.status.push(this.accStatusChangeData[i].status);
-          this.timestamp.push(this.accStatusChangeData[i].timestamp);
-        }
-      }
-    }
-
-    // Account Activities Data
-    if (this.fbAccActivitiesData !== undefined) {
-      this.accActivitiesData = this.fbAccActivitiesData.account_activity_v2;
-      if (Array.isArray(this.accActivitiesData) === true) {
-        this.dataAvailableActivities = this.accActivitiesData.length !== 0;
-        for (let i = 0; i < this.accActivitiesData.length; i++) {
-          if (this.accActivitiesData[i].action === 'Password Change') {
-            this.PasswordChange++;
-          } else if (this.accActivitiesData[i].action === 'Login') {
-            this.Login++;
-          } else if (this.accActivitiesData[i].action === 'Session updated') {
-            this.SessionUpdated++;
-          } else if (this.accActivitiesData[i].action === 'Web Session Terminated') {
-            this.WebSessionTerminated++;
-          } else if (this.accActivitiesData[i].action === 'Mobile Session Terminated') {
-            this.MobileSessionTerminated++;
-          }
-          this.terminatedSessions = this.MobileSessionTerminated + this.WebSessionTerminated;
-        }
-      }
-      this.prepareAccActivityMapData();
-    }
-  }
-  
-  /**
-   * Prepares the login map data.
-   * This method populates the `loginMapOptions` property with the necessary data for rendering a login map.
-   * It retrieves the geolocation data for each location, converts it to the required format, and sets it in the `loginMapOptions` property.
-   */
-  private prepareLoginMapData() {
+  securityLoginDataStore = signal<FbSecurityLoginInformationDataModel>({} as FbSecurityLoginInformationDataModel);
+  recordDeatils = computed(() => this.securityLoginDataStore().record_details?.admin_records_v2 ?? []);
+  fbLoginLocationsData = computed(() => this.securityLoginDataStore().login_location ?? {} as ActiveSessionsModel);
+  fbLoginLogoutsData = computed(() => this.securityLoginDataStore().logins_and_logouts ?? {} as LoginsAndLogoutsModel);
+  fbAccStatusChangesData = computed(() => this.securityLoginDataStore().account_status_changes ?? {} as AccountStatusChangesModel);
+  fbAccActivitiesData = computed(() => this.securityLoginDataStore().account_activity ?? {} as AccountActivityModel);
+  loading = signal<boolean>(true);
+  loginMapOptions = computed(() => {
+    let options = {} as EChartsOption;
     if (this.previewMode === true) {
-      return;
+      return options;
     }
 
     let geoLocationData: GeoLocationData[] = [];
     const mapLocationData: Set<object> = new Set();
 
-    for (const loc of this.locations) {
+    for (const loc of this.locations()) {
       let city = loc.split(',')[0];
       city = city.trim();
       let country = loc.split(',')[1];
       country = country.trim();
-      geoLocationData.push({city: city, country: country});
+      geoLocationData.push({ city: city, country: country });
     }
 
     geoLocationData = this.geolocationService.getGeoData(geoLocationData);
 
     for (const loc of geoLocationData) {
       if (loc.lat && loc.lon) {
-        mapLocationData.add({name: loc.city, value: [loc.lon, loc.lat]});
+        mapLocationData.add({ name: loc.city, value: [loc.lon, loc.lat] });
       }
     }
 
-    this.loginMapOptions = {
+    options = {
       series: [
         {
           type: 'effectScatter',
@@ -206,38 +103,35 @@ export class SecurityLoginDataComponent implements OnInit {
         },
       ]
     };
-  }
+    return options;
 
-  /**
-   * Prepares the account activity map data.
-   * This method populates the `accActivityMapOptions` property with the necessary data for rendering the account activity map.
-   * It retrieves the geo location data from `accActivitiesData`, performs geocoding using `geolocationService`, and formats the data for the map.
-   */
-  private prepareAccActivityMapData() {
+  });
+  accActivityMapOptions = computed(() => {
+    let options = {} as EChartsOption;
     if (this.previewMode === true) {
-      return;
+      return options;
     }
 
     let geoLocationData: GeoLocationData[] = [];
     const mapLocationData: Set<object> = new Set();
 
-    for (const loc of this.accActivitiesData) {
+    for (const loc of this.accActivitiesData()) {
       let city = loc.city;
       city = city.trim();
       let country = loc.country;
       country = country.trim();
-      geoLocationData.push({city: city, country_code: country});
+      geoLocationData.push({ city: city, country_code: country });
     }
 
     geoLocationData = this.geolocationService.getGeoData(geoLocationData);
 
     for (const loc of geoLocationData) {
       if (loc.lat && loc.lon) {
-        mapLocationData.add({name: loc.city, value: [loc.lon, loc.lat]});
+        mapLocationData.add({ name: loc.city, value: [loc.lon, loc.lat] });
       }
     }
 
-    this.accActivityMapOptions = {
+    options = {
       series: [
         {
           type: 'effectScatter',
@@ -260,5 +154,37 @@ export class SecurityLoginDataComponent implements OnInit {
         },
       ]
     }
+    return options;
+  });
+
+  constructor(
+    private store: Store,
+    private indexedDb: IndexedDbService,
+    private geolocationService: GeolocationService
+  ) { }
+
+  ngOnInit() {
+    this.prepareData();
   }
+
+  /**
+   * This methods fetches all login locations related data from PriossDB
+   *
+   * @author: Deepa(dbelvi@mail.upb.de)
+   *
+   */
+
+  async prepareData() {
+    await this.indexedDb.getSelectedFacebookDataStore()
+      .then((data) => {
+        if (data.facebookData) {
+          this.securityLoginDataStore.set(data.facebookData.security_and_login_information);
+        } else {
+          this.securityLoginDataStore.set({} as FbSecurityLoginInformationDataModel);
+        }
+      }).finally(() => {
+        this.loading.set(false)
+      });
+  }
+
 }

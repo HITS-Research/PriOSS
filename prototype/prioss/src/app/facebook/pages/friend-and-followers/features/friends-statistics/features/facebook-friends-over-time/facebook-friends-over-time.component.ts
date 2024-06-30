@@ -31,12 +31,20 @@ export class FacebookFriendsOverTimeComponent {
             },
             title: {
                 text: "Friends added over Time",
+                textStyle: {
+                    fontWeight: "normal",
+                },
             },
             xAxis: {
+                name: "Year",
+                nameLocation: "middle",
+                nameGap: 30,
                 type: "category",
                 data: this.getYears(),
             },
             yAxis: {
+                name: "Friends",
+                nameLocation: "end",
                 type: "value",
                 minInterval: 1,
             },

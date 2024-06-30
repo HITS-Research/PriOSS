@@ -20,6 +20,7 @@ export const facebookServiceInfo: ServiceInfo = {
     file,
     progressBarPercent,
     requestedAbortDataParsing,
+    indexedDbService
   ) => {
     if (!file || !isZipFile(file)) return null;
     const zip = new JSZip();
@@ -27,6 +28,9 @@ export const facebookServiceInfo: ServiceInfo = {
       zip.loadAsync(file),
       progressBarPercent,
       requestedAbortDataParsing,
+      indexedDbService,
+      file.name,
+      file.size
     );
   },
 };

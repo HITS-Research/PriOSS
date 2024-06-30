@@ -3,13 +3,14 @@ import { ChangeDetectionStrategy, Component, computed, input } from '@angular/co
 import { FormsModule } from '@angular/forms';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
 import { NzStatisticModule } from 'ng-zorro-antd/statistic';
 import type { FbConnectionsDataModel } from 'src/app/facebook/state/models';
 
 @Component({
   selector: 'prioss-facebook-friends-general-info',
   standalone: true,
-  imports: [NzStatisticModule, NzGridModule, CommonModule, FormsModule, NzIconModule],
+  imports: [NzStatisticModule, NzGridModule, CommonModule, NzSkeletonModule, FormsModule, NzIconModule],
   templateUrl: './facebook-friends-general-info.component.html',
   styleUrl: './facebook-friends-general-info.component.less',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -17,7 +18,7 @@ import type { FbConnectionsDataModel } from 'src/app/facebook/state/models';
 export class FacebookFriendsGeneralInfoComponent {
 
   connectionsData = input.required<FbConnectionsDataModel>();
-
+  loading = input.required<boolean>();
   //preview statistics
   friendsCount = computed(() => {
     return this.connectionsData().yourFriends?.friends_v2.length??0;

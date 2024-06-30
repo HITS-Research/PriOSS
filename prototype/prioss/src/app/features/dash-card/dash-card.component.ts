@@ -25,4 +25,8 @@ export class DashCardComponent {
   buttonText = 'Explore';
   @Input()
   buttonIcon = 'double-right';
+  @Input()
+  height = 'auto';
+  @Input()
+  width = 'auto';
 }

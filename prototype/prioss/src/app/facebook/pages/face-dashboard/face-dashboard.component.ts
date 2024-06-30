@@ -1,6 +1,7 @@
-import { type AfterViewInit, Component, inject ,ChangeDetectionStrategy} from '@angular/core';
+import { type AfterViewInit, Component, inject ,ChangeDetectionStrategy, signal} from '@angular/core';
 import { Router } from "@angular/router";
 import { FacebookDashboardIntroductionService } from '../../features/dashboard-introduction/facebook-dashboard-introduction.service';
+
 
 /**
  * This component is the root component for facebook's dashboard page.
@@ -20,9 +21,9 @@ import { FacebookDashboardIntroductionService } from '../../features/dashboard-i
 })
 export class FaceDashboardComponent implements AfterViewInit {
   #introductionService = inject(FacebookDashboardIntroductionService);
-
+  cardHeight = signal<string>('400px');
+  cardWidth = signal<string>('260px');
   #router = inject(Router);
-
   /**
    * Rectification instruction steps.
    *
@@ -196,7 +197,7 @@ export class FaceDashboardComponent implements AfterViewInit {
   /**
    * Starts the initial dashboard-tour.
    */
-  ngAfterViewInit(): void {
+  async ngAfterViewInit(): Promise<void> {
     this.#introductionService.start();
   }
 

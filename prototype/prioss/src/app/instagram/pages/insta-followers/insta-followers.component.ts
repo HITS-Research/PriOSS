@@ -155,7 +155,7 @@ export class InstaFollowersComponent extends SequenceComponentInit implements Af
       on: {
         'click': function (params:any) {
 
-          console.log(params);
+          
           if (params['dataType'] === 'node') {
             alert('Node clicked: ' + params.data.name);
             // You can add more functionality here

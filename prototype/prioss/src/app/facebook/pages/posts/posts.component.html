@@ -1,97 +1,19 @@
 <div>
   <div *ngIf="previewMode">
-    <nz-row [nzGutter]="16">
-      <nz-col [nzSpan]="12">
-        <nz-statistic
-          [nzValue]="postCountPreview()"
-          [nzTitle]="'Posts'"
-          [nzPrefix]="comment"
-          [nzValueStyle]="{ display: 'inline-flux' }">
-        </nz-statistic>
-      </nz-col>
-
-      <nz-col [nzSpan]="12">
-        <nz-statistic
-          [nzValue]="commentsCountPreview()"
-          [nzTitle]="'Comments'"
-          [nzPrefix]="comment"
-          [nzValueStyle]="{ display: 'inline-flux' }">
-        </nz-statistic>
-      </nz-col>
-
-      <nz-col [nzSpan]="12">
-        <nz-statistic
-          [nzValue]="groupCommentsCountPreview()"
-          [nzTitle]="'Comments in Groups'"
-          [nzPrefix]="comment"
-          [nzValueStyle]="{ display: 'inline-flux' }">
-        </nz-statistic>
-      </nz-col>
-
-      <nz-col [nzSpan]="12">
-        <nz-statistic
-          [nzValue]="reactionsCountPreview()"
-          [nzTitle]="'Likes & Reactions'"
-          [nzPrefix]="like"
-          >
-        </nz-statistic>
-      </nz-col>
-
-      <nz-col [nzSpan]="12">
-        <nz-statistic
-          [nzValue]="albumsCountPreview()"
-          [nzTitle]="'Albums'"
-          [nzPrefix]="camera"
-          >
-        </nz-statistic>
-      </nz-col>
-      
-      <nz-col [nzSpan]="12">
-        <nz-statistic
-          [nzValue]="photosCountPreview()"
-          [nzTitle]="'Photos'"
-          [nzPrefix]="camera"
-          >
-        </nz-statistic>
-      </nz-col>
-    
-      <ng-template #camera>
-        <div class="container_class">
-          <span nz-icon nzType="camera" nzTheme="outline"></span>
-        </div>
-      </ng-template>
-      <ng-template #comment>
-        <div class="container_class">
-          <span nz-icon nzType="comment" nzTheme="outline"></span>
-        </div>
-      </ng-template>
-      <ng-template #location>
-        <div class="container_class">
-          <span nz-icon nzType="bar-chart" nzTheme="outline"></span>
-        </div>
-      </ng-template>
-      <ng-template #like>
-        <div class="container_class">
-          <span nz-icon nzType="like" nzTheme="outline"></span>
-        </div>
-      </ng-template>
-      
-    </nz-row>
+    <prioss-post-frequency [activityData]="activityData()"></prioss-post-frequency>
   </div>
   <div *ngIf="!previewMode">
-    <app-title-bar
-      titleText="Posts & Comments, Likes and Reactions"
+    <app-title-bar titleText="Posts & Comments, Likes and Reactions"
       tooltipText="This visualization provides a comprehensive overview of your facebook posts along with an overview about years and months you were most active or inactive in posting"></app-title-bar>
     <nz-tabset>
+      <nz-tab nzTitle="Statistics">
+        <prioss-posts-statistics [userData]="userData()">
+        </prioss-posts-statistics>
+      </nz-tab>
       <nz-tab nzTitle="Posts">
-        <nz-row>
-          <nz-col nzFlex="auto">
-            <nz-card>
-              <prioss-posts-overview [activityData]="activityData()">
-              </prioss-posts-overview>
-            </nz-card>
-          </nz-col>
-        </nz-row>
+
+          <prioss-posts-overview [activityData]="activityData()">
+          </prioss-posts-overview>
       </nz-tab>
       <nz-tab nzTitle="Comments">
         <nz-row>
@@ -123,10 +45,6 @@
           </nz-col>
         </nz-row>
       </nz-tab> -->
-      <nz-tab nzTitle="Statistics">
-        <prioss-posts-statistics
-          [userData]="userData()">
-        </prioss-posts-statistics>
-      </nz-tab>
+
     </nz-tabset>
   </div>

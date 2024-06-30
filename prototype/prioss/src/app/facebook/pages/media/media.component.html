@@ -1,0 +1,144 @@
+<div [ngClass]="{ 'component-page': !previewMode() }">
+    <div *ngIf="previewMode()">
+        <nz-skeleton [nzLoading]="loading()" [nzActive]="true">
+            <img nz-image [nzSrc]="firstPhoto()" [height]="300">
+        </nz-skeleton>
+    </div>
+    <div *ngIf="!previewMode()">
+        <app-title-bar titleText="Media"
+            tooltipText="Here you can see all Photos, Videos and other Files, that you uploaded on Facebook.">
+        </app-title-bar>
+        <nz-tabset>
+            <nz-tab nzTitle="Photos">
+                <div class="tab-content">
+                    <nz-select nzShowSearch [ngModel]="selectedChat()" (ngModelChange)="selectedChatInput.set($event)"
+                        nzAllowClear style="width: 240px; margin-right: 20px;" nzPlaceHolder="Filter Images by Chat">
+                        @for(chat of chats(); track chat){
+                        <nz-option [nzLabel]="chat[1]" [nzValue]="chat[0]">
+                        </nz-option>
+                        }
+                    </nz-select>
+                    <label nz-checkbox [ngModel]="showOnlyUploads()"
+                        (ngModelChange)="showOnlyUploadsInput.set($event)">Show only Posts</label>
+                    <nz-skeleton [nzLoading]="loading()">
+                        <nz-image-group class="imageGroup">
+                            @for(photo of filteredImages(); track photo){
+                            <img nz-image [nzSrc]="photo.blobURL || fallback" [height]="300" />
+                            }
+                        </nz-image-group>
+                    </nz-skeleton>
+                    <ng-template #noDataTemplate>
+                        <nz-result nzStatus="403" nzTitle="No data available">
+                        </nz-result>
+                    </ng-template>
+                </div>
+            </nz-tab>
+            <nz-tab nzTitle="Videos">
+                <div class="tab-content">
+                    @if(videos().length > 0){
+                    <div class="videolayout">
+                        <video autoplay [playsInline]="true" class="videoplayer" controls [src]="selectedVideo().blobURL" preload="auto">
+                            Your browser does not support the video tag.
+                        </video>
+                        <div class="videolist">
+                            @for(video of videos(); track video){
+                                <div class="videolistitem">
+                                    <button class="videobutton" (click)="selectedVideo.set(video)">
+                                        <video class="videobuttonvideo" disablepictureinpicture
+                                            [src]="video.blobURL?.concat('#t=1')">
+                                        </video>
+                                    </button>
+                                </div>
+                                }
+                            </div>
+                    </div>
+
+                    }
+                    <ng-template #noDataTemplate>
+                        <nz-result nzStatus="403" nzTitle="No data available">
+                        </nz-result>
+                    </ng-template>
+                </div>
+            </nz-tab>
+            <nz-tab nzTitle="Stickers">
+                <div class="tab-content">
+                    <nz-skeleton [nzLoading]="loading()">
+                        <nz-image-group>
+                            @for(sticker of stickers(); track sticker){
+                            <img nz-image [nzSrc]="sticker.blobURL || fallback" [width]="200" [height]="200" />
+                            }
+                        </nz-image-group>
+                    </nz-skeleton>
+                    <ng-template #noDataTemplate>
+                        <nz-result nzStatus="403" nzTitle="No data available">
+                        </nz-result>
+                    </ng-template>
+                </div>
+            </nz-tab>
+            <nz-tab nzTitle="PDF Files">
+                <div class="tab-content">
+                    <nz-table [nzSimple]="true" #pdfTable nzTableLayout="fixed" [nzPageSize]="10" [nzData]="pdfs()">
+                        <thead>
+                            <tr>
+                                <th>Filename</th>
+                                <th style="width: 150px">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for(pdf of pdfTable.data; track pdf){
+                            <tr>
+                                <td>{{pdf.thread_path.replace('\\',
+                                    '/').split('/').slice(-1)}}</td>
+                                <td>
+                                    <a [href]="pdf.blobURL" target="_blank" nz-button nzType="primary" nzSize="small">
+                                        <i nz-icon nzType="download"></i>
+                                        Download
+                                    </a>
+                                </td>
+                            </tr>
+                            }
+                        </tbody>
+                    </nz-table>
+
+
+                    <ng-template #noDataTemplate>
+                        <nz-result nzStatus="403" nzTitle="No data available">
+                        </nz-result>
+                    </ng-template>
+                </div>
+            </nz-tab>
+            <nz-tab nzTitle="Other Files">
+                <nz-table  [nzSimple]="true" #otherFilesTable nzTableLayout="fixed" [nzPageSize]="10" [nzData]="otherFiles()">
+                    <thead>
+                        <tr>
+                            <th>Filename</th>
+                            <th style="width: 150px">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for(file of otherFilesTable.data; track file){
+                        <tr>
+                            <td>{{file.thread_path.replace('\\',
+                                '/').split('/').slice(-1)}}</td>
+                            <td>
+                                <a [href]="file.blobURL" target="_blank" nz-button nzType="primary" nzSize="small">
+                                    <i nz-icon nzType="download"></i>
+                                    Download
+                                </a>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </nz-table>
+                <div class="tab-content">
+                    <ng-template #noDataTemplate>
+                        <nz-result nzStatus="403" nzTitle="No data available">
+                        </nz-result>
+                    </ng-template>
+                </div>
+            </nz-tab>
+        </nz-tabset>
+
+    </div>
+
+</div>

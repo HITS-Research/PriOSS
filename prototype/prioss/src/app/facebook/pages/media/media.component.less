@@ -1,0 +1,129 @@
+img {
+  margin-left: 20px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  width: auto;
+  max-width: 100%;
+  height: 200px;
+  border: 1px solid #d9d9d9;
+}
+nz-table {
+  margin-left: 20px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  width: auto;
+  max-width: 100%;
+  border: 1px solid #d9d9d9;
+}
+td {
+  text-wrap: pretty;
+}
+@media screen and (min-width: 1080px) {
+  .videolayout {
+    display: flex;
+    flex-flow: row;
+  }
+  .videolist {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 200px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    margin-left: 20px;
+
+    .videolistitem {
+      width: 190px;
+      height: 100px;
+      margin-bottom: 20px;
+
+      .videobutton {
+        display: flex;
+        justify-content: center;
+        border: 1px solid black;
+        border-radius: 5px;
+        width: 190px;
+        background: black;
+
+        .videobuttonvideo {
+          width: 100%;
+          max-height: 100px;
+        }
+      }
+    }
+  }
+  .videoplayer {
+    display: flex;
+    background-color: black;
+    border-radius: 5px;
+    width: 80%;
+    max-width: 800px;
+    height: 400px;
+  }
+  .imageGroup {
+    display: flex;
+    padding: 20px;
+    justify-content: center;
+    flex-flow: row wrap;
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 1080px) {
+  .videolayout{
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+  }
+  .videoplayer {
+    background-color: black;
+
+    border-radius: 5px;
+    width: 90%;
+    max-width: 800px;
+    height: 200px;
+  }
+
+  img {
+    padding: 20px;
+    width: auto;
+    max-width: 100%;
+    height: 200px;
+  }
+  .imageGroup {
+    display: flex;
+    justify-content: center;
+    flex-flow: row wrap;
+    width: 100%;
+  }
+
+  .videolist {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    height: 110px;
+    width: 90vw;
+    overflow-x: scroll;
+    overflow-y: hidden;
+
+    .videolistitem {
+      width: 190px;
+      height: 100px;
+      margin-left: 20px;
+      .videobutton {
+        display: flex;
+        justify-content: center;
+        border: 1px solid black;
+        border-radius: 5px;
+        width: 190px;
+        height: 100%;
+        background: black;
+
+        .videobuttonvideo {
+          width: 100%;
+          max-height: 100px;
+        }
+      }
+    }
+  }
+}

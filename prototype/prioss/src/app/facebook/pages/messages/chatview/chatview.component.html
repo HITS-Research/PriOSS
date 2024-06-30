@@ -2,23 +2,16 @@
     <nz-form-item>
         <nz-form-label nzFor="datepicker">Select Time Range:</nz-form-label>
         <nz-form-control #datepicker>
-            <nz-range-picker [nzDefaultPickerValue]="getDateRangeOfChats()"
-                [nzShowTime]="false"
+            <nz-range-picker [nzDefaultPickerValue]="getDateRangeOfChats()" [nzShowTime]="false"
                 [ngModel]="selectedChatDateRange()" name="dateRange"
                 (ngModelChange)="currentChat.set(filteredChats()[0]); selectedChatDateRange.set($event)"></nz-range-picker></nz-form-control>
     </nz-form-item>
 </form>
-<!-- <nz-input-group class="inputgroup">
-    <nz-range-picker [nzShowTime]="false" [(ngModel)]="selectedChatDateRange"
-        (ngModelChange)="selectedChatDateRange.set($event)"></nz-range-picker>
-</nz-input-group> -->
 <nz-layout class="layout">
     <nz-header class="header">
         @if(!isChatListCollapsed()){
         <nz-input-group [nzSuffix]="suffixIconSearch" class="search-box">
-            <input type="text" nz-input
-                [ngModel]="searchString()"
-                (ngModelChange)="searchString.set($event)"
+            <input type="text" nz-input [ngModel]="searchString()" (ngModelChange)="searchString.set($event)"
                 placeholder="input search text" nzBorderless />
         </nz-input-group>
         <ng-template #suffixIconSearch>
@@ -26,10 +19,7 @@
         </ng-template>
         }
 
-        <span
-            class="trigger"
-            nz-icon
-            [nzType]="isChatListCollapsed() ? 'menu-unfold' : 'menu-fold'"
+        <span class="trigger" nz-icon [nzType]="isChatListCollapsed() ? 'menu-unfold' : 'menu-fold'"
             (click)="isChatListCollapsed.set(!isChatListCollapsed()) ">
         </span>
         <p class="chat-header-name">{{currentChat().name}}</p>
@@ -37,37 +27,45 @@
     </nz-header>
     <nz-layout>
         <nz-sider nzCollapsible [nzCollapsed]="isChatListCollapsed()"
-            (nzCollapsedChange)="isChatListCollapsed.set($event)"
-            nzBreakpoint="lg" [nzCollapsedWidth]="0"
+            (nzCollapsedChange)="isChatListCollapsed.set($event)" nzBreakpoint="lg" [nzCollapsedWidth]="0"
             nzWidth="230px" [nzTrigger]="null" nzTheme="light">
-            <nz-list>
+            <nz-list [nzLoading]="loading()">
                 @for (chat of filteredChats();
                 track chat) {
-                <nz-list-item
-                    (click)="currentChat.set(chat)">
+                @if(window.innerWidth > 768){
+                <nz-list-item (click)="currentChat.set(chat);">
                     <nz-list-item-meta-title>
                         <p
-                            [class.list-item-selected]="currentChat().name===chat.name&&getChatPreviewMessage(chat)===currentChatPreviewMessage()">{{getChatPreviewName(chat)}}
+                            [class.list-item-selected]="currentChat().name===chat.name&&getChatPreviewMessage(chat)===currentChatPreviewMessage()">
+                            {{getChatPreviewName(chat)}}
+                        </p>
+                    </nz-list-item-meta-title>
+                    <nz-list-item-meta-description>{{getChatPreviewMessage(chat)}}</nz-list-item-meta-description>
+                </nz-list-item>
+                } @else {
+                <nz-list-item (click)="currentChat.set(chat); isChatListCollapsed.set(true)">
+                    <nz-list-item-meta-title>
+                        <p
+                            [class.list-item-selected]="currentChat().name===chat.name&&getChatPreviewMessage(chat)===currentChatPreviewMessage()">
+                            {{getChatPreviewName(chat)}}
                         </p>
                     </nz-list-item-meta-title>
                     <nz-list-item-meta-description>{{getChatPreviewMessage(chat)}}</nz-list-item-meta-description>
                 </nz-list-item>
                 }
+
+                }
             </nz-list>
         </nz-sider>
         <nz-content>
-            <nz-table
-                #virtualTable
-                [nzBordered]="true"
-                [nzVirtualItemSize]="54"
-                [nzData]="currentChat().messages"
-                [nzVirtualForTrackBy]="trackByID"
-                [nzFrontPagination]="false"
-                [nzShowPagination]="false"
-                [nzScroll]="{y: '600px' }">
+            <!-- <nz-table #virtualTable [nzBordered]="true" [nzVirtualMinBufferPx]="1000" [nzVirtualItemSize]="1"
+                [nzData]="currentChat().messages" [nzVirtualForTrackBy]="trackByID" [nzFrontPagination]="false"
+                [nzShowPagination]="false" [nzScroll]="{x: '200', y: '800px' }">
                 <tbody class="chat-messages-table-body">
-                    <ng-template nz-virtual-scroll let-data
-                        let-index="index">
+                    <ng-template nz-virtual-scroll let-data let-index="index"> -->
+            <div cdkVirtualScrollingElement style="height: 700px; width: 100%;">
+                <cdk-virtual-scroll-viewport autosize appendOnly minBufferPx="1000" maxBufferPx="1500" class="chat-messages-table-body">
+                    <div *cdkVirtualFor="let data of currentChat().messages">
                         @if (data.sender === yourUsername()) {
                         <div class="message-container">
                             <div class="message-sent">
@@ -75,10 +73,25 @@
                                     <div class="message-sender">
                                         {{data.sender}}
                                         {{data.timestamp|
-                                        date:"dd.MM.yy, hh:mm"}}</div>
+                                        date:"dd.MM.yy, hh:mm"}}
+                                    </div>
                                 </div>
-                                <div
-                                    class="message-content">{{data.content}}</div>
+                                <div class="message-content">{{data.content}}</div>
+                            </div>
+                            <div class="message-attachment">
+                                @if(data.attachment){
+                                @if(data.attachment.uri){
+                                <img [src]="getMediaBlobUrl(data.attachment.uri)" style="height: 400px;">
+                                <br>
+                                } @if(data.attachment.exif_upload_ip){
+                                Upload IP: {{data.attachment.exif_upload_ip}}
+                                <br>
+                                } @if(data.attachment.exif_takenTimeStamp){
+                                Taken on: {{data.attachment.exif_takenTimeStamp*1000 | date:"YYYY-MM-dd"}}
+                                <br>
+                                }
+                                }
+
                             </div>
                         </div>
                         } @else {
@@ -87,14 +100,32 @@
                                 <div class="message-sender"> {{data.sender}}
                                     {{data.timestamp|
                                     date:"dd.MM.yy, hh:mm"}}:</div>
-                                <div
-                                    class="message-content">{{data.content}}</div>
+                                <div class="message-content">{{data.content}}</div>
+                                <div class="message-attachment">
+                                    @if(data.attachment){
+                                    @if(data.attachment.uri){
+                                    <img [src]="getMediaBlobUrl(data.attachment.uri)" style="height: 400px;">
+                                    <br>
+                                    } @if(data.attachment.exif_upload_ip){
+                                    Upload IP: {{data.attachment.exif_upload_ip}}
+                                    <br>
+                                    } @if(data.attachment.exif_takenTimeStamp){
+                                    Taken on: {{data.attachment.exif_takenTimeStamp*1000 | date:"YYYY-MM-dd"}}
+                                    <br>
+                                    }
+                                    }
+                                </div>
                             </div>
                         </div>
                         }
-                    </ng-template>
-                </tbody>
-            </nz-table>
+                    </div>
+
+                </cdk-virtual-scroll-viewport>
+            </div>
+            <!-- 
+            </ng-template>
+            </tbody>
+            </nz-table> -->
         </nz-content>
 
     </nz-layout>

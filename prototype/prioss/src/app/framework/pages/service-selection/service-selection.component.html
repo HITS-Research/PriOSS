@@ -58,6 +58,36 @@
       >
         Import and explore your own data
       </button>
+      @if(previousFacebookDataExports()){
+        <div id="previous-uploads">
+          @if(selectedServiceName() === appType.Facebook){
+            
+          <nz-card nzTitle="Previous Data Exports">
+            <div style="max-height: 50vh; overflow-y: scroll;">
+              <nz-card nzTitle="Warning!">
+                <p>If you are using a public/shared computer, delete all data exports after exploring, because they will be stored in the browser.</p>
+              </nz-card>
+              <br>
+              @for(ul of previousFacebookDataExports(); track ul){
+                <nz-card nzTitle="{{ul.timestamp | date}}">
+                  <p>{{ul.filename}}</p>
+                  @if(ul.sizeInBytes){
+                    <p>{{Math.round((ul.sizeInBytes/(1024*1024)))}} MB</p>
+                  }
+                  <button nz-button nzType="primary" (click)="processPreviousDataExport(selectedService(), ul.filename)">
+                    Explore
+                  </button>
+                  <span style="margin-right: 15px;"></span>
+                  <button nz-button nzType="default" nzDanger (click)="deleteDataExport(selectedService(),ul.filename)">
+                    Delete</button>
+                </nz-card>
+                <br>
+                }
+            </div>
+          </nz-card>
+          }
+        </div>
+        }
     </section>
   </ng-template>
 </nz-modal>

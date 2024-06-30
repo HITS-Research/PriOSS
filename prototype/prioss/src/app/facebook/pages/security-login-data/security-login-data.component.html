@@ -2,8 +2,9 @@
   <div *ngIf="previewMode">
     <nz-row [nzGutter]="16">
       <nz-col [nzSpan]="12">
+        <nz-skeleton [nzLoading]="loading()" [nzActive]="true"></nz-skeleton>
         <nz-statistic
-          [nzValue]="locations.length"
+          [nzValue]="locations().length"
           [nzTitle]="'Login Locations'"
           [nzPrefix]="location"
           [nzValueStyle]="{ display: 'inline-flux' }"
@@ -16,9 +17,10 @@
         </ng-template>
       </nz-col>
       <nz-col [nzSpan]="12">
+        <nz-skeleton [nzLoading]="loading()" [nzActive]="true"></nz-skeleton>
         <nz-statistic
           [nzTitle]="'A/c Deactivated'"
-          [nzValue]="account_deactivated"
+          [nzValue]="account_deactivated()"
           [nzPrefix]="deactivated"
           [nzValueStyle]="{ display: 'inline-flux' }"
         >
@@ -28,10 +30,11 @@
         ></ng-template>
       </nz-col>
       <nz-col [nzSpan]="12">
+        <nz-skeleton [nzLoading]="loading()" [nzActive]="true"></nz-skeleton>
         <span class="container_class">
           <nz-statistic
             [nzTitle]="'Password Changed'"
-            [nzValue]="PasswordChange"
+            [nzValue]="PasswordChange()"
             [nzPrefix]="PwdChange"
           >
           </nz-statistic>
@@ -42,9 +45,10 @@
         </span>
       </nz-col>
       <nz-col [nzSpan]="12">
+        <nz-skeleton [nzLoading]="loading()" [nzActive]="true"></nz-skeleton>
         <nz-statistic
           [nzTitle]="'Login & Logouts'"
-          [nzValue]="login_logouts"
+          [nzValue]="login_logouts()"
           [nzPrefix]="Loginout"
         >
         </nz-statistic>
@@ -73,10 +77,10 @@
             </div>
           </nz-result>
         </div> -->
-      <ng-container *ngIf="dataAvailableLoc; else noDataTemplate">
-        <world-map [mapOptions]="loginMapOptions"></world-map>
+      <ng-container *ngIf="dataAvailableLoc(); else noDataTemplate">
+        <world-map [mapOptions]="loginMapOptions()"></world-map>
         <br />
-        <nz-table [nzData]="loginLocationsData" #loginLocations>
+        <nz-table [nzData]="loginLocationsData()" #loginLocations>
           <thead>
             <tr>
               <th nzCustomFilter class="tableCol">Location</th>
@@ -108,23 +112,23 @@
             </div>
           </nz-result>
         </div> -->
-      <ng-container *ngIf="dataAvailableLogOuts; else noDataTemplate">
+      <ng-container *ngIf="dataAvailableLogOuts(); else noDataTemplate">
         <nz-row [nzGutter]="16">
           <nz-col [nzSpan]="12">
             <nz-statistic
-              [nzValue]="(login_count | number)!"
+              [nzValue]="(login_count() | number)!"
               [nzTitle]="'Number of times you have logged in '"
             ></nz-statistic>
           </nz-col>
           <nz-col [nzSpan]="12">
             <nz-statistic
-              [nzValue]="(logout_count | number)!"
+              [nzValue]="(logout_count() | number)!"
               [nzTitle]="'Number of times you have logged out '"
             ></nz-statistic>
           </nz-col>
         </nz-row>
         <br />
-        <nz-table [nzData]="loginlogoutData" #loginLogouts>
+        <nz-table [nzData]="loginlogoutData()" #loginLogouts>
           <thead>
             <tr>
               <th nzCustomFilter class="tableCol">Action</th>
@@ -154,11 +158,11 @@
             </div>
           </nz-result>
         </div> -->
-      <ng-container *ngIf="dataAvailableStatusChange; else noDataTemplate">
+      <ng-container *ngIf="dataAvailableStatusChange(); else noDataTemplate">
         <nz-row [nzGutter]="16">
           <nz-col [nzSpan]="12">
             <nz-statistic
-              [nzValue]="(account_deactivated | number)!"
+              [nzValue]="(account_deactivated() | number)!"
               [nzTitle]="
                 'Number of times you have deactivated your account in '
               "
@@ -166,7 +170,7 @@
           </nz-col>
           <nz-col [nzSpan]="12">
             <nz-statistic
-              [nzValue]="(account_reactivated | number)!"
+              [nzValue]="(account_reactivated() | number)!"
               [nzTitle]="'Number of times you have reactivated your account '"
             ></nz-statistic>
           </nz-col>
@@ -179,7 +183,7 @@
           <br />
           <nz-timeline nzMode="alternate">
             <nz-timeline-item
-              *ngFor="let eachRows of accStatusChangeData"
+              *ngFor="let eachRows of accStatusChangeData()"
               [nzDot]=""
             >
               <ng-template #aTemplate>
@@ -198,7 +202,7 @@
         <br />
         <h6 class="note">Tabular data can be accessed here!</h6>
 
-        <nz-table [nzData]="accStatusChangeData" #accStatusChange>
+        <nz-table [nzData]="accStatusChangeData()" #accStatusChange>
           <thead>
             <tr>
               <th nzCustomFilter class="tableCol">Status</th>
@@ -229,37 +233,37 @@
             </div>
           </nz-result>
         </div> -->
-      <ng-container *ngIf="dataAvailableActivities; else noDataTemplate">
+      <ng-container *ngIf="dataAvailableActivities(); else noDataTemplate">
         <nz-row [nzGutter]="16">
           <nz-col [nzSpan]="12">
             <nz-statistic
-              [nzValue]="(PasswordChange | number)!"
+              [nzValue]="(PasswordChange() | number)!"
               [nzTitle]="'Password Changes '"
             ></nz-statistic>
           </nz-col>
           <nz-col [nzSpan]="12">
             <nz-statistic
-              [nzValue]="(Login | number)!"
+              [nzValue]="(Login() | number)!"
               [nzTitle]="' Login Activities '"
             ></nz-statistic>
           </nz-col>
           <nz-col [nzSpan]="12">
             <nz-statistic
-              [nzValue]="(SessionUpdated | number)!"
+              [nzValue]="(SessionUpdated() | number)!"
               [nzTitle]="'Sessions Updated'"
             ></nz-statistic>
           </nz-col>
           <nz-col [nzSpan]="12">
             <nz-statistic
-              [nzValue]="(terminatedSessions | number)!"
+              [nzValue]="(terminatedSessions() | number)!"
               [nzTitle]="'Sessions Terminated'"
             ></nz-statistic>
           </nz-col>
         </nz-row>
         <br />
-        <world-map [mapOptions]="accActivityMapOptions"></world-map>
+        <world-map [mapOptions]="accActivityMapOptions()"></world-map>
         <br />
-        <nz-table [nzData]="accActivitiesData" #accActivityData>
+        <nz-table [nzData]="accActivitiesData()" #accActivityData>
           <thead>
             <tr>
               <th nzCustomFilter class="tableCol">Action</th>

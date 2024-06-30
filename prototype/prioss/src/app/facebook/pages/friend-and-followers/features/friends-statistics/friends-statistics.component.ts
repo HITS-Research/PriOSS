@@ -30,5 +30,6 @@ import { FacebookFriendsOverTimeComponent } from "./features/facebook-friends-ov
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FacebookFriendsStatisticsComponent {
+	loading = input<boolean>(true);
 	friendsData = input.required<FbConnectionsDataModel>();
 }

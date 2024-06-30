@@ -19,13 +19,30 @@ import type { EChartsOption } from "echarts";
 	changeDetection: ChangeDetectionStrategy.OnPush,
 
 })
-export class ChatMessageDistributionChartComponent implements OnInit{
+export class ChatMessageDistributionChartComponent implements OnInit {
 	chat = input.required<ChatData | undefined>({});
 
 
 	ngOnInit() {
+		
 		this.drawMessagePercentageOfChat();
 	}
+
+	getSeriesData = computed(() => {
+		if(!this.chat()?.participants){
+			return [];
+		}
+		return this.chat()?.participants.map((participant) => {
+				return {
+					value:
+						this.chat()?.messages.filter(
+							(message) => message.sender === participant,
+						).length ?? 0,
+					name: participant,
+				};
+			})
+			.filter((participant) => participant.value > 0)
+	});
 	drawMessagePercentageOfChat = computed(() => {
 		if (this.chat() === undefined) {
 			return {};
@@ -46,7 +63,7 @@ export class ChatMessageDistributionChartComponent implements OnInit{
 			},
 			tooltip: {
 				trigger: "item",
-        formatter: '{b}: {c} ({d}%)'
+				formatter: '{b}: {c} ({d}%)'
 			},
 			legend: {
 				top: "5%",
@@ -58,31 +75,20 @@ export class ChatMessageDistributionChartComponent implements OnInit{
 					name: "Chat Messages Sent",
 					type: "pie",
 					radius: ["40%", "70%"],
-          label:{
-            position: 'outside',
-            formatter: '{b}'
-          },
+					label: {
+						position: 'outside',
+						formatter: '{b}'
+					},
+					labelLine: {
+						showAbove: true,
+						length: 10,
+						length2: 0,
+					},
 					avoidLabelOverlap: true,
-					data: this.prepareData(),
+					data: this.getSeriesData(),
 				},
 			],
 		};
 		return options;
-	});
-
-	prepareData = computed(() => {
-		const participants = this.chat()?.participants ?? [];
-
-		return participants.map((participant) => {
-							return {
-								value:
-									this.chat()?.messages.filter(
-										(message) => message.sender === participant,
-									).length ?? 0,
-								name: participant,
-							};
-						})
-						.filter((participant) => participant.value > 0)??[];
-
 	});
 }

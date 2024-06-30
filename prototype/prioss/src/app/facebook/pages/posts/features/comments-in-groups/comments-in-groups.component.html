@@ -1,21 +1,12 @@
-<nz-table #commentTable [nzFrontPagination]="false" [nzData]="groupCommentData()">
-    <thead>
-        <th
-        [nzSortFn]="sortCommentsByDate"
-        nzSortOrder="descend"
-        ></th>
-    </thead>
-    <tbody>
-        <tr *ngFor="let comment of commentTable.data">
-            <td>
-                <nz-card [nzTitle]="comment.title" [nzExtra]="extraTemplate">
-                    {{ comment.data[0].comment.comment }}
-                    
-                </nz-card>
-                <ng-template #extraTemplate>
-                    <p>{{comment.data[0].comment.group}}, {{comment.timestamp*1000 | date:"YYYY-MM-dd"}}</p>
-                  </ng-template>
-        </tr>
-    </tbody>
-</nz-table>
+@for(comment of groupCommentData(); track comment){
+<nz-card [nzTitle]="comment.title" [nzExtra]="extraTemplate">
+    {{ comment.data[0].comment.comment }}
+
+</nz-card>
+<br>
+<ng-template #extraTemplate>
+    <p>{{comment.data[0].comment.group}}, {{comment.timestamp*1000 | date:"YYYY-MM-dd"}}</p>
+</ng-template>
+}
+
 <nz-back-top></nz-back-top>

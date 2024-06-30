@@ -7,8 +7,7 @@ import {
 	input,
 } from "@angular/core";
 import { scrollToTop } from "src/app/features/utils/generalUtilities.functions";
-import type { FbConnectionsDataModel } from "../../state/models";
-import { FacebookState } from "../../state/fb.state";
+import { FbUserDataModel, type FbConnectionsDataModel } from "../../state/models";
 import { Store } from "@ngxs/store";
 import { FormsModule } from "@angular/forms";
 import { NzIconModule } from "ng-zorro-antd/icon";
@@ -21,6 +20,10 @@ import { FacebookFriendsStatisticsComponent } from "./features/friends-statistic
 import { NzTabsModule } from "ng-zorro-antd/tabs";
 import { NzCardModule } from "ng-zorro-antd/card";
 import { TitleBarComponent } from "src/app/features/title-bar/title-bar.component";
+import { IndexedDbService } from "src/app/state/indexed-db.state";
+import { NzSkeletonModule } from "ng-zorro-antd/skeleton";
+import { FacebookFriendsOverTimeComponent } from "./features/friends-statistics/features/facebook-friends-over-time/facebook-friends-over-time.component";
+
 
 export class chartData {
 	year: number;
@@ -29,17 +32,20 @@ export class chartData {
 @Component({
 	standalone: true,
 	imports: [
+		NzSkeletonModule,
 		FormsModule,
 		NzStatisticModule,
 		NzGridModule,
 		CommonModule,
 		NzIconModule,
-    NzTabsModule,
-    NzCardModule,
-    TitleBarComponent,
+		NzTabsModule,
+		NzCardModule,
+		TitleBarComponent,
 		FacebookFriendsGeneralInfoComponent,
 		FacebookFriendsOverviewComponent,
-    FacebookFriendsStatisticsComponent
+		FacebookFriendsStatisticsComponent,
+		FacebookFriendsOverTimeComponent
+
 	],
 	providers: [],
 	selector: "app-friend-and-followers",
@@ -48,6 +54,8 @@ export class chartData {
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FriendAndFollowersComponent implements OnInit {
+	loading = signal<boolean>(true);
+	userData = signal<FbUserDataModel>({} as FbUserDataModel);
 	connectionsDatastore = signal<FbConnectionsDataModel>(
 		{} as FbConnectionsDataModel,
 	);
@@ -93,14 +101,20 @@ export class FriendAndFollowersComponent implements OnInit {
 	previewMode = computed(() => {
 		return this.previewModeInput() === "true";
 	});
-	constructor(private store: Store) {
-
+	constructor(private store: Store, private indexedDb: IndexedDbService) {
 	}
 
-	ngOnInit() {
+	async ngOnInit() {
 		scrollToTop();
-		this.connectionsDatastore.set(
-			this.store.selectSnapshot(FacebookState.getFacebookConnectionsData),
-		);
+		await this.indexedDb.getSelectedFacebookDataStore().then((data) => {
+			if(!data.facebookData){
+				this.connectionsDatastore.set({} as FbConnectionsDataModel);
+			}else{
+				this.connectionsDatastore.set(data.facebookData.connections);
+			}
+		}).finally(() => {
+			this.loading.set(false)
+			});
+		
 	}
 }

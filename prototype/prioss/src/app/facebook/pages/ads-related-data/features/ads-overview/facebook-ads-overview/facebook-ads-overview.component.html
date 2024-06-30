@@ -1,0 +1,30 @@
+<h1> Ad Interests</h1>
+<div class="container">
+    <div>
+        @for(adInterest of adsInterests(); track adInterest){
+
+        <div>Ad Interest: {{ adInterest }}</div>
+
+
+        }
+    </div>
+    <div>
+        @for(inferredTopic of inferences(); track inferredTopic){
+
+        <div>Inference: {{ inferredTopic }}</div>
+
+
+        }
+
+    </div>
+    <div>
+        @for(item of advertiseresUsingYourData(); track item){
+        <div>Advertisers: {{ item.advertiser_name }}</div>
+        }
+    </div>
+    <div>
+        @for(item of notification_meta_privacy_policy_updates(); track item){
+        <div> {{ item.consent_state }} {{item.impression_time}}</div>
+        }
+    </div>
+</div>

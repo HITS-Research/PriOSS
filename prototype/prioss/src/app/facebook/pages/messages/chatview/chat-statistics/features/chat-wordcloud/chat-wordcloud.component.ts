@@ -5,6 +5,7 @@ import {
 	computed,
 	input,
 	signal,
+	OnInit,
 } from "@angular/core";
 import { NgxEchartsModule, provideEcharts } from "ngx-echarts";
 import "echarts-wordcloud";
@@ -45,7 +46,14 @@ enum StopWordsOption {
 	styleUrl: "./chat-wordcloud.component.less",
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ChatWordcloudComponent {
+export class ChatWordcloudComponent implements OnInit{
+
+	ngOnInit(): void {
+		if(this.chatData().length > 0){
+			const randomChat = Math.floor(Math.random() * this.chatData().length);
+			this.selectedChatID.set(this.chatData()[randomChat].id);
+		}
+	}
 	ExcludedWordlistOption = StopWordsOption;
 
 
@@ -149,10 +157,8 @@ export class ChatWordcloudComponent {
 		const words: Record<string, number> = {};
 		const messages = msgs;
 		let excludedWords = new Set();
-		console.log("excluded Wordlist Options", this.stopWordsOption())
 		if (!this.stopWordsOption().includes(StopWordsOption.NONE)) {
 			excludedWords = new Set([...excludedWords, ...this.getExcludedWords()]);
-			console.log("excluded words", excludedWords)
 		}
 		for (const message of messages) {
 			const messageWords = message.content?.split(" ") ?? [];
@@ -362,7 +368,7 @@ export class ChatWordcloudComponent {
 						fontFamily: "sans-serif",
 						fontWeight: "bold",
 						// Color can be a callback function or a color string
-						color: "red",
+						color: "#5470c6",
 					},
 					emphasis: {
 						focus: "self",
