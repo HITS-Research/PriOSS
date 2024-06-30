@@ -46,16 +46,8 @@ export class SpotifyDashboardIntroductionService {
           intro: 'This card shows all inferences Spotify has made about you. You can correct them here by sending Spotify an email with the selected inferences!'
         },
         {
-          element: '#gdpr-step',
-          intro: 'This section explains your rights about data collection backed by the GDPR.'
-        },
-        {
           element: '#step6',
           intro: 'Want to know why Spotify collects data about all your actions and activities? Look here!'
-        },
-        {
-          element: '#faq-step',
-          intro: 'You have more questions about this application? Stay right here.'
         },
         // more steps here...
       ]

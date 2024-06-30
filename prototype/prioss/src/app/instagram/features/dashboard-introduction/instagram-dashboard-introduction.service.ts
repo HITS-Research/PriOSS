@@ -26,15 +26,15 @@ export class InstagramDashboardIntroductionService {
       disableInteraction: true,
       steps: [
         {
-          element: '#welcome',
+          element: undefined,
           intro: 'New here? Click <b>Next</b>! <br><br> Already comfortable? <br> <b>Click</b> into the dashboard!'
         },
         {
-          element: '#introduction',
+          element: '#introduction-block',
           intro: 'This is a short introduction what PriOSS-Instagram can do for you.'
         },
         {
-          element: '#visualization',
+          element: '[title="Visualization"]',
           intro: 'Here you can see the visualization of your data collected by Instagram.'
         },
         {
@@ -42,25 +42,13 @@ export class InstagramDashboardIntroductionService {
           intro: 'For example this card contains all personal information that Instagram has collected. To see more details click on "More".'
         },
         {
-          element: '#rectification',
+          element: '[title="Rectification"]',
           intro: 'This section shows how you can rectify your data in Instagram.'
         },
         {
-          element: '#recommendation',
+          element: '[title="Privacy Recommendations"]',
           intro: 'This section gives you recommendations about your privacy settings.'
         },
-        {
-          element: '#gdpr',
-          intro: 'This section explains the instructions to exercise your GDPR rights.'
-        },
-        {
-          element: '#purpose',
-          intro: 'Want to know why Instagram collects data about all your actions and activities? Look here!'
-        },
-        {
-          element: '#faq',
-          intro: 'You have more questions about this application? Click to see answers.'
-        }
         // more steps here...
       ]
     };

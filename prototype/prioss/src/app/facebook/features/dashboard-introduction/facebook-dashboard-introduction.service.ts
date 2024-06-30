@@ -25,19 +25,19 @@ export class FacebookDashboardIntroductionService {
       disableInteraction: true,
       steps: [
         {
-          element: 'step0',
+          element: undefined,
           intro:
             'New here? Click <b>Next</b>! <br><br> Already comfortable? <br> <b>Click</b> anywhere into the dashboard!',
         },
         {
-          element: '#yourInfo',
+          element: '#card__general-data',
           intro:
-            'This section shows your personal data that Facebook has collected. Click <b>More</b> to see details.',
+            'This section shows your personal data that Facebook has collected. Click <b>Explore</b> to see details.',
         },
         {
-          element: '#visualization',
+          element: '[title="Visualization"]',
           intro:
-            'This section visualizes your data in more understandable way. This helps make you aware of what data Facebook has about you, and allows you to analyze it for its correctness. Being aware enables you to take best Privacy decisions!.',
+            'This section visualizes your data in more understandable way. This helps make you aware of what data Facebook collects about you, and allows you to analyze it for its correctness. Being aware enables you to take best Privacy decisions!.',
         },
         // {
         //   element: '#fStep20',
@@ -52,9 +52,9 @@ export class FacebookDashboardIntroductionService {
         //   intro: 'This tile gives a gist of your Facebook connections. Click <b>More</b> to see year-wise details.'
         // },
         {
-          element: '#rectification',
+          element: '[title="Rectification"]',
           intro:
-            'This section shows instructions to change your personal data to manage your personalized Ads. Follow the instructions to manage your data.',
+            'This section shows instructions to change your personal data and to manage your personalized ad settings. Follow the instructions to manage your data.',
         },
         // {
         //   element: '#fStep23',
@@ -69,24 +69,14 @@ export class FacebookDashboardIntroductionService {
         //   intro: 'This tile illustrates the steps to object the use of your personal information to show personalized ads.'
         // },
         {
-          element: '#privacyRecommendations',
+          element: '[title="Privacy Recommendations"]',
           intro:
             'This section gives you step-by-step instructions to excercise your privacy rights on Facebook website. Choose an action of your interest and follow the instructions to ensure your data privacy.',
         },
         {
-          element: '#gdpr',
-          intro:
-            'This section explains what is <b>G</b>eneral <b>D</b>ata <b>P</b>rotection <b>R</b>egulation (GDPR) and explains your GDPR privacy rights. Click to know more!',
-        },
-        {
-          element: '#purpose',
+          element: 'app-face-purposes',
           intro:
             'This section explains the purpose of collecting your data while tracking all your activities on Facebook.',
-        },
-        {
-          element: '#faq',
-          intro:
-            'You have more questions about this application? Click to see answers.',
         },
         // more steps here...
       ],
