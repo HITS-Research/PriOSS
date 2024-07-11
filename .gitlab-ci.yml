@@ -3,7 +3,7 @@ image: node:18.13.0-alpine
 stages:
   - build
   - test
-
+  - sonarqube
 build-job:
   stage: build
   tags:
@@ -23,3 +23,23 @@ lint-job:
     - npm ci
   script:
     - npm run lint
+
+sonarqube-check:
+  stage: sonarqube
+  tags:
+    - shared
+  image: 
+    name: sonarsource/sonar-scanner-cli:latest
+    entrypoint: [""]
+  variables:
+    SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
+    GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
+  cache:
+    key: "${CI_JOB_NAME}"
+    paths:
+      - .sonar/cache
+  script: 
+    - sonar-scanner
+  allow_failure: true
+  only:
+    - dev
