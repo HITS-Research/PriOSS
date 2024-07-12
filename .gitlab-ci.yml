@@ -35,7 +35,6 @@ sonarqube-check:
   tags:
     - shared
   dependencies:
-    - get-binaries
     - build
   cache:
     policy: pull
