@@ -4,6 +4,7 @@ stages:
   - build
   - test
   - sonarqube
+  - sonarqube-vulnerability-report
 build-job:
   stage: build
   tags:
@@ -28,18 +29,34 @@ sonarqube-check:
   stage: sonarqube
   tags:
     - shared
-  image: 
-    name: sonarsource/sonar-scanner-cli:latest
-    entrypoint: [""]
-  variables:
-    SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
-    GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
+  dependencies:
+    - get-binaries
+    - build
   cache:
-    key: "${CI_JOB_NAME}"
+    policy: pull
+    key: "${CI_COMMIT_SHORT_SHA}"
     paths:
-      - .sonar/cache
+      - sonar-scanner/
   script: 
     - sonar-scanner
   allow_failure: true
-  only:
-    - dev
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+    - if: $CI_COMMIT_BRANCH == 'main'
+    - if: $CI_COMMIT_BRANCH == 'dev'
+
+sonarqube-vulnerability-report:
+  stage: sonarqube-vulnerability-report
+  tags:
+    - shared
+  script:
+    - 'curl -u "${SONAR_TOKEN}:" "${SONAR_HOST_URL}/api/issues/gitlab_sast_export?projectKey=ekablo_prioss_9834f000-aa16-42c2-9ade-bcf1945b0cca&branch=${CI_COMMIT_BRANCH}&pullRequest=${CI_MERGE_REQUEST_IID}" -o gl-sast-sonar-report.json'
+  allow_failure: true
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+    - if: $CI_COMMIT_BRANCH == 'main'
+    - if: $CI_COMMIT_BRANCH == 'dev'
+  artifacts:
+    expire_in: 1 day
+    reports:
+      sast: gl-sast-sonar-report.json
