@@ -104,16 +104,16 @@
                                 <nz-table [nzData]="listOfAdsActivity" #adsActivityTable>
                                     <thead>
                                         <tr>
-                                            <th nzCustomFilter>
+                                            <th id="AdvertiserTableAdvertiserNameHeader" nzCustomFilter>
                                                 Advertiser Name
                                                 <nz-filter-trigger [(nzVisible)]="visible"
                                                     [nzActive]="activitySearchValue.length > 0" [nzDropdownMenu]="menu">
                                                     <span nz-icon nzType="search"></span>
                                                 </nz-filter-trigger>
                                             </th>
-                                            <th id="has_data_file_custom_audience">Has Data file custom audience</th>
-                                            <th id="has_in_person_store_visit">Has in person store visit</th>
-                                            <th id="has_remarketing_custom_audience">Has remarketing custom audience
+                                            <th id="AdvertiserTableHasDataFileCustomAudienceHeader">Has Data file custom audience</th>
+                                            <th id="AdvertiserTableHasInPersonStoreVisitHeader">Has in person store visit</th>
+                                            <th id="AdvertiserTableHasRemarketingCustomAudienceHeader">Has remarketing custom audience
                                             </th>
                                         </tr>
                                     </thead>

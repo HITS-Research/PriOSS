@@ -105,14 +105,14 @@
                         <nz-table #followerTable [nzData]="listOfFollowers" nzFrontPagination="false" [nzPageSize]="10">
                             <thead>
                                 <tr>
-                                    <th nzCustomFilter id="follower-name">
+                                    <th nzCustomFilter id="FollowerTableUsernameHeader">
                                         Follower name
                                         <nz-filter-trigger [(nzVisible)]="followVisible" [nzActive]="followerSearchValue.length > 0" [nzDropdownMenu]="menu">
                                           <span nz-icon nzType="search"></span>
                                         </nz-filter-trigger>
                                     </th>
-                                    <th [nzSortFn]="sortFollowerDate" id="follower-timestamp">Timestamp since this user follows you</th>
-                                    <th id="follower-profile-url">Followers Profile URL</th>
+                                    <th [nzSortFn]="sortFollowerDate" id="FollowerTableTimestampHeader">Timestamp since this user follows you</th>
+                                    <th id="FollowerTableProfileUrlHeader">Followers Profile URL</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -140,14 +140,14 @@
                         <nz-table #followingTable [nzData]="listOfFollowing" nzFrontPagination="false" [nzPageSize]="10">
                             <thead>
                                 <tr>
-                                    <th nzCustomFilter id="following-name">
+                                    <th nzCustomFilter id="FollowingTableUsernameHeader">
                                         Following name
                                         <nz-filter-trigger [(nzVisible)]="followVisible" [nzActive]="followingSearchValue.length > 0" [nzDropdownMenu]="menu">
                                           <span nz-icon nzType="search"></span>
                                         </nz-filter-trigger>
                                     </th>
-                                    <th [nzSortFn]="sortFollowingDate" id="following-timestamp">Timestamp since you follow this user</th>
-                                    <th id="following-profile-url">Following Profile URL</th>
+                                    <th [nzSortFn]="sortFollowingDate" id="FollowingTableTimestampHeader">Timestamp since you follow this user</th>
+                                    <th id="FollowingTableProfileUrlHeader">Following Profile URL</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -183,14 +183,14 @@
                         <nz-table #recentTable [nzData]="listOfRecentFollow" nzFrontPagination="false" [nzPageSize]="10">
                             <thead>
                                 <tr>
-                                    <th nzCustomFilter id="recent-username">
+                                    <th nzCustomFilter id="RecentFollowRequestsTableUsernameHeader">
                                         Username
                                         <nz-filter-trigger [(nzVisible)]="requestVisible" [nzActive]="recentFollowSearchValue.length > 0" [nzDropdownMenu]="menu">
                                           <span nz-icon nzType="search"></span>
                                         </nz-filter-trigger>
                                     </th>
-                                    <th [nzSortFn]="sortRecentFollowDate" id="recent-timestamp">Timestamp of the follow request</th>
-                                    <th id="recent-profile-url">Profile URL</th>
+                                    <th [nzSortFn]="sortRecentFollowDate" id="RecentFollowRequestsTableTimestampHeader">Timestamp of the follow request</th>
+                                    <th id="RecentFollowRequestsTableProfileUrlHeader">Profile URL</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -218,14 +218,14 @@
                         <nz-table #pendingTable [nzData]="listOfPending" nzFrontPagination="false" [nzPageSize]="10">
                             <thead>
                                 <tr>
-                                    <th nzCustomFilter id="pending-username">
+                                    <th nzCustomFilter id="PendingFollowRequestsTableUsernameHeader">
                                         Username
                                         <nz-filter-trigger [(nzVisible)]="pendingFollowVisible" [nzActive]="pendingSearchValue.length > 0" [nzDropdownMenu]="menu">
                                           <span nz-icon nzType="search"></span>
                                         </nz-filter-trigger>
                                     </th>
-                                    <th [nzSortFn]="sortPendingDate" id="pending-timestamp">Timestamp of the pending follow request</th>
-                                    <th id="pending-profile-url">Profile URL</th>
+                                    <th [nzSortFn]="sortPendingDate" id="PendingFollowRequestsTableTimestampHeader">Timestamp of the pending follow request</th>
+                                    <th id="PendingFollowRequestsTableProfileUrlHeader">Profile URL</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -253,14 +253,14 @@
                         <nz-table #receivedTable [nzData]="listOfReceived" nzFrontPagination="false" [nzPageSize]="10">
                             <thead>
                                 <tr>
-                                    <th nzCustomFilter id="received-username">
+                                    <th nzCustomFilter id="ReceivedFollowRequestsTableUsernameHeader">
                                         Username
                                         <nz-filter-trigger [(nzVisible)]="receivedVisible" [nzActive]="receivedSearchValue.length > 0" [nzDropdownMenu]="menu">
                                           <span nz-icon nzType="search"></span>
                                         </nz-filter-trigger>
                                     </th>
-                                    <th [nzSortFn]="sortReceivedDate" id="received-timestamp">Timestamp of the request</th>
-                                    <th id="received-profile-url">Profile URL</th>
+                                    <th [nzSortFn]="sortReceivedDate" id="ReceivedFollowRequestsTableTimestampHeader">Timestamp of the request</th>
+                                    <th id="ReceivedFollowRequestsTableProfileUrlHeader">Profile URL</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -295,14 +295,14 @@
                         <nz-table #blockedTable [nzData]="listOfBlocked" nzFrontPagination="false" [nzPageSize]="10">
                             <thead>
                                 <tr>
-                                    <th nzCustomFilter id="blocked-username">
+                                    <th nzCustomFilter id="BlockedAccountsTableUsernameHeader">
                                         Blocked username
                                         <nz-filter-trigger [(nzVisible)]="blockedVisible" [nzActive]="blockedSearchValue.length > 0" [nzDropdownMenu]="menu">
                                           <span nz-icon nzType="search"></span>
                                         </nz-filter-trigger>
                                     </th>
-                                    <th [nzSortFn]="sortBlockedDate" id="blocked-timestamp">Timestamp since this user is blocked</th>
-                                    <th id="blocked-profile-url">Blocked users Profile URL</th>
+                                    <th [nzSortFn]="sortBlockedDate" id="BlockedAccountsTableTimestampHeader">Timestamp since this user is blocked</th>
+                                    <th id="BlockedAccountsTableProfileUrlHeader">Blocked users Profile URL</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -330,14 +330,14 @@
                         <nz-table #recentUnfollowTable [nzData]="listOfRecentUnfollow" nzFrontPagination="false" [nzPageSize]="10">
                             <thead>
                                 <tr>
-                                    <th nzCustomFilter id="recent-unfollow-username">
+                                    <th nzCustomFilter id="RecentlyUnfollowedAccountsTableUsernameHeader">
                                         Username
                                         <nz-filter-trigger [(nzVisible)]="recentUnfollowVisible" [nzActive]="recentUnfollowSearchValue.length > 0" [nzDropdownMenu]="menu">
                                           <span nz-icon nzType="search"></span>
                                         </nz-filter-trigger>
                                     </th>
-                                    <th [nzSortFn]="sortRecentUnfollowDate" id="recent-unfollow-timestamp">Timestamp of unfollow</th>
-                                    <th id="recent-unfollow-profile-url">Profile URL</th>
+                                    <th [nzSortFn]="sortRecentUnfollowDate" id="RecentlyUnfollowedAccountsTableTimestampHeader">Timestamp of unfollow</th>
+                                    <th id="RecentlyUnfollowedAccountsTableProfileUrlHeader">Profile URL</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -365,14 +365,14 @@
                         <nz-table #removedTable [nzData]="listOfRemoved" nzFrontPagination="false" [nzPageSize]="10">
                             <thead>
                                 <tr>
-                                    <th nzCustomFilter>
+                                    <th id="RemovedSuggestionsTableUsernameHeader" nzCustomFilter>
                                         Username
                                         <nz-filter-trigger [(nzVisible)]="removedVisible" [nzActive]="removedSearchValue.length > 0" [nzDropdownMenu]="menu">
                                           <span nz-icon nzType="search"></span>
                                         </nz-filter-trigger>
                                     </th>
-                                    <th [nzSortFn]="sortRemovedDate">Timestamp of the removing</th>
-                                    <th>Profile URL</th>
+                                    <th id="RemovedSuggestionsTableTimestampHeader" [nzSortFn]="sortRemovedDate">Timestamp of the removing</th>
+                                    <th id="RemovedSuggestionsTableProfileUrlHeader">Profile URL</th>
                                 </tr>
                             </thead>
                             <tbody>
