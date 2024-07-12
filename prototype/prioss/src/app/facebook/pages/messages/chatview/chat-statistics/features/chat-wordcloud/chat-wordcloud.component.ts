@@ -245,7 +245,7 @@ export class ChatWordcloudComponent implements OnInit{
 			const nextMessage = msgs[i + 1];
 			responseTimes.push(message.timestamp - nextMessage.timestamp);
 		}
-		responseTimes.sort();
+		responseTimes.sort((a, b) => a - b);
 		const index = Math.floor(responseTimes.length * 0.95);
 		return responseTimes[index];
 	}
