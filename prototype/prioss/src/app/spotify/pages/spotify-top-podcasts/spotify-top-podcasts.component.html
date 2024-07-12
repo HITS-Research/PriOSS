@@ -36,10 +36,10 @@
               #basicTable
               [nzData]="topPodcasts">
               <thead>
-              <tr>
-                <th>Artist</th>
-                <th>Minutes listened</th>
-              </tr>
+                <tr>
+                <th id="topPodcastTableArtistHeader">Artist</th>
+                <th id="topPodcastTableMinutesHeader">Minutes listened</th>
+                </tr>
               </thead>
               <tbody>
                 @for (data of basicTable.data; track data[0]) {

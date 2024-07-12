@@ -2,7 +2,7 @@
     nzShowPagination="true" nzTableLayout="fixed">
     <thead>
         <tr>
-            <th
+            <th id="friendsAndFollowersTableFriendNameHeader"
                 [nzSortOrder]="nameColumnOptions().sortOrder"
                 [nzSortFn]="nameColumnOptions().sortFn"
                 [nzSortDirections]="nameColumnOptions().sortDirections"
@@ -17,14 +17,14 @@
                 </nz-filter-trigger>
             </th>
 
-            <th
+            <th id="friendsAndFollowersTableStatusHeader"
                 [nzSortOrder]="statusColumnOptions().sortOrder"
                 [nzSortFn]="statusColumnOptions().sortFn"
                 [nzSortDirections]="statusColumnOptions().sortDirections"
                 [nzFilterMultiple]="statusColumnOptions().filterMultiple"
                 [nzFilters]="statusColumnOptions().listOfFilter"
                 [nzFilterFn]="statusColumnOptions().filterFn">Status</th>
-            <th
+            <th id="friendsAndFollowersTableTimestampHeader"
                 [nzSortOrder]="timestampColumnOptions().sortOrder"
                 [nzSortFn]="timestampColumnOptions().sortFn"
                 [nzSortDirections]="timestampColumnOptions().sortDirections">

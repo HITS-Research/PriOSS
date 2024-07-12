@@ -62,12 +62,12 @@
         [nzShowPagination]="true"
       >
         <thead>
-          <tr>
-            <th>Song Name</th>
-            <th>Artist</th>
-            <th>Time</th>
-            <th>Listening Time (HH:MM:SS)</th>
-          </tr>
+            <tr>
+            <th id="songTableSongNameHeader">Song Name</th>
+            <th id="songTableArtistHeader">Artist</th>
+            <th id="songTableTimeHeader">Time</th>
+            <th id="songTableListeningTimeHeader">Listening Time (HH:MM:SS)</th>
+            </tr>
         </thead>
         <tbody>
           @for (item of basicTable.data; track i; let i = $index) {
@@ -98,12 +98,12 @@
         [nzShowPagination]="true"
       >
         <thead>
-          <tr>
-            <th>Podcast Name</th>
-            <th>Episode</th>
-            <th>Time</th>
-            <th>Listening Time (HH:MM:SS)</th>
-          </tr>
+            <tr>
+            <th id="podcastTablePodcastNameHeader">Podcast Name</th>
+            <th id="podcastTableEpisodeHeader">Episode</th>
+            <th id="podcastTableTimeHeader">Time</th>
+            <th id="podcastTableListeningTimeHeader">Listening Time (HH:MM:SS)</th>
+            </tr>
         </thead>
         <tbody>
           @for (item of basicTable.data; track i; let i = $index) {

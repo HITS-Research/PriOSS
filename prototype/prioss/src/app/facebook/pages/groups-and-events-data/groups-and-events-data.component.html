@@ -92,9 +92,9 @@
         <nz-table [nzSimple]="true" [nzData]="eventsInvitedData()" #eventsId>
           <thead>
             <tr>
-              <th nzCustomFilter class="tableCol">Event Name</th>
-              <th nzCustomFilter class="tableCol">Start Time</th>
-              <th nzCustomFilter class="tableCol">End Time</th>
+              <th id="eventsInvitedTableEventNameHeader" nzCustomFilter class="tableCol">Event Name</th>
+              <th id="eventsInvitedTableStartTimeHeader" nzCustomFilter class="tableCol">Start Time</th>
+              <th id="eventsInvitedTableEndTimeHeader" nzCustomFilter class="tableCol">End Time</th>
             </tr>
           </thead>
           <tbody>
@@ -133,8 +133,8 @@
         <nz-table [nzSimple]="true" [nzData]="groupsJoinedData()" #groupsId>
           <thead>
             <tr>
-              <th nzCustomFilter class="tableCol">Group Name</th>
-              <th nzCustomFilter class="tableCol">Joined On</th>
+              <th id="groupsJoinedTableGroupNameHeader" nzCustomFilter class="tableCol">Group Name</th>
+              <th id="groupsJoinedTableJoinedOnHeader" nzCustomFilter class="tableCol">Joined On</th>
             </tr>
           </thead>
           <tbody>

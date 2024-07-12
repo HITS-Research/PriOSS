@@ -80,8 +80,8 @@
                     <nz-table [nzSimple]="true" #pdfTable nzTableLayout="fixed" [nzPageSize]="10" [nzData]="pdfs()">
                         <thead>
                             <tr>
-                                <th>Filename</th>
-                                <th style="width: 150px">Actions</th>
+                                <th id="pdfTableFilenameHeader" >Filename</th>
+                                <th id="pdfTableActionsHeader" style="width: 150px">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -111,8 +111,8 @@
                 <nz-table  [nzSimple]="true" #otherFilesTable nzTableLayout="fixed" [nzPageSize]="10" [nzData]="otherFiles()">
                     <thead>
                         <tr>
-                            <th>Filename</th>
-                            <th style="width: 150px">Actions</th>
+                            <th id="otherFilesTableFilenameHeader">Filename</th>
+                            <th id="otherFilesTableActionsHeader" style="width: 150px">Actions</th>
                         </tr>
                     </thead>
                     <tbody>

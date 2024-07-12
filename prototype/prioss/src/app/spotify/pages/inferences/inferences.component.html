@@ -36,12 +36,12 @@
         >
           <thead>
             <tr>
-              <th
+              <th id="inferencesTableCheckboxHeader"
                 nzWidth="5%"
                 [nzChecked]="vm.checked"
                 (nzCheckedChange)="checkAll$.next(!vm.checked)"
               ></th>
-              <th nzWidth="83%">
+              <th id="inferencesTableInferenceHeader" nzWidth="83%">
                 <nz-input-group [nzSuffix]="suffixIconSearch">
                   <input
                     type="text"
@@ -64,7 +64,7 @@
                   </ng-template>
                 </nz-input-group>
               </th>
-              <th nzAlign="right">
+              <th id="inferencesTableRectificationHeader" nzAlign="right">
                 <span
                   nz-tooltip
                   nzTooltipTitle="Create a rectification email with all selected inferences. Rectifying inferences means to request Spotify to correct inferences that you think are wrong about yourself."

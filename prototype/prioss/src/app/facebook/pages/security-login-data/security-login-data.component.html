@@ -83,9 +83,9 @@
         <nz-table [nzData]="loginLocationsData()" #loginLocations>
           <thead>
             <tr>
-              <th nzCustomFilter class="tableCol">Location</th>
-              <th nzCustomFilter class="tableCol">Device</th>
-              <th nzCustomFilter class="tableCol">Time</th>
+              <th nzCustomFilter class="tableCol" id="loginLocationsTableLocation">Location</th>
+              <th nzCustomFilter class="tableCol" id="loginLocationsTableDevice">Device</th>
+              <th nzCustomFilter class="tableCol" id="loginLocationsTableTime">Time</th>
             </tr>
           </thead>
           <tbody>
@@ -131,8 +131,8 @@
         <nz-table [nzData]="loginlogoutData()" #loginLogouts>
           <thead>
             <tr>
-              <th nzCustomFilter class="tableCol">Action</th>
-              <th nzCustomFilter class="tableCol">Time</th>
+              <th nzCustomFilter class="tableCol" id="loginLogoutTableAction">Action</th>
+              <th nzCustomFilter class="tableCol" id="loginLogoutTableTime">Time</th>
             </tr>
           </thead>
           <tbody>
@@ -205,8 +205,8 @@
         <nz-table [nzData]="accStatusChangeData()" #accStatusChange>
           <thead>
             <tr>
-              <th nzCustomFilter class="tableCol">Status</th>
-              <th nzCustomFilter class="tableCol">Time</th>
+              <th nzCustomFilter class="tableCol" id="accountStatusChangeTableStatus">Status</th>
+              <th nzCustomFilter class="tableCol" id="accountStatusChangeTableTime">Time</th>
             </tr>
           </thead>
           <tbody>
@@ -266,12 +266,12 @@
         <nz-table [nzData]="accActivitiesData()" #accActivityData>
           <thead>
             <tr>
-              <th nzCustomFilter class="tableCol">Action</th>
-              <th nzCustomFilter class="tableCol">Time</th>
-              <th nzCustomFilter class="tableCol">City</th>
-              <th nzCustomFilter class="tableCol">Region</th>
-              <th nzCustomFilter class="tableCol">Country</th>
-              <th nzCustomFilter class="tableCol">Site</th>
+              <th nzCustomFilter class="tableCol" id="AccountActivityDataAction">Action</th>
+              <th nzCustomFilter class="tableCol" id="AccountActivityDataTime">Time</th>
+              <th nzCustomFilter class="tableCol" id="AccountActivityDataCity">City</th>
+              <th nzCustomFilter class="tableCol" id="AccountActivityDataRegion">Region</th>
+              <th nzCustomFilter class="tableCol" id="AccountActivityDataCountry">Country</th>
+              <th nzCustomFilter class="tableCol" id="AccountActivityDataSite">Site</th>
             </tr>
           </thead>
           <tbody>

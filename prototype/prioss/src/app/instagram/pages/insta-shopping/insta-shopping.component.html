@@ -59,13 +59,13 @@
                   <nz-table #shoppingTable [nzData]="listOfShoppingData">
                     <thead>
                       <tr>
-                        <th nzCustomFilter>
+                        <th id="shoppingTableMerchantName" nzCustomFilter>
                           Merchant name
                           <nz-filter-trigger [(nzVisible)]="merchantVisible" [nzActive]="merchantSearchValue.length > 0" [nzDropdownMenu]="merchantmenu">
                             <span nz-icon nzType="search"></span>
                           </nz-filter-trigger>
                         </th>
-                        <th nzCustomFilter>
+                        <th id="shoppingTableProductName" nzCustomFilter>
                           Product name
                           <nz-filter-trigger [(nzVisible)]="productVisible" [nzActive]="productSearchValue.length > 0" [nzDropdownMenu]="productmenu">
                             <span nz-icon nzType="search"></span>
@@ -115,13 +115,13 @@
                   <nz-table #shoppingWishlistTable [nzData]="listOfShoppingWishlistData">
                     <thead>
                       <tr>
-                        <th nzCustomFilter>
+                        <th id="shoppingWishlistTableMerchantName" nzCustomFilter>
                           Merchant name
                           <nz-filter-trigger [(nzVisible)]="wishlistMerchantVisible" [nzActive]="wishlistMerchantSearchValue.length > 0" [nzDropdownMenu]="wishlistMerchantmenu">
                             <span nz-icon nzType="search"></span>
                           </nz-filter-trigger>
                         </th>
-                        <th nzCustomFilter>
+                        <th id="shoppingWishlistTableProductName" nzCustomFilter>
                           Product name
                           <nz-filter-trigger [(nzVisible)]="wishlistProductVisible" [nzActive]="wishlistProductSearchValue.length > 0" [nzDropdownMenu]="wishlistProductmenu">
                             <span nz-icon nzType="search"></span>
