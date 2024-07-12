@@ -48,7 +48,7 @@ sonarqube-check:
     - if: $CI_COMMIT_BRANCH == 'dev'
 
 sonarqube-vulnerability-report:
-  image: sonarsource/sonar-scanner-cli:latest
+  image: curlimages/curl:latest
   stage: sonarqube-vulnerability-report
   tags:
     - shared
