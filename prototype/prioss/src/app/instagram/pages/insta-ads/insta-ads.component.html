@@ -154,14 +154,14 @@
                                 <nz-table [nzData]="listOfAdsClicked" #adsClickedTable>
                                     <thead>
                                         <tr>
-                                            <th nzCustomFilter>
+                                            <th id="ClieckedAdsTableClickedAdHeader" nzCustomFilter>
                                                 Clicked Ad
                                                 <nz-filter-trigger [(nzVisible)]="visible"
                                                     [nzActive]="clickedSearchValue.length > 0" [nzDropdownMenu]="menu">
                                                     <span nz-icon nzType="search"></span>
                                                 </nz-filter-trigger>
                                             </th>
-                                            <th [nzSortFn]="sortClickedDate">Date</th>
+                                            <th id="ClieckedAdsTableClickedAdDateHeader"[nzSortFn]="sortClickedDate">Date</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -199,7 +199,7 @@
                                 <nz-table [nzData]="listOfAdsInterests" #adsInterestsTable>
                                     <thead>
                                         <tr>
-                                            <th nzCustomFilter>
+                                            <th id="AdsInterestTableInterestHeader" nzCustomFilter>
                                                 Interest
                                                 <nz-filter-trigger [(nzVisible)]="visible"
                                                     [nzActive]="interestSearchValue.length > 0" [nzDropdownMenu]="menu">

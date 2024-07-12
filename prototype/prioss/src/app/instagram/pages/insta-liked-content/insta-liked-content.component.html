@@ -48,7 +48,7 @@
                                         <nz-table [nzData]="listOfLikedComments" #likedCommentsTable>
                                             <thead>
                                             <tr>
-                                                <th id="usernameOfLikedComment" nzCustomFilter>
+                                                <th id="LikedCommentsTableUsernameHeader" nzCustomFilter>
                                                     Username
                                                     <nz-filter-trigger [(nzVisible)]="visible"
                                                                        [nzActive]="likedCommentsSearchValue.length > 0"
@@ -56,8 +56,8 @@
                                                         <span nz-icon nzType="search"></span>
                                                     </nz-filter-trigger>
                                                 </th>
-                                                <th id="dateOfLikedComment" [nzSortFn]="sortLikedCommentsDate">Date</th>
-                                                <th>Comment URL</th>
+                                                <th id="LikedCommentsTableDateHeader" [nzSortFn]="sortLikedCommentsDate">Date</th>
+                                                <th id="LikedCommentsTableCommentUrlHeader" >Comment URL</th>
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -99,7 +99,7 @@
                                         <nz-table [nzData]="listOfLikedPosts" #likedPostsTable>
                                             <thead>
                                             <tr>
-                                                <th id="usernameOfLikedPost" nzCustomFilter>
+                                                <th id="LikedPostsTableUsernameHeader" nzCustomFilter>
                                                     Username
                                                     <nz-filter-trigger [(nzVisible)]="visible"
                                                                        [nzActive]="likedPostsSearchValue.length > 0"
@@ -107,8 +107,8 @@
                                                         <span nz-icon nzType="search"></span>
                                                     </nz-filter-trigger>
                                                 </th>
-                                                <th id="dateOfLikedPost" [nzSortFn]="sortLikedPostsDate">Date</th>
-                                                <th>Post URL</th>
+                                                <th id="LikedPostsTableDateHeader" [nzSortFn]="sortLikedPostsDate">Date</th>
+                                                <th id="LikedPostsTablePostUrlHeader" >Post URL</th>
                                             </tr>
                                             </thead>
                                             <tbody>

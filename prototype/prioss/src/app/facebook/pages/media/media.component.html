@@ -1,7 +1,7 @@
 <div [ngClass]="{ 'component-page': !previewMode() }">
     <div *ngIf="previewMode()">
         <nz-skeleton [nzLoading]="loading()" [nzActive]="true">
-            <img nz-image [nzSrc]="firstPhoto()" [height]="300">
+            <img alt="previewImage" nz-image [nzSrc]="firstPhoto()" [height]="300">
         </nz-skeleton>
     </div>
     <div *ngIf="!previewMode()">
