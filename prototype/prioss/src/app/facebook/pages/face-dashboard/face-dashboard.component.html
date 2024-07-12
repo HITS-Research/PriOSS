@@ -44,13 +44,6 @@
             <app-ads-related-data [previewModeInput]="'true'"></app-ads-related-data>
           </app-dash-card>
         </div>
-
-        <!-- Facebook updated the data export to not include inferences data; June 2024 -->
-        <!-- <div nz-col nzXs="24" nzXl="8">
-          <app-dash-card cardLink="/face/inferred-topics" [height]="cardHeight()" titleText="Your Topics">
-            <app-inferred-topics [previewMode]="true"></app-inferred-topics>
-          </app-dash-card>
-        </div> -->
         <div nz-col nzXs="24" nzXl="8">
           <app-dash-card cardLink="/face/other-personal-info" [height]="cardHeight()"
             titleText="Other Personal Information">
@@ -101,9 +94,6 @@
       <p nz-typography class="rectification-steps">{{ rectificationText }}</p>
     </div>
     <div class="steps-action">
-      <!-- <button nz-button nzType="default" (click)="start()" *ngIf="current <= 4">
-      <span>Start</span>
-    </button> -->
       <button nz-button nzType="default" (click)="pre()" *ngIf="current > 0">
         <span>Previous</span>
       </button>

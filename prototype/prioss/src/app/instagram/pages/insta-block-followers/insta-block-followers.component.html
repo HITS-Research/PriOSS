@@ -1,45 +1,37 @@
-<!-- 
-Purpose: Create the webpage for blocking followers in Instagram
-Author: sdebnath (sdebnath@mail.upb.de)
--->
-
 <div class="component-page">
-  <!-- Title bar component with titleText and tooltipText properties -->
+
   <app-title-bar titleText="Guidelines to Block Followers" tooltipText="The following guidelines help you to block followers for your Instagram account. These guidelines are specific to a Web Browser user."></app-title-bar>
   <br>
-  <!-- Paragraph describing the scenario -->
+
   <p nz-typography>You have created an Instagram account and you want followers. So, you start following even unknown people that you discover. In return, some of them follow you back. However, after a while, you may start to receive inappropriate comments on your photos from those users. Or on the contrary, they may not interact with your posts in any way and you feel that they are only lurking.</p>
-  <!-- Paragraph explaining the privacy settings -->
+
   <p nz-typography>Even if you have turned on the option to make your photos private, <strong>it won’t keep your posts private from those who are already following you</strong>. In this case, you will have to manually remove <strong>(Block)</strong> the people you don’t want to see your photos.</p>
 
-  <!-- Steps for blocking followers -->
   <p nz-typography>To remove followers from your list, follow these steps:</p>
   <br>
-  <!-- Steps component with dynamic current step -->
+
   <nz-steps [nzCurrent]="BlockFollowersWeb">
-      <!-- Individual steps with titles -->
+
       <nz-step nzTitle="Login"></nz-step>
       <nz-step nzTitle="Privacy Settings to Block Followers"></nz-step>
       <nz-step nzTitle="Final Step"></nz-step>
   </nz-steps>
 
-  <!-- Content for each step -->
   <div class="steps-content">
-      <!-- Image illustrating the step -->
+
       <img nz-image height="300px" nzSrc={{instructionPictureBlockFollowers}} alt="" />
-      <!-- Divider for visual separation -->
+
       <nz-divider></nz-divider>
-      <!-- Textual instructions for the step -->
+
       <p nz-typography>{{ instructionTextBlockFollowers }}</p>
   </div>
 
-  <!-- Actions for navigating steps -->
   <div class="steps-action">
-      <!-- Button to navigate to previous step -->
+
       <button nz-button nzType="default" (click)="preBlockFollowers()" [disabled]=" BlockFollowersWeb <= 0">
           <span>Previous</span>
       </button>
-      <!-- Button to navigate to next step -->
+
       <button nz-button nzType="default" (click)="nextBlockFollowers()" [disabled]=" BlockFollowersWeb >= 2">
           <span>Next</span>
       </button>

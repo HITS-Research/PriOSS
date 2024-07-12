@@ -1,5 +1,4 @@
 <div [ngClass]="{ 'component-page': !previewMode }">
-  <!--in previewmode only a small table with personal information is shown-->
   <div *ngIf="previewMode">
 
     @if (name() !== undefined) {

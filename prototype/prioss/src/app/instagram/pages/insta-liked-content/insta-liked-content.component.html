@@ -1,6 +1,5 @@
 <div [ngClass]="{'component-page': !previewMode}">
 
-    <!--only shows a preview of the visualization-->
     <div *ngIf="previewMode">
         <nz-row [nzGutter]="16">
             <nz-col [nzSpan]="12">
@@ -24,7 +23,6 @@
         </nz-row>
     </div>
 
-    <!--only shows when visiting the page-->
     <div *ngIf="!previewMode">
         <div>
             <app-title-bar titleText="Liked Comments"
@@ -180,9 +178,6 @@
                                             </nz-skeleton>
                                         </nz-card>
 <!--                                        TODO: Add image slider-->
-<!--                                        <ng-template #coverTemplate>-->
-<!--                                            <span nz-icon nzType="picture" nzTheme="outline">Media Content</span>-->
-<!--                                        </ng-template>-->
                                         <ng-template #avatarTemplate>
                                             <nz-avatar [nzSrc]="profilePic === 'error' ? '../../assets/images/insta-avatar/insta_avatar01.jpg' : profilePic"></nz-avatar>
                                         </ng-template>
@@ -223,10 +218,10 @@
                                                 ></nz-card-meta>
                                             </nz-skeleton>
                                         </nz-card>
-                                        <!--                                        TODO: Add image slider-->
-                                        <!--                                        <ng-template #coverTemplate>-->
-                                        <!--                                            <span nz-icon nzType="picture" nzTheme="outline">Media Content</span>-->
-                                        <!--                                        </ng-template>-->
+
+
+
+
                                         <ng-template #avatarTemplate>
                                             <nz-avatar nzIcon="user" [ngStyle]="{ 'background-color': getRandomSoftColor() }"></nz-avatar>
                                         </ng-template>

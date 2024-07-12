@@ -1,7 +1,6 @@
 <form nz-form nzLayout="vertical">
   <nz-form-item>
     <nz-form-label> <img alt="An Icon for the Chatbot" class="i-image" src="../../assets/images/icons/chatbot-icon.png">{{"&ldquo;"}}{{this.question}}{{"&rdquo;"}}</nz-form-label>
-    <!-- Robot image from uxwing.com . This image was free to use in any personal and commercial projects without any attribution or credit.-->
     <br>
     <div *ngIf="!isFinish"> 
       <nz-collapse  *ngIf="howToCheck?.length">

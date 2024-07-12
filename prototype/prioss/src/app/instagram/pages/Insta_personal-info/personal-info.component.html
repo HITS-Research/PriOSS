@@ -1,5 +1,5 @@
 <div [ngClass]="{'component-page': !previewMode}">
-  <!--in previewmode only a small table with personal information is shown-->
+
   <div *ngIf="previewMode">
     <div *ngIf="personalInfo !== undefined">
       <nz-row [nzGutter]="16">
@@ -17,9 +17,9 @@
       </nz-row>
     </div>
   </div>
-  <!--when not in previewmode the whole page is rendered-->
+
   <div *ngIf="!previewMode">
-    <!--Titlebar component -->
+
     <app-title-bar titleText="Personal Information" tooltipText="Details about the personal information collected by Instagram"></app-title-bar>
     <br>
     <div nz-row [nzGutter]="{ xs: 20, xl: 40 }" nz-Align="top" id="profile-information-cards-row-1">

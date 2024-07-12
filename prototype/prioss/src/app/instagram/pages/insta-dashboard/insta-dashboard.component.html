@@ -14,19 +14,19 @@
 
     <div nz-row [nzGutter]="[{ xs: 8, xl: 20}, {xs: 8, xl: 40}]">
       <div nz-col nzXs="24" nzXl="8">
-        <!--card for visualizing the personal information-->
+
         <app-dash-card id="personalInformation" cardLink="/insta/personal-info" titleText="Personal Information">
           <app-personal-info [previewMode]="true"></app-personal-info>
         </app-dash-card>
       </div>
       <div nz-col nzXs="24" nzXl="8">
-        <!--card for visualizing the login and account creation-->
+
         <app-dash-card cardLink="/insta/account" titleText="Account Creation and Login">
           <app-insta-account-creation-login [previewMode]="true"></app-insta-account-creation-login>
         </app-dash-card>
       </div>
       <div nz-col nzXs="24" nzXl="8">
-        <!--card for visualizing for friends and followers-->
+
         <app-dash-card cardLink="/insta/followers" titleText="Followers and Following">
           <app-insta-followers [previewMode]="true"></app-insta-followers>
         </app-dash-card>
@@ -35,19 +35,19 @@
     <br>
     <div nz-row [nzGutter]="[{ xs: 8, xl: 20}, {xs: 8, xl: 40}]">
       <div nz-col nzXs="24" nzXl="8">
-        <!--card for visualizing the liked comments and posts-->
+
         <app-dash-card cardLink="/insta/likedcontent" titleText="Liked Comments and Posts">
           <app-insta-liked-content [previewMode]="true"></app-insta-liked-content>
         </app-dash-card>
       </div>
       <div nz-col nzXs="24" nzXl="8">
-        <!--card for visualizing the contacts-->
+
         <app-dash-card cardLink="/insta/contacts" titleText="Contacts">
           <app-insta-contact [previewMode]="true"></app-insta-contact>
         </app-dash-card>
       </div>
       <div nz-col nzXs="24" nzXl="8">
-        <!--card for visualizing for searches-->
+
         <app-dash-card cardLink="/insta/searches" titleText="Searches">
           <app-insta-searches [previewMode]="true"></app-insta-searches>
         </app-dash-card>
@@ -56,19 +56,19 @@
     <br>
   <div nz-row [nzGutter]="[{ xs: 8, xl: 20}, {xs: 8, xl: 40}]">
     <div nz-col nzXs="24" nzXl="8">
-      <!--card for visualizing for messages-->
+
       <app-dash-card cardLink="/insta/messages" titleText="Messages">
         <app-insta-messages [previewMode]="true"></app-insta-messages>
       </app-dash-card>
     </div>
     <div nz-col nzXs="24" nzXl="8">
-      <!--card for visualizing for your topic-->
+
       <app-dash-card cardLink="/insta/your-topic" titleText="Your topic">
         <app-insta-your-topic [previewMode]="true"></app-insta-your-topic>
       </app-dash-card>
     </div>
     <div nz-col nzXs="24" nzXl="8">
-      <!--card for visualizing all about advertisements-->
+
       <app-dash-card id="advertisement" cardLink="/insta/ads" titleText="Advertisement">
         <app-insta-ads [previewMode]="true"></app-insta-ads>
       </app-dash-card>
@@ -79,7 +79,7 @@
   <br>
   <div nz-row [nzGutter]="[{ xs: 8, xl: 20}, {xs: 8, xl: 40}]">
     <div nz-col nzXs="24" nzXl="8">
-      <!--card for visualizing for shopping data-->
+
       <app-dash-card cardLink="/insta/shopping" titleText="Shopping">
         <app-insta-shopping [previewMode]="true"></app-insta-shopping>
       </app-dash-card>
@@ -132,19 +132,19 @@
 
   <div nz-row [nzGutter]="[{ xs: 8, xl: 20}, {xs: 8, xl: 40}]">
     <div nz-col nzXs="24" nzXl="8">
-      <!--card for Privacy settings judge-->
+
       <app-dash-card cardLink="" titleText="Privacy Settings Judge">
             <app-settings-form [service]="'Instagram'"></app-settings-form>
           </app-dash-card>
     </div>
 
-    <div nz-col nzXs="24" nzXl="8" class="column"><!--card for privacy recommendation - How to block folllowers-->
+    <div nz-col nzXs="24" nzXl="8" class="column">
        <app-dash-card cardLink="/insta/block-followers" titleText="How to Block Followers">
             <p nz-typography>This section provides you guidelines to block followers for Instagram.</p>
         </app-dash-card>
     </div>
 
-    <div nz-col nzXs="24" nzXl="8" class="column"><!--card for privacy recommendation- How to hide Instagram Stories and live videos from specific people -->
+    <div nz-col nzXs="24" nzXl="8" class="column">
       <app-dash-card cardLink="/insta/hide-stories" titleText="How to Hide Instagram Stories">
             <p nz-typography>This section provides you guidelines to hide Instagram Stories and live videos from specific people.</p>
         </app-dash-card>
@@ -154,7 +154,6 @@
   <br>
   <a id="faq" class="offset-anchor"></a>
 
-  <!-- <app-faq serviceName="insta"></app-faq> -->
   <app-help-button (startTourClick)="startTour()">
     <h2 nz-typography id="introduction-type">Introduction</h2>
     <h2 nz-typography id="rectification">Rectification</h2>

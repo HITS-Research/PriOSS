@@ -58,11 +58,6 @@
             </nz-list>
         </nz-sider>
         <nz-content>
-            <!-- <nz-table #virtualTable [nzBordered]="true" [nzVirtualMinBufferPx]="1000" [nzVirtualItemSize]="1"
-                [nzData]="currentChat().messages" [nzVirtualForTrackBy]="trackByID" [nzFrontPagination]="false"
-                [nzShowPagination]="false" [nzScroll]="{x: '200', y: '800px' }">
-                <tbody class="chat-messages-table-body">
-                    <ng-template nz-virtual-scroll let-data let-index="index"> -->
             <div cdkVirtualScrollingElement style="height: 700px; width: 100%;">
                 <cdk-virtual-scroll-viewport autosize appendOnly minBufferPx="1000" maxBufferPx="1500" class="chat-messages-table-body">
                     <div *cdkVirtualFor="let data of currentChat().messages">
@@ -122,10 +117,6 @@
 
                 </cdk-virtual-scroll-viewport>
             </div>
-            <!-- 
-            </ng-template>
-            </tbody>
-            </nz-table> -->
         </nz-content>
 
     </nz-layout>

@@ -39,7 +39,6 @@
           >
           </nz-statistic>
           <ng-template class="container_class" #PwdChange>
-            <!-- <span nz-icon nzType="redo"></span> -->
             <span nz-icon nzType="rest" nzTheme="outline"></span>
           </ng-template>
         </span>
@@ -54,7 +53,6 @@
         </nz-statistic>
         <ng-template class="container_class" #Loginout>
           <span nz-icon nzType="retweet"></span>
-          <!-- <span nz-icon nzType="user-switch" nzTheme="outline"></span> -->
         </ng-template>
       </nz-col>
     </nz-row>
@@ -69,14 +67,6 @@
   <nz-tabset class="margin-top-20">
     <nz-tab nzTitle="Login Locations">
       <br />
-      <!-- <div [ngClass]="{'logloc-tab': logloc_empty}">
-        <div data-bind="visible: !logloc_empty">
-          <nz-result class=".no_data" nzStatus="404" nzTitle="No Data" nzSubTitle="Sorry, your data does not exist.">
-            <div nz-result-extra>
-              <button nz-button nzType="primary">Back Home</button>
-            </div>
-          </nz-result>
-        </div> -->
       <ng-container *ngIf="dataAvailableLoc(); else noDataTemplate">
         <world-map [mapOptions]="loginMapOptions()"></world-map>
         <br />
@@ -97,7 +87,6 @@
           </tbody>
         </nz-table>
         <br />
-        <!-- <button nz-button nzType="primary"> To Privacy Recommendations</button> -->
       </ng-container>
       <ng-template #noDataTemplate>
         <nz-result nzStatus="403" nzTitle="No data available"> </nz-result>
@@ -105,13 +94,6 @@
     </nz-tab>
 
     <nz-tab nzTitle="Login and Logouts">
-      <!-- <div [ngClass]="{'component-page': loginlogout_empty}">
-          <nz-result class=".no_data" nzStatus="404" nzTitle="No Data" nzSubTitle="Sorry, your data does not exist.">
-            <div nz-result-extra>
-              <button nz-button nzType="primary">Back Home</button>
-            </div>
-          </nz-result>
-        </div> -->
       <ng-container *ngIf="dataAvailableLogOuts(); else noDataTemplate">
         <nz-row [nzGutter]="16">
           <nz-col [nzSpan]="12">
@@ -143,7 +125,6 @@
           </tbody>
         </nz-table>
         <br />
-        <!-- <button nz-button nzType="primary">To Privacy Recommendations</button> -->
       </ng-container>
       <ng-template #noDataTemplate>
         <nz-result nzStatus="403" nzTitle="No data available"> </nz-result>
@@ -151,13 +132,6 @@
     </nz-tab>
 
     <nz-tab nzTitle="Account Status Changes">
-      <!-- <div [ngClass]="{'component-page': accstatus_empty}">
-          <nz-result class=".no_data" nzStatus="404" nzTitle="No Data" nzSubTitle="Sorry, your data does not exist.">
-            <div nz-result-extra>
-              <button nz-button nzType="primary">Back Home</button>
-            </div>
-          </nz-result>
-        </div> -->
       <ng-container *ngIf="dataAvailableStatusChange(); else noDataTemplate">
         <nz-row [nzGutter]="16">
           <nz-col [nzSpan]="12">
@@ -217,7 +191,6 @@
           </tbody>
         </nz-table>
         <br />
-        <!-- <button nz-button nzType="primary">To Privacy Recommendations</button> -->
       </ng-container>
       <ng-template #noDataTemplate>
         <nz-result nzStatus="403" nzTitle="No data available"> </nz-result>
@@ -226,13 +199,6 @@
 
     <nz-tab nzTitle="Activity Locations">
       <br />
-      <!-- <div [ngClass]="{'component-page': accactivity_empty}">
-          <nz-result class=".no_data" nzStatus="404" nzTitle="No Data" nzSubTitle="Sorry, your data does not exist.">
-            <div nz-result-extra>
-              <button nz-button nzType="primary">Back Home</button>
-            </div>
-          </nz-result>
-        </div> -->
       <ng-container *ngIf="dataAvailableActivities(); else noDataTemplate">
         <nz-row [nzGutter]="16">
           <nz-col [nzSpan]="12">
@@ -286,7 +252,6 @@
           </tbody>
         </nz-table>
         <br />
-        <!-- <button nz-button nzType="primary">To Privacy Recommendations</button> -->
       </ng-container>
       <ng-template #noDataTemplate>
         <nz-result nzStatus="403" nzTitle="No data available"> </nz-result>

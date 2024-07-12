@@ -1,5 +1,4 @@
 <div [ngClass]="{'component-page': !previewMode}">
-    <!--only shows a preview of the visualization-->
     <div *ngIf="previewMode">
         <nz-row [nzGutter]="16">
             <nz-col [nzSpan]="12">
@@ -42,8 +41,6 @@
             </nz-col>
         </nz-row>
     </div>
-
-    <!--only shows when visiting the page-->
     <div *ngIf="!previewMode">
         <app-title-bar titleText="Highlights"
             tooltipText="The below displays the advertisment highlights for your Instagram data."></app-title-bar>
@@ -97,7 +94,6 @@
                 <nz-tab nzTitle="Advertisement Activity">
                     <ng-template nz-tab>
                         <nz-demo-tab-content-lazy>
-                            <!-- If Ads Activity Data present -->
                             <div *ngIf="ads_activity?.length">
                                 <p>The below displays the advertisement activity performed by you on your Instagram
                                     account.</p>
@@ -138,7 +134,6 @@
                                     </div>
                                 </nz-dropdown-menu>
                             </div>
-                            <!-- If No Ads Activity Data present -->
                             <div *ngIf="ads_activity?.length === 0">
                                 <nz-empty nzNotFoundImage="simple"></nz-empty>
                             </div>
@@ -148,7 +143,6 @@
                 <nz-tab nzTitle="Advertisement Clicked">
                     <ng-template nz-tab>
                         <nz-demo-tab-content-lazy>
-                            <!-- If Ads Clicked Data present -->
                             <div *ngIf="ads_clicked?.length">
                                 <p>The below displays the advertisement clicked by you on your Instagram account.</p>
                                 <nz-table [nzData]="listOfAdsClicked" #adsClickedTable>
@@ -183,7 +177,6 @@
                                     </div>
                                 </nz-dropdown-menu>
                             </div>
-                            <!-- If No Ads Clicked Data present -->
                             <div *ngIf="ads_clicked?.length === 0">
                                 <nz-empty nzNotFoundImage="simple"></nz-empty>
                             </div>
@@ -193,7 +186,7 @@
                 <nz-tab nzTitle="Advertisement Interest">
                     <ng-template nz-tab>
                         <nz-demo-tab-content-lazy>
-                            <!-- If Ads Interest Data present -->
+
                             <div *ngIf="ads_interests?.length">
                                 <p>The below displays the advertisement interests inferred by Instagram.</p>
                                 <nz-table [nzData]="listOfAdsInterests" #adsInterestsTable>
@@ -226,7 +219,7 @@
                                     </div>
                                 </nz-dropdown-menu>
                             </div>
-                            <!-- If No Ads Interest Data present -->
+
                             <div *ngIf="ads_interests?.length === 0">
                                 <nz-empty nzNotFoundImage="simple"></nz-empty>
                             </div>
@@ -236,7 +229,7 @@
                 <nz-tab nzTitle="Advertisement Viewed">
                     <ng-template nz-tab>
                         <nz-demo-tab-content-lazy>
-                            <!-- If Ads Viewed Data present -->
+
                             <div *ngIf="listOfAdsViewed?.length">
                                 <p>The below displays the advertisement viewed by you on your Instagram account.</p>
                                 <nz-table [nzData]="listOfAdsViewed" #adsViewedTable>
@@ -271,7 +264,7 @@
                                     </div>
                                 </nz-dropdown-menu>
                             </div>
-                            <!-- If No Ads Viewed Data present -->
+
                             <div *ngIf="listOfAdsViewed?.length === 0">
                                 <nz-empty nzNotFoundImage="simple"></nz-empty>
                             </div>

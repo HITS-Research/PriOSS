@@ -1,5 +1,5 @@
 <div [ngClass]="{'component-page': !previewMode}">
-  <!--only shows a preview of the visualization-->
+
   <div *ngIf="previewMode">
     <nz-row [nzGutter]="16">
         <nz-col [nzSpan]="12">
@@ -13,9 +13,8 @@
     </nz-row>
   </div>
 
-  <!--only shows when visiting the page-->
   <div *ngIf="!previewMode">
-    <!--Titlebar component -->
+
     <app-title-bar titleText="Contacts" tooltipText="View all contact details synced from the user's mobile device."></app-title-bar>
     <br>
     <nz-card style="width:100%; height:100%;">

@@ -1,17 +1,19 @@
 <app-accordion title="Purposes - Why does Instagram collect your data ?">
-    <div id="step6">
-      <nz-card nzTitle="Exemplary Purposes">
-        <p nz-topography>
-            The following purposes should give an example of Instagram's reasoning in regards to data collection. To Get a full list of their reasons you can check out Instagram's <span nz-icon nzType="link"><a target="_blank" href="https://privacycenter.instagram.com/policy/?section_id=0-WhatIsThePrivacy">privacy policy</a></span>
-        </p>
-        <nz-table nzTemplateMode>
-          <thead>
+  <div id="step6">
+    <nz-card nzTitle="Exemplary Purposes">
+      <p nz-topography>
+        The following purposes should give an example of Instagram's reasoning in regards to data collection. To Get a
+        full list of their reasons you can check out Instagram's <span nz-icon nzType="link"><a target="_blank"
+            href="https://privacycenter.instagram.com/policy/?section_id=0-WhatIsThePrivacy">privacy policy</a></span>
+      </p>
+      <nz-table nzTemplateMode>
+        <thead>
           <tr>
             <th id="DataCollectionTablePurposeHeader" [nzWidth]="'70%'">Purpose</th>
             <th id="DataCollectionTableDataCollectedHeader">Data Collected</th>
           </tr>
-          </thead>
-          <tbody>
+        </thead>
+        <tbody>
           <tr *ngFor="let row of dataRows">
             <td>
               <strong>{{ row.shortPurpose }}:</strong> {{ row.detailedPurpose }}
@@ -19,13 +21,12 @@
             <td>
               <ng-container *ngFor="let data of row.dataCollected.split(', '); let last = last">
                 <i nz-icon [nzType]="dataIcons[data]" [nzTheme]="'outline'" class="large-icon" [title]="data"></i>
-                <span *ngIf="!last">&nbsp;</span> <!-- Add a non-breaking space if not the last icon -->
-              </ng-container>
+                <span *ngIf="!last">&nbsp;</span>
+               </ng-container>
             </td>
           </tr>
-          </tbody>
-        </nz-table>
-      </nz-card>
-    </div>
-  </app-accordion>
-  
+        </tbody>
+      </nz-table>
+    </nz-card>
+  </div>
+</app-accordion>

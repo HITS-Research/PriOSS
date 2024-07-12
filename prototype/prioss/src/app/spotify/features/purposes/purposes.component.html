@@ -23,7 +23,7 @@
           <td>
             <ng-container *ngFor="let data of row.dataCollected.split(', '); let last = last">
               <i nz-icon [nzType]="dataIcons[data]" [nzTheme]="'outline'" class="large-icon" [title]="data"></i>
-              <span *ngIf="!last">&nbsp;</span> <!-- Add a non-breaking space if not the last icon -->
+              <span *ngIf="!last">&nbsp;</span>
             </ng-container>
           </td>
         </tr>
