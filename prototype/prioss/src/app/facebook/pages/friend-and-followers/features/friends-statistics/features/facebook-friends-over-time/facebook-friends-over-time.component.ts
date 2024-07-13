@@ -1,7 +1,7 @@
-import {ChangeDetectionStrategy, Component, type Signal, computed, input} from '@angular/core';
-import type {EChartsOption} from 'echarts';
-import {NgxEchartsModule, provideEcharts} from 'ngx-echarts';
-import type {FbConnectionsDataModel} from 'src/app/facebook/state/models';
+import { ChangeDetectionStrategy, Component, type Signal, computed, input } from '@angular/core';
+import type { EChartsOption } from 'echarts';
+import { NgxEchartsModule, provideEcharts } from 'ngx-echarts';
+import type { FbConnectionsDataModel } from 'src/app/facebook/state/models';
 
 @Component({
     selector: 'prioss-facebook-friends-over-time',
@@ -22,7 +22,7 @@ export class FacebookFriendsOverTimeComponent {
                     show: true,
                 },
             },
-            legend:{
+            legend: {
                 data: ["Liked"]
             },
             tooltip: {
@@ -64,7 +64,7 @@ export class FacebookFriendsOverTimeComponent {
             this.connectionsData()
                 .yourFriends?.friends_v2.map((friend) => friend.timestamp)
                 .map((timestamp) => new Date(timestamp * 1000).getFullYear()) ?? [];
-        return Array.from(new Set(years)).sort();
+        return Array.from(new Set(years)).sort((a, b) => a - b);
     });
     getFriendsPerYear = computed(() => {
         const friendsPerYear: number[] = [];

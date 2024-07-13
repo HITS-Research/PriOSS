@@ -9,6 +9,7 @@ import type { FbActivityAcrossFacebookModel } from "src/app/facebook/state/model
 import { IndexedDbService } from "src/app/state/indexed-db.state";
 import { FacebookIndexedDBMedia } from "src/app/facebook/models/FacebookIndexDBMedia.interface";
 import { AppType } from "src/app/framework/pages/service-selection/app-type";
+import { Attachment, ExternalContext, Media, Place, PostDatum } from "src/app/facebook/models/activityAcrossFacebook/Posts/Post";
 
 @Component({
   selector: "prioss-posts-overview",
@@ -51,82 +52,113 @@ export class PostsOverviewComponent implements OnInit {
     return this.postData().map(post => {
       const simplifiedPost: SimplifiedPostModel = {
         timestamp: post.timestamp * 1000,
-        lastUpdatedTimeStamp: (post.data.findLast((datum) => datum.update_timestamp !== undefined)?.update_timestamp ?? 0) * 1000,
+        lastUpdatedTimeStamp: this.getLastUpdateTimestamp(post.data),
         postType: PostType.TEXT,
         attachment: {}
       };
+
       if (post.attachments) {
-        simplifiedPost.attachment = post.attachments.map(attachment => {
-          const simplifiedAttachment: SimplifiedAttachment = {};
-          if (attachment.data) {
-            if (attachment.data.length > 0) {
-              if (attachment.data[0].media) {
-                simplifiedPost.postType = PostType.PHOTO;
-                simplifiedAttachment.media = {
-                  uri: attachment?.data[0].media?.uri ?? '',
-                  creationTimeStamp: attachment?.data[0].media.creation_timestamp ?? 0,
-                  title: attachment?.data[0].media?.title ?? '',
-                  exif_upload_ip: attachment?.data[0].media.media_metadata?.photo_metadata.exif_data[0]?.upload_ip ?? '',
-                  exif_takenTimeStamp: attachment?.data[0].media.media_metadata?.photo_metadata.exif_data[0]?.taken_timestamp ?? 0,
-                  description: attachment?.data[0].media?.description ?? '',
-                };
-              }
-              if (attachment.data[0].place) {
-                simplifiedPost.postType = PostType.PLACE;
-                simplifiedAttachment.place = {
-                  name: attachment.data[0].place.name,
-                  coordinate: [attachment.data[0].place.coordinate?.latitude ?? '', attachment.data[0].place.coordinate?.longitude ?? ''],
-                  address: attachment.data[0].place?.address ?? '',
-                  url: attachment.data[0].place?.url ?? '',
-                };
-              }
-              if (attachment.data[0].external_context) {
-                simplifiedPost.postType = PostType.LINK;
-                simplifiedAttachment.externalContext = {
-                  url: attachment.data[0].external_context?.url ?? '',
-                  name: attachment.data[0].external_context?.name ?? '',
-                };
-              }
-            }
-          }
-          return simplifiedAttachment;
-        })[0];
+        const attachment = post.attachments[0];
+        simplifiedPost.attachment = this.processAttachment(attachment);
+        simplifiedPost.postType = this.determinePostType(attachment);
       }
-      if (post.title) {
-        simplifiedPost.title = post.title;
-      }
-      if (post.tags) {
-        simplifiedPost.taggedPeople = post.tags.map(tag => tag.name);
-      }
+
+      if (post.title) simplifiedPost.title = post.title;
+      if (post.tags) simplifiedPost.taggedPeople = post.tags.map(tag => tag.name);
       if (post.data) {
         simplifiedPost.postContent = post.data[0]?.post ?? '';
-        simplifiedPost.lastUpdatedTimeStamp = post.data.map(datum => datum.update_timestamp).findLast((timestamp) => timestamp !== undefined) ?? 0;
+        simplifiedPost.lastUpdatedTimeStamp = this.getLastUpdateTimestamp(post.data);
       }
+
       return simplifiedPost;
     });
   });
 
   async ngOnInit() {
     this.simplifiedPostData();
-    let selectedService: { service: string, filename: string } = {} as { service: string, filename: string };
-    await this.#indexedDbService.getSelectedService(AppType.Facebook).then((service) => selectedService = service).then(() => {
-      console.log(`Selected service: ${selectedService.service} with filename: ${selectedService.filename}`);
-      this.#indexedDbService.getAllFacebookMediaFiles(selectedService.filename)
-        .then((mediaFiles) => {
-          mediaFiles.forEach((mediaFile) => {
-            mediaFile.blobURL = URL.createObjectURL(mediaFile.file);
-          });
-          this.mediaFiles.set(mediaFiles)
-        });
-    });
+    await this.loadMediaFiles();
   }
+
+  /**
+   * Loads the media files from the IndexedDB and processes them.
+   * @returns {Promise<void>} A promise that resolves when the media files are loaded and processed.
+   */
+  private async loadMediaFiles() {
+    try {
+      const selectedService = await this.#indexedDbService.getSelectedService(AppType.Facebook);
+      const mediaFiles = await this.#indexedDbService.getAllFacebookMediaFiles(selectedService.filename);
+
+      const processedMediaFiles = mediaFiles.map(mediaFile => ({
+        ...mediaFile,
+        blobURL: URL.createObjectURL(mediaFile.file)
+      }));
+
+      this.mediaFiles.set(processedMediaFiles);
+    } catch (error) {
+      console.error('Error loading media files:', error);
+      // Handle error appropriately
+    }
+  }
+
   getMediaBlobURL(path: string) {
-    console.log(`Path: ${path}`);
-    const blobURLs = this.mediaFiles().forEach(mediaFile => console.log(`Media file: ${mediaFile.blobURL}`));
-    console.log(`Blob URLs: ${blobURLs}`);
     const blobUrl: string = this.mediaFiles().find(mediaFile => mediaFile.thread_path.includes(path) || path.includes(mediaFile.thread_path))?.blobURL ?? '';
-    console.log(`Blob URL: ${blobUrl}`);
     return blobUrl;
+  }
+
+  private getLastUpdateTimestamp(data: PostDatum[]): number {
+    return (data.findLast((datum) => datum.update_timestamp !== undefined)?.update_timestamp ?? 0) * 1000;
+  }
+
+  private processAttachment(attachment: Attachment): SimplifiedAttachment {
+    if (!attachment?.data?.[0]) return {};
+
+    const attachmentData = attachment.data[0];
+
+    if (attachmentData.media) return this.processMediaAttachment(attachmentData.media);
+    if (attachmentData.place) return this.processPlaceAttachment(attachmentData.place);
+    if (attachmentData.external_context) return this.processExternalContextAttachment(attachmentData.external_context);
+
+    return {};
+  }
+
+  private processMediaAttachment(media: Media): SimplifiedAttachment {
+    return {
+      media: {
+        uri: media.uri ?? '',
+        creationTimeStamp: media.creation_timestamp ?? 0,
+        title: media.title ?? '',
+        exif_upload_ip: media.media_metadata?.photo_metadata.exif_data[0]?.upload_ip ?? '',
+        exif_takenTimeStamp: media.media_metadata?.photo_metadata.exif_data[0]?.taken_timestamp ?? 0,
+        description: media.description ?? '',
+      }
+    };
+  }
+
+  private processPlaceAttachment(place: Place): SimplifiedAttachment {
+    return {
+      place: {
+        name: place.name,
+        coordinate: [place.coordinate?.latitude ?? '', place.coordinate?.longitude ?? ''],
+        address: place.address ?? '',
+        url: place.url ?? '',
+      }
+    };
+  }
+
+  private processExternalContextAttachment(externalContext: ExternalContext): SimplifiedAttachment {
+    return {
+      externalContext: {
+        url: externalContext.url ?? '',
+        name: externalContext.name ?? '',
+      }
+    };
+  }
+
+  private determinePostType(attachment: Attachment): PostType {
+    if (attachment?.data?.[0]?.media) return PostType.PHOTO;
+    if (attachment?.data?.[0]?.place) return PostType.PLACE;
+    if (attachment?.data?.[0]?.external_context) return PostType.LINK;
+    return PostType.TEXT;
   }
 }
 

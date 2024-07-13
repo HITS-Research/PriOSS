@@ -114,15 +114,17 @@ export class IndexedDbService {
    * @param files the facebook media files
    */
   async bulkAddFacebookMediaFiles(files: FacebookIndexedDBMedia[]) {
-    await this.waitForDb().then(() => {
-      const tx = this.db.transaction(AppType.FacebookMediaFiles, 'readwrite');
-      const store = tx.objectStore(AppType.FacebookMediaFiles);
-      for (const file of files) {
-        store.put(file);
-      }
-      tx.done;
-    });
-
+    await this.waitForDb();
+  
+    const tx = this.db.transaction(AppType.FacebookMediaFiles, 'readwrite');
+    const store = tx.objectStore(AppType.FacebookMediaFiles);
+    
+    for (const file of files) {
+      store.put(file);
+    }
+    
+    // Wait for the transaction to complete
+    await tx.done;
   }
 
 
