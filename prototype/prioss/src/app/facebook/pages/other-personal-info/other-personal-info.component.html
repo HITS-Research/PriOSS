@@ -61,7 +61,7 @@
         <nz-list>
           <div nz-row [nzGutter]="[8, 8]">
             @for (item of getVisibleAddressBookData(); track item){
-              <div nz-col [nzSpan]="6">
+              <div nz-col [nzXs]="24" [nzSm]="12" [nzMd]="8">
                 <nz-card>
                   <div nz-row>
                     <div nz-col nzFlex="1" class="center-text"><nz-avatar nzIcon="user" [style.background-color]="addressAvatarColorMapping[item.name]"></nz-avatar></div>
