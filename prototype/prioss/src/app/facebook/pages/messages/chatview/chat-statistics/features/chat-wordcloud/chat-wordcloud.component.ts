@@ -46,10 +46,10 @@ enum StopWordsOption {
 	styleUrl: "./chat-wordcloud.component.less",
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ChatWordcloudComponent implements OnInit{
+export class ChatWordcloudComponent implements OnInit {
 
 	ngOnInit(): void {
-		if(this.chatData().length > 0){
+		if (this.chatData().length > 0) {
 			const randomChat = Math.floor(Math.random() * this.chatData().length);
 			this.selectedChatID.set(this.chatData()[randomChat].id);
 		}
@@ -108,9 +108,9 @@ export class ChatWordcloudComponent implements OnInit{
 		let words: Record<string, number> = {};
 		if (chat.messages !== undefined) {
 			if (this.selectedChatParticipant() === "All Participants") {
-				words = this.getWordsFrequencyMap(chat.messages);
+				words = this.computeTFIDF(chat.messages);
 			} else {
-				words = this.getWordsFrequencyMap(
+				words = this.computeTFIDF(
 					chat.messages.filter(
 						(message) => message.sender === this.selectedChatParticipant(),
 					),
@@ -125,58 +125,65 @@ export class ChatWordcloudComponent implements OnInit{
 
 	cleanChatMessages(chat: ChatMessage[]): ChatMessage[] {
 		const messages = chat ?? [];
-		let excludedWords = new Set();
+		let excludedWords = new Set<string>();
 		const cleanChatMessages: ChatMessage[] = [];
+
 		if (!this.stopWordsOption().includes(StopWordsOption.NONE)) {
 			excludedWords = new Set([...excludedWords, ...this.getExcludedWords()]);
 		}
-		for (const message of messages) {
-			const messageWords = message.content?.split(" ") ?? [];
 
-			for (const word of messageWords) {
-				let lCaseword = word.trim().toLowerCase();
-				// remove punctuation at the end of words
-				lCaseword = lCaseword.replace(/[,.:;?!]+$/g, "");
-				if(/[0-9]+/.test(lCaseword)) {
-					continue;
-				}
-				if (excludedWords.has(lCaseword)) {
-					continue;
-				}
-				if (lCaseword.length >= this.minimalWordLength()) {
-					cleanChatMessages.push(message);
-				}
-				
+		for (const message of messages) {
+			if (message.content) {
+				const messageWords = message.content.split(/(\s+|\.+)/);
+				const cleanedWords = messageWords.map(word => {
+					// Convert to lowercase and trim
+					word = word.toLowerCase().trim();
+					// Check if the word is shorter than or equal to the minimal word length
+					if (word.length <= this.minimalWordLength()) {
+						return "";
+					}
+					// Replace punctuation characters with whitespace at the end of words
+					word = word.replace(/[,./\-:;?!"^]$/g, " ");
+					// Check if the word contains any letters (including umlauts)
+					if (!/[a-zäöüß]/i.test(word)) {
+						return "";
+					}
+					// Check if the word is in the excluded words list
+					if (excludedWords.has(word)) {
+						return "";
+					}
+					return word;
+				});
+
+				// Filter out empty strings and join the words back together
+				message.content = cleanedWords.filter(word => word !== "").join(" ");
+				cleanChatMessages.push(message);
+			} else {
+				//do nothing if message.content is null or undefined or empty
+				continue;
 			}
 		}
+
 		return cleanChatMessages;
 	}
 
 
+	/**
+	 * Calculates the frequency of words in the given array of chat messages.
+	 * This is an alternative to TD-IDF for word frequency analysis.
+	 * @param msgs - An array of chat messages.
+	 * @returns A record containing the frequency of each word in the chat messages.
+	 */
 	getWordsFrequencyMap(msgs: ChatMessage[]): Record<string, number> {
 		const words: Record<string, number> = {};
-		const messages = msgs;
-		let excludedWords = new Set();
-		if (!this.stopWordsOption().includes(StopWordsOption.NONE)) {
-			excludedWords = new Set([...excludedWords, ...this.getExcludedWords()]);
-		}
+		const messages = this.cleanChatMessages(msgs);
 		for (const message of messages) {
 			const messageWords = message.content?.split(" ") ?? [];
-
 			for (const word of messageWords) {
-				let lCaseword = word.trim().toLowerCase();
-				// remove punctuation at the end of words
-				lCaseword = lCaseword.replace(/[,.:;?!]+$/g, "");
-				if (excludedWords.has(lCaseword)) {
-					continue;
-				}
-				if (lCaseword.length >= this.minimalWordLength()) {
-					const count = words[lCaseword] || 0;
-					words[lCaseword] = count + 1;
-				}
+				words[word] = (words[word] || 0) + 1;
 			}
 		}
-		
+
 		return words;
 	}
 	getExcludedWords(): Set<string> {
@@ -212,86 +219,70 @@ export class ChatWordcloudComponent implements OnInit{
 	 * The timeframe can be specified
 	 */
 	computeConversations(msgs: ChatMessage[]): ChatMessage[][] {
-		if (!msgs) {
-			return [];
-		}
-		const timeframe = this.computeTimeframeForConversation(msgs);
-		const messages = msgs;
+		if (!msgs || msgs.length === 0) return [];
+
+		const timeframe = 30 * 60 * 1000; // 30 minutes in milliseconds as limit for conversation
 		const conversations: ChatMessage[][] = [];
 		let currentConversation: ChatMessage[] = [];
-		for (let i = 0; i < messages.length - 1; i++) {
-			const message = messages[i];
-			const nextMessage = messages[i + 1];
-			if ((message.timestamp - nextMessage.timestamp) > timeframe) {
-				conversations.push(currentConversation);
+
+		for (let i = 1; i < msgs.length; i++) {
+			const conversationEnded = msgs[i - 1].timestamp - msgs[i].timestamp > timeframe 
+			if (conversationEnded) {
+				if (currentConversation.length >= 2) {
+					conversations.push(currentConversation);
+				}
 				currentConversation = [];
 			}
-			currentConversation.push(message);
+			currentConversation.push(msgs[i]);
 		}
+
+		if (currentConversation.length >= 3) {
+			conversations.push(currentConversation);
+		}
+
 		return conversations;
 	}
 
-	/**
-	 * This function calculates the timeframe in milliseconds, where the conversation is active.
-	 * the conversation is active, if a message is answered in a timeframe, in which 95% of all messages were answered.
-	 */
-	computeTimeframeForConversation(msgs: ChatMessage[]): number {
-		const responseTimes: number[] = [];
-		if (!msgs) {
-			return 0;
-		}
-		for (let i = 0; i < msgs.length - 1; i++) {
-			const message = msgs[i];
-			const nextMessage = msgs[i + 1];
-			responseTimes.push(message.timestamp - nextMessage.timestamp);
-		}
-		responseTimes.sort((a, b) => a - b);
-		const index = Math.floor(responseTimes.length * 0.95);
-		return responseTimes[index];
-	}
 
-	// Function to compute TF-IDF scores
+	/**
+	 * Computes the TF-IDF (Term Frequency-Inverse Document Frequency) scores for the given chat messages.
+	 * TF-IDF is a numerical statistic that reflects the importance of a term in a document relative to a collection of documents.
+	 *
+	 * @param chat - The array of chat messages.
+	 * @returns A record object containing the TF-IDF scores for each term in the chat messages.
+	 */
 	computeTFIDF(chat: ChatMessage[]): Record<string, number> {
-		if(!chat) {
-			return {};
-		}
+		if (!chat || chat.length === 0) return {};
+
 		const cleanedMessages = this.cleanChatMessages(chat);
 		const termFrequencies: Record<string, number> = {};
 		const documentFrequencies: Record<string, number> = {};
-		const totalMessages = cleanedMessages.length;
 		const conversations = this.computeConversations(cleanedMessages);
-		// Step 1: Compute term frequencies (TF) for each term in the chat
-		for (const message of cleanedMessages) {
-			const terms = message.content?.toLowerCase().split(/\s+/)??[];
-			
-			for (const term of terms) {
-				termFrequencies[term] = (termFrequencies[term] || 0) + 1;
-			}
-		}
+		const totalConversations = conversations.length;
 
-
-		// Step 2: Compute inverse document frequency (IDF) for each term
+		// Compute TF and DF
 		for (const convo of conversations) {
 			const uniqueTerms = new Set<string>();
 			for (const message of convo) {
-				const terms = message.content?.toLowerCase().split(/\s+/)??[];
+				const terms = message.content?.toLowerCase().split(/\s+/) ?? [];
 				for (const term of terms) {
+					termFrequencies[term] = (termFrequencies[term] || 0) + 1;
 					uniqueTerms.add(term);
 				}
 			}
-			
-			for (const term of uniqueTerms) {
+			uniqueTerms.forEach(term => {
 				documentFrequencies[term] = (documentFrequencies[term] || 0) + 1;
-			}
+			});
 		}
 
-		// Step 3: Compute TF-IDF scores
+		// Compute TF-IDF
 		const tfidfScores: Record<string, number> = {};
 		for (const term in termFrequencies) {
 			const tf = termFrequencies[term];
-			const idf = Math.log(totalMessages / (1 + (documentFrequencies[term] || 0)));
+			const idf = Math.log(totalConversations / (documentFrequencies[term] || 1));
 			tfidfScores[term] = tf * idf;
 		}
+
 		return tfidfScores;
 	}
 

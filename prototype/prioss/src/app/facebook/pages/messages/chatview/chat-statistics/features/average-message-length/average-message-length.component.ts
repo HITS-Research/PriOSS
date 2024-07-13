@@ -95,63 +95,60 @@ export class AverageMessageLengthComponent implements OnInit {
 	});
 
 	yourAverageResponsetime = computed(() => {
-		let averageResponseTime = 0;
-		const responseTimes: number[] = [];
-		if (this.selectedChat().messages !== undefined) {
-			for (let i = 0; i < this.selectedChat().messages.length; i++) {
-				//the messages are ordered from most current to oldest, so last message comes after current message
-				let currentMessage = this.selectedChat().messages[0];
-				if (i > 0) {
-					currentMessage = this.selectedChat().messages[i - 1];
-				}
-				const lastMessage = this.selectedChat().messages[i];
-				if (currentMessage.sender === this.yourUsername()) {
-					if (lastMessage !== undefined) {
-						if (lastMessage.sender !== this.yourUsername()) {
-							if (currentMessage.timestamp - lastMessage.timestamp > 0) {
+		const messages = this.selectedChat().messages;
+		if (!messages || messages.length === 0) return this.msToHMS(0);
 
-								responseTimes.push(
-									currentMessage.timestamp - lastMessage.timestamp,
-								);
-							}
-
-						}
-					}
+		const responseTimes = messages
+			.slice(0, -1) // Exclude the last message
+			.map((currentMessage, index) => {
+				const nextMessage = messages[index + 1];
+				if (
+				currentMessage.sender === this.yourUsername() &&
+				nextMessage.sender !== this.yourUsername()
+				) {
+				const timeDiff = currentMessage.timestamp - nextMessage.timestamp;
+				return timeDiff > 0 ? timeDiff : null;
 				}
-			}
+				return null;
+			})
+			.filter((time): time is number => time !== null);
+
+		if (responseTimes.length === 0) {
+			return this.msToHMS(0);
 		}
-		responseTimes.sort((a, b) => a - b);
-		if (responseTimes.length > 0) {
-			averageResponseTime = responseTimes[Math.floor(responseTimes.length / 2)];
-		}
-		return this.msToHMS(averageResponseTime);
+		const medianResponseTime = this.getMedian(responseTimes);
+		return this.msToHMS(medianResponseTime);
 	});
+
+
 	theirAverageResponsetime = computed(() => {
-		let averageResponseTime = 0;
-		const responseTimes: number[] = [];
-		if (this.selectedChat().messages !== undefined) {
-			for (let i = 0; i < this.selectedChat().messages.length; i++) {
-				const currentMessage = this.selectedChat().messages[i];
-				const lastMessage = this.selectedChat().messages[i + 1];
-				if (currentMessage.sender !== this.yourUsername()) {
-					if (lastMessage !== undefined) {
-						if (lastMessage.sender === this.yourUsername()) {
-							responseTimes.push(
-								currentMessage.timestamp - lastMessage.timestamp,
-							);
-						}
-					}
+		const messages = this.selectedChat().messages;
+		if (!messages || messages.length === 0) {
+			return this.msToHMS(0);
+		}
+		const responseTimes = messages
+			.slice(0, -1) // Exclude the last message
+			.map((currentMessage, index) => {
+				const nextMessage = messages[index + 1];
+				if (
+				currentMessage.sender !== this.yourUsername() &&
+				nextMessage?.sender === this.yourUsername()
+				) {
+				return currentMessage.timestamp - nextMessage.timestamp;
 				}
-			}
+				return null;
+			})
+			.filter((time): time is number => time !== null && time > 0);
+
+		if (responseTimes.length === 0) {
+			return this.msToHMS(0);
 		}
-		responseTimes.sort((a, b) => a - b);
-		if (responseTimes.length > 0) {
-			averageResponseTime = responseTimes[Math.floor(responseTimes.length / 2)];
-		}
-		return this.msToHMS(averageResponseTime);
+
+		const medianResponseTime = this.getMedian(responseTimes);
+		return this.msToHMS(medianResponseTime);
 	});
 
-	msToHMS(seconds: number): string {
+	private msToHMS(seconds: number): string {
 	//const seconds = Math.floor(ms );
     const hours = Math.floor(seconds / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);
@@ -162,5 +159,10 @@ export class AverageMessageLengthComponent implements OnInit {
     const formattedSeconds = remainingSeconds.toString().padStart(2, '0');
 
     return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+	}
+	private getMedian(numbers: number[]): number {
+		const sorted = numbers.sort((a, b) => a - b);
+		const middle = Math.floor(sorted.length / 2);
+		return sorted[middle];
 	}
 }

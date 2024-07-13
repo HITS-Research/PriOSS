@@ -68,7 +68,7 @@ export class FacebookFriendsFollowingOverTimeComponent {
 			this.connectionsData()
 				.followed?.following_v3.map((following) => following.timestamp)
 				.map((timestamp) => new Date(timestamp * 1000).getFullYear()) ?? [];
-		return Array.from(new Set(years)).sort();
+		return Array.from(new Set(years)).sort( (a, b) => a - b);
 	});
   getFollowingPerYear = computed(() => {
     const followingPerYear: number[] = [];
