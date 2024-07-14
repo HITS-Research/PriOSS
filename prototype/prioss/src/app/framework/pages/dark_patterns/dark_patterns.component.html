@@ -1,53 +1,34 @@
 <h1>Awareness on Dark Patterns</h1>
-<p nz-typography>
+
+<h2 nz-typography>What are Dark Patterns?</h2>
+
+<div>
+  <p nz-typography class="definition">
     Dark patterns are deceptive design techniques used in websites or apps to trick users into taking actions they
-    didn't intend.
-    These tactics can include hiding important information, making it hard to unsubscribe, or manipulating users into
+    didn't intend. These tactics can include hiding important information, making it hard to unsubscribe, or manipulating users into
     buying more.
     Essentially, they take advantage of human behavior to benefit the business at the expense of the user’s choice or
     control.
-</p>
-<h3 nz-typography>Presence of Dark Patterns:</h3>
-<div class="dark-pattern-grid">
-    <div class="dark-pattern-item">
-        <span nz-icon nzType="container" nzTheme="outline" class="large-icon"></span>
-        <p>Pre-selected Email Newsletters</p>
-    </div>
-    <div class="dark-pattern-item">
-        <span nz-icon nzType="exception" nzTheme="outline" class="large-icon"></span>
-        <p>Unavoidable Cookie Banners</p>
-    </div>
-    <div class="dark-pattern-item">
-        <span nz-icon nzType="euro-circle" nzTheme="outline" class="large-icon"></span>
-        <p>Continued Payment Subscriptions</p>
-    </div>
-    <div class="dark-pattern-item">
-        <span nz-icon nzType="carry-out" nzTheme="outline" class="large-icon"></span>
-        <p>Pre-ticked Shopping Carts</p>
-    </div>
-    <div class="dark-pattern-item">
-        <span nz-icon nzType="select" nzTheme="outline" class="large-icon"></span>
-        <p>Click Bait Buttons and Links</p>
-    </div>
-    <div class="dark-pattern-item">
-        <span nz-icon nzType="question-circle" nzTheme="outline" class="large-icon"></span>
-        <p>Trick Questions</p>
-    </div>
-    <div class="dark-pattern-item">
-        <span nz-icon nzType="field-time" nzTheme="outline" class="large-icon"></span>
-        <p>Countdown Timer</p>
-    </div>
-    <div class="dark-pattern-item">
-        <span nz-icon nzType="robot" nzTheme="outline" class="large-icon"></span>
-        <p>Misleading Ads</p>
-    </div>
-    <div class="dark-pattern-item">
-        <span nz-icon nzType="notification" nzTheme="outline" class="large-icon"></span>
-        <p>Unwanted Notifications</p>
-    </div>
-
+  </p>
 </div>
 
-<h3 nz-typography>Popular Dark Pattern Types:</h3>
+<h2 nz-typography>Examples of Dark Patterns:</h2>
 <br>
-<prioss-stepper [steps]="steps" [stepIndex]="initialIndex"></prioss-stepper>
+
+<div class="carousel-container">
+  <button class="carousel-btn prev-btn" (click)="goToPrevious()" [disabled]="carousel && carousel.activeIndex === 0">&#10094;</button>
+  <nz-carousel #carousel [nzDotPosition]="'bottom'">
+    <div nz-carousel-content *ngFor="let step of steps">
+      <div class="carousel-item">
+        <div class="carousel-item-content">
+          <div class="info-card">
+            <h3>{{ step.title }}</h3>
+            <p [innerHTML]="step.description"></p>
+          </div>
+          <img [src]="step.imageUrl" alt="{{ step.title }}" />
+        </div>
+      </div>
+    </div>
+  </nz-carousel>
+  <button class="carousel-btn next-btn" (click)="goToNext()" [disabled]="carousel && carousel.activeIndex === (steps.length - 1)">&#10095;</button>
+</div>
