@@ -46,6 +46,7 @@ import { InstaYourTopicComponent } from './instagram/pages/insta-your-topic/inst
 import { RevokeAccessComponent } from './instagram/pages/revoke-access/revoke-access.component';
 import { GdprComponent } from './framework/pages/gdpr/gdpr.component';
 import { FacebookMediaComponent } from './facebook/pages/media/media.component';
+import { WelcomeMessageComponent } from './framework/pages/welcome/welcome.component';
 
 const routes: Routes = [
   { path: 'home', component: ServiceSelectionComponent },
@@ -60,6 +61,7 @@ const routes: Routes = [
   },
   { path: 'faq', component: FaqComponent },
   { path: 'gdpr', component: GdprComponent},
+  { path: 'welcome', component: WelcomeMessageComponent},
   {
     path: 'face',
     canActivateChild: [facebookGuard],
