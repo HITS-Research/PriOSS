@@ -131,8 +131,5 @@ function getSubMenuItems(serviceName: string): MenuItem {
       },
     ],
   };
-  if(serviceName==='instagram'){
-    subMenu.children=subMenu.children.filter(menu => (menu.name!=='GDPR/Rights' && menu.name!=='Purpose'));
-  }
   return subMenu;
 }
