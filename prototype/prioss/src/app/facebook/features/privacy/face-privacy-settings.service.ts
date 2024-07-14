@@ -99,7 +99,7 @@ export class FacePrivacySettingsService {
     {
       question: 'Do you control your data used to show you personalized ads?',
       howToCheck:
-        "<strong>Text Guide:</strong> Login to your Facebook account &#8594 Click on you Account on the top right corner &#8594 Go to 'Settings and Privacy' &#8594 Go to 'Settings' &#8594 Click on 'Your Facebook Information' on the left menu &#8594 Click on 'Off-Facebook Activity' &#8594 Choose to 'Clear Previous Activity' and 'Manage Future Activity'.<br> <br> <strong>Picture Guide:</strong> You can click <a target='_blank' href='https://www.facebook.com/off_facebook_activity'> here</a> or follow the guided instructions <a target='_blank' href='face/configure-off-facebook-activity'>here</a>",
+        "<strong>Text Guide:</strong> Login to your Facebook account &#8594 Click on you Account on the top right corner &#8594 Go to 'Settings and Privacy' &#8594 Go to 'Settings' &#8594 Click on 'Your Facebook Information' on the left menu &#8594 Click on 'Off-Facebook Activity' &#8594 Choose to 'Clear Previous Activity' and 'Manage Future Activity'.<br> <br> <strong>Picture Guide:</strong> You can click <a target='_blank' href='https://www.facebook.com/off_facebook_activity'> here</a> or follow the guided instructions <a target='_blank' href='facebook/configure-off-facebook-activity'>here</a>",
       options: [
         {
           label: 'Yes',

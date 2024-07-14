@@ -155,7 +155,7 @@ export class SpotifyTopPodcastsComponent {
    */
   selectPodcast(name: string | ECElementEvent): void {
     const parameter = typeof name === 'string' ? name : name.name;
-    this.#router.navigate(['spot', 'podcast', parameter]);
+    this.#router.navigate(['spotify', 'podcast', parameter]);
   }
 
   /**
@@ -166,7 +166,7 @@ export class SpotifyTopPodcastsComponent {
     if (dateRange.length !== 2) return;
 
     this.#router.navigate([
-      'spot',
+      'spotify',
       'top-podcasts',
       dateRange[0]?.toISOString().split('T')[0],
       dateRange[1]?.toISOString().split('T')[0],

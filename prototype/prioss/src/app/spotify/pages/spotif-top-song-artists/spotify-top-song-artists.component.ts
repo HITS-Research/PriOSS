@@ -75,7 +75,7 @@ export class SpotifyTopSongArtistsComponent {
     if (dateRange.length !== 2) return;
 
     this.#router.navigate([
-      'spot',
+      'spotify',
       'top-artists',
       dateRange[0]?.toISOString().split('T')[0],
       dateRange[1]?.toISOString().split('T')[0],
@@ -149,6 +149,6 @@ export class SpotifyTopSongArtistsComponent {
    */
   selectArtist(name: string | ECElementEvent): void {
     const parameter = typeof name === 'string' ? name : name.name;
-    this.#router.navigate(['spot', 'artist-history', parameter]);
+    this.#router.navigate(['spotify', 'artist-history', parameter]);
   }
 }

@@ -50,16 +50,16 @@ export class AppComponent implements OnInit {
    */
   setServiceName(): void {
     switch (this.router.url) {
-      case '/face/dashboard':
-        this.serviceName.set('face');
+      case '/facebook/dashboard':
+        this.serviceName.set('facebook');
         break;
 
-      case '/insta/dashboard':
-        this.serviceName.set('insta');
+      case '/instagram/dashboard':
+        this.serviceName.set('instagram');
         break;
 
-      case '/spot/dashboard':
-        this.serviceName.set('spot');
+      case '/spotify/dashboard':
+        this.serviceName.set('spotify');
         break;
 
       case '/serviceSelection':

@@ -11,7 +11,7 @@ export const instagramServiceInfo: ServiceInfo = {
   sampleFileUrl: 'assets/sample-data/insta_sampledata.zip',
   background: 'linear-gradient(-90deg, #B900B3 27%, #F50000)',
   brandColor: 'linear-gradient(-90deg, #B900B3 27%, #F50000)',
-  routerSubPath: 'insta',
+  routerSubPath: 'instagram',
   serviceType: Services.Instagram,
   parserFunction: async (
     file,

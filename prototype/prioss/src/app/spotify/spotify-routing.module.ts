@@ -17,7 +17,7 @@ import { SpotifyTopPodcastsDetailsComponent } from './pages/spotify-top-podcasts
 
 const routes: Routes = [
   {
-    path: 'spot',
+    path: 'spotify',
     canActivateChild: [spotifyGuard],
     children: [
       { path: 'dashboard', component: SpotifyDashboardComponent },

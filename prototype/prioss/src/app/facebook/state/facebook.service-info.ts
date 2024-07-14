@@ -14,7 +14,7 @@ export const facebookServiceInfo: ServiceInfo = {
   sampleFileUrl: 'assets/sample-data/facebook_data_marcia_2023_12_20.zip',
   background: '#1877F2',
   brandColor: '#1877F2',
-  routerSubPath: 'face',
+  routerSubPath: 'facebook',
   serviceType: Services.Facebook,
   parserFunction: async (
     file,

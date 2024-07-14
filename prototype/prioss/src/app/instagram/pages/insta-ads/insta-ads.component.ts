@@ -143,7 +143,7 @@ export class InstaAdsComponent extends SequenceComponentInit implements AfterVie
      *
      */
     navigateToRectification() {
-        window.open('insta/add-manager', '_blank');
+        window.open('instagram/add-manager', '_blank');
     }
 
 }

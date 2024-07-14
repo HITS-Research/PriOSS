@@ -165,7 +165,7 @@ export class FaceDashboardComponent implements AfterViewInit {
    *
    */
   adsData() {
-    this.#router.navigate(['face/ads-related-data']);
+    this.#router.navigate(['facebook/ads-related-data']);
   }
 
   /**
@@ -174,7 +174,7 @@ export class FaceDashboardComponent implements AfterViewInit {
    *
    */
   navigateToInferredTopics() {
-    this.#router.navigate(['face/inferred-topics']);
+    this.#router.navigate(['facebook/inferred-topics']);
   }
 
   /**
@@ -183,7 +183,7 @@ export class FaceDashboardComponent implements AfterViewInit {
    *
    */
   navigateToFriendsAndFollowers() {
-    this.#router.navigate(['face/connections']);
+    this.#router.navigate(['facebook/connections']);
   }
   /**
    * This  method is responsible to navigate to Off-Facebook Activity Guidelines page.
@@ -191,7 +191,7 @@ export class FaceDashboardComponent implements AfterViewInit {
    *
    */
   navigateToOFA() {
-    this.#router.navigate(['face/configure-off-facebook-activity']);
+    this.#router.navigate(['facebook/configure-off-facebook-activity']);
   }
 
   /**

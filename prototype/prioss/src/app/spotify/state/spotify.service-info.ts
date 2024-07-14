@@ -11,7 +11,7 @@ export const spotifyServiceInfo: ServiceInfo = {
   sampleFileUrl: 'assets/sample-data/spot_sampledata.zip',
   background: '#1ed760',
   brandColor: '#1ed760',
-  routerSubPath: 'spot',
+  routerSubPath: 'spotify',
   serviceType: Services.Spotify,
   parserFunction: async (
     file,

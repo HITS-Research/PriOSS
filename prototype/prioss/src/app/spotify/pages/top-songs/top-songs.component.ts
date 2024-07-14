@@ -103,7 +103,7 @@ export class TopSongsComponent {
     if (dateRange.length !== 2) return;
 
     this.#router.navigate([
-      'spot',
+      'spotify',
       'top-songs',
       dateRange[0]?.toISOString().split('T')[0],
       dateRange[1]?.toISOString().split('T')[0],
@@ -206,12 +206,12 @@ export class TopSongsComponent {
   selectSong(eventOrArtistName: string | ECElementEvent, songName?: string): void {
     if (typeof eventOrArtistName === 'string' && typeof songName === 'string') {
       const artistName = eventOrArtistName;
-      this.#router.navigate(['spot', 'song-history', artistName, songName]);
+      this.#router.navigate(['spotify', 'song-history', artistName, songName]);
     } else if (typeof eventOrArtistName !== 'string') {
       const name = eventOrArtistName.name;
       const artistName = name.split(' - ', 1)[0];
       const songName = name.substring(artistName.length + 3);
-      this.#router.navigate(['spot', 'song-history', artistName, songName]);
+      this.#router.navigate(['spotify', 'song-history', artistName, songName]);
     }
   }
 
