@@ -123,7 +123,7 @@ import {TagCloudComponent} from "angular-tag-cloud-module";
 import {DecodeUnicodePipe} from "./features/decode-unicode/decode-unicode.pipe";
 import {NzFlexDirective} from "ng-zorro-antd/flex";
 import {InstaChatViewComponent} from "./instagram/pages/insta-messages/insta-chat-view/insta-chat-view.component";
-
+import { WelcomeMessageComponent } from './framework/pages/welcome/welcome.component';
 import { FacebookMediaComponent } from './facebook/pages/media/media.component';
 import { TimePipe } from './features/time/time.pipe';
 
@@ -132,6 +132,7 @@ registerLocaleData(de);
 @NgModule({
   declarations: [
     AppComponent,
+    WelcomeMessageComponent,
     ServiceSelectionComponent,
     FaceDashboardComponent,
     InstaDashboardComponent,
