@@ -470,7 +470,7 @@ export class ListeningTimeComponent {
     }
     const start = new Date(event.name);
     this.#router.navigate([
-      'spot',
+      'spotify',
       'listening-time',
       start.toISOString().split('T')[0],
       end.toISOString().split('T')[0],
@@ -481,7 +481,7 @@ export class ListeningTimeComponent {
    * therefore removing all parameters sent.
    */
   resetChart() {
-    this.#router.navigateByUrl('/spot/listening-time');
+    this.#router.navigateByUrl('/spotify/listening-time');
   }
 
   /**
@@ -496,7 +496,7 @@ export class ListeningTimeComponent {
     if (start == null || end == null) return;
 
     this.#router.navigate([
-      'spot',
+      'spotify',
       'listening-time',
       start.toISOString().split('T')[0],
       end.toISOString().split('T')[0],

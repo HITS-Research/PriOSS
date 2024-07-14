@@ -76,7 +76,7 @@ export class Insta_PersonalInfoComponent extends SequenceComponentInit implement
 
     handleButtonClick1(event: Event) {
         event.preventDefault();
-        window.open('insta/account-private', '_blank');
+        window.open('instagram/account-private', '_blank');
     }
 
     /**
@@ -88,7 +88,7 @@ export class Insta_PersonalInfoComponent extends SequenceComponentInit implement
 
     handleButtonClick2(event: Event) {
         event.preventDefault();
-        window.open('insta/profile-info-private', '_blank');
+        window.open('instagram/profile-info-private', '_blank');
     }
 
 }

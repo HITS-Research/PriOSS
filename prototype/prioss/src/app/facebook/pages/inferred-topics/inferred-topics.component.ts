@@ -64,6 +64,6 @@ export class InferredTopicsComponent implements OnInit {
    *
    */
   navigateToYourTopics() {
-    this.router.navigate(['face/your-topics']);
+    this.router.navigate(['facebook/your-topics']);
   }
 }

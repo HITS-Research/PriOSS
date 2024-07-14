@@ -13,7 +13,7 @@
         <div nz-col nzXs="24" nzXl="8">
           <app-dash-card
             id="card__general-data"
-            cardLink="/face/general-data"
+            cardLink="/facebook/general-data"
             [height]="cardHeight()"
             titleText="User Data"
           >
@@ -22,49 +22,50 @@
         </div>
 
         <div nz-col nzXs="24" nzXl="16">
-          <app-dash-card cardLink="/face/connections" [height]="cardHeight()" titleText="Facebook Connections">
+          <app-dash-card cardLink="/facebook/connections" [height]="cardHeight()" titleText="Facebook Connections">
 
             <app-friend-and-followers [previewModeInput]="'true'"></app-friend-and-followers>
           </app-dash-card>
         </div>
         <div nz-col nzXs="24" nzXl="12">
-          <app-dash-card cardLink="/face/messages-info" [height]="cardHeight()" titleText="Messages">
+          <app-dash-card cardLink="/facebook/messages-info" [height]="cardHeight()" titleText="Messages">
             <app-messages [previewMode]="true"></app-messages>
           </app-dash-card>
         </div>
 
         <div nz-col nzXs="24" nzXl="12">
-          <app-dash-card cardLink="/face/posts" [height]="cardHeight()" titleText="Posts">
+          <app-dash-card cardLink="/facebook/posts" [height]="cardHeight()" titleText="Posts">
             <app-posts [previewMode]="true"></app-posts>
           </app-dash-card>
         </div>
 
         <div nz-col nzXs="24" nzXl="8">
-          <app-dash-card cardLink="/face/ads-related-data" [height]="cardHeight()" titleText="Ad Preferences">
+          <app-dash-card cardLink="/facebook/ads-related-data" [height]="cardHeight()" titleText="Ad Preferences">
             <app-ads-related-data [previewModeInput]="'true'"></app-ads-related-data>
           </app-dash-card>
         </div>
+
         <div nz-col nzXs="24" nzXl="8">
-          <app-dash-card cardLink="/face/other-personal-info" [height]="cardHeight()"
+          <app-dash-card cardLink="/facebook/other-personal-info" [height]="cardHeight()"
             titleText="Other Personal Information">
             <app-other-personal-info [previewMode]="true"></app-other-personal-info>
           </app-dash-card>
         </div>
 
         <div nz-col nzXs="24" nzXl="8">
-          <app-dash-card cardLink="/face/security-login" [height]="cardHeight()" titleText="Security and Login">
+          <app-dash-card cardLink="/facebook/security-login" [height]="cardHeight()" titleText="Security and Login">
             <app-security-login-data [previewMode]="true"></app-security-login-data>
           </app-dash-card>
         </div>
 
         <div nz-col nzXs="24" nzXl="8">
-          <app-dash-card cardLink="/face/groups-and-events-data" [height]="cardHeight()"
+          <app-dash-card cardLink="/facebook/groups-and-events-data" [height]="cardHeight()"
             titleText="Events & Groups Information">
             <app-groups-and-events-data [previewMode]="true"></app-groups-and-events-data>
           </app-dash-card>
         </div>
         <div nz-col nzXs="24" nzXl="8">
-          <app-dash-card cardLink="/face/media" [height]="cardHeight()" titleText="Media">
+          <app-dash-card cardLink="/facebook/media" [height]="cardHeight()" titleText="Media">
             <prioss-facebook-media [previewMode]="true">
             </prioss-facebook-media>
           </app-dash-card>

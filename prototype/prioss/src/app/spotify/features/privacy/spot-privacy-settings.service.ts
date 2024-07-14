@@ -14,7 +14,7 @@ export class SpotPrivacySettingsService {
     {
       question: 'Are you getting tailor made advertisments?',
       howToCheck:
-        "<strong>Text Guide:</strong> Login to the <a target='_blank' href='https://accounts.spotify.com/en/login'>Spotify</a> website &#8594 Choose Privacy settings &#8594 See if the option to process your personal data for tailored ads is enabled. <br> <br> <strong>Picture Guide:</strong> Please look <a target='_blank' href='/spot/privacy-instructions'>here</a> for detailed instructions.",
+        "<strong>Text Guide:</strong> Login to the <a target='_blank' href='https://accounts.spotify.com/en/login'>Spotify</a> website &#8594 Choose Privacy settings &#8594 See if the option to process your personal data for tailored ads is enabled. <br> <br> <strong>Picture Guide:</strong> Please look <a target='_blank' href='/spotify/privacy-instructions'>here</a> for detailed instructions.",
       options: [
         {
           label: 'Yes',
@@ -33,7 +33,7 @@ export class SpotPrivacySettingsService {
     {
       question: 'Is your Facebook data linked to your account?',
       howToCheck:
-        "<strong>Text Guide:</strong> Login to the <a target='_blank' href='https://accounts.spotify.com/en/login'>Spotify</a> website &#8594 Choose Privacy settings &#8594 See if the option to process of your Facebook data is enabled. <br> <br> <strong>Picture Guide:</strong> Please look <a target='_blank' href='/spot/privacy-instructions'>here</a> for detailed instructions.",
+        "<strong>Text Guide:</strong> Login to the <a target='_blank' href='https://accounts.spotify.com/en/login'>Spotify</a> website &#8594 Choose Privacy settings &#8594 See if the option to process of your Facebook data is enabled. <br> <br> <strong>Picture Guide:</strong> Please look <a target='_blank' href='/spotify/privacy-instructions'>here</a> for detailed instructions.",
       options: [
         {
           label: 'Yes',
@@ -47,7 +47,7 @@ export class SpotPrivacySettingsService {
     {
       question: 'Do you share your registration data for marketing purposes?',
       howToCheck:
-        "<strong>Text Guide:</strong> Login to the <a target='_blank' href='https://accounts.spotify.com/en/login'>Spotify</a> website &#8594 Choose Edit profile &#8594 See if the option to share your registration data is enabled. <br> <br> <strong>Picture Guide:</strong> Please look <a target='_blank' href='/spot/privacy-instructions'>here</a> for detailed instructions.",
+        "<strong>Text Guide:</strong> Login to the <a target='_blank' href='https://accounts.spotify.com/en/login'>Spotify</a> website &#8594 Choose Edit profile &#8594 See if the option to share your registration data is enabled. <br> <br> <strong>Picture Guide:</strong> Please look <a target='_blank' href='/spotify/privacy-instructions'>here</a> for detailed instructions.",
       options: [
         {
           label: 'Yes',
@@ -62,7 +62,7 @@ export class SpotPrivacySettingsService {
       question:
         'Can other people see your followers and the people you follow?',
       howToCheck:
-        "<strong>Text Guide:</strong> Open your Spotify app &#8594 Click on the icon in the top right corner and choose settings &#8594 Scroll down to the Social section &#8594 See if the option to share your follower lists is enabled. <br> <br> <strong>Picture Guide:</strong> Please look <a target='_blank' href='/spot/privacy-instructions'>here</a> for detailed instructions.",
+        "<strong>Text Guide:</strong> Open your Spotify app &#8594 Click on the icon in the top right corner and choose settings &#8594 Scroll down to the Social section &#8594 See if the option to share your follower lists is enabled. <br> <br> <strong>Picture Guide:</strong> Please look <a target='_blank' href='/spotify/privacy-instructions'>here</a> for detailed instructions.",
       options: [
         {
           label: 'Yes',
@@ -81,7 +81,7 @@ export class SpotPrivacySettingsService {
       question:
         'Do you share what songs you are listening to with your followers?',
       howToCheck:
-        "<strong>Text Guide:</strong> Open your Spotify app &#8594 Click on the icon in the top right corner and choose settings &#8594 Scroll down to the Social section &#8594 See if the option to share your listening activity is enabled. <br> <br> <strong>Picture Guide:</strong> Please look <a target='_blank' href='/spot/privacy-instructions'>here</a> for detailed instructions.",
+        "<strong>Text Guide:</strong> Open your Spotify app &#8594 Click on the icon in the top right corner and choose settings &#8594 Scroll down to the Social section &#8594 See if the option to share your listening activity is enabled. <br> <br> <strong>Picture Guide:</strong> Please look <a target='_blank' href='/spotify/privacy-instructions'>here</a> for detailed instructions.",
       options: [
         {
           label: 'Yes',
@@ -99,7 +99,7 @@ export class SpotPrivacySettingsService {
     {
       question: 'Can other people see your recently played artists?',
       howToCheck:
-        "<strong>Text Guide:</strong> Open your Spotify app &#8594 Click on the icon in the top right corner and choose settings &#8594 Scroll down to the Social section &#8594 See if the option to share your recently played artists is enabled. <br> <br> <strong>Picture Guide:</strong> Please look <a target='_blank' href='/spot/privacy-instructions'>here</a> for detailed instructions.",
+        "<strong>Text Guide:</strong> Open your Spotify app &#8594 Click on the icon in the top right corner and choose settings &#8594 Scroll down to the Social section &#8594 See if the option to share your recently played artists is enabled. <br> <br> <strong>Picture Guide:</strong> Please look <a target='_blank' href='/spotify/privacy-instructions'>here</a> for detailed instructions.",
       options: [
         {
           label: 'Yes',
@@ -113,7 +113,7 @@ export class SpotPrivacySettingsService {
     {
       question: 'Are some of your playlists public?',
       howToCheck:
-        "<strong>Text Guide:</strong> Open your Spotify app &#8594 Click on the icon in the top right corner and choose profile &#8594 See if any of your playlists are public. <br> <br> <strong>Picture Guide:</strong> Please look <a target='_blank' href='/spot/privacy-instructions'>here</a> for detailed instructions.",
+        "<strong>Text Guide:</strong> Open your Spotify app &#8594 Click on the icon in the top right corner and choose profile &#8594 See if any of your playlists are public. <br> <br> <strong>Picture Guide:</strong> Please look <a target='_blank' href='/spotify/privacy-instructions'>here</a> for detailed instructions.",
       options: [
         {
           label: 'Yes',

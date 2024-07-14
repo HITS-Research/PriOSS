@@ -68,7 +68,7 @@ export class SpotifySongHistoryComponent {
    * Navigate back to the top-songs page.
    */
   onBackFromSong(): void {
-    this.#router.navigate(['spot', 'top-songs']);
+    this.#router.navigate(['spotify', 'top-songs']);
   }
 
 }

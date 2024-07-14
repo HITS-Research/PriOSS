@@ -61,7 +61,7 @@ const routes: Routes = [
   { path: 'faq', component: FaqComponent },
   { path: 'gdpr', component: GdprComponent},
   {
-    path: 'face',
+    path: 'facebook',
     canActivateChild: [facebookGuard],
     children: [
       { path: 'ads-related-data', component: AdsRelatedDataComponent },
@@ -89,7 +89,7 @@ const routes: Routes = [
     ],
   },
   {
-    path: 'insta',
+    path: 'instagram',
     canActivateChild: [instagramGuard],
     children: [
       { path: 'account-private', component: InstaAccountPrivateComponent },
