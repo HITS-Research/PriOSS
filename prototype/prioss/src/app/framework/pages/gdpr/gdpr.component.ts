@@ -46,19 +46,9 @@ export class GdprComponent {
       icon: 'stop'
     },
     {
-      title: 'Data Protection Officers (DPOs)',
-      description: 'Companies that process large amounts of personal data or sensitive personal data must appoint a DPO.',
-      icon: 'security-scan'
-    },
-    {
       title: 'Data Breach Notification',
       description: 'Companies must notify individuals and the relevant authorities within 72 hours of a data breach.',
       icon: 'alert'
-    },
-    {
-      title: 'Penalties',
-      description: 'Non-compliance with the GDPR can result in fines of up to 4% of a company\'s annual global revenue or €20 million (whichever is greater).',
-      icon: 'dollar'
     },
     {
       title: 'Rights Related to Automated Decision-Making',
