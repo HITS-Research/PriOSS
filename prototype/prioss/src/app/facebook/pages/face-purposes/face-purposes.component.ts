@@ -1,4 +1,4 @@
-import { Component,ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'app-face-purposes',
@@ -6,46 +6,52 @@ import { Component,ChangeDetectionStrategy } from '@angular/core';
   styleUrls: ['./face-purposes.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-
-/**
- * This component is for Facebook's Purposes on dashboard.
- * This page is shown once a user visits the instagram dashboard
- *
- * @author: Subhadeep Debnath (sdebnath@mail.uni-paderborn.de)
- *
- */
 export class FacePurposesComponent {
   dataRows = [
     {
       shortPurpose: 'Personalizing Account Experience',
-      detailedPurpose:
-        'By customizing the platform, Facebook tries to match your preferences and interests which means suggesting content or recommendations that fit you better, based on what you do, how you interact, and what is in your profile. But there is always a risk that your data could be used in ways you did not agree to, affecting your control and consent.',
+      bulletPoints: [
+        'Customize content and recommendations based on your activity and profile to enhance your experience.',
+        'Match your preferences and interests for a more personalized platform.',
+        'Your data could be used in ways you did not agree to, leading to a loss of control over your personal information.'
+      ],
       dataCollected: 'User Profile Data, Likes, Comments, Voice Data, Time Spent on Platform, Payment and Purchase Data',
     },
     {
       shortPurpose: 'Tailor the ads you see',
-      detailedPurpose:
-        'Facebook analyzes your activity on the platform, including the pages you follow, the posts you react to, and the groups you engage with. They use this data to display ads tailored to your interests, aiming to enhance your experience on the platform. However, these targeted ads raise concerns about potentially influencing your thoughts and decisions.',
-      dataCollected:
-        'User Profile Data, Likes, Shares, HashTags, Time Spent on Platform, Payment and Purchase Data',
+      bulletPoints: [
+        'Analyze your platform activity, including pages followed and posts reacted to, to show relevant ads.',
+        'Improve ad targeting to match your interests and enhance your experience.',
+        'Targeted ads may influence your thoughts and decisions, raising concerns about manipulation and privacy.'
+      ],
+      dataCollected: 'User Profile Data, Likes, Shares, Used HashTags, Time Spent on Platform, Payment and Purchase Data',
     },
     {
       shortPurpose: 'Sharing information with third parties',
-      detailedPurpose:
-        'Facebook shares your information with organizations that you may not be directly interacting with, for purposes such as advertising, measurement, and analytics. This could involve sharing details about your platform activity or interests to assist advertisers in refining their ad targeting. Nevertheless, these actions increase the likelihood of your data being compromised by adversaries revealing your sensitive information.',
+      bulletPoints: [
+        'Share your data with advertisers and partners for analytics and ad targeting.',
+        'Include information about your activity and interests to help advertisers refine their strategies.',
+        'Increased likelihood of data breaches and privacy issues, as your data could be exposed to unauthorized parties.'
+      ],
       dataCollected: 'User Profile Data, Likes, Viewed Content, Location Data, Searched Content, Payment and Purchase Data',
     },
     {
       shortPurpose: 'Information from device settings',
-      detailedPurpose:
-        'Facebook also gathers data from your device settings to enhance app functionality and offer you an improved user experience. This may encompass details like your device model, operating system, and network connectivity, location. However, these practices can diminish your anonymity and potentially result in the misuse of sensitive data, sparking concerns regarding surveillance and digital rights.',
+      bulletPoints: [
+        'Collect device information, such as model, OS, and network connectivity, to improve app functionality.',
+        'Enhance user experience by gathering details from your device settings.',
+        'Potential misuse of sensitive data, leading to surveillance concerns and loss of anonymity.'
+      ],
       dataCollected: 'User Profile Data, Type of Device Used, Network Information, Location Data, Device Settings Information',
     },
     {
       shortPurpose: 'To communicate with you',
-      detailedPurpose:
-        'For Facebook, accessing your data to communicate with you involves obtaining your contact details, phone book information, settings data, and other data linked to your Facebook friends and followers. While this enables smoother communication and connectivity on the platform, it also raises privacy concerns as it grants access to personal contact information, potentially compromising your privacy. ',
-      dataCollected: 'User Profile Data, Phonebook Information, Survey and Research Data, Device Settings Information',
+      bulletPoints: [
+        'Use your contact details and phone book information for communication on the platform.',
+        'Facilitate better connectivity and interaction with friends and followers.',
+        'Access to personal contact information could compromise your privacy and lead to unwanted communication.'
+      ],
+      dataCollected: 'User Profile Data, Phonebook Information, Survey & Research Data, Device Settings Information',
     },
   ];
 
@@ -56,7 +62,7 @@ export class FacePurposesComponent {
     'Voice Data': 'audio',
     'Time Spent on Platform': 'clock-circle',
     'Shares': 'send',
-    'HashTags': 'number',
+    'Used HashTags': 'number',
     'Viewed Content': 'eye',
     'Location Data': 'environment',
     'Searched Content': 'file-search',
@@ -64,7 +70,7 @@ export class FacePurposesComponent {
     'Network Information': 'wifi',
     'Device Settings Information': 'setting',
     'Payment and Purchase Data': 'credit-card',
-    'Survey and Research Data': 'form',
+    'Survey & Research Data': 'form',
     'Phonebook Information': 'phone'
   };
 }

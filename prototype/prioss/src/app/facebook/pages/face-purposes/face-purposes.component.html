@@ -1,33 +1,55 @@
+<!--
+    This HTML shows Facebook's Purposes on dashboard.
+    @autor: Subhadeep Debnath (sdebnath@mail.uni-paderborn.de)
+-->
+
 <app-accordion title="Purposes - Why does Facebook collect your data ?">
   <br>
   <div id="purpose">
     <nz-card nzTitle="Exemplary Purposes">
       <p nz-topography>
-          The following purposes should give an example of Facebook's reasoning in regards to data collection. To Get a full list of their reasons you can check out Facebook's <a target="_blank"
+        The following purposes should give an example of Facebook's reasoning in regards to data collection. To get a full list of their reasons, you can check out Facebook's <a target="_blank" rel="noopener noreferrer"
           href="https://www.facebook.com/privacy/policy/">privacy policy</a><span nz-icon
-                                                                                          nzType="link"></span>
+                                                                                  nzType="link"></span>
       </p>
       <nz-table nzTemplateMode>
         <thead>
-        <tr>
-          <th id="PrivacyTablePurposeHeader" [nzWidth]="'70%'">Purpose</th>
-          <th id="PrivacyTableCollectedDataHeader" >Data Collected</th>
-        </tr>
+          <tr>
+            <th id="PrivacyTablePurposeHeader" class="header-purpose" [nzWidth]="'60%'">Purpose</th> <!-- Adjusted width to 60% -->
+            <th id="PrivacyTableCollectedDataHeader" class="header-data">Data Collected</th>
+          </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let row of dataRows">
-          <td>
-            <p class="purpose-contents-descr">
-              <strong>{{ row.shortPurpose }}:</strong> {{ row.detailedPurpose }}
-            </p>
-          </td>
-          <td>
-            <ng-container *ngFor="let data of row.dataCollected.split(', '); let last = last">
-              <i nz-icon [nzType]="dataIcons[data]" [nzTheme]="'outline'" class="large-icon" [title]="data"></i>
-              <span *ngIf="!last">&nbsp;</span>
-            </ng-container>
-          </td>
-        </tr>
+          <ng-container *ngFor="let row of dataRows">
+            <tr class="purpose-row">
+              <td>
+                <div class="purpose-contents-descr">
+                  <strong>{{ row.shortPurpose }}:</strong>
+                  <ul class="custom-bullet-points">
+                    <li *ngFor="let point of row.bulletPoints">
+                      <span class="custom-bullet-icon"></span> <!-- Empty span for custom bullet icon -->
+                      <span class="bullet-text">{{ point }}</span>
+                    </li>
+                  </ul>
+                </div>
+              </td>
+              <td>
+                <div class="data-collected">
+                  <ng-container *ngFor="let data of row.dataCollected.split(', '); let i = index">
+                    <div class="data-icon" *ngIf="i % 2 === 0">
+                      <i nz-icon [nzType]="dataIcons[data]" [nzTheme]="'outline'" class="large-icon" [title]="data"></i>
+                      <span class="icon-label">{{ data }}</span>
+                    </div>
+                    <div class="data-icon" *ngIf="i % 2 === 1">
+                      <i nz-icon [nzType]="dataIcons[data]" [nzTheme]="'outline'" class="large-icon" [title]="data"></i>
+                      <span class="icon-label">{{ data }}</span>
+                    </div>
+                    <br *ngIf="i % 2 === 1" />
+                  </ng-container>
+                </div>
+              </td>
+            </tr>
+          </ng-container>
         </tbody>
       </nz-table>
     </nz-card>
