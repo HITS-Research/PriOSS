@@ -8,7 +8,6 @@ import { Component } from '@angular/core';
  * 
  */
 
-
 @Component({
   selector: 'app-insta-purposes',
   templateUrl: './insta-purposes.component.html',
@@ -18,23 +17,39 @@ export class InstaPurposesComponent {
   dataRows = [
     {
       shortPurpose: 'Personalizing Account Experience',
-      detailedPurpose: 'Customizing the platform to suit your preferences and interests involves showing you content or recommendations that are more relevant to you based on your activity, interactions, and profile information. However, there is always a threat of your data being misused or a lack of control on how your data should be used, impacting your consent and autonomy.',
-      dataCollected: 'User Profile Data, Likes, Comments, Voice Data, Time Spent on Platform, Payment and Purchase Data'
+      bulletPoints: [
+        'Customize content and recommendations based on your activity, interactions, and profile information to enhance your experience.',
+        'Match your preferences and interests for a more personalized platform.',
+        'Your data could be used in ways you did not agree to, leading to a loss of control over your personal information and impacting your consent and autonomy.'
+      ],
+      dataCollected: 'User Profile Data, Likes, Comments, Voice Data, Time Spent on Platform, Payment and Purchase Data',
     },
     {
       shortPurpose: 'Tailor the ads you see',
-      detailedPurpose: 'Instagram analyzes your activity on the platform, such as the accounts you follow, the posts you like, and the hashtags you interact with. They use this information to show you ads that are more likely to appeal to you, making your experience on the platform more personalized. But these advertisements raise concerns of manipulating your mindset and influencing decision-making processes.',
-      dataCollected: 'User Profile Data, Likes, Shares, HashTags, Time Spent on Platform, Payment and Purchase Data'
+      bulletPoints: [
+        'Analyze your activity on the platform, such as accounts followed, posts liked, and hashtags interacted with, to show relevant ads.',
+        'Improve ad targeting to match your interests and enhance your experience.',
+        'Targeted ads may influence your thoughts and decisions, raising concerns about manipulation and privacy.'
+      ],
+      dataCollected: 'User Profile Data, Likes, Shares, HashTags, Time Spent on Platform, Payment and Purchase Data',
     },
     {
       shortPurpose: 'Sharing information with third parties',
-      detailedPurpose: 'Instagram shares your information with organizations which you might not be using, for various reasons such as advertising, measurement, and analytics. This could include sharing data about your activity on the platform or your interests to help advertisers target their ads more effectively. However, these steps heighten the risk of your data being breached by adversaries compromising personal information.',
-      dataCollected: 'User Profile Data, Likes, Viewed Content, Location Data, Searched Content, Payment and Purchase Data'
+      bulletPoints: [
+        'Share your information with organizations for advertising, measurement, and analytics.',
+        'Include information about your activity and interests to help advertisers refine their strategies.',
+        'Increased likelihood of data breaches and privacy issues, as your data could be exposed to unauthorized parties.'
+      ],
+      dataCollected: 'User Profile Data, Likes, Viewed Content, Location Data, Searched Content, Payment and Purchase Data',
     },
     {
       shortPurpose: 'Information from device settings',
-      detailedPurpose: 'Instagram also collects information from your device settings to improve the app performance and provide you with a better user experience. This could include information such as your device type, operating system, and network connection. But these measures can lower your anonymity or lead to misuse of sensitive information raising concerns about surveillance and digital rights.',
-      dataCollected: 'User Profile Data, Type of Device Used, Network Information, Device Settings Information'
+      bulletPoints: [
+        'Collect device information, such as model, OS, and network connectivity, to improve app functionality.',
+        'Enhance user experience by gathering details from your device settings.',
+        'Potential misuse of sensitive data, leading to surveillance concerns and loss of anonymity.'
+      ],
+      dataCollected: 'User Profile Data, Type of Device Used, Network Information, Device Settings Information',
     }
   ];
 

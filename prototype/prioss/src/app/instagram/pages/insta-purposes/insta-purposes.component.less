@@ -1,4 +1,96 @@
 .large-icon {
-    font-size: 24px;
-  }
-  
+  font-size: 20px;
+}
+
+.data-collected {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.data-icon {
+  display: flex;
+  align-items: center;
+  width: 48%;
+  margin-bottom: 4px;
+  margin-top: 2px;
+  padding: 5px;
+  box-sizing: border-box;
+}
+
+.icon-label {
+  margin-left: 10px;
+  font-size: 14px;
+}
+
+.custom-bullet-points {
+  list-style-type: none; /* Remove default bullet points */
+  padding-left: 0; /* Remove default padding */
+  margin-top: 5px; /* Adjusted margin-top for custom bullets */
+}
+
+.custom-bullet-points li {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px; /* Space between bullet points */
+}
+
+.custom-bullet-icon {
+  display: inline-block; /* Ensure the icon is inline with text */
+  width: 8px; /* Adjusted width for smaller icon */
+  height: 8px; /* Adjusted height for smaller icon */
+  font-size: 13px; /* Decreased font size by 1 degree */
+  border: 1px solid #3498db; /* Blue outline */
+  border-radius: 50%; /* Circle shape */
+  color: #fff; /* White color for the icon */
+  text-align: center; /* Center text horizontally */
+  line-height: 14px; /* Center text vertically */
+  margin-right: 10px; /* Space between icon and text */
+}
+
+.bullet-text {
+  flex: 1; /* Allow the text to wrap if it's too long */
+}
+
+.purpose-contents-descr {
+  margin-bottom: 2px; /* Reduced margin between purpose description and bullet points */
+}
+
+/* Optional: Adjust the table content */
+nz-table {
+  font-size: 16px;
+  padding: 0; /* Remove padding from the table */
+}
+
+/* Reduce spacing between table rows */
+.purpose-row {
+  margin: 0; /* Remove margin between rows */
+  padding: 0; /* Remove padding from rows */
+}
+
+.purpose-row td {
+  padding-top: 4px; /* Minimal padding at the top */
+  padding-bottom: 4px; /* Minimal padding at the bottom */
+  padding-left: 0; /* Remove left padding */
+  padding-right: 0; /* Remove right padding */
+}
+
+/* Reduce top and bottom padding of table headers */
+nz-table thead th {
+  padding-top: 4px; /* Further reduce top padding */
+  padding-bottom: 4px; /* Further reduce bottom padding */
+}
+
+.nz-card {
+  margin: 0; /* Remove any default margin applied to nz-card */
+  padding: 0; /* Remove any default padding applied to nz-card */
+}
+
+/* New styles for Purpose and Data Collected headers */
+.header-purpose {
+  font-size: 17px; /* Adjust font size as needed */
+}
+
+.header-data {
+  font-size: 17px; /* Adjust font size as needed */
+}
