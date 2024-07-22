@@ -1,9 +1,10 @@
-import {AfterViewInit, Component, Input, OnInit,ChangeDetectionStrategy} from '@angular/core';
-import {SequenceComponentInit} from '../../../features/utils/sequence-component-init.abstract';
-import {InstaShoppingInfo} from 'src/app/instagram/models/ShoppingInfo/InstaShoppingInfo';
-import {InstaShoppingWishlistInfo} from 'src/app/instagram/models/ShoppingInfo/InstaShoppingWishlistInfo';
-import {Store} from "@ngxs/store";
-import {InstaState} from "../../state/insta.state";
+import { AfterViewInit, Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { SequenceComponentInit } from '../../../features/utils/sequence-component-init.abstract';
+import { InstaShoppingInfo } from 'src/app/instagram/models/ShoppingInfo/InstaShoppingInfo';
+import { InstaShoppingWishlistInfo } from 'src/app/instagram/models/ShoppingInfo/InstaShoppingWishlistInfo';
+import { Store } from "@ngxs/store";
+import { InstaState } from "../../state/insta.state";
+import { EChartsOption } from 'echarts';
 
 @Component({
   selector: 'app-insta-shopping',
@@ -36,48 +37,35 @@ export class InstaShoppingComponent extends SequenceComponentInit implements Aft
   wishlistProductSearchValue = '';
   listOfShoppingWishlistData: InstaShoppingWishlistInfo[] = [];
 
+  shoppingDataChartOptions: EChartsOption;
+  wishlistDataChartOptions: EChartsOption;
+
   constructor(private store: Store) {
     super();
   }
 
   ngOnInit() {
-    const {shoppingInfo, shoppingWishlistInfo} = this.store.selectSnapshot(InstaState.getUserShoppingData);
+    const { shoppingInfo, shoppingWishlistInfo } = this.store.selectSnapshot(InstaState.getUserShoppingData);
     this.shoppingData = shoppingInfo;
-    this.listOfShoppingData = [...this.shoppingData]
+    this.listOfShoppingData = [...this.shoppingData];
     this.totalMerchants = new Set(this.shoppingData.map(item => item.merchantName)).size;
     this.totalProducts = new Set(this.shoppingData.map(item => item.productName)).size;
     this.shoppingWishlistData = shoppingWishlistInfo;
-    this.listOfShoppingWishlistData = [...this.shoppingWishlistData]
+    this.listOfShoppingWishlistData = [...this.shoppingWishlistData];
     this.totalWishlistMerchants = new Set(this.shoppingWishlistData.map(item => item.merchantName)).size;
     this.totalWishlistProducts = new Set(this.shoppingWishlistData.map(item => item.productName)).size;
+
+    this.prepareChartData();
   }
 
-  /**
-   * A Callback called by angular when the views have been initialized
-   * It handles the initialization when the component is displayed on its own dedicated page.
-   *
-   * @author: Durva & Mayank (dghurye@mail.upb.de & mayank@mail.upb.de)
-   */
   ngAfterViewInit() {
     if (!this.previewMode) {
       this.initComponent();
     }
   }
 
-  /**
-   * @see-super-class
-   * @author Durva & Mayank (dghurye@mail.upb.de & mayank@mail.upb.de)
-   */
-  override async initComponent(): Promise<void> {
-  }
+  override async initComponent(): Promise<void> {}
 
-  /**
-   * Resets the given searchvalue.
-   *
-   * @param searchList the list that should be resetted.
-   *
-   * @author: Mayank (mayank@mail.upb.de)
-   */
   reset(searchList: string): void {
     switch (searchList) {
       case 'product':
@@ -99,13 +87,6 @@ export class InstaShoppingComponent extends SequenceComponentInit implements Aft
     this.search(searchList);
   }
 
-  /**
-   * Searches the given list for the current searchvalue.
-   *
-   * @param searchList the list that should be searched.
-   *
-   * @author: Mayank (mayank@mail.upb.de)
-   */
   search(searchList: string): void {
     this.merchantVisible = false;
     this.productVisible = false;
@@ -130,4 +111,70 @@ export class InstaShoppingComponent extends SequenceComponentInit implements Aft
     }
   }
 
+  private prepareChartData() {
+    const merchantCountMap: { [key: string]: number } = {};
+    const wishlistMerchantCountMap: { [key: string]: number } = {};
+
+    this.shoppingData.forEach(item => {
+      if (merchantCountMap[item.merchantName]) {
+        merchantCountMap[item.merchantName]++;
+      } else {
+        merchantCountMap[item.merchantName] = 1;
+      }
+    });
+
+    this.shoppingWishlistData.forEach(item => {
+      if (wishlistMerchantCountMap[item.merchantName]) {
+        wishlistMerchantCountMap[item.merchantName]++;
+      } else {
+        wishlistMerchantCountMap[item.merchantName] = 1;
+      }
+    });
+
+    const shoppingDataChart = Object.keys(merchantCountMap).map(key => ({
+      name: key,
+      value: merchantCountMap[key]
+    }));
+
+    const wishlistDataChart = Object.keys(wishlistMerchantCountMap).map(key => ({
+      name: key,
+      value: wishlistMerchantCountMap[key]
+    }));
+
+    this.shoppingDataChartOptions = {
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: { type: 'shadow' }
+      },
+      xAxis: {
+        type: 'category',
+        data: shoppingDataChart.map(item => item.name),
+        axisLabel: { rotate: 45, interval: 0 }
+      },
+      yAxis: { type: 'value' },
+      series: [{
+        data: shoppingDataChart.map(item => item.value),
+        type: 'bar'
+      }],
+      legend: { show: false }
+    };
+
+    this.wishlistDataChartOptions = {
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: { type: 'shadow' }
+      },
+      xAxis: {
+        type: 'category',
+        data: wishlistDataChart.map(item => item.name),
+        axisLabel: { rotate: 45, interval: 0 }
+      },
+      yAxis: { type: 'value' },
+      series: [{
+        data: wishlistDataChart.map(item => item.value),
+        type: 'bar'
+      }],
+      legend: { show: false }
+    };
+  }
 }
