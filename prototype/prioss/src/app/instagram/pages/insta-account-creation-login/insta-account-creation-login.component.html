@@ -69,7 +69,7 @@
           <nz-timeline-item [nzPosition]="'left'" [nzDot]="signupTemplate">
             <nz-space nzDirection="vertical">
               <nz-card *nzSpaceItem style="width: 320px;">
-                <nz-collapse nzExpandIconPosition="right">
+                <nz-collapse nzExpandIconPosition="end">
                   <nz-collapse-panel #p [nzHeader]="headerTemplate" nzActive="false" [nzExpandedIcon]="expandedIcon">
                     <strong>IP Address</strong> : {{signup_information[0].ip_address}}
                     <ng-template #expandedIcon let-active>
@@ -95,7 +95,7 @@
           <nz-timeline-item *ngFor="let activity of login_logout_activities" [nzPosition]="activity.type === 'Login' ? 'right' : 'left'" [nzDot]="activity.type === 'Login' ? loginTemplate : logoutTemplate">
             <nz-space nzDirection="vertical">
               <nz-card *nzSpaceItem style="width: 320px;">
-                <nz-collapse nzExpandIconPosition="right">
+                <nz-collapse nzExpandIconPosition="end">
                   <nz-collapse-panel #p [nzHeader]="headerTemplate" nzActive="false" [nzExpandedIcon]="expandedIcon">
                     <strong>IP Address</strong> : {{activity.ip_address}}<br>
                     <div *ngIf="activity.user_agent !== ''">

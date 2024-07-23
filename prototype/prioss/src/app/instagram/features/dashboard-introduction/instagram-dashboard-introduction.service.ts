@@ -1,4 +1,5 @@
 import { Injectable, inject } from '@angular/core';
+import { Options } from 'intro.js/src/option';
 import { IntrojsService } from 'src/app/features/dashboard-introduction/introjs.service';
 
 /**
@@ -21,7 +22,7 @@ export class InstagramDashboardIntroductionService {
   /**
    * The options for the instagram-dashboard-tour.
    */
-  get options(): introJs.Options {
+  get options(): Partial<Options> {
     return {
       disableInteraction: true,
       steps: [

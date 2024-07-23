@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import introJs, { Options } from 'intro.js';
+import introJs from 'intro.js';
+import { Options } from 'intro.js/src/option';
 
 
 /**
@@ -18,7 +19,7 @@ export class IntrojsService {
    * @param name The unique name of the tour.
    * @param options The specific options of the product for the tour.
    */
-  startTour(name: string, restart: boolean, options: Options): void {
+  startTour(name: string, restart: boolean, options: Partial<Options>): void {
     if (!restart && this.#isTourDone(name)) return;
 
     document.body.style.overflow = 'hidden';
