@@ -75,7 +75,7 @@
         }
         @if(post.taggedPeople){
             Tagged: @for(tag of post.taggedPeople; track tag){
-                {{tag}}@if(tag != post.taggedPeople[post.taggedPeople.length-1]){, }
+                {{tag}}@if(tag !== post.taggedPeople[post.taggedPeople.length-1]){, }
             }
         }
     </nz-card>
