@@ -1,17 +1,31 @@
+import { NgFor, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
+import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzTableModule } from 'ng-zorro-antd/table';
+import { AccordionComponent } from 'src/app/features/accordion/accordion.component';
 
 /**
  * This component is for instagram's Purposes on dashboard.
  * This page is shown once a user visits the instagram dashboard
- * 
+ *
  * @author: Subhadeep (sdebnath@mail.uni-paderborn.de)
- * 
+ *
  */
 
 @Component({
   selector: 'app-insta-purposes',
   templateUrl: './insta-purposes.component.html',
-  styleUrls: ['./insta-purposes.component.less']
+  styleUrls: ['./insta-purposes.component.less'],
+  standalone: true,
+  imports: [
+    AccordionComponent,
+    NgFor,
+    NgIf,
+    NzCardModule,
+    NzIconModule,
+    NzTableModule,
+  ]
 })
 export class InstaPurposesComponent {
   dataRows = [

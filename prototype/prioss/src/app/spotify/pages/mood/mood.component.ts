@@ -1,7 +1,16 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { environment } from '../../../../environments/environment.prod';
 import { endOfMonth } from 'date-fns';
 import * as sampleData from './samplesongsformood.json';
+import { TitleBarComponent } from 'src/app/features/title-bar/title-bar.component';
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NgIf } from '@angular/common';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { FormsModule } from '@angular/forms';
 
 const CLIENT_ID = environment.CLIENT_ID;
 const CLIENT_SECRET = environment.CLIENT_SECRET;
@@ -20,6 +29,19 @@ let endDateInput: any = null;
   selector: 'prioss-spotify-mood',
   templateUrl: './mood.component.html',
   styleUrls: ['./mood.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    FormsModule,
+    NgIf,
+    NzButtonModule,
+    NzCardModule,
+    NzDatePickerModule,
+    NzIconModule,
+    NzSpinModule,
+    NzToolTipModule,
+    TitleBarComponent,
+  ],
 })
 export class MoodComponent {
   offlineLoading = true; //load from jsonfile

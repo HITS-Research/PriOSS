@@ -8,12 +8,63 @@ import {EChartsOption} from "echarts";
 import {DataRangeCalculatorService} from "../../service/echarts/data-range-calculator.service";
 import {InstaUserPostsDataModel, InstaUserStoriesDataModel} from "../../state/models";
 import InstaUserCommentsDataModel from "../../state/models/insta-user-comments-data.interface";
+import { DatePipe, NgClass, NgFor, NgIf, NgStyle } from '@angular/common';
+import { NzStatisticModule } from 'ng-zorro-antd/statistic';
+import { NzGridModule } from 'ng-zorro-antd/grid';
+import { TitleBarComponent } from 'src/app/features/title-bar/title-bar.component';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzTabsModule } from 'ng-zorro-antd/tabs';
+import { NzCollapseModule } from 'ng-zorro-antd/collapse';
+import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzAvatarModule } from 'ng-zorro-antd/avatar';
+import { NzEmptyModule } from 'ng-zorro-antd/empty';
+import { NgxEchartsModule } from 'ngx-echarts';
+import { NzBackTopModule } from 'ng-zorro-antd/back-top';
+import { RemoveSpecialCharactersPipe } from 'src/app/features/remove-special-characters/remove-special-characters.pipe';
+import { NzCommentModule } from 'ng-zorro-antd/comment';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
+import { NzFlexModule } from 'ng-zorro-antd/flex';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { FormsModule } from '@angular/forms';
 
 @Component({
     selector: 'app-insta-liked-content',
     templateUrl: './insta-liked-content.component.html',
     styleUrls: ['./insta-liked-content.component.less'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+      DatePipe,
+      FormsModule,
+      NgClass,
+      NgIf,
+      NgFor,
+      NgStyle,
+      NgxEchartsModule,
+      NzAvatarModule,
+      NzBackTopModule,
+      NzButtonModule,
+      NzCardModule,
+      NzCollapseModule,
+      NzCommentModule,
+      NzDropDownModule,
+      NzEmptyModule,
+      NzFlexModule,
+      NzGridModule,
+      NzIconModule,
+      NzInputModule,
+      NzSkeletonModule,
+      NzStatisticModule,
+      NzTableModule,
+      NzTabsModule,
+      NzToolTipModule,
+      RemoveSpecialCharactersPipe,
+      TitleBarComponent,
+    ]
 })
 
 export class InstaLikedContentComponent extends SequenceComponentInit implements AfterViewInit, OnInit {

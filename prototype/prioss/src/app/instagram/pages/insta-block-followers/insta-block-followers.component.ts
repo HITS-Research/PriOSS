@@ -1,4 +1,10 @@
 import { AfterViewInit, Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzImageModule } from 'ng-zorro-antd/image';
+import { NzStepsModule } from 'ng-zorro-antd/steps';
+import { NzTypographyModule } from 'ng-zorro-antd/typography';
+import { TitleBarComponent } from 'src/app/features/title-bar/title-bar.component';
 import { scrollToTop } from 'src/app/features/utils/generalUtilities.functions';
 
 @Component({
@@ -6,6 +12,15 @@ import { scrollToTop } from 'src/app/features/utils/generalUtilities.functions';
   templateUrl: './insta-block-followers.component.html',
   styleUrls: ['./insta-block-followers.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    NzButtonModule,
+    NzDividerModule,
+    NzImageModule,
+    NzStepsModule,
+    NzTypographyModule,
+    TitleBarComponent,
+  ]
 })
 export class InstaBlockFollowersComponent implements AfterViewInit {
   BlockFollowersWeb = 0;

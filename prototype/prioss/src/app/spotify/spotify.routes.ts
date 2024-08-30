@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
+import { spotifyGuard } from '../guards/spotify.guard';
 import { InferencesComponent } from './pages/inferences/inferences.component';
 import { ListeningTimeComponent } from './pages/listening-time/listening-time.component';
 import { MoodComponent } from './pages/mood/mood.component';
@@ -9,13 +9,12 @@ import { SpotifyArtistHistoryComponent } from './pages/spotify-artist-history/sp
 import { SpotifyDashboardComponent } from './pages/spotify-dashboard/spotify-dashboard.component';
 import { SpotifySearchHistoryComponent } from './pages/spotify-search-history/spotify-search-history.component';
 import { SpotifySongHistoryComponent } from './pages/spotify-song-history/spotify-song-history.component';
+import { SpotifyTopPodcastsDetailsComponent } from './pages/spotify-top-podcasts-details/spotify-top-podcasts-details.component';
 import { SpotifyTopPodcastsComponent } from './pages/spotify-top-podcasts/spotify-top-podcasts.component';
 import { SpotifyUserDataComponent } from './pages/spotify-user-data/spotify-user-data.component';
 import { TopSongsComponent } from './pages/top-songs/top-songs.component';
-import { spotifyGuard } from '../guards/spotify.guard';
-import { SpotifyTopPodcastsDetailsComponent } from './pages/spotify-top-podcasts-details/spotify-top-podcasts-details.component';
 
-const routes: Routes = [
+export const spotifyRoutes: Routes = [
   {
     path: 'spotify',
     canActivateChild: [spotifyGuard],
@@ -59,9 +58,3 @@ const routes: Routes = [
     ],
   },
 ];
-
-@NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
-})
-export class SpotifyRoutingModule {}

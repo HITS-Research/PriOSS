@@ -7,20 +7,27 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { Store } from '@ngxs/store';
+import { NzAlertModule } from 'ng-zorro-antd/alert';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzProgressModule } from 'ng-zorro-antd/progress';
+import { FacebookDataFile } from 'src/app/facebook/models/FacebookDataFile.interface';
 import { facebookServiceInfo } from 'src/app/facebook/state/facebook.service-info';
 import { FeatureToggleService } from 'src/app/features/feature-toggle/feature-toggle.service';
+import { OfflineIndicatorComponent } from 'src/app/features/offline-indicator/offline-indicator.component';
 import { instagramServiceInfo } from 'src/app/instagram/state/instagram.service-info';
 import { SpotifyReset } from 'src/app/spotify/state/spotify.action';
 import { spotifyServiceInfo } from 'src/app/spotify/state/spotify.service-info';
+import { IndexedDbService } from 'src/app/state/indexed-db.state';
 import { ResetFbUserData } from '../../../facebook/state/fb.action';
 import { ResetInstaUserData } from '../../../instagram/state/insta.action';
 import { AppType } from './app-type';
 import { ServiceInfo } from './service-info.type';
 import { isZipFile } from './zip-file.helper';
-import { IndexedDbService } from 'src/app/state/indexed-db.state';
-import { FacebookDataFile } from 'src/app/facebook/models/FacebookDataFile.interface';
+import { DatePipe } from '@angular/common';
 
 /**
  * This component is responsible for offering the user a way to select a service, show the respective download instructions
@@ -31,10 +38,21 @@ import { FacebookDataFile } from 'src/app/facebook/models/FacebookDataFile.inter
   templateUrl: './service-selection.component.html',
   styleUrls: ['./service-selection.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    DatePipe,
+    NzAlertModule,
+    NzButtonModule,
+    NzCardModule,
+    NzModalModule,
+    NzProgressModule,
+    OfflineIndicatorComponent,
+    RouterModule,
+  ]
 })
 export class ServiceSelectionComponent implements AfterViewInit {
   Math = Math;
-  
+
   #router = inject(Router);
 
   #http = inject(HttpClient);

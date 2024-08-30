@@ -3,6 +3,14 @@ import * as utilities from 'src/app/features/utils/generalUtilities.functions';
 import { IndexedDbService } from 'src/app/state/indexed-db.state';
 import { FbUserDataModel } from '../../state/models';
 import { FacebookIndexedDBMedia } from '../../models/FacebookIndexDBMedia.interface';
+import { MessagesPerDayChartComponent } from './chatview/chat-statistics/features/messages-per-day-chart/messages-per-day-chart.component';
+import { NgClass, NgIf } from '@angular/common';
+import { NzTabsModule } from 'ng-zorro-antd/tabs';
+import { ChatStatisticsComponent } from './chatview/chat-statistics/chat-statistics.component';
+import { ChatviewComponent } from './chatview/chatview.component';
+import { NzResultModule } from 'ng-zorro-antd/result';
+import { TitleBarComponent } from 'src/app/features/title-bar/title-bar.component';
+import { NzGridModule } from 'ng-zorro-antd/grid';
 
 
 
@@ -11,6 +19,18 @@ import { FacebookIndexedDBMedia } from '../../models/FacebookIndexDBMedia.interf
   templateUrl: './messages.component.html',
   styleUrls: ['./messages.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    ChatStatisticsComponent,
+    ChatviewComponent,
+    MessagesPerDayChartComponent,
+    NgClass,
+    NgIf,
+    NzGridModule,
+    NzResultModule,
+    NzTabsModule,
+    TitleBarComponent,
+  ]
 })
 export class MessagesComponent implements OnInit {
   userData = signal<FbUserDataModel>({} as FbUserDataModel);

@@ -2,6 +2,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
   name: 'pascalSpacing',
+  standalone: true,
 })
 export class PascalSpacingPipe implements PipeTransform {
 

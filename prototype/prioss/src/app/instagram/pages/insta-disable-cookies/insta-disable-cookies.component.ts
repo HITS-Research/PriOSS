@@ -1,9 +1,26 @@
 import { Component } from '@angular/core';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzImageModule } from 'ng-zorro-antd/image';
+import { NzStepsModule } from 'ng-zorro-antd/steps';
+import { NzTabsModule } from 'ng-zorro-antd/tabs';
+import { NzTypographyModule } from 'ng-zorro-antd/typography';
+import { TitleBarComponent } from 'src/app/features/title-bar/title-bar.component';
 
 @Component({
   selector: 'app-insta-disable-cookies',
   templateUrl: './insta-disable-cookies.component.html',
-  styleUrls: ['./insta-disable-cookies.component.less']
+  styleUrls: ['./insta-disable-cookies.component.less'],
+  standalone: true,
+  imports: [
+    NzButtonModule,
+    NzDividerModule,
+    NzImageModule,
+    NzStepsModule,
+    NzTabsModule,
+    NzTypographyModule,
+    TitleBarComponent,
+  ]
 })
 export class InstaDisableCookiesComponent {
   CookiesDisabled = 0;
@@ -56,7 +73,7 @@ export class InstaDisableCookiesComponent {
         this.instructionTextCookiesDisabled= 'Now, click on "See more in Accounts Center".';
         this.instructionPictureCookiesDisabled="../../assets/images/insta-privacy-recommendations/51.png";
         break;
-      } 
+      }
       case 4: {
         this.instructionTextCookiesDisabled='Click on option "Your information and permissions" under Account settings.';
         this.instructionPictureCookiesDisabled="../../assets/images/insta-privacy-recommendations/52.png";

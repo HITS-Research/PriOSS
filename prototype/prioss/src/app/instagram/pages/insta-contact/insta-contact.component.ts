@@ -1,15 +1,41 @@
-import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
-import { SequenceComponentInit } from '../../../features/utils/sequence-component-init.abstract';
+import { DecimalPipe, NgClass, NgFor, NgIf, NgStyle } from '@angular/common';
+import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
+import { FormControl, ReactiveFormsModule } from "@angular/forms";
+import { Store } from "@ngxs/store";
+import { NzAvatarModule } from 'ng-zorro-antd/avatar';
+import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzListModule } from 'ng-zorro-antd/list';
+import { NzStatisticModule } from 'ng-zorro-antd/statistic';
+import { debounceTime, distinctUntilChanged } from "rxjs";
+import { TitleBarComponent } from 'src/app/features/title-bar/title-bar.component';
 import { InstaContactInfo } from 'src/app/instagram/models/ContactInfo/InstaContactInfo';
-import {Store} from "@ngxs/store";
-import {InstaState} from "../../state/insta.state";
-import {FormControl} from "@angular/forms";
-import {debounceTime, distinctUntilChanged} from "rxjs";
+import { SequenceComponentInit } from '../../../features/utils/sequence-component-init.abstract';
+import { InstaState } from "../../state/insta.state";
+import { NzIconModule } from 'ng-zorro-antd/icon';
 
 @Component({
   selector: 'app-insta-contact',
   templateUrl: './insta-contact.component.html',
-  styleUrls: ['./insta-contact.component.less']
+  styleUrls: ['./insta-contact.component.less'],
+  standalone: true,
+  imports: [
+    DecimalPipe,
+    NgClass,
+    NgFor,
+    NgIf,
+    NgStyle,
+    NzAvatarModule,
+    NzCardModule,
+    NzGridModule,
+    NzIconModule,
+    NzInputModule,
+    NzListModule,
+    NzStatisticModule,
+    ReactiveFormsModule,
+    TitleBarComponent,
+  ]
 })
 export class InstaContactComponent extends SequenceComponentInit implements AfterViewInit, OnInit{
 
@@ -51,7 +77,7 @@ export class InstaContactComponent extends SequenceComponentInit implements Afte
   }
 
   filterContacts(searchTerm: string = this.searchControl.getRawValue() as string) {
-    
+
     if (!searchTerm||searchTerm.length < 3) {
       this.listOfContacts = [...this.contacts];
       return;

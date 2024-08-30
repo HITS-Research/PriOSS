@@ -5,12 +5,34 @@ import {InstaState} from "../../state/insta.state";
 import {InstaUserMessageDataModel, Messages} from "../../state/models";
 import {EChartsOption} from "echarts";
 import {DataRangeCalculatorService} from "../../service/echarts/data-range-calculator.service";
+import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NgClass, NgIf } from '@angular/common';
+import { TitleBarComponent } from 'src/app/features/title-bar/title-bar.component';
+import { NzStatisticModule } from 'ng-zorro-antd/statistic';
+import { IconModule } from '@ant-design/icons-angular';
+import { InstaChatViewComponent } from './insta-chat-view/insta-chat-view.component';
+import { NzTabsModule } from 'ng-zorro-antd/tabs';
+import { NgxEchartsModule } from 'ngx-echarts';
+import { NzCardModule } from 'ng-zorro-antd/card';
 
 @Component({
   selector: 'app-insta-messages',
   templateUrl: './insta-messages.component.html',
   styleUrls: ['./insta-messages.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports:[
+    IconModule,
+    InstaChatViewComponent,
+    NgClass,
+    NgIf,
+    NgxEchartsModule,
+    NzCardModule,
+    NzGridModule,
+    NzStatisticModule,
+    NzTabsModule,
+    TitleBarComponent,
+  ]
 })
 export class InstaMessagesComponent
   extends SequenceComponentInit

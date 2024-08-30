@@ -1,4 +1,10 @@
 import { AfterViewInit, Component, ChangeDetectionStrategy } from '@angular/core';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzImageModule } from 'ng-zorro-antd/image';
+import { NzStepsModule } from 'ng-zorro-antd/steps';
+import { NzTypographyModule } from 'ng-zorro-antd/typography';
+import { TitleBarComponent } from 'src/app/features/title-bar/title-bar.component';
 import { scrollToTop } from 'src/app/features/utils/generalUtilities.functions';
 
 /**
@@ -11,9 +17,18 @@ import { scrollToTop } from 'src/app/features/utils/generalUtilities.functions';
   templateUrl: './insta-hide-stories.component.html',
   styleUrls: ['./insta-hide-stories.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    NzButtonModule,
+    NzDividerModule,
+    NzImageModule,
+    NzStepsModule,
+    NzTypographyModule,
+    TitleBarComponent,
+  ]
 })
 export class InstaHideStoriesComponent implements AfterViewInit {
-  
+
   // Initialize HideStoriesWeb variable to track the current step
   HideStoriesWeb = 0;
 

@@ -1,6 +1,27 @@
 import { type AfterViewInit, Component, inject ,ChangeDetectionStrategy, signal} from '@angular/core';
 import { Router } from "@angular/router";
 import { FacebookDashboardIntroductionService } from '../../features/dashboard-introduction/facebook-dashboard-introduction.service';
+import { WelcomeMessageComponent } from 'src/app/framework/pages/welcome/welcome.component';
+import { AccordionComponent } from 'src/app/features/accordion/accordion.component';
+import { NzGridModule } from 'ng-zorro-antd/grid';
+import { DashCardComponent } from 'src/app/features/dash-card/dash-card.component';
+import { GeneralDataComponent } from '../general-data/general-data.component';
+import { FriendAndFollowersComponent } from '../friend-and-followers/friend-and-followers.component';
+import { MessagesComponent } from '../messages/messages.component';
+import { PostsComponent } from '../posts/posts.component';
+import { AdsRelatedDataComponent } from '../ads-related-data/ads-related-data.component';
+import { OtherPersonalInfoComponent } from '../other-personal-info/other-personal-info.component';
+import { SecurityLoginDataComponent } from '../security-login-data/security-login-data.component';
+import { GroupsAndEventsDataComponent } from '../groups-and-events-data/groups-and-events-data.component';
+import { FacebookMediaComponent } from '../media/media.component';
+import { NzStepsModule } from 'ng-zorro-antd/steps';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzImageModule } from 'ng-zorro-antd/image';
+import { SettingsFormComponent } from 'src/app/features/settings-form/settings-form.component';
+import { OfflineIndicatorComponent } from 'src/app/features/offline-indicator/offline-indicator.component';
+import { HelpButtonComponent } from 'src/app/features/help-button/help-button.component';
+import { FacePurposesComponent } from '../face-purposes/face-purposes.component';
+import { NgIf } from '@angular/common';
 
 
 /**
@@ -18,6 +39,30 @@ import { FacebookDashboardIntroductionService } from '../../features/dashboard-i
   templateUrl: './face-dashboard.component.html',
   styleUrls: ['./face-dashboard.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    AccordionComponent,
+    AdsRelatedDataComponent,
+    DashCardComponent,
+    FacebookMediaComponent,
+    FacePurposesComponent,
+    FriendAndFollowersComponent,
+    GeneralDataComponent,
+    GroupsAndEventsDataComponent,
+    HelpButtonComponent,
+    MessagesComponent,
+    NgIf,
+    NzDividerModule,
+    NzGridModule,
+    NzImageModule,
+    NzStepsModule,
+    OfflineIndicatorComponent,
+    OtherPersonalInfoComponent,
+    PostsComponent,
+    SecurityLoginDataComponent,
+    SettingsFormComponent,
+    WelcomeMessageComponent,
+  ]
 })
 export class FaceDashboardComponent implements AfterViewInit {
   #introductionService = inject(FacebookDashboardIntroductionService);

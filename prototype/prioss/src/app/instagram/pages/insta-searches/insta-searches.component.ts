@@ -5,16 +5,36 @@ import { InstaUserSearch } from 'src/app/instagram/models/Searches/InstaUserSear
 import { InstaKeywordSearch } from 'src/app/instagram/models/Searches/InstaKeywordSearch';
 import { InstaTagSearch } from 'src/app/instagram/models/Searches/InstaTagSearches';
 import { EChartsOption } from 'echarts';
-import { provideEcharts } from 'ngx-echarts';
+import { NgxEchartsModule, provideEcharts } from 'ngx-echarts';
 import { SequenceComponentInit } from '../../../features/utils/sequence-component-init.abstract';
 import { WordCloudComponent } from "../../../features/word-cloud/word-cloud.component";
 import {DataRangeCalculatorService} from "../../service/echarts/data-range-calculator.service";
+import { NgClass, NgIf } from '@angular/common';
+import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NzStatisticModule } from 'ng-zorro-antd/statistic';
+import { TitleBarComponent } from 'src/app/features/title-bar/title-bar.component';
+import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 
 @Component({
   selector: 'app-insta-searches',
   templateUrl: './insta-searches.component.html',
   styleUrls: ['./insta-searches.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    NgClass,
+    NgIf,
+    NgxEchartsModule,
+    NzButtonModule,
+    NzCardModule,
+    NzGridModule,
+    NzStatisticModule,
+    NzToolTipModule,
+    TitleBarComponent,
+    WordCloudComponent,
+  ],
   providers: [provideEcharts()]
 })
 export class InstaSearchesComponent extends SequenceComponentInit implements AfterViewInit, OnInit {

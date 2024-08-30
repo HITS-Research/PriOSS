@@ -4,6 +4,14 @@ import { FbLoggedInformationModel } from '../../state/models/';
 import { Store } from '@ngxs/store';
 import { InferredTopicsModel } from '../../models';
 import { IndexedDbService } from 'src/app/state/indexed-db.state';
+import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
+import { NzStatisticModule } from 'ng-zorro-antd/statistic';
+import { TitleBarComponent } from 'src/app/features/title-bar/title-bar.component';
+import { NzListModule } from 'ng-zorro-antd/list';
+import { NzResultModule } from 'ng-zorro-antd/result';
+import { NzTypographyModule } from 'ng-zorro-antd/typography';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NgFor, NgIf } from '@angular/common';
 
 /**
  * This component visualizes inferred topics in facebook.
@@ -19,6 +27,18 @@ import { IndexedDbService } from 'src/app/state/indexed-db.state';
   templateUrl: './inferred-topics.component.html',
   styleUrls: ['./inferred-topics.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    NgIf,
+    NgFor,
+    NzButtonModule,
+    NzListModule,
+    NzResultModule,
+    NzSkeletonModule,
+    NzStatisticModule,
+    NzTypographyModule,
+    TitleBarComponent,
+  ]
 })
 export class InferredTopicsComponent implements OnInit {
   constructor(

@@ -1,4 +1,7 @@
+import { NgFor } from '@angular/common';
 import { Component,ChangeDetectionStrategy } from '@angular/core';
+import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 
 /**
  * This component includes an array with the title, description, and an icon for all rights which should
@@ -12,6 +15,13 @@ import { Component,ChangeDetectionStrategy } from '@angular/core';
   templateUrl: './gdpr.component.html',
   styleUrls: ['./gdpr.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    NgFor,
+    NgFor,
+    NzCardModule,
+    NzIconModule,
+  ]
 })
 export class GdprComponent {
   dataProtectionRights = [

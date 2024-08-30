@@ -1,4 +1,10 @@
 import { Component } from '@angular/core';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzImageModule } from 'ng-zorro-antd/image';
+import { NzStepsModule } from 'ng-zorro-antd/steps';
+import { NzTabsModule } from 'ng-zorro-antd/tabs';
+import { TitleBarComponent } from 'src/app/features/title-bar/title-bar.component';
 
 /**
   * This component is responsible for providing guidelines to make instagram account private.
@@ -8,7 +14,16 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-insta-account-private',
   templateUrl: './insta-account-private.component.html',
-  styleUrls: ['./insta-account-private.component.less']
+  styleUrls: ['./insta-account-private.component.less'],
+  standalone: true,
+  imports: [
+    NzButtonModule,
+    NzDividerModule,
+    NzImageModule,
+    NzStepsModule,
+    NzTabsModule,
+    TitleBarComponent,
+  ]
 })
 export class InstaAccountPrivateComponent {
   AccountPrivate = 0;
@@ -129,5 +144,5 @@ export class InstaAccountPrivateComponent {
       }
     }
   }
-  
+
 }

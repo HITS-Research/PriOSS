@@ -10,10 +10,19 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { ECElementEvent, EChartsOption } from 'echarts';
+import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { NzEmptyModule } from 'ng-zorro-antd/empty';
+import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzTabsModule } from 'ng-zorro-antd/tabs';
+import { NgxEchartsModule } from 'ngx-echarts';
 import { map, switchMap } from 'rxjs';
+import { TimePipe } from 'src/app/features/time/time.pipe';
+import { TitleBarComponent } from 'src/app/features/title-bar/title-bar.component';
+import { defaultSpotifyEChartBarOptions } from '../../features/chart/default-options';
 import { SpotifyStreamingHistoryState } from '../../features/streaming-history/streaming-history.state';
 import { SpotifyStreamingHistoryStateModel } from '../../features/streaming-history/streaming-history.statemodel';
-import { defaultSpotifyEChartBarOptions } from '../../features/chart/default-options';
+import { FormsModule } from '@angular/forms';
 
 /**
  * This component visualizes how many songs from an artist were listened to
@@ -24,6 +33,18 @@ import { defaultSpotifyEChartBarOptions } from '../../features/chart/default-opt
   templateUrl: './spotify-top-song-artists.component.html',
   styleUrl: './spotify-top-song-artists.component.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    FormsModule,
+    NgxEchartsModule,
+    NzCardModule,
+    NzDatePickerModule,
+    NzEmptyModule,
+    NzTableModule,
+    NzTabsModule,
+    TimePipe,
+    TitleBarComponent,
+  ]
 })
 export class SpotifyTopSongArtistsComponent {
 

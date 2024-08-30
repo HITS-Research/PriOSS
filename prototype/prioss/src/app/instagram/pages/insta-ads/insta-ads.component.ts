@@ -1,11 +1,24 @@
-import {AfterViewInit, Component, Input, OnInit,ChangeDetectionStrategy} from '@angular/core';
-import {SequenceComponentInit} from '../../../features/utils/sequence-component-init.abstract';
-import {InstaAdsActivityInfo} from 'src/app/instagram/models/LikedAdsInfo/InstaAdsActivityInfo';
-import {InstaAdsClickedInfo} from 'src/app/instagram/models/LikedAdsInfo/InstaAdsClickedInfo';
-import {InstaAdsInterestInfo} from 'src/app/instagram/models/LikedAdsInfo/InstaAdsInterestInfo';
-import {InstaAdsViewedInfo} from 'src/app/instagram/models/LikedAdsInfo/InstaAdsViewedInfo';
-import {Store} from "@ngxs/store";
-import {InstaState} from "../../state/insta.state";
+import { DatePipe, DecimalPipe, NgClass, NgFor, NgIf } from '@angular/common';
+import { AfterViewInit, ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { Store } from "@ngxs/store";
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { NzEmptyModule } from 'ng-zorro-antd/empty';
+import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzStatisticModule } from 'ng-zorro-antd/statistic';
+import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzTabsModule } from 'ng-zorro-antd/tabs';
+import { NzTypographyModule } from 'ng-zorro-antd/typography';
+import { TitleBarComponent } from 'src/app/features/title-bar/title-bar.component';
+import { InstaAdsActivityInfo } from 'src/app/instagram/models/LikedAdsInfo/InstaAdsActivityInfo';
+import { InstaAdsClickedInfo } from 'src/app/instagram/models/LikedAdsInfo/InstaAdsClickedInfo';
+import { InstaAdsInterestInfo } from 'src/app/instagram/models/LikedAdsInfo/InstaAdsInterestInfo';
+import { InstaAdsViewedInfo } from 'src/app/instagram/models/LikedAdsInfo/InstaAdsViewedInfo';
+import { SequenceComponentInit } from '../../../features/utils/sequence-component-init.abstract';
+import { InstaState } from "../../state/insta.state";
 
 
 /**
@@ -20,6 +33,26 @@ import {InstaState} from "../../state/insta.state";
     templateUrl: './insta-ads.component.html',
     styleUrls: ['./insta-ads.component.less'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+      DatePipe,
+      DecimalPipe,
+      FormsModule,
+      NgClass,
+      NgFor,
+      NgIf,
+      NzButtonModule,
+      NzCardModule,
+      NzDropDownModule,
+      NzEmptyModule,
+      NzGridModule,
+      NzIconModule,
+      NzStatisticModule,
+      NzTableModule,
+      NzTabsModule,
+      NzTypographyModule,
+      TitleBarComponent,
+    ]
 })
 export class InstaAdsComponent extends SequenceComponentInit implements AfterViewInit, OnInit {
 

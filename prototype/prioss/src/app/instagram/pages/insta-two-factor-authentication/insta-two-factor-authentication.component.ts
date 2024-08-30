@@ -1,16 +1,31 @@
 import { Component ,ChangeDetectionStrategy} from '@angular/core';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzImageModule } from 'ng-zorro-antd/image';
+import { NzStepsModule } from 'ng-zorro-antd/steps';
+import { NzTypographyModule } from 'ng-zorro-antd/typography';
+import { TitleBarComponent } from 'src/app/features/title-bar/title-bar.component';
 
 /**
   * This component is responsible for providing guidelines to turn ON two factor authentication for Instagram.
   * @author: Aayushma (aayushma@mail.uni-paderborn.de)
   *
   */
- 
+
 @Component({
   selector: 'app-insta-two-factor-authentication',
   templateUrl: './insta-two-factor-authentication.component.html',
   styleUrls: ['./insta-two-factor-authentication.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    NzButtonModule,
+    NzDividerModule,
+    NzImageModule,
+    NzStepsModule,
+    NzTypographyModule,
+    TitleBarComponent,
+  ]
 })
 export class InstaTwoFactorAuthenticationComponent {
   TwoFactorAuthentication = 0;

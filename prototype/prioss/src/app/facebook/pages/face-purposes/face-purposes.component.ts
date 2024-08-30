@@ -1,10 +1,26 @@
+import { NgFor, NgIf } from '@angular/common';
 import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { IconModule } from '@ant-design/icons-angular';
+import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzTableModule } from 'ng-zorro-antd/table';
+import { AccordionComponent } from 'src/app/features/accordion/accordion.component';
 
 @Component({
   selector: 'app-face-purposes',
   templateUrl: './face-purposes.component.html',
   styleUrls: ['./face-purposes.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    AccordionComponent,
+    IconModule,
+    NgFor,
+    NgIf,
+    NzCardModule,
+    NzIconModule,
+    NzTableModule,
+  ]
 })
 export class FacePurposesComponent {
   dataRows = [

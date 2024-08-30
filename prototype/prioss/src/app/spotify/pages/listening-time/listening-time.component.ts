@@ -11,9 +11,18 @@ import { SpotifyStreamingHistoryStateModel } from '../../features/streaming-hist
 import { EChartsOption } from 'echarts';
 import { Observable, combineLatest, map, switchMap } from 'rxjs';
 import { SpotifyStreamingHistoryState } from '../../features/streaming-history/streaming-history.state';
-import { NzTabSetComponent } from 'ng-zorro-antd/tabs';
+import { NzTabSetComponent, NzTabsModule } from 'ng-zorro-antd/tabs';
 import { SpotifyStreamingHistoryPodcastState } from '../../features/streaming-history/streaming-history-podcast.state';
 import { SpotifyStreamingHistoryPodcastStateModel } from '../../features/streaming-history/streaming-history-podcast.statemodel';
+import { AsyncPipe } from '@angular/common';
+import { NgxEchartsModule } from 'ngx-echarts';
+import { TitleBarComponent } from 'src/app/features/title-bar/title-bar.component';
+import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { NzEmptyModule } from 'ng-zorro-antd/empty';
+import { NzTableModule } from 'ng-zorro-antd/table';
+import { FormsModule } from '@angular/forms';
 
 type ViewModel = {
   listeningData: SpotifyStreamingHistoryStateModel[];
@@ -31,6 +40,19 @@ type ViewModel = {
   templateUrl: './listening-time.component.html',
   styleUrls: ['./listening-time.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    AsyncPipe,
+    FormsModule,
+    NgxEchartsModule,
+    NzButtonModule,
+    NzCardModule,
+    NzDatePickerModule,
+    NzEmptyModule,
+    NzTableModule,
+    NzTabsModule,
+    TitleBarComponent,
+  ],
 })
 export class ListeningTimeComponent {
   #store = inject(Store);
