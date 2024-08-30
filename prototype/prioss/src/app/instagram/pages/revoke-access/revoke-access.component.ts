@@ -1,4 +1,12 @@
 import { Component,ChangeDetectionStrategy } from '@angular/core';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzImageModule } from 'ng-zorro-antd/image';
+import { NzStepsModule } from 'ng-zorro-antd/steps';
+import { NzTabsModule } from 'ng-zorro-antd/tabs';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { NzTypographyModule } from 'ng-zorro-antd/typography';
+import { TitleBarComponent } from 'src/app/features/title-bar/title-bar.component';
 /**
   * This component is responsible for providing guidelines to Revoke access to third-party apps.
   * @author: Aayushma (aayushma@mail.uni-paderborn.de)
@@ -9,6 +17,17 @@ import { Component,ChangeDetectionStrategy } from '@angular/core';
   templateUrl: './revoke-access.component.html',
   styleUrls: ['./revoke-access.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    NzButtonModule,
+    NzDividerModule,
+    NzImageModule,
+    NzStepsModule,
+    NzTabsModule,
+    NzToolTipModule,
+    NzTypographyModule,
+    TitleBarComponent,
+  ]
 })
 
 export class RevokeAccessComponent {

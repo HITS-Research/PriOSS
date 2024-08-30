@@ -1,4 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { NzModalModule } from 'ng-zorro-antd/modal';
 
 type Inference = { inference: string; checked: boolean };
 
@@ -10,6 +11,9 @@ type Inference = { inference: string; checked: boolean };
   selector: 'prioss-spotify-inferences-mail',
   templateUrl: './inferences-mail.component.html',
   styleUrls: ['./inferences-mail.component.less'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [NzModalModule],
 })
 export class InferencesMailComponent {
   isVisible = false;

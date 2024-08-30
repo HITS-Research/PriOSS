@@ -3,6 +3,10 @@ import {Select, Store} from "@ngxs/store";
 import {SetNetworkStatus} from "../../state/app.action";
 import {AppState} from "../../state/app.state";
 import {Observable} from "rxjs";
+import { NgIf } from '@angular/common';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 
 
 /**
@@ -14,7 +18,14 @@ import {Observable} from "rxjs";
 @Component({
   selector: 'app-offline-indicator',
   templateUrl: './offline-indicator.component.html',
-  styleUrls: ['./offline-indicator.component.less']
+  styleUrls: ['./offline-indicator.component.less'],
+  standalone: true,
+  imports: [
+    NgIf,
+    NzButtonModule,
+    NzIconModule,
+    NzToolTipModule,
+  ]
 })
 export class OfflineIndicatorComponent implements OnInit {
   onlineStatus: boolean;

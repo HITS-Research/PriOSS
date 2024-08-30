@@ -2,12 +2,34 @@
 import { Component, Input, OnInit, ChangeDetectionStrategy, signal, computed } from '@angular/core';
 import { IndexedDbService } from 'src/app/state/indexed-db.state';
 import { FbUserDataModel } from '../../state/models';
+import { DecimalPipe, NgClass, NgFor, NgIf } from '@angular/common';
+import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
+import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NzStatisticModule } from 'ng-zorro-antd/statistic';
+import { TitleBarComponent } from 'src/app/features/title-bar/title-bar.component';
+import { NzTabsModule } from 'ng-zorro-antd/tabs';
+import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzResultModule } from 'ng-zorro-antd/result';
 
 @Component({
   selector: 'app-groups-and-events-data',
   templateUrl: './groups-and-events-data.component.html',
   styleUrls: ['./groups-and-events-data.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    DecimalPipe,
+    NgClass,
+    NgFor,
+    NgIf,
+    NzGridModule,
+    NzResultModule,
+    NzSkeletonModule,
+    NzStatisticModule,
+    NzTableModule,
+    NzTabsModule,
+    TitleBarComponent,
+  ]
 })
 export class GroupsAndEventsDataComponent implements OnInit {
   groupsJoinedData = computed(() => this.userData().activity_across_facebook?.groupsJoined?.groups_joined_v2 ?? []);

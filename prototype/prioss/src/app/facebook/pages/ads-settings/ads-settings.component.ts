@@ -1,10 +1,27 @@
+import { NgFor } from '@angular/common';
 import { AfterViewInit, Component } from '@angular/core';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzImageModule } from 'ng-zorro-antd/image';
+import { NzStepsModule } from 'ng-zorro-antd/steps';
+import { NzTabsModule } from 'ng-zorro-antd/tabs';
+import { TitleBarComponent } from 'src/app/features/title-bar/title-bar.component';
 import { scrollToTop } from 'src/app/features/utils/generalUtilities.functions';
 
 @Component({
   selector: 'app-ads-settings',
   templateUrl: './ads-settings.component.html',
-  styleUrls: ['./ads-settings.component.less']
+  styleUrls: ['./ads-settings.component.less'],
+  standalone: true,
+  imports: [
+    NgFor,
+    NzButtonModule,
+    NzDividerModule,
+    NzImageModule,
+    NzStepsModule,
+    NzTabsModule,
+    TitleBarComponent,
+  ]
 })
 export class AdsSettingsComponent implements AfterViewInit{
 

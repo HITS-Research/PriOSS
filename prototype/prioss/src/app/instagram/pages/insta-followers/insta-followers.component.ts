@@ -1,16 +1,30 @@
-import {AfterViewInit, Component, Input, OnInit, ChangeDetectionStrategy} from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { EChartsOption } from 'echarts';
 import { SequenceComponentInit } from '../../../features/utils/sequence-component-init.abstract';
 
+import { DatePipe, DecimalPipe, NgClass, NgFor, NgIf } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { Store } from "@ngxs/store";
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzPaginationModule } from 'ng-zorro-antd/pagination';
+import { NzStatisticModule } from 'ng-zorro-antd/statistic';
+import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzTabsModule } from 'ng-zorro-antd/tabs';
+import { NzTagModule } from 'ng-zorro-antd/tag';
+import { NgxEchartsModule } from 'ngx-echarts';
+import { TitleBarComponent } from 'src/app/features/title-bar/title-bar.component';
+import { InstaBlockedInfo } from 'src/app/instagram/models/FollowerInfo/BlockedInfo';
 import { InstaFollowerInfo } from 'src/app/instagram/models/FollowerInfo/FollowerInfo';
 import { InstaFollowingInfo } from 'src/app/instagram/models/FollowerInfo/FollowingInfo';
-import { InstaBlockedInfo } from 'src/app/instagram/models/FollowerInfo/BlockedInfo';
-import { InstaRecentFollowInfo } from 'src/app/instagram/models/FollowerInfo/RecentFollow';
 import { InstaPendingFollowRequestInfo } from 'src/app/instagram/models/FollowerInfo/PendingFollowRequestInfo';
+import { InstaReceivedFollowRequestInfo } from 'src/app/instagram/models/FollowerInfo/ReceivedFollowRequest';
+import { InstaRecentFollowInfo } from 'src/app/instagram/models/FollowerInfo/RecentFollow';
 import { InstaRecentlyUnfollowedInfo } from 'src/app/instagram/models/FollowerInfo/RecentlyUnfollowedAccounts';
 import { InstaRemovedSuggestionInfo } from 'src/app/instagram/models/FollowerInfo/RemovedSuggestion';
-import { InstaReceivedFollowRequestInfo } from 'src/app/instagram/models/FollowerInfo/ReceivedFollowRequest';
-import { Store } from "@ngxs/store";
 import { InstaState } from "../../state/insta.state";
 
 @Component({
@@ -18,6 +32,27 @@ import { InstaState } from "../../state/insta.state";
   templateUrl: './insta-followers.component.html',
   styleUrls: ['./insta-followers.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    DatePipe,
+    DecimalPipe,
+    FormsModule,
+    NgClass,
+    NgFor,
+    NgIf,
+    NgxEchartsModule,
+    NzButtonModule,
+    NzCardModule,
+    NzDropDownModule,
+    NzGridModule,
+    NzInputModule,
+    NzPaginationModule,
+    NzStatisticModule,
+    NzTableModule,
+    NzTabsModule,
+    NzTagModule,
+    TitleBarComponent,
+  ]
 })
 export class InstaFollowersComponent extends SequenceComponentInit implements AfterViewInit, OnInit {
   @Input()
@@ -155,7 +190,7 @@ export class InstaFollowersComponent extends SequenceComponentInit implements Af
       on: {
         'click': function (params:any) {
 
-          
+
           if (params['dataType'] === 'node') {
             alert('Node clicked: ' + params.data.name);
             // You can add more functionality here

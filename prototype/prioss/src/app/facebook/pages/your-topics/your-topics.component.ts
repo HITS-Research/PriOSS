@@ -1,10 +1,27 @@
 import { AfterViewInit, Component } from '@angular/core';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzImageModule } from 'ng-zorro-antd/image';
+import { NzStepsModule } from 'ng-zorro-antd/steps';
+import { NzTabsModule } from 'ng-zorro-antd/tabs';
+import { NzTypographyModule } from 'ng-zorro-antd/typography';
+import { TitleBarComponent } from 'src/app/features/title-bar/title-bar.component';
 import { scrollToTop } from 'src/app/features/utils/generalUtilities.functions';
 
 @Component({
   selector: 'app-your-topics',
   templateUrl: './your-topics.component.html',
-  styleUrls: ['./your-topics.component.less']
+  styleUrls: ['./your-topics.component.less'],
+  standalone: true,
+  imports: [
+    NzButtonModule,
+    NzDividerModule,
+    NzImageModule,
+    NzStepsModule,
+    NzTabsModule,
+    NzTypographyModule,
+    TitleBarComponent,
+  ]
 })
 export class YourTopicsComponent implements AfterViewInit{
 

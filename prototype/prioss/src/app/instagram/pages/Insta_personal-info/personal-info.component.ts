@@ -11,6 +11,20 @@ import {
 } from "../../models";
 import {Store} from "@ngxs/store";
 import {InstaState} from "../../state/insta.state";
+import { NgClass, NgFor, NgIf } from '@angular/common';
+import { NzGridModule } from 'ng-zorro-antd/grid';
+import { TitleBarComponent } from 'src/app/features/title-bar/title-bar.component';
+import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzImageModule } from 'ng-zorro-antd/image';
+import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzTimelineModule } from 'ng-zorro-antd/timeline';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { RemoveSpecialCharactersPipe } from 'src/app/features/remove-special-characters/remove-special-characters.pipe';
+import { NzSpaceModule } from 'ng-zorro-antd/space';
+import { PascalSpacingPipe } from 'src/app/features/pascal-spacing/pascal-spacing.pipe';
+import { NzStatisticModule } from 'ng-zorro-antd/statistic';
 
 
 
@@ -23,7 +37,26 @@ import {InstaState} from "../../state/insta.state";
 @Component({
     selector: 'app-personal-info',
     templateUrl: './personal-info.component.html',
-    styleUrls: ['./personal-info.component.less']
+    styleUrls: ['./personal-info.component.less'],
+    standalone: true,
+    imports: [
+      NgClass,
+      NgFor,
+      NgIf,
+      NzCardModule,
+      NzGridModule,
+      NzIconModule,
+      NzImageModule,
+      NzSpaceModule,
+      NzSpinModule,
+      NzStatisticModule,
+      NzTableModule,
+      NzTimelineModule,
+      NzToolTipModule,
+      PascalSpacingPipe,
+      RemoveSpecialCharactersPipe,
+      TitleBarComponent,
+    ]
 })
 
 export class Insta_PersonalInfoComponent extends SequenceComponentInit implements AfterViewInit, OnInit {

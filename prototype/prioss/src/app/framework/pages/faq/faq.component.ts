@@ -1,4 +1,8 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { NgFor, NgIf } from '@angular/common';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { NzCollapseModule } from 'ng-zorro-antd/collapse';
+import { NzTypographyModule } from 'ng-zorro-antd/typography';
+import { AccordionComponent } from 'src/app/features/accordion/accordion.component';
 
 interface Faq {
   name: string;
@@ -12,6 +16,14 @@ interface Faq {
   templateUrl: './faq.component.html',
   styleUrls: ['./faq.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    AccordionComponent,
+    NgFor,
+    NgIf,
+    NzCollapseModule,
+    NzTypographyModule,
+  ]
 })
 export class FaqComponent {
   faqs: Faq[] = [

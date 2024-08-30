@@ -9,12 +9,41 @@ import { GeolocationService } from 'src/app/features/world-map/geolocation.servi
 import type { EChartsOption } from 'echarts';
 import { GeoLocationData } from 'src/app/features/world-map/geolocation.type';
 import { IndexedDbService } from 'src/app/state/indexed-db.state';
+import { DatePipe, DecimalPipe, NgClass, NgFor, NgIf } from '@angular/common';
+import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NzStatisticModule } from 'ng-zorro-antd/statistic';
+import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { TitleBarComponent } from 'src/app/features/title-bar/title-bar.component';
+import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzTabsModule } from 'ng-zorro-antd/tabs';
+import { NzResultModule } from 'ng-zorro-antd/result';
+import { NzTimelineModule } from 'ng-zorro-antd/timeline';
+import { WorldMapComponent } from 'src/app/features/world-map/world-map.component';
 
 @Component({
   selector: 'app-security-login-data',
   templateUrl: './security-login-data.component.html',
   styleUrls: ['./security-login-data.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    DatePipe,
+    DecimalPipe,
+    NgClass,
+    NgFor,
+    NgIf,
+    NzGridModule,
+    NzIconModule,
+    NzResultModule,
+    NzSkeletonModule,
+    NzStatisticModule,
+    NzTableModule,
+    NzTabsModule,
+    NzTimelineModule,
+    TitleBarComponent,
+    WorldMapComponent,
+  ]
 })
 export class SecurityLoginDataComponent implements OnInit {
   @Input()

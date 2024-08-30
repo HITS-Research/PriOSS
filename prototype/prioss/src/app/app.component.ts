@@ -6,10 +6,12 @@ import {
   inject,
   signal
 } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { AppComponentMsg } from './features/messaging/app-component-msg/app-component-msg.enum';
 import { AppComponentMsgService } from './features/messaging/app-component-msg/app-component-msg.service';
 import { HeaderMenuService } from './framework/features/dashboard-menu/header-menu.service';
+import { HeaderComponent } from './framework/features/header/header.component';
+import { NotificationComponent } from './features/notification/notification.component';
 
 /**
  * This is the base component of the application that is always shown. It
@@ -23,6 +25,12 @@ import { HeaderMenuService } from './framework/features/dashboard-menu/header-me
   templateUrl: './app.component.html',
   styleUrl: './app.component.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    HeaderComponent,
+    NotificationComponent,
+    RouterModule,
+  ]
 })
 export class AppComponent implements OnInit {
   title = 'prioss';

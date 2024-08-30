@@ -1,13 +1,17 @@
-import {ChangeDetectionStrategy, Component, Input, ViewChild} from '@angular/core';
-import {CloudData, CloudOptions, TagCloudComponent} from "angular-tag-cloud-module";
-import {SaveAsImageService} from "../save-as-image/save-as-image.service";
+import { ChangeDetectionStrategy, Component, Input, ViewChild } from '@angular/core';
+import { CloudData, CloudOptions, TagCloudComponent } from "angular-tag-cloud-module";
+import { SaveAsImageService } from "../save-as-image/save-as-image.service";
 
 
 @Component({
   selector: 'prioss-word-cloud',
   templateUrl: './word-cloud.component.html',
   styleUrl: './word-cloud.component.less',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    TagCloudComponent
+  ]
 })
 export class WordCloudComponent {
   @ViewChild(TagCloudComponent) tagCloudComponent: TagCloudComponent;

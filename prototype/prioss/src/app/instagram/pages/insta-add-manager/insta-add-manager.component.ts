@@ -1,4 +1,12 @@
 import { Component } from '@angular/core';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzImageModule } from 'ng-zorro-antd/image';
+import { NzStepsModule } from 'ng-zorro-antd/steps';
+import { NzTabsModule } from 'ng-zorro-antd/tabs';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { NzTypographyModule } from 'ng-zorro-antd/typography';
+import { TitleBarComponent } from 'src/app/features/title-bar/title-bar.component';
 
 /**
   * This component is responsible for providing guidelines to manage insta advertisements.
@@ -8,7 +16,18 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-insta-add-manager',
   templateUrl: './insta-add-manager.component.html',
-  styleUrls: ['./insta-add-manager.component.less']
+  styleUrls: ['./insta-add-manager.component.less'],
+  standalone: true,
+  imports: [
+    NzButtonModule,
+    NzDividerModule,
+    NzImageModule,
+    NzStepsModule,
+    NzTabsModule,
+    NzToolTipModule,
+    NzTypographyModule,
+    TitleBarComponent,
+  ]
 })
 export class InstaAddManagerComponent {
   AddManager = 0;

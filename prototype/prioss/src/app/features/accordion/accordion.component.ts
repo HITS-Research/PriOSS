@@ -1,10 +1,17 @@
 import { Component, Input } from '@angular/core';
-import { trigger, state, style, animate, transition } from '@angular/animations';
+import {
+  trigger,
+  state,
+  style,
+  animate,
+  transition,
+} from '@angular/animations';
 
 @Component({
   selector: 'app-accordion',
   templateUrl: './accordion.component.html',
   styleUrls: ['./accordion.component.less'],
+  standalone: true,
   animations: [
     trigger('accordionAnimation', [
       state('collapsed', style({ height: '0px', overflow: 'hidden' })),
@@ -19,8 +26,8 @@ export class AccordionComponent {
   isOpen: boolean = true;
 
   toggleAccordion(): void {
-    this.triangleClass = (this.triangleClass === 'collapsed') ? 'expanded' : 'collapsed';
+    this.triangleClass =
+      this.triangleClass === 'collapsed' ? 'expanded' : 'collapsed';
     this.isOpen = !this.isOpen;
   }
 }
-

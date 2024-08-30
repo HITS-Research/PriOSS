@@ -11,6 +11,19 @@ import { InstaSearchesComponent } from 'src/app/instagram/pages/insta-searches/i
 import { InstaShoppingComponent } from 'src/app/instagram/pages/insta-shopping/insta-shopping.component';
 import { InstaYourTopicComponent } from 'src/app/instagram/pages/insta-your-topic/insta-your-topic.component';
 import { InstagramDashboardIntroductionService } from '../../features/dashboard-introduction/instagram-dashboard-introduction.service';
+import { WelcomeMessageComponent } from 'src/app/framework/pages/welcome/welcome.component';
+import { AccordionComponent } from 'src/app/features/accordion/accordion.component';
+import { NzGridModule } from 'ng-zorro-antd/grid';
+import { DashCardComponent } from 'src/app/features/dash-card/dash-card.component';
+import { NzStepsModule } from 'ng-zorro-antd/steps';
+import { NzTypographyModule } from 'ng-zorro-antd/typography';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { HelpButtonComponent } from 'src/app/features/help-button/help-button.component';
+import { NzImageModule } from 'ng-zorro-antd/image';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { SettingsFormComponent } from 'src/app/features/settings-form/settings-form.component';
+import { InstaPurposesComponent } from '../insta-purposes/insta-purposes.component';
+import { OfflineIndicatorComponent } from 'src/app/features/offline-indicator/offline-indicator.component';
 
 /**
   * This component is the root component for instagram's dashboard page.
@@ -25,7 +38,33 @@ import { InstagramDashboardIntroductionService } from '../../features/dashboard-
 @Component({
   selector: 'app-insta-dashboard',
   templateUrl: './insta-dashboard.component.html',
-  styleUrls: ['./insta-dashboard.component.less']
+  styleUrls: ['./insta-dashboard.component.less'],
+  standalone: true,
+  imports: [
+    AccordionComponent,
+    DashCardComponent,
+    HelpButtonComponent,
+    Insta_PersonalInfoComponent,
+    InstaAccountCreationLoginComponent,
+    InstaAdsComponent,
+    InstaContactComponent,
+    InstaFollowersComponent,
+    InstaLikedContentComponent,
+    InstaMessagesComponent,
+    InstaPurposesComponent,
+    InstaSearchesComponent,
+    InstaShoppingComponent,
+    InstaYourTopicComponent,
+    NzButtonModule,
+    NzDividerModule,
+    NzGridModule,
+    NzImageModule,
+    NzStepsModule,
+    NzTypographyModule,
+    OfflineIndicatorComponent,
+    SettingsFormComponent,
+    WelcomeMessageComponent,
+  ]
 })
 export class InstaDashboardComponent extends BaseDashboard implements AfterViewInit{
   current = 0;

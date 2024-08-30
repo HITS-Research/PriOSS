@@ -1,16 +1,35 @@
 import { Component,ChangeDetectionStrategy } from '@angular/core';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzImageModule } from 'ng-zorro-antd/image';
+import { NzStepsModule } from 'ng-zorro-antd/steps';
+import { NzTabsModule } from 'ng-zorro-antd/tabs';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { NzTypographyModule } from 'ng-zorro-antd/typography';
+import { TitleBarComponent } from 'src/app/features/title-bar/title-bar.component';
 
 /**
   * This component is responsible for providing guidelines to make instagram profile information private.
   * @author: Aayushma (aayushma@mail.uni-paderborn.de)
   *
   */
- 
+
 @Component({
   selector: 'app-insta-profile-info-private',
   templateUrl: './insta-profile-info-private.component.html',
   styleUrls: ['./insta-profile-info-private.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    NzButtonModule,
+    NzDividerModule,
+    NzImageModule,
+    NzStepsModule,
+    NzTabsModule,
+    NzToolTipModule,
+    NzTypographyModule,
+    TitleBarComponent,
+  ]
 })
 export class InstaProfileInfoPrivateComponent {
   ProfileInfoPrivate = 0;
@@ -20,7 +39,7 @@ export class InstaProfileInfoPrivateComponent {
   /**
    * Callback function to decrement the "ProfileInfoPrivate" variable.
    * @author: Aayushma (aayushma@mail.uni-paderborn.de)
-   * 
+   *
    */
   preProfileInfoPrivate(): void {
     this.ProfileInfoPrivate -= 1;

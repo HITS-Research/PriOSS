@@ -41,7 +41,7 @@
                         <nz-collapse nzExpandIconPosition="end">
                             <nz-collapse-panel #p [nzHeader]="likedCommentHeaderTemplate" nzActive="false"
                                                [nzExpandedIcon]="expandedIcon">
-                                <nz-demo-tab-content-lazy>
+                                <div>
                                     <div *ngIf="liked_comments?.length else noDataTemplate">
                                         <nz-table [nzData]="listOfLikedComments" #likedCommentsTable>
                                             <thead>
@@ -88,11 +88,11 @@
                                             </div>
                                         </nz-dropdown-menu>
                                     </div>
-                                </nz-demo-tab-content-lazy>
+                                </div>
                             </nz-collapse-panel>
                             <nz-collapse-panel #p [nzHeader]="likedPostHeaderTemplate" nzActive="false"
                                                [nzExpandedIcon]="expandedIcon">
-                                <nz-demo-tab-content-lazy>
+                                <div>
                                     <div *ngIf="liked_posts?.length else noDataTemplate">
                                         <nz-table [nzData]="listOfLikedPosts" #likedPostsTable>
                                             <thead>
@@ -137,7 +137,7 @@
                                             </div>
                                         </nz-dropdown-menu>
                                     </div>
-                                </nz-demo-tab-content-lazy>
+                                </div>
                             </nz-collapse-panel>
                             <ng-template #expandedIcon let-active>
                                 {{ active }}
@@ -157,7 +157,7 @@
                         </nz-collapse>
                     </nz-tab>
                     <nz-tab nzTitle="Posted Contents">
-                        <nz-demo-tab-content-lazy>
+                        <div>
                             <div *ngIf="!!filteredPostAndStories.length || !!filteredPostAndStories.length else noDataTemplate">
                                 <div nz-flex nzJustify="flex-end" nzAlign="flex-end" nzGap="large" [nzVertical]=false >
                                     <div  class="flex-item" style="padding-right: 5px">
@@ -202,10 +202,10 @@
                                 </div>
                                 <nz-back-top></nz-back-top>
                             </div>
-                        </nz-demo-tab-content-lazy>
+                        </div>
                     </nz-tab>
                     <nz-tab nzTitle="Posted Comments">
-                        <nz-demo-tab-content-lazy>
+                        <div>
                             <div *ngIf="!!comments.length || !!comments.length else noDataTemplate">
                                 <div nz-flex nzJustify="center" nzAlign="center" nzGap="large" [nzVertical]=true >
                                     <div  class="flex-item" *ngFor="let comment of comments">
@@ -255,7 +255,7 @@
                                 </div>
                                 <nz-back-top></nz-back-top>
                             </div>
-                        </nz-demo-tab-content-lazy>
+                        </div>
                     </nz-tab>
                 </nz-tabset>
             </nz-card>

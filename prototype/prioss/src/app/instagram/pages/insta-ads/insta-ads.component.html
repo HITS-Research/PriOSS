@@ -93,7 +93,7 @@
             <nz-tabset nzType="card">
                 <nz-tab nzTitle="Advertisement Activity">
                     <ng-template nz-tab>
-                        <nz-demo-tab-content-lazy>
+                        <div>
                             <div *ngIf="ads_activity?.length">
                                 <p>The below displays the advertisement activity performed by you on your Instagram
                                     account.</p>
@@ -137,12 +137,12 @@
                             <div *ngIf="ads_activity?.length === 0">
                                 <nz-empty nzNotFoundImage="simple"></nz-empty>
                             </div>
-                        </nz-demo-tab-content-lazy>
+                        </div>
                     </ng-template>
                 </nz-tab>
                 <nz-tab nzTitle="Advertisement Clicked">
                     <ng-template nz-tab>
-                        <nz-demo-tab-content-lazy>
+                        <div>
                             <div *ngIf="ads_clicked?.length">
                                 <p>The below displays the advertisement clicked by you on your Instagram account.</p>
                                 <nz-table [nzData]="listOfAdsClicked" #adsClickedTable>
@@ -180,12 +180,12 @@
                             <div *ngIf="ads_clicked?.length === 0">
                                 <nz-empty nzNotFoundImage="simple"></nz-empty>
                             </div>
-                        </nz-demo-tab-content-lazy>
+                        </div>
                     </ng-template>
                 </nz-tab>
                 <nz-tab nzTitle="Advertisement Interest">
                     <ng-template nz-tab>
-                        <nz-demo-tab-content-lazy>
+                        <div>
 
                             <div *ngIf="ads_interests?.length">
                                 <p>The below displays the advertisement interests inferred by Instagram.</p>
@@ -223,12 +223,12 @@
                             <div *ngIf="ads_interests?.length === 0">
                                 <nz-empty nzNotFoundImage="simple"></nz-empty>
                             </div>
-                        </nz-demo-tab-content-lazy>
+                        </div>
                     </ng-template>
                 </nz-tab>
                 <nz-tab nzTitle="Advertisement Viewed">
                     <ng-template nz-tab>
-                        <nz-demo-tab-content-lazy>
+                        <div>
 
                             <div *ngIf="listOfAdsViewed?.length">
                                 <p>The below displays the advertisement viewed by you on your Instagram account.</p>
@@ -268,7 +268,7 @@
                             <div *ngIf="listOfAdsViewed?.length === 0">
                                 <nz-empty nzNotFoundImage="simple"></nz-empty>
                             </div>
-                        </nz-demo-tab-content-lazy>
+                        </div>
                     </ng-template>
                 </nz-tab>
             </nz-tabset>

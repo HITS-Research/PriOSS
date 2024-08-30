@@ -1,4 +1,11 @@
 import { Component } from '@angular/core';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzImageModule } from 'ng-zorro-antd/image';
+import { NzStepsModule } from 'ng-zorro-antd/steps';
+import { NzTabsModule } from 'ng-zorro-antd/tabs';
+import { NzTypographyModule } from 'ng-zorro-antd/typography';
+import { TitleBarComponent } from 'src/app/features/title-bar/title-bar.component';
 
 /**
   * This component is responsible for providing guidelines to hide instagram activity status.
@@ -9,14 +16,24 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-insta-activity-status-hidden',
   templateUrl: './insta-activity-status-hidden.component.html',
-  styleUrls: ['./insta-activity-status-hidden.component.less']
+  styleUrls: ['./insta-activity-status-hidden.component.less'],
+  standalone: true,
+  imports : [
+    NzButtonModule,
+    NzDividerModule,
+    NzImageModule,
+    NzStepsModule,
+    NzTabsModule,
+    NzTypographyModule,
+    TitleBarComponent,
+  ]
 })
 
 export class InstaActivityStatusHiddenComponent {
   ActivityHidden = 0;
     instructionTextActivityHidden='First, open https://www.instagram.com/ on your computer or mobile browser and log in. This will get you to your account overview.';
     instructionPictureActivityHidden="../../assets/images/insta-privacy-recommendations/login.png";
-  
+
     /**
      * Callback function to decrement the "AActivityHidden" variable.
      * @author: Aayushma (aayushma@mail.uni-paderborn.de)
@@ -26,7 +43,7 @@ export class InstaActivityStatusHiddenComponent {
       this.ActivityHidden-= 1;
       this.changeActivityHidden();
     }
-  
+
     /**
      * Callback function to increment the "ActivityHidden" variable.
      * @author: Aayushma (aayushma@mail.uni-paderborn.de)
@@ -35,8 +52,8 @@ export class InstaActivityStatusHiddenComponent {
       this.ActivityHidden += 1;
       this.changeActivityHidden();
     }
-  
-  
+
+
     /**
      * This method shows the instruction text and picture depending on the step the user is in for web application.
      * @author: Aayushma (aayushma@mail.uni-paderborn.de)
@@ -74,11 +91,11 @@ export class InstaActivityStatusHiddenComponent {
         }
       }
     }
-  
+
     ActivityHiddenMobile = 0;
     instructionTextActivityHiddenMobile='First, open Instagram application on your mobile phone.';
     instructionPictureActivityHiddenMobile="../../assets/images/insta-privacy-recommendations/40.png";
-  
+
     /**
      * Callback function to decrement the "ActivityHiddenMobile" variable.
      * @author: Aayushma (aayushma@mail.uni-paderborn.de)
@@ -88,7 +105,7 @@ export class InstaActivityStatusHiddenComponent {
       this.ActivityHiddenMobile -= 1;
       this.changeActivityHiddenMobile();
     }
-  
+
     /**
      * Callback function to increment the "ActivityHiddenMobile" variable.
      * @author: Aayushma (aayushma@mail.uni-paderborn.de)
@@ -97,8 +114,8 @@ export class InstaActivityStatusHiddenComponent {
       this.ActivityHiddenMobile += 1;
       this.changeActivityHiddenMobile();
     }
-  
-  
+
+
     /**
      * This method shows the instruction text and picture depending on the step the user is in for mobile application.
      * @author: Aayushma (aayushma@mail.uni-paderborn.de)

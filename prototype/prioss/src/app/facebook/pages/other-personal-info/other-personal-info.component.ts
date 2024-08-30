@@ -5,12 +5,45 @@ import { SearchHistoryModel, SearchHistoryItem } from 'src/app/facebook/models/L
 
 import { FbPersonalInformationDataModel, FbLoggedInformationModel, FbUserDataModel } from '../../state/models';
 import { IndexedDbService } from 'src/app/state/indexed-db.state';
+import { DatePipe, NgClass, NgIf } from '@angular/common';
+import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
+import { NzStatisticModule } from 'ng-zorro-antd/statistic';
+import { TitleBarComponent } from 'src/app/features/title-bar/title-bar.component';
+import { NzTabsModule } from 'ng-zorro-antd/tabs';
+import { NzListModule } from 'ng-zorro-antd/list';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzResultModule } from 'ng-zorro-antd/result';
+import { FormsModule } from '@angular/forms';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { NzTagModule } from 'ng-zorro-antd/tag';
+import { NzAvatarModule } from 'ng-zorro-antd/avatar';
+import { NzCardModule } from 'ng-zorro-antd/card';
 
 @Component({
   selector: 'app-other-personal-info',
   templateUrl: './other-personal-info.component.html',
   styleUrls: ['./other-personal-info.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    DatePipe,
+    FormsModule,
+    NgClass,
+    NgIf,
+    NzAvatarModule,
+    NzCardModule,
+    NzGridModule,
+    NzIconModule,
+    NzListModule,
+    NzResultModule,
+    NzSkeletonModule,
+    NzStatisticModule,
+    NzTabsModule,
+    NzTagModule,
+    NzToolTipModule,
+    TitleBarComponent,
+  ]
 })
 export class OtherPersonalInfoComponent implements OnInit {
   loading = signal<boolean>(true);
@@ -83,8 +116,8 @@ export class OtherPersonalInfoComponent implements OnInit {
         this.loading.set(false);
       });
   }
-  
-  
+
+
 
   /**
    * This method is responsible to show the data in that page for search history(1-10).
@@ -151,7 +184,7 @@ export class OtherPersonalInfoComponent implements OnInit {
       '#CD5C5C', // Indian Red
       '#9370DB'  // Medium Purple
     ];
-  
+
     return colors[Math.floor(Math.random() * colors.length)];
   }
 

@@ -5,6 +5,15 @@ import { InstaLoginInfo } from 'src/app/instagram/models/InstaAccountCreationAnd
 import { InstaLogoutInfo } from 'src/app/instagram/models/InstaAccountCreationAndLoginInfo/InstaLogoutInfo';
 import {Store} from "@ngxs/store";
 import {InstaState} from "../../state/insta.state";
+import { DatePipe, DecimalPipe, NgClass, NgFor, NgIf } from '@angular/common';
+import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NzStatisticModule } from 'ng-zorro-antd/statistic';
+import { TitleBarComponent } from 'src/app/features/title-bar/title-bar.component';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzTimelineModule } from 'ng-zorro-antd/timeline';
+import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzCollapseModule } from 'ng-zorro-antd/collapse';
+import { NzSpaceModule } from 'ng-zorro-antd/space';
 
 /**
  * This component is for instagram's account creation and login page.
@@ -16,7 +25,23 @@ import {InstaState} from "../../state/insta.state";
 @Component({
   selector: 'app-insta-account-creation-login',
   templateUrl: './insta-account-creation-login.component.html',
-  styleUrls: ['./insta-account-creation-login.component.less']
+  styleUrls: ['./insta-account-creation-login.component.less'],
+  standalone: true,
+  imports: [
+    DatePipe,
+    DecimalPipe,
+    NgClass,
+    NgFor,
+    NgIf,
+    NzCardModule,
+    NzCollapseModule,
+    NzGridModule,
+    NzIconModule,
+    NzSpaceModule,
+    NzStatisticModule,
+    NzTimelineModule,
+    TitleBarComponent,
+  ]
 })
 export class InstaAccountCreationLoginComponent extends SequenceComponentInit implements AfterViewInit, OnInit{
   @Input()

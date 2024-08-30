@@ -5,12 +5,44 @@ import { InstaShoppingWishlistInfo } from 'src/app/instagram/models/ShoppingInfo
 import { Store } from "@ngxs/store";
 import { InstaState } from "../../state/insta.state";
 import { EChartsOption } from 'echarts';
+import { NgClass, NgFor, NgIf } from '@angular/common';
+import { TitleBarComponent } from 'src/app/features/title-bar/title-bar.component';
+import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NzStatisticModule } from 'ng-zorro-antd/statistic';
+import { IconModule } from '@ant-design/icons-angular';
+import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { FormsModule } from '@angular/forms';
+import { NzFilterTriggerComponent, NzTableModule } from 'ng-zorro-antd/table';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NgxEchartsModule } from 'ngx-echarts';
+import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzTabsModule } from 'ng-zorro-antd/tabs';
 
 @Component({
   selector: 'app-insta-shopping',
   templateUrl: './insta-shopping.component.html',
   styleUrls: ['./insta-shopping.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    FormsModule,
+    IconModule,
+    NgClass,
+    NgFor,
+    NgIf,
+    NgxEchartsModule,
+    NzButtonModule,
+    NzCardModule,
+    NzDropDownModule,
+    NzFilterTriggerComponent,
+    NzGridModule,
+    NzInputModule,
+    NzStatisticModule,
+    NzTableModule,
+    NzTabsModule,
+    TitleBarComponent,
+  ]
 })
 export class InstaShoppingComponent extends SequenceComponentInit implements AfterViewInit, OnInit {
 

@@ -1,8 +1,15 @@
 import { Component, Input, OnInit,ChangeDetectionStrategy} from '@angular/core';
-import { FormBuilder, UntypedFormGroup } from '@angular/forms';
+import { FormBuilder, FormsModule, UntypedFormGroup } from '@angular/forms';
 import { SpotPrivacySettingsService } from '../../spotify/features/privacy/spot-privacy-settings.service';
 import { InstaPrivacySettingsService } from '../../instagram/features/privacy/insta-privacy-settings.service';
 import { FacePrivacySettingsService } from '../../facebook/features/privacy/face-privacy-settings.service';
+import { NzCollapseModule } from 'ng-zorro-antd/collapse';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NgFor, NgIf } from '@angular/common';
+import { NzIconModule } from 'ng-zorro-antd/icon';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzProgressModule } from 'ng-zorro-antd/progress';
 
 /**
  * This component displayes the currently named "privacy judge" in a tile on the dashbooard. This tile first displays a question to the user.
@@ -18,6 +25,18 @@ import { FacePrivacySettingsService } from '../../facebook/features/privacy/face
   templateUrl: './settings-form.component.html',
   styleUrls: ['./settings-form.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    FormsModule,
+    NgIf,
+    NgFor,
+    NzButtonModule,
+    NzCollapseModule,
+    NzFormModule,
+    NzIconModule,
+    NzProgressModule,
+    NzSelectModule,
+  ]
 })
 
 export class SettingsFormComponent implements OnInit{
@@ -123,7 +142,7 @@ export class SettingsFormComponent implements OnInit{
     this.question = this.settings[this.index]["question"]
     this.howToCheck = this.settings[this.index]["howToCheck"]
     this.selectedValue = null
-  
+
   }
 
 }
