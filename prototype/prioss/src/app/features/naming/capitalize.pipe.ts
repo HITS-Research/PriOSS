@@ -42,7 +42,7 @@ export class CapitalizePipe implements PipeTransform {
    * @returns
   */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  transform(value: string, ..._args: unknown[]): unknown {
+  transform(value: string, ..._args: unknown[]): string {
     const trimedValue = value.trim();
     let newValue = trimedValue.charAt(0).toUpperCase();
 

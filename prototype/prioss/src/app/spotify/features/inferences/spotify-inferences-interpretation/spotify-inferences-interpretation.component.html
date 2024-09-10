@@ -1,0 +1,71 @@
+<nz-card nzTitle="Terms">
+  <p>
+    1P = First Party (Inferences by Spotify)<br>
+    3P = Third Party (Inferences by Third Party Software)
+  </p>
+  <blockquote>
+    <h3>Spotify describes inferences as follows:</h3>
+    <p>
+      <q cite="https://support.spotify.com/uk/article/understanding-my-data/">
+        We draw certain inferences about your interests and preferences based on your usage of the Spotify service and
+        using
+        data obtained from our advertisers and other advertising partners. This includes a list of market segments with
+        which
+        you are currently associated. Depending on your settings, this data may be used to serve interest-based
+        advertising
+        to
+        you within the Spotify service.
+      </q>
+      (
+      <a
+        rel="noopener"
+        href="https://support.spotify.com/uk/article/understanding-my-data/"
+        target="_blank"
+      >
+        Spotify: Understanding my Data
+      </a>
+      )
+    </p>
+  </blockquote>
+</nz-card>
+
+<nz-divider />
+
+@if (inferences().length === 0) {
+  <nz-card nzTitle="No Inferences Available">
+
+    <nz-empty nzNotFoundImage="simple" />
+  </nz-card>
+} @else {
+  @let allDescriptions = descriptions();
+  @let allSources = sources();
+  @let allTitles = titles();
+  @for (kvp of filteredList(); track kvp[0]) {
+    @let key = kvp[0];
+    @let list = kvp[1];
+    @let description = allDescriptions.get(key) ?? '';
+    @let title = allTitles.get(key) ?? '';
+
+    <nz-card [nzTitle]="title">
+      @if (allSources.has(key)) {
+        <blockquote>
+          <q [attr.cite]="allSources.get(key)!">{{ description }}</q>
+          &nbsp;
+          <a
+            rel="noopener"
+            [href]="allSources.get(key)!"
+          >
+            Source
+          </a>
+        </blockquote>
+      } @else {
+        <p>{{ description }}</p>
+      }
+      <ul>
+        @for (e of list; track e) {
+          <li>{{ e }}</li>
+        }
+      </ul>
+    </nz-card>
+  }
+}
