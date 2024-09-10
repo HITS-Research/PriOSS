@@ -21,6 +21,7 @@ import { SettingsFormComponent } from 'src/app/features/settings-form/settings-f
 import { HelpButtonComponent } from 'src/app/features/help-button/help-button.component';
 import { OfflineIndicatorComponent } from 'src/app/features/offline-indicator/offline-indicator.component';
 import { PurposesComponent } from '../../features/purposes/purposes.component';
+import { SpotifyPrivacyInformationComponent } from '../spotify-privacy-information/spotify-privacy-information.component';
 
 /**
  * This component is the root component for spotify's dashboard page.
@@ -43,6 +44,7 @@ import { PurposesComponent } from '../../features/purposes/purposes.component';
     OfflineIndicatorComponent,
     PurposesComponent,
     SettingsFormComponent,
+    SpotifyPrivacyInformationComponent,
     SpotifySearchHistoryComponent,
     SpotifyTopPodcastsComponent,
     SpotifyTopSongArtistsComponent,

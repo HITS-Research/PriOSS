@@ -1,0 +1,74 @@
+@if (previewMode()) {
+  <p>
+    It is very easy to set the privacy settings in Spotify. There are only two options that you should be aware of.
+  </p>
+  <p>
+    First, go to <a href="https://spotify.com">https://spotify.com</a> and log in as normal. Once you have logged in,
+    open your “Account” settings in the upper right part of the window. A new tab will open. In this tab, select
+    “Privacy settings” under “Security and privacy”. Here you will find the following two fields. Feel free to opting
+    out of them.
+  </p>
+  <p>...</p>
+} @else {
+  <app-title-bar
+    titleText="Privacy Information"
+    tooltipText="This page informs you about the right privacy settings in Spotify."
+  />
+
+  <nz-card nzTitle="Right Privacy Settings on Spotify">
+    <p>
+      It is very easy to set the privacy settings in Spotify. There are only two options that you should be aware of.
+    </p>
+    <p>
+      First, go to <a href="https://spotify.com">https://spotify.com</a> and log in as normal. Once you have logged in,
+      open your “Account” settings in the upper right part of the window. A new tab will open. In this tab, select
+      “Privacy settings” under “Security and privacy”. Here you will find the following two fields. Feel free to opting
+      out of them.
+    </p>
+  </nz-card>
+
+  <nz-card nzTitle="Spotify writes the following about Tailored ads">
+    <q cite="https://support.spotify.com/de-en/article/data-rights-and-privacy-settings/">
+      Opting out prevents Spotify from tailoring your ad experience based on third party data. This does not decrease the
+      number of ads you receive on the free service but means you might see and hear ads that are not as relevant to you.
+    </q>
+    [
+    <a
+      alt="Spotify Tailored ads Settings"
+      rel="noopener"
+      target="_blank"
+      href="https://support.spotify.com/de-en/article/data-rights-and-privacy-settings/"
+    >
+      https://support.spotify.com/de-en/article/data-rights-and-privacy-settings/
+    </a>
+    ]
+    <img
+      alt="Privacy Setting for Tailored-Ads"
+      src="../../../../../assets/images/spot-privacy-instructions/spotify-privacy-tailored-ads.png"
+    >
+  </nz-card>
+
+  <nz-card nzTitle="Spotify writes the following about Facebook data">
+    <q cite="https://support.spotify.com/de-en/article/data-rights-and-privacy-settings/">
+      Opting out prevents Spotify from processing your Facebook display name, Facebook profile picture, and Facebook
+      Friends.
+      However, we will still process data necessary to enable you to continue to sign on to Spotify with your Facebook
+      account. If you signed up for Spotify via Facebook or connected your account to Facebook, this will include your
+      Facebook registered email address, Facebook registered date of birth, and Facebook registered gender.
+    </q>
+    [
+    <a
+      alt="Spotify Facebook data Settings"
+      rel="noopener"
+      target="_blank"
+      href="https://support.spotify.com/de-en/article/data-rights-and-privacy-settings/"
+    >
+      https://support.spotify.com/de-en/article/data-rights-and-privacy-settings/
+    </a>
+    ]
+    <img
+      alt="Privacy Setting for Facebook Data"
+      src="../../../../../assets/images/spot-privacy-instructions/spotify-privacy-facebook-data.png"
+    >
+  </nz-card>
+}
