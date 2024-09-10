@@ -13,6 +13,7 @@ import { SpotifyTopPodcastsDetailsComponent } from './pages/spotify-top-podcasts
 import { SpotifyTopPodcastsComponent } from './pages/spotify-top-podcasts/spotify-top-podcasts.component';
 import { SpotifyUserDataComponent } from './pages/spotify-user-data/spotify-user-data.component';
 import { TopSongsComponent } from './pages/top-songs/top-songs.component';
+import { SpotifyPrivacyInformationComponent } from './pages/spotify-privacy-information/spotify-privacy-information.component';
 
 export const spotifyRoutes: Routes = [
   {
@@ -28,6 +29,10 @@ export const spotifyRoutes: Routes = [
       {
         path: 'privacy-instructions',
         component: SpotPrivacyInstructionsComponent,
+      },
+      {
+        path: 'privacy-information',
+        component: SpotifyPrivacyInformationComponent,
       },
       {
         path: 'artist-history/:artistName',
