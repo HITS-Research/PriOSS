@@ -16,7 +16,7 @@ import { SetNetworkStatus } from './app.action';
 @Injectable()
 export class AppState {
   @Selector()
-  static getNetworkStatus(state: AppStateModel) {
+  static networkStatus(state: AppStateModel) {
     return state.networkStatus;
   }
 
