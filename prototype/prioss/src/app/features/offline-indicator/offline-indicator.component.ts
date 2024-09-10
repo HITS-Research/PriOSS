@@ -31,7 +31,7 @@ export class OfflineIndicatorComponent implements OnInit {
   onlineStatus: boolean;
   @Input() bottom: string | null = null;
   @Input() right: string | null = null;
-  @Select(AppState.getNetworkStatus) networkStatus$: Observable<boolean>;
+  @Select(AppState.networkStatus) networkStatus$: Observable<boolean>;
 
   constructor(private store:Store, private cd:ChangeDetectorRef) {
   }

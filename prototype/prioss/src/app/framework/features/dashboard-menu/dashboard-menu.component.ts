@@ -10,6 +10,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { HeaderMenuService } from './header-menu.service';
 import { MenuItem } from './menu.type';
+import { NetworkStatusIconComponent } from '../../features/network-status-icon/network-status-icon.component';
 
 @Component({
   selector: 'prioss-dashboard-menu',
@@ -17,7 +18,7 @@ import { MenuItem } from './menu.type';
   styleUrl: './dashboard-menu.component.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [NzIconModule, NzMenuModule, RouterModule],
+  imports: [NzIconModule, NzMenuModule, RouterModule, NetworkStatusIconComponent],
 })
 export class DashboardMenuComponent {
   headerMenuService = inject(HeaderMenuService);

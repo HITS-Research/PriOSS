@@ -31,13 +31,15 @@
 
 .service-selection__button-group {
   max-width: 1200px;
-  margin: 0 auto;
+  width: 100%;
   padding-bottom: 20px;
   display: flex;
   flex-direction: column;
   gap: 1em;
+  align-items: stretch;
 
-  @media (min-width: 1100px) {
+  @media (min-width: 800px) {
+    margin: 0 auto;
     display: grid;
     grid-template-columns: 1fr 1fr;
     max-width: 800px;
@@ -46,6 +48,8 @@
   >button {
     --shadow-color: rgba(0, 21, 41, 0.35);
 
+    display: block;
+    box-sizing: border-box;
     border: none;
     background: none;
     aspect-ratio: 3/1;
@@ -58,6 +62,12 @@
     transition: 200ms filter ease-in-out;
     filter: grayscale(.7);
     cursor: pointer;
+    height: 20dvh;
+    width: 100%;
+
+    @media (min-width: 800px) {
+      height: auto;
+    }
 
     &:hover {
       box-shadow: 15px 15px 15px var(--shadow-color);
@@ -69,6 +79,9 @@
     }
 
     >img {
+      object-fit: contain;
+      display: block;
+      height: 100%;
       max-width: 100%;
       max-height: 100%;
     }
