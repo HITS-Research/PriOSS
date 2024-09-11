@@ -28,6 +28,7 @@ import { AppType } from './app-type';
 import { ServiceInfo } from './service-info.type';
 import { isZipFile } from './zip-file.helper';
 import { DatePipe } from '@angular/common';
+import { CapitalizePipe } from "../../../features/naming/capitalize.pipe";
 
 /**
  * This component is responsible for offering the user a way to select a service, show the respective download instructions
@@ -48,7 +49,8 @@ import { DatePipe } from '@angular/common';
     NzProgressModule,
     OfflineIndicatorComponent,
     RouterModule,
-  ]
+    CapitalizePipe
+]
 })
 export class ServiceSelectionComponent implements AfterViewInit {
   Math = Math;

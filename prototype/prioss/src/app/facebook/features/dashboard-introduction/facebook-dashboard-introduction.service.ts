@@ -72,7 +72,7 @@ export class FacebookDashboardIntroductionService {
         {
           element: '[title="Privacy Recommendations"]',
           intro:
-            'This section gives you step-by-step instructions to excercise your privacy rights on Facebook website. Choose an action of your interest and follow the instructions to ensure your data privacy.',
+            'This section gives you step-by-step instructions to excercise your privacy rights on Facebook. Choose an action of your interest and follow the instructions to ensure your data privacy.',
         },
         {
           element: 'app-face-purposes',

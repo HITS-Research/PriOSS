@@ -37,7 +37,7 @@
 
 <nz-modal
   nzCentered
-  [nzTitle]="selectedService()?.name"
+  [nzTitle]='selectedService()?.name ?? "" | capitalize'
   [nzVisible]="selectedPopup() === 'data-select'"
   [nzContent]="dataOptionsContent"
   [nzFooter]="null"
