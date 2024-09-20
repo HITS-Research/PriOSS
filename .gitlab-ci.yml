@@ -18,6 +18,10 @@ build-job:
     - npm ci
   script:
     - npm run build
+  rules:
+    - if: $CI_COMMIT_BRANCH == 'main' || $CI_PIPELINE_SOURCE == 'merge_request_event'
+    - if: $CI_COMMIT_BRANCH == 'dev' || $CI_PIPELINE_SOURCE == 'merge_request_event'
+
 
 lint-job:
   stage: test
@@ -28,6 +32,10 @@ lint-job:
     - npm ci
   script:
     - npm run lint
+  rules:
+    - if: $CI_COMMIT_BRANCH == 'main' || $CI_PIPELINE_SOURCE == 'merge_request_event'
+    - if: $CI_COMMIT_BRANCH == 'dev' || $CI_PIPELINE_SOURCE == 'merge_request_event'
+
 
 sonarqube-check:
   image: sonarsource/sonar-scanner-cli:latest
