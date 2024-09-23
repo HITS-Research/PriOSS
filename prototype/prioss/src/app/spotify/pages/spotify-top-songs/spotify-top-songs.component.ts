@@ -12,7 +12,9 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { ECElementEvent, EChartsOption } from 'echarts';
+import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NgxEchartsModule } from 'ngx-echarts';
@@ -21,16 +23,14 @@ import { TimePipe } from 'src/app/features/time/time.pipe';
 import { TitleBarComponent } from 'src/app/features/title-bar/title-bar.component';
 import { SpotifyStreamingHistoryState } from '../../features/streaming-history/streaming-history.state';
 import { SpotifyStreamingHistoryStateModel } from '../../features/streaming-history/streaming-history.statemodel';
-import { NzCardModule } from 'ng-zorro-antd/card';
-import { NzEmptyModule } from 'ng-zorro-antd/empty';
 
 /**
  * This component visualizes which songs have been listened the most to
  */
 @Component({
   selector: 'prioss-spotify-top-songs',
-  templateUrl: './top-songs.component.html',
-  styleUrls: ['./top-songs.component.less'],
+  templateUrl: './spotify-top-songs.component.html',
+  styleUrls: ['./spotify-top-songs.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
@@ -46,7 +46,7 @@ import { NzEmptyModule } from 'ng-zorro-antd/empty';
     TitleBarComponent,
   ]
 })
-export class TopSongsComponent {
+export class SpotifyTopSongsComponent {
 
   previewMode = input(false);
 
@@ -147,7 +147,7 @@ export class TopSongsComponent {
       item: SpotifyStreamingHistoryStateModel,
     ) => {
       const { artistName, trackName, msPlayed } = item;
-      const minutesPlayed = parseFloat(msPlayed) / 60000;
+      const minutesPlayed = parseFloat(msPlayed);
       const key = `${artistName};;${trackName}`;
       const minutesSoFar = (counterMap.get(key) ?? 0) + minutesPlayed;
       counterMap.set(key, minutesSoFar);
@@ -171,7 +171,7 @@ export class TopSongsComponent {
   chartOptions: Signal<EChartsOption> = computed(() => {
     const topTen = this.topSongs().slice(0, 10);
     const xAxisData = topTen.map(songs => `${songs[0]} - ${songs[1]}`).reverse();
-    const seriesData = topTen.map(songs => songs[2]).reverse();
+    const seriesData = topTen.map(songs => songs[2] / 60000).reverse();
 
     return {
       yAxis: {

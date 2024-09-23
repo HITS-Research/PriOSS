@@ -12,7 +12,7 @@ import { SpotifySongHistoryComponent } from './pages/spotify-song-history/spotif
 import { SpotifyTopPodcastsDetailsComponent } from './pages/spotify-top-podcasts-details/spotify-top-podcasts-details.component';
 import { SpotifyTopPodcastsComponent } from './pages/spotify-top-podcasts/spotify-top-podcasts.component';
 import { SpotifyUserDataComponent } from './pages/spotify-user-data/spotify-user-data.component';
-import { TopSongsComponent } from './pages/top-songs/top-songs.component';
+import { SpotifyTopSongsComponent } from './pages/spotify-top-songs/spotify-top-songs.component';
 import { SpotifyPrivacyInformationComponent } from './pages/spotify-privacy-information/spotify-privacy-information.component';
 
 export const spotifyRoutes: Routes = [
@@ -53,8 +53,8 @@ export const spotifyRoutes: Routes = [
         path: 'top-podcasts/:start/:end',
         component: SpotifyTopPodcastsComponent,
       },
-      { path: 'top-songs', component: TopSongsComponent },
-      { path: 'top-songs/:start/:end', component: TopSongsComponent },
+      { path: 'top-songs', component: SpotifyTopSongsComponent },
+      { path: 'top-songs/:start/:end', component: SpotifyTopSongsComponent },
       {
         path: 'song-history/:artist/:song',
         component: SpotifySongHistoryComponent,

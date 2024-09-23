@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -16,8 +17,8 @@ import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { map } from 'rxjs';
 import { TimePipe } from 'src/app/features/time/time.pipe';
-import { SpotifyStreamingHistoryState } from '../../features/streaming-history/streaming-history.state';
 import { defaultSpotifyEChartHeatMapOptions } from '../../features/chart/default-options';
+import { SpotifyStreamingHistoryState } from '../../features/streaming-history/streaming-history.state';
 
 @Component({
   selector: 'prioss-spotify-artist-history',
@@ -26,13 +27,14 @@ import { defaultSpotifyEChartHeatMapOptions } from '../../features/chart/default
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
+    DatePipe,
     NgxEchartsModule,
     NzEmptyModule,
     NzIconModule,
     NzTableModule,
     NzTabsModule,
-    RouterLink,
     TimePipe,
+    RouterLink,
   ],
 })
 export class SpotifyArtistHistoryComponent {

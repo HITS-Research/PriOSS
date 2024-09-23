@@ -18,7 +18,7 @@
             <tr>
               <th id="topPodcastsDetailsTableDateAndTimeHeader">Date and Time</th>
               <th id="topPodcastsDetailsTableEpisodeNameHeader">Episode Name</th>
-              <th id="topPodcastsDetailsTableSecondsListenedHeader">Seconds Listened</th>
+              <th id="topPodcastsDetailsTableSecondsListenedHeader">Listened (hh:mm:ss)</th>
             </tr>
           </thead>
           <tbody>
@@ -26,7 +26,7 @@
               <tr>
                 <td>{{ data.endTime }}</td>
                 <td>{{ data.episodeName }}</td>
-                <td>{{ data.msPlayed | time:'ms-to-sec' }}</td>
+                <td>{{ data.msPlayed | time:'ms-to-hh:mm:ss' }}</td>
               </tr>
             }
           </tbody>

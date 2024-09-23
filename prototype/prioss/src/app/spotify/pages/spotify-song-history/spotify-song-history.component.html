@@ -13,14 +13,14 @@
       <thead>
         <tr>
           <th id="songHistoryTableDateAndTimeHeader">Date and time</th>
-          <th id="songHistoryTableSecondsListenedHeader">Seconds listened</th>
+          <th id="songHistoryTableSecondsListenedHeader">Listened (hh:mm:ss)</th>
         </tr>
       </thead>
       <tbody>
         @for (data of basicTable.data; track data) {
           <tr>
             <td>{{ data.endTime }}</td>
-            <td>{{ data.msPlayed| time:'ms-to-sec' }}</td>
+            <td>{{ data.msPlayed | time:'ms-to-hh:mm:ss' }}</td>
           </tr>
         }
       </tbody>

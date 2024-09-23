@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -7,15 +8,15 @@ import {
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Store } from '@ngxs/store';
+import { EChartsOption } from 'echarts';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
-import { SpotifyStreamingHistoryPodcastState } from '../../features/streaming-history/streaming-history-podcast.state';
+import { NgxEchartsModule } from 'ngx-echarts';
 import { map } from 'rxjs';
 import { TimePipe } from 'src/app/features/time/time.pipe';
 import { defaultSpotifyEChartHeatMapOptions } from '../../features/chart/default-options';
-import { EChartsOption } from 'echarts';
-import { NgxEchartsModule } from 'ngx-echarts';
+import { SpotifyStreamingHistoryPodcastState } from '../../features/streaming-history/streaming-history-podcast.state';
 
 @Component({
   selector: 'prioss-spotify-top-podcasts-details',
@@ -24,6 +25,7 @@ import { NgxEchartsModule } from 'ngx-echarts';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
+    DatePipe,
     NgxEchartsModule,
     NzEmptyModule,
     NzTableModule,

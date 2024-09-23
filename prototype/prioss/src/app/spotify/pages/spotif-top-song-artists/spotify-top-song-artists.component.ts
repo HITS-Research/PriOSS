@@ -7,6 +7,7 @@ import {
   input
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { ECElementEvent, EChartsOption } from 'echarts';
@@ -22,7 +23,6 @@ import { TitleBarComponent } from 'src/app/features/title-bar/title-bar.componen
 import { defaultSpotifyEChartBarOptions } from '../../features/chart/default-options';
 import { SpotifyStreamingHistoryState } from '../../features/streaming-history/streaming-history.state';
 import { SpotifyStreamingHistoryStateModel } from '../../features/streaming-history/streaming-history.statemodel';
-import { FormsModule } from '@angular/forms';
 
 /**
  * This component visualizes how many songs from an artist were listened to
@@ -140,9 +140,9 @@ export class SpotifyTopSongArtistsComponent {
       counterMap: Map<string, number>,
       item: SpotifyStreamingHistoryStateModel,
     ) => {
-      const { artistName, msPlayed } = item;
-      const minutesPlayed = parseFloat(msPlayed) / 60000;
-      const minutesSoFar = (counterMap.get(artistName) ?? 0) + minutesPlayed;
+      const { artistName, msPlayed: msPlayedStr } = item;
+      const msPlayed = parseFloat(msPlayedStr);
+      const minutesSoFar = (counterMap.get(artistName) ?? 0) + msPlayed;
       counterMap.set(artistName, minutesSoFar);
       return counterMap;
     },
@@ -160,7 +160,7 @@ export class SpotifyTopSongArtistsComponent {
   chartOptions: Signal<EChartsOption> = computed(() => {
     const topTen = this.topArtists().slice(0, 10);
     const xAxisData = topTen.map(artist => artist[0]).reverse();
-    const seriesData = topTen.map(artist => artist[1]).reverse();
+    const seriesData = topTen.map(artist => artist[1] / 60000).reverse();
     return defaultSpotifyEChartBarOptions(xAxisData, seriesData);
   });
 
