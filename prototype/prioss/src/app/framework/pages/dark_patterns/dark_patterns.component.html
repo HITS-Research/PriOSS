@@ -18,6 +18,8 @@
 
 <div class="carousel-container">
   @if (carousel.activeIndex !== 0) {
+  <button class="carousel-btn prev-btn" (click)="goToPrevious()" [disabled]="carousel && carousel.activeIndex === 0">&#10094;</button>}
+  @if (carousel.activeIndex !== 0) {
   <button class="carousel-btn prev-btn" (click)="goToPrevious()"
     [disabled]="carousel && carousel.activeIndex === 0">&#10094;</button>
   }
@@ -34,6 +36,8 @@
       </div>
     </div>
   </nz-carousel>
+  @if (carousel.activeIndex !== steps.length-1) {
+  <button class="carousel-btn next-btn" (click)="goToNext()" [disabled]="carousel && carousel.activeIndex === (steps.length - 1)">&#10095;</button>}
   @if (carousel.activeIndex !== steps.length-1) {
   <button class="carousel-btn next-btn" (click)="goToNext()"
     [disabled]="carousel && carousel.activeIndex === (steps.length - 1)">&#10095;</button>
