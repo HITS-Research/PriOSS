@@ -12,7 +12,7 @@ import { DashCardComponent } from 'src/app/features/dash-card/dash-card.componen
 import { SpotifyUserDataComponent } from '../spotify-user-data/spotify-user-data.component';
 import { ListeningTimeComponent } from '../listening-time/listening-time.component';
 import { SpotifyTopSongArtistsComponent } from '../spotif-top-song-artists/spotify-top-song-artists.component';
-import { TopSongsComponent } from '../top-songs/top-songs.component';
+import { SpotifyTopSongsComponent } from '../spotify-top-songs/spotify-top-songs.component';
 import { SpotifyTopPodcastsComponent } from '../spotify-top-podcasts/spotify-top-podcasts.component';
 import { MoodComponent } from '../mood/mood.component';
 import { SpotifySearchHistoryComponent } from '../spotify-search-history/spotify-search-history.component';
@@ -48,8 +48,8 @@ import { SpotifyPrivacyInformationComponent } from '../spotify-privacy-informati
     SpotifySearchHistoryComponent,
     SpotifyTopPodcastsComponent,
     SpotifyTopSongArtistsComponent,
+    SpotifyTopSongsComponent,
     SpotifyUserDataComponent,
-    TopSongsComponent,
     WelcomeMessageComponent,
   ],
 })

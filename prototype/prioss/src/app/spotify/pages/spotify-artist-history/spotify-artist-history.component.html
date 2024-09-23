@@ -17,7 +17,7 @@
             <tr>
               <th id="artistHistoryTableDateHeader">Date and time</th>
               <th id="artistHistoryTableTrackHeader">Track name</th>
-              <th id="artistHistoryTableSecondsHeader">Seconds listened</th>
+              <th id="artistHistoryTableSecondsHeader">Listened (hh:mm:ss)</th>
             </tr>
           </thead>
           <tbody>
@@ -25,7 +25,7 @@
               <tr>
                 <td>{{ data.endTime }}</td>
                 <td>{{ data.trackName }}</td>
-                <td>{{ data.msPlayed | time:'ms-to-sec' }}</td>
+                <td>{{ data.msPlayed | time:'ms-to-hh:mm:ss' }}</td>
               </tr>
             }
           </tbody>

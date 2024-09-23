@@ -6,21 +6,21 @@ import {
   input,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { FormsModule } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngxs/store';
+import { ECElementEvent, EChartsOption } from 'echarts';
+import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { NzEmptyModule } from 'ng-zorro-antd/empty';
+import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzTabsModule } from 'ng-zorro-antd/tabs';
 import { NgxEchartsModule } from 'ngx-echarts';
 import { map } from 'rxjs';
 import { TitleBarComponent } from 'src/app/features/title-bar/title-bar.component';
-import { SpotifyStreamingHistoryPodcastState } from '../../features/streaming-history/streaming-history-podcast.state';
-import { ECElementEvent, EChartsOption } from 'echarts';
+import { TimePipe } from '../../../features/time/time.pipe';
 import { defaultSpotifyEChartBarOptions } from '../../features/chart/default-options';
-import { NzCardModule } from 'ng-zorro-antd/card';
-import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
-import { NzTabsModule } from 'ng-zorro-antd/tabs';
-import { NzTableModule } from 'ng-zorro-antd/table';
-import { NzEmptyModule } from 'ng-zorro-antd/empty';
-import { TimePipe } from 'src/app/features/time/time.pipe';
-import { ActivatedRoute, Router } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { SpotifyStreamingHistoryPodcastState } from '../../features/streaming-history/streaming-history-podcast.state';
 
 const PODCAST_NAME = 0;
 
@@ -128,7 +128,7 @@ export class SpotifyTopPodcastsComponent {
       })
       .reduce((acc, cur) => {
         const name = cur.podcastName;
-        const time = parseFloat(cur.msPlayed) / 60000;
+        const time = parseFloat(cur.msPlayed);
         return !acc.has(name)
           ? acc.set(name, time)
           : acc.set(name, acc.get(name)! + time);
@@ -145,7 +145,7 @@ export class SpotifyTopPodcastsComponent {
   chartOptions = computed<EChartsOption>(() => {
     const topTen = this.topPodcasts().slice(0, 10);
     const xAxisData = topTen.map(podcast => podcast[PODCAST_NAME]).reverse();
-    const seriesData = topTen.map(podcast => podcast[LISTENED_TIME]).reverse();
+    const seriesData = topTen.map(podcast => podcast[LISTENED_TIME] / 60000).reverse();
     return defaultSpotifyEChartBarOptions(xAxisData, seriesData);
   });
 

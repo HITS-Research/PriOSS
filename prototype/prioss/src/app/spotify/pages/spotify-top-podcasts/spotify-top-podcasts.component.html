@@ -38,14 +38,14 @@
               <thead>
                 <tr>
                 <th id="topPodcastTableArtistHeader">Artist</th>
-                <th id="topPodcastTableMinutesHeader">Minutes listened</th>
+                <th id="topPodcastTableMinutesHeader">Listened (hh:mm:ss)</th>
                 </tr>
               </thead>
               <tbody>
                 @for (data of basicTable.data; track data[0]) {
                   <tr class="clickable" (click)="selectPodcast(data[0])">
                     <td>{{ data[0] }}</td>
-                    <td>{{ data[1] | time:'number-as-minutes' }}</td>
+                    <td>{{ data[1] | time:'ms-to-hh:mm:ss' }}</td>
                   </tr>
                 }
               </tbody>
