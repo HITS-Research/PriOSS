@@ -5,7 +5,8 @@
 <div>
   <p nz-typography class="definition">
     Dark patterns are deceptive design techniques used in websites or apps to trick users into taking actions they
-    didn't intend. These tactics can include hiding important information, making it hard to unsubscribe, or manipulating users into
+    didn't intend. These tactics can include hiding important information, making it hard to unsubscribe, or
+    manipulating users into
     buying more.
     Essentially, they take advantage of human behavior to benefit the business at the expense of the user’s choice or
     control.
@@ -16,8 +17,9 @@
 <br>
 
 <div class="carousel-container">
-  @if (carousel.activeIndex!=0) {
-  <button class="carousel-btn prev-btn" (click)="goToPrevious()" [disabled]="carousel && carousel.activeIndex === 0">&#10094;</button>
+  @if (carousel.activeIndex !== 0) {
+  <button class="carousel-btn prev-btn" (click)="goToPrevious()"
+    [disabled]="carousel && carousel.activeIndex === 0">&#10094;</button>
   }
   <nz-carousel #carousel [nzDotPosition]="'bottom'">
     <div nz-carousel-content *ngFor="let step of steps">
@@ -32,7 +34,8 @@
       </div>
     </div>
   </nz-carousel>
-  @if (carousel.activeIndex!=steps.length-1) {
-  <button class="carousel-btn next-btn" (click)="goToNext()" [disabled]="carousel && carousel.activeIndex === (steps.length - 1)">&#10095;</button>
+  @if (carousel.activeIndex !== steps.length-1) {
+  <button class="carousel-btn next-btn" (click)="goToNext()"
+    [disabled]="carousel && carousel.activeIndex === (steps.length - 1)">&#10095;</button>
   }
 </div>
