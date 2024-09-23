@@ -1,0 +1,66 @@
+<div class="youtube-playlists">
+  <div *ngIf="previewMode; else detailedMode">
+    <nz-row [nzGutter]="16">
+      <nz-col [nzSpan]="12">
+        <nz-statistic [nzValue]="(playlists.length | number)!" [nzTitle]="'Number of playlists'" [nzPrefix]="plPrefix">
+        </nz-statistic>
+        <ng-template #plPrefix>
+          <div class="container_class">
+            <span nz-icon nzType="video-camera-add" nzTheme="outline"></span>
+          </div>
+        </ng-template>
+      </nz-col>
+      <nz-col [nzSpan]="12">
+        <nz-statistic [nzValue]="(videoCount | number)!" [nzTitle]="'Number of videos'" [nzPrefix]="videoPrefix">
+        </nz-statistic>
+        <ng-template #videoPrefix>
+          <div class="container_class">
+            <span nz-icon nzType="play-circle" nzTheme="outline"></span>
+          </div>
+        </ng-template>
+      </nz-col>
+    </nz-row>
+  </div>
+</div>
+<ng-template #detailedMode>
+  <app-title-bar titleText="Playlists" tooltipText="Playlists"></app-title-bar>
+  <nz-tabset>
+    <nz-tab *ngFor="let playlist of playlists;let idx = index" [nzTitle]="playlist.playlistName">
+      <nz-row [nzGutter]="16">
+        <nz-col [nzSpan]="6">
+          <nz-statistic nzValue="{{playlistDataMap.get(playlist.playlistName).creationTimestamp | date:'d MMM y, h:mm a'}}"
+            [nzTitle]="'Created On'"></nz-statistic>
+        </nz-col>
+        <nz-col [nzSpan]="6">
+          <nz-statistic nzValue="{{playlistDataMap.get(playlist.playlistName).lastUpdateTimestamp | date:'d MMM y, h:mm a'}}"
+            [nzTitle]="'Last Updated'"></nz-statistic>
+        </nz-col>
+        <nz-col [nzSpan]="6">
+          <nz-statistic nzValue="{{playlistDataMap.get(playlist.playlistName).visibility}}"
+            [nzTitle]="'Visibility'"></nz-statistic>
+        </nz-col>
+        <nz-col [nzSpan]="6">
+          <nz-statistic nzValue="{{playlistDataMap.get(playlist.playlistName).videos.length | number}}"
+            [nzTitle]="'Videos'"></nz-statistic>
+        </nz-col>
+      </nz-row>
+      <br>
+      <nz-table #basicTable [nzData]="playlistDataMap.get(playlist.playlistName).videos">
+        <thead>
+          <tr>
+            <th class="playlist-table-header">Video</th>
+            <th class="playlist-table-header">Added On</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let video of basicTable.data">
+            <td>
+              <a [href]="'https://www.youtube.com/watch?v=' + video.videoId">{{video.videoId}}</a>
+            </td>
+            <td>{{video.timestamp | date:"d MMM y, h:mm a"}}</td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </nz-tab>
+  </nz-tabset>
+</ng-template>

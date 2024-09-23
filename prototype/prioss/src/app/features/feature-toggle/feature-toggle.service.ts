@@ -7,7 +7,8 @@ export enum Services {
     Instagram = 1 << 0,
     Facebook = 1 << 1,
     Spotify = 1 << 2,
-    All = ~(~0 << 3)
+    YouTube = 1 << 3,
+    All = ~(~0 << 4)
 }
 
 @Injectable()
@@ -17,7 +18,7 @@ export class FeatureToggleService {
     constructor() {
         const stringValue: string | null = localStorage.getItem('enabledServices');
         const intValue: number = parseInt(stringValue ?? '0', 0);
-        this.enabledServices.next(intValue);        
+        this.enabledServices.next(intValue);
     }
 
     enableService(service: Services): void {

@@ -6,6 +6,9 @@ import { DataDownloadFacebookComponent } from 'src/app/facebook/features/data-do
 import { TitleBarComponent } from 'src/app/features/title-bar/title-bar.component';
 import { DataDownloadInstagramComponent } from 'src/app/instagram/features/data-download-instagram/data-download-instagram.component';
 import { DataDownloadSpotifyComponent } from 'src/app/spotify/features/data-download-spotify/data-download-spotify.component';
+import {
+  DataDownloadYoutubeComponent
+} from "../../../youtube/pages/data-download-youtube/data-download-youtube.component";
 
 /**
   * This component is responsible for displaying the Data-Download instructions
@@ -29,6 +32,7 @@ import { DataDownloadSpotifyComponent } from 'src/app/spotify/features/data-down
     NzTabsModule,
     RouterModule,
     TitleBarComponent,
+    DataDownloadYoutubeComponent,
   ]
 })
 export class DataDownloadInstructionsComponent {

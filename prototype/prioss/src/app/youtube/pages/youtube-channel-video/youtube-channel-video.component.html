@@ -1,0 +1,100 @@
+<div class="youtube-channel-videos">
+  <div *ngIf="previewMode; else detailedMode">
+    <nz-row [nzGutter]="[16, 20]">
+      <nz-col [nzSpan]="12">
+        <nz-statistic
+          [nzValue]="(channelData.length | number)!"
+          [nzTitle]="'Number of channels'"
+          [nzPrefix]="channelPrefix">
+        </nz-statistic>
+        <ng-template #channelPrefix>
+          <div class="container_class">
+            <span nz-icon nzType="team" nzTheme="outline"></span>
+          </div>
+        </ng-template>
+      </nz-col>
+      <nz-col [nzSpan]="12">
+        <nz-statistic
+          [nzValue]="(videosMetaData.length | number)!"
+          [nzTitle]="'Number of videos'"
+          [nzPrefix]="videoPrefix">
+        </nz-statistic>
+        <ng-template #videoPrefix>
+          <div class="container_class">
+            <span nz-icon nzType="play-circle" nzTheme="outline"></span>
+          </div>
+        </ng-template>
+      </nz-col>
+      <nz-col [nzSpan]="12">
+        <nz-statistic
+          [nzValue]="(privacyCount.publicVideos | number)!"
+          [nzTitle]="'Public videos count'"
+          [nzPrefix]="publicVideoPrefix">
+        </nz-statistic>
+        <ng-template #publicVideoPrefix>
+          <div class="container_class">
+            <span nz-icon nzType="eye" nzTheme="outline"></span>
+          </div>
+        </ng-template>
+      </nz-col>
+      <nz-col [nzSpan]="12">
+        <nz-statistic
+          [nzValue]="(privacyCount.privateVideos| number)!"
+          [nzTitle]="'Private videos count'"
+          [nzPrefix]="privateVideoPrefix">
+        </nz-statistic>
+        <ng-template #privateVideoPrefix>
+          <div class="container_class">
+            <span nz-icon nzType="lock" nzTheme="outline"></span>
+          </div>
+        </ng-template>
+      </nz-col>
+    </nz-row>
+  </div>
+</div>
+<ng-template #detailedMode>
+  <app-title-bar titleText="Channel & Videos" tooltipText="Channel & Videos"></app-title-bar>
+  <nz-card style="width:100%;">
+    <nz-tabset nzType="card">
+      <nz-tab nzTitle="Your Videos">
+        <nz-table #videoTable [nzData]="videosMetaData">
+          <thead>
+            <tr>
+              <th class="video-table-header">Title</th>
+              <th class="video-table-header">Description</th>
+              <th class="video-table-header">Category</th>
+              <th class="video-table-header">Creation Time</th>
+              <th class="video-table-header">Privacy</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let video of videoTable.data">
+              <td>{{ video.title }}</td>
+              <td>{{ video.description }}</td>
+              <td>{{ video.category }}</td>
+              <td>{{ video.creationTimestamp | date:'d MMM y, h:mm a'  }}</td>
+              <td>{{ video.privacy }}</td>
+            </tr>
+          </tbody>
+        </nz-table>
+    </nz-tab>
+      <nz-tab nzTitle="Your Channels">
+        <nz-table #channelTable [nzData]="channelData"  [nzShowPagination]="false" style="margin-bottom: 20px;">
+          <thead>
+            <tr>
+              <th class="yideo-table-header">Channel Id</th>
+              <th class="yideo-table-header">Channel Name</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let channel of channelTable.data">
+              <td>{{ channel.channelId }}</td>
+              <td>{{ channel.url1Name }}</td>
+            </tr>
+          </tbody>
+        </nz-table>
+      </nz-tab>
+    </nz-tabset>
+  </nz-card>
+</ng-template>
+

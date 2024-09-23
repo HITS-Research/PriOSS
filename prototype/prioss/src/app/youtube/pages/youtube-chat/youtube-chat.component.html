@@ -1,0 +1,48 @@
+<div class="youtube-messages">
+  <div *ngIf="previewMode; else detailedMode">
+    <nz-row [nzGutter]="16">
+      <nz-col [nzSpan]="12">
+        <nz-statistic
+          [nzTitle]="'Total live chats'"
+          [nzValue]="messages.length"
+          [nzPrefix]="commentsIcon">
+        </nz-statistic>
+        <ng-template #commentsIcon>
+          <div style="display: flex; align-items: center; justify-content: center;">
+            <span nz-icon nzType="message" nzTheme="outline"></span>
+          </div>
+        </ng-template>
+      </nz-col>
+      <nz-col [nzSpan]="12">
+        <nz-statistic [nzValue]="(videoCounts | number)!" [nzTitle]="'Number of videos'" [nzPrefix]="videoPrefix">
+        </nz-statistic>
+        <ng-template #videoPrefix>
+          <div class="container_class">
+            <span nz-icon nzType="play-circle" nzTheme="outline"></span>
+          </div>
+        </ng-template>
+      </nz-col>
+    </nz-row>
+  </div>
+</div>
+<ng-template #detailedMode>
+  <app-title-bar titleText="Messages" tooltipText="Messages"></app-title-bar>
+  <div *ngIf="!previewMode">
+    <nz-card style="width:100%">
+      <nz-tabset>
+        <nz-tab nzTitle="Youtube Chats">
+          <prioss-youtube-chat-view [messages]="messages"></prioss-youtube-chat-view>
+        </nz-tab>
+
+        <nz-tab nzTitle="Chat Statistics">
+          <br>
+          <p nz-typography>
+            This section provides a summary of your live chats on youtube over time.
+          </p>
+          <br>
+          <div echarts [options]="chatTrendOptions"></div>
+        </nz-tab>
+      </nz-tabset>
+    </nz-card>
+  </div>
+</ng-template>

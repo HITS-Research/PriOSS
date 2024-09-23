@@ -11,6 +11,7 @@ import { ServiceSelectionComponent } from './framework/pages/service-selection/s
 import { WelcomeMessageComponent } from './framework/pages/welcome/welcome.component';
 import { instagramRoutes } from './instagram/instagram.routes';
 import { spotifyRoutes } from './spotify/spotify.routes';
+import {youtubeRoutes} from "./youtube/youtube.routes";
 
 export const routes: Routes = [
   { path: 'home', component: ServiceSelectionComponent },
@@ -29,6 +30,7 @@ export const routes: Routes = [
   ...spotifyRoutes,
   ...facebookRoutes,
   ...instagramRoutes,
+  ...youtubeRoutes,
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', redirectTo: '/home', pathMatch: 'full' },
 ];

@@ -12,7 +12,7 @@
       *nzTabLink
       nz-tab-link
       [routerLink]="['.']"
-      [queryParams]="{ tab: 'Instagram' }"
+      [queryParams]="{ tab: 'instagram' }"
       queryParamsHandling="merge"
     >
       Instagram
@@ -25,7 +25,7 @@
       *nzTabLink
       nz-tab-link
       [routerLink]="['.']"
-      [queryParams]="{ tab: 'Facebook' }"
+      [queryParams]="{ tab: 'facebook' }"
       queryParamsHandling="merge"
     >
       Facebook
@@ -38,12 +38,25 @@
       *nzTabLink
       nz-tab-link
       [routerLink]="['.']"
-      [queryParams]="{ tab: 'Spotify' }"
+      [queryParams]="{ tab: 'spotify' }"
       queryParamsHandling="merge"
     >
       Spotify
     </a>
     <prioss-spotify-data-download />
+  </nz-tab>
+
+  <nz-tab>
+    <a
+      *nzTabLink
+      nz-tab-link
+      [routerLink]="['.']"
+      [queryParams]="{ tab: 'youtube' }"
+      queryParamsHandling="merge"
+    >
+      YouTube
+    </a>
+    <prioss-data-download-youtube />
   </nz-tab>
 
 </nz-tabset>

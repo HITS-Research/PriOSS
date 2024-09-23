@@ -1,0 +1,120 @@
+<div class="youtube-history">
+  <div *ngIf="previewMode; else detailedMode">
+    <div echarts [options]="echartOptions"></div>
+  </div>
+</div>
+<ng-template #detailedMode>
+  <app-title-bar titleText="Search & Watch History" tooltipText="Search & Watch History"></app-title-bar>
+  <nz-card style="width:100%;">
+    <nz-tabset nzType="card" (nzSelectChange)="tabChangeHandler($event)">
+      <nz-tab nzTitle="Search & Watch Stats">
+        <br>
+        <p nz-typography>
+          The following graph visualizes the number of searches conducted and the number of videos watched over time:
+        </p>
+        <br>
+        <div echarts [options]="echartOptions"></div>
+        <br>
+      </nz-tab>
+      <nz-tab nzTitle="Search History">
+        <nz-card style="width:100%;">
+          <div>
+            <br>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span nz-typography>The following word cloud represents your most recent search terms:</span>
+              <div style="padding: 5px">
+                <span class="icon-hover" nz-icon nzType="download" nzTheme="outline" (click)="downloadCloud()"></span>
+                <span class="icon-hover" nz-icon nzType="redo" nzTheme="outline" (click)="redrawCloud()"></span>
+              </div>
+            </div>
+            <br>
+            <prioss-word-cloud #searchWordCloudRef [data]="searchData"></prioss-word-cloud>
+            <br>
+            <nz-collapse nzExpandIconPosition="end">
+              <nz-collapse-panel #p1 [nzHeader]="searchHistoryHeaderTemplate" nzActive="false" [nzExpandedIcon]="expandedIcon">
+                <nz-table #searchHistoryTable [nzData]="searchHistory">
+                  <thead>
+                  <tr>
+                    <th class="history-table-header">Search Text</th>
+                    <th class="history-table-header">TimeStamp</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr *ngFor="let data of searchHistoryTable.data">
+                    <td><a [href]="data.url" target="_blank"> {{ data.text | ellipsis:70 }}</a></td>
+                    <td>{{ data.timestamp | date }}</td>
+                  </tr>
+                  </tbody>
+                </nz-table>
+              </nz-collapse-panel>
+              <ng-template #expandedIcon let-active>
+                {{ active }}
+                <span nz-icon nzType="caret-right" class="ant-collapse-arrow"
+                      [nzRotate]="p1.nzActive ? -90 : 90"></span>
+              </ng-template>
+              <ng-template #searchHistoryHeaderTemplate>
+                <div>
+                  Search History List
+                </div>
+              </ng-template>
+            </nz-collapse>
+          </div>
+        </nz-card>
+      </nz-tab>
+      <nz-tab nzTitle="Watch history">
+        <div>
+          <nz-card style="width:100%;">
+            <div>
+              <p nz-typography>The following pie chart displays your watch history statistics of various YouTube channels:</p>
+              <br>
+              <div echarts [options]="pieChartOption" class="echart"></div>
+            </div>
+          </nz-card>
+          <br>
+          <nz-card style="width:100%;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span nz-typography>The following word cloud represents your most recent watched video titles:</span>
+              <div style="padding: 5px">
+                <span class="icon-hover" nz-icon nzType="download" nzTheme="outline" (click)="downloadCloud()"></span>
+                <span class="icon-hover" nz-icon nzType="redo" nzTheme="outline" (click)="redrawCloud()"></span>
+              </div>
+            </div>
+            <br>
+            <prioss-word-cloud #watchWordCloudRef [data]="watchData"></prioss-word-cloud>
+            <br>
+            <nz-collapse nzExpandIconPosition="end">
+              <nz-collapse-panel #p2 [nzHeader]="watchHistoryHeaderTemplate" nzActive="false" [nzExpandedIcon]="watchExpandedIcon">
+                <nz-table #watchHistoryTable [nzData]="watchHistory">
+                  <thead>
+                  <tr>
+                    <th class="history-table-header">Title</th>
+                    <th class="history-table-header">Channel</th>
+                    <th class="history-table-header">TimeStamp</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr *ngFor="let data of watchHistoryTable.data">
+                    <td><a [href]="data.videoUrl" target="_blank">{{ data.title | ellipsis:40 }}</a></td>
+                    <td><a [href]="data.channelUrl" target="_blank">{{ data.channelName | ellipsis:40 }}</a></td>
+                    <td>{{ data.timestamp | date }}</td>
+
+                  </tr>
+                  </tbody>
+                </nz-table>
+              </nz-collapse-panel>
+              <ng-template #watchExpandedIcon let-active>
+                {{ active }}
+                <span nz-icon nzType="caret-right" class="ant-collapse-arrow" [nzRotate]="p2.nzActive ? -90 : 90"></span>
+              </ng-template>
+              <ng-template #watchHistoryHeaderTemplate>
+                <div>
+                  Watch History List
+                </div>
+              </ng-template>
+            </nz-collapse>
+          </nz-card>
+        </div>
+      </nz-tab>
+    </nz-tabset>
+  </nz-card>
+</ng-template>

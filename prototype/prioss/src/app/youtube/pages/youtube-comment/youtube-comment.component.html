@@ -1,0 +1,49 @@
+<div class="youtube-comments">
+  <!-- Preview mode: show total comments with icons -->
+  <div *ngIf="previewMode" style="height:200px;">
+    <nz-row [nzGutter]="16">
+      <nz-col [nzSpan]="12">
+        <nz-statistic
+          [nzTitle]="'Total Comments'"
+          [nzValue]="userComments.length"
+          [nzPrefix]="commentsIcon">
+        </nz-statistic>
+        <ng-template #commentsIcon>
+          <div style="display: flex; align-items: center; justify-content: center;">
+            <span nz-icon nzType="message" nzTheme="outline"></span>
+          </div>
+        </ng-template>
+      </nz-col>
+    </nz-row>
+  </div>
+  <div *ngIf="!previewMode" style="margin-top: 20px;" nzTooltipPlacement="right">
+    <app-title-bar titleText="YouTube Comment Insights" tooltipText="Visual insights into your YouTube comments activity." style="margin-left: 2px; margin-bottom: 20px;"></app-title-bar>
+    <nz-tabset nzTabPosition="top" nzType="line">
+      <nz-tab nzTitle="Comment Activity Over Time">
+          <nz-card>
+              <div echarts [options]="commentTrendOptions" style="height: 400px;"></div>
+          </nz-card>
+      </nz-tab>
+      <nz-tab nzTitle="Posted Comments">
+          <nz-card>
+              <nz-table #commentsTable [nzData]="filteredComments" nzBordered>
+                  <thead>
+                      <tr>
+                          <th class="comment-table-header">Comment</th>
+                          <th class="comment-table-header">Date</th>
+                          <th class="comment-table-header">Video</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr *ngFor="let comment of commentsTable.data">
+                          <td>{{ comment.comment }}</td>
+                          <td>{{ comment.timestamp | date: 'medium' }}</td>
+                          <td><a [href]="'https://youtube.com/watch?v=' + comment.videoId" target="_blank">Link</a></td>
+                      </tr>
+                  </tbody>
+              </nz-table>
+          </nz-card>
+      </nz-tab>
+  </nz-tabset>
+  </div>
+</div>

@@ -31,12 +31,17 @@ interface PriossDB extends DBSchema {
     value: FacebookIndexedDBMedia,
     keyPath: 'thread_path'
   }
-
   instagram: {
     key: AppType.Instagram,
     value: InstaUserDataModel,
     indexes: { 'by-name': string }
   }
+  youtube: {
+    key: AppType.Youtube,
+    value: { filename: string, value: string },
+    keyPath: 'filename',
+    indexes: { 'by-filename': string }
+  };
 }
 
 @Injectable({ providedIn: "root" })
@@ -61,7 +66,7 @@ export class IndexedDbService {
 
   /**
    * set the selected service to the selectedService store
-   * 
+   *
    * @param service the selected service
    * @param filename the selected Dataexportfile
    */
@@ -89,7 +94,7 @@ export class IndexedDbService {
   /**
    * clear the selectedSevice store and set the selected service to facebook
    * Just a wrapper for setSelectedServiceStore(AppType.Facebook, filename)
-   * 
+   *
    * @param filename the selected Dataexportfile
    */
   async setSelectedFacebookDataStore(filename: string) {
@@ -100,7 +105,7 @@ export class IndexedDbService {
 
   /**
    * adds the selected Dataexportfile to the facebook store
-   * 
+   *
    * @param datafile the facebook data file
    */
   async addFacebookUserDataStore(datafile: FacebookDataFile) {
@@ -115,14 +120,14 @@ export class IndexedDbService {
    */
   async bulkAddFacebookMediaFiles(files: FacebookIndexedDBMedia[]) {
     await this.waitForDb();
-  
+
     const tx = this.db.transaction(AppType.FacebookMediaFiles, 'readwrite');
     const store = tx.objectStore(AppType.FacebookMediaFiles);
-    
+
     for (const file of files) {
       store.put(file);
     }
-    
+
     // Wait for the transaction to complete
     await tx.done;
   }
@@ -174,7 +179,7 @@ export class IndexedDbService {
   /**
    * If you want to load a specific facebook data store by filename, you can use this function
    * is useful, when the user has already explored some data exports of the same service and wants to load them again
-   * @param filename 
+   * @param filename
    * @returns the facebook data store
    */
   async getFacebookUserDataStoreByFilename(filename: string): Promise<FacebookDataFile> {
@@ -222,6 +227,20 @@ export class IndexedDbService {
     return files.find(file => file.thread_path === thread_path) ?? {} as FacebookIndexedDBMedia;
   }
 
+  async setYouTubeData(key: string, value: string): Promise<void> {
+    await this.waitForDb();
+    const data = {
+      filename: key,
+      value: value
+    };
+    await this.db.put(AppType.Youtube, data);
+  }
+
+  async getYouTubeData(key: string): Promise<string> {
+    await this.waitForDb();
+    const data = await this.db.get<any>(AppType.Youtube, key);
+    return data ? data.value : null;
+  }
 
   async clearDataStore(name: string) {
     await this.waitForDb();
@@ -230,8 +249,10 @@ export class IndexedDbService {
         await this.db.clear(AppType.Facebook);
         break;
       case AppType.Instagram:
-
         await this.db.clear(AppType.Instagram);
+        break;
+      case AppType.Youtube:
+        await this.db.clear(AppType.Youtube);
         break;
       case AppType.SelectedService:
         await this.db.clear(AppType.SelectedService);
@@ -244,11 +265,12 @@ export class IndexedDbService {
   async isDbEmpty(): Promise<boolean> {
     let stores = await this.db.count(AppType.Facebook);
     stores += await this.db.count(AppType.Instagram);
+    stores += await this.db.count(AppType.Youtube);
     return stores === 0;
   }
 
   async createDb() {
-    const db: IDBPDatabase<PriossDB> = await openDB<PriossDB>('prioss-db', 1, {
+    const db: IDBPDatabase<PriossDB> = await openDB<PriossDB>('prioss-db', 2, {
       upgrade(db: IDBPDatabase<PriossDB>, oldVersion: number) {
         if (oldVersion <= 1) {
           const facebookStore = db.createObjectStore(AppType.Facebook, {
@@ -271,6 +293,12 @@ export class IndexedDbService {
           instagramStore.createIndex('by-name', 'filename');
         }
         //for new tables add them here like above, but increase the version number
+        if(oldVersion<=2){
+          const youtubeStore = db.createObjectStore(AppType.Youtube,{
+            keyPath:"filename"
+          });
+          youtubeStore.createIndex('by-filename','filename')
+        }
       }
     });
     return db;

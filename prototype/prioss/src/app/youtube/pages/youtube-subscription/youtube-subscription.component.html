@@ -1,0 +1,15 @@
+<div class="youtube-subscription">
+  <div *ngIf="previewMode; else detailedMode">
+    <div echarts [options]="chartOptions" class="echart-container" style="width: 100%; height: 200px;"></div>
+  </div>
+</div>
+<ng-template #detailedMode>
+  <app-title-bar titleText="Subscriptions" tooltipText="Subscriptions"></app-title-bar>
+  <nz-card>
+    <div *ngIf="userSubscriptions.length else noData" echarts [options]="chartOptions" class="echart-container" style="width: 100%; height: 600px;" (chartClick)="clickHandler($event['name'])"></div>
+  </nz-card>
+</ng-template>
+
+<ng-template #noData>
+  <nz-empty></nz-empty>
+</ng-template>

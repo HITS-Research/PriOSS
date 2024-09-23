@@ -1,0 +1,100 @@
+<div class="dashboard-page dashboard-container">
+  <!-- Introduction Section -->
+  <a id="introduction-anchor" class="offset-anchor"></a>
+  <app-welcome-msg platform="YouTube"></app-welcome-msg>
+  <br>
+
+  <!-- Visualization Section -->
+  <a id="visualization" class="offset-anchor"></a>
+  <app-accordion title="Visualization">
+    <section nz-row [nzGutter]="[{ xs: 8, xl: 20}, {xs: 8, xl: 40}]">
+      <div id="step1" nz-col nzXs="24" nzXl="8">
+        <app-dash-card cardLink="/youtube/profile" titleText="User Profile">
+          <prioss-youtube-profile [previewMode]="true"/>
+        </app-dash-card>
+      </div>
+      <div nz-col nzXs="24" nzXl="8">
+        <app-dash-card cardLink="/youtube/channel&videos" titleText="Channel & Videos">
+          <prioss-youtube-channel-video [previewMode]="true"/>
+        </app-dash-card>
+      </div>
+      <div nz-col nzXs="24" nzXl="8">
+        <app-dash-card cardLink="/youtube/subscription" titleText="Subscriptions">
+          <prioss-youtube-subscription [previewMode]="true"/>
+        </app-dash-card>
+      </div>
+    </section>
+    <section nz-row [nzGutter]="[{ xs: 8, xl: 20}, {xs: 8, xl: 40}]">
+      <div nz-col nzXs="24" nzXl="8">
+        <app-dash-card cardLink="/youtube/comments" titleText="Comments">
+          <prioss-youtube-comment [previewMode]="true"/>
+        </app-dash-card>
+      </div>
+      <div nz-col nzXs="24" nzXl="8">
+        <app-dash-card cardLink="/youtube/messages" titleText="Messages">
+          <prioss-youtube-chat [previewMode]="true"/>
+        </app-dash-card>
+      </div>
+      <div nz-col nzXs="24" nzXl="8">
+        <app-dash-card cardLink="/youtube/playlists" titleText="Playlists">
+          <prioss-youtube-playlist [previewMode]="true"/>
+        </app-dash-card>
+      </div>
+    </section>
+    <section nz-row [nzGutter]="[{ xs: 8, xl: 20}, {xs: 8, xl: 40}]">
+      <div nz-col nzXs="24" nzXl="8">
+        <app-dash-card cardLink="/youtube/search&watch" titleText="Search & Watch History">
+          <prioss-youtube-history [previewMode]="true"/>
+        </app-dash-card>
+      </div>
+    </section>
+  </app-accordion>
+  <br>
+<!-- Rectification Section for YouTube -->
+<div class="dashboard-page dashboard-container">
+  <app-accordion id="rectification" title="Rectification">
+    <p nz-typography>
+      This section helps you rectify any errors or omissions in your YouTube data. For more detailed assistance, please visit <a target="_blank" rel="noopener" href='https://support.google.com/youtube/troubleshooter/13572679?hl=en-GB&sjid=15082473677397114271-EU'> YouTube Help Center</a>
+    </p>
+    <nz-steps [nzCurrent]="currentStep">
+      <nz-step nzTitle="Step 1"></nz-step>
+      <nz-step nzTitle="Step 2"></nz-step>
+      <nz-step nzTitle="Step 3"></nz-step>
+      <nz-step nzTitle="Step 4"></nz-step>
+      <nz-step nzTitle="Step 5"></nz-step>
+    </nz-steps>
+
+    <div class="steps-content">
+      <img [src]="rectificationInstructionPicture" alt="Rectification Step Image"/>
+      <p nz-typography>{{ rectificationInstructionText }}</p>
+    </div>
+
+    <div class="steps-action">
+      <button nz-button nzType="default" (click)="previousStep()" [disabled]="currentStep <= 0">Previous</button>
+      <button nz-button nzType="default" (click)="nextStep()" [disabled]="currentStep >= 4">Next</button>
+    </div>
+  </app-accordion>
+</div>
+
+
+  <br>
+
+  <!-- Privacy Recommendations Section -->
+  <app-accordion title="Privacy Recommendations">
+    <div id="recommendation" nz-row [nzGutter]="[{ xs: 8, xl: 20}, {xs: 8, xl: 40}]">
+      <div nz-col nzXs="24" nzXl="8">
+        <app-dash-card cardLink="" titleText="Privacy Settings Judge">
+          <app-settings-form [service]="'Youtube'"></app-settings-form>
+        </app-dash-card>
+      </div>
+    </div>
+  </app-accordion>
+  <br>
+
+  <!-- Additional Information -->
+  <p nz-topography><app-youtube-purposes></app-youtube-purposes></p>
+  <br>
+
+  <app-help-button (startTourClick)="startTour()"/>
+  <app-offline-indicator bottom="32px" right="76px"/>
+</div>
