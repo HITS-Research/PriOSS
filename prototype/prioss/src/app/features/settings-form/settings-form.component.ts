@@ -3,6 +3,7 @@ import { FormBuilder, FormsModule, UntypedFormGroup } from '@angular/forms';
 import { SpotPrivacySettingsService } from '../../spotify/features/privacy/spot-privacy-settings.service';
 import { InstaPrivacySettingsService } from '../../instagram/features/privacy/insta-privacy-settings.service';
 import { FacePrivacySettingsService } from '../../facebook/features/privacy/face-privacy-settings.service';
+import { YoutubePrivacySettingsService } from 'src/app/youtube/features/privacy/youtube-privacy-settings.service';
 import { NzCollapseModule } from 'ng-zorro-antd/collapse';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzSelectModule } from 'ng-zorro-antd/select';
@@ -70,7 +71,7 @@ export class SettingsFormComponent implements OnInit{
   selectedValue : { label: string, value: string, advice?: string } | null = null // needed for clearing the forms options (choices)
 
   constructor(private fb: FormBuilder, private spotPrivacySettingsService: SpotPrivacySettingsService,
-    private instaPrivacySettingsService: InstaPrivacySettingsService, private facePrivacySettingsService: FacePrivacySettingsService) {
+    private instaPrivacySettingsService: InstaPrivacySettingsService, private facePrivacySettingsService: FacePrivacySettingsService, private youtubePrivacySettingsService: YoutubePrivacySettingsService) {
   }
 
   /**
@@ -90,6 +91,10 @@ export class SettingsFormComponent implements OnInit{
     else if(this.service === "Facebook") {
       this.settings = this.facePrivacySettingsService.settings
     }
+    else if(this.service === "Youtube"){
+      this.settings = this.youtubePrivacySettingsService.settings
+    }
+
     this.optionList = this.settings[this.index]["options"]
     this.question = this.settings[this.index]["question"]
     this.howToCheck = this.settings[this.index]["howToCheck"]

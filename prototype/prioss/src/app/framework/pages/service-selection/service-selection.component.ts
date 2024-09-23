@@ -27,6 +27,8 @@ import { ResetInstaUserData } from '../../../instagram/state/insta.action';
 import { AppType } from './app-type';
 import { ServiceInfo } from './service-info.type';
 import { isZipFile } from './zip-file.helper';
+import {youtubeServiceInfo} from "../../../youtube/service/youtube.service.info";
+import {ResetYouTubeUserData} from "../../../youtube/state/youtube.action";
 import { DatePipe } from '@angular/common';
 import { CapitalizePipe } from "../../../features/naming/capitalize.pipe";
 
@@ -71,7 +73,7 @@ export class ServiceSelectionComponent implements AfterViewInit {
    * All the available services.
    */
   services = signal<ServiceInfo[]>(
-    [facebookServiceInfo, instagramServiceInfo, spotifyServiceInfo].toSorted(
+    [facebookServiceInfo, instagramServiceInfo, spotifyServiceInfo, youtubeServiceInfo].toSorted(
       (a, b) => a.name.localeCompare(b.name),
     ),
   );
@@ -259,6 +261,7 @@ export class ServiceSelectionComponent implements AfterViewInit {
       new ResetInstaUserData(),
       new ResetFbUserData(),
       new SpotifyReset(),
+      new ResetYouTubeUserData()
     ]);
   }
 

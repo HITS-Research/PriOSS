@@ -62,6 +62,10 @@ export class AppComponent implements OnInit {
         this.serviceName.set('facebook');
         break;
 
+      case '/youtube/dashboard':
+        this.serviceName.set('youtube');
+        break;
+        
       case '/instagram/dashboard':
         this.serviceName.set('instagram');
         break;

@@ -1,0 +1,34 @@
+<app-accordion title="Purposes - Why does Youtube collect your data ?">
+    <br>
+    <div id="purpose">
+      <nz-card nzTitle="Exemplary Purposes">
+        <p nz-topography>
+            The following purposes should give an example of Youtube's reasoning in regards to data collection. To Get a full list of their reasons you can check out Google's <a target="_blank"
+            href="https://policies.google.com/privacy?hl=en-US#whycollect" rel="noopener">privacy policy</a><span nz-icon nzType="link"></span>
+        </p>
+        <nz-table nzTemplateMode>
+          <thead>
+          <tr>
+            <th class="purpose-table-header" [nzWidth]="'70%'">Purpose</th>
+            <th class="purpose-table-header">Data Collected</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let row of dataRows">
+            <td>
+              <p class="purpose-contents-descr">
+                <strong>{{ row.shortPurpose }}:</strong> {{ row.detailedPurpose }}
+              </p>
+            </td>
+            <td>
+              <ng-container *ngFor="let data of row.dataCollected.split(', '); let last = last">
+                <i nz-icon [nzType]="dataIcons[data]" [nzTheme]="'outline'" class="large-icon" [title]="data"></i>
+                <span *ngIf="!last">&nbsp;</span> <!-- Add a non-breaking space if not the last icon -->
+              </ng-container>
+            </td>
+          </tr>
+          </tbody>
+        </nz-table>
+      </nz-card>
+    </div>
+  </app-accordion>

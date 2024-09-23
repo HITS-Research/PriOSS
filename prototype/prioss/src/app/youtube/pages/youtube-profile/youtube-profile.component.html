@@ -1,0 +1,78 @@
+<div class="youtube-profile">
+  <div *ngIf="previewMode; else detailedMode">
+    <div *ngIf="userProfile !== undefined">
+      <nz-row [nzGutter]="16">
+        <nz-col [nzSpan]="12">
+          <nz-statistic [nzValue]="(userProfile.displayName)!" [nzTitle]="'Display name'"></nz-statistic>
+        </nz-col>
+      </nz-row>
+      <nz-row [nzGutter]="16">
+        <nz-col [nzSpan]="12">
+          <nz-statistic [nzValue]="(userProfile.emails[0])!" [nzTitle]="'Email'"></nz-statistic>
+        </nz-col>
+      </nz-row>
+    </div>
+  </div>
+</div>
+<ng-template #detailedMode>
+  <app-title-bar titleText="User Profile" tooltipText="User Profile"></app-title-bar>
+  <br>
+  <div nz-row [nzGutter]="{ xs: 20, xl: 40 }" nz-Align="top" id="profile-information-cards-row-1">
+    <div nz-col nzXs="false" nzMd="false" nzFlex="auto" class="user-info-card">
+      <nz-card nzTitle="User Information" >
+        <div nz-row [nzGutter]="{ xs: 20, xl: 40 }" nz-Align="top" id="user-info">
+          <div nz-col nzXs="false" nzMd="false" nzLg="12" nzFlex="auto" class="profile-pic-container">
+            <img
+              nz-image
+              class="profile-pic"
+              [nzSrc]="userProfile.pictureSrc"
+              nzFallback="../../assets/images/youtube-avatar/youtube_avatar01.jpg"
+              alt="Profile Picture"
+            />
+          </div>
+          <div nz-col nzXs="false" nzMd="false" nzLg="12" nzFlex="auto" class="user-basic-info">
+            <nz-card nzTitle="Basic User Information">
+              <nz-table nzTemplateMode>
+                <tbody>
+                @if (userProfile.firstName !== undefined) {
+                <tr>
+                  <td rowSpan="1">Name:</td>
+                  <td rowSpan="1">{{ userProfile.firstName }}</td>
+                </tr>
+                }
+                @if (userProfile.lastName !== undefined) {
+                <tr>
+                  <td rowSpan="1">Last name:</td>
+                  <td rowSpan="1">{{ userProfile.lastName }}</td>
+                </tr>
+                }
+                @if (userProfile.displayName !== undefined) {
+                <tr>
+                  <td rowSpan="1">Display Name:</td>
+                  <td rowSpan="1">{{userProfile.displayName }}</td>
+                </tr>
+
+                }
+                @if (userProfile.emails !== undefined) {
+                <tr>
+                  <td rowSpan="1">Email:</td>
+                  <td rowSpan="1">{{userProfile.emails[0] }}</td>
+                </tr>
+                }
+                @if (userProfile.gender  !== undefined) {
+                <tr>
+                 <td rowSpan="1">Gender:</td>
+                 <td rowSpan="1">{{ userProfile.gender }}</td>
+                </tr>
+                }
+                </tbody>
+              </nz-table>
+            </nz-card>
+
+          </div>
+        </div>
+      </nz-card>
+    </div>
+  </div>
+  <br>
+</ng-template>

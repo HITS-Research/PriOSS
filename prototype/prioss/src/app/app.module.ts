@@ -19,6 +19,7 @@ import { InstaState } from './instagram/state/insta.state';
 import { SpotifyState } from './spotify/state/spotify.state';
 import { provideSpotifyStates } from './spotify/state/spotify.statesProvider';
 import { AppState } from './state/app.state';
+import {YouTubeState} from "./youtube/state/youtube.state";
 
 registerLocaleData(localeEn, 'en-US', localeEnExtra);
 
@@ -31,7 +32,7 @@ export const appConfig: ApplicationConfig = {
       registrationStrategy: 'registerWhenStable:30000',
     }),
     provideEcharts(),
-    provideStore([AppState, FacebookState, InstaState, SpotifyState]),
+    provideStore([AppState, FacebookState, InstaState, SpotifyState, YouTubeState]),
     provideSpotifyStates(),
     { provide: NZ_I18N, useValue: en_US },
     { provide: LOCALE_ID, useValue: 'en-US' },
