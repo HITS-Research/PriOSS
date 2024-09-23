@@ -58,7 +58,7 @@
             </nz-list>
         </nz-sider>
         <nz-content>
-            <div cdkVirtualScrollingElement style="height: 700px; width: 100%;">
+            <div cdkVirtualScrollingElement class="cdkVirtualScrollingElement">
                 <cdk-virtual-scroll-viewport autosize appendOnly minBufferPx="1000" maxBufferPx="1500" class="chat-messages-table-body">
                     <div *cdkVirtualFor="let data of currentChat().messages">
                         @if (data.sender === yourUsername()) {
