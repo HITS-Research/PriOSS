@@ -1,35 +1,40 @@
-@if(vm$ | async; as vm) {
-  @if (previewMode) {
-    @if (vm.dataAvailable) {
-      <nz-row [nzGutter]="16">
-        <nz-col [nzSpan]="12">
-          <nz-statistic
-            [nzValue]="vm.dataCount"
-            [nzTitle]="'Number of Search Queries'"
-          ></nz-statistic>
-        </nz-col>
-      </nz-row>
-      <nz-row [nzGutter]="16">
-        <nz-col [nzSpan]="12">
-          <nz-statistic
-            [nzValue]="vm.latestSearchQuery!"
-            [nzTitle]="'Latest Search Query'"
-          ></nz-statistic>
-        </nz-col>
-      </nz-row>
-    } @else {
-      <nz-empty nzNotFoundImage="simple" />
-    }
-  } @else {
-    <app-title-bar
-      titleText="Search History"
-      tooltipText="This table shows the search History the service has collected about you."
-    />
+@let dataCount = searchHistory().length;
+@let available = dataCount > 0;
 
-    @if (vm.dataAvailable) {
+@if (previewMode) {
+  @if (available) {
+    <nz-row [nzGutter]="16">
+      <nz-col [nzSpan]="12">
+        <nz-statistic
+          [nzValue]="dataCount"
+          [nzTitle]="'Number of Search Queries'"
+        ></nz-statistic>
+      </nz-col>
+    </nz-row>
+    <nz-row [nzGutter]="16">
+      <nz-col [nzSpan]="12">
+        <nz-statistic
+          [nzValue]="latestSearchQuery()"
+          [nzTitle]="'Latest Search Query'"
+        ></nz-statistic>
+      </nz-col>
+    </nz-row>
+  } @else {
+    <nz-empty nzNotFoundImage="simple" />
+  }
+} @else {
+  <app-title-bar
+    titleText="Search History"
+    tooltipText="This table shows the search History the service has collected about you."
+  />
+
+  @if (available) {
+    <nz-card nzTitle="Search History">
+      <prioss-filter-input [(filter)]="filter" />
+      <br>
       <nz-table
         #rowSelectionTable
-        [nzData]="vm.filteredSearchHistory"
+        [nzData]="filteredSearchHistory()"
         [nzPageSize]="50000"
         [nzScroll]="{ y: 'calc(100vh - 369px)' }"
         [nzShowPagination]="false"
@@ -43,22 +48,13 @@
               >
                 Search Query
               </span>
-              <nz-filter-trigger
-                [nzActive]="vm.dataAvailable"
-                [nzDropdownMenu]="menu"
-              >
-                <span
-                  nz-icon
-                  nzType="search"
-                ></span>
-              </nz-filter-trigger>
             </th>
             <th id="SearchHistoryTableQueryDateHeader">
               <span
                 nz-tooltip
                 nzTooltipTitle="This column list the date at which the search query was entered"
               >
-                Date
+                Used Date
               </span>
             </th>
           </tr>
@@ -70,38 +66,12 @@
               <td>{{ data.searchTime | date }}</td>
             </tr>
           }
-      </tbody>
+        </tbody>
       </nz-table>
-      <nz-dropdown-menu #menu="nzDropdownMenu">
-        <div class="ant-table-filter-dropdown">
-          <div class="search-box">
-            <input
-              #filterInput
-              type="text"
-              nz-input
-              placeholder="Search name"
-            >
-            <button
-              nz-button
-              nzSize="small"
-              nzType="primary"
-              (click)="filter$.next(filterInput.value)"
-              class="search-button"
-            >
-              Search
-            </button>
-            <button
-              nz-button
-              nzSize="small"
-              (click)="filter$.next('')"
-            >
-              Reset
-            </button>
-          </div>
-        </div>
-      </nz-dropdown-menu>
-    } @else {
+    </nz-card>
+  } @else {
+    <nz-card nzTitle="Search History">
       <nz-empty nzNotFoundImage="simple" />
-    }
+    </nz-card>
   }
 }

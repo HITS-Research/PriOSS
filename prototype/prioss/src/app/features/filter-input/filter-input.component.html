@@ -1,0 +1,21 @@
+<label>
+  Filter:
+  <br>
+  <input
+    #filterInput
+    nz-input
+    [ngModel]="filter()"
+    (ngModelChange)="filter.set(filterInput.value)"
+  >
+</label>
+<button
+  nz-button
+  (click)="filter.set('')"
+>
+  <span
+    nz-icon
+    nzType="delete"
+    nzTheme="outline"
+  >
+  </span>
+</button>
