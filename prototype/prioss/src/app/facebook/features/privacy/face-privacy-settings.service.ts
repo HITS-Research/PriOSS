@@ -22,173 +22,100 @@ export class FacePrivacySettingsService {
 
   settings = [
     {
-      question: 'Is your Facebook account password strong enough?',
-      howToCheck:
-        "Facebook doesn't provide a direct feature to check the strength of your password.",
+      question: "Is your Facebook account password strong enough?",
+      howToCheck: "Use your favorite Password Manager. Never check your password strength on random websites. You can checkout current password recommendations by the Electronic Frontier Foundation <a target='_blank' href='https://www.eff.org/de/dice'>here</a>",
       options: [
         {
-          label: 'Yes',
-          value: 'yes',
-          advice: 'Good. Enable 2-Factor authentication for strong security.',
+          label: "Yes",
+          value: "yes",
+          advice: "Good job. For even better security, think about turning on two-factor authentication.",
         },
         {
-          label: 'No',
-          value: 'no',
-          advice:
-            "Set your password using some general guidelines: use a unique sequence of characters, avoid using personal information like your name or date-of-birth, avoid using common and guessable passwords like 'password' or '123456' etc. ",
+          label: "No",
+          value: "no",
+          advice: `Please view the "How To Check" section for a link to password recommendations.`,
         },
       ],
     },
     {
-      question: 'Do you review your Privacy settings often?',
-      howToCheck:
-        "<strong>Text Guide:</strong> Login to your Facebook account &#8594 Click on you Account on the top right corner &#8594 Go to 'Settings and Privacy' &#8594 Go to 'Privacy Checkup'. <br> <br> <strong> Facebook Link: </strong> Please look <a target='_blank' href='https://www.facebook.com/privacy/checkup/?source=settings_and_privacy'>here</a> for detailed instructions. <br> Go to <a target='_blank' href='https://www.facebook.com/settings?tab=privacy&view'> this link </a> to review and modify your privacy settings.",
+      question: "Do you often check your Privacy settings?",
+      howToCheck: `<strong>How to do it:</strong> Log into Facebook → Click on your Account in the top right → Go to 'Settings and Privacy' → Click 'Privacy Checkup'. <br><br> <strong>Facebook links:</strong> For step-by-step help, go to <a target='_blank' href='https://www.facebook.com/privacy/checkup/?source=settings_and_privacy'>this page</a>. <br> To look at and change your privacy settings, use <a target='_blank' href='https://www.facebook.com/settings?tab=privacy&view'>this link</a>.`,
       options: [
         {
-          label: 'Yes',
-          value: 'yes',
-          advice:
-            'Good. It is a good practice to review your privacy settings and be aware of your rights.',
+          label: "Yes",
+          value: "yes",
+          advice: "Good job. It's smart to keep an eye on your privacy settings and know your rights.",
         },
         {
-          label: 'No',
-          value: 'no',
-          advice:
-            "Need attention! It is recommended to be aware of the available Privacy settings and excercise your rights. Please look at the link under 'How to Check' for detailed instructions.",
+          label: "No",
+          value: "no",
+          advice: "It's important to know about your Privacy settings and use them. Check out the 'How to do it' section for help.",
         },
       ],
     },
     {
-      question: 'Is your profile Public or Private?',
-      howToCheck:
-        "<strong>Text Guide:</strong> Login to your Facebook account &#8594 Click on you Account on the top right corner &#8594 Go to 'Settings and Privacy' &#8594 Go to 'Settings' &#8594 Click on 'Profile & Tagging' on side menu bar. <br> <br> <strong>Facebook Link:</strong> Please look at this <a target='_blank' href='https://www.facebook.com/settings?tab=timeline'>link</a> to excercise your privacy settings",
+      question: "Is your Facebook profile Public or Private?",
+      howToCheck: `<strong>How to do it:</strong> Log into Facebook → Click on your Account in the top right → Go to 'Settings and Privacy' → Click 'Settings' → Click 'Profile & Tagging' on the left side. <br><br> <strong>Facebook link:</strong> To change your settings, go to <a target='_blank' href='https://www.facebook.com/settings?tab=timeline'>this page</a>.`,
       options: [
         {
-          label: 'Private',
-          value: 'private',
-          advice:
-            'Good. It is recommended to keep your profile private and control the visibility.',
+          label: "Private",
+          value: "private",
+          advice: "Good job. It's smart to keep your profile private and control who can see it.",
         },
         {
-          label: 'Public',
-          value: 'public',
-          advice:
-            'Need attention! Control who can view your profile information by adjusting the privacy settings. You can choose to make your profile visible to friends only or customize it further.',
+          label: "Public",
+          value: "public",
+          advice: "You might want to change this. Try limiting who can see your profile info by updating your privacy settings. You can make it visible to just friends or set it up how you want.",
         },
       ],
     },
     {
-      question: 'Are your posts public or private?',
-      howToCheck:
-        "<strong>Text Guide:</strong> Login to your Facebook account &#8594 Click on you Account on the top right corner &#8594 Go to 'Settings and Privacy' &#8594 Go to 'Settings' &#8594 Click on 'Public posts' on side menu bar.<br> <br> <strong>Facebook Link:</strong> Please look at this <a target='_blank' href='https://www.facebook.com/settings?tab=followers'>link</a> to change Posts related settings",
+      question: "Are your Facebook posts Public or Private?",
+      howToCheck: `<strong>How to do it:</strong> Log into Facebook → Click on your Account in the top right → Go to 'Settings and Privacy' → Click 'Settings' → Click 'Public posts' on the left side. <br><br> <strong>Facebook link:</strong> To change your post settings, go to <a target='_blank' href='https://www.facebook.com/settings?tab=followers'>this page</a>.`,
       options: [
         {
-          label: 'Private',
-          value: 'private',
-          advice:
-            'Good. It is best practice to control who views your posts based on their sensitivity.',
+          label: "Private",
+          value: "private",
+          advice: "Good job. It's smart to control who sees your posts, especially personal ones.",
         },
         {
-          label: 'Public',
-          value: 'public',
-          advice:
-            "Need attention! Consider sharing personal updates and sensitive information with a smaller audience by using the 'Friends' or 'Custom' privacy settings.",
+          label: "Public",
+          value: "public",
+          advice: "You might want to change this. For personal updates or private info, think about sharing with just friends or a custom group of people.",
         },
       ],
     },
     {
-      question: 'Do you control your data used to show you personalized ads?',
-      howToCheck:
-        "<strong>Text Guide:</strong> Login to your Facebook account &#8594 Click on you Account on the top right corner &#8594 Go to 'Settings and Privacy' &#8594 Go to 'Settings' &#8594 Click on 'Your Facebook Information' on the left menu &#8594 Click on 'Off-Facebook Activity' &#8594 Choose to 'Clear Previous Activity' and 'Manage Future Activity'.<br> <br> <strong>Picture Guide:</strong> You can click <a target='_blank' href='https://www.facebook.com/off_facebook_activity'> here</a> or follow the guided instructions <a target='_blank' href='facebook/configure-off-facebook-activity'>here</a>",
+      question: "Do you control what data is used to show you personalized ads?",
+      howToCheck: `<strong>How to do it:</strong> Log into Facebook → Click on your Account in the top right → Go to 'Settings and Privacy' → Click 'Settings' → Click 'Your Facebook Information' on the left → Click 'Off-Facebook Activity' → Choose 'Clear Previous Activity' and 'Manage Future Activity'. <br><br> <strong>Facebook links:</strong> You can go straight there <a target='_blank' href='https://www.facebook.com/off_facebook_activity'>here</a> or follow the step-by-step guide <a target='_blank' href='facebook/configure-off-facebook-activity'>here</a>.`,
       options: [
         {
-          label: 'Yes',
-          value: 'yes',
-          advice:
-            'Good. It is best practice to control what personal data you share with Facebook.',
+          label: "Yes",
+          value: "yes",
+          advice: "Good job. It's smart to control what personal info you share with Facebook.",
         },
         {
-          label: 'No',
-          value: 'no',
-          advice:
-            'Need attention! It is recommended to be aware of what personal data is been monitored to show you personalized ads. It is your right to control what Facebook is allowed to know about your activities online.',
+          label: "No",
+          value: "no",
+          advice: "You might want to look into this. It's good to know what personal info Facebook uses for ads. You have the right to control what Facebook knows about what you do online.",
         },
       ],
     },
     {
-      question: 'Are you aware of App Privacy Settings?',
-      howToCheck:
-        "<strong>Text Guide:</strong> Login to your Facebook account &#8594 Click on you Account on the top right corner &#8594 Go to 'Settings and Privacy' &#8594 Go to 'Settings' &#8594 Click on 'Apps and websites' on the left menu &#8594 Click on 'Turn off' for 'Apps, websites and games'<br> <br> <strong>Facebook Link:</strong> You can click <a target='_blank' href='https://www.facebook.com/settings?tab=applications&ref=settings'>here</a> to make changes.",
+      question: "Do you know about App Privacy Settings?",
+      howToCheck: `<strong>How to do it:</strong> Log into Facebook → Click on your Account in the top right → Go to 'Settings and Privacy' → Click 'Settings' → Click 'Apps and websites' on the left → Click 'Turn off' for 'Apps, websites and games'. <br><br> <strong>Facebook link:</strong> You can make changes <a target='_blank' href='https://www.facebook.com/settings?tab=applications&ref=settings'>here</a>.`,
       options: [
         {
-          label: 'Yes',
-          value: 'yes',
-          advice:
-            'Good. Be aware of what third-party apps are accessing your personal data and control the data sharing. ',
+          label: "Yes",
+          value: "yes",
+          advice: "Good job. Keep an eye on which apps can see your personal info and control what you share.",
         },
         {
-          label: 'No',
-          value: 'no',
-          advice:
-            'Need attention! It is recommended to regularly review and manage the privacy settings of apps you have authorized to access your Facebook account. Remove any unnecessary or outdated apps from the list.',
+          label: "No",
+          value: "no",
+          advice: "It's a good idea to check and manage the privacy settings for apps that can use your Facebook account. Remove any apps you don't use or need anymore.",
         },
       ],
     },
-    // {
-    //   question : "",
-    //   howToCheck : "<strong>Text Guide:</strong> Login to your Facebook account &#8594 Click on you Account on the top right corner &#8594 <br> <br> <strong>Picture Guide:</strong>",
-    //   options : [
-    //     { label: "", value: "", advice: "" },
-    //     { label: "", value: "", advice: "" }
-    //   ]
-    // },
-    // {
-    //   question : "",
-    //   howToCheck : "<strong>Text Guide:</strong> Login to your Facebook account &#8594 Click on you Account on the top right corner &#8594 <br> <br> <strong>Picture Guide:</strong>",
-    //   options : [
-    //     { label: "", value: "", advice: "" },
-    //     { label: "", value: "", advice: "" }
-    //   ]
-    // },
-    // {
-    //   question : "",
-    //   howToCheck : "<strong>Text Guide:</strong> Login to your Facebook account &#8594 Click on you Account on the top right corner &#8594 <br> <br> <strong>Picture Guide:</strong>",
-    //   options : [
-    //     { label: "", value: "", advice: "" },
-    //     { label: "", value: "", advice: "" }
-    //   ]
-    // },
-    // {
-    //   question : "",
-    //   howToCheck : "<strong>Text Guide:</strong> Login to your Facebook account &#8594 Click on you Account on the top right corner &#8594 <br> <br> <strong>Picture Guide:</strong>",
-    //   options : [
-    //     { label: "", value: "", advice: "" },
-    //     { label: "", value: "", advice: "" }
-    //   ]
-    // },
-    // {
-    //   question : "",
-    //   howToCheck : "<strong>Text Guide:</strong> Login to your Facebook account &#8594 Click on you Account on the top right corner &#8594 <br> <br> <strong>Picture Guide:</strong>",
-    //   options : [
-    //     { label: "", value: "", advice: "" },
-    //     { label: "", value: "", advice: "" }
-    //   ]
-    // },
-    // {
-    //   question : "",
-    //   howToCheck : "<strong>Text Guide:</strong> Login to your Facebook account &#8594 Click on you Account on the top right corner &#8594 <br> <br> <strong>Picture Guide:</strong>",
-    //   options : [
-    //     { label: "", value: "", advice: "" },
-    //     { label: "", value: "", advice: "" }
-    //   ]
-    // },
-    // {
-    //   question : "",
-    //   howToCheck : "<strong>Text Guide:</strong> Login to your Facebook account &#8594 Click on you Account on the top right corner &#8594 <br> <br> <strong>Picture Guide:</strong>",
-    //   options : [
-    //     { label: "", value: "", advice: "" },
-    //     { label: "", value: "", advice: "" }
-    //   ]
-    // }
   ];
 }

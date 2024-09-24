@@ -43,7 +43,7 @@ import { NzProgressModule } from 'ng-zorro-antd/progress';
 export class SettingsFormComponent implements OnInit{
   settingsForm: UntypedFormGroup;
   index = 0
-  panel = {name: "How to Check ?"}
+  panel = {name: "How to Check?"}
   @Input() service: string;
 
   settings = [
