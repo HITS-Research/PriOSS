@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Action, State, StateContext } from '@ngxs/store';
+import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { SpotifyReadSearchHistoryFromZip, SpotifyResetSearchHistory } from './search-history.actions';
 import { SpotifySearchHistoryFileFormat } from './search-history.file-format';
 import { SpotifySearchHistoryStateModel } from './search-history.statemodel';
@@ -12,6 +12,11 @@ const defaults: SpotifySearchHistoryStateModel[] = [];
 })
 @Injectable()
 export class SpotifySearchHistoryState {
+
+  @Selector()
+  static state(state: SpotifySearchHistoryStateModel[]): SpotifySearchHistoryStateModel[] {
+    return state;
+  }
 
   /**
    * Resets the Search-History-State.
