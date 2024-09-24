@@ -2,11 +2,11 @@
   <nz-form-item>
     <nz-form-label> <img alt="An Icon for the Chatbot" class="i-image" src="../../assets/images/icons/chatbot-icon.png">{{"&ldquo;"}}{{this.question}}{{"&rdquo;"}}</nz-form-label>
     <br>
-    <div *ngIf="!isFinish"> 
+    <div *ngIf="!isFinish">
       <nz-collapse  *ngIf="howToCheck?.length">
         <nz-collapse-panel
         [nzHeader]="panel.name"
-       > 
+       >
         <p [innerHTML]="howToCheck" style="margin:0;">
         </p>
         </nz-collapse-panel>
@@ -23,7 +23,7 @@
           <nz-option *ngFor="let option of optionList" [nzValue]="option" [nzLabel]="option.label"></nz-option>
         </nz-select>
       </nz-form-control>
-      <div nz-row nzJustify="center"> 
+      <div nz-row nzJustify="center">
         <div *ngIf="!selectedValue?.advice" class="talk-bubble-hidden">
           <div class="bubbletext">
             <p></p>
@@ -40,7 +40,7 @@
       <span nz-icon nzType="check-circle" nzTheme="twotone" nzTwotoneColor="#52c41a" style="font-size: 100px"></span>
     </div>
   </nz-form-item>
-  <div nz-row nzJustify="center">  
+  <div nz-row nzJustify="center">
     <nz-form-item>
       <nz-form-control>
         <nz-button-group [nzSize]="'large'">
@@ -50,14 +50,13 @@
           </button>
           <button *ngIf="this.index !== this.settings.length" class="no-click" nz-button nzType="default" disabled>Progress: {{this.index + "/" + this.settings.length}}</button>
           <nz-progress *ngIf="this.index === this.settings.length" class="small-progress" [nzPercent]="100" nzSize="small"></nz-progress>
-          <button nz-button nzType="default" (click)="onNext()" [disabled]="(this.index === this.settings.length) || (!selectedValue)">
+          <button nz-button nzType="default" (click)="onNext()" [disabled]="(this.index === this.settings.length)">
             Forward
             <span nz-icon nzType="right"></span>
           </button>
         </nz-button-group>
       </nz-form-control>
-  </nz-form-item> 
+  </nz-form-item>
   </div>
 
 </form>
-  
