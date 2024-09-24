@@ -55,6 +55,10 @@ export class YouTubeDashboardIntroductionService {
           intro:
             'This section explains the purpose of collecting your data while tracking all your activities on YouTube.',
         },
+        {
+          element: '#offlineIndicator',
+          intro: 'This indicator displays whether you are <b>Connected/Disconnected</b> to internet.<br/> A <b>Red</b> Wifi icon means you are connected.<br/>A <b>Green</b> wifi icon means you are disconnected.<br/>This is to make sure that you are aware of <b>Secure Offline Application Usage</b>. <br/>You can disconnect from the internet and still use all the functionality, to be sure that your data is not sent anywhere.'
+        }, 
       ],
     };
   }
