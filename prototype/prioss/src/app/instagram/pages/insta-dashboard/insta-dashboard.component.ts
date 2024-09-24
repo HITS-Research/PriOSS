@@ -1,5 +1,18 @@
 import { AfterViewInit, Component, ViewChild, inject } from '@angular/core';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NzImageModule } from 'ng-zorro-antd/image';
+import { NzTypographyModule } from 'ng-zorro-antd/typography';
+import { AccordionComponent } from 'src/app/features/accordion/accordion.component';
+import { DashCardComponent } from 'src/app/features/dash-card/dash-card.component';
+import { HelpButtonComponent } from 'src/app/features/help-button/help-button.component';
+import { OfflineIndicatorComponent } from 'src/app/features/offline-indicator/offline-indicator.component';
+import { SettingsFormComponent } from 'src/app/features/settings-form/settings-form.component';
+import { Step } from 'src/app/features/stepper/step.type';
+import { StepperComponent } from 'src/app/features/stepper/stepper.component';
 import { BaseDashboard } from 'src/app/features/utils/base-dashboard.abstract';
+import { WelcomeMessageComponent } from 'src/app/framework/pages/welcome/welcome.component';
 import { Insta_PersonalInfoComponent } from 'src/app/instagram/pages/Insta_personal-info/personal-info.component';
 import { InstaAccountCreationLoginComponent } from 'src/app/instagram/pages/insta-account-creation-login/insta-account-creation-login.component';
 import { InstaAdsComponent } from 'src/app/instagram/pages/insta-ads/insta-ads.component';
@@ -11,19 +24,7 @@ import { InstaSearchesComponent } from 'src/app/instagram/pages/insta-searches/i
 import { InstaShoppingComponent } from 'src/app/instagram/pages/insta-shopping/insta-shopping.component';
 import { InstaYourTopicComponent } from 'src/app/instagram/pages/insta-your-topic/insta-your-topic.component';
 import { InstagramDashboardIntroductionService } from '../../features/dashboard-introduction/instagram-dashboard-introduction.service';
-import { WelcomeMessageComponent } from 'src/app/framework/pages/welcome/welcome.component';
-import { AccordionComponent } from 'src/app/features/accordion/accordion.component';
-import { NzGridModule } from 'ng-zorro-antd/grid';
-import { DashCardComponent } from 'src/app/features/dash-card/dash-card.component';
-import { NzStepsModule } from 'ng-zorro-antd/steps';
-import { NzTypographyModule } from 'ng-zorro-antd/typography';
-import { NzButtonModule } from 'ng-zorro-antd/button';
-import { HelpButtonComponent } from 'src/app/features/help-button/help-button.component';
-import { NzImageModule } from 'ng-zorro-antd/image';
-import { NzDividerModule } from 'ng-zorro-antd/divider';
-import { SettingsFormComponent } from 'src/app/features/settings-form/settings-form.component';
 import { InstaPurposesComponent } from '../insta-purposes/insta-purposes.component';
-import { OfflineIndicatorComponent } from 'src/app/features/offline-indicator/offline-indicator.component';
 
 /**
   * This component is the root component for instagram's dashboard page.
@@ -59,73 +60,53 @@ import { OfflineIndicatorComponent } from 'src/app/features/offline-indicator/of
     NzDividerModule,
     NzGridModule,
     NzImageModule,
-    NzStepsModule,
     NzTypographyModule,
     OfflineIndicatorComponent,
     SettingsFormComponent,
+    StepperComponent,
     WelcomeMessageComponent,
   ]
 })
-export class InstaDashboardComponent extends BaseDashboard implements AfterViewInit{
-  current = 0;
-  rectificationInstructionText="Choose your country.";
-  rectificationInstructionPicture="/../../assets/images/insta-rectifcation/step1.png"
-
+export class InstaDashboardComponent extends BaseDashboard implements AfterViewInit {
   //Components to Initialize Sequentially
-  @ViewChild(Insta_PersonalInfoComponent) instaPersonalInfo : Insta_PersonalInfoComponent;
-  @ViewChild(InstaAdsComponent) instaAds : InstaAdsComponent;
-  @ViewChild(InstaAccountCreationLoginComponent) instaAccount : InstaAccountCreationLoginComponent;
-  @ViewChild(InstaFollowersComponent) instaFollower : InstaFollowersComponent;
+  @ViewChild(Insta_PersonalInfoComponent) instaPersonalInfo: Insta_PersonalInfoComponent;
+  @ViewChild(InstaAdsComponent) instaAds: InstaAdsComponent;
+  @ViewChild(InstaAccountCreationLoginComponent) instaAccount: InstaAccountCreationLoginComponent;
+  @ViewChild(InstaFollowersComponent) instaFollower: InstaFollowersComponent;
   @ViewChild(InstaLikedContentComponent) instaLikedContent: InstaLikedContentComponent;
-  @ViewChild(InstaContactComponent) instaContact : InstaContactComponent;
-  @ViewChild(InstaSearchesComponent) instaSearches : InstaSearchesComponent;
-  @ViewChild(InstaShoppingComponent) instaShopping : InstaShoppingComponent;
-  @ViewChild(InstaYourTopicComponent) instaYourTopic : InstaYourTopicComponent;
-  @ViewChild(InstaMessagesComponent) instaMessages : InstaMessagesComponent;
+  @ViewChild(InstaContactComponent) instaContact: InstaContactComponent;
+  @ViewChild(InstaSearchesComponent) instaSearches: InstaSearchesComponent;
+  @ViewChild(InstaShoppingComponent) instaShopping: InstaShoppingComponent;
+  @ViewChild(InstaYourTopicComponent) instaYourTopic: InstaYourTopicComponent;
+  @ViewChild(InstaMessagesComponent) instaMessages: InstaMessagesComponent;
 
   #introductionService = inject(InstagramDashboardIntroductionService);
 
-  constructor() {
-    super();
-  }
-
   /**
-  * Updates the rectification visualization regarding the current value.
-  * @author: Melina (kleber@mail.uni-paderborn.de)
-  *
-  */
-  changeContent(): void {
-    switch (this.current) {
-      case 0: {
-        this.rectificationInstructionText="Choose your country.";
-        this.rectificationInstructionPicture="/../../assets/images/insta-rectifcation/step1.png"
-        break;
-      }
-      case 1: {
-        this.rectificationInstructionText="Choose the highlighted options.";
-        this.rectificationInstructionPicture="/../../assets/images/insta-rectifcation/step2.png"
-        break;
-      }
-      case 2: {
-        this.rectificationInstructionText="Choose the highlighted option.";
-        this.rectificationInstructionPicture="/../../assets/images/insta-rectifcation/step3.png"
-        break;
-      }
-      case 3: {
-        this.rectificationInstructionText="Choose the highlighted option.";
-        this.rectificationInstructionPicture="/../../assets/images/insta-rectifcation/step4.png"
-        break;
-      }
-      case 4: {
-        this.rectificationInstructionText="Enter your information into the text boxes.";
-        this.rectificationInstructionPicture="/../../assets/images/insta-rectifcation/step5.png"
-        break;
-      }
-      default: {
-        this.rectificationInstructionText="Error";
-      }
+   * Updates the rectification visualization regarding the current value.
+   */
+  rectificationSteps: Step[] = [
+    {
+      description: "Choose your country.",
+      imageUrl: "/../../assets/images/insta-rectifcation/step1.png",
+    },
+    {
+      description: "Choose the highlighted options.",
+      imageUrl: "/../../assets/images/insta-rectifcation/step2.png",
+    },
+    {
+      description: "Choose the highlighted option.",
+      imageUrl: "/../../assets/images/insta-rectifcation/step3.png",
+    },
+    {
+      description: "Choose the highlighted option.",
+      imageUrl: "/../../assets/images/insta-rectifcation/step4.png",
+    },
+    {
+      description: "Enter your information into the text boxes.",
+      imageUrl: "/../../assets/images/insta-rectifcation/step5.png",
     }
-  }
+  ];
 
   /**
     * This method starts the tour and sets @param tourCompleted in the @service introjs to true.
@@ -134,7 +115,7 @@ export class InstaDashboardComponent extends BaseDashboard implements AfterViewI
     *
     * @author: Melina (kleber@mail.uni-paderborn.de), Paul (pasch@mail.upb.de)
     */
-  ngAfterViewInit(): void  {
+  ngAfterViewInit(): void {
     this.#introductionService.start();
 
     //Component initialization
@@ -162,23 +143,4 @@ export class InstaDashboardComponent extends BaseDashboard implements AfterViewI
     this.#introductionService.start(true);
   }
 
-  /**
-  * Decrease the "current" variable.
-  * @author: Melina (kleber@mail.uni-paderborn.de)
-  *
-  */
-  pre(): void {
-    this.current -= 1;
-    this.changeContent();
-  }
-
-  /**
-  * Increases the "current" variable.
-  * @author: Melina (kleber@mail.uni-paderborn.de)
-  *
-  */
-  next(): void {
-    this.current += 1;
-    this.changeContent();
-  }
 }

@@ -1,78 +1,27 @@
-<div class="component-page">
-    <app-title-bar titleText="Guidelines to disable non-essential cookies for your Instagram's account" tooltipText="The following guidelines helps you to disable non-essential cookies for your Instagram's account. The guidelines are provided for Web Browser user as well as Mobile Application user." [includeButton]="false"></app-title-bar>
-    <p nz-typography>This will stop other companies from sharing data about you with Instagram. You will also stop getting personalized ads from Meta on other sites you visit.</p>
-    <nz-tabset>
-        <nz-tab nzTitle="Web Browser">
-                <p nz-typography> You can limit how much data Instagram collects by disabling non-essential cookies. Here’s how:</p>
-                <nz-steps [nzCurrent]="CookiesDisabled">
-                    <nz-step nzTitle="Step 1"></nz-step>
-                    <nz-step nzTitle="Step 2"></nz-step>
-                    <nz-step nzTitle="Step 3"></nz-step>
-                    <nz-step nzTitle="Step 4"></nz-step>
-                    <nz-step nzTitle="Step 5"></nz-step>
-                    <nz-step nzTitle="Step 6"></nz-step>
-                    <nz-step nzTitle="Step 7"></nz-step>
-                  </nz-steps>
-              
-                  <div class="steps-content">
-                    <img
-                      nz-image
-                      height="300px"
-                      nzSrc={{instructionPictureCookiesDisabled}}
-                      alt=""
-                    />
-                    <nz-divider></nz-divider>
-                    <p nz-typography>{{ instructionTextCookiesDisabled }}</p>
-                  </div>
-                  <div class="steps-action">
-                    <button nz-button nzType="default" (click)="preCookiesDisabled()" [disabled]="CookiesDisabled <= 0">
-                      <span>Previous</span>
-                    </button>
-                    <button nz-button nzType="default" (click)="nextCookiesDisabled()" [disabled]="CookiesDisabled >= 6">
-                      <span>Next</span>
-                    </button>
-                  </div>
+<app-title-bar
+  titleText="Guidelines to disable non-essential cookies for your Instagram's account"
+  tooltipText="The following guidelines helps you to disable non-essential cookies for your Instagram's account. The guidelines are provided for Web Browser user as well as Mobile Application user."
+  [includeButton]="false"
+/>
 
+<p nz-typography>
+  This will stop other companies from sharing data about you with Instagram. You will also stop getting
+  personalized ads from Meta on other sites you visit.
+</p>
 
-        </nz-tab>
-        <nz-tab nzTitle="Mobile Application">
-            <p nz-typography> You can limit how much data Instagram collects by disabling non-essential cookies. Here’s how:</p>
-                <nz-steps [nzCurrent]="CookiesDisabledMobile">
-                    <nz-step nzTitle="Step 1"></nz-step>
-                    <nz-step nzTitle="Step 2"></nz-step>
-                    <nz-step nzTitle="Step 3"></nz-step>
-                    <nz-step nzTitle="Step 4"></nz-step>
-                    <nz-step nzTitle="Step 5"></nz-step>
-                    <nz-step nzTitle="Step 6"></nz-step>
-                    <nz-step nzTitle="Step 7"></nz-step>
-                  </nz-steps>
-              
-                  <div class="steps-content">
-                    <img
-                      nz-image
-                      height="300px"
-                      nzSrc={{instructionPictureCookiesDisabledMobile}}
-                      alt=""
-                    />
-                    <nz-divider></nz-divider>
-                    <p nz-typography>{{ instructionTextCookiesDisabledMobile }}</p>
-                  </div>
-                  <div class="steps-action">
-                    <button nz-button nzType="default" (click)="preCookiesDisabledMobile()" [disabled]="CookiesDisabledMobile <= 0">
-                      <span>Previous</span>
-                    </button>
-                    <button nz-button nzType="default" (click)="nextCookiesDisabledMobile()" [disabled]="CookiesDisabledMobile >= 6">
-                      <span>Next</span>
-                    </button>
-                  </div>
-     
-        </nz-tab>
-    </nz-tabset>
-</div>
-   
-    
-    
-    
+<nz-tabset>
+  <nz-tab nzTitle="Web Browser">
+    <p nz-typography>
+      You can limit how much data Instagram collects by disabling non-essential cookies. Here's how:
+    </p>
 
+    <prioss-stepper [steps]="cookiesDisabledSteps" />
+  </nz-tab>
+  <nz-tab nzTitle="Mobile Application">
+    <p nz-typography>
+      You can limit how much data Instagram collects by disabling non-essential cookies. Here's how:
+    </p>
 
-
+    <prioss-stepper [steps]="cookiesDisabledMobileSteps" />
+  </nz-tab>
+</nz-tabset>

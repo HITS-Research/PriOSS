@@ -1,46 +1,6 @@
-<div class="component-page">
-    <app-title-bar titleText="Guidelines To Hide Ads" tooltipText="Follow the steps to stop seeing the ads on your timeline."></app-title-bar>
-    <nz-tabset>
-        <nz-tab nzTitle="Web Application">
-            <div>
-                <div class="steps">
-      
-                    <nz-steps [nzCurrent]="guidelineStepWeb" (nzIndexChange)="onIndexChangeWeb($event)">
-                      <nz-step *ngFor="let item of instructionsStepDataWeb; let i = index" nzTitle="Step {{i + 1}}"></nz-step>
-                    </nz-steps>
-                  </div>
-              
-                  <div class="steps-content">
-                    <img
-                      nz-image
-                      height="320px"
-                      nzSrc={{instructionPictureFaceAdsGuidelines}}
-                      alt=""
-                    />
-                    <nz-divider></nz-divider>
-                    <p nz-typography>{{ instructionTextFaceAdsGuidelines }}</p>
-                  </div>
-                  <div class="steps-action">
-                    <button nz-button nzType="default" (click)="webGuidelineStepChange(-1)" [disabled]="guidelineStepWeb === 0">
-                      <span>Previous</span>
-                    </button>
-                    <button nz-button nzType="default" (click)="webGuidelineStepChange(1)" [disabled]="guidelineStepWeb === instructionsStepDataWeb.length - 1">
-                      <span>Next</span>
-                    </button>
-                  </div>
-            </div>
-        </nz-tab>
-    </nz-tabset>
-</div>
-   
-    
-    
-    
+<app-title-bar
+  titleText="Guidelines To Hide Ads"
+  tooltipText="Follow the steps to stop seeing the ads on your timeline."
+/>
 
-
-
-    
-    
-
-
-
+<prioss-stepper [steps]="instructionsStepDataWeb" />

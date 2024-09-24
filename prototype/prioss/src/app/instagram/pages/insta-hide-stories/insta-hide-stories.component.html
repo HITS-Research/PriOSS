@@ -1,30 +1,13 @@
-<div class="component-page">
-  <app-title-bar [titleText]="'Guidelines to hide Instagram Stories from specific people'" [tooltipText]="'The following guidelines help you hide stories from specific people on your Instagram account. These guidelines are specific to web browser users.'"></app-title-bar>
-  <br>
-  <p nz-typography>You should secure your privacy not just for photos or location, but also for your stories.</p>
-  <p nz-typography>Here’s how to hide Stories or control who interacts with them:</p>
-  <br>
-  <nz-steps [nzCurrent]="HideStoriesWeb">
-    <nz-step nzTitle="Step 1"></nz-step>
-    <nz-step nzTitle="Step 2"></nz-step>
-    <nz-step nzTitle="Step 3"></nz-step>
-    <nz-step nzTitle="Step 4"></nz-step>
-    <nz-step nzTitle="Step 5"></nz-step>
-    <nz-step nzTitle="Step 6"></nz-step>
-  </nz-steps>
+<app-title-bar
+  [titleText]="'Guidelines to hide Instagram Stories from specific people'"
+  [tooltipText]="'The following guidelines help you hide stories from specific people on your Instagram account. These guidelines are specific to web browser users.'"
+/>
 
-  <div class="steps-content">
-    <img nz-image height="300px" [nzSrc]="instructionPictureHideStoriesWeb" alt="">
-    <nz-divider></nz-divider>
-    <p nz-typography>{{ instructionTextHideStoriesWeb }}</p>
-  </div>
+<p nz-typography>
+  You should secure your privacy not just for photos or location, but also for your stories.
+</p>
+<p nz-typography>
+  Here's how to hide Stories or control who interacts with them:
+</p>
 
-  <div class="steps-action">
-    <button nz-button nzType="default" (click)="preHideStoriesWeb()" [disabled]="HideStoriesWeb <= 0">
-      <span>Previous</span>
-    </button>
-    <button nz-button nzType="default" (click)="nextHideStoriesWeb()" [disabled]="HideStoriesWeb >= 5">
-      <span>Next</span>
-    </button>
-  </div>
-</div>
+<prioss-stepper [steps]="hideStorieschangeWebSteps" />

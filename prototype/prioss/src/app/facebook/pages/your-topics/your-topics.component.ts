@@ -1,87 +1,40 @@
-import { AfterViewInit, Component } from '@angular/core';
-import { NzButtonModule } from 'ng-zorro-antd/button';
-import { NzDividerModule } from 'ng-zorro-antd/divider';
-import { NzImageModule } from 'ng-zorro-antd/image';
-import { NzStepsModule } from 'ng-zorro-antd/steps';
-import { NzTabsModule } from 'ng-zorro-antd/tabs';
-import { NzTypographyModule } from 'ng-zorro-antd/typography';
+import { Component } from '@angular/core';
+import { Step } from 'src/app/features/stepper/step.type';
+import { StepperComponent } from 'src/app/features/stepper/stepper.component';
 import { TitleBarComponent } from 'src/app/features/title-bar/title-bar.component';
-import { scrollToTop } from 'src/app/features/utils/generalUtilities.functions';
 
 @Component({
   selector: 'app-your-topics',
   templateUrl: './your-topics.component.html',
-  styleUrls: ['./your-topics.component.less'],
   standalone: true,
   imports: [
-    NzButtonModule,
-    NzDividerModule,
-    NzImageModule,
-    NzStepsModule,
-    NzTabsModule,
-    NzTypographyModule,
+    StepperComponent,
     TitleBarComponent,
   ]
 })
-export class YourTopicsComponent implements AfterViewInit{
+export class YourTopicsComponent {
 
-  async ngAfterViewInit(){
-    scrollToTop();
-  }
-
-  instructionsStepDataWeb: any[] = [
+  instructionsStepDataWeb: Step[] = [
     {
-      instructionTextFaceTopicsGuidelines: 'Firstly follow this link https://accountscenter.facebook.com/ad_preferences to go to Facebook Accounts center and then follow the next steps.',
-      instructionPictureFaceTopicsGuidelines: ""
+      description: 'Firstly follow this link https://accountscenter.facebook.com/ad_preferences to go to Facebook Accounts center and then follow the next steps.',
+      imageUrl: ""
     },
     {
-      instructionTextFaceTopicsGuidelines: 'Click on "Ad Topics".',
-      instructionPictureFaceTopicsGuidelines: "../../assets/images/Your-topics/t1.png"
+      description: 'Click on "Ad Topics".',
+      imageUrl: "../../assets/images/Your-topics/t1.png"
     },
     {
-      instructionTextFaceTopicsGuidelines: 'Click on "View and manage topics".',
-      instructionPictureFaceTopicsGuidelines: "../../assets/images/Your-topics/t2.png"
+      description: 'Click on "View and manage topics".',
+      imageUrl: "../../assets/images/Your-topics/t2.png"
     },
     {
-      instructionTextFaceTopicsGuidelines: 'Select the topic you want to manage.',
-      instructionPictureFaceTopicsGuidelines: "../../assets/images/Your-topics/t3.png"
+      description: 'Select the topic you want to manage.',
+      imageUrl: "../../assets/images/Your-topics/t3.png"
     },
     {
-      instructionTextFaceTopicsGuidelines: 'Then select "See less" to see less ads about that particular topic in future.',
-      instructionPictureFaceTopicsGuidelines: "../../assets/images/Your-topics/t4.png"
+      description: 'Then select "See less" to see less ads about that particular topic in future.',
+      imageUrl: "../../assets/images/Your-topics/t4.png"
     }
   ]
 
-  guidelineStepWeb = 0;
-  instructionTextFaceTopicsGuidelines = this.instructionsStepDataWeb[0].instructionTextFaceTopicsGuidelines;
-  instructionPictureFaceTopicsGuidelines = this.instructionsStepDataWeb[0].instructionPictureFaceTopicsGuidelines;
-
-  /**
-   * Callback function to increment/decrement the "guidelineStepWeb" variable.
-   * @param step: number
-   * @returns void
-   */
-  webGuidelineStepChange(step: number): void {
-    this.guidelineStepWeb += step;
-    this.changeFaceOfaGuidelinesWeb();
-  }
-
-
-  /**
-   * This method shows the instruction text and picture for Facebook user
-   */
-  changeFaceOfaGuidelinesWeb(): void {
-    this.instructionTextFaceTopicsGuidelines = this.instructionsStepDataWeb[this.guidelineStepWeb].instructionTextFaceTopicsGuidelines;
-    this.instructionPictureFaceTopicsGuidelines = this.instructionsStepDataWeb[this.guidelineStepWeb].instructionPictureFaceTopicsGuidelines;
-  }
-
-  /**
-   * Callback function to update the "guidelineStepWeb" variable.
-   * @param index: number
-   * @returns void
-  */
-  onIndexChangeWeb(index: number): void {
-    this.guidelineStepWeb = index;
-    this.changeFaceOfaGuidelinesWeb();
-  }
 }
