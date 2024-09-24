@@ -21,7 +21,7 @@ export class InstaPrivacySettingsService {
       question : "Is your Instagram account private?",
       howToCheck :"<strong>Text Guide:</strong> <br> 1. Open your <strong>Instagram account</strong>. <br> 2. Go to <strong>Settings</strong>. <br> 3. Tap on <Strong>Settings and privacy</Strong>. <br> 4. Click to check the box next to Private Account or under Account Privacy, toggle on <strong>Private Account</strong>. <br><br> <strong>Picture Guide:</strong><br> Please look <a  target='_blank' href=/instagram/account-private><strong>here </a> </strong> for the picture guide to make your Instagram account private.",
         options : [
-        { label: "Account is Private", value: "Yes", advice: "Great! Your account is set to private." },
+        { label: "Account is Private", value: "Yes", advice: "Great! Your account is set to private. Setting your Instagram account to private restricts profile access to approved followers only" },
         { label: "Account is not Private", value: "No", advice: "Maintaining privacy allows individuals to have better control over their online presence and choose who can view and interact with their content, enhancing their overall digital privacy and peace of mind." }
                 ]
     },
@@ -29,7 +29,7 @@ export class InstaPrivacySettingsService {
       question : "Is your Instagram account's profile information private?",
       howToCheck : "<strong>Text Guide:</strong> <br> 1. Open your <strong>Instagram account</strong>. <br> 2. Click on <strong>Profile Icon</strong>. <br> 3.  Now, click on <strong>Edit Profile</strong> option. <br><br> <strong>Picture Guide:</strong><br> Please look <a target='_blank' href=/instagram/profile-info-private> <strong>here</a></strong> for the picture guide to make your Instagram profile information private.",
       options : [
-        { label: "Profile information is private", value: "Yes", advice: "Great! You did well." },
+        { label: "Profile information is private", value: "Yes", advice: "Great! You did well. Instagram profile privacy depends on settings, it's public by default but can be made private" },
         { label: "Profile information is not private", value: "No", advice: "By limiting access to this information, individuals can reduce the risk of identity theft, online scams, and unauthorized account access, ensuring the safety and integrity of their online presence and digital assets."}
       ]
     },
@@ -37,7 +37,7 @@ export class InstaPrivacySettingsService {
       question : "Is your two-factor authentication for Instagram turned ON?",
       howToCheck : "<strong>Text Guide:</strong> <br> 1. Open your <strong>Instagram account</strong>. <br> 2. Go to <strong>Settings</strong>. <br> 3. Tap on <strong>Settings and privacy </strong>. <br> 4. Scroll down to Two-factor authentication, then tap Edit two-factor authentication setting. <br> 5. Choose the security method you want to add and follow the on-screen instructions.  <br><br> <strong>Picture Guide:</strong> <br> Please look <a target='_blank' href=/instagram/two-factor-authentication> <strong> here </a></strong>for the picture guide to turn ON two-factor authentication for Instagram.",
       options : [
-        { label: "Two-factor authentication is ON", value: "Yes", advice: "Nice! It protects your privacy."},
+        { label: "Two-factor authentication is ON", value: "Yes", advice: "Nice! Two-factor authentication on Instagram enhances security by requiring extra verification to access your account and it protects your privacy."},
         { label: "Two-factor authentication is OFF", value: "No", advice: "Enabling two-factor authentication provides an additional security layer, making it harder for unauthorized individuals to access online accounts and safeguarding sensitive information from potential breaches."}
       ]
     },
