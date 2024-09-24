@@ -116,8 +116,8 @@ export class SpotifyTopPodcastsComponent {
   );
 
   /**
-   * A list of all podcast name to listened time tupel.
-   * Result ordered in desc order.
+   * A list of all podcast name to listened time tuple.
+   * Results ordered in desc order.
    */
   topPodcasts = computed<[string, number][]>(() => {
     const dateRange = this.dateRange();
@@ -128,15 +128,18 @@ export class SpotifyTopPodcastsComponent {
       })
       .reduce((acc, cur) => {
         const name = cur.podcastName;
+        if (parseFloat(cur.msPlayed) < 10000) {
+          return acc;
+        }
         const time = parseFloat(cur.msPlayed);
         return !acc.has(name)
           ? acc.set(name, time)
           : acc.set(name, acc.get(name)! + time);
       }, new Map<string, number>());
 
-    return Array
-      .from(podcastMap.entries())
-      .sort((a, b) => b[LISTENED_TIME] - a[LISTENED_TIME]);
+    return Array.from(podcastMap.entries()).sort(
+      (a, b) => b[LISTENED_TIME] - a[LISTENED_TIME],
+    );
   });
 
   /**

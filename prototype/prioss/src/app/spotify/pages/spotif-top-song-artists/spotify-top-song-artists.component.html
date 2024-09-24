@@ -16,6 +16,10 @@
       [ngModel]="dateRange()"
       (nzOnCalendarChange)="onDateRangeChanged($event)"
     />
+    <p>
+      Please note that artists that are considered to be "skipped" by the user (less than 10 seconds playtime) are
+      automatically filtered out.
+    </p>
   </nz-card>
 
   <nz-card nzTitle="Data">

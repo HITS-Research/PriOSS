@@ -1,64 +1,54 @@
 @if (previewMode()) {
-  <div
-    echarts
-    class="chart"
-    [options]="chartOptions()"
-  ></div>
+<div echarts class="chart" [options]="chartOptions()"></div>
 } @else {
-  <app-title-bar
-    titleText="Top Songs"
-    tooltipText="This bar chart shows your top 10 songs in a given time period. You can also switch to a tabular view."
-  />
+<app-title-bar titleText="Top Songs"
+  tooltipText="This bar chart shows your top 10 songs in a given time period. You can also switch to a tabular view." />
 
-  <nz-card nzTitle="Filter">
-    <nz-range-picker
-      ngModel
-      [ngModel]="dateRange()"
-      (nzOnCalendarChange)="onDateRangeChanged($event)"
-    />
-  </nz-card>
+<nz-card nzTitle="Filter">
+  <nz-range-picker ngModel [ngModel]="dateRange()" (nzOnCalendarChange)="onDateRangeChanged($event)" />
+  <p>
+    Please note that songs that are considered to be "skipped" by the user (less than 10 seconds playtime) are
+    automatically filtered out.
+  </p>
+</nz-card>
 
-  <nz-card nzTitle="Data">
-    @if (topSongs(); as topSongs) {
-      @if (topSongs.length > 0) {
-        <nz-tabset>
-          <nz-tab nzTitle="Bar chart">
-            <div
-              echarts
-              class="chart"
-              [options]="chartOptions()"
-              (chartClick)="selectSong($event)">
-            </div>
-          </nz-tab>
 
-          <nz-tab nzTitle="Table">
-            <nz-table
-              #basicTable
-              [nzData]="topSongs">
-              <thead>
-                <tr>
-                  <th id="topSongsTableArtistHeader">Artist</th>
-                  <th id="topSongsTableSongHeader">Song</th>
-                  <th id="topSongsTableMinutesHeader">Listened in total (hh:mm:ss)</th>
-                </tr>
-              </thead>
-              <tbody>
-                @for (data of basicTable.data; track data[0]) {
-                  <tr class="clickable" (click)="selectSong(data[0], data[1])">
-                    <td>{{ data[0] }}</td>
-                    <td>{{ data[1] }}</td>
-                    <td>{{ data[2] | time:'ms-to-hh:mm:ss' }}</td>
-                  </tr>
-                }
-              </tbody>
-            </nz-table>
-          </nz-tab>
-        </nz-tabset>
-      } @else {
-        <nz-empty nzNotFoundImage="simple" />
-      }
-    } @else {
-      Loading and calculating data...
-    }
-  </nz-card>
+
+<nz-card nzTitle="Data">
+  @if (topSongs(); as topSongs) {
+  @if (topSongs.length > 0) {
+  <nz-tabset>
+    <nz-tab nzTitle="Bar chart">
+      <div echarts class="chart" [options]="chartOptions()" (chartClick)="selectSong($event)">
+      </div>
+    </nz-tab>
+
+    <nz-tab nzTitle="Table">
+      <nz-table #basicTable [nzData]="topSongs">
+        <thead>
+          <tr>
+            <th id="topSongsTableArtistHeader">Artist</th>
+            <th id="topSongsTableSongHeader">Song</th>
+            <th id="topSongsTableMinutesHeader">Listened in total (hh:mm:ss)</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (data of basicTable.data; track data[0]) {
+          <tr class="clickable" (click)="selectSong(data[0], data[1])">
+            <td>{{ data[0] }}</td>
+            <td>{{ data[1] }}</td>
+            <td>{{ data[2] | time:'ms-to-hh:mm:ss' }}</td>
+          </tr>
+          }
+        </tbody>
+      </nz-table>
+    </nz-tab>
+  </nz-tabset>
+  } @else {
+  <nz-empty nzNotFoundImage="simple" />
+  }
+  } @else {
+  Loading and calculating data...
+  }
+</nz-card>
 }

@@ -149,7 +149,7 @@ export class ListeningTimeComponent {
               const start = new Date(i.endTime);
               const end = range[1].getTime() + 86399999; // Last millisecond of the day, 86399999 = 60 * 60 * 24 * 1000 - 1
               return (
-                start.getTime() >= range[0].getTime() && start.getTime() <= end
+                start.getTime() >= range[0].getTime() && start.getTime() <= end && Number(i.msPlayed) > 10000
               );
             }),
           ),
@@ -170,7 +170,7 @@ export class ListeningTimeComponent {
             const start = new Date(i.endTime);
             const end = range[1].getTime() + 86399999; // Last millisecond of the day, 86399999 = 60 * 60 * 24 * 1000 - 1
             return (
-              start.getTime() >= range[0].getTime() && start.getTime() <= end
+              start.getTime() >= range[0].getTime() && start.getTime() <= end && Number(i.msPlayed) > 10000
             );
           }),
         ),
