@@ -1,5 +1,5 @@
-  @if (userData(); as userData) {
-    @if (userData) {
+@if (userData(); as userData) {
+  @if (userData) {
     <ul
       nz-list
       [nzDataSource]="userData | keyvalue"
@@ -15,9 +15,9 @@
         }
       }
     </ul>
-    } @else {
-      <nz-empty nzNotFoundImage="simple" />
-    }
   } @else {
-    Loading and calculating data...
+    <nz-empty nzNotFoundImage="simple" />
   }
+} @else {
+  Loading and calculating data...
+}
