@@ -91,32 +91,8 @@
     </p>
     <h4 nz-typography>Go into the settings of Instagram and report a problem.</h4>
     <p nz-typography>The first step is to visit the following webpage: <span nz-icon nzType="link"><a target="_blank" href='https://help.instagram.com/contact/117037592428568?no_redirect'>Instagram Help Center</a></span>.</p>
-    <nz-steps [nzCurrent]="current">
-      <nz-step nzTitle="Step 1"></nz-step>
-      <nz-step nzTitle="Step 2"></nz-step>
-      <nz-step nzTitle="Step 3"></nz-step>
-      <nz-step nzTitle="Step 4"></nz-step>
-      <nz-step nzTitle="Step 5"></nz-step>
-    </nz-steps>
 
-    <div class="steps-content">
-      <img
-        nz-image
-        height="300px"
-        nzSrc={{rectificationInstructionPicture}}
-        alt=""
-      />
-      <nz-divider></nz-divider>
-      <p nz-typography>{{ rectificationInstructionText }}</p>
-    </div>
-    <div class="steps-action">
-      <button nz-button nzType="default" (click)="pre()" [disabled]="current <= 0">
-        <span>Previous</span>
-      </button>
-      <button nz-button nzType="default" (click)="next()" [disabled]="current >= 4">
-        <span>Next</span>
-      </button>
-    </div>
+    <prioss-stepper [steps]="rectificationSteps" />
   </app-accordion>
   <a id="recommendation" class="offset-anchor"></a>
   <br>

@@ -1,50 +1,30 @@
-<div class="component-page">
-    <app-title-bar titleText="Guidelines to control which advertisements show on your Instagram account" tooltipText="The following guidelines helps you to control which ads show on your Instagram account. The guidelines are provided for Web Browser user as well as Mobile Application user." [includeButton]="false"></app-title-bar>
-    <br>
-    <p nz-typography> <strong>Note:</strong> It is not guaranteed that all ads related to each category can be avoided completely. Ads from certain categories like gambling and dating are restricted by default.</p>   
-    <nz-tabset>
-        <nz-tab nzTitle="Web Browser">
-            <p nz-topography>Here’s how you can prevent and block specific ad categories and advertiser accounts to appear on your profile feed or reels:</p>
-            <br>   
-                <nz-steps [nzCurrent]="AddManager">
-                  <nz-step nzTitle="Step 1"></nz-step>
-                  <nz-step nzTitle="Step 2"></nz-step>
-                  <nz-step nzTitle="Step 3"></nz-step>
-                  <nz-step nzTitle="Step 4"></nz-step>
-                  <nz-step nzTitle="Step 5"></nz-step>
-                  <nz-step nzTitle="Step 6"></nz-step>
-                  <nz-step nzTitle="Step 7"></nz-step>
-                </nz-steps>
-            
-                <div class="steps-content">
-                  <img
-                    nz-image
-                    height="300px"
-                    nzSrc={{instructionPictureAddManager}}
-                    alt=""
-                  />
-                  <nz-divider></nz-divider>
-                  <p nz-typography>{{ instructionTextAddManager }}</p>
-                </div>
+<app-title-bar
+  titleText="Guidelines to control which advertisements show on your Instagram account"
+  tooltipText="The following guidelines helps you to control which ads show on your Instagram account. The guidelines are provided for Web Browser user as well as Mobile Application user."
+  [includeButton]="false"
+/>
 
-                <div class="steps-action">
-                  <button nz-button nzType="default" (click)="preAddManager()" [disabled]="AddManager <= 0">
-                    <span>Previous</span>
-                  </button>
-                  <button nz-button nzType="default" (click)="nextAddManager()" [disabled]="AddManager >= 6">
-                    <span>Next</span>
-                  </button>
-                </div>
+<p nz-typography>
+  <strong>Note:</strong> It is not guaranteed that all ads related to each category can be avoided
+  completely. Ads from certain categories like gambling and dating are restricted by default.
+</p>
 
-        </nz-tab>
-    </nz-tabset>
-</div>
-   
-    
-    
-    
+<nz-tabset>
+  <nz-tab nzTitle="Web Browser">
+    <p nz-topography>
+      Here's how you can prevent and block specific ad categories and advertiser accounts to appear on
+      your profile feed or reels:
+    </p>
 
+    <prioss-stepper [steps]="addManagerSteps" />
+  </nz-tab>
 
+  <nz-tab nzTitle="Mobile">
+    <p nz-topography>
+      Here's how you can prevent and block specific ad categories and advertiser accounts to appear on
+      your profile feed or reels:
+    </p>
 
-
-
+    <prioss-stepper [steps]="addManagerMobileSteps" />
+  </nz-tab>
+</nz-tabset>

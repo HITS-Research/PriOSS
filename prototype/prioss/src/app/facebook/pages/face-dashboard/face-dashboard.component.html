@@ -74,28 +74,7 @@
         nzType="link"><a target="_blank" href='https://www.facebook.com/help/contact/367438723733209'>Facebook
           Help Center</a></span> and follow the instructions below: </p>
     <br>
-    <nz-steps [nzCurrent]="current">
-      <nz-step nzTitle="Step 1"></nz-step>
-      <nz-step nzTitle="Step 2"></nz-step>
-      <nz-step nzTitle="Step 3"></nz-step>
-      <nz-step nzTitle="Step 4"></nz-step>
-      <nz-step nzTitle="Step 5"></nz-step>
-    </nz-steps>
-
-    <div class="steps-content">
-      <img nz-image height="600px" nzSrc={{rectificationImage}} alt="" />
-      <nz-divider></nz-divider>
-      <p nz-typography class="rectification-steps">{{ rectificationText }}</p>
-    </div>
-    <div class="steps-action">
-      <button nz-button nzType="default" (click)="pre()" *ngIf="current > 0">
-        <span>Previous</span>
-      </button>
-      <button nz-button nzType="default" (click)="next()" *ngIf="current < 4">
-        <span>Next</span>
-      </button>
-    </div>
-
+    <prioss-stepper [steps]="rectificationSteps" />
   </app-accordion>
 </div>
 <br>

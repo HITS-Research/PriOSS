@@ -1,46 +1,17 @@
-<div class="component-page">
-    <app-title-bar titleText="Guidelines to Turn-ON Two Factor Authentication" tooltipText="The following guidelines helps you to increase the privacy of your Instagram acount by turning ON two factor authentication. The guidelines are provided for Mobile Application user." [includeButton]="false"></app-title-bar>
-    <br>
-    <p nz-topography> Enabling Two-factor authentication in Instagram adds an extra layer of security, preventing unauthorized access, protecting your data, and mitigating phishing attacks. It gives you peace of mind while using the platform. </p>
-    <p nz-topography>For enablling Two Factor Authentication, follow the following steps: </p>
-    <br>
+<app-title-bar
+  titleText="Guidelines to Turn-ON Two Factor Authentication"
+  tooltipText="The following guidelines helps you to increase the privacy of your Instagram acount by turning ON two factor authentication. The guidelines are provided for Mobile Application user."
+  [includeButton]="false"
+/>
 
-    <div>
+<p nz-topography>
+  Enabling Two-factor authentication in Instagram adds an extra layer of security, preventing
+  unauthorized access, protecting your data, and mitigating phishing attacks. It gives you peace of mind while using
+  the platform.
+</p>
 
-        <nz-steps [nzCurrent]="TwoFactorAuthentication">
-          <nz-step nzTitle="Step 1"></nz-step>
-          <nz-step nzTitle="Step 2"></nz-step>
-          <nz-step nzTitle="Step 3"></nz-step>
-          <nz-step nzTitle="Step 4"></nz-step>
-          <nz-step nzTitle="Step 5"></nz-step>
-          <nz-step nzTitle="Step 6"></nz-step>
-        </nz-steps>
-    
-        <div class="steps-content">
-          <img
-            nz-image
-            height="300px"
-            nzSrc={{instructionPictureTwoFactorAuthentication}}
-            alt=""
-          />
-          <nz-divider></nz-divider>
-          <p nz-typography>{{ instructionTextTwoFactorAuthentication }}</p>
-        </div>
-        <div class="steps-action">
-          <button nz-button nzType="default" (click)="preTwoFactorAuthentication()" [disabled]="TwoFactorAuthentication <= 0">
-            <span>Previous</span>
-          </button>
-          <button nz-button nzType="default" (click)="nextTwoFactorAuthentication()" [disabled]="TwoFactorAuthentication >= 5">
-            <span>Next</span>
-          </button>
-        </div>
-    </div>
-</div>
-   
-    
-    
-    
+<p nz-topography>
+  For enablling Two Factor Authentication, follow the following steps:
+</p>
 
-
-
-
+<prioss-stepper [steps]="twoFactorAuthentication" />

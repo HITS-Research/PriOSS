@@ -7,7 +7,7 @@ export type Step = {
    * The title of the step.
    * Will displayed next to the Position.
    */
-  title: string;
+  title?: string;
 
   /**
    * The sub-title of the step.

@@ -24,6 +24,7 @@ import {
   tap,
 } from 'rxjs';
 import { Step } from './step.type';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 
 /**
  * The data, which will be displayed in the frontend.
@@ -64,9 +65,10 @@ type ViewModel = {
   imports: [
     AsyncPipe,
     NgOptimizedImage,
-    NzStepsModule,
     NzButtonModule,
+    NzIconModule,
     NzSkeletonModule,
+    NzStepsModule,
   ],
 })
 export class StepperComponent {

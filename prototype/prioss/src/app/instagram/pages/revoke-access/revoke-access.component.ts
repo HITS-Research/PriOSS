@@ -1,11 +1,8 @@
-import { Component,ChangeDetectionStrategy } from '@angular/core';
-import { NzButtonModule } from 'ng-zorro-antd/button';
-import { NzDividerModule } from 'ng-zorro-antd/divider';
-import { NzImageModule } from 'ng-zorro-antd/image';
-import { NzStepsModule } from 'ng-zorro-antd/steps';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { NzTabsModule } from 'ng-zorro-antd/tabs';
-import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { NzTypographyModule } from 'ng-zorro-antd/typography';
+import { Step } from 'src/app/features/stepper/step.type';
+import { StepperComponent } from 'src/app/features/stepper/stepper.component';
 import { TitleBarComponent } from 'src/app/features/title-bar/title-bar.component';
 /**
   * This component is responsible for providing guidelines to Revoke access to third-party apps.
@@ -15,140 +12,63 @@ import { TitleBarComponent } from 'src/app/features/title-bar/title-bar.componen
 @Component({
   selector: 'app-revoke-access',
   templateUrl: './revoke-access.component.html',
-  styleUrls: ['./revoke-access.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
-    NzButtonModule,
-    NzDividerModule,
-    NzImageModule,
-    NzStepsModule,
     NzTabsModule,
-    NzToolTipModule,
     NzTypographyModule,
+    StepperComponent,
     TitleBarComponent,
   ]
 })
 
 export class RevokeAccessComponent {
-  RevokeAccess = 0;
-  instructionTextRevokeAccess='First, open https://www.instagram.com/ on your computer or mobile browser and log in to your account. This will get you to your account overview.';
-  instructionPictureRevokeAccess="../../assets/images/insta-privacy-recommendations/login.png";
-
-  /**
-   * Callback function to decrement the "RevokeAccess" variable.
-   * @author: Aayushma (aayushma@mail.uni-paderborn.de)
-   *
-   */
-  preRevokeAccess(): void {
-    this.RevokeAccess -= 1;
-    this.changeRevokeAccess();
-  }
-
-  /**
-   * Callback function to increment the "RevokeAccess" variable.
-   * @author: Aayushma (aayushma@mail.uni-paderborn.de)
-   *
-   */
-  nextRevokeAccess(): void {
-    this.RevokeAccess += 1;
-    this.changeRevokeAccess();
-  }
-
 
   /**
    * This method shows the instruction text and picture depending on the step the user is in for web browser.
-   * @author: Aayushma (aayushma@mail.uni-paderborn.de)
-   *
    */
-  changeRevokeAccess(): void {
-    switch (this.RevokeAccess) {
-      case 0: {
-        this.instructionTextRevokeAccess='First, open https://www.instagram.com/ on your computer or mobile browser and log in to your account. This will get you to your account overview.';
-        this.instructionPictureRevokeAccess="../../assets/images/insta-privacy-recommendations/login.png";
-        break;
-      }
-      case 1: {
-        this.instructionTextRevokeAccess=' By clicking on "More" option in the left-bottom corner, select "Settings".';
-        this.instructionPictureRevokeAccess="../../assets/images/insta-privacy-recommendations/23.png";
-        break;
-      }
-      case 2: {
-        this.instructionTextRevokeAccess='Tap on "Apps and websites" option. Here, you will find a list of the services you have previously given permission to access your Instagram account. There is no need to worry about those on the Expired or Removed lists; they have already had their access revoked. But it is important to check the Active list and remove any apps and services that should no longer have access to your Instagram account.';
-        this.instructionPictureRevokeAccess="../../assets/images/insta-privacy-recommendations/29.png";
-        break;
-      }
-      default: {
-        this.instructionTextRevokeAccess='Error';
-      }
+  revokeAccessSteps: Step[] = [
+    {
+      description: 'First, open https://www.instagram.com/ on your computer or mobile browser and log in to your account. This will get you to your account overview.',
+      imageUrl: "../../assets/images/insta-privacy-recommendations/login.png",
+    },
+    {
+      description: ' By clicking on "More" option in the left-bottom corner, select "Settings".',
+      imageUrl: "../../assets/images/insta-privacy-recommendations/23.png",
+    },
+    {
+      description: 'Tap on "Apps and websites" option. Here, you will find a list of the services you have previously given permission to access your Instagram account. There is no need to worry about those on the Expired or Removed lists, they have already had their access revoked. But it is important to check the Active list and remove any apps and services that should no longer have access to your Instagram account.',
+      imageUrl: "../../assets/images/insta-privacy-recommendations/29.png",
     }
-  }
-
-  RevokeAccessMobile = 0;
-  instructionTextRevokeAccessMobile='First, open Instagram application on your mobile phone and log in to your account.';
-  instructionPictureRevokeAccessMobile="../../assets/images/insta-privacy-recommendations/40.png";
-
-  /**
-   * Callback function to decrement the "RevokeAccessMobile" variable.
-   * @author: Aayushma (aayushma@mail.uni-paderborn.de)
-   *
-   */
-  preRevokeAccessMobile(): void {
-    this.RevokeAccessMobile -= 1;
-    this.changeRevokeAccessMobile();
-  }
-
-  /**
-   * Callback function to increment the "RevokeAccessMobile" variable.
-   * @author: Aayushma (aayushma@mail.uni-paderborn.de)
-   *
-   */
-  nextRevokeAccessMobile(): void {
-    this.RevokeAccessMobile += 1;
-    this.changeRevokeAccessMobile();
-  }
-
+  ];
 
   /**
    * This method shows the instruction text and picture depending on the step the Mobile user is in.
-   * @author: Aayushma (aayushma@mail.uni-paderborn.de)
-   *
    */
-  changeRevokeAccessMobile(): void {
-    switch (this.RevokeAccessMobile) {
-      case 0: {
-        this.instructionTextRevokeAccessMobile='First, open Instagram application on your mobile phone and log in to your account.';
-        this.instructionPictureRevokeAccessMobile="../../assets/images/insta-privacy-recommendations/40.png";
-        break;
-      }
-      case 1: {
-        this.instructionTextRevokeAccessMobile='Go to your profile window and Tap the "Menu" icon in the upper right corner of your profile.';
-        this.instructionPictureRevokeAccessMobile="../../assets/images/insta-privacy-recommendations/15.png";
-        break;
-      }
-      case 2: {
-        this.instructionTextRevokeAccessMobile='Tap the "Settings and privacy" gear icon in the menu that appears.';
-        this.instructionPictureRevokeAccessMobile="../../assets/images/insta-privacy-recommendations/32.png";
-        break;
-      }
-      case 3: {
-        this.instructionTextRevokeAccessMobile='Tap on "Website permissions" option.';
-        this.instructionPictureRevokeAccessMobile="../../assets/images/insta-privacy-recommendations/36.png";
-        break;
-      }
-      case 4: {
-        this.instructionTextRevokeAccessMobile='Now, click on "Apps and websites" option.';
-        this.instructionPictureRevokeAccessMobile="../../assets/images/insta-privacy-recommendations/37.png";
-        break;
-      }
-      case 5: {
-        this.instructionTextRevokeAccessMobile=' Here, you will find a list of the services you have previously given permission to access your Instagram account. There is no need to worry about those on the Expired or Removed lists; they have already had their access revoked. But it is important to check the Active list and remove any apps and services that should no longer have access to your Instagram account.';
-        this.instructionPictureRevokeAccessMobile="../../assets/images/insta-privacy-recommendations/38.png";
-        break;
-      }
-      default: {
-        this.instructionTextRevokeAccessMobile='Error';
-      }
+  revokeAccessMobile: Step[] = [
+    {
+      description: 'First, open Instagram application on your mobile phone and log in to your account.',
+      imageUrl: "../../assets/images/insta-privacy-recommendations/40.png",
+    },
+    {
+      description: 'Go to your profile window and Tap the "Menu" icon in the upper right corner of your profile.',
+      imageUrl: "../../assets/images/insta-privacy-recommendations/15.png",
+    },
+    {
+      description: 'Tap the "Settings and privacy" gear icon in the menu that appears.',
+      imageUrl: "../../assets/images/insta-privacy-recommendations/32.png",
+    },
+    {
+      description: 'Tap on "Website permissions" option.',
+      imageUrl: "../../assets/images/insta-privacy-recommendations/36.png",
+    },
+    {
+      description: 'Now, click on "Apps and websites" option.',
+      imageUrl: "../../assets/images/insta-privacy-recommendations/37.png",
+    },
+    {
+      description: ' Here, you will find a list of the services you have previously given permission to access your Instagram account. There is no need to worry about those on the Expired or Removed lists; they have already had their access revoked. But it is important to check the Active list and remove any apps and services that should no longer have access to your Instagram account.',
+      imageUrl: "../../assets/images/insta-privacy-recommendations/38.png",
     }
-  }
+  ];
 }
