@@ -119,7 +119,7 @@ export class SpotifyTopSongsComponent {
   );
 
   /**
-   * The signal of a list of all songs, sorted by minutes listened.
+   * The signal of a list of all songs, sorted by minutes listened, limited to songs played longer than 10 seconds.
    */
   topSongs = computed(() => {
     const state = this.#streamingHistory();
@@ -150,6 +150,9 @@ export class SpotifyTopSongsComponent {
       const minutesPlayed = parseFloat(msPlayed);
       const key = `${artistName};;${trackName}`;
       const minutesSoFar = (counterMap.get(key) ?? 0) + minutesPlayed;
+      if (parseFloat(msPlayed) < 10000){
+        return counterMap;
+      }
       counterMap.set(key, minutesSoFar);
       return counterMap;
     },

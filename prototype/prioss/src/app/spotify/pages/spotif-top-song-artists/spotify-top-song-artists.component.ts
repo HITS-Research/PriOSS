@@ -4,7 +4,7 @@ import {
   Signal,
   computed,
   inject,
-  input
+  input,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
@@ -44,10 +44,9 @@ import { SpotifyStreamingHistoryStateModel } from '../../features/streaming-hist
     NzTabsModule,
     TimePipe,
     TitleBarComponent,
-  ]
+  ],
 })
 export class SpotifyTopSongArtistsComponent {
-
   previewMode = input(false);
 
   #store = inject(Store);
@@ -60,34 +59,36 @@ export class SpotifyTopSongArtistsComponent {
    * Parses the the raw data, checks what the earliest and latest date for the "endTime" property of each item.
    * Checks what the initial date range should be for the bar chart and ensures no invalid data is inserted.
    */
-  dateRange = toSignal<[Date, Date]>(this.#activeRoute.paramMap.pipe(
-    map(items => {
-      const s = new Date(items.get('start') ?? 'invalidDate');
-      const e = new Date(items.get('end') ?? 'invalidDate');
-      return [
-        s instanceof Date && !isNaN(s.getTime()) ? s : new Date(2006, 3, 23), // Founding date of Spotify (earliest)
-        e instanceof Date && !isNaN(e.getTime()) ? e : new Date(), // Current day (latest)
-      ] as [Date, Date];
-    }),
-    switchMap(selectedRange =>
-      this.#store.select(SpotifyStreamingHistoryState.dateRange).pipe(
-        map(dataRange => {
-          // Check that min and max are set properly
-          let min =
-            selectedRange[0] < dataRange[0] ? dataRange[0] : selectedRange[0];
-          const max =
-            selectedRange[1] > dataRange[1] ? dataRange[1] : selectedRange[1];
-          min = min > max ? max : min;
-          max.setHours(23);
-          max.setMinutes(59);
-          max.setSeconds(59);
-          max.setMilliseconds(997);
-          return [min, max] as [Date, Date];
-        }),
+  dateRange = toSignal<[Date, Date]>(
+    this.#activeRoute.paramMap.pipe(
+      map(items => {
+        const s = new Date(items.get('start') ?? 'invalidDate');
+        const e = new Date(items.get('end') ?? 'invalidDate');
+        return [
+          s instanceof Date && !isNaN(s.getTime()) ? s : new Date(2006, 3, 23), // Founding date of Spotify (earliest)
+          e instanceof Date && !isNaN(e.getTime()) ? e : new Date(), // Current day (latest)
+        ] as [Date, Date];
+      }),
+      switchMap(selectedRange =>
+        this.#store.select(SpotifyStreamingHistoryState.dateRange).pipe(
+          map(dataRange => {
+            // Check that min and max are set properly
+            let min =
+              selectedRange[0] < dataRange[0] ? dataRange[0] : selectedRange[0];
+            const max =
+              selectedRange[1] > dataRange[1] ? dataRange[1] : selectedRange[1];
+            min = min > max ? max : min;
+            max.setHours(23);
+            max.setMinutes(59);
+            max.setSeconds(59);
+            max.setMilliseconds(997);
+            return [min, max] as [Date, Date];
+          }),
+        ),
       ),
     ),
-  ), { requireSync: true });
-
+    { requireSync: true },
+  );
 
   /**
    * Sets the the current selected Date.
@@ -101,7 +102,6 @@ export class SpotifyTopSongArtistsComponent {
       dateRange[0]?.toISOString().split('T')[0],
       dateRange[1]?.toISOString().split('T')[0],
     ]);
-
   }
 
   /**
@@ -109,7 +109,7 @@ export class SpotifyTopSongArtistsComponent {
    */
   #streamingHistory = toSignal(
     this.#store.select(SpotifyStreamingHistoryState.state),
-    { requireSync: true }
+    { requireSync: true },
   );
 
   /**
@@ -129,11 +129,10 @@ export class SpotifyTopSongArtistsComponent {
     if (isPreview) {
       artistCounter = state;
     } else {
-      artistCounter = state
-        .filter(item => {
-          const endTimeDate = new Date(item.endTime);
-          return endTimeDate <= maxDate && endTimeDate >= minDate;
-        });
+      artistCounter = state.filter(item => {
+        const endTimeDate = new Date(item.endTime);
+        return endTimeDate <= maxDate && endTimeDate >= minDate;
+      });
     }
 
     artistCounter = artistCounter.reduce((
@@ -142,6 +141,9 @@ export class SpotifyTopSongArtistsComponent {
     ) => {
       const { artistName, msPlayed: msPlayedStr } = item;
       const msPlayed = parseFloat(msPlayedStr);
+      if (msPlayed < 10000) {
+        return counterMap;
+      }
       const minutesSoFar = (counterMap.get(artistName) ?? 0) + msPlayed;
       counterMap.set(artistName, minutesSoFar);
       return counterMap;
@@ -150,8 +152,7 @@ export class SpotifyTopSongArtistsComponent {
     )
       .entries();
 
-    return [...artistCounter]
-      .toSorted((a, b) => b[1] - a[1]);
+    return [...artistCounter].toSorted((a, b) => b[1] - a[1]);
   });
 
   /**

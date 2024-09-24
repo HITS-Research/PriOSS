@@ -16,6 +16,10 @@
       [ngModel]="dateRange()"
       (nzOnCalendarChange)="selectDateFilter($event)"
     />
+    <p>
+      Please note that podcasts that are considered to be "skipped" by the user (less than 10 seconds playtime) are
+      automatically filtered out.
+    </p>
   </nz-card>
 
   <nz-card nzTitle="Data">
