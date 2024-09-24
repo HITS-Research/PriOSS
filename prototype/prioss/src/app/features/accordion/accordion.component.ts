@@ -21,7 +21,7 @@ import {
   ],
 })
 export class AccordionComponent {
-  @Input() title: string = '';
+  @Input() accordionTitle: string = '';
   triangleClass: string = 'collapsed';
   isOpen: boolean = true;
 
