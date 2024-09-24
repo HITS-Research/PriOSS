@@ -127,7 +127,9 @@ export class TopLikedPersonsComponent {
         type: 'category',
         data: this.getTopPersons().map((person) => person[0]),
         axisLabel: {
-          rotate: 10
+          rotate: 10,
+          overflow: 'break',
+          interval: 0
         }
       },
       yAxis: {
