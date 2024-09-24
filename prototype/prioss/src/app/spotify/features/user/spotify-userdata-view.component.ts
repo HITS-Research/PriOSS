@@ -17,6 +17,9 @@ import { SpotifyUserStateModel } from './user.statemodel';
     NzEmptyModule,
     NzListModule,
   ],
+  host: {
+    'style': 'container: hostComponent / inline-size;'
+  }
 })
 export class SpotifyUserdataViewComponent {
 
