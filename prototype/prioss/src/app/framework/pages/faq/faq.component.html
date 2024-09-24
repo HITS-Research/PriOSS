@@ -5,7 +5,7 @@
       This page is dedicated to help you with basic questions specific to the website. If you have any question which is not mentioned below, please feel free to <a href="../contact">contact</a> us directly.
     </p>
     <div class="accord_layout">
-      <app-accordion title="General FAQs">
+      <app-accordion accordionTitle="General FAQs">
         <nz-collapse nzAccordion>
           <nz-collapse-panel *ngFor="let faq of faqs" [nzHeader]="faq.name">
             <p>{{ faq.content }}</p>
@@ -17,7 +17,7 @@
       </app-accordion>
     </div>
     <div class="accord_layout">
-      <app-accordion title="Instagram Related FAQs">
+      <app-accordion accordionTitle="Instagram Related FAQs">
         <nz-collapse nzAccordion>
           <nz-collapse-panel *ngFor="let instaFaq of instagramFaqs" [nzHeader]="instaFaq.name">
             <p>{{ instaFaq.content }}</p>
@@ -29,7 +29,7 @@
       </app-accordion>
     </div>
     <div class="accord_layout">
-      <app-accordion title="Facebook Related FAQs">
+      <app-accordion accordionTitle="Facebook Related FAQs">
         <nz-collapse nzAccordion>
           <nz-collapse-panel *ngFor="let faceFaq of facebookFaqs" [nzHeader]="faceFaq.name">
             <p>{{ faceFaq.content }}</p>
@@ -41,7 +41,7 @@
       </app-accordion>
     </div>
     <div class="accord_layout">
-      <app-accordion title="Spotify Related FAQs">
+      <app-accordion accordionTitle="Spotify Related FAQs">
         <nz-collapse nzAccordion>
           <nz-collapse-panel *ngFor="let spotFaq of spotifyFaqs" [nzHeader]="spotFaq.name">
             <p>{{ spotFaq.content }}</p>

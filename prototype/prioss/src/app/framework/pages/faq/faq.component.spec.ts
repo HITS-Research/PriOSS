@@ -23,25 +23,25 @@ describe('FaqComponent', () => {
 
   it('should have general FAQs', () => {
     const compiled = fixture.nativeElement;
-    const generalFAQs = compiled.querySelector('.accord_layout app-accordion[title="General FAQs"]');
+    const generalFAQs = compiled.querySelector('.accord_layout app-accordion[accordionTitle="General FAQs"]');
     expect(generalFAQs).toBeTruthy();
   });
 
   it('should have Instagram FAQs', () => {
     const compiled = fixture.nativeElement;
-    const instagramFAQs = compiled.querySelector('.accord_layout app-accordion[title="Instagram Related FAQs"]');
+    const instagramFAQs = compiled.querySelector('.accord_layout app-accordion[accordionTitle="Instagram Related FAQs"]');
     expect(instagramFAQs).toBeTruthy();
   });
 
   it('should have Facebook FAQs', () => {
     const compiled = fixture.nativeElement;
-    const facebookFAQs = compiled.querySelector('.accord_layout app-accordion[title="Facebook Related FAQs"]');
+    const facebookFAQs = compiled.querySelector('.accord_layout app-accordion[accordionTitle="Facebook Related FAQs"]');
     expect(facebookFAQs).toBeTruthy();
   });
 
   it('should have Spotify FAQs', () => {
     const compiled = fixture.nativeElement;
-    const spotifyFAQs = compiled.querySelector('.accord_layout app-accordion[title="Spotify Related FAQs"]');
+    const spotifyFAQs = compiled.querySelector('.accord_layout app-accordion[accordionTitle="Spotify Related FAQs"]');
     expect(spotifyFAQs).toBeTruthy();
   });
 });
