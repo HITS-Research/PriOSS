@@ -5,6 +5,9 @@ import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { NgxEchartsDirective, provideEcharts } from 'ngx-echarts';
 import { FbActivityAcrossFacebookModel } from 'src/app/facebook/state/models';
 
+/**
+ * Component for displaying the frequency of comments over time.
+ */
 @Component({
   selector: 'prioss-comments-frequency',
   standalone: true,
@@ -16,18 +19,20 @@ import { FbActivityAcrossFacebookModel } from 'src/app/facebook/state/models';
 })
 export class CommentsFrequencyComponent {
 
-
-
+  /** Input for Facebook activity data */
   activityData = input.required<FbActivityAcrossFacebookModel>();
 
+  /** Computed property for comments data */
   comments = computed(() => {
     return this.activityData().comments?.comments_v2 ?? [];
   });
 
+  /** Computed property for group comments data */
   groupComments = computed(() => {
     return this.activityData().groupComments?.group_comments_v2 ?? [];
   });
 
+  /** Computed property for all comments aggregated by year */
   allCommentsPerYear = computed(() => {
     const all: {name: string, value: number}[] = [];
     all.push(...this.commentsPerYear());
@@ -36,6 +41,7 @@ export class CommentsFrequencyComponent {
     return all;
   });
 
+  /** Computed property for the date of the first comment */
   firstCommentDate = computed(() => {
     const all = this.allCommentsPerYear();
     if (all.length === 0) {
@@ -44,6 +50,7 @@ export class CommentsFrequencyComponent {
     return all[0].name;
   });
 
+  /** Computed property for the date of the last comment */
   lastCommentDate = computed(() => {
     const all = this.allCommentsPerYear();
     if (all.length === 0) {
@@ -52,6 +59,7 @@ export class CommentsFrequencyComponent {
     return all[all.length - 1].name;
   });
 
+  /** Computed property for the date range to be used in the graph */
   dateRangeForGraph = computed(() => {
     const first = this.firstCommentDate();
     const last = new Date(this.lastCommentDate());
@@ -61,24 +69,24 @@ export class CommentsFrequencyComponent {
       result.push(`${currentDate.getFullYear()}`);
       currentDate.setFullYear(currentDate.getFullYear() + 1);
     }
-
     return result;
   });
 
-
-
-
+  /** Computed property for regular comments aggregated by year */
   commentsPerYear = computed(() => {
     return this.getCommentsPerYear(this.comments());
   });
 
-
-
+  /** Computed property for group comments aggregated by year */
   groupCommentsPerYear = computed(() => {
     return this.getCommentsPerYear(this.groupComments());
   });
 
-
+  /**
+   * Helper method to aggregate comments by year
+   * @param posts Array of comments to aggregate
+   * @returns Array of objects with year and comment count
+   */
   getCommentsPerYear(posts: any) {
     const yearDictionary: Record<string, number> = {};
     for (const post of posts) {
@@ -100,6 +108,7 @@ export class CommentsFrequencyComponent {
     return result;
   }
 
+  /** Computed property for ECharts options */
   options = computed(() => {
     const options: EChartsOption = {
       tooltip: {
@@ -144,7 +153,6 @@ export class CommentsFrequencyComponent {
           data: this.groupCommentsPerYear()
         }
       ]
-
     }
     return options;
   });

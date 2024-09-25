@@ -3,6 +3,11 @@ import { Step } from 'src/app/features/stepper/step.type';
 import { StepperComponent } from 'src/app/features/stepper/stepper.component';
 import { TitleBarComponent } from 'src/app/features/title-bar/title-bar.component';
 
+/**
+ * @description
+ * YourTopicsComponent is responsible for displaying and managing user topics preferences.
+ * It provides a step-by-step guide for users to manage their ad topics on Facebook and Instagram.
+ */
 @Component({
   selector: 'app-your-topics',
   templateUrl: './your-topics.component.html',

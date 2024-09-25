@@ -18,10 +18,18 @@ import { NzFormModule } from "ng-zorro-antd/form";
 import { NzSelectModule } from "ng-zorro-antd/select";
 import { CommonModule } from "@angular/common";
 import { NzInputModule } from "ng-zorro-antd/input";
+
+/**
+ * Interface for word frequency data used in the word cloud
+ */
 interface EchartsDatum {
 	name: string;
 	value: number;
 }
+
+/**
+ * Enum for stop word options
+ */
 enum StopWordsOption {
 	ENGLISH = "English Stop Words",
 	GERMAN = "German Stop Words",
@@ -29,6 +37,10 @@ enum StopWordsOption {
 	NONE = "None",
 }
 
+/**
+ * Component for generating and displaying a word cloud based on chat messages.
+ * It allows customization of stop words, word length, and number of words to display.
+ */
 @Component({
 	selector: "prioss-chat-wordcloud",
 	standalone: true,
@@ -54,12 +66,21 @@ export class ChatWordcloudComponent implements OnInit {
 			this.selectedChatID.set(this.chatData()[randomChat].id);
 		}
 	}
+
 	ExcludedWordlistOption = StopWordsOption;
 
-
+	/** Input property for chat data */
 	chatData = input.required<ChatData[]>();
+
+	/** Signal for the number of words to show in the word cloud */
 	amountOfWordsToShow = signal<number>(50);
+
+	/** Signal for the set of excluded words */
 	excludedWords = signal<Set<string>>(new Set());
+
+	/**
+	 * Computed signal for custom excluded words list
+	 */
 	customExcludedWordList: Signal<Set<string>> = computed(() => {
 		const customExcudeWords = this.customExcludedWordListInput().split(" ");
 		const returnSet: Set<string> = new Set();
@@ -69,11 +90,21 @@ export class ChatWordcloudComponent implements OnInit {
 		return returnSet;
 	});
 
+	/** Signal for custom excluded words input */
 	customExcludedWordListInput = signal<string>("");
+
+	/** Signal for selected stop words options */
 	stopWordsOption = signal<string[]>([StopWordsOption.CUSTOM, StopWordsOption.ENGLISH, StopWordsOption.GERMAN]);
+
+	/** Signal for selected chat ID */
 	selectedChatID = signal<string>("");
+
+	/** Signal for selected chat participant */
 	selectedChatParticipant = signal<string>("All Participants");
 
+	/**
+	 * Computed signal for selected chat participants
+	 */
 	selectedChatParticipants: Signal<string[]> = computed(() => {
 		const participants = this.selectedChat()?.participants ?? [];
 
@@ -85,6 +116,9 @@ export class ChatWordcloudComponent implements OnInit {
 		return participants ?? [];
 	});
 
+	/**
+	 * Computed signal for the selected chat
+	 */
 	selectedChat: Signal<ChatData> = computed(() => {
 		const chat = this.chatData().find(
 			(chat) => chat.id === this.selectedChatID(),
@@ -98,8 +132,12 @@ export class ChatWordcloudComponent implements OnInit {
 		);
 	});
 
+	/** Signal for minimal word length to include in the word cloud */
 	minimalWordLength = signal<number>(4);
 
+	/**
+	 * Prepares data for the word cloud
+	 */
 	prepareData: Signal<EchartsDatum[]> = computed(() => {
 		const chat = this.selectedChat() ?? {} as ChatData;
 		if (!chat.messages) {
@@ -123,6 +161,11 @@ export class ChatWordcloudComponent implements OnInit {
 		})).slice(0, this.amountOfWordsToShow());
 	});
 
+	/**
+	 * Cleans chat messages by removing stop words and applying filters
+	 * @param chat - Array of chat messages to clean
+	 * @returns Cleaned array of chat messages
+	 */
 	cleanChatMessages(chat: ChatMessage[]): ChatMessage[] {
 		const messages = chat ?? [];
 		let excludedWords = new Set<string>();
@@ -167,10 +210,9 @@ export class ChatWordcloudComponent implements OnInit {
 		return cleanChatMessages;
 	}
 
-
 	/**
 	 * Calculates the frequency of words in the given array of chat messages.
-	 * This is an alternative to TD-IDF for word frequency analysis.
+	 * This is an alternative to TF-IDF for word frequency analysis.
 	 * @param msgs - An array of chat messages.
 	 * @returns A record containing the frequency of each word in the chat messages.
 	 */
@@ -186,6 +228,11 @@ export class ChatWordcloudComponent implements OnInit {
 
 		return words;
 	}
+
+	/**
+	 * Gets the set of excluded words based on selected stop word options
+	 * @returns Set of excluded words
+	 */
 	getExcludedWords(): Set<string> {
 		let excludedWords = new Set<string>();
 		if (!this.stopWordsOption().includes(StopWordsOption.NONE.toString())) {
@@ -215,8 +262,9 @@ export class ChatWordcloudComponent implements OnInit {
 	}
 
 	/**
-	 * this function returns conversations of a chat. a conversation is a list of messages in a particular timeframe.
-	 * The timeframe can be specified
+	 * Computes conversations from messages based on a time frame
+	 * @param msgs - Array of chat messages
+	 * @returns Array of conversations (each conversation is an array of messages)
 	 */
 	computeConversations(msgs: ChatMessage[]): ChatMessage[][] {
 		if (!msgs || msgs.length === 0) return [];
@@ -242,7 +290,6 @@ export class ChatWordcloudComponent implements OnInit {
 
 		return conversations;
 	}
-
 
 	/**
 	 * Computes the TF-IDF (Term Frequency-Inverse Document Frequency) scores for the given chat messages.
@@ -286,6 +333,9 @@ export class ChatWordcloudComponent implements OnInit {
 		return tfidfScores;
 	}
 
+	/**
+	 * Computes the ECharts options for the word cloud
+	 */
 	options: Signal<EChartsOption> = computed(() => {
 		const options: EChartsOption = {
 			toolbox: {
@@ -308,76 +358,40 @@ export class ChatWordcloudComponent implements OnInit {
 			series: [
 				{
 					type: "wordCloud",
-
-					// The shape of the "cloud" to draw. Can be any polar equation represented as a
-					// callback function, or a keyword present. Available presents are circle (default),
-					// cardioid (apple or heart shape curve, the most known polar equation), diamond (
-					// alias of square), triangle-forward, triangle, (alias of triangle-upright, pentagon, and star.
-
 					shape: "circle",
-
-					// A silhouette image which the white area will be excluded from drawing texts.
-					// The shape option will continue to apply as the shape of the cloud to grow.
-
-					// Folllowing left/top/width/height/right/bottom are used for positioning the word cloud
-					// Default to be put in the center and has 75% x 80% size.
-
 					left: "center",
 					top: "center",
 					width: "70%",
 					height: "80%",
-
-					// Text size range which the value in data will be mapped to.
-					// Default to have minimum 12px and maximum 60px size.
-
 					sizeRange: [12, 60],
-
-					// Text rotation range and step in degree. Text will be rotated randomly in range [-90, 90] by rotationStep 45
-
 					rotationRange: [-90, 90],
 					rotationStep: 45,
-
-					// size of the grid in pixels for marking the availability of the canvas
-					// the larger the grid size, the bigger the gap between words.
-
 					gridSize: 8,
-
-					// set to true to allow word being draw partly outside of the canvas.
-					// Allow word bigger than the size of the canvas to be drawn
 					drawOutOfBound: false,
-
-					// if the font size is too large for the text to be displayed,
-					// whether to shrink the text. If it is set to false, the text will
-					// not be rendered. If it is set to true, the text will be shrinked.
-
-					// If perform layout animation.
-					// NOTE disable it will lead to UI blocking when there is lots of words.
 					layoutAnimation: true,
-
-					// Global text style
 					textStyle: {
 						fontFamily: "sans-serif",
 						fontWeight: "bold",
-						// Color can be a callback function or a color string
 						color: "#5470c6",
 					},
 					emphasis: {
 						focus: "self",
-
 						textStyle: {
 							textShadowBlur: 10,
 							textShadowColor: "#333",
 						},
 					},
-
-					// Data is an array. Each array item must have name and value property.
 					data: this.prepareData(),
 				},
 			],
 		};
 		return options;
 	});
+
+	/** Signal for English stop words */
 	stopWordsEnglish: Signal<Set<string>> = signal(new Set(stopwordsEN));
+
+	/** Signal for German stop words */
 	stopwordsGerman = signal(
 		new Set(stopwordsDE),
 	);

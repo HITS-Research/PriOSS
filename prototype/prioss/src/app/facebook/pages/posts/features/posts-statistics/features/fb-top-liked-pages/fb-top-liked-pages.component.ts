@@ -6,6 +6,10 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { NgxEchartsDirective, provideEcharts } from 'ngx-echarts';
 import { FbUserDataModel } from 'src/app/facebook/state/models';
+
+/**
+ * Component for displaying the top liked Facebook pages based on user reactions.
+ */
 @Component({
   selector: 'prioss-fb-top-liked-pages',
   standalone: true,
@@ -16,10 +20,13 @@ import { FbUserDataModel } from 'src/app/facebook/state/models';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FbTopLikedPagesComponent {
+  /** Input for user data */
   userData = input.required<FbUserDataModel>();
 
+  /** Number of top pages to display */
   amountOfTopPages = signal<number>(5);
 
+  /** Computed property for liked pages */
   pages = computed(() => {
     if (!this.userData) return [];
     const pages = [];
@@ -29,6 +36,7 @@ export class FbTopLikedPagesComponent {
     return pages;
   });
 
+  /** Computed property for reactions per page */
   reactionsPerPage = computed(() => {
     if (!this.userData) return {};
     const reactsPerPage: Record<string, Record<string, number>> = {};
@@ -39,7 +47,6 @@ export class FbTopLikedPagesComponent {
       for (const react of reactions ?? []) {
         if (react.title.includes(page.name)) {
           const reaction = react.data[0].reaction.reaction.charAt(0).toUpperCase() + react.data[0].reaction.reaction.slice(1).toLowerCase();
-
           count[reaction] = count[reaction] + 1 || 0;
         }
       }
@@ -48,9 +55,9 @@ export class FbTopLikedPagesComponent {
     return reactsPerPage;
   });
 
+  /** Computed property for sum of reactions per page */
   getSumOfReactionsPerPage = computed(() => {
     const reactsPerPage = this.reactionsPerPage();
-    //create a sum of all reactions for each person
     const sumOfReactions = new Map<string, number>();
     for (const page in reactsPerPage) {
       let sum = 0;
@@ -62,20 +69,19 @@ export class FbTopLikedPagesComponent {
     return sumOfReactions;
   });
 
+  /** Computed property for top pages based on reactions */
   getTopPages = computed(() => {
     const sumOfReactions = this.getSumOfReactionsPerPage();
-    //sort the sum of reactions
     const sorted = new Map([...sumOfReactions.entries()].sort((a, b) => b[1] - a[1]));
     const sortedArray = Array.from(sorted).slice(0, this.amountOfTopPages());
-
     return sortedArray;
   });
 
+  /** Computed property for creating chart series data */
   createSeries = computed(() => {
     const reactsPerPage = this.reactionsPerPage();
     const topPersons = this.getTopPages();
     const seriesOptions: SeriesOption[] = [];
-    //create a stacked bar seriesoption, where a category on the x axis is the person and the stacked bar is composed of the reactions
     for (const reaction of this.reactionTypes()) {
       const data = [];
       for (const page of topPersons) {
@@ -92,9 +98,9 @@ export class FbTopLikedPagesComponent {
       });
     }
     return seriesOptions;
-
   });
 
+  /** Computed property for getting unique reaction types */
   reactionTypes = computed(() => {
     const reactionTypes = new Set<string>();
     const reactions = this.userData().activity_across_facebook?.likesAndReactions?.likes_and_reactions ?? []
@@ -105,6 +111,7 @@ export class FbTopLikedPagesComponent {
     return Array.from(reactionTypes);
   });
 
+  /** Computed property for ECharts options */
   options = computed(() => {
     const options: EChartsOption = {
       tooltip: {

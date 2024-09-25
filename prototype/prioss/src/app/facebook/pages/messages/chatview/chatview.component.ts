@@ -27,6 +27,10 @@ import { FacebookIndexedDBMedia } from "src/app/facebook/models/FacebookIndexDBM
 import { ScrollingModule } from "@angular/cdk/scrolling";
 import {ScrollingModule as ExperimentalScrollingModule} from '@angular/cdk-experimental/scrolling';
 
+/**
+ * Component for displaying and managing the main chat view.
+ * It handles chat selection, message display, and various filtering options.
+ */
 @Component({
 	selector: "prioss-chatview",
 	standalone: true,
@@ -56,27 +60,55 @@ export class ChatviewComponent implements OnInit, AfterViewInit, OnDestroy {
 	nzTableComponent?: NzTableComponent<ChatMessage>;
 	private destroy$ = new Subject<boolean>();
 
+	/** Signal for the date range of all chats */
 	chatDateRange = signal<Date[]>([]);
+
+	/** Signal for the selected date range for filtering */
 	selectedChatDateRange = signal<Date[]>([new Date(0), new Date()]);
+
+	/** Input property indicating if data is still loading */
 	loading = input.required<boolean>();
+
+	/** Signal indicating if the chat list is collapsed */
 	isChatListCollapsed = signal<boolean>(false);
+
+	/** Signal for the current search string */
 	searchString = signal<string>("");
+
+	/** Signal for the currently displayed chat */
 	currentChat = signal<ChatData>({} as ChatData);
+
+	/** Computed property to set the current chat */
 	setCurrentChat = computed(() => this.currentChat.set(this.clickedChat()));
+
+	/** Signal for the clicked chat */
 	clickedChat = signal<ChatData>({} as ChatData);
+
+	/** Computed property for the preview message of the clicked chat */
 	clickedChatPreviewMessage = computed(() => {
 		return this.getChatPreviewMessage(this.clickedChat());
 	});
+
+	/** Computed property for the preview message of the current chat */
 	currentChatPreviewMessage = computed(() => {
 		return this.getChatPreviewMessage(this.currentChat());
 	});
+
+	/** Computed property for the preview name of the clicked chat */
 	clickedChatPreviewName = computed(() => {
 		return this.getChatPreviewName(this.clickedChat());
 	});
 
+	/** Signal for the selected chat data */
 	selectedChatData = signal<ChatData[]>([]);
+
+	/** Input property for all chat data */
 	chatData = input.required<ChatData[]>();
+
+	/** Input property for the current user's username */
 	yourUsername = input.required<string>();
+
+	/** Input property for media files */
 	mediaFiles = input<FacebookIndexedDBMedia[]>();
 
 	async ngOnInit(): Promise<void> {
@@ -86,6 +118,7 @@ export class ChatviewComponent implements OnInit, AfterViewInit, OnDestroy {
 		//copy min max dates into selectedDateRange first
 		this.selectedChatDateRange.set(this.chatDateRange());
 	}
+
 	ngAfterViewInit(): void {
 		this.nzTableComponent?.cdkVirtualScrollViewport?.scrolledIndexChange
 			.pipe(takeUntil(this.destroy$))
@@ -98,10 +131,21 @@ export class ChatviewComponent implements OnInit, AfterViewInit, OnDestroy {
 		this.destroy$.next(true);
 		this.destroy$.complete();
 	}
+
+	/**
+	 * Tracking function for ngFor directive
+	 * @param index - The index of the current item
+	 * @param data - The current ChatMessage item
+	 * @returns The timestamp of the message for tracking
+	 */
 	trackByID(_: number, data: ChatMessage): number {
 		return data.timestamp;
 	}
 
+	/**
+	 * Computed property to get the date range of all chats
+	 * @returns An array with the earliest and latest dates from all chats
+	 */
 	getDateRangeOfChats = computed(() => {
 		let minTimestamp = new Date().getTime();
 		let maxTimestamp = 0;
@@ -119,6 +163,10 @@ export class ChatviewComponent implements OnInit, AfterViewInit, OnDestroy {
 		return [new Date(minTimestamp), new Date(maxTimestamp)];
 	});
 
+	/**
+	 * Computed property to get chats within the selected date range
+	 * @returns An array of ChatData objects filtered by the selected date range
+	 */
 	getChatsInDateRange = computed(() => {
 		const minTimestamp =
 			this.selectedChatDateRange()[0]?.getTime() ??
@@ -147,6 +195,9 @@ export class ChatviewComponent implements OnInit, AfterViewInit, OnDestroy {
 		return chatsInDateRange;
 	});
 
+	/**
+	 * Computed property to fix any issues with the current chat data
+	 */
 	fixCurrentChat = computed(() => {
 		if (this.currentChat().name === undefined || this.currentChat().name === "") {
 			this.currentChat().name = "Deleted User";
@@ -166,6 +217,12 @@ export class ChatviewComponent implements OnInit, AfterViewInit, OnDestroy {
 			}
 		}
 	});
+
+	/**
+	 * Gets a preview name for a chat
+	 * @param chat - The ChatData object
+	 * @returns A string with the chat name, truncated if necessary
+	 */
 	getChatPreviewName(chat: ChatData): string {
 		let name = "";
 
@@ -176,6 +233,12 @@ export class ChatviewComponent implements OnInit, AfterViewInit, OnDestroy {
 		}
 		return name;
 	}
+
+	/**
+	 * Gets a preview message for a chat
+	 * @param chat - The ChatData object
+	 * @returns A string with the last message content, truncated if necessary
+	 */
 	getChatPreviewMessage(chat: ChatData): string {
 		let content = "";
 		if (chat.messages.length > 0) {
@@ -191,6 +254,12 @@ export class ChatviewComponent implements OnInit, AfterViewInit, OnDestroy {
 
 		return content;
 	}
+
+	/**
+	 * Gets the last message of a chat
+	 * @param chat - The ChatData object
+	 * @returns The last ChatMessage object, or an empty message if the chat has no messages
+	 */
 	getLastMessage(chat: ChatData): ChatMessage {
 		let msg: ChatMessage = {} as ChatMessage;
 		if (chat.messages.length !== 0) {
@@ -205,10 +274,13 @@ export class ChatviewComponent implements OnInit, AfterViewInit, OnDestroy {
 		return msg;
 	}
 
+	/**
+	 * Computed property to filter chats based on search string and date range
+	 * @returns An array of filtered ChatData objects
+	 */
 	filteredChats = computed(() => {
 		const searchString: string = this.searchString().toLowerCase();
 
-		
 		let chats = [];
 		//filter by search string
 		if (searchString === "") {
@@ -236,9 +308,8 @@ export class ChatviewComponent implements OnInit, AfterViewInit, OnDestroy {
 	});
 
 	/**
-	 * filter ChatData by ChatData.name
-	 * @param event
-	 * @returns A List of Chats, where the Title/Name includes the searchstring
+	 * Computed property to filter chats by name
+	 * @returns An array of ChatData objects where the name includes the search string
 	 */
 	filterChatNames = computed(() => {
 		const searchString: string = this.searchString().toLowerCase();
@@ -247,10 +318,10 @@ export class ChatviewComponent implements OnInit, AfterViewInit, OnDestroy {
 			return chat.name.toLowerCase().includes(searchString);
 		});
 	});
+
 	/**
-	 * filter ChatData by ChatData.messages.content
-	 * @param event
-	 * @returns A List of Chats, where the Messages include the searchstring
+	 * Computed property to filter chats by message content
+	 * @returns An array of ChatData objects where any message content includes the search string
 	 */
 	filterChatMessages = computed(() => {
 		const searchString: string = this.searchString().toLowerCase();
@@ -265,6 +336,11 @@ export class ChatviewComponent implements OnInit, AfterViewInit, OnDestroy {
 		});
 	});
 
+	/**
+	 * Formats a timestamp into a custom date string
+	 * @param timestamp - The timestamp to format
+	 * @returns A formatted date string
+	 */
 	customFormatDate(timestamp: number) {
 		const date = new Date(timestamp);
 		const formattedDate = `${date.getDate()}/${
@@ -273,6 +349,11 @@ export class ChatviewComponent implements OnInit, AfterViewInit, OnDestroy {
 		return formattedDate;
 	}
 
+	/**
+	 * Gets the blob URL for a media file associated with a thread path
+	 * @param thread_path - The thread path to search for
+	 * @returns The blob URL of the media file, or an empty string if not found
+	 */
 	getMediaBlobUrl(thread_path: string){
 		const blobUrl = this.mediaFiles()?.find(mediaFile => mediaFile.thread_path.includes(thread_path) || thread_path.includes(mediaFile.thread_path))?.blobURL ?? '';
 		return blobUrl;

@@ -9,6 +9,10 @@ import { NgxEchartsDirective, provideEcharts } from "ngx-echarts";
 import type { ChatData } from "../../../chatdata.type";
 import type { EChartsOption } from "echarts";
 
+/**
+ * Component for displaying a pie chart of message distribution in a chat.
+ * This chart shows the percentage of messages sent by each participant in the chat.
+ */
 @Component({
 	selector: "prioss-chat-message-distribution-chart",
 	templateUrl: "./chat-message-distribution-chart.component.html",
@@ -17,17 +21,22 @@ import type { EChartsOption } from "echarts";
 	providers: [provideEcharts()],
 	styleUrl: "./chat-message-distribution-chart.component.less",
 	changeDetection: ChangeDetectionStrategy.OnPush,
-
 })
 export class ChatMessageDistributionChartComponent implements OnInit {
+	/**
+	 * Input property for the chat data to be visualized.
+	 */
 	chat = input.required<ChatData | undefined>({});
 
-
 	ngOnInit() {
-		
 		this.drawMessagePercentageOfChat();
 	}
 
+	/**
+	 * Computes the series data for the pie chart.
+	 * Each data point represents a participant and their message count.
+	 * @returns An array of objects containing the participant name and message count.
+	 */
 	getSeriesData = computed(() => {
 		if(!this.chat()?.participants){
 			return [];
@@ -43,6 +52,11 @@ export class ChatMessageDistributionChartComponent implements OnInit {
 			})
 			.filter((participant) => participant.value > 0)
 	});
+
+	/**
+	 * Generates the ECharts option for drawing the message distribution pie chart.
+	 * @returns An EChartsOption object containing the chart configuration.
+	 */
 	drawMessagePercentageOfChat = computed(() => {
 		if (this.chat() === undefined) {
 			return {};

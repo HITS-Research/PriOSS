@@ -9,6 +9,11 @@ import { ReactionsFrequencyComponent } from './features/reactions-frequency/reac
 import { TopLikedPersonsComponent } from './features/top-liked-persons/top-liked-persons.component';
 import { FbTopLikedPagesComponent } from './features/fb-top-liked-pages/fb-top-liked-pages.component';
 
+/**
+ * PostsStatisticsComponent is responsible for displaying various statistics related to posts.
+ * It includes sub-components for post frequency, comments frequency, reactions frequency,
+ * top liked persons, and top liked pages.
+ */
 @Component({
   selector: 'prioss-posts-statistics',
   standalone: true,
@@ -27,10 +32,11 @@ import { FbTopLikedPagesComponent } from './features/fb-top-liked-pages/fb-top-l
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PostsStatisticsComponent {
+  /** Input property for user data */
   userData = input.required<FbUserDataModel>();
+
+  /** Computed property for post-related activity data */
   postData = computed(() => {
     return this.userData()?.activity_across_facebook??{} as FbActivityAcrossFacebookModel;
   });
-
-
 }

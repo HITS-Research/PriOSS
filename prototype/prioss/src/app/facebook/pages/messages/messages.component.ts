@@ -12,8 +12,11 @@ import { NzResultModule } from 'ng-zorro-antd/result';
 import { TitleBarComponent } from 'src/app/features/title-bar/title-bar.component';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 
-
-
+/**
+ * Component for displaying and managing Facebook messages.
+ * This component serves as the main container for the messages feature,
+ * including chat view, statistics, and data management.
+ */
 @Component({
   selector: 'app-messages',
   templateUrl: './messages.component.html',
@@ -33,12 +36,28 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
   ]
 })
 export class MessagesComponent implements OnInit {
+  /** Signal for storing user data */
   userData = signal<FbUserDataModel>({} as FbUserDataModel);
+
+  /** Computed property for messages data */
   messagesData = computed(() => this.userData().activity_across_facebook?.inboxMessages ?? []);
+
+  /** Computed property for the total number of chats */
   amountOfChats = computed(() => this.messagesData().length);
+
+  /** Computed property for group chat data */
   groupChatData = computed(() => this.userData().activity_across_facebook?.groupMessages ?? []);
+
+  /** Computed property for the total number of group chats */
   amountOfGroupChats = computed(() => this.groupChatData().length);
+
+  /** Computed property for archived messages */
   archivedMessages = computed(() => this.userData().activity_across_facebook?.archivedThreads ?? []);
+
+  /**
+   * Computed property that combines all chat data (inbox, group, and archived)
+   * and processes it into a unified format.
+   */
   allChatData = computed(() => {
     let currID = 0;
     let tmpAllChatData = [];
@@ -108,17 +127,35 @@ export class MessagesComponent implements OnInit {
     tmpAllChatData = [...msgData, ...groupData, ...archivedChats];
     return tmpAllChatData;
   });
+
+  /** Computed property for the user's full name */
   username = computed(() => this.userData().personal_information?.profile_information.profile_v2.name.full_name ?? "");
+
+  /** Utility function for converting timestamps */
   convertTimestamp: (str: string) => any = utilities.convertTimestamp;
+
+  /** Input property to indicate if the component is in preview mode */
   @Input()
   previewMode = false;
-  totalGroupChats = computed(() => this.groupChatData().length)
+
+  /** Computed property for the total number of group chats */
+  totalGroupChats = computed(() => this.groupChatData().length);
+
+  /** Computed property to check if group chat data is available */
   dataAvailableGroup = computed(() => this.groupChatData().length !== 0);
+
+  /** Signal for the search text input */
   searchTextInput = signal<string>("");
+
+  /** Computed property for the current search text */
   searchText = computed(() => {
     return this.searchTextInput();
   });
+
+  /** Signal to indicate if data is still loading */
   loading = signal<boolean>(true);
+
+  /** Computed property for filtered group chats based on search text */
   filteredGroupChats = computed(() => {
     const freshData = this.groupChatData().slice();
     return freshData.filter(
@@ -127,14 +164,17 @@ export class MessagesComponent implements OnInit {
         item.participants.some((participant) => participant.name.toLowerCase().includes(this.searchText().toLowerCase()))
     );
   });
+
+  /** Computed property for filtered chats based on search text */
   filteredChats = computed(() => {
     this.messagesData().filter(chat =>
       chat.participants.some(participant =>
         participant.name.toLowerCase().includes(this.searchText().toLowerCase()))
     );
   });
-  mediaFiles = signal<FacebookIndexedDBMedia[]>([]);
 
+  /** Signal for storing media files */
+  mediaFiles = signal<FacebookIndexedDBMedia[]>([]);
 
   constructor(
     private indexedDb: IndexedDbService
@@ -145,11 +185,10 @@ export class MessagesComponent implements OnInit {
   }
 
   /**
-   * This method is responsible to get the required data for messages.
-   *  @author: Rishma (rishmamn@mail.uni-paderborn.de)
+   * Fetches the required data for messages from IndexedDB.
+   * This includes Facebook data and media files.
    */
   async getData() {
-
     await this.indexedDb.getSelectedFacebookDataStore()
       .then((data) => {
         this.indexedDb.getAllFacebookMediaFiles(data.filename).then((data) => {
@@ -171,18 +210,12 @@ export class MessagesComponent implements OnInit {
       }).finally(() => {
         this.loading.set(false)
       });
-
-
   }
-
-
-
-
-
-
-
 }
 
+/**
+ * Interface for message data used in charts or other visualizations
+ */
 export interface MessagesData {
   timestamp: number;
   name: string;

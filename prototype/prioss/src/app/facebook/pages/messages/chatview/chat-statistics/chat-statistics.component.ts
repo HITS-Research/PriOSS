@@ -25,6 +25,12 @@ import { MessagesPerWeekdayComponent } from "./features/messages-per-weekday/mes
 import { TopChatsComponent } from "./features/top-chats/top-chats.component";
 import { MessageTimeDistributionComponent } from "./features/message-time-distribution/message-time-distribution.component";
 import { ChatResponsetimeGraphComponent } from "./features/chat-responsetime-graph/chat-responsetime-graph.component";
+
+/**
+ * Component for displaying various chat statistics and visualizations.
+ * This component acts as a container for multiple sub-components that provide
+ * different insights into the chat data.
+ */
 @Component({
 	selector: "prioss-chat-statistics",
 	standalone: true,
@@ -55,11 +61,19 @@ import { ChatResponsetimeGraphComponent } from "./features/chat-responsetime-gra
 	providers: [provideEcharts()],
 })
 export class ChatStatisticsComponent implements OnInit{
+	/** Input property for chat data */
 	chatData = input.required<ChatData[]>();
+
+	/** Input property for the current user's username */
 	yourUsername = input.required<string>();
+
+	/** Input property indicating if data is still loading */
 	loading = input.required<boolean>();
 
+	/** Signal for the selected chat ID for message percentage calculation */
 	selectedChatIDForMsgPercentage = signal<string>("");
+
+	/** Signal for storing chat participants */
 	chatParticipants = signal<string[]>([]);
 
 	ngOnInit() {
@@ -73,6 +87,9 @@ export class ChatStatisticsComponent implements OnInit{
 		
 	}
 
+	/**
+	 * Computed property to get the selected chat for message percentage calculation
+	 */
 	selectedChatForMsgPercentage = computed(() => {
 		let retChat = {} as ChatData;
 		for (const chat of this.chatData()) {
@@ -83,13 +100,28 @@ export class ChatStatisticsComponent implements OnInit{
 		return retChat;
 	});
 
+	/**
+	 * Filters a list of strings based on a search string
+	 * @param list - The list of strings to filter
+	 * @param searchString - The search string to filter by
+	 * @returns Filtered list of strings
+	 */
 	filterChats(list: string[], searchString: string): string[] {
 		return list.filter((item) => item.toLowerCase().includes(searchString));
 	}
+
+	/**
+	 * Gets the participants of a single chat
+	 * @param chat - The chat data
+	 * @returns Array of participant names
+	 */
 	getChatParticipantsInOneChat(chat: ChatData): string[] {
 		return chat.participants;
 	}
 
+	/**
+	 * Populates the chatParticipants signal with unique participants from all chats
+	 */
 	getChatParticipants() {
 		const tempSet = new Set<string>();
 		for (const chat of this.chatData()) {
@@ -100,6 +132,13 @@ export class ChatStatisticsComponent implements OnInit{
 		this.chatParticipants.set(Array.from(tempSet));
 	}
 
+	/**
+	 * Calculates the number of chat messages within a specified time range
+	 * @param startTime - Start of the time range
+	 * @param endTime - End of the time range
+	 * @param groupMessagesOnly - Whether to include only group messages
+	 * @returns Number of messages within the time range
+	 */
 	getAmountofChatMessagesInTimeRange(
 		startTime: Date,
 		endTime: Date,

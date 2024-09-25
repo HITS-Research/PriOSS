@@ -1,3 +1,9 @@
+/**
+ * @fileoverview This file contains functions for parsing and processing Facebook data from a zip file.
+ * It includes methods for handling various types of Facebook data, including messages, user information,
+ * and media files.
+ */
+
 import JSZip from 'jszip';
 import type {
   FbActivityAcrossFacebookModel,
@@ -18,10 +24,15 @@ import { FacebookDataFile } from '../models/FacebookDataFile.interface';
 import { FacebookIndexedDBMedia } from '../models/FacebookIndexDBMedia.interface';
 
 /**
- * Parses the uploaded Facebook data-download-zip file into the store
- *
- * @author: Rashida (rbharmal@mail.upb.de), Rishma (rishmamn@mail.uni-paderborn.de)
- *
+ * Parses the uploaded Facebook data-download-zip file and stores the data.
+ * 
+ * @param zipPromise - A promise that resolves to a JSZip object containing the Facebook data.
+ * @param progressSignal - An optional WritableSignal to update the progress of the parsing process.
+ * @param abortSignal - An optional WritableSignal to abort the parsing process.
+ * @param indexedDbService - The IndexedDbService to interact with the IndexedDB.
+ * @param fileName - The name of the uploaded file.
+ * @param fileSizeInBytes - The size of the uploaded file in bytes.
+ * @returns A promise that resolves to an UpdateFbUserData action.
  */
 export async function parseFacebookFile(
   zipPromise: Promise<JSZip>,
@@ -30,7 +41,7 @@ export async function parseFacebookFile(
   indexedDbService: IndexedDbService,
   fileName: string,
   fileSizeInBytes: number,
-) {
+): Promise<UpdateFbUserData> {
   if (await isFileAlreadyProcessed(indexedDbService, fileName)) {
     return new UpdateFbUserData({} as FbUserDataModel);
   }
@@ -42,7 +53,7 @@ export async function parseFacebookFile(
   const filepaths: string[] = Object.keys(zip.files);
 
   for (let i = 0; i < filepaths.length; i++) {
-    if (await shouldAbortProcessing(abortSignal)) return;
+    if (await shouldAbortProcessing(abortSignal)) return new UpdateFbUserData({} as FbUserDataModel);
     updateProgress(progressSignal, i, filepaths.length);
 
     const filepath: string = filepaths[i];
@@ -64,10 +75,10 @@ export async function parseFacebookFile(
   return new UpdateFbUserData({} as FbUserDataModel);
 }
 
-
 /**
- * the data export can include multiple message file per chat, if the amount of messages surpasses a certain value
  * Parses a multi-message file and updates the user data accordingly.
+ * This function is used when a chat has multiple message files due to a large number of messages.
+ * 
  * @param filepath - The path of the file being parsed.
  * @param content - The content of the file being parsed.
  * @param userData - The user data to be updated.
@@ -95,7 +106,7 @@ async function parseMultiMessageFile(filepath: string, content: string, userData
 
   if (targetMessage) {
     targetMessage.messages = targetMessage.messages.concat(jsonData.messages);
-    
+
     if (category === 'inboxMessages' && !isGroupMessage) {
       console.log(`inboxMessage second file : ${jsonData.participants[0].name} ${jsonData.participants[1].name}`);
     }
@@ -103,11 +114,12 @@ async function parseMultiMessageFile(filepath: string, content: string, userData
 }
 
 /**
- * the data export can include multiple message file per chat, if the amount of messages surpasses a certain value
- * this method is used to parse chats with a single message file
- * @param filepath the path of the file
- * @param content the content of the file
- * @param userData that the chat will be appended to. its call-by-sharing, so the changes will be reflected in the original object
+ * Parses a single message file and updates the user data accordingly.
+ * This method is used for chats with a single message file.
+ * 
+ * @param filepath - The path of the file being parsed.
+ * @param content - The content of the file being parsed.
+ * @param userData - The user data to be updated. It's call-by-sharing, so changes will be reflected in the original object.
  */
 function parseSingleMessageFile(filepath: string, content: string, userData: FbUserDataModel) {
   const jsonData = parseFacebookJSON(content);
@@ -126,7 +138,14 @@ function parseSingleMessageFile(filepath: string, content: string, userData: FbU
   userData.activity_across_facebook[category]?.push(jsonData);
 }
 
-
+/**
+ * Generates a FacebookDataFile object from the parsed user data.
+ * 
+ * @param userData - The parsed Facebook user data.
+ * @param fileName - The name of the uploaded file.
+ * @param fileSizeInBytes - The size of the uploaded file in bytes.
+ * @returns A FacebookDataFile object containing the parsed data and metadata.
+ */
 function generateFaceBookDataFile(
   userData: FbUserDataModel,
   fileName: string,
@@ -138,10 +157,14 @@ function generateFaceBookDataFile(
     sizeInBytes: fileSizeInBytes,
     facebookData: userData,
   };
-
 }
 
-
+/**
+ * Parses a JSON string and applies Facebook-specific encoding fixes.
+ * 
+ * @param content - The JSON string to parse.
+ * @returns The parsed and fixed JSON object.
+ */
 function parseFacebookJSON(content: string): any {
   let result = {};
   try {
@@ -155,21 +178,28 @@ function parseFacebookJSON(content: string): any {
     return {};
   }
 
-
-
   return result;
 }
 
-
-
-
 // Helper functions
 
+/**
+ * Checks if the given file has already been processed.
+ * 
+ * @param indexedDbService - The IndexedDbService to interact with the IndexedDB.
+ * @param fileName - The name of the file to check.
+ * @returns A promise that resolves to a boolean indicating whether the file has been processed.
+ */
 async function isFileAlreadyProcessed(indexedDbService: IndexedDbService, fileName: string): Promise<boolean> {
   const datafiles: FacebookDataFile[] = await indexedDbService.getAllFacebookUserDataStores();
   return datafiles.some(file => file.filename === fileName);
 }
 
+/**
+ * Initializes an empty FbUserDataModel object.
+ * 
+ * @returns An initialized FbUserDataModel object.
+ */
 function initializeUserDataModel(): FbUserDataModel {
   const userData: FbUserDataModel = {} as FbUserDataModel;
 
@@ -179,14 +209,18 @@ function initializeUserDataModel(): FbUserDataModel {
   userData.logged_information = {} as FbLoggedInformationModel;
   userData.personal_information = {} as FbPersonalInformationDataModel;
   userData.preferences = {} as FbPreferencesDataModel;
-  userData.security_and_login_information =
-    {} as FbSecurityLoginInformationDataModel;
-  userData.apps_and_websites_off_of_fb =
-    {} as FbAppsAndWebsitesOffOfFacebookDataModel;
+  userData.security_and_login_information = {} as FbSecurityLoginInformationDataModel;
+  userData.apps_and_websites_off_of_fb = {} as FbAppsAndWebsitesOffOfFacebookDataModel;
   userData.connections = {} as FbConnectionsDataModel;
   return userData;
 }
 
+/**
+ * Checks if the processing should be aborted.
+ * 
+ * @param abortSignal - The WritableSignal that indicates whether to abort.
+ * @returns A promise that resolves to a boolean indicating whether to abort.
+ */
 async function shouldAbortProcessing(abortSignal: WritableSignal<boolean> | null): Promise<boolean> {
   if (abortSignal && abortSignal()) {
     abortSignal?.set(false);
@@ -195,14 +229,36 @@ async function shouldAbortProcessing(abortSignal: WritableSignal<boolean> | null
   return false;
 }
 
+/**
+ * Updates the progress signal with the current progress.
+ * 
+ * @param progressSignal - The WritableSignal to update with the progress.
+ * @param current - The current progress value.
+ * @param total - The total number of items to process.
+ */
 function updateProgress(progressSignal: WritableSignal<number> | null, current: number, total: number) {
   progressSignal?.set(Math.round(100 * (current / total)));
 }
 
+/**
+ * Extracts the filename from a filepath.
+ * 
+ * @param filepath - The full filepath.
+ * @returns The extracted filename or undefined if not found.
+ */
 function getFilename(filepath: string): string | undefined {
   return filepath.split('\\').pop()?.split('/').pop();
 }
 
+/**
+ * Processes a non-JSON file and adds it to the mediafiles array.
+ * 
+ * @param mediafiles - The array to store processed media files.
+ * @param zip - The JSZip object containing the files.
+ * @param filepath - The path of the file to process.
+ * @param fileName - The name of the uploaded file.
+ * @param index - The index of the file in the processing order.
+ */
 async function processNonJsonFile(mediafiles: FacebookIndexedDBMedia[], zip: JSZip, filepath: string, fileName: string, index: number) {
   const fileBlob = await zip.files[filepath].async('blob');
   mediafiles.push({
@@ -214,9 +270,18 @@ async function processNonJsonFile(mediafiles: FacebookIndexedDBMedia[], zip: JSZ
   });
 }
 
+/**
+ * Processes a JSON file and updates the user data accordingly.
+ * 
+ * @param userData - The user data to update.
+ * @param filepath - The path of the file being processed.
+ * @param filename - The name of the file being processed.
+ * @param content - The content of the file being processed.
+ */
 function processJsonFile(userData: FbUserDataModel, filepath: string, filename: string, content: string) {
   const jsonData = parseFacebookJSON(content);
 
+  // This object maps file names to functions that process the data
   const fileHandlers: Record<string, (data: any) => void> = {
     // Logged Information
     'your_topics.json': data => userData.logged_information.inferred_topics = data,
@@ -329,6 +394,15 @@ function processJsonFile(userData: FbUserDataModel, filepath: string, filename: 
   }
 }
 
+/**
+ * Saves the processed data to IndexedDB.
+ * 
+ * @param indexedDbService - The IndexedDbService to interact with the IndexedDB.
+ * @param userData - The processed user data to save.
+ * @param mediafiles - The processed media files to save.
+ * @param fileName - The name of the uploaded file.
+ * @param fileSizeInBytes - The size of the uploaded file in bytes.
+ */
 async function saveProcessedData(
   indexedDbService: IndexedDbService,
   userData: FbUserDataModel,

@@ -3,6 +3,10 @@ import type { ChatData } from '../../../chatdata.type';
 import type { EChartsOption } from 'echarts';
 import { NgxEchartsDirective, provideEcharts } from 'ngx-echarts';
 
+/**
+ * Component for displaying a chart of messages sent and received per hour of the day.
+ * This component visualizes the distribution of messages across a 24-hour period.
+ */
 @Component({
   selector: 'prioss-messages-per-day-chart',
   standalone: true,
@@ -12,9 +16,14 @@ import { NgxEchartsDirective, provideEcharts } from 'ngx-echarts';
   styleUrl: './messages-per-day-chart.component.less',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MessagesPerDayChartComponent implements OnInit{
+export class MessagesPerDayChartComponent implements OnInit {
+  /** Input property for chat data */
   chatData = input.required<ChatData[]>();
+
+  /** Input property for the current user's username */
   yourUsername = input.required<string>();
+
+  /** Signal for chart X-axis labels (hours of the day) */
   chartXAxisLabels = signal<string[]>([]);
 
   ngOnInit() {
@@ -22,6 +31,11 @@ export class MessagesPerDayChartComponent implements OnInit{
       this.chartXAxisLabels().push(i.toString());
     }
   }
+
+  /**
+   * Computed property to generate the ECharts options for the messages per day chart
+   * @returns EChartsOption object for configuring the chart
+   */
   drawMessagesPerDayChart = computed(() => {
     const options: EChartsOption = {
       tooltip:{
@@ -61,6 +75,10 @@ export class MessagesPerDayChartComponent implements OnInit{
     return options;
   });
 
+  /**
+   * Computed property to calculate the number of messages sent per hour of the day
+   * @returns An array of 24 elements, each representing the count of messages sent in that hour
+   */
   messagesSentPerDay = computed(() => {
     const messagesPerDay = Array.from({ length: 24 }, () => 0);
     for(const chat of this.chatData()) {
@@ -73,6 +91,11 @@ export class MessagesPerDayChartComponent implements OnInit{
     }
     return messagesPerDay;
   });
+
+  /**
+   * Computed property to calculate the number of messages received per hour of the day
+   * @returns An array of 24 elements, each representing the count of messages received in that hour
+   */
   messagesReceivedPerDay = computed(() => {
     const messagesPerDay = Array.from({ length: 24 }, () => 0);
     for(const chat of this.chatData()) {

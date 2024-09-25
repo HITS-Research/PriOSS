@@ -6,6 +6,18 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { AccordionComponent } from 'src/app/features/accordion/accordion.component';
 
+/**
+ * Interface representing a data row in the FacePurposesComponent
+ */
+interface DataRow {
+  shortPurpose: string;
+  bulletPoints: string[];
+  dataCollected: string;
+}
+
+/**
+ * Component for displaying facial recognition purposes and related data
+ */
 @Component({
   selector: 'app-face-purposes',
   templateUrl: './face-purposes.component.html',
@@ -23,7 +35,10 @@ import { AccordionComponent } from 'src/app/features/accordion/accordion.compone
   ]
 })
 export class FacePurposesComponent {
-  dataRows = [
+  /**
+   * Array of data rows containing information about facial recognition purposes
+   */
+  dataRows: DataRow[] = [
     {
       shortPurpose: 'Personalizing Account Experience',
       bulletPoints: [
@@ -71,6 +86,9 @@ export class FacePurposesComponent {
     },
   ];
 
+  /**
+   * Object mapping data types to their corresponding icon names
+   */
   dataIcons: { [key: string]: string } = {
     'User Profile Data': 'user',
     'Likes': 'like',
