@@ -5,8 +5,12 @@ import { EChartsOption, SeriesOption } from 'echarts';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { NgxEchartsDirective, provideEcharts } from 'ngx-echarts';
-import {  FbUserDataModel } from 'src/app/facebook/state/models';
+import { FbUserDataModel } from 'src/app/facebook/state/models';
 
+/**
+ * TopLikedPersonsComponent displays a chart of the most liked persons based on user interactions.
+ * It allows customization of the number of top persons to display.
+ */
 @Component({
   selector: 'prioss-top-liked-persons',
   standalone: true,
@@ -17,10 +21,13 @@ import {  FbUserDataModel } from 'src/app/facebook/state/models';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TopLikedPersonsComponent {
+  /** Input property for user data */
   userData = input.required<FbUserDataModel>();
   
+  /** Signal for the number of top persons to display */
   amountOfTopPersons = signal<number>(5);
 
+  /** Computed property for the list of persons */
   persons = computed(() => {
     if (!this.userData) return [];
     const persons = [];
@@ -31,6 +38,7 @@ export class TopLikedPersonsComponent {
     return persons;
   });
 
+  /** Computed property for reactions per person */
   reactionsPerPerson = computed(() => {
     if (!this.userData) return {};
     const reactsPerPerson: Record<string, Record<string, number>> = {};
@@ -49,33 +57,33 @@ export class TopLikedPersonsComponent {
     return reactsPerPerson;
   });
 
+  /** Computed property for the sum of reactions per person */
   getSumOfReactionsPerPerson = computed(() => {
     const reactsPerPerson = this.reactionsPerPerson();
-    //create a sum of all reactions for each person
-  const sumOfReactions = new Map<string, number>();
-  for (const person in reactsPerPerson){
-    let sum = 0;
-    for (const reaction in reactsPerPerson[person]){
-      sum += reactsPerPerson[person][reaction];
+    const sumOfReactions = new Map<string, number>();
+    for (const person in reactsPerPerson){
+      let sum = 0;
+      for (const reaction in reactsPerPerson[person]){
+        sum += reactsPerPerson[person][reaction];
+      }
+      sumOfReactions.set(person, sum);
     }
-    sumOfReactions.set(person, sum);
-  }
-  return sumOfReactions;
+    return sumOfReactions;
   });
 
+  /** Computed property for the top persons based on reactions */
   getTopPersons = computed(() => {
     const sumOfReactions = this.getSumOfReactionsPerPerson();
-    //sort the sum of reactions
     const sorted = new Map([...sumOfReactions.entries()].sort((a, b) => b[1] - a[1]));
     const sortedArray = Array.from(sorted).slice(0, this.amountOfTopPersons()) 
     return sortedArray;
   });
 
+  /** Computed property for creating the series data for the chart */
   createSeries= computed(() => {
     const reactsPerPerson = this.reactionsPerPerson();
     const topPersons = this.getTopPersons();
     const seriesOptions: SeriesOption[] = [];
-    //create a stacked bar seriesoption, where a category on the x axis is the person and the stacked bar is composed of the reactions
     for (const reaction of this.reactionTypes()){
       const data = [];
       for (const person of topPersons){
@@ -91,9 +99,9 @@ export class TopLikedPersonsComponent {
       });
     }
     return seriesOptions;
-  
   });
 
+  /** Computed property for getting all reaction types */
   reactionTypes = computed(() => {
     const reactionTypes = new Set<string>();
     const reactions = this.userData().activity_across_facebook?.likesAndReactions?.likes_and_reactions??[]
@@ -104,6 +112,7 @@ export class TopLikedPersonsComponent {
     return Array.from(reactionTypes);
   });
 
+  /** Computed property for the chart options */
   options = computed(() => {
     const options: EChartsOption = {
       tooltip: {

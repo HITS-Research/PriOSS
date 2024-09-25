@@ -11,6 +11,9 @@ import { FacebookIndexedDBMedia } from "src/app/facebook/models/FacebookIndexDBM
 import { AppType } from "src/app/framework/pages/service-selection/app-type";
 import { Attachment, ExternalContext, Media, Place, PostDatum } from "src/app/facebook/models/activityAcrossFacebook/Posts/Post";
 
+/**
+ * Component for displaying an overview of user posts.
+ */
 @Component({
   selector: "prioss-posts-overview",
   standalone: true,
@@ -27,9 +30,16 @@ import { Attachment, ExternalContext, Media, Place, PostDatum } from "src/app/fa
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PostsOverviewComponent implements OnInit {
+  /** Service for interacting with IndexedDB */
   #indexedDbService = inject(IndexedDbService);
+
+  /** Signal for media files */
   mediaFiles = signal<FacebookIndexedDBMedia[]>([]);
+
+  /** Input for Facebook activity data */
   activityData = input.required<FbActivityAcrossFacebookModel>();
+
+  /** Computed property for all post data */
   postData = computed(() => {
     const allPosts: PostModel[] = [];
     if (this.activityData().posts) {
@@ -41,13 +51,30 @@ export class PostsOverviewComponent implements OnInit {
     allPosts.sort((a, b) => b.timestamp - a.timestamp);
     return allPosts;
   });
+
+  /** Computed signal for group posts */
   groupPosts: Signal<GroupPostsModel> = computed(() => this.activityData()?.groupPosts ?? {} as GroupPostsModel);
+
+  /** Computed signal for album posts */
   albumPosts: Signal<AlbumModel[]> = computed(() => this.activityData()?.albums ?? []);
+
+  /** Computed signal for photo posts */
   photoPosts: Signal<PostPhotoModel> = computed(() => this.activityData()?.postPhotos ?? {} as PostPhotoModel);
+
+  /** Computed signal for uncategorized photos */
   uncategorizedPhotos: Signal<UncategorizedPhotos> = computed(() => this.activityData()?.uncategorizedPhotos ?? {} as UncategorizedPhotos);
+
+  /**
+   * Sorts posts by date
+   * @param a First post to compare
+   * @param b Second post to compare
+   * @returns Comparison result
+   */
   sortPostsByDate = (a: SimplifiedPostModel, b: SimplifiedPostModel) => {
     return b.timestamp - a.timestamp;
   }
+
+  /** Computed property for simplified post data */
   simplifiedPostData = computed(() => {
     return this.postData().map(post => {
       const simplifiedPost: SimplifiedPostModel = {
@@ -74,14 +101,16 @@ export class PostsOverviewComponent implements OnInit {
     });
   });
 
+  /**
+   * Lifecycle hook that is called after data-bound properties of a directive are initialized.
+   */
   async ngOnInit() {
     this.simplifiedPostData();
     await this.loadMediaFiles();
   }
 
   /**
-   * Loads the media files from the IndexedDB and processes them.
-   * @returns {Promise<void>} A promise that resolves when the media files are loaded and processed.
+   * Loads media files from IndexedDB
    */
   private async loadMediaFiles() {
     try {
@@ -96,19 +125,33 @@ export class PostsOverviewComponent implements OnInit {
       this.mediaFiles.set(processedMediaFiles);
     } catch (error) {
       console.error('Error loading media files:', error);
-      // Handle error appropriately
     }
   }
 
+  /**
+   * Gets the blob URL for a media file
+   * @param path Path of the media file
+   * @returns Blob URL of the media file
+   */
   getMediaBlobURL(path: string) {
     const blobUrl: string = this.mediaFiles().find(mediaFile => mediaFile.thread_path.includes(path) || path.includes(mediaFile.thread_path))?.blobURL ?? '';
     return blobUrl;
   }
 
+  /**
+   * Gets the last update timestamp from post data
+   * @param data Array of post data
+   * @returns Last update timestamp
+   */
   private getLastUpdateTimestamp(data: PostDatum[]): number {
     return (data.findLast((datum) => datum.update_timestamp !== undefined)?.update_timestamp ?? 0) * 1000;
   }
 
+  /**
+   * Processes an attachment
+   * @param attachment Attachment to process
+   * @returns Simplified attachment
+   */
   private processAttachment(attachment: Attachment): SimplifiedAttachment {
     if (!attachment?.data?.[0]) return {};
 
@@ -121,6 +164,11 @@ export class PostsOverviewComponent implements OnInit {
     return {};
   }
 
+  /**
+   * Processes a media attachment
+   * @param media Media to process
+   * @returns Simplified media attachment
+   */
   private processMediaAttachment(media: Media): SimplifiedAttachment {
     return {
       media: {
@@ -134,6 +182,11 @@ export class PostsOverviewComponent implements OnInit {
     };
   }
 
+  /**
+   * Processes a place attachment
+   * @param place Place to process
+   * @returns Simplified place attachment
+   */
   private processPlaceAttachment(place: Place): SimplifiedAttachment {
     return {
       place: {
@@ -145,6 +198,11 @@ export class PostsOverviewComponent implements OnInit {
     };
   }
 
+  /**
+   * Processes an external context attachment
+   * @param externalContext External context to process
+   * @returns Simplified external context attachment
+   */
   private processExternalContextAttachment(externalContext: ExternalContext): SimplifiedAttachment {
     return {
       externalContext: {
@@ -154,6 +212,11 @@ export class PostsOverviewComponent implements OnInit {
     };
   }
 
+  /**
+   * Determines the type of a post based on its attachment
+   * @param attachment Attachment to analyze
+   * @returns Type of the post
+   */
   private determinePostType(attachment: Attachment): PostType {
     if (attachment?.data?.[0]?.media) return PostType.PHOTO;
     if (attachment?.data?.[0]?.place) return PostType.PLACE;
@@ -162,8 +225,7 @@ export class PostsOverviewComponent implements OnInit {
   }
 }
 
-
-
+/** Interface for simplified post model */
 interface SimplifiedPostModel {
   timestamp: number;
   postType: PostType;
@@ -173,6 +235,8 @@ interface SimplifiedPostModel {
   title?: string;
   taggedPeople?: string[];
 }
+
+/** Enum for post types */
 enum PostType {
   PHOTO = "photo",
   PLACE = "place",
@@ -183,17 +247,22 @@ enum PostType {
   STATUS = "status",
   ALBUM = "album",
   GROUP = "group",
-
 }
+
+/** Interface for simplified attachment */
 interface SimplifiedAttachment {
   media?: SimplifiedMedia;
   place?: SimplifiedPlace;
   externalContext?: SimplifiedExternalContext;
 }
+
+/** Interface for simplified external context */
 interface SimplifiedExternalContext {
   url: string;
   name?: string;
 }
+
+/** Interface for simplified media */
 interface SimplifiedMedia {
   uri: string;
   creationTimeStamp: number;
@@ -202,6 +271,8 @@ interface SimplifiedMedia {
   exif_takenTimeStamp: number;
   description: string;
 }
+
+/** Interface for simplified place */
 interface SimplifiedPlace {
   name: string;
   coordinate?: [number, number];

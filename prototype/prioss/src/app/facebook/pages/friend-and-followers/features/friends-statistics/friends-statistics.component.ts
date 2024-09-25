@@ -10,26 +10,37 @@ import { FacebookFriendsGeneralInfoComponent } from "./features/facebook-friends
 import { FacebookFriendsFollowingOverTimeComponent } from "./features/facebook-friends-following-over-time/facebook-friends-following-over-time.component";
 import { FacebookFriendsOverTimeComponent } from "./features/facebook-friends-over-time/facebook-friends-over-time.component";
 
+/**
+ * Component for displaying statistics about Facebook friends
+ */
 @Component({
-	selector: "prioss-facebook-friends-statistics",
-	standalone: true,
-	imports: [
-		NzCardModule,
-		NzStatisticModule,
-		NgxEchartsModule,
-		NzGridModule,
-		FormsModule,
-		CommonModule,
-		FacebookFriendsGeneralInfoComponent,
-		FacebookFriendsFollowingOverTimeComponent,
-		FacebookFriendsOverTimeComponent,
-	],
-	providers: [provideEcharts()],
-	templateUrl: "./friends-statistics.component.html",
-	styleUrl: "./friends-statistics.component.less",
-	changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: "prioss-facebook-friends-statistics",
+  standalone: true,
+  imports: [
+    NzCardModule,
+    NzStatisticModule,
+    NgxEchartsModule,
+    NzGridModule,
+    FormsModule,
+    CommonModule,
+    FacebookFriendsGeneralInfoComponent,
+    FacebookFriendsFollowingOverTimeComponent,
+    FacebookFriendsOverTimeComponent,
+  ],
+  providers: [provideEcharts()],
+  templateUrl: "./friends-statistics.component.html",
+  styleUrl: "./friends-statistics.component.less",
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FacebookFriendsStatisticsComponent {
-	loading = input<boolean>(true);
-	friendsData = input.required<FbConnectionsDataModel>();
+  /**
+   * Input signal for loading state
+   * @default true
+   */
+  loading = input<boolean>(true);
+
+  /**
+   * Required input signal for friends data
+   */
+  friendsData = input.required<FbConnectionsDataModel>();
 }

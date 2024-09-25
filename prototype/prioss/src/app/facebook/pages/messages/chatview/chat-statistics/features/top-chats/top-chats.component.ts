@@ -16,96 +16,114 @@ import { FormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
 import type { EChartsOption } from "echarts";
 import { NzFormModule } from "ng-zorro-antd/form";
+
+/**
+ * Component for displaying a chart of top chats based on message count.
+ * This component allows users to filter and visualize the most active chats.
+ */
 @Component({
 	selector: "prioss-top-chats",
 	standalone: true,
 	imports: [
-    FormsModule,
-    NzFormModule,
-    CommonModule,
-    NgxEchartsDirective,
-    NzSwitchModule,
-    NzInputNumberModule
-  ],
+		FormsModule,
+		NzFormModule,
+		CommonModule,
+		NgxEchartsDirective,
+		NzSwitchModule,
+		NzInputNumberModule
+	],
 	providers: [provideEcharts()],
 	templateUrl: "./top-chats.component.html",
 	styleUrl: "./top-chats.component.less",
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TopChatsComponent implements OnInit{
+	/** Input property for chat data */
 	chatData = input.required<ChatData[]>();
 
-  amountofchatsshown = signal<number>(0);
+	/** Signal for the number of chats to display (unused in the provided code) */
+	amountofchatsshown = signal<number>(0);
+
+	/** Signal for the number of top chats to display */
 	amountOfChatsShown = signal<number>(5);
+
+	/** Signal to toggle display of only personal chats */
 	showOnlyPersonalChats = signal<boolean>(false);
+
 	ngOnInit() {
 		this.chatData().sort((a, b) => b.messages.length - a.messages.length);
 	}
 
-  added = computed(() => {
-    return this.amountOfChatsShown() + this.amountOfChatsShown();
-  })
+	/**
+	 * Computed property demonstrating signal composition (unused in the provided code)
+	 */
+	added = computed(() => {
+		return this.amountOfChatsShown() + this.amountOfChatsShown();
+	})
 
-
+	/**
+	 * Computed property to generate the ECharts options for the top chats chart
+	 * @returns EChartsOption object for configuring the chart
+	 */
 	drawNightingaleChart = computed(() => {
-    const option: EChartsOption = {
-      tooltip: {
-        trigger: 'item',
-        formatter: '{b}: {c}'
-      },
-      toolbox: {
-        show: true,
-        feature: {
-          mark: { show: true },
-          dataView: { show: true, readOnly: false },
-          restore: { show: true },
-          saveAsImage: { show: true }
-        }
-      },
-      aria: {
+		const option: EChartsOption = {
+			tooltip: {
+				trigger: 'item',
+				formatter: '{b}: {c}'
+			},
+			toolbox: {
+				show: true,
+				feature: {
+					mark: { show: true },
+					dataView: { show: true, readOnly: false },
+					restore: { show: true },
+					saveAsImage: { show: true }
+				}
+			},
+			aria: {
 				enabled: true,
 				decal: {
 					show: true,
 				},
 			},
-      series: [
-        {
-          name: 'Nightingale Chart',
-          type: 'pie',
-          radius: [50, 150],
-          center: ['50%', '50%'],
-          roseType: 'area',
-          itemStyle: {
-            borderRadius: 8
-          },
-          data: this.prepareChatsForChart()
-        }
-      ]
-    };
-    return option;
-  });
+			series: [
+				{
+					name: 'Nightingale Chart',
+					type: 'pie',
+					radius: [50, 150],
+					center: ['50%', '50%'],
+					roseType: 'area',
+					itemStyle: {
+						borderRadius: 8
+					},
+					data: this.prepareChatsForChart()
+				}
+			]
+		};
+		return option;
+	});
 
-  /**
-   * If the user wants to only see personal chats, the function filters out all chats with more than 2 participants.
-   */
+	/**
+	 * Prepares chat data for the chart, filtering and limiting based on user settings
+	 * @returns An array of objects containing chat names and message counts
+	 */
 	prepareChatsForChart = computed(() => {
 		const chats = [];
 		for (const chat of this.chatData()) {
 			if (this.showOnlyPersonalChats()) {
 				if (chat.participants.length === 2) {
-          
 					chats.push({
-            value: chat.messages.length,
-            name: chat.name,
-          });
+						value: chat.messages.length,
+						name: chat.name,
+					});
 				}
 			} else {
-        chats.push({
-          value: chat.messages.length,
-          name: chat.name,
-        });
-      }
+				chats.push({
+					value: chat.messages.length,
+					name: chat.name,
+				});
+			}
 		}
-    return chats.slice(0, this.amountOfChatsShown());
+		return chats.slice(0, this.amountOfChatsShown());
 	});
 }

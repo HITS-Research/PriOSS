@@ -1,8 +1,12 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 import { Step } from 'src/app/features/stepper/step.type';
 import { StepperComponent } from 'src/app/features/stepper/stepper.component';
 import { TitleBarComponent } from 'src/app/features/title-bar/title-bar.component';
+import { scrollToTop } from 'src/app/features/utils/generalUtilities.functions';
 
+/**
+ * Component for managing and displaying ads settings
+ */
 @Component({
   selector: 'app-ads-settings',
   templateUrl: './ads-settings.component.html',
@@ -12,8 +16,17 @@ import { TitleBarComponent } from 'src/app/features/title-bar/title-bar.componen
     TitleBarComponent,
   ]
 })
-export class AdsSettingsComponent {
+export class AdsSettingsComponent implements AfterViewInit {
+  /**
+   * Lifecycle hook that is called after a component's view has been fully initialized
+   */
+  async ngAfterViewInit() {
+    scrollToTop();
+  }
 
+  /**
+   * Array of instruction steps for web interface
+   */
   instructionsStepDataWeb: Step[] = [
     {
       description: 'Click on "Account" on the top right corner of the page.',

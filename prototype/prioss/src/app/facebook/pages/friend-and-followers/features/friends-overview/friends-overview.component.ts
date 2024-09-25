@@ -25,6 +25,9 @@ import { NzButtonModule } from "ng-zorro-antd/button";
 import { NzInputModule } from "ng-zorro-antd/input";
 import { NzIconModule } from "ng-zorro-antd/icon";
 
+/**
+ * Component for displaying an overview of Facebook friends
+ */
 @Component({
 	standalone: true,
 	imports: [
@@ -42,49 +45,70 @@ import { NzIconModule } from "ng-zorro-antd/icon";
 	styleUrl: "./friends-overview.component.less",
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FacebookFriendsOverviewComponent{
+export class FacebookFriendsOverviewComponent {
+	/** Input signal for loading state */
 	loading = input<boolean>();
+
+	/** Required input signal for friends data */
 	friendsData: InputSignal<FbConnectionsDataModel> =
 		input.required<FbConnectionsDataModel>();
 
-
+	/** Signal for search value */
 	searchValue = signal<string>("");
+
+	/** Signal for visibility state */
 	visible = signal<boolean>(false);
+
+	/** Computed function to reset search */
 	reset = computed(() => {
 		this.searchValue.set("");
 		this.search();
 	});
 
+	/** Computed function to perform search */
 	search = computed(() => {
 		this.visible.set(false);
 		this.listOfDisplayData();
 	});
 
+	/** Computed signal for filtered display data */
 	listOfDisplayData: Signal<FriendModel[]> = computed(() => {
 		return this.allFriends().filter(
 			(item: FriendModel) => item.name.indexOf(this.searchValue()) !== -1,
 		);
 	});
 
+	/** Computed signal for user's friends */
 	yourFriends: Signal<FriendItem[]> = computed(
 		() => this.friendsData().yourFriends?.friends_v2 ?? [],
 	);
+
+	/** Computed signal for followed accounts */
 	following: Signal<FriendItem[]> = computed(
 		() => this.friendsData().followed?.following_v3 ?? [],
 	);
+
+	/** Computed signal for people you may know */
 	peopleYouMayKnow: Signal<LabelValueItem> = computed(
 		() => this.friendsData().peopleYouMayKnow?.label_values[0] ?? {},
 	);
+
+	/** Computed signal for rejected friend requests */
 	rejectedFriendRequests: Signal<FriendItem[]> = computed(
 		() => this.friendsData().rejectedFriendRequests?.rejected_requests_v2 ?? [],
 	);
+
+	/** Computed signal for sent friend requests */
 	sentFriendRequests: Signal<FriendItem[]> = computed(
 		() => this.friendsData().sentFriendRequests?.sent_requests_v2 ?? [],
 	);
+
+	/** Computed signal for received friend requests */
 	receivedFriendRequests: Signal<FriendItem[]> = computed(
 		() => this.friendsData().receivedFriendRequests?.received_requests_v2 ?? [],
 	);
 
+	/** Computed signal for all friends and connections */
 	allFriends: Signal<FriendModel[]> = computed(() => {
 		const friends: FriendModel[] = [];
 
@@ -133,6 +157,7 @@ export class FacebookFriendsOverviewComponent{
 		return friends;
 	});
 
+	/** Signal for name column options */
 	nameColumnOptions = signal<ColumnItem>({
 		name: "Name",
 		sortOrder: "ascend",
@@ -140,6 +165,7 @@ export class FacebookFriendsOverviewComponent{
 		sortDirections: ["ascend", "descend", null],
 	} as ColumnItem);
 
+	/** Signal for timestamp column options */
 	timestampColumnOptions = signal<ColumnItem>({
 		name: "Status changed at",
 		sortOrder: null,
@@ -147,6 +173,7 @@ export class FacebookFriendsOverviewComponent{
 		sortDirections: ["ascend", "descend", null],
 	} as ColumnItem);
 
+	/** Signal for status column options */
 	statusColumnOptions = signal<ColumnItem>({
 		name: "Status",
 		sortOrder: null,
@@ -166,6 +193,9 @@ export class FacebookFriendsOverviewComponent{
 	} as ColumnItem);
 }
 
+/**
+ * Interface for table column configuration
+ */
 interface ColumnItem {
 	name: string;
 	sortOrder: NzTableSortOrder | null;
@@ -176,12 +206,18 @@ interface ColumnItem {
 	sortDirections: NzTableSortOrder[];
 }
 
+/**
+ * Interface for friend model
+ */
 interface FriendModel {
 	name: string;
 	timestamp: number;
 	status: FriendStatus;
 }
 
+/**
+ * Enum for friend status
+ */
 enum FriendStatus {
 	FRIEND = "Friend",
 	FOLLOWING = "Following",

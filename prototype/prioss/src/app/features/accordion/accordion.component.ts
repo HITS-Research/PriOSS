@@ -7,6 +7,14 @@ import {
   transition,
 } from '@angular/animations';
 
+/**
+ * @description
+ * AccordionComponent is an Angular component that implements an expandable/collapsible accordion.
+ * It uses Angular animations to provide smooth transitions when opening and closing the accordion.
+ *
+ * @example
+ * <app-accordion [title]="'Accordion Title'"></app-accordion>
+ */
 @Component({
   selector: 'app-accordion',
   templateUrl: './accordion.component.html',
@@ -23,8 +31,19 @@ import {
 export class AccordionComponent {
   @Input() accordionTitle: string = '';
   triangleClass: string = 'collapsed';
+
+  /**
+   * @description
+   * Indicates whether the accordion is currently open (expanded) or closed (collapsed).
+   * @default true
+   */
   isOpen: boolean = true;
 
+  /**
+   * @description
+   * Toggles the accordion's state between expanded and collapsed.
+   * This method updates both the triangleClass and isOpen properties.
+   */
   toggleAccordion(): void {
     this.triangleClass =
       this.triangleClass === 'collapsed' ? 'expanded' : 'collapsed';

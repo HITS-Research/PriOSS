@@ -21,6 +21,10 @@ import type { AdPreferencesModel, AdsInterestModel, AdvertiserInteractedModel, A
 import { IndexedDbService } from "src/app/state/indexed-db.state";
 import { NzSkeletonModule } from "ng-zorro-antd/skeleton";
 import { FacebookAdsOverviewComponent } from "./features/ads-overview/facebook-ads-overview/facebook-ads-overview.component";
+
+/**
+ * Component for displaying and managing ads-related data
+ */
 @Component({
   selector: 'app-ads-related-data',
   standalone: true,
@@ -42,23 +46,36 @@ import { FacebookAdsOverviewComponent } from "./features/ads-overview/facebook-a
 })
 export class AdsRelatedDataComponent implements OnInit {
 
+  /** Input signal for preview mode */
   previewModeInput = input<string>();
 
+  /** Computed value for preview mode */
   previewMode = computed(() => {
     return this.previewModeInput() === "true";
   });
+
+  /** Signal for user data model */
   userData = signal<FbUserDataModel>({} as FbUserDataModel);
+
+  /** Signal for loading state */
   loading = signal<boolean>(true);
+
+  /** Computed value for ad preferences */
   adPreferences = computed(() => {
     return this.userData()?.ads_and_businesses?.adPreferences ?? {} as AdPreferencesModel;
   });
+
+  /** Computed value for ads interacted with */
   adsInteracted = computed(() => {
     return this.userData()?.ads_and_businesses?.advertiserInteracted ?? {} as AdvertiserInteractedModel;
   });
+
+  /** Computed value for advertisers using your data */
   advertisersUsingYourData = computed(() => {
     return this.userData()?.ads_and_businesses?.advertisersUsingYourData ?? {} as AdvertisersUsingYourDataModel;
   });
 
+  /** Computed value for advertisers using list to target you */
   advertisersUsingListToTargetYou = computed(() => {
     const advertisers: string[] = [];
     const tempAdvertisers = this.advertisersUsingYourData().custom_audiences_all_types_v2 ?? [];
@@ -70,6 +87,7 @@ export class AdsRelatedDataComponent implements OnInit {
     return advertisers;
   });
 
+  /** Computed value for advertisers you've interacted with */
   advertisersYouveInteractedWith = computed(() => {
     const advertisers: string[] = [];
     const tempAdvertisers = this.advertisersUsingYourData().custom_audiences_all_types_v2 ?? [];
@@ -80,43 +98,57 @@ export class AdsRelatedDataComponent implements OnInit {
     }
   });
 
+  /** Computed value for the amount of advertisers using your data */
   amountOfAdvertisersUsingYourData = computed(() => {
     return this.advertisersUsingYourData()?.custom_audiences_all_types_v2?.length ?? 0;
   });
 
+  /** Computed value for other categories used to reach you */
   otherCategoriesUsedToReachYou = computed(() => {
     return this.userData()?.ads_and_businesses?.otherCategoriesUsedToReachYou ?? {} as OtherCategoriesUsedToReachYouModel;
   });
 
+  /** Computed value for subscriptions for no ads */
   subscriptionsForNoAds = computed(() => {
     return this.userData()?.ads_and_businesses?.subscriptionsForNoAds ?? {} as SubscriptionForNoAdsModel;
   });
 
+  /** Computed value for connected apps and websites */
   connectedAppsAndWebsites = computed(() => {
     return this.userData()?.apps_and_websites_off_of_fb?.connectedAppsAndWebsites ?? {} as ConnectedAppsAndWebsitesModel;
   });
 
+  /** Computed value for off-Facebook activity */
   offFacebookActivity = computed(() => {
     return this.userData()?.apps_and_websites_off_of_fb?.offFacebookActivity ?? {} as OffFacebookActivityModel;
   });
 
+  /** Computed value for off-Facebook activity settings */
   offFacebookActivitySettings = computed(() => {
     return this.userData()?.apps_and_websites_off_of_fb?.offFacebookActivitySettings ?? {} as OffFacebookActivitySettingsModel;
   });
 
+  /** Computed value for ads interest */
   adsInterest = computed(() => {
     return this.userData()?.logged_information?.ads_interest ?? {} as AdsInterestModel;
   });
 
+  /** Computed value for inferred topics */
   inferredTopics = computed(() => {
     return this.userData()?.logged_information?.inferred_topics ?? {} as InferredTopicsModel;
   });
 
-
+  /**
+   * Creates an instance of AdsRelatedDataComponent.
+   * @param db - The IndexedDbService for database operations
+   */
   constructor(private db: IndexedDbService) {
   }
 
- async ngOnInit() {
+  /**
+   * Initializes the component by loading user data from the database.
+   */
+  async ngOnInit() {
     scrollToTop();
     await this.db.getSelectedFacebookDataStore()
     .then((data) => {
@@ -128,7 +160,5 @@ export class AdsRelatedDataComponent implements OnInit {
     }).finally(() => {
       this.loading.set(false)
     });
-
   }
-
 }

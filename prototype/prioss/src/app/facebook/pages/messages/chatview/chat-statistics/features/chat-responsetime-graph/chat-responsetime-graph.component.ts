@@ -9,6 +9,10 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { getRndInteger } from 'src/app/features/utils/generalUtilities.functions';
 
+/**
+ * Component for displaying a graph of response times in chat conversations.
+ * This component allows users to select multiple chats and view their response time distributions.
+ */
 @Component({
   selector: 'prioss-chat-responsetime-graph',
   standalone: true,
@@ -18,7 +22,7 @@ import { getRndInteger } from 'src/app/features/utils/generalUtilities.functions
   styleUrl: './chat-responsetime-graph.component.less',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ChatResponsetimeGraphComponent implements OnInit{
+export class ChatResponsetimeGraphComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.chatData().length > 0) {
@@ -27,11 +31,15 @@ export class ChatResponsetimeGraphComponent implements OnInit{
     }
   }
 
-
+  /** Input property for all chat data */
   chatData = input.required<ChatData[]>();
 
+  /** Signal for the currently displayed chat */
   currentChat = signal<ChatData>({} as ChatData);
 
+  /**
+   * Computed property to get the selected chats based on their IDs
+   */
   selectedChats: Signal<ChatData[]> = computed(() => {
     if (this.selectedChatsInput().length === 0) {
       return [];
@@ -39,15 +47,15 @@ export class ChatResponsetimeGraphComponent implements OnInit{
     return this.chatData().filter((chat) => this.selectedChatsInput().includes(chat.id));
   });
 
+  /** Signal for the cutoff value to exclude outliers */
   cutoffInput = signal<number>(0);
 
-  
-
+  /** Signal for the IDs of selected chats */
   selectedChatsInput = signal<string[]>([]);
+
   /**
-   * this function returns a list a list of response times.
-   * it includes only a respnse time from one participant to the other.
-   * so if a participant writes a message and the other participant responds to it, the response time is calculated.
+   * Computes the response time series for the selected chats
+   * @returns An array of SeriesOption objects for ECharts
    */
   getResponseTimesSeries = computed(() => {
     const allResponseTimes: SeriesOption[] = [];
@@ -73,9 +81,9 @@ export class ChatResponsetimeGraphComponent implements OnInit{
       const timesInMinutes = responseTimes.map((time) => time / 60000);
       const result: number[][] = [];
       for (let i = 0; i < timesInMinutes.length; i++) {
-        //create an array with 100 entries, where each entry shows, how many messages were answered
+        // Create an array with entries showing how many messages were answered
         // in less than 1/i of the longest response time; on x we track the cutoff in minutes, 
-        // on y the percentage of messages responed to in the cutoff time 
+        // on y the percentage of messages responded to in the cutoff time 
 
         const currentCutoff = timesInMinutes[i];
         const amountOfResponseTimes = timesInMinutes.length;
@@ -93,7 +101,9 @@ export class ChatResponsetimeGraphComponent implements OnInit{
     return allResponseTimes;
   });
 
-
+  /**
+   * Computes the ECharts options for the response time graph
+   */
   options: Signal<EChartsOption> = computed(() => {
     const options: EChartsOption = {
       tooltip: {
