@@ -1,6 +1,11 @@
 # PriOSS
 
+> [!WARNING]
+> This project is no longer under active development.
+
 This project is an angular based web application designed to inform users about their data-downloads that they can obtain from online services under the European Union's General Data Protection Regulation (GDPR). It helps them to retrieve and visualize their data downloads, while preserving their privacy and offers additional information and advice about online privacy and the GDPR.
+
+PriOSS is a student project developed under supervision of the HITS team.
 
 ## Documentation
 
